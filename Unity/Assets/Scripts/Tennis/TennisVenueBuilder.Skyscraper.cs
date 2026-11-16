@@ -619,37 +619,12 @@ namespace GolfArcade.Tennis
 
             // ----------------------------------------------------------------- sky
 
-            static Color SkyBand(float el)
-            {
-                // Broad, softly blended dusk colour. The warm rim stays close to the
-                // horizon so the city has depth and the play corridor stays cool.
-                float[] edge = { 0f, 1.0f, 2.4f, 4.6f, 8.5f, 14f, 22f, 34f };
-                Color[] col = {
-                    new Color(.92f, .68f, .43f), new Color(.76f, .49f, .49f), new Color(.52f, .41f, .58f), new Color(.37f, .37f, .57f),
-                    new Color(.28f, .34f, .56f), new Color(.20f, .29f, .51f), new Color(.14f, .23f, .43f), new Color(.09f, .16f, .32f) };
-                Color c = new Color(HazeColor.x, HazeColor.y, HazeColor.z);                                       // below the horizon
-                c = Color.Lerp(c, col[0], Sm(-1.2f, .4f, el));
-                for (int i = 1; i < edge.Length; i++) c = Color.Lerp(c, col[i], Sm(edge[i] - 1.8f, edge[i] + 2.8f, el));
-                return c;
-            }
-
             static void Sky(Transform root)
             {
                 // Real distant cloud shape and an uninterrupted dusk gradient come from the
                 // production latitude-longitude atmosphere, shared with the cloud surface below.
                 // The painted sun supplies the warm horizon; old giant ring sprites are removed.
             }
-
-            static Texture2D SunRings() => Tex(512, 512, (u, v) =>
-            {
-                float dx = u * 2 - 1, dy = v * 2 - 1, r = Mathf.Sqrt(dx * dx + dy * dy);
-                float m3 = 1 - Sm(.975f, 1f, r), m2 = 1 - Sm(.615f, .64f, r), m1 = 1 - Sm(.385f, .41f, r), m0 = 1 - Sm(.262f, .278f, r);
-                var c = new Color(1f, .78f, .78f); float a = .20f * m3;
-                c = Color.Lerp(c, new Color(1f, .74f, .72f), m2); a = Mathf.Lerp(a, .34f, m2);
-                c = Color.Lerp(c, new Color(1f, .84f, .74f), m1); a = Mathf.Lerp(a, .55f, m1);
-                c = Color.Lerp(c, new Color(1f, .97f, .86f), m0); a = Mathf.Lerp(a, 1f, m0);
-                return new Color(c.r, c.g, c.b, a);
-            }, false, "Sun rings");
 
             public static void Light(Light sun, Camera camera)
             {

@@ -56,7 +56,6 @@ namespace GolfArcade.PlayTests
             TennisQuality.Apply();
             yield return SceneManager.LoadSceneAsync("Golf", LoadSceneMode.Single);
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;
             yield return null;
             try
             {
@@ -123,7 +122,6 @@ namespace GolfArcade.PlayTests
             TennisQuality.Apply();
             yield return SceneManager.LoadSceneAsync("Golf", LoadSceneMode.Single);
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;
             yield return null;
             try
             {
@@ -233,7 +231,6 @@ namespace GolfArcade.PlayTests
             TennisQuality.Apply();
             yield return SceneManager.LoadSceneAsync("Golf", LoadSceneMode.Single);
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;
             yield return null;
             try
             {
@@ -275,7 +272,6 @@ namespace GolfArcade.PlayTests
             TennisQuality.Apply();
             yield return SceneManager.LoadSceneAsync("Golf", LoadSceneMode.Single);
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;
             yield return null;
             int video = 0;
             try

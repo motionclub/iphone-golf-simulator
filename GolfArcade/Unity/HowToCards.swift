@@ -24,33 +24,7 @@ enum HowTo {
         "On the iPhone: Control Center → Screen Mirroring → choose the Mac.",
         "Put the Mac where you can see it from 2 m away, full screen, lid open.",
     ], art: .mac, icon: "laptopcomputer")
-    static let stand = HowToCard(id: "stand", title: "Stand and hold", steps: [
-        "Stand about 2 m back, facing the screen, with room to swing.",
-        "Hold the phone like a racket handle, screen facing the TV for forehands.",
-        "Point the back of the phone at the TV once to lock the court direction.",
-    ], art: .stand, icon: "figure.stand")
-    static let swing = HowToCard(id: "swing", title: "Forehand", steps: [
-        "Your player runs to the ball, and sprints on its own for a hard one.",
-        "Swing as the ball rises to the top of its bounce.",
-        "The ball goes where you swing: face the racket left, straight or right as you hit. Timing sets the pace.",
-    ], art: .swing)
-    static let backhand = HowToCard(id: "backhand", title: "Backhand", steps: [
-        "Ball on your other side? Turn the phone so the camera faces the TV.",
-        "Swing across your body — the game picks the side from where the ball is.",
-        "Timing beats a harder swing: right on the ball flies fastest.",
-    ], art: .backhand)
-    static let serve = HowToCard(id: "serve", title: "Serve", steps: [
-        "Press TOSS as the meter crosses the middle — green is a perfect toss.",
-        "Swing down hard as the ball peaks.",
-        "Every serve you swing at goes in. Hit it at the very top for a rocket serve.",
-    ], art: .serve)
 
-    static let pages = [connectTV, connectMac, stand, swing, backhand, serve]
-
-    /// What the loading screen cycles through for a sport.
-    static func loadingCards(_ sport: Sport) -> [HowToCard] {
-        sport == .golf ? [connectTV, connectMac] + GolfLesson.cards : pages
-    }
 }
 
 // MARK: - Loading tips
@@ -82,6 +56,17 @@ enum GameTips {
     }
 
     private static func t(_ kind: GameTip.Kind, _ title: String, _ text: String) -> GameTip { GameTip(kind: kind, title: title, text: text) }
+
+    /// The Daily Challenge's loading tips (Unity shows the same words between its shots: GolfGame.DailyTips).
+    static func daily(at index: Int) -> GameTip { dailyHoleInOne[((index % dailyHoleInOne.count) + dailyHoleInOne.count) % dailyHoleInOne.count] }
+    static let dailyHoleInOne: [GameTip] = [
+        t(.strategy, "Every foot counts", "A miss scores up to 800, and every foot closer to the cup is worth more. Hole it for the full 1,000."),
+        t(.party, "Same shots for everyone", "The whole world plays these three shots today. Your first go is the one that counts."),
+        t(.strategy, "Find the flag", "The cup is cut somewhere new every day. Check the shot map before you pick your line."),
+        t(.strategy, "Mind the wind", "From 150 feet the wind still moves the ball. Read the arrow, then aim off."),
+        t(.technique, "Smooth and short", "These are wedge shots. A short, smooth backswing beats a hard one."),
+        t(.strategy, "Stay dry", "Water, lava and out of bounds score nothing for that shot. A safe miss still scores."),
+    ]
 
     static let golf: [GameTip] = [
         t(.technique, "Backswing sets distance", "How far back you take the phone sets the distance: hip-high is about 60%, up behind you is full power."),

@@ -430,18 +430,6 @@ namespace GolfArcade.Hub
             t = Vector3.Dot(e2, q) * inv; return t > 0;
         }
 
-        /// Slides the hand toward the hip until the palm touches the body / clothes (the arm re-solved, the elbow where it was, the hand's angle kept).
-        void SnapPalm(bool left)
-        {
-            float gap = PalmGap(left); if (gap <= .002f) return;
-            var ua = look.Bone(left ? HumanBodyBones.LeftUpperArm : HumanBodyBones.RightUpperArm); var la = look.Bone(left ? HumanBodyBones.LeftLowerArm : HumanBodyBones.RightLowerArm);
-            var hand = look.Bone(left ? HumanBodyBones.LeftHand : HumanBodyBones.RightHand);
-            PalmPoint(left, out var dir);
-            var keep = hand.rotation;
-            Reach(ua, la, hand, hand.position + dir * gap, la.position + (la.position - Vector3.Lerp(ua.position, hand.position, .5f)));
-            hand.rotation = keep;
-        }
-
         /// Builds the stances again from the relaxed stand (proof captures: after changing PalmHip*); the clips pose the skeleton again next frame.
         public void RebuildStances()
         {

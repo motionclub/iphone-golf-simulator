@@ -14,7 +14,7 @@ using Object = UnityEngine.Object;
 
 namespace GolfArcade.Tests
 {
-    /// Menu heroes proof (work/menu-tv/heroes): boots the plaza in menu mode through the phone's start message, then films the
+    /// Menu heroes proof (work/menu-tv/heroes): boots the menu through the phone's start message, then films the
     /// menu hero close up: whole body front, both hands, the shirt front / side / back (see-through checks), while idling and
     /// during an emote; and logs which renderers are drawn (racket in the hand, racket on the back) each second.
     /// HC_OUT = output folder, HC_FEMALE=1 for the female hero, HC_BACK = back carry (racket_back | golf_bag), HC_EMOTE = clip id.
@@ -22,7 +22,7 @@ namespace GolfArcade.Tests
     {
         static string Dir => Environment.GetEnvironmentVariable("HC_OUT");
         GameObject host;
-        [TearDown] public void Clean() { Time.captureFramerate = 0; HubWorld.EditorDriven = false; HubWorld.MenuMode = false; if (host) Object.DestroyImmediate(host); }
+        [TearDown] public void Clean() { Time.captureFramerate = 0; HubWorld.EditorDriven = false; if (host) Object.DestroyImmediate(host); }
 
         const int W = 1280, H = 1280;
         static RenderTexture rt; static Texture2D tex;
@@ -95,7 +95,7 @@ namespace GolfArcade.Tests
             hub.StartArrival();
             for (float t = 0; t < 2.5f; t += Time.unscaledDeltaTime) yield return null;
             foreach (var tr in hub.GetComponentsInChildren<Transform>(true))
-                if (tr.name.StartsWith("Name tag") || tr.name == "Hub prompt") tr.gameObject.SetActive(false);
+                if (tr.name.StartsWith("Name tag")) tr.gameObject.SetActive(false);
             if (hub.Hud) hub.Hud.Canvas.enabled = false;
 
             var player = hub.Player; var look = player.look; Assert.IsNotNull(look, "hero look");

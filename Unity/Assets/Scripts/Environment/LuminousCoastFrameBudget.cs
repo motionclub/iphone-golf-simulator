@@ -12,7 +12,7 @@ namespace GolfArcade.EnvironmentArt
     public sealed class LuminousCoastFrameBudget : MonoBehaviour
     {
         const float Window=2, Grace=8;
-        float settle=Grace,elapsed,sinceDrawn;
+        float settle=Grace,elapsed,sinceDrawn,calm;
         int frames,late,generation,originalDrawRate,appliedRate;
         readonly FrameBudgetPolicy policy=new();
 
@@ -39,9 +39,11 @@ namespace GolfArcade.EnvironmentArt
                 Debug.Log($"[LuminousCoast] sustained late frames: {drawRate} -> {next}fps; art quality retained");
             }
             else if(policy.SustainedLate && TennisQuality.StepDown()) {
-                settle=4;policy.Reset();
+                settle=4;policy.Reset();calm=0;
                 Debug.Log($"[LuminousCoast] sustained late frames at {drawRate}fps; reducing rendering quality, keeping the rate");
             }
+            // a minute at this level with no late window: remembered as a level this phone holds (TennisQuality.Apply)
+            else if(late*100<frames*10 && (calm+=elapsed)>=60)TennisQuality.MarkHeld();
             elapsed=0;frames=late=0;
         }
         void ResetWindow(){elapsed=sinceDrawn=0;frames=late=0;policy.Reset();}

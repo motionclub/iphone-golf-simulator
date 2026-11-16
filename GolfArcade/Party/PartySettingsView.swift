@@ -116,15 +116,76 @@ struct PartySettingsSections: View {
     }
 }
 
-/// The small row of buttons over every phone screen while there is a party: mic, chat, gear. Collapsed to the mic while a motion-
-/// controlled swing is on, so a swing can never open a sheet.
+/// Recordings: where every recording went (Photos, kept here, or not saved and why), the ones kept in the app with share and delete, and
+/// the recorder log. Opened by holding the record button, or by tapping the note under it.
+struct RecordingLibraryView: View {
+    var recording = RecordingService.shared
+    var dismiss: () -> Void = {}
+    @State private var files: [URL] = []
+    var body: some View {
+        NavigationStack {
+            List {
+                Section {
+                    if recording.history.isEmpty { Text("No recordings yet. Tap the red Record button while your TV is connected.").foregroundStyle(.secondary) }
+                    ForEach(recording.history) { entry in
+                        VStack(alignment: .leading, spacing: 3) {
+                            HStack {
+                                Image(systemName: Self.icon(entry.place)).foregroundStyle(entry.place == .notSaved ? .red : .accentColor)
+                                Text(Self.place(entry.place)).font(.subheadline.weight(.semibold))
+                                Spacer()
+                                Text(entry.date.formatted(date: .abbreviated, time: .shortened)).font(.caption).foregroundStyle(.secondary)
+                            }
+                            Text((entry.seconds > 0 ? String(format: "%d:%02d · ", Int(entry.seconds) / 60, Int(entry.seconds) % 60) : "") + entry.note)
+                                .font(.footnote).foregroundStyle(.secondary)
+                        }
+                        .accessibilityElement(children: .combine)
+                    }
+                    if recording.history.contains(where: { $0.place == .photos }) {
+                        Button { if let url = URL(string: "photos-redirect://") { UIApplication.shared.open(url) } } label: { Label("Open Photos", systemImage: "photo.on.rectangle") }
+                            .accessibilityIdentifier("recordings-open-photos")
+                    }
+                } header: { Text("Recent") } footer: { Text("Recordings go to your Photos (Recents). Any that Photos could not take are kept below.") }
+                Section("Kept in MotionSports") {
+                    if files.isEmpty { Text("None").foregroundStyle(.secondary) }
+                    ForEach(files, id: \.self) { url in
+                        HStack {
+                            Image(systemName: "film"); Text(url.deletingPathExtension().lastPathComponent).font(.footnote).lineLimit(1)
+                            Spacer(); ShareLink(item: url) { Image(systemName: "square.and.arrow.up") }
+                        }
+                        .swipeActions { Button("Delete", role: .destructive) { recording.deleteKept(url); files = RecordingService.library() } }
+                    }
+                }
+                if FileManager.default.fileExists(atPath: RecordingService.logURL.path) {
+                    Section { ShareLink(item: RecordingService.logURL) { Label("Share the recorder log", systemImage: "doc.text") }.accessibilityIdentifier("recordings-log") }
+                        footer: { Text("What the recorder did and why each recording stopped. Send it to us if a recording went wrong.") }
+                }
+            }
+            .navigationTitle("Recordings").navigationBarTitleDisplayMode(.inline)
+            .toolbar { ToolbarItem(placement: .confirmationAction) { Button("Done", action: dismiss) } }
+            .onAppear { files = RecordingService.library() }
+        }
+    }
+    static func place(_ p: RecordingEntry.Place) -> String { switch p { case .photos: "In your Photos"; case .kept: "Kept in MotionSports"; case .notSaved: "Not saved" } }
+    static func icon(_ p: RecordingEntry.Place) -> String { switch p { case .photos: "photo.on.rectangle"; case .kept: "film"; case .notSaved: "exclamationmark.triangle" } }
+}
+
+/// The small row of buttons over every phone screen: record (while a TV is connected), and mic, chat and gear while there is a
+/// party. Collapsed to a record dot and the mic while a motion-controlled swing is on, so a swing can never open a sheet.
 struct CaptureDock: View {
+    var recording = RecordingService.shared
     var voice = PartyVoiceCoordinator.shared
     var chat = PartyChat.shared
     var session = SportsSession.shared
     @State private var showSettings = false
+    @State private var showRecordings = false
 
     private var inParty: Bool { chat.channel.inParty }
+    private var party: Bool { inParty || voice.isLive }
+    /// The record button: while a TV is connected, and until a take that is running or saving has said where it went.
+    private var record: Bool { Self.showsRecord(session, recording) }
+    static func showsRecord(_ session: SportsSession, _ recording: RecordingService) -> Bool {
+        session.displayConnected || recording.state == .recording || recording.showsOutcome
+    }
     /// A phone swing or a golf aim is live: keep the dock tiny and out of the way.
     private var compact: Bool { Self.isCompact(session) }
     /// Golf has no free corner, so its dock is always the small one, up in the status-bar strip beside the Dynamic Island.
@@ -133,34 +194,65 @@ struct CaptureDock: View {
         if session.active && session.sport == "golf" { return true }
         return session.active && !session.paused && session.finishedMatch == nil && session.setupStage == .playing
     }
-    var visible: Bool { inParty || voice.isLive }
+    var visible: Bool { party || record }
 
     /// Room a controller's own top bar leaves free at the trailing edge so the dock never covers it (0 when there is no dock).
-    @MainActor static func reservedWidth(session: SportsSession = .shared, chat: PartyChat = .shared, voice: PartyVoiceCoordinator = .shared) -> CGFloat {
+    @MainActor static func reservedWidth(session: SportsSession = .shared, chat: PartyChat = .shared, voice: PartyVoiceCoordinator = .shared, recording: RecordingService = .shared) -> CGFloat {
         let inParty = chat.channel.inParty
-        guard inParty || voice.isLive else { return 0 }
-        var buttons = 1
-        if !isCompact(session) { buttons += (inParty ? 1 : 0) + 1 }
-        return CGFloat(buttons) * 44 + 24
+        let party = inParty || voice.isLive, record = showsRecord(session, recording), compact = isCompact(session)
+        guard party || record else { return 0 }
+        var width: CGFloat = 24
+        if party { width += CGFloat(1 + (compact ? 0 : (inParty ? 1 : 0) + 1)) * 44 }
+        // the record button is a 44 pt dot on its own: a label beside it squeezed the score and covered the menu's player chip
+        if record { width += 44 + 8 }
+        return width
     }
 
     var body: some View {
         if visible {
             HStack(spacing: compact ? 6 : 8) {
-                VoiceMicButton(voice: voice, onNeedsSetup: { showSettings = true })
-                if !compact {
-                    if inParty { chatButton }
-                    gear
+                if record { recordButton }
+                if party {
+                    VoiceMicButton(voice: voice, onNeedsSetup: { showSettings = true })
+                    if !compact {
+                        if inParty { chatButton }
+                        gear
+                    }
                 }
             }
             .padding(compact ? 4 : 6)
             .background(.black.opacity(0.35), in: Capsule())
             .overlay(Capsule().strokeBorder(.white.opacity(0.18), lineWidth: 1))
             .frame(maxWidth: .infinity, alignment: .trailing).padding(.trailing, 10)
-            .padding(.top, golf ? -52 : 0)
+            // golf: up in the status strip. The menu (no game on): under the player chip in its top-right corner.
+            .padding(.top, golf ? -52 : session.active ? 0 : 62)
             .sheet(isPresented: $showSettings) { PartySettingsView(dismiss: { showSettings = false }).presentationDetents([.large]) }
+            .sheet(isPresented: $showRecordings) { RecordingLibraryView(dismiss: { showRecordings = false }).presentationDetents([.large]) }
             .accessibilityElement(children: .contain).accessibilityIdentifier("capture-dock")
         }
+    }
+
+    /// One tap starts, one tap stops and saves to Photos. Red and squared while recording.
+    private var recordButton: some View {
+        Button { recording.toggle() } label: {
+            // golf's dock sits in the status-bar strip beside the battery: it keeps the small dot there
+            let dot: CGFloat = golf ? 36 : 44
+            ZStack {
+                    Circle().fill(recording.isRecording ? Color.red : Color.white.opacity(0.18)).frame(width: dot, height: dot)
+                    Circle().strokeBorder(.white.opacity(recording.isRecording ? 0.9 : 0.55), lineWidth: 2).frame(width: dot, height: dot)
+                    if recording.state == .recording { RoundedRectangle(cornerRadius: 3).fill(.white).frame(width: 15, height: 15) }
+                    else if recording.state == .saving { ProgressView().tint(.white).scaleEffect(0.8) }
+                    else { Circle().fill(Color.red).frame(width: golf ? 16 : 20, height: golf ? 16 : 20) }
+            }
+            .contentShape(Circle())
+        }
+        .buttonStyle(.plain).disabled(!recording.canToggle)
+        // hold for Recordings: where every recording went (a disabled button still takes the long press through this gesture)
+        .simultaneousGesture(LongPressGesture(minimumDuration: 0.6).onEnded { _ in if !compact { showRecordings = true } })
+        .opacity(recording.canToggle ? 1 : 0.45)
+        .accessibilityLabel(recording.state == .recording ? "Stop recording" : "Record the game").accessibilityValue(recording.state == .recording ? recording.timeText : "")
+        .accessibilityIdentifier("capture-record")
+        .overlay(alignment: .bottomTrailing) { RecordingToast(open: { showRecordings = true }).fixedSize().offset(y: 62) }
     }
 
     private var chatButton: some View {
@@ -178,5 +270,38 @@ struct CaptureDock: View {
         Button { showSettings = true } label: {
             Image(systemName: "gearshape.fill").font(.system(size: 15, weight: .bold)).foregroundStyle(.white).frame(width: 36, height: 36).background(.white.opacity(0.14), in: Circle())
         }.buttonStyle(.plain).accessibilityLabel("Voice and chat settings").accessibilityIdentifier("capture-settings")
+    }
+}
+
+/// A short line under the record button: what is happening, or where the video went.
+private struct RecordingToast: View {
+    var recording = RecordingService.shared
+    var open: () -> Void = {}
+    @State private var shown = ""
+    var body: some View {
+        Group {
+            if !shown.isEmpty {
+                Text(shown).font(.system(size: 12, weight: .bold)).foregroundStyle(IslandUI.navy).multilineTextAlignment(.leading)
+                    .padding(.horizontal, 12).padding(.vertical, 8).frame(width: 230, alignment: .leading)
+                    .background(IslandUI.lime, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                    .transition(.opacity)
+                    .onTapGesture { let wasDone = recording.state == .saved || recording.state == .failed; shown = ""; if wasDone { open() } }
+                    .accessibilityIdentifier("capture-toast").accessibilityHint("Opens Recordings")
+            }
+        }
+        .onChange(of: recording.state) { _, state in
+            switch state {
+            case .saved, .failed: show(recording.message)
+            case .recording: show("Recording on. It captures the game on the TV. Tap again to stop and save to Photos.")
+            default: break
+            }
+        }
+        .animation(.easeInOut(duration: 0.2), value: shown)
+    }
+    private func show(_ text: String) {
+        shown = text
+        // a saved/failed note stays long enough to read and tap
+        let hold: Duration = recording.state == .saved || recording.state == .failed ? .seconds(9) : .seconds(4)
+        Task { try? await Task.sleep(for: hold); if shown == text { shown = "" } }
     }
 }

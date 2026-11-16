@@ -265,19 +265,6 @@ final class TennisMenuSnapshotTests: XCTestCase {
                 try XCTUnwrap(image.pngData()).write(to: out.appendingPathComponent(name + suffix + ".png"))
             }
             try capture()
-            if screen == .loading {
-                session.loading.practice(); try await Task.sleep(for: .milliseconds(600)); try capture("-swing")
-                func findScene(_ view: UIView) -> SCNView? { if let v = view as? SCNView { return v }; return view.subviews.compactMap(findScene).first }
-                let scn = try XCTUnwrap(findScene(host.view))
-                let root = try XCTUnwrap(scn.scene?.rootNode.childNode(withName: MatchHero.rootName, recursively: true))
-                var animated = 0
-                root.enumerateChildNodes { node, _ in
-                    if let morph = node.morpher, morph.weights.contains(where: { $0.doubleValue > 0.01 }) { animated += 1 }
-                }
-                XCTAssertGreaterThan(animated, 3, "The swing must animate the character (body, face, racket), not just increment its trigger.")
-                try await Task.sleep(for: .seconds(2)); session.loading.practice(); XCTAssertEqual(session.loading.practiceSequence, 2)
-                try await Task.sleep(for: .milliseconds(600)); try capture("-repeat")
-            }
             window.isHidden = true
         }
         session.menuPauseVisible = false
@@ -357,8 +344,6 @@ final class TennisMenuSnapshotTests: XCTestCase {
         XCTAssertFalse(preview.character.hasActions)
         XCTAssertEqual(preview.character.childNode(withName: "racket", recursively: true)?.isHidden, false)
         XCTAssertEqual(preview.scene.rootNode.childNode(withName: "idleBall", recursively: false)?.hasActions, false)
-        XCTAssertEqual(PartyLoadingTips.tips(for: .tennis).count, 10)
-        XCTAssertEqual(PartyLoadingTips.tips(for: .golf).count, 10)
     }
 
     func testCharacterModelVariants() throws {
@@ -436,27 +421,21 @@ final class TennisMenuSnapshotTests: XCTestCase {
         TennisCampaign.shared.restart()
         TennisCampaign.shared.record(round: 0, won: true)
         menu.debugShow(.loading, launch: MenuLaunch(round: 0), result: MatchResult(won: true, score: "3–0", round: 0))
-        XCTAssertEqual(menu.afterMatchChoices.first, .next)
         session.sport = "tennis"
         session.active = true
         session.finishedMatch = (true, "3–0")
-        defer { session.active = false; session.finishedMatch = nil; TennisMenu.shared.classic = false }
+        defer { session.active = false; session.finishedMatch = nil }
         try await saveHosted(SportsHome(), "finish-phone", CGSize(width: 402, height: 874))
-        TennisMenu.shared.classic = true
-        try await saveHosted(SportsHome(), "finish-classic", CGSize(width: 402, height: 874))
         try await saveHosted(SportsPreviewControls(), "finish-preview", CGSize(width: 800, height: 150))
     }
 
-    func testUltimateControlsWithoutDive() async throws {
+    /// (The ultimates, already empty calls, left 2026-11-15; the renders keep their file names.)
+    func testRacketControllerScreens() async throws {
         let session = SportsSession.shared
-        let savedChoice = session.ultimateChoice
-        defer { session.loadoutLocked = false; session.chooseUltimate(savedChoice) }
         session.sport = "tennis"; session.ready = true; session.paused = true
-        session.finishedMatch = nil; session.loadoutLocked = false
-        defer { session.ready = false; session.paused = true; session.loadoutLocked = false; session.canArmUltimate = false }
-        session.chooseUltimate(.curveball)
-        XCTAssertEqual(session.ultimateChoice, savedChoice, "removed ultimate selection is ignored")
-        session.paused = false; session.ultimateMeter = 1; session.canArmUltimate = true; session.tennisPhase = "rally"
+        session.finishedMatch = nil
+        defer { session.ready = false; session.paused = true }
+        session.paused = false; session.tennisPhase = "rally"
         try await saveHosted(SportsPreviewControls(), "ultimate-preview", CGSize(width: 800,height: 300))
         session.loading.cancel()
         try await saveHosted(TennisRacketController(session: session), "ultimate-controller", CGSize(width: 390,height: 844))
@@ -473,7 +452,6 @@ final class TennisMenuSnapshotTests: XCTestCase {
             ("game-select", .gameSelect, nil, nil, 0, 1),
             ("hub-tennis", .hub(.tennis), nil, nil, 0, 0),
             ("hub-golf", .hub(.golf), nil, nil, 0, 1),
-            ("locked-boxing", .locked(.boxing), nil, nil, 0, 0),
             ("exhibition", .exhibition, nil, nil, 0, 0),
             ("character", .character, nil, nil, 4, 0),
             ("howto", .howTo, nil, nil, 0, 1),
@@ -502,15 +480,12 @@ final class TennisMenuSnapshotTests: XCTestCase {
         // A 16:10 MacBook receiving AirPlay: the canvas fits with backdrop above and below.
         menu.debugShow(.gameSelect, row: 0, column: 1)
         try save(TennisTVRoot(), "mac-game-select", CGSize(width: 1440, height: 900))
-        menu.debugShow(.campaign, row: 0, column: 1)
-        try save(TennisRemote(), "phone-remote", phone)
         for (name, lines, index) in [("story-ray", TennisStory.before(9), 0), ("story-rival", TennisStory.before(3), 1),
                                      ("story-offer", TennisStory.afterWin(0), 3)] {
             menu.debugStory(lines, index: index)
             try save(TennisTVRoot(), "tv-\(name)", tv)
             try save(TennisPhoneMenu(), "phone-\(name)", phone)
         }
-        try save(TennisRemote(), "phone-remote-story", phone)
         menu.debugShow(.campaign, row: 1, column: 4)
         try save(TennisTVRoot(), "tv-campaign-final", tv)
 

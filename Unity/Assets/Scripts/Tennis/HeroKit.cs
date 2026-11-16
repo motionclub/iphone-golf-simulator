@@ -15,8 +15,6 @@ namespace GolfArcade.Tennis
         public static readonly string[] HeadwearNames = { "None", "Visor", "Cap", "Sweatband" };
         /// Hero V5 haircuts (Tripo-sculpted): renderer Hair_Default (Swept) or Hair_<name>, each with its own band fill.
         public static readonly string[] HaircutNames = { "Swept", "Ponytail", "Bob", "Long", "Curly", "Bald", "Buzz", "Waves" };
-        public static string HairRenderer(int cut) => cut <= 0 ? "Hair_Default" : "Hair_" + HaircutNames[Mathf.Min(cut, HaircutNames.Length - 1)];
-        public static string BandFillRenderer(int cut) => cut <= 0 ? "Hair_BandFill" : "Hair_BandFill_" + HaircutNames[Mathf.Min(cut, HaircutNames.Length - 1)];
 
         public struct Style
         {
@@ -26,31 +24,6 @@ namespace GolfArcade.Tennis
             { Skin = Mathf.Clamp(skin, 0, 5), HairColor = Mathf.Clamp(hairColor, 0, 5), Headwear = Mathf.Clamp(headwear, 0, 3), BodySize = .5f, Shirt = kit.Shirt, Shorts = kit.Shorts, Shoes = kit.Accent, Racket = kit.Racket };
             public static Style From(int skin, int hairColor, int headwear, TennisLook.Kit kit, int haircut, bool female = false)
             { var s = From(skin, hairColor, headwear, kit); s.Haircut = Mathf.Clamp(haircut, 0, HaircutNames.Length - 1); s.Female = female; return s; }
-        }
-
-        /// Buzz / waves carry a detail map multiplied by the tint: on near-black hair the pattern vanished into a flat
-        /// black blob, so the tint keeps a little brightness (luminance >= .16) for the ridges to read.
-        public static Color DetailTint(Color hair)
-        {
-            float l = hair.r * .2126f + hair.g * .7152f + hair.b * .0722f;
-            return l >= .16f ? hair : new Color(hair.r + (.16f - l), hair.g + (.16f - l), hair.b + (.16f - l), 1);
-        }
-
-        public static void SetFemale(SkinnedMeshRenderer r, bool female)
-        {
-            var m = r ? r.sharedMesh : null; if (!m) return;
-            for (int i = 0; i < m.blendShapeCount; i++) if (m.GetBlendShapeName(i).EndsWith("Female")) r.SetBlendShapeWeight(i, female ? 100 : 0);
-        }
-
-        public static void SetBuild(SkinnedMeshRenderer r, float size)
-        {
-            var m = r ? r.sharedMesh : null; if (!m) return;
-            float signed = (Mathf.Clamp01(size) - .5f) * 200;
-            for (int i = 0; i < m.blendShapeCount; i++) {
-                string name = m.GetBlendShapeName(i);
-                if (name.EndsWith("BuildSlim")) r.SetBlendShapeWeight(i, Mathf.Max(0, -signed));
-                else if (name.EndsWith("BuildBroad")) r.SetBlendShapeWeight(i, Mathf.Max(0, signed));
-            }
         }
 
         public static Color Hex(string h) { ColorUtility.TryParseHtmlString("#" + h, out var c); return c; }

@@ -6,7 +6,7 @@
 #   work/hero-sync/sync_heroes.sh --no-compare export + install + goldens/provenance only (no graphics needed)
 #   work/hero-sync/sync_heroes.sh --compare-only  just the lobby-vs-game sheets of what is installed (after a MatchHeroSurfaces.swift change)
 #
-# 1. refreshes an APFS clone of Unity/ (never runs batch Unity on the shared project), 2. exports MatchHero_* (tennis + Distance) and GolfKitHero_*
+# 1. refreshes an APFS clone of Unity/ (never runs batch Unity on the shared project), 2. exports MatchHero_* (tennis) and GolfKitHero_*
 # with MatchHeroLockerExport (muted, batch, no graphics), 3. installs every changed file into GolfArcade/Unity/CharacterAssets, 4. packs the
 # Unity goldens into GolfArcadeTests/VisualGolden and rewrites provenance.json (with the look_sources.txt hashes the native freshness test
 # checks), 5. renders each hero in Unity and in the app's own SceneKit code from the same cameras and writes side-by-side sheets + a colour
@@ -30,9 +30,9 @@ if [[ ! -d $CLONE/Assets ]]; then cp -c -R $REPO/Unity $CLONE
 else for d in Assets Packages ProjectSettings; do rsync -a --delete $REPO/Unity/$d/ $CLONE/$d/; done; fi
 
 if (( EXPORT )); then
-echo "== 2/5 export (MatchHeroLockerExport: Run, RunDistance, RunGolf)"
+echo "== 2/5 export (MatchHeroLockerExport: Run, RunGolf)"
 rm -rf $OUT/export $OUT/golden; mkdir -p $OUT/export $OUT/golden
-for job in Run RunDistance RunGolf; do
+for job in Run RunGolf; do   # (RunDistance made a byte-identical copy of Run's heroes: dropped 2026-11-15)
   MH_LOCKER_FACE_PARITY=0 MH_LOCKER_OUT=$OUT/export MH_LOCKER_GOLDEN=$OUT/golden MH_LOCKER_REPORT=$OUT/logs/$job-report.txt \
     $U -batchmode -nographics -quit -projectPath $CLONE -executeMethod GolfArcade.EditorTools.MatchHeroLockerExport.$job -logFile $OUT/logs/$job.log \
     || { echo "export $job FAILED: see $OUT/logs/$job.log"; grep -m5 -E "error CS|Exception" $OUT/logs/$job.log; exit 1; }
@@ -60,7 +60,7 @@ if (( COMPARE )); then
       $U -batchmode -quit -projectPath $CLONE -executeMethod GolfArcade.EditorTools.MatchHeroLockerExport.CaptureLobbyParity -logFile $OUT/logs/capture-$sport.log \
       || { echo "capture $sport FAILED: see $OUT/logs/capture-$sport.log"; exit 1; }
   done
-  swiftc -swift-version 6 -O -parse-as-library $SYNC/lobby_render.swift $REPO/GolfArcade/Unity/MatchHeroData.swift $REPO/GolfArcade/Unity/MatchHeroSurfaces.swift \
+  swiftc -swift-version 6 -O -parse-as-library $SYNC/lobby_render.swift $SYNC/diag_shim.swift $REPO/GolfArcade/Unity/MatchHeroData.swift $REPO/GolfArcade/Unity/MatchHeroSurfaces.swift \
     $REPO/GolfArcade/Unity/MatchHeroMotion.swift -framework SceneKit -framework AppKit -framework Metal -o $OUT/lobby_render
   LP_ASSETS=$ASSETS LP_DISTANCE=1 $OUT/lobby_render $OUT/lobby/tennis 2>&1 | grep -v "^$" | grep -iv "warning" || true
   LP_ASSETS=$ASSETS LP_GOLF=1 $OUT/lobby_render $OUT/lobby/golf default 2>&1 | grep -v "^$" | grep -iv "warning" || true

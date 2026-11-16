@@ -408,24 +408,6 @@ namespace GolfArcade.Course
             return tallest;
         }
 
-        /// A cart's loop has to be on dry, open, drivable ground: no water, no sand, nothing
-        /// standing in the way, no cliff.
-        static bool CartFits(Mover cart, Hole hole)
-        {
-            double lastY = double.NaN;
-            foreach (var (x, y, d) in cart.LoopPoints())
-            {
-                var p = new CoursePoint(x, d);
-                var lie = hole.LieAt(p);
-                if (lie is CourseLie.Water or CourseLie.Bunker or CourseLie.OutOfBounds or CourseLie.Green or CourseLie.Ice) return false;
-                if (hole.HazardAt(p) != null) return false;
-                if (!double.IsNaN(lastY) && Math.Abs(y - lastY) > 0.45) return false;   // (samples half a yard apart: steeper than 40° is a cliff)
-                lastY = y;
-                foreach (var o in hole.Obstacles ?? Array.Empty<Obstacle>())
-                    if (Math.Sqrt((o.X - x) * (o.X - x) + (o.D - d) * (o.D - d)) < Math.Max(o.Footprint, 0.6) + 1.6) return false;
-            }
-            return true;
-        }
     }
 
     /// The events' dice: a SplitMix64 stream from a seed. Not System.Random, so the app's menus

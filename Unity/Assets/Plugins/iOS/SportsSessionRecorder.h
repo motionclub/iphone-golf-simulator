@@ -19,6 +19,9 @@
 @property(nonatomic,readonly) BOOL needsFrames;
 /// Index of the display being recorded (0 = main, otherwise the first non-main display).
 @property(nonatomic,readonly) int display;
+/// Unity says where the game draws at every game start (1 = the TV, 0 = this phone). A take started with display -1
+/// records that display and follows it. Any thread.
+- (void)gameDisplayChanged:(int)display;
 
 /// Render thread, with Unity's still-open command buffer (blit is encoded into it).
 - (void)captureTexture:(id<MTLTexture>)texture commandBuffer:(id<MTLCommandBuffer>)command timestamp:(double)timestamp;

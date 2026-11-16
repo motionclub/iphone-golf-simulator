@@ -69,11 +69,6 @@ enum SportsMotionGeometry {
         let beyond = max(0, abs(d)-aimDeadZone)/(aimSpanDegrees-aimDeadZone)
         return (d < 0 ? -1 : 1) * min(1, pow(beyond, 0.85))
     }
-    /// Learn the habitual angle only from ordinary, nearly-straight swings, slowly, so
-    /// deliberately aimed shots never drag "straight" after them.
-    static func learnNeutral(_ neutral: Double, faceAngle: Double) -> Double {
-        abs(faceAngle-neutral) < 5 ? neutral + (faceAngle-neutral)*0.1 : neutral
-    }
 
     /// Distance band for play: close enough to see the TV, far enough to swing freely and
     /// for the camera to see the room rather than one blank wall.

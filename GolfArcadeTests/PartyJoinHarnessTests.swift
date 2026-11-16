@@ -231,7 +231,7 @@ final class PartyJoinHarnessTests: XCTestCase {
         /// Unity's pose (the menu sends one a second): where my hero stands.
         func pose(x: Double) { hub.receive(["type": "hubPose", "session": session, "message": "plaza|\(x)|0|0|0|0||"]) }
         /// The TV connects mid-join: the plaza boots again on it.
-        func reboot() { hub.debugBoot(session: session, menu: true); hub.receive(["type": "ready", "session": session, "message": ""]) ; hub.debugArrived() }
+        func reboot() { hub.debugBoot(session: session); hub.receive(["type": "ready", "session": session, "message": ""]) ; hub.debugArrived() }
         /// The friend in this phone's Unity, from the last hubRemote for them since `from`.
         func remote(_ id: String, since from: Int = 0) -> [String: Any]? {
             for m in sent.dropFirst(from).reversed() where m["action"] as? String == "hubRemote" {

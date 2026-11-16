@@ -72,13 +72,6 @@ namespace GolfArcade.Net.Online
             return Parse<PlayerResponse>(json)?.player;
         }
 
-        public static async Task<ServerPlayer> FetchProfile(PlayerProfile profile)
-        {
-            if (!profile.IsSignedIn) return null;
-            var json = await Send("GET", "/v1/me", null, profile.ServerToken);
-            return Parse<PlayerResponse>(json)?.player;
-        }
-
         /// A round finished on this phone (solo or at home). Online rounds are recorded by the server.
         public static async Task SubmitRound(PlayerProfile profile, string courseId, int[] strokes, string result)
         {

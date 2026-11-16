@@ -131,17 +131,4 @@ namespace GolfArcade.UI
             caption.text = a < 10 ? "FACE  SQUARE" : shown < 0 ? (a < 24 ? "FACE  CLOSED · DRAW" : "FACE  SHUT · HOOK") : (a < 24 ? "FACE  OPEN · FADE" : "FACE  WIDE OPEN · SLICE");
         }
     }
-
-    /// A broadcast's replay bug: a red dot and REPLAY in the top corner while one plays.
-    public static class ReplayBadge
-    {
-        public static RectTransform Create(Transform parent)
-        {
-            var root = UiKit.Pill(parent, "Replay badge", new Color(0.86f, 0.12f, 0.16f), new Vector2(0.5f, 1), new Vector2(0, -150), new Vector2(300, 76), out var fill, 5f);
-            var t = UiKit.Label(fill.transform, "Text", 40, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero, UiKit.Display, false);
-            t.text = "▶  REPLAY"; t.color = Color.white; t.raycastTarget = false;
-            root.gameObject.SetActive(false);
-            return root;
-        }
-    }
 }

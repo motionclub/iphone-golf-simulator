@@ -136,6 +136,8 @@ namespace GolfArcade.Game
             GolfGame.NativeExitRequested+=GolfExit;
             // a golf round's tally (score, coins, rings, bounties), for the app's XP
             GolfGame.RoundSummary+=line=>Emit("golfRound",line);
+            // the Daily Hole in One's three shots (NativeSportsSession.HoleInOne.cs)
+            GolfGame.HoleInOneDone+=line=>Emit("holeInOne",line);
             GolfGame.NativePauseRequested+=GolfPause;
             TennisGame.Landed += AimLanding;
             TennisGame.DrillPoint += AimMiss;
@@ -188,6 +190,7 @@ namespace GolfArcade.Game
                 if(HubIntercept(m)) return;
                 if(BowlingReceive(m)) return;   // NativeSportsSession.Bowling.cs
                 if(LessonReceive(m)) return;    // NativeSportsSession.Lesson.cs
+                if(HoleInOneReceive(m)) return; // NativeSportsSession.HoleInOne.cs
                 if (SportsMultiplayer.Active && (m.action=="pause" || m.action=="resume")) SetPaused(m.action=="pause",m.reason);
                 if (SportsMultiplayer.Command(m)) return;
                 switch(m.action) {
@@ -273,17 +276,22 @@ namespace GolfArcade.Game
             QualitySettings.vSyncCount=0;
             PresentationPolicy.HoleFlyover=m.holeFlyover;
             PresentationPolicy.Configure(m.intros,m.presentationConstrained,m.bigMoments,!string.IsNullOrEmpty(m.network));
-            TennisQuality.Apply();
+            TennisQuality.Apply(m.sport);   // (the tier, then the steps this phone needed in this sport before)
             PresentationPolicy.Constrained |= TennisQuality.Current==TennisQuality.Tier.Low;
             // (a multiplayer golf phone without the TV draws only the upright controller sheet)
             // (bowling with no TV plays on the phone held upright: the lane runs up the screen under the controls)
             // (handheld golf: upright too, the game above the app's control deck)
             ConfigureHandheld(m);
+            TennisQuality.FitScreen(m.external);   // (on the phone's own screen the 3D is drawn 1080 lines across, not the panel's 1179–1320)
             Screen.orientation=m.external || m.sport=="bowling" || handheld || (m.sport=="golf" && !string.IsNullOrEmpty(m.network)) ? ScreenOrientation.Portrait : ScreenOrientation.LandscapeLeft;
             // The phone's loading bar follows the scene load.
             TennisVenue.Selected=TennisVenue.Parse(m.venue);
+            GolfArcade.UI.MapSkin.LocalName=m.playerName ?? "";   // (UI OVERHAUL 11-15: HUDs show usernames, never YOU)
             GolfArcade.Bowling.BowlingVenue.Selected=GolfArcade.Bowling.BowlingVenue.Parse(m.venue);
             TennisVenue.CourtColorOverride=string.IsNullOrEmpty(m.courtHex) ? (Color?)null : HeroKit.Hex(m.courtHex);
+            // (tennis builds the chosen character straight away, not the standard one first: TennisGame.LaunchFemale)
+            TennisGame.LaunchFemale=m.sport=="tennis" ? m.female : (bool?)null;
+            TennisGame.LaunchOpponent=m.sport=="tennis" && !string.IsNullOrEmpty(m.opponent) ? m.opponent : null;
             var op=BeginSceneLoad(m);
             float nextProgress=0;
             while(!op.isDone) {
@@ -302,7 +310,7 @@ namespace GolfArcade.Game
             if((m.sport=="tennis" && (!tennis || !tennis.Initialized)) || (m.sport=="golf" && !golf) || (m.sport=="bowling" && (!bowling || !bowling.Initialized))) {
                 loading=false; SetPaused(true); Emit("error","The sport did not initialize its gameplay scene."); yield break;
             }
-            if(tennis) { tennis.ElevatedCamera=m.tennisCamera=="elevated"; tennis.NativeControlled=true; tennis.AutoPlay=m.bench; if(m.difficulty>=0) tennis.OpponentDifficulty=Mathf.Clamp01(m.difficulty); tennis.SelectCharacter(m.female);
+            if(tennis) { tennis.ElevatedCamera=m.tennisCamera=="elevated"; tennis.NativeControlled=true; tennis.AutoPlay=m.bench; if(m.difficulty>=0) tennis.OpponentDifficulty=Mathf.Clamp01(m.difficulty); tennis.SelectCharacter(m.female,true);
                 TennisCoach.TipsEnabled=false;
                 tennis.ApplyOutfit(TennisLook.Kit.From(m.shirt,m.shorts,m.accent,m.racket,m.skin));
                 tennis.Player.Customize(m.skin,m.hairStyle,m.hairColor,m.faceShape,m.heightChoice,m.buildChoice,m.bodySize,TennisLook.Kit.From(m.shirt,m.shorts,m.accent,m.racket,m.skin));
@@ -322,7 +330,7 @@ namespace GolfArcade.Game
             if(tennis) { tennis.EquipEmotes(m.emotes); tennis.SetControllerSetup(!m.bench); }
             if(bowling) BowlingLoaded(m);
             if(m.bench && !GetComponent<FrameProbe>()) gameObject.AddComponent<FrameProbe>().Report=r=>Emit("perf",r);
-            if(golf) { golf.EquipResultEmotes(m.emotes); golf.SetRoundEvents(!m.noTwists,true,!m.noChallenges); golf.SetDailyRound(m.daily);
+            if(golf) { golf.EquipResultEmotes(m.emotes); golf.SetRoundEvents(!m.noTwists,true,!m.noChallenges); golf.SetDailyRound(m.daily); golf.SetHoleInOne(m.holeInOne);
                 // behind the plaza the first hole builds a slice a frame (the plaza keeps drawing); otherwise at once, under the TV's cover
                 if(behindPlaza) { var steps=golf.PrepareNativeAddressSteps(m.course); while(steps.MoveNext()) { if(hub) hub.MatchLoading(.6f+.4f*steps.Current); yield return null; } }
                 else golf.PrepareNativeAddress(m.course); }

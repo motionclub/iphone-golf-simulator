@@ -5,7 +5,7 @@ import XCTest
 
 @MainActor final class ClubEnvironmentTests: XCTestCase {
     func testAllScenesHaveBakedMeshAndUVs() throws {
-        for room in [ClubRoom.entrance, .terrace, .locker, .loading] {
+        for room in [ClubRoom.locker] {   // (the only room drawn as 3D geometry; the entrance, terrace and loading bakes left the app 2026-11-15)
             let asset = try XCTUnwrap(ClubEnvironmentAsset.load(room))
             XCTAssertGreaterThan(asset.triangles.count / 3, 1000)
             XCTAssertLessThan(asset.triangles.count / 3, 100000)
@@ -46,24 +46,12 @@ import XCTest
         let image=UIGraphicsImageRenderer(size:w.bounds.size,format:format).image { _ in host.view.drawHierarchy(in:w.bounds,afterScreenUpdates:true) }
         try XCTUnwrap(image.pngData()).write(to:out.appendingPathComponent("06-phone-runtime.png"))
     }
-    func testCaptureAlternateViewOfBakedGeometry() async throws {
-        let out = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent("ArtDir/environments/motion-club-3d/review-live-images")
-        try FileManager.default.createDirectory(at: out, withIntermediateDirectories: true)
-        let c = ClubEnvironmentView.Coordinator(), view = SCNView(frame: CGRect(x:0,y:0,width:1280,height:720))
-        c.show(.terrace,in:view,animate:false)
-        let renderer = SCNRenderer(device: nil, options: nil); renderer.scene = view.scene; renderer.pointOfView = c.camera
-        for (x,name) in [(Float(-3),"terrace-angle-left"),(Float(3),"terrace-angle-right")] {
-            c.camera.position.x=x;c.camera.look(at:SCNVector3(0,2,-5))
-            let image=renderer.snapshot(atTime:0,with:CGSize(width:1280,height:720),antialiasingMode:.multisampling4X)
-            try XCTUnwrap(image.pngData()).write(to:out.appendingPathComponent(name+".png"))
-        }
-    }
     func testCameraParallaxAndReduceMotion() async throws {
         let c = ClubEnvironmentView.Coordinator(), view = SCNView(frame: CGRect(x:0,y:0,width:1280,height:720))
-        c.show(.terrace, in:view, animate:true)
+        c.show(.locker, in:view, animate:true)
         XCTAssertTrue(c.camera.hasActions)
-        XCTAssertNotNil(view.scene?.rootNode.childNode(withName:"ClubEnvironment_terrace",recursively:false)?.geometry)
-        c.show(.terrace,in:view,animate:false)
+        XCTAssertNotNil(view.scene?.rootNode.childNode(withName:"ClubEnvironment_locker",recursively:false)?.geometry)
+        c.show(.locker,in:view,animate:false)
         XCTAssertFalse(c.camera.hasActions)
         XCTAssertFalse(view.isPlaying)
         c.show(.locker,in:view,animate:false)

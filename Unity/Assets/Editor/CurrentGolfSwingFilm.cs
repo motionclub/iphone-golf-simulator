@@ -43,7 +43,7 @@ namespace GolfArcade.EditorTools
             course=CurrentGolfSwingFilm.Env("FILM_COURSE","cliffside");hole=int.Parse(CurrentGolfSwingFilm.Env("FILM_HOLE","12"));
             savedHoles=PlayerPrefs.GetInt("holes",0);savedCourse=PlayerPrefs.GetString("course","cliffside");
             Time.captureFramerate=60;Time.timeScale=1;UnityEngine.Random.InitState(3108);
-            game.Demo=true;game.InstantReplays=false;game.CompressRunout=CurrentGolfSwingFilm.Env("FILM_COMPRESS","1")!="0";game.ChooseHoles(0);game.Play();
+            game.Demo=true;game.CompressRunout=CurrentGolfSwingFilm.Env("FILM_COMPRESS","1")!="0";game.ChooseHoles(0);game.Play();
             if(course=="meadow")typeof(GolfGame).GetField("course",BindingFlags.Instance|BindingFlags.NonPublic).SetValue(game,GolfArcade.Course.Course.Meadow());
             game.JumpToHole(hole);game.DropBall(game.CurrentHole.Tee);
             if(double.TryParse(CurrentGolfSwingFilm.Env("FILM_WIND_MPH",""),NumberStyles.Float,CultureInfo.InvariantCulture,out double windMPH))

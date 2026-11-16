@@ -7,15 +7,6 @@ enum Sport: String, CaseIterable, Identifiable, Hashable {
     var id: String { rawValue }
 
     var title: String { rawValue.uppercased() }
-    var tagline: String {
-        switch self {
-        case .golf: "Cliffside links above the ocean"
-        case .tennis: "The Tropical Open · Island Circuit"
-        case .bowling: "Neon lanes, perfect strikes"
-        case .football: "Seaside stadium, top-corner finishes"
-        case .boxing: "Beach-side ring, big padded gloves"
-        }
-    }
     var playable: Bool { self == .golf || self == .tennis || self == .bowling }
     /// Golf and bowling play on the phone itself when there is no TV (handheld play); tennis needs one.
     var playsOnPhone: Bool { self == .golf || self == .bowling }

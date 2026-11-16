@@ -18,7 +18,6 @@ namespace GolfArcade.EditorTools
     /// For each sex it poses the real prefab (Resources/Tennis/Customization/PlayerMale|PlayerFemale) on its own skeleton, skins the body on the CPU,
     /// and writes   GolfArcade/Unity/CharacterAssets/MatchHero_<Sex>.json         manifest (parts, submeshes, materials + the LOOK of every submesh, bounds, head centre, rig)
     ///              GolfArcade/Unity/CharacterAssets/MatchHero_<Sex>.lzfse         base pose = frame 0 of Male_ReadyIdle / Female_ReadyIdle (positions, normals, indices; UVs of the kit; bind-pose positions of the body)
-    ///              GolfArcade/Unity/CharacterAssets/MatchHero_<Sex>_Swing_NN.lzfse   the match Forehand clip sampled at SwingTimes (positions + normals, same part order)
     ///              GolfArcade/Unity/CharacterAssets/MatchHero_<Sex>_Rig.lzfse     LOCKER_MIRROR: the bind-pose mesh of every skinned part with its bone weights and inverse bind poses, and the clips
     ///                                                                             <Sex>_ReadyIdle and <Sex>_Serve as bone tracks sampled at 60 Hz (the Swift side skins them on the GPU)
     ///              GolfArcade/Unity/CharacterAssets/MatchHero_<map>.png           the look maps the runtime materials sample (cloth weave, kit seam maps, soft skin normal), copied from Resources/Tennis/HeroDetail
@@ -497,17 +496,9 @@ namespace GolfArcade.EditorTools
                     height = bounds.size.y, headCentreY = headBounds.center.y, headTopY = headBounds.max.y, headRadius = Mathf.Max(headBounds.extents.x, headBounds.extents.z),
                     backRacket = backRacketMatrix, backRacketBone = backRacketBoneName,
                 };
+                // (The Forehand swing frames <baseName>_Swing_NN.lzfse are no longer written, 2026-11-15: their only reader, the iOS loading
+                // screen's morph practice swing, was never triggered and left the app; the menus play the "forehand" clip from the rig.)
                 var frames = new List<string>();
-                // ---- swing frames
-                for (int k = 0; !golf && k < SwingTimes.Length; k++)
-                {
-                    SamplePose(root, fore.clip, Mathf.Min(SwingTimes[k], fore.clip.length));
-                    foreach (var p in sources) Pose(root, p);
-                    var fb = new List<byte>(swingCursor);
-                    foreach (var p in sources) { AddV3(fb, p.pos, true, p.kind == "kit" ? 10 : 0); AddV3(fb, p.nrm, true, p.kind == "kit" ? 12 : 0); }
-                    string name = $"{baseName}_Swing_{k:00}"; frames.Add(name);
-                    WriteCompressed(name, fb.ToArray());
-                }
                 man.swingFrames = frames.ToArray();
                 if(golf){man.swingTimes=Array.Empty<float>();man.swingClip="";man.swingLength=0;man.swingContact=0;}
                 man.materials = mats.Values.OrderBy(m => m.name).ToArray();

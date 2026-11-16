@@ -14,7 +14,6 @@ namespace GolfArcade.Tennis
         }
         static readonly string[] HairColors={"211C1A","593722","A54D2B","D8B365","BCC0C5","365D99"};
         readonly List<UnityEngine.Object> owned=new List<UnityEngine.Object>();
-        public static Vector3 BodyScale(int height,int build) => new Vector3(1,.90f+Mathf.Clamp(height,0,4)*.05f,1);
         public static Vector3 FaceScale(int shape) => new[]{Vector3.one,new Vector3(1.12f,.94f,1),new Vector3(.92f,1.08f,1),new Vector3(1.16f,1,1)}[Mathf.Clamp(shape,0,3)];
 
         /// Shared mesh deformation: the skeleton, hand sockets and contact reach stay fixed.
@@ -55,35 +54,6 @@ namespace GolfArcade.Tennis
                 target.updateWhenOffscreen=true;
             }
             return true;
-        }
-
-        /// Shared cosmetic mesh binding, also used by the modular Humanoid look prefab.
-        public static SkinnedMeshRenderer RebindCosmetic(SkinnedMeshRenderer source, Transform sourceRoot, Transform targetRoot, Transform slot)
-        {
-            if (!source || !source.sharedMesh || !sourceRoot || !targetRoot || !slot)
-                throw new InvalidOperationException("Cosmetic requires a mesh, skeleton and slot");
-            if (source.sharedMesh.bindposes.Length != source.bones.Length)
-                throw new InvalidOperationException("Cosmetic bind-pose count differs from its bone list: " + source.name);
-            var lookup = new Dictionary<string, Transform>();
-            foreach (var bone in targetRoot.GetComponentsInChildren<Transform>(true)) lookup.TryAdd(bone.name, bone);
-            foreach (var bone in source.bones) if (bone && targetRoot.GetComponentsInChildren<Transform>(true).Count(t => t.name == bone.name) != 1)
-                throw new InvalidOperationException("Cosmetic bone name must resolve once: " + bone.name);
-            var rebound = Array.ConvertAll(source.bones, b => b && lookup.TryGetValue(b.name, out var match)
-                ? match : throw new InvalidOperationException("Cosmetic bone mismatch: " + (b ? b.name : "null")));
-            var renderer = new GameObject(source.name).AddComponent<SkinnedMeshRenderer>();
-            renderer.transform.SetParent(slot, false);
-            var local = sourceRoot.worldToLocalMatrix * source.transform.localToWorldMatrix;
-            renderer.transform.localPosition = local.GetColumn(3);
-            renderer.transform.localRotation = local.rotation;
-            renderer.transform.localScale = local.lossyScale;
-            renderer.sharedMesh = source.sharedMesh;
-            renderer.sharedMaterials = source.sharedMaterials;
-            renderer.bones = rebound;
-            renderer.rootBone = source.rootBone && lookup.TryGetValue(source.rootBone.name, out var root) ? root : rebound[0];
-            renderer.localBounds = source.localBounds;
-            renderer.quality = SkinQuality.Bone4;
-            renderer.updateWhenOffscreen = true;
-            return renderer;
         }
 
         public void Apply(Transform model,Transform head,int skin,int hair,int hairColor,int face,int height,int build,float bodySize=-1,TennisLook.Kit? outfit=null)

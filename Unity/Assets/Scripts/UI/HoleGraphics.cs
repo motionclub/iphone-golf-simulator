@@ -166,23 +166,6 @@ namespace GolfArcade.UI
             return line[line.Length - 1];
         }
 
-        /// The centreline from the tee as far as `fraction`, for the trail the ball leaves.
-        public List<Vector2> TrailTo(float fraction)
-        {
-            var trail = new List<Vector2>();
-            if (line.Length < 2) return trail;
-            float at = Mathf.Clamp01(fraction) * lineLength;
-            trail.Add(line[0]);
-            for (int i = 1; i < line.Length; i++)
-            {
-                if (at >= along[i]) { trail.Add(line[i]); continue; }
-                float seg = along[i] - along[i - 1];
-                trail.Add(Vector2.Lerp(line[i - 1], line[i], seg > 0 ? (at - along[i - 1]) / seg : 0));
-                break;
-            }
-            return trail;
-        }
-
         protected override void OnRectTransformDimensionsChange() { base.OnRectTransformDimensionsChange(); SetVerticesDirty(); }
 
         protected override void OnPopulateMesh(VertexHelper vh)

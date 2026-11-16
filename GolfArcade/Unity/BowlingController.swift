@@ -41,6 +41,8 @@ struct BowlingPhoneController: View {
     @State private var slideBoard: Double?
     @State private var skipSent = false
     private var state: BowlingControllerState { BowlingControllerState(session.bowlingState) }
+    /// The centre being bowled in: the controller wears its material (UI OVERHAUL 11-15, boards 07-10).
+    private var skin: MapSkin { MapSkin.of(sport: "bowling", venue: session.bowlingVenue) }
 
     var body: some View {
         Group {
@@ -57,8 +59,9 @@ struct BowlingPhoneController: View {
     private var gameOver: Bool { state.phase == "GameOver" }
 
     /// With a TV: the phone is the controller, full screen.
+    /// Boards 07-10: the bowler's name on the centre's plate, Frame · Ball, ◀ Board ▶, the centre's ball, Hold to start, LAST THROW and pause.
     private var tvLayout: some View {
-        VStack(spacing: 18) {
+        VStack(spacing: 16) {
             header
             moveStrip
             Spacer(minLength: 0)
@@ -66,10 +69,8 @@ struct BowlingPhoneController: View {
             Spacer(minLength: 0)
             lastThrow
         }
-        .padding(.horizontal, 20).padding(.vertical, 24)
-        // brand background: Deep Navy at the top → Royal by 24 %, then flat
-        .background(LinearGradient(stops: [.init(color: MSBrand.navyDeep, location: 0), .init(color: MSBrand.royal, location: 0.24), .init(color: MSBrand.royal, location: 1)],
-                                   startPoint: .top, endPoint: .bottom).ignoresSafeArea())
+        .padding(.horizontal, 22).padding(.vertical, 26)
+        .background(MapControllerBackground(skin: skin))
     }
 
     /// No TV: handheld play (HandheldFrame). The lane and Unity's score sheet fill the top three quarters; where to stand, the
@@ -81,8 +82,8 @@ struct BowlingPhoneController: View {
             handheldDeck
         } deckBackground: {
             ZStack(alignment: .top) {
-                LinearGradient(colors: [MSBrand.navyDeep, MSBrand.royal], startPoint: .top, endPoint: .bottom)
-                Rectangle().fill(MSBrand.white.opacity(0.6)).frame(height: 2)
+                LinearGradient(colors: [skin.top, skin.bottom], startPoint: .top, endPoint: .bottom)
+                Rectangle().fill(skin.frame).frame(height: 4)
             }
         }
     }
@@ -117,28 +118,35 @@ struct BowlingPhoneController: View {
     /// The game is over: on to the XP and results.
     private var finishButton: some View {
         Button { TennisMenu.shared.beginPostMatch() } label: {
-            Text("FINISH").font(MSBrand.font(.button, 30)).foregroundStyle(MSBrand.navyInk)
-                .frame(maxWidth: 320, minHeight: 72).background(LinearGradient(colors: [MSBrand.gold, MSBrand.goldWordmark], startPoint: .top, endPoint: .bottom), in: Capsule())
+            MapActionFace(skin: skin, title: "Finish", height: 84).frame(maxWidth: 320)
         }
         .buttonStyle(.plain).accessibilityIdentifier("bowling-finish")
     }
 
-    // Two-line brand headline: white sets it up, gold pays it off.
+    /// The bowler's username on the centre's plate, and Frame · Ball on a cream pill under it.
     private var header: some View {
-        VStack(spacing: 2) {
-            Text(state.player.isEmpty ? "Roll it." : "\(state.player)'s up.").font(MSBrand.font(.title, 50)).foregroundStyle(MSBrand.white)
-            Text("Frame \(state.frame) · Ball \(state.ball)").font(MSBrand.font(.title, 36)).foregroundStyle(MSBrand.gold)
+        VStack(spacing: 10) {
+            MapPlate(skin: skin, text: (state.player.isEmpty ? MapSkin.playerName(session) : state.player).uppercased(), height: 96).mapEntrance(delay: 0.1)
+                .accessibilityIdentifier("controller-name-plate")
+            Text("Frame \(state.frame) · Ball \(state.ball)").font(MapFont.bold(22)).foregroundStyle(skin.ink)
+                .padding(.horizontal, 22).padding(.vertical, 6)
+                .background(skin.cream, in: Capsule()).overlay(Capsule().strokeBorder(skin.frame, lineWidth: 2.5))
+                .accessibilityIdentifier("bowling-frame")
         }
-        .shadow(color: MSBrand.textShadow.opacity(0.55), radius: 2, y: 1)
     }
 
     /// Where to stand (Adnan 10-27: "make it easier to move side to side, it takes a while"): the lane itself, edge to edge.
     /// Touch or drag anywhere on it and the bowler goes to that board; the chevrons step one board, and keep going (faster) while held.
     private var moveStrip: some View {
         HStack(spacing: 10) {
-            StepButton(icon: "chevron.left", label: "Move left") { step(+1) }
+            StepButton(skin: skin, icon: "chevron.left", label: "Move left") { step(+1) }
             laneSlider
-            StepButton(icon: "chevron.right", label: "Move right") { step(-1) }
+            StepButton(skin: skin, icon: "chevron.right", label: "Move right") { step(-1) }
+        }
+        .padding(8)
+        .background {
+            Capsule().fill(skin.frameDeep).offset(y: 4)
+            Capsule().fill(LinearGradient(colors: [skin.frame, skin.frameDeep.mix(skin.frame, 0.5)], startPoint: .top, endPoint: .bottom))
         }
         .opacity(state.canMove ? 1 : 0.35).disabled(!state.canMove)
         .onChange(of: state.canMove) { _, can in if !can { slideBoard = nil } }
@@ -152,19 +160,18 @@ struct BowlingPhoneController: View {
         GeometryReader { geo in
             let w = geo.size.width
             ZStack(alignment: .topLeading) {
-                RoundedRectangle(cornerRadius: 14).fill(LinearGradient(colors: [Color(hex: "D9A866"), Color(hex: "B9844A")], startPoint: .top, endPoint: .bottom))
+                Capsule().fill(skin.cream)
                 ForEach([5, 10, 15, 20, 25, 30, 35], id: \.self) { b in
-                    Image(systemName: "arrowtriangle.up.fill").font(.system(size: 11, weight: .bold)).foregroundStyle(MSBrand.navyInk.opacity(0.55))
-                        .position(x: x(for: Double(b), width: w), y: 16)
+                    Image(systemName: "arrowtriangle.up.fill").font(.system(size: 9, weight: .bold)).foregroundStyle(skin.ink.opacity(0.4))
+                        .position(x: x(for: Double(b), width: w), y: 12)
                 }
-                Text(boardText).font(MSBrand.font(.hudNumber, 22)).foregroundStyle(MSBrand.navyInk).monospacedDigit().lineLimit(1).minimumScaleFactor(0.6)
-                    .frame(width: w).position(x: w / 2, y: 46)
-                Circle().fill(LinearGradient(colors: [MSBrand.gold, MSBrand.goldWordmark], startPoint: .top, endPoint: .bottom))
-                    .overlay(Circle().stroke(MSBrand.white, lineWidth: 3)).frame(width: 30, height: 30)
-                    .shadow(color: MSBrand.shadowInk.opacity(0.4), radius: 3, y: 2)
-                    .position(x: x(for: shownBoard, width: w), y: 16)
+                Text(boardText).font(MapFont.bold(24)).foregroundStyle(skin.ink).monospacedDigit().lineLimit(1).minimumScaleFactor(0.6)
+                    .frame(width: w).position(x: w / 2, y: 40)
+                Circle().fill(skin.glow).overlay(Circle().stroke(.white, lineWidth: 2.5)).frame(width: 20, height: 20)
+                    .shadow(color: .black.opacity(0.3), radius: 2, y: 1)
+                    .position(x: x(for: shownBoard, width: w), y: 12)
             }
-            .overlay(RoundedRectangle(cornerRadius: 14).stroke(MSBrand.white, lineWidth: 3))
+            .overlay(Capsule().strokeBorder(skin.frame, lineWidth: 2.5))
             .contentShape(Rectangle())
             .gesture(DragGesture(minimumDistance: 0).onChanged { g in
                 let b = board(atX: g.location.x, width: w)
@@ -179,7 +186,7 @@ struct BowlingPhoneController: View {
         .accessibilityElement().accessibilityLabel("Board \(boardText)").accessibilityAdjustableAction { dir in step(dir == .increment ? -1 : +1) }
     }
 
-    private var boardText: String { String(format: shownBoard.truncatingRemainder(dividingBy: 1) == 0 ? "BOARD %.0f" : "BOARD %.1f", shownBoard) }
+    private var boardText: String { String(format: shownBoard.truncatingRemainder(dividingBy: 1) == 0 ? "Board %.0f" : "Board %.1f", shownBoard) }
     /// Boards 3...37 (the game's own limits), to the half board; x runs from board 39.5 (left gutter) to 0.5 (right gutter).
     private func board(atX x: CGFloat, width: CGFloat) -> Double { min(37, max(3, ((39.5 - 39 * Double(x / max(1, width))) * 2).rounded() / 2)) }
     private func x(for board: Double, width: CGFloat) -> CGFloat { CGFloat((39.5 - board) / 39) * width }
@@ -194,15 +201,33 @@ struct BowlingPhoneController: View {
 
     /// What the ball does now (under it on the TV layout, beside it on the handheld deck).
     private var ballCaption: String {
-        holding ? "SWING · LET GO AT THE BOTTOM" : state.walking ? "TAP TO SKIP" : state.canHold ? "HOLD TO BOWL" : !state.mine && !state.player.isEmpty ? "\(state.player.uppercased()) IS BOWLING" : "WATCH THE PINS"
+        holding ? "Swing · let go at the bottom" : state.walking ? "Tap to skip" : state.canHold ? "Hold to start" : !state.mine && !state.player.isEmpty ? "\(state.player) is bowling" : "Watch the pins"
     }
     private var ballCaptionLive: Bool { holding || state.canHold || state.walking }
-    private var ball: some View { ballView(caption: true) }
+    private var ball: some View {
+        VStack(spacing: 18) {
+            ballView(caption: false)
+            // board: a cream pill, "Hold to start" over "Let go to release"
+            VStack(spacing: 0) {
+                Text(ballCaption).font(MapFont.bold(24)).lineLimit(1).minimumScaleFactor(0.6)
+                if state.canHold && !holding { Text("Let go to release").font(MapFont.semi(17)) }
+            }
+            .foregroundStyle(ballCaptionLive ? skin.accentInk : skin.ink.opacity(0.7))
+            .padding(.horizontal, 26).padding(.vertical, 10).frame(minWidth: 260)
+            .background { Capsule().fill(skin.accentDeep).offset(y: 4); Capsule().fill(ballCaptionLive ? skin.accent : skin.cream) }
+        }
+    }
     /// The ball: press and hold to pick it up and start the approach; lift your thumb to let it go.
     private func ballView(caption: Bool) -> some View {
         ZStack {
-            // the spotlight behind the hero object (Lift at 55 %)
-            Circle().fill(RadialGradient(colors: [MSBrand.lift.opacity(0.55), .clear], center: .center, startRadius: 40, endRadius: 210)).frame(width: 420, height: 420)
+            // the spotlight behind the hero object, in the centre's light
+            Circle().fill(RadialGradient(colors: [skin.glow.opacity(0.4), .clear], center: .center, startRadius: 40, endRadius: 210)).frame(width: 420, height: 420)
+            if let art = skin.ballImage {
+                // the centre's own ball from the board (maroon in gold, neon purple, teal marble, cracked lava)
+                Image(uiImage: art).resizable().interpolation(.high).scaledToFit().frame(width: 270, height: 270)
+                    .shadow(color: .black.opacity(0.4), radius: 14, y: 10)
+                    .overlay { if holding { Circle().strokeBorder(skin.glow, lineWidth: 8).frame(width: 250, height: 250).shadow(color: skin.glow, radius: 12) } }
+            } else {
             // the club ball: deep teal-to-navy pearl, with the gold primary ring (the one gold action)
             Circle().fill(RadialGradient(colors: [Color(hex: "2E8C8A"), MSBrand.navyInk], center: .init(x: 0.35, y: 0.3), startRadius: 10, endRadius: 170))
                 .shadow(color: MSBrand.shadowInk.opacity(0.43), radius: 14, y: 11)
@@ -210,9 +235,6 @@ struct BowlingPhoneController: View {
             ForEach(Array([(CGPoint(x: 0, y: 46), CGFloat(34)), (CGPoint(x: -24, y: -34), 26), (CGPoint(x: 24, y: -34), 26)].enumerated()), id: \.offset) { _, hole in
                 Circle().fill(MSBrand.navyInk.opacity(0.85)).frame(width: hole.1, height: hole.1).offset(x: hole.0.x, y: hole.0.y)
             }
-            if caption {
-                Text(ballCaption).font(MSBrand.font(.button, 24)).foregroundStyle(ballCaptionLive ? MSBrand.gold : MSBrand.n300).multilineTextAlignment(.center)
-                    .offset(y: 160)
             }
         }
         .frame(width: 260, height: 260)
@@ -228,15 +250,24 @@ struct BowlingPhoneController: View {
         .opacity(state.canHold || holding || state.walking ? 1 : 0.5)
     }
 
+    /// LAST THROW on the centre's card, with the release grade and the pause button (boards 07-10).
     private var lastThrow: some View {
-        VStack(spacing: 6) {
-            if !state.grade.isEmpty && state.mph > 0 {
-                Text(gradeText).font(MSBrand.font(.heading, 28)).foregroundStyle(state.grade == "Perfect" ? MSBrand.gold : MSBrand.white)
-                Text(String(format: "%.1f mph · %@ · hook %d°", state.mph, aimText, abs(state.hook)))
-                    .font(MSBrand.font(.body, 17)).foregroundStyle(MSBrand.white).monospacedDigit()
+        VStack(spacing: 8) {
+            HStack(spacing: 14) {
+                VStack(spacing: -6) {
+                    // (Club Lanes' card has LAST THROW on it; the others get it above, with how the release went)
+                    if skin.id != "bowling-club" || (!state.grade.isEmpty && state.mph > 0) {
+                        Text([skin.id != "bowling-club" ? "LAST THROW" : nil, !state.grade.isEmpty && state.mph > 0 ? gradeText.uppercased() : nil].compactMap { $0 }.joined(separator: " · "))
+                            .font(MapFont.bold(13)).tracking(1.2).foregroundStyle(state.grade == "Perfect" ? skin.glow : .white.opacity(0.85)).lineLimit(1).minimumScaleFactor(0.7)
+                            .padding(.bottom, 8)
+                    }
+                    MapPlate(skin: skin, kind: .card, text: state.mph > 0 ? String(format: "%.1f MPH", state.mph) : "– MPH", height: 92)
+                }
+                .accessibilityElement(children: .ignore).accessibilityLabel(state.mph > 0 ? String(format: "Last throw %.1f miles an hour", state.mph) : "No throw yet")
+                .accessibilityIdentifier("bowling-last-throw")
+                Button { session.pause() } label: { MapPauseFace(skin: skin, size: 58) }
+                    .buttonStyle(.plain).accessibilityLabel("Pause bowling").accessibilityIdentifier("bowling-pause")
             }
-            Text("Slide along the lane to pick your spot. Hold the ball, swing with your bowler and let go at the bottom. Swing through toward where you want it to go: a little right sends it a little right. Turn your wrist like a handshake to hook it.")
-                .font(MSBrand.font(.caption, 15)).foregroundStyle(MSBrand.n300).multilineTextAlignment(.center)
         }
     }
 
@@ -271,13 +302,14 @@ struct BowlingPhoneController: View {
 /// A round step button that steps once on touch, then keeps stepping while held: 4 a second after 0.35 s, rising to 16 a second
 /// (board 20 to the edge, 17 boards, in about 1.8 s held, against 34 taps of half a board before 10-27).
 private struct StepButton: View {
+    let skin: MapSkin
     let icon: String, label: String, action: () -> Void
     @State private var repeater: Task<Void, Never>?
 
     var body: some View {
-        Image(systemName: icon).font(.system(size: 26, weight: .heavy)).foregroundStyle(MSBrand.white)
-            .frame(width: 64, height: 64).background(MSBrand.navyDeep, in: Circle())
-            .overlay(Circle().stroke(MSBrand.white, lineWidth: 3))
+        Image(systemName: icon).font(.system(size: 24, weight: .black)).foregroundStyle(skin.ink)
+            .frame(width: 60, height: 60).background(skin.cream, in: Circle())
+            .overlay(Circle().strokeBorder(skin.frameDeep, lineWidth: 2.5))
             .scaleEffect(repeater != nil ? 0.94 : 1).animation(.easeOut(duration: 0.12), value: repeater != nil)
             .contentShape(Circle())
             .gesture(DragGesture(minimumDistance: 0)

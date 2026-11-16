@@ -506,7 +506,6 @@ namespace GolfArcade.UI
         }
 
         public bool ShowingGear => Current == Tab.Gear;
-        public void ShowGear(bool on) => Show(on ? Tab.Gear : Tab.Body);
 
         public void Destroy() { if (Root) UnityEngine.Object.Destroy(Root.gameObject); }
 

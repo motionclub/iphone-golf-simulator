@@ -167,8 +167,6 @@ final class SportsMotion: NSObject, ARSessionDelegate, @unchecked Sendable {
         #endif
         return queue.sync { gate.locked }
     }
-    /// Exposed so the aiming screen can show a viewfinder from this same session.
-    var previewSession: ARSession { ar }
 
     // MARK: - Main-thread callbacks
 
@@ -304,7 +302,6 @@ final class SportsMotion: NSObject, ARSessionDelegate, @unchecked Sendable {
         }
     }
 
-    func cancelAxisCapture() { queue.async { self.capturingAxis=false; self.gateHeldSince = -Double.infinity } }
     /// Reuse only the still-running AR/IMU origin. Never restore a heading from preferences or across tracking resets.
     var hasUsableCourtDirection: Bool {
         queue.sync {

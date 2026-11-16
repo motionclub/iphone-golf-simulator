@@ -599,17 +599,6 @@ namespace GolfArcade.Tennis
                 // the authored panorama in Light. It has no scene geometry or gameplay effect.
             }
 
-            static Texture2D VolcanoSun() => Tex(512, 512, (u, v) =>
-            {
-                float dx = u * 2 - 1, dy = v * 2 - 1, r = Mathf.Sqrt(dx * dx + dy * dy);
-                float m3 = 1 - Sm(.975f, 1f, r), m2 = 1 - Sm(.615f, .64f, r), m1 = 1 - Sm(.385f, .41f, r), m0 = 1 - Sm(.262f, .278f, r);
-                var c = new Color(.9f, .22f, .16f); float a = .18f * m3;
-                c = Color.Lerp(c, new Color(1f, .34f, .16f), m2); a = Mathf.Lerp(a, .30f, m2);
-                c = Color.Lerp(c, new Color(1f, .52f, .20f), m1); a = Mathf.Lerp(a, .50f, m1);
-                c = Color.Lerp(c, new Color(1f, .78f, .42f), m0); a = Mathf.Lerp(a, .95f, m0);
-                return new Color(c.r, c.g, c.b, a);
-            }, false, "Volcano sun");
-
             /// The eruption: a tall column of ash from a vent in the far rim, with fire fountains in the lake.
             static void Plume(Transform root)
             {

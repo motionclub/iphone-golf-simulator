@@ -5,12 +5,13 @@ using UnityEngine.Rendering;
 namespace GolfArcade.Hub.Menu
 {
     /// MENU BACKDROP (Adnan 10-28: "a dynamic one where it's them on a random course"; then "they should still stand straight like the
-    /// previous menu, but the background changes", centred, feet on the floor). The plaza is swapped for one of ten venue plates, picked at
+    /// previous menu, but the background changes", centred, feet on the floor). Behind the line-up stands one of ten venue plates, picked at
     /// random each time the menu opens: a still of the real venue rendered from the menu camera's pose (MenuShots.CentreShot) with the hero
     /// hidden and no post, pre-blurred except the floor round the feet (Resources/Menu/Backdrops/<venue>.jpg, baked by MenuVenueStand +
     /// work/menu-backdrop/bake_plates.py). It is drawn on a camera-locked quad; the venue's own sun and ambient (<venue>_light.json, the sun
     /// camera-relative) light the live heroes, and a shadow catcher puts their shadows on the plate's floor. Loading a venue scene behind the
-    /// menu was rejected: the plaza plus a map is what the phone's memory kill (10-26) was made of; a plate is one texture.
+    /// menu was rejected: the plaza plus a map is what the phone's memory kill (10-26) was made of; a plate is one texture. (The plaza the
+    /// plates first covered left the game on 2026-11-15: if no plate loads, the heroes stand on a plain brand colour.)
     [DefaultExecutionOrder(10010)]   // after DreamEnvironment (10000) and MajesticVenue (10002), which set the sun and ambient every frame
     public sealed class MenuBackdrop : MonoBehaviour
     {
@@ -19,8 +20,8 @@ namespace GolfArcade.Hub.Menu
             "tennis-resort", "tennis-skyscraper", "tennis-volcano", "golf-cliffside", "golf-wildisles", "golf-magma",
             "bowling-club", "bowling-neon", "bowling-tiki", "bowling-magma",
         };
-        /// Off: the plaza as before. Read when the menu builds.
-        public static bool On = true;
+        /// The camera's clear colour when no plate could be loaded (brand navy).
+        public static readonly Color FallbackColour = MotionSports.Brand.BrandColors.NavyDeep;
         /// Proof captures: the venue to show instead of a random one.
         public static string Pin;
         const string LastKey = "menu.backdrop.last";
@@ -34,32 +35,47 @@ namespace GolfArcade.Hub.Menu
             public int ambientMode = (int)AmbientMode.Trilight; public Color ambientSky, ambientEquator, ambientGround; public float ambientIntensity = 1;
         }
 
-        /// The venue on show ("golf-cliffside"), null when no plate loaded (the plaza stays).
+        /// The venue on show ("golf-cliffside").
         public string Venue { get; private set; }
         Camera cam; Transform plate, floor; Material plateMat, catcherMat; Preset light; MenuStage stage;
         readonly Vector4[] feet = new Vector4[4];
         static readonly int FeetId = Shader.PropertyToID("_Feet");
 
-        /// Picks a venue (MENU_BACKDROP=<venue> pins one for captures), hides the plaza under `scenery` and stands the line-up on the plate.
-        public static MenuBackdrop Attach(HubWorld world, MenuStage stage, Transform scenery)
+        /// Picks a venue (MENU_BACKDROP=<venue> pins one for captures) and stands the line-up on its plate. The squad and its one centred
+        /// shot hold either way; null when no plate could be loaded: every other venue is tried first, then the heroes stand on a plain
+        /// brand colour (and an error is logged).
+        public static MenuBackdrop Attach(HubWorld world, MenuStage stage)
         {
-            if (!On || !world || !world.Camera) return null;
-            string venue = Pick();
-            var tex = Resources.Load<Texture2D>("Menu/Backdrops/" + venue);
-            var json = Resources.Load<TextAsset>("Menu/Backdrops/" + venue + "_light");
+            if (!world || !world.Camera) return null;
+            MenuShots.Centred = true;
+            if (stage) stage.GoTo(MenuShots.Low, snap: true);
             var plateShader = Shader.Find("GolfArcade/MenuBackdrop"); var catcherShader = Shader.Find("GolfArcade/MenuShadowCatcher");
-            if (!tex || !json || !plateShader || !catcherShader) { Debug.LogWarning("[Menu] backdrop " + venue + " missing: the plaza stays"); return null; }
+            string venue = Pick(); Texture2D tex = null; TextAsset json = null;
+            if (plateShader && catcherShader)
+                for (int i = -1; i < Venues.Length; i++)
+                {
+                    // the picked venue first, then the others in order
+                    string v = i < 0 ? venue : Venues[i]; if (i >= 0 && v == venue) continue;
+                    tex = Resources.Load<Texture2D>("Menu/Backdrops/" + v);
+                    json = Resources.Load<TextAsset>("Menu/Backdrops/" + v + "_light");
+                    if (tex && json) { venue = v; break; }
+                    Debug.LogWarning("[Menu] backdrop " + v + " missing: trying another venue");
+                    tex = null; json = null;
+                }
+            if (!tex || !json)
+            {
+                world.Camera.clearFlags = CameraClearFlags.SolidColor; world.Camera.backgroundColor = FallbackColour;
+                Debug.LogError("[Menu] no backdrop plate could be loaded" + (plateShader && catcherShader ? "" : " (the backdrop shaders are missing)") + ": the menu shows a plain colour behind the heroes");
+                return null;
+            }
             var b = world.gameObject.AddComponent<MenuBackdrop>();
             b.Venue = venue; b.stage = stage; b.cam = world.Camera;
             b.light = JsonUtility.FromJson<Preset>(json.text);
-            if (scenery) scenery.gameObject.SetActive(false);
             b.Build(tex, plateShader, catcherShader);
             b.hideUntil = Time.unscaledTime + 10; b.HideScenery();
             foreach (var root in world.gameObject.scene.GetRootGameObjects()) if (root.name == "Majestic dressing") root.SetActive(false);
             b.ApplyLight();
             Lighten();
-            MenuShots.Centred = true;
-            if (stage) stage.GoTo(MenuShots.Low, snap: true);
             return b;
         }
 
@@ -91,8 +107,8 @@ namespace GolfArcade.Hub.Menu
             catcherMat = new Material(catcherShader) { name = "Menu backdrop floor" }; catcherMat.SetFloat("_Strength", Mathf.Clamp01(light.shadowStrength * .85f)); fr.sharedMaterial = catcherMat;
         }
 
-        /// MENU SPEED (Adnan 10-28: "make the menu faster, it moves at like 30 frames"): with the plaza gone the frame is the line-up, the plate
-        /// and the UI, so what only the plaza needed goes too: depth of field (the plate carries its own blur), bloom's bicubic upsampling, and
+        /// MENU SPEED (Adnan 10-28: "make the menu faster, it moves at like 30 frames"): the frame is the line-up, the plate
+        /// and the UI, so what only the old plaza needed goes: depth of field (the plate carries its own blur), bloom's bicubic upsampling, and
         /// sun shadows reaching 60 m when only the heroes at ~5 m cast any (one cascade over 14 m: cheaper and sharper).
         static void Lighten()
         {
@@ -183,13 +199,12 @@ namespace GolfArcade.Hub.Menu
             }
         }
 
-        /// Everything the hub draws except the heroes and the backdrop: the plaza root is off, but kits that attach to the hub itself arrive
-        /// later, so the first seconds sweep again; the Majestic plaza dressing (bunting, flower pots) is a scene root of its own that the
-        /// kit may rebuild, so that one is checked for as long as the menu shows.
+        /// Everything the hub draws except the heroes and the backdrop: layers that attach to the hub itself arrive later, so the first
+        /// seconds sweep again; the Majestic dressing is a scene root of its own (empty for the menu), kept off as long as the menu shows.
         float hideUntil;
         void HideScenery()
         {
-            foreach (var r in GetComponentsInChildren<Renderer>())   // active only: the plaza root is off, its thousands need no visit
+            foreach (var r in GetComponentsInChildren<Renderer>())
             {
                 if (r.forceRenderingOff || (plate && r.transform.IsChildOf(plate)) || (floor && r.transform.IsChildOf(floor))) continue;
                 if (r.GetComponentInParent<GolfArcade.Tennis.MatchHeroLook>(true)) continue;   // heroes (their LOD owns forceRenderingOff)
@@ -211,7 +226,7 @@ namespace GolfArcade.Hub.Menu
             var tex = plateMat.GetTexture("_BaseMap"); float plateAspect = tex && tex.height > 0 ? (float)tex.width / tex.height : 16f / 9f, a = cam.aspect;
             var crop = a >= plateAspect ? new Vector2(1, plateAspect / a) : new Vector2(a / plateAspect, 1);
             if (plateMat.GetTextureScale("_BaseMap") != crop) { plateMat.SetTextureScale("_BaseMap", crop); plateMat.SetTextureOffset("_BaseMap", (Vector2.one - crop) * .5f); }
-            // the venue's light, every frame: the plaza's sky and weather layers drive the same sun and ambient in their own updates
+            // the venue's light, every frame: the Majestic layer (MajesticVenue) drives the same sun and ambient in its own update
             ApplyLight();
             if (!gazeDone) { var hw = GetComponent<HubWorld>(); if (hw && hw.Player) { MenuHeroGaze.Attach(hw.Player, cam); gazeDone = true; } }
             // the sun keeps the venue's angle to the camera (the plate was lit from there)
@@ -229,7 +244,6 @@ namespace GolfArcade.Hub.Menu
 
         void OnDestroy()
         {
-            MenuShots.Centred = false;
             RestoreHeroFill();
             GolfArcade.Tennis.TennisQuality.SetGolfShadows(false);   // the tier's own shadows back
             if (plate) Destroy(plate.gameObject); if (floor) Destroy(floor.gameObject);

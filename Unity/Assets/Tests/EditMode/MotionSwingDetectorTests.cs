@@ -39,28 +39,6 @@ namespace GolfArcade.Tests
             Drive(d, new[]{(.2,0.0),(.8,1.8),(.2,1.8),(.25,-1.3),(1.0,-1.3)}, held:Flat);
             Assert.AreEqual(SwingPhase.Finish, d.Phase, "A held follow-through cannot re-arm the detector");
         }
-        [Test] public void ThreePracticeSwingsLearnThePlayersRange() {
-            var c = new GolfSwingCalibration(Flat);
-            double time = 0, angle = 0;
-            for (int stroke=0; stroke<3; stroke++) {
-                foreach (var leg in new[]{(.6,0.0),(.8,1.4),(.15,1.4),(.25,-.8),(.6,-.8),(.6,0.0),(.2,0.0)}) {
-                    int n=(int)(leg.Item1*100); double delta=(leg.Item2-angle)/n;
-                    for (int i=0;i<n;i++) {
-                        time+=.01; angle+=delta;
-                        c.Ingest(time, Quaternion.CreateFromAxisAngle(Vector3.UnitX,(float)angle),new Vector3((float)(delta/.01),0,0),Vector3.Zero);
-                    }
-                }
-                Assert.AreEqual(stroke+1,c.Count);
-            }
-            Assert.IsTrue(c.Complete);
-            var target=new MotionSwingDetector(); c.Apply(target);
-            Assert.AreEqual(1.4,target.FullBackswing,.04);
-        }
-        [Test] public void StillPracticeCannotCompleteCalibration() {
-            var c=new GolfSwingCalibration(Flat);
-            for(int i=0;i<500;i++) c.Ingest(i*.01,Flat,Vector3.Zero,Vector3.Zero);
-            Assert.AreEqual(0,c.Count); Assert.IsFalse(c.Complete);
-        }
         [TestCase(0.25)]
         [TestCase(0.0)]
         [TestCase(-0.05)]

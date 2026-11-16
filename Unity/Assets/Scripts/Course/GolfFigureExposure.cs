@@ -13,7 +13,6 @@ namespace GolfArcade.Course
         int signature;
         GolfArcade.Tennis.ContactShadow contact;
         readonly List<Material> owned = new();
-        public static bool IsWhite(Color c) => Mathf.Approximately(c.r,1)&&Mathf.Approximately(c.g,1)&&Mathf.Approximately(c.b,1);
         public static void Set(Color legacyExposure)
         {
             Exposure=Color.white;

@@ -76,7 +76,6 @@ final class TennisCampaignTests: XCTestCase {
         menu.debugShow(.loading, launch: MenuLaunch(round: 0))
         session.active = true; session.finishedMatch = nil
         session.receiveMatchSnapshot(["matchComplete": true, "matchWon": false, "finalScore": "0–3"])
-        XCTAssertEqual(menu.afterMatchChoices, [.replay, .court, .menu])
         session.advanceAfterMatch(.replay)
         XCTAssertEqual(menu.launch?.round, 0)
         XCTAssertNil(session.finishedMatch)
@@ -93,7 +92,6 @@ final class TennisCampaignTests: XCTestCase {
         XCTAssertNil(session.finishedMatch, "no post-game actions during a live match")
         session.receiveMatchSnapshot(["matchComplete": true, "matchWon": true, "finalScore": "3–0"])
         XCTAssertEqual(session.finishedMatch?.score, "3–0")
-        XCTAssertEqual(menu.afterMatchChoices, [.next, .replay, .court, .menu])
         try await Task.sleep(for: .seconds(3.6))
         XCTAssertNotNil(session.finishedMatch, "actions must stay on phone, not disappear into a TV-only rewards screen")
         session.advanceAfterMatch(.menu)
@@ -115,7 +113,7 @@ final class TennisCampaignTests: XCTestCase {
         XCTAssertEqual(menu.campaign.won, 1)
         session.receiveMatchFinish(won: true, score: "3–0")
         XCTAssertEqual(menu.campaign.won, 1)
-        session.showMatchRewards()
+        menu.beginPostMatch()   // (what the phone's Continue does; SportsSession.showMatchRewards, its only wrapper, left 2026-11-15)
         XCTAssertFalse(session.active, "Continue exits racket mode")
         XCTAssertNil(session.finishedMatch)
         XCTAssertEqual(menu.screen, .postMatch, "the rep screen follows the match")
@@ -197,7 +195,6 @@ final class TennisCampaignTests: XCTestCase {
         XCTAssertEqual(menu.screen, .campaign, "picking a node only selects it: no dialog the TV remote cannot answer")
         XCTAssertEqual(menu.selectedRound, 4)
         XCTAssertEqual(menu.focused, "campaignPlay", "focus moves to Play Round")
-        XCTAssertNil(menu.pendingCampaignRound)
         menu.select()
         XCTAssertEqual(menu.launch?.round, 4)
         XCTAssertEqual(menu.launch?.mode, .campaign)
@@ -508,15 +505,12 @@ final class TennisCampaignTests: XCTestCase {
         SportProgress.shared.completeTutorial(.tennis)
         c.restart(); c.record(round: 0, won: true); c.markSeen("win0"); c.markSeen("pre1")
         menu.debugShow(.loading, launch: MenuLaunch(round: 0), result: MatchResult(won: true, score: "3–1", round: 0))
-        XCTAssertEqual(menu.afterMatchChoices, [.next, .replay, .court, .menu])
         menu.finishMatch(.next)
         XCTAssertEqual(menu.launch?.round, 1, "Next match goes on to the next rival")
         menu.debugShow(.loading, launch: MenuLaunch(round: 1), result: MatchResult(won: false, score: "1–3", round: 1))
-        XCTAssertEqual(menu.afterMatchChoices, [.replay, .court, .menu], "after a loss: rematch, another court, or back")
         menu.finishMatch(.replay)
         XCTAssertEqual(menu.launch?.round, 1, "Rematch replays the same rival")
         menu.debugShow(.loading, launch: MenuLaunch(mode: .exhibition, round: 2))
-        XCTAssertEqual(menu.afterMatchChoices, [.replay, .court, .menu])
     }
 
 

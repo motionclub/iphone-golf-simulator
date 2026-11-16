@@ -129,9 +129,6 @@ final class SportsIntegrationTests:XCTestCase {
         XCTAssertLessThan(SportsMotionGeometry.aim(faceAngle:-18,neutral:0),-0.4)
         // A player who habitually swings with the face 10° open: that is their "straight".
         XCTAssertEqual(SportsMotionGeometry.aim(faceAngle:10,neutral:10),0)
-        XCTAssertEqual(SportsMotionGeometry.learnNeutral(0,faceAngle:4),0.4,accuracy:1e-9)
-        XCTAssertEqual(SportsMotionGeometry.learnNeutral(0,faceAngle:10),0,"an aimed shot is not learnt as habit")
-        XCTAssertEqual(SportsMotionGeometry.learnNeutral(0,faceAngle:30),0,"a deliberately aimed shot is not learnt as habit")
     }
 
     func testGripFromHeadingsWhicheverWayThePhoneIsHeld() {

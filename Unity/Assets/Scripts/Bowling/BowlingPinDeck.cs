@@ -345,12 +345,6 @@ namespace GolfArcade.Bowling
             return mask;
         }
 
-        public void PinPose(out Vector3[] positions, out Quaternion[] rotations)
-        {
-            positions = new Vector3[10]; rotations = new Quaternion[10];
-            for (int i = 0; i < 10; i++) { positions[i] = pins[i].transform.position; rotations[i] = pins[i].transform.rotation; }
-        }
-
         public void Dispose()
         {
             if (root) Object.DestroyImmediate(root);

@@ -189,14 +189,14 @@ import UIKit
         XCTAssertEqual(menu.notice, "Display unavailable")
         menu.goHome()
     }
-    func testALessonLeftMidwayComesBackToItsResumeScreen() {
+    func testALessonLeftMidwayComesBackToItsTutorialRow() {
         let defaults = UserDefaults(suiteName: "lesson-resume-\(UUID())")!
         let store = OnboardingStore(defaults: defaults)
-        store.step = .lesson(.tennis); store.explicitRun = true; store.setLessonStation(.tennis, 3)
+        store.step = .tutorial; store.explicitRun = true; store.setLessonStation(.golf, 3)
         let flow = OnboardingFlow(store: store, progress: SportProgress(defaults: defaults), arguments: [])
-        XCTAssertEqual(flow.step, .lesson(.tennis)); XCTAssertTrue(flow.holdsMenu, "no game is running, so the TV shows Resume")
-        XCTAssertEqual(flow.rows(), [["resume"], ["choose"], ["skip"]])
-        XCTAssertFalse(store.rewardClaimed(.tennis))
+        XCTAssertEqual(flow.step, .tutorial); XCTAssertFalse(flow.holdsMenu, "the menu is up, its Tutorial resumes the lesson")
+        XCTAssertEqual(flow.nextLesson, .golf); XCTAssertEqual(store.lessonStation(.golf), 3)
+        XCTAssertFalse(store.rewardClaimed(.golf))
     }
     func testMainMenuIsReachableFromLoadingStoryAndEverySetupRoute() {
         let menu = TennisMenu()
@@ -218,13 +218,14 @@ import UIKit
         let defaults = UserDefaults(suiteName: "navigation-\(UUID())")!
         let store = OnboardingStore(defaults: defaults)
         let progress = SportProgress(defaults: defaults)
-        store.step = .card; store.characterInitialized = true
+        store.step = .how; store.characterInitialized = true
         let flow = OnboardingFlow(store: store, progress: progress, arguments: [])
+        flow.stateChanged = {}
         flow.back()
-        XCTAssertEqual(flow.step, .player)
+        XCTAssertEqual(flow.step, .customize)
         flow.exitToMenu()
         XCTAssertEqual(flow.step, .done)
-        XCTAssertFalse(flow.holdsMenu)
+        XCTAssertFalse(flow.locked)
         XCTAssertFalse(progress.finishedTutorial(.golf))
         XCTAssertFalse(store.rewardClaimed(.golf))
     }

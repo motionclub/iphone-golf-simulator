@@ -98,7 +98,7 @@ namespace GolfArcade.Majestic
         {
             if (!world || world.GetComponent<MajesticVenue>()) return;
             float yaw = world.Camera ? world.Camera.transform.eulerAngles.y : 0;
-            Add(world, MajesticLook.Hub(), new Kit { Build = MajesticHub.Build, Restyle = MajesticHub.SetMaterials, Animate = MajesticHub.Animate }, yaw);
+            Add(world, MajesticLook.Hub(), new Kit(), yaw);   // the menu: the golden-hour light and grade only (the plaza it dressed is gone)
         }
 
         void Build()

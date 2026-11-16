@@ -150,26 +150,6 @@ namespace GolfArcade.Game
             shotFrame=povThisFrame=false;cueUp=Vector3.up;targetRoll=0;
         }
 
-        /// The golfer, whole, in the clear space the hole-out card leaves them: between the banner and the way on on the phone,
-        /// and in the left half of the big screen, where the card is a column on the right. They face the lens to react and emote.
-        public void FrameHoleOut(Transform golfer)
-        {
-            if (Mathf.Abs(resultAspect-Camera.aspect)>.01f) SnapNext();
-            resultAspect=Camera.aspect;
-            bool portrait=Camera.aspect<1.2f;
-            var facing=GroundDirection(golfer.forward);
-            FrameStage(golfer.position,facing,0,portrait?.30f:.09f,portrait?.71f:.92f,4f);
-            if (!portrait)
-            {
-                var right=Vector3.Cross(Vector3.up,-facing);
-                float distance=Vector3.Distance(targetPosition,targetLookAt);
-                float halfWidth=distance*Mathf.Tan(Camera.fieldOfView*Mathf.Deg2Rad/2)*Camera.aspect;
-                var shift=right*halfWidth*.46f;      // the golfer a quarter of the way in from the left edge
-                targetPosition+=shift;targetLookAt+=shift;
-            }
-            shotFrame=povThisFrame=false;cueUp=Vector3.up;targetRoll=0;
-        }
-
         public bool LandingView { get; private set; }
         Vector3 landingCamera;
         public const float LaunchHoldSeconds = 1.5f;
@@ -202,33 +182,6 @@ namespace GolfArcade.Game
             cueUp = Vector3.up;
             targetRoll = 0;
             povThisFrame = false;
-        }
-
-        public void FollowShot(Vector3 ball, float sinceLaunch, bool down, bool putting)
-        {
-            float hold = putting ? .6f : LaunchHoldSeconds;
-            float follow = Mathf.SmoothStep(0, 1, Mathf.Clamp01((sinceLaunch - hold) / FollowTransitionSeconds));
-            var right = Vector3.Cross(Vector3.up, flightDirection);
-            if(down && !putting && !LandingView){
-                LandingView=true;
-                landingCamera=ball-flightDirection*11f+right*1.2f+Vector3.up*4.2f;
-                SnapNext();
-            }
-            float back = putting ? 5f : 30f;
-            float height = putting ? 2.8f : 6f;
-            var chase = ball - flightDirection * back + right * (putting ? .65f : .9f) + Vector3.up * height;
-            // Keep the established landing view at a readable distance as the ball rolls.
-            if (LandingView) landingCamera = ball - flightDirection * 11f + right * 1.2f + Vector3.up * 4.2f;
-            targetPosition = LandingView ? landingCamera : Vector3.Lerp(launchCamera, chase, follow);
-            // Even a ricochet cannot put the camera ahead of its subject and reverse the view.
-            float ahead = Vector3.Dot(targetPosition - ball, flightDirection);
-            if (ahead > -2f) targetPosition -= flightDirection * (ahead + 2f);
-            ClearGround();
-            flightBall = ball;
-            targetLookAt = LandingView ? ball+flightDirection*.8f : Vector3.Lerp(launchLook, ball + flightDirection * .8f, follow);
-            positionLag = .065f; lookLag = .055f;
-            cueUp = Vector3.up; targetRoll = 0; targetZoom = 1;
-            shotFrame = true;
         }
 
         // ---- The broadcast shot (work/golf-flow-camera/REFERENCES.md: tour coverage of a tee shot and of a holed putt) ----
@@ -329,17 +282,6 @@ namespace GolfArcade.Game
             cueUp = Vector3.up; targetRoll = 0; shotFrame = povThisFrame = false;
         }
 
-        /// The hole cam: behind the cup, low, looking back along the line at the ball rolling in.
-        public void HoleCam(Vector3 ball, Vector3 cup)
-        {
-            var away = cup - ball; away.y = 0;
-            if (away.sqrMagnitude < 0.01f) away = transform.forward; away.Normalize();
-            // far enough back and up that the cup and the flag are part of the picture, not all of it
-            targetPosition = cup + away * 7f + Vector3.up * 2.8f;
-            targetLookAt = Vector3.Lerp(cup, ball, 0.4f) + Vector3.up * 0.05f;
-            positionLag = 0.3f; lookLag = 0.15f;
-        }
-
         /// Zoom so a window `window` yards tall around something `distance` away fills the
         /// frame — the long lens a broadcast follows a ball with — never tighter than `minFov`.
         void FrameWindow(float distance, float window, float minFov)
@@ -404,28 +346,6 @@ namespace GolfArcade.Game
         bool povThisFrame;
         float povTurnLag = 0.25f;
 
-        /// One frame of the POV: `toLanding` seconds until the ball first comes down (negative
-        /// after), `sinceLaunch` seconds since it left the club.
-        public void BallPov(Vector3 ball, Vector3 line, float toLanding, float sinceLaunch)
-        {
-            line.y = 0;
-            if (line.sqrMagnitude < 1e-4f) line = transform.forward; line.y = 0; line.Normalize();
-            var right = Vector3.Cross(Vector3.up, line);
-            float s = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(0.53f, -0.2f, toLanding));
-            targetPosition = ball + (-line * Mathf.Lerp(4f, 8f, s) + right * 2.5f + Vector3.up * 7f) * PovMetres;
-            float floor = (float)Course.HoleView.GroundHeight(Course.HoleView.ToCourse(targetPosition)) + 1.8f;
-            if (targetPosition.y < floor) targetPosition.y = floor;
-            povBall = ball;
-            povAcross = Mathf.Lerp(PovAcrossInFlight, PovAcrossDown, s);
-            povPitch = Mathf.Lerp(PovPitchInFlight, PovPitchDown, s);
-            povThisFrame = true;
-            // off the address view and onto the ball as it leaves, then locked to it like his rig
-            float onto = Mathf.Clamp01(sinceLaunch / 0.7f);
-            positionLag = Mathf.Lerp(0.3f, 0.03f, onto);
-            povTurnLag = Mathf.Lerp(0.22f, 0.04f, onto);
-            targetZoom = 1f; targetRoll = 0f;
-        }
-
         /// Looking `pitch` degrees down, the heading that puts `ball` at `across` (0–1) of the
         /// frame's width from `from`.
         Quaternion PovRotation(Vector3 from, Vector3 ball, float across, float pitch)
@@ -455,15 +375,6 @@ namespace GolfArcade.Game
             // from the tee view this is the trip up the hole to the ball: longer the further it is
             positionLag = Mathf.Clamp(Vector3.Distance(transform.position, targetPosition) / 150f, 0.6f, 1.6f); lookLag = 0.5f;
             targetZoom = 1f; targetRoll = 0f;
-        }
-
-        /// Flyover: from above the green looking back down the hole toward the tee.
-        public void Flyover(Vector3 pin, Vector3 tee, float t)
-        {
-            var dir = (tee - pin).normalized;
-            targetPosition = Vector3.Lerp(pin + Vector3.up * 40 - dir * 30, pin + dir * 60 + Vector3.up * 25, t);
-            targetLookAt = Vector3.Lerp(pin, Vector3.Lerp(pin, tee, 0.4f), t);
-            positionLag = 0.3f; lookLag = 0.3f;
         }
 
         /// The showcase on the way to the first tee: an aerial sweep round the whole hole
@@ -539,23 +450,6 @@ namespace GolfArcade.Game
             return 0.5f * ((2 * p1) + (-p0 + p2) * f + (2 * p0 - 5 * p1 + 4 * p2 - p3) * f * f + (-p0 + 3 * p1 - 3 * p2 + p3) * f * f * f);
         }
 
-        /// The golfer select screen: level and square in front of the figure, framed head to toe
-        /// in the space between the title and the name plate, the shoes standing just above
-        /// the plate (the screen's fractions from the bottom).
-        public void FramePortrait(Vector3 feet, Vector3 facing, float t)
-        {
-            var f = facing; f.y = 0; f.Normalize();
-            const float Top = 2.05f;                       // yards above the feet
-            const float TopAt = 0.875f, FeetAt = 0.365f;
-            RestoreFov(); ResetZoom();
-            float span = Top / (TopAt - FeetAt);           // the screen's height, at the golfer
-            float distance = span / (2f * Mathf.Tan(Camera.fieldOfView * 0.5f * Mathf.Deg2Rad));
-            float centre = (0.5f - FeetAt) * span;
-            targetPosition = feet + f * distance + Vector3.up * centre;
-            targetLookAt = feet + Vector3.up * centre;
-            positionLag = 0.35f; lookLag = 0.3f;
-        }
-
         /// The locker: the golfer in the top of the screen over the panel, level and square in front of
         /// them. `head` 0 frames the whole golfer, 1 the head and shoulders (the HAIR and HEADWEAR tabs).
         public void FrameLocker(Vector3 feet, Vector3 facing, float head) => FrameStage(feet, facing, head, 0.53f, 0.93f);
@@ -577,24 +471,6 @@ namespace GolfArcade.Game
             targetLookAt = feet + Vector3.up * centre;
             targetPosition = targetLookAt + back * distance;
             positionLag = 0.35f; lookLag = 0.3f;
-        }
-
-        /// The home screen: behind the golfer on the first tee, `back` yards back and `up` yards
-        /// up and a touch to their left, the hole opening out ahead over their shoulder,
-        /// drifting slowly from side to side.
-        public void FrameHome(Vector3 ball, Vector3 aimDirection, float back, float up, float t)
-        {
-            var right = Vector3.Cross(Vector3.up, aimDirection);
-            RestoreFov(); ResetZoom();
-            Camera.farClipPlane = FarClip;
-            float sway = 0.35f * Mathf.Sin(t * 0.21f);
-            targetPosition = ball - aimDirection * back + right * (sway - 0.3f) + Vector3.up * up;
-            // tipped down just enough that the golfer's feet stand a quarter of the way up the
-            // picture, clear of the dock, however high the camera had to go
-            float feet = Mathf.Atan2(up, back) * Mathf.Rad2Deg;
-            float pitch = feet - Mathf.Atan(0.5f * Mathf.Tan(Camera.fieldOfView * 0.5f * Mathf.Deg2Rad)) * Mathf.Rad2Deg;
-            targetLookAt = targetPosition + Quaternion.AngleAxis(pitch, right) * aimDirection * 20f;
-            positionLag = 0.8f; lookLag = 0.8f;
         }
 
         /// The course screen: high over the hole and circling it, a turn a minute, near enough
@@ -665,17 +541,6 @@ namespace GolfArcade.Game
             Camera.fieldOfView = Mathf.Clamp(vertical, 30f, 85f);
         }
         public void RestoreFov() { if (fovOverridden) { Camera.fieldOfView = restFov; fovOverridden = false; } }
-
-        /// Ease toward a lens of this horizontal field of view (never taller than `maxVertical`
-        /// on a portrait screen), a few degrees a frame rather than a jump.
-        public void EaseHorizontalFov(float degrees, float maxVertical, float seconds)
-        {
-            if (!fovOverridden) { restFov = Camera.fieldOfView; fovOverridden = true; }
-            float vertical = 2f * Mathf.Atan(Mathf.Tan(degrees * Mathf.Deg2Rad / 2f) / Mathf.Max(0.2f, Camera.aspect)) * Mathf.Rad2Deg;
-            vertical = Mathf.Clamp(vertical, 30f, maxVertical);
-            float rate = Mathf.Abs(vertical - restFov) / Mathf.Max(0.05f, seconds);
-            Camera.fieldOfView = Mathf.MoveTowards(Camera.fieldOfView, vertical, Mathf.Max(rate, 1f) * Time.deltaTime);
-        }
 
         void LateUpdate()
         {

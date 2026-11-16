@@ -45,7 +45,6 @@ namespace GolfArcade.PlayTests
             {
                 yield return Load();
                 var game = Object.FindFirstObjectByType<GolfGame>();
-                game.InstantReplays = false;
                 game.SetRoundEvents(true, true, true);   // (what an earlier build's saved "Twists: On" sends)
                 game.ChooseHoles(0, "cliffside");
                 game.Play();
@@ -75,7 +74,6 @@ namespace GolfArcade.PlayTests
                 var cam = Camera.main;
                 cam.aspect = 16f / 9f;
                 var game = Object.FindFirstObjectByType<GolfGame>();
-                game.InstantReplays = false;
                 game.SetRoundEvents(true, true, true);   // (off by default: the round's settings turn them on)
                 game.ChooseHoles(0, "cliffside");
                 game.Play();
@@ -144,7 +142,6 @@ namespace GolfArcade.PlayTests
                 var cam = Camera.main;
                 cam.aspect = 16f / 9f;
                 var game = Object.FindFirstObjectByType<GolfGame>();
-                game.InstantReplays = false;
                 game.SetRoundEvents(true, true, true);   // (off by default: the round's settings turn them on)
                 game.ChooseHoles(0, "cliffside");
                 game.Play();
@@ -176,7 +173,6 @@ namespace GolfArcade.PlayTests
                 var cam = Camera.main;
                 cam.aspect = 16f / 9f;
                 var game = Object.FindFirstObjectByType<GolfGame>();
-                game.InstantReplays = false;
                 game.SetRoundEvents(true, true, true);   // (off by default: the round's settings turn them on)
                 game.ChooseHoles(0, "cliffside");
                 game.Play();
@@ -246,7 +242,6 @@ namespace GolfArcade.PlayTests
                 var cam = Camera.main;
                 cam.aspect = 16f / 9f;
                 var game = Object.FindFirstObjectByType<GolfGame>();
-                game.InstantReplays = false;
                 game.SetRoundEvents(true, true, true);   // (off by default: the round's settings turn them on)
                 game.ChooseHoles(0, "cliffside");
                 game.Play();
@@ -279,7 +274,6 @@ namespace GolfArcade.PlayTests
             {
                 yield return Load();
                 var game = Object.FindFirstObjectByType<GolfGame>();
-                game.InstantReplays = false;
                 game.SetRoundEvents(true, true, true);   // (off by default: the round's settings turn them on)
                 game.ChooseHoles(0, "cliffside");
                 game.Play();

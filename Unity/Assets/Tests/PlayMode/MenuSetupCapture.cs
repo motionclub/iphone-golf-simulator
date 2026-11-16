@@ -18,7 +18,7 @@ namespace GolfArcade.Tests
     {
         static string Dir => Environment.GetEnvironmentVariable("MS_OUT");
         GameObject host;
-        [TearDown] public void Clean() { HubWorld.EditorDriven = false; HubWorld.MenuMode = false; if (host) Object.DestroyImmediate(host); }
+        [TearDown] public void Clean() { HubWorld.EditorDriven = false; if (host) Object.DestroyImmediate(host); }
 
         const string Exhibition = "{\"mode\":\"bay-tennis-exhibition\",\"sport\":\"tennis\",\"title\":\"Exhibition\",\"line2\":\"Pick a court\",\"start\":\"START MATCH\",\"map\":\"skyscraper\"," +
             "\"maps\":[{\"id\":\"resort\",\"title\":\"Tropical Resort\",\"detail\":\"A bright tropical bay, lush gardens and stands full of fans.\",\"tag\":\"CLASSIC\",\"tagHex\":\"3FA9F5\"}," +

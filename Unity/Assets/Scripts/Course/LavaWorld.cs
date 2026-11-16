@@ -61,7 +61,7 @@ namespace GolfArcade.Course
         static void Materials()
         {
             if (rockMat) return;
-            var rock = Resources.Load<Texture2D>("Course/Resort/ResortBasalt_C") ?? T("crater_rock"); var relief = Resources.Load<Texture2D>("Course/Resort/ResortBasalt_N") ?? T("crater_relief");
+            var rock = Resources.Load<Texture2D>("Course/Resort/ResortBasalt_C"); var relief = Resources.Load<Texture2D>("Course/Resort/ResortBasalt_N");
             rockMat = Make("GolfArcade/CraterRock", new Color(0.92f, 0.86f, 0.82f), rock);
             rockMat.SetTexture("_BumpMap", relief); rockMat.SetFloat("_BumpScale", .7f);
             rockMat.SetTexture("_Glow", T("lava_streams")); rockMat.SetFloat("_GlowAmount", 1.55f);

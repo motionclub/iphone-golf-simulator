@@ -1,5 +1,4 @@
 import Foundation
-import CoreMotion
 import QuartzCore
 
 /// The loading bar's whole path, worked out when a load starts and once more when it is ready, so Core Animation can draw it
@@ -74,16 +73,24 @@ struct LoadingPace: Equatable {
     mutating func hold(at t: TimeInterval) { if isMoving { heldAt = max(t, start) } }
 
     // How long each load takes, learned per load (sport + venue, the plaza's boot), so the bar's steady speed fits it.
+    /// A venue's first load after the app starts builds its heroes and warms its shaders, and takes seconds longer than the ones
+    /// after it: it is learned under its own key, so neither paces the other's bar.
+    static let firstSuffix = "-first"
     private static let learnedKey = "loadingPaceSeconds"
     static func expected(for key: String, default seconds: TimeInterval = 4) -> TimeInterval {
-        let learned = (UserDefaults.standard.dictionary(forKey: learnedKey) as? [String: Double])?[key]
+        let all = UserDefaults.standard.dictionary(forKey: learnedKey) as? [String: Double]
+        // (a venue's first load of a run that has no time of its own yet starts from the venue's usual one)
+        let learned = all?[key] ?? (key.hasSuffix(firstSuffix) ? all?[String(key.dropLast(firstSuffix.count))] : nil)
         return min(longestExpected, max(1.5, (learned ?? seconds) * 1.1))
     }
     static func learn(_ key: String, took: TimeInterval) {
         guard took.isFinite, took > 0, !key.isEmpty else { return }
         var learned = UserDefaults.standard.dictionary(forKey: learnedKey) as? [String: Double] ?? [:]
         let took = min(30, took)
-        learned[key] = learned[key].map { $0 * 0.5 + took * 0.5 } ?? took
+        // A quicker load than usual counts for more than a slower one (2026-11-15): the bar is paced to the usual time, and a load
+        // that is ready early still eases to full for up to finishLongest. After one slow load every quick one after it waited on
+        // a long bar until the average came down, which read as "loading times are way higher".
+        learned[key] = learned[key].map { took < $0 ? $0 * 0.25 + took * 0.75 : $0 * 0.5 + took * 0.5 } ?? took
         UserDefaults.standard.set(learned, forKey: learnedKey)
     }
 }
@@ -126,6 +133,8 @@ final class LoadingModel {
     private var currentTip: GameTip? {
         guard tipIndex >= 0 else { return nil }
         let sport = Sport(rawValue: SportsSession.shared.sport) ?? .tennis
+        // the Daily Challenge has its own tips (how it scores, one go a day), not golf's
+        if sport == .golf, SportsSession.shared.holeInOneDay != 0 || TennisMenu.shared.launch?.holeInOne != nil { return GameTips.daily(at: tipOffset + tipIndex % Self.tipsPerLoad) }
         return GameTips.tip(sport, at: tipOffset + (tipIndex % Self.tipsPerLoad) * 7)
     }
     var tip: String? { currentTip?.text }
@@ -141,6 +150,8 @@ final class LoadingModel {
     /// The pace's clock against Core Animation's, from the latest begin/tick (tests drive the model with their own times).
     @ObservationIgnored private(set) var anchor = PaceAnchor.live
     @ObservationIgnored private var paceKey = ""
+    /// The loads this run of the app has already made once (LoadingPace.firstSuffix).
+    private static var loadedThisRun: Set<String> = []
     /// The full bar holds this long before the cover lifts.
     static let fullHold: TimeInterval = 0.15
     /// The loading bar, 0...1, at the latest tick (the percentage and the bar both follow `pace`).
@@ -160,9 +171,6 @@ final class LoadingModel {
     private var errorMessage = ""
     private var stalledAfter: TimeInterval = 20
     var onFinish: (() -> Void)?
-    private(set) var practiceSequence = 0
-    private var lastPractice = Date.distantPast
-    private let practiceMotion = CMMotionManager()
 
     var isStalled: Bool { !finished && phase != .transitioning && elapsed >= stalledAfter }
     var showsActivity: Bool { elapsed >= 2 && !finished && phase != .transitioning }
@@ -179,13 +187,13 @@ final class LoadingModel {
 
     /// `key` names the load (sport + venue) whose usual length paces the bar.
     func begin(now: Date, multiplayer: Bool = false, key: String = "match") {
-        practiceMotion.stopGyroUpdates(); practiceSequence = 0; lastPractice = .distantPast
         started = now; phase = .loading; elapsed = 0; sceneProgress = nil; transitionFraction = 0
         localReady = false; playersReady = !multiplayer; readMinimum = multiplayer ? Self.multiplayerMinimum : Self.minimum
         tipIndex = -1; tipStarted = nil; tipOffset = Int.random(in: 0..<10_000)
         waitingPlayers = []; finishStart = nil; errorMessage = ""; stalledAfter = 20
         timing = ["commit": now.timeIntervalSince1970]
         paceKey = multiplayer ? key + "-online" : key
+        if Self.loadedThisRun.insert(paceKey).inserted { paceKey += LoadingPace.firstSuffix }
         anchor = PaceAnchor(pace: now.timeIntervalSince1970, media: CACurrentMediaTime())
         pace = LoadingPace(start: now.timeIntervalSince1970, expected: LoadingPace.expected(for: paceKey))
     }
@@ -216,12 +224,12 @@ final class LoadingModel {
     }
     func keepWaiting() { stalledAfter = elapsed + 20 }
     func fail(_ message: String) {
-        guard !finished else { return }; phase = .failed; errorMessage = message; practiceMotion.stopGyroUpdates()
+        guard !finished else { return }; phase = .failed; errorMessage = message
         pace.hold(at: anchor.pace)
     }
     /// Only explicit automated verification may bypass the identity-read interval.
     func skip() { guard localReady, playersReady, !finished, phase != .failed else { return }; pace = .fixed(1); transitionFraction = 1; complete() }
-    func cancel() { practiceMotion.stopGyroUpdates(); phase = .cancelled; started = nil; onFinish = nil }
+    func cancel() { phase = .cancelled; started = nil; onFinish = nil }
 
     func tick(now: Date) {
         guard let started, !finished, phase != .failed else { return }
@@ -241,23 +249,7 @@ final class LoadingModel {
         if timing[name] == nil { timing[name] = now.timeIntervalSince1970 }
     }
     private func complete() {
-        practiceMotion.stopGyroUpdates(); phase = .finished
+        phase = .finished
         let done = onFinish; onFinish = nil; done?()
-    }
-    func practice(now: Date = Date()) {
-        guard !finished, phase != .failed, started != nil, now.timeIntervalSince(lastPractice) >= 1.5 else { return }
-        lastPractice = now; practiceSequence += 1
-    }
-    private func startPracticeInput() {
-        guard practiceMotion.isGyroAvailable else { return }
-        practiceMotion.gyroUpdateInterval = 1.0 / 30
-        practiceMotion.startGyroUpdates(to: .main) { [weak self] data, _ in
-            guard let data else { return }; let r = data.rotationRate
-            // (spelt out with its types: as one expression it is slow for the type checker, too slow for CI's)
-            let x: Double = r.x * r.x, y: Double = r.y * r.y, z: Double = r.z * r.z
-            if x + y + z > 20 {
-                MainActor.assumeIsolated { self?.practice() }
-            }
-        }
     }
 }

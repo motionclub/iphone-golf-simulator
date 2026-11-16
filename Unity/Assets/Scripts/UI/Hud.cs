@@ -103,7 +103,6 @@ namespace GolfArcade.UI
         PinLocator pinLocator;
         TvMap tvMap;
         FaceDial faceDial;
-        RectTransform replayBadge;
 
         /// The minimap's picture in the corner, and in the controller's map card.
         public static readonly Vector2 MinimapSize = new(260, 420), ControllerMapSize = ControllerSheet.MapSize;
@@ -275,7 +274,6 @@ namespace GolfArcade.UI
             strikePopup = StrikePopup.Create(safeArea);
             landingBadge = LandingBadge.Create(safeArea);
             faceDial = FaceDial.Create(safeArea, 10f, 24f);
-            replayBadge = ReplayBadge.Create(safeArea);
             pinLocator = PinLocator.Create(transform);
             swingCard = SwingCard.Create(safeArea, Margin);
             tvMap = TvMap.Create(safeArea, Margin);
@@ -341,13 +339,13 @@ namespace GolfArcade.UI
         /// The card after a hole or the round (option A): `title` over it, `headline` on its
         /// ribbon (null: the round against par), the round's stats in tiles, and NEXT HOLE when
         /// `nextHole`.
-        public void ShowScorecard(GolfArcade.Course.Scorecard card, string title, string headline, RoundCard.Highlight[] highlights, bool nextHole, RoundCard.Row[] players = null, string againLabel = null)
+        public void ShowScorecard(GolfArcade.Course.Scorecard card, string title, string headline, RoundCard.Highlight[] highlights, bool nextHole, RoundCard.Row[] players = null, string againLabel = null, bool showTotal = true)
         {
             HideScorecard();
             var holes = card.Course.Holes;
             var numbers = new int[holes.Length]; var pars = new int[holes.Length]; var strokes = new int?[holes.Length];
             for (int i = 0; i < holes.Length; i++) { numbers[i] = holes[i].PlayNumber; pars[i] = holes[i].Par; strokes[i] = card.StrokesOn(i); }
-            roundCard = new RoundCard(safeArea, title, headline, numbers, pars, strokes, card.Total, card.ToPar, highlights, nextHole, players, againLabel);
+            roundCard = new RoundCard(safeArea, title, headline, numbers, pars, strokes, card.Total, card.ToPar, highlights, nextHole, players, againLabel, showTotal);
             roundCard.Root.SetAsLastSibling();
             PlayAgain = roundCard.PlayAgain; RoundMenu = roundCard.Menu; NextHole = roundCard.NextHole;
         }
@@ -441,14 +439,6 @@ namespace GolfArcade.UI
             windLine.text = wind.ToUpperInvariant(); windLine.color = Color.white;
         }
 
-        /// Fades the title in or out; on the way in it pops, a little past full size and back.
-        public void SetHoleIntroAlpha(float alpha)
-        {
-            if (!introGroup) return;
-            introGroup.alpha = alpha;
-            if (introBadge) introBadge.localScale = Vector3.one * Pop(alpha);
-        }
-
         /// An arcade pop: from 0.6 up past 1 and settling back, as `t` runs 0 → 1.
         static float Pop(float t)
         {
@@ -472,37 +462,6 @@ namespace GolfArcade.UI
         /// name and a small blue tab over it, low on the screen like the broadcast's.
         CanvasGroup nameplate;
         RectTransform nameplateBody;
-
-        public void ShowNameplate(string name, string tab)
-        {
-            HideNameplate();
-            var go = new GameObject("Nameplate");
-            go.transform.SetParent(safeArea, false);
-            var rt = go.AddComponent<RectTransform>();
-            rt.anchorMin = rt.anchorMax = new Vector2(0.5f, 0); rt.sizeDelta = new Vector2(600, 220);
-            rt.anchoredPosition = new Vector2(0, 360);
-            nameplate = go.AddComponent<CanvasGroup>();
-            nameplate.alpha = 0; nameplate.blocksRaycasts = false; nameplate.interactable = false;
-            nameplateBody = rt;
-            UiKit.Pill(rt, "Plate", UiKit.ArcadeYellow, new Vector2(0.5f, 0.5f), new Vector2(0, -12), new Vector2(360, 118), out var fill, 7f);
-            var t = UiKit.Chunky(fill.transform, "Name", 76, Color.white, UiKit.ArcadeYellowDeep, 4f);
-            t.text = name.ToUpperInvariant();
-            t.rectTransform.offsetMin = new Vector2(0, 4); t.rectTransform.offsetMax = new Vector2(0, 4);
-            var measure = UiKit.Label(rt, "Measure", 24, TextAnchor.MiddleCenter, Vector2.zero, Vector2.zero, Vector2.zero, Vector2.zero, UiKit.Display, false);
-            measure.text = tab.ToUpperInvariant();
-            float tw = measure.preferredWidth + 40;
-            Destroy(measure.gameObject);
-            UiKit.Pill(rt, "Tab", UiKit.ArcadeBlueDeep, new Vector2(0.5f, 0.5f), new Vector2(0, 66), new Vector2(tw, 42), out var tabFill, 3f);
-            var tl = UiKit.Label(tabFill.transform, "Text", 24, TextAnchor.MiddleCenter, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero, UiKit.Display, false);
-            tl.text = tab.ToUpperInvariant(); tl.color = UiKit.ArcadeYellow;
-        }
-
-        public void SetNameplateAlpha(float alpha)
-        {
-            if (!nameplate) return;
-            nameplate.alpha = alpha;
-            nameplateBody.localScale = Vector3.one * Pop(alpha);
-        }
 
         public void HideNameplate()
         {
@@ -542,7 +501,7 @@ namespace GolfArcade.UI
             if (simple) simple.gameObject.SetActive(on);
             foreach (Transform child in safeArea)
                 if (child.name != "Menu" && child.name != "Course select" && child.name != "Golfer select" && child.name != "Scorecard" && child.name != "Landing badge" && child.name != "Banner" && child.name != "Hole intro" && child.name != "Intro graphics" && child.name != "Nameplate" && child.name != "Swing card"
-                    && child.name != "Replay badge" && child.name != "Face dial" && child.name != "TV map" && child.name != "Twist reveal" && child.name != "Callout"
+                    && child.name != "Face dial" && child.name != "TV map" && child.name != "Twist reveal" && child.name != "Callout"
                     && !(onTv && child == minimapHolder)) child.gameObject.SetActive(on);
             tvMap.gameObject.SetActive(on && onTv && !flightMode);
         }
@@ -1015,12 +974,18 @@ namespace GolfArcade.UI
         }
 
         /// The hole, for the controller sheet (the scoreboard has it on the phone HUD).
+        /// The shot HUD in a course's colours and pieces (UI OVERHAUL 11-15).
+        public void ApplyMapSkin(MapSkin skin) { if (simple) simple.ApplySkin(skin); }
         public void SetHole(int number, int par, double yards, string picture = null, string name = null)
         {
             lastHole = (number, par, yards, name);
-            if (simple) simple.SetHole(number, par);
-            Controller?.SetHole(number, par, yards, name);
+            if (simple) { simple.SetHole(number, par); if (holeBadge != null) simple.SetHoleLabel($"{holePill} · {holeBadge}"); }
+            Controller?.SetHole(number, par, yards, name, holeBadge, holePill);
         }
+        /// A mode's own words where the hole and its par are named (the Daily Challenge: "SHOT 1/3", "DAILY"), for the shot HUD
+        /// ("DAILY · SHOT 1/3") and the phone sheet's badge and pill. Null: "HOLE 03 · PAR 4". Set before SetHole.
+        public void SetHoleWords(string badge, string pill) { holeBadge = string.IsNullOrEmpty(badge) ? null : badge; holePill = pill ?? ""; }
+        string holeBadge, holePill = "";
         (int number, int par, double yards, string name) lastHole;
         /// The score, for the controller sheet (SetScoreboard draws it on the phone HUD).
         public void SetScore(int strokes, int toPar, int holeStrokes) => Controller?.SetScore(toPar, holeStrokes);
@@ -1100,12 +1065,6 @@ namespace GolfArcade.UI
 
         public void SetStatus(string text) { statusText.text = text; Controller?.SetStatus(text); }
         public void SetTempo(string text) => tempoText.text = text;
-        public void SetControllerHint(string text)
-        {
-            controllerText.text=text;
-            // Connection diagnostics belong to the developer view; normal play has its own notices.
-            controllerText.gameObject.SetActive(!simple || (Debug.isDebugBuild && System.Environment.GetEnvironmentVariable("GOLF_CONNECTION_HINT")=="1"));
-        }
         /// What the player is being told right now — the banner while it shows, else the status.
         public string CurrentMessage => bannerGroup.alpha > 0.5f ? bannerText.text : statusText.text;
 
@@ -1232,14 +1191,6 @@ namespace GolfArcade.UI
         /// The club face while setting up and swinging (degrees, positive open); null hides it.
         public void SetFace(double? degrees) => faceDial.Set(Controller == null ? degrees : null);
 
-        public void ShowReplay(bool on) { replayBadge.gameObject.SetActive(on); if (on) replayBadge.SetAsLastSibling(); }
-
-        public void ShowBanner(string text, float seconds = 2f)
-        {
-            bannerText.text = text;
-            bannerGroup.alpha = 1;
-            bannerUntil = Time.time + seconds;
-        }
 
         /// `touchButtons` false hides the aim/club buttons — they live on the phone when it is
         /// the club and this screen is only the display.
@@ -1308,7 +1259,7 @@ namespace GolfArcade.UI
             mapHome = Minimap.transform.parent;
             Minimap.transform.SetParent(Controller.MapSlot, false);
             Controller.SetStatus(statusText.text);
-            if (lastHole.number > 0) Controller.SetHole(lastHole.number, lastHole.par, lastHole.yards, lastHole.name);
+            if (lastHole.number > 0) Controller.SetHole(lastHole.number, lastHole.par, lastHole.yards, lastHole.name, holeBadge, holePill);
             if (lastDistance.unit != null) Controller.SetDistance(lastDistance.amount, lastDistance.unit);
             if (lastWind.set) Controller.SetWind(lastWind.degrees, lastWind.mph, lastWind.calm);
         }

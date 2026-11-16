@@ -13,7 +13,7 @@ namespace GolfArcade.Tennis
         public const float Window = 2f, Settle = 4f;
         /// A window is "late" when this share of its frames missed their slot.
         public const float LateShare = .1f;
-        float elapsed, settle = Settle, sinceDrawn;
+        float elapsed, settle = Settle, sinceDrawn, calm;
         int frames, late, inputRate;
 
         void Update()
@@ -33,8 +33,10 @@ namespace GolfArcade.Tennis
             if (ShouldStepDown(frames, late) && TennisQuality.StepDown())
             {
                 Debug.Log($"[TennisQuality] {late}/{frames} late frames — stepped down (reduction {TennisQuality.Reductions})");
-                settle = Settle;
+                settle = Settle; calm = 0;
             }
+            // a minute at this level without a late window: the level is remembered as one this phone holds (TennisQuality.Apply)
+            else if (!ShouldStepDown(frames, late) && (calm += elapsed) >= 60) TennisQuality.MarkHeld();
             elapsed = 0; frames = 0; late = 0;
         }
 

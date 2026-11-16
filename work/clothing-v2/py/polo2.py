@@ -688,6 +688,12 @@ def main():
     disp += .0007 * drape * np.sin(thv * 7 + 1.3)
     # turned hem: the 2.6 cm band stands 0.9 mm proud with a soft ledge
     disp += .0009 * (1 - smoothstep(D['hem']['w'] - .0015, D['hem']['w'] + .0005, d_hem)) * torso
+    if D.get('style_folds'):                 # stylized pilot (style_folds.py): big sculpted folds, off unless the design asks for them
+        import style_folds
+        sleeve_m = np.zeros(len(pos)); sleeve_m[np.unique(np.concatenate([f for f, p in zip(faces, panel) if p in (SLEEVE_R, SLEEVE_L)] or [np.zeros(0, int)]))] = 1
+        sf = style_folds.fields(pos, D, torso.astype(float), sleeve_m, float(D['style_folds']))
+        disp += sf['h']
+        print('STYLE folds: max out %.1f mm, min %.1f mm' % (sf['h'].max() * 1000, sf['h'].min() * 1000))
     pos = pos + n * disp[:, None]
     shirt.data.vertices.foreach_set('co', pos.astype(np.float32).ravel()); shirt.data.update()
     for k, v in (('d_seam', d_seam), ('d_hem', d_hem), ('d_neck', d_neck), ('d_cuff', d_cuff), ('d_arm', d_arm)):
@@ -719,11 +725,11 @@ def main():
     pk_tree = BVHTree.FromObject(pk, bpy.context.evaluated_depsgraph_get())
     bts = []
     for k in range(D['placket']['buttons']):
-        zb = ztop - .024 - k * .044
+        zb = ztop - .024 - k * D['placket'].get('button_gap', .044)
         r = pk_tree.ray_cast(Vector((0, -1.0, zb)), Vector((0, 1, 0)))
         if r[0] is None: continue
         nb_ = np.array(r[1]); nb_ = nb_ if nb_[1] < 0 else -nb_          # out of the shirt (toward -y)
-        bV, bF, buv = button(np.array(r[0]) + nb_ * .0021, nb_)              # on top of the placket (its 2 mm thickness)
+        bV, bF, buv = button(np.array(r[0]) + nb_ * .0021, nb_, r=D['placket'].get('button_r', .0058))              # on top of the placket (its 2 mm thickness)
         bts.append(new_object('Button%d' % k, bV, bF, uv=buv * 3, fattr={'panel': np.full(len(bF), BUTTON)}))
     # ---- rib cuffs: the last 2.4 cm of each sleeve becomes a separate rib band, sitting 1 mm proud
     bm = bmesh.new(); bm.from_mesh(shirt.data)

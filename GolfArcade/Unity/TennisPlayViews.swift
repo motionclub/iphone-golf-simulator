@@ -11,13 +11,12 @@ struct TennisTVRoot: View {
             ZStack {
                 Club.lagoonDeep   // around the canvas on 16:10 screens; each screen paints its own scene
                 Group {
-                    if OnboardingFlow.shared.holdsMenu { OnboardingTV(flow: .shared) }
                     // the Plaza is the TV's only menu: its loading screen (or why it did not open), then the plaza itself (this window hides)
-                    else if HubSession.shared.drivesPhone || (!SportsSession.shared.active && !TennisMenu.shared.classic) { HubLoadingScreen(hub: .shared) }
+                    if HubSession.shared.drivesPhone || !SportsSession.shared.active { HubLoadingScreen(hub: .shared) }
                     // a match from the Plaza or the pointer menu: this window is hidden under the match and only its pause screen is ever
                     // shown. The classic home it used to fall through to built a SceneKit hero (~130 MB rig) and the club cinemagraph just
                     // as the match loaded (10-26 20:39 party golf: killed for memory).
-                    else if SportsSession.shared.active && !TennisMenu.shared.classic && !SportsSession.shared.menuPauseVisible { Color.clear }
+                    else if SportsSession.shared.active && !SportsSession.shared.menuPauseVisible { Color.clear }
                     else { TennisMenuScreen(compact: false)
                         .overlay(alignment: .bottomTrailing) {
                             Text("Feedback on your phone").font(IslandUI.font(13, bold: true))
@@ -47,190 +46,7 @@ struct TennisPhoneMenu: View {
     }
 }
 
-/// The phone while the TV shows the menu: a remote you click. Four arrow buttons move the focus one step per click (hold to
-/// repeat — no swiping anywhere), A selects, B goes back, Home returns to the main menu. A strip shows what the TV is on.
-/// Dark and quiet on purpose: your eyes are on the TV.
-struct TennisRemote: View {
-    @Bindable var menu = TennisMenu.shared
-    var body: some View {
-        VStack(spacing: 18) {
-            HStack {
-                HStack(spacing: 8) {
-                    Circle().fill(IslandUI.lime).frame(width: 10, height: 10).shadow(color: IslandUI.lime, radius: 5)
-                    Text("Connected to TV").font(IslandUI.font(15, bold: true)).accessibilityIdentifier("controller-connection")
-                }
-                .padding(.horizontal, 14).padding(.vertical, 8).background(.white.opacity(0.1), in: Capsule())
-                Spacer()
-                // (the remote only shows while the plaza is not up: back to it, or try it again)
-                Button { HubSession.shared.backToPlaza() } label: {
-                    Label("Plaza", systemImage: "figure.walk").font(IslandUI.font(15, bold: true)).foregroundStyle(IslandUI.navy)
-                        .padding(.horizontal, 14).padding(.vertical, 8).background(IslandUI.lime, in: Capsule())
-                }.buttonStyle(.plain).accessibilityIdentifier("remote-plaza")
-            }
-            onTV
-            Spacer(minLength: 0)
-            if menu.screen == .story || menu.screen == .results {
-                Button { menu.select() } label: {
-                    Text("Next").font(IslandUI.font(22, bold: true)).foregroundStyle(IslandUI.navy)
-                        .frame(maxWidth: .infinity, minHeight: 56).background(IslandUI.lime, in: Capsule())
-                }.buttonStyle(.plain).accessibilityIdentifier("menuNext")
-            }
-            DPad(menu: menu)
-            Text("Click to move one step · hold to repeat").font(IslandUI.font(13, bold: true)).foregroundStyle(.white.opacity(0.55))
-            Spacer(minLength: 0)
-            HStack(alignment: .center, spacing: 28) {
-                RemoteButton(label: "‹", caption: "Back", size: 76, filled: false) { menu.back() }
-                RemoteButton(label: "A", caption: "Select", size: 112, filled: true) { menu.select() }
-                RemoteButton(label: "⌂", caption: "Home", size: 76, filled: false) {
-                    // home is the plaza (an online lobby is left the online way)
-                    if !menu.screen.isOnline { HubSession.shared.backToPlaza() } else { menu.goHome() }
-                }
-            }
-            Text(menu.screen == .loading ? "Loading the court on your TV…" : "When the match starts, hold this like a racket.")
-                .font(IslandUI.font(13, bold: false)).foregroundStyle(.white.opacity(0.55)).multilineTextAlignment(.center)
-        }
-        .foregroundStyle(.white)
-        .padding(24)
-        .background(IslandBrandBackground().ignoresSafeArea())
-        .preferredColorScheme(.dark)
-    }
-
-    /// What the TV shows and what is focused on it (or the story line, which reads on either screen).
-    private var onTV: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text("ON THE TV · \(screenName)").font(IslandUI.font(12, bold: true)).tracking(1.6).foregroundStyle(IslandUI.lime)
-            if menu.screen == .story, let line = menu.storyLine {
-                Text(line.text).font(IslandUI.font(SportsSession.shared.bigText ? 22 : 17, bold: true)).fixedSize(horizontal: false, vertical: true)
-                Text("A: next  ·  B: skip").font(IslandUI.font(12, bold: true)).foregroundStyle(.white.opacity(0.6))
-            } else {
-                Text(focusName).font(IslandUI.font(SportsSession.shared.bigText ? 30 : 24, bold: true)).lineLimit(2).minimumScaleFactor(0.6)
-            }
-            if !menu.notice.isEmpty { IslandMenuNotice(menu: menu, compact: true).padding(.top, 4) }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading).padding(.horizontal, 18).padding(.vertical, 14)
-        .background(.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous).strokeBorder(.white.opacity(0.14), lineWidth: 1.5))
-    }
-
-    private var screenName: String {
-        switch menu.screen {
-        case .online(let route): route.rawValue.uppercased()
-        case .party: "PLAY"; case .multiplayer: "MULTIPLAYER"; case .localChoice: "LOCAL"; case .localPlayers: "HOW MANY PLAYERS"; case .onlineChoice: "ONLINE"; case .homeEmotes: "EMOTES"
-        case .title: "TITLE"; case .main: "HOME"; case .gameSelect: "CHOOSE YOUR SPORT"
-        case .hub(let sport): sport.title; case .locked(let sport): "\(sport.title) · COMING SOON"
-        case .campaign: "ISLAND CIRCUIT"; case .exhibition: "QUICK MATCH"; case .training: "TRAINING"
-        case .character: "LOCKER"; case .settings: "SETTINGS"; case .howTo: menu.guideDeck.title.uppercased()
-        case .connect: "CONNECT"; case .loading: "LOADING"; case .results: "RESULTS"; case .map: menu.mapSport == .golf ? "CHOOSE YOUR COURSE" : "CHOOSE YOUR COURT"; case .postMatch: "MATCH REP"
-        case .story: menu.storyLine.map { TennisStory.name(for: $0.speaker).uppercased() } ?? "STORY"
-        }
-    }
-    private var focusName: String {
-        let id = menu.focused
-        if menu.screen == .map, let choice = menu.mapChoices.first(where: { "map-\($0.id)" == id }) { return choice.title }
-        if id.hasPrefix("round"), let r = Int(id.dropFirst(5)) {
-            let o = TennisCampaign.draw[r]
-            return TennisCampaign.shared.unlocked(r) ? "\(o.roundTitle.capitalized) · \(o.name)" : "\(o.roundTitle.capitalized) · Locked"
-        }
-        switch id {
-        case "start": return menu.screen == .title ? "Press A to start" : "Start"
-        case "level" where menu.screen == .training: return "Coach: \(TennisMenu.trainingLevels[menu.trainingLevel].name)"
-        case "": return "…"
-        default: return TennisMenu.label(for: id)
-        }
-    }
-}
-
-/// Four arrow buttons in a plus. One click = one step; holding a button repeats after a short delay.
-private struct DPad: View {
-    let menu: TennisMenu
-    var body: some View {
-        let cell: CGFloat = 96, gap: CGFloat = 8
-        ZStack {
-            arrow("arrowtriangle.up.fill", .up).offset(y: -(cell + gap))
-            arrow("arrowtriangle.left.fill", .left).offset(x: -(cell + gap))
-            arrow("arrowtriangle.right.fill", .right).offset(x: cell + gap)
-            arrow("arrowtriangle.down.fill", .down).offset(y: cell + gap)
-            Circle().strokeBorder(.white.opacity(0.14), style: StrokeStyle(lineWidth: 2, dash: [4, 5])).frame(width: 64, height: 64)
-        }
-        .frame(width: cell * 3 + gap * 2, height: cell * 3 + gap * 2)
-    }
-    private func arrow(_ icon: String, _ direction: MenuMove) -> some View {
-        RepeatButton(action: { menu.move(direction) }) { pressed in
-            Image(systemName: icon).font(.system(size: 34, weight: .bold))
-                .foregroundStyle(pressed ? IslandUI.lime : .white)
-                .frame(width: 96, height: 96)
-                .background(pressed ? IslandUI.lime.opacity(0.22) : .white.opacity(0.09), in: RoundedRectangle(cornerRadius: 26, style: .continuous))
-                .overlay(RoundedRectangle(cornerRadius: 26, style: .continuous).strokeBorder(pressed ? IslandUI.lime : .white.opacity(0.22), lineWidth: 2.5))
-                .shadow(color: pressed ? IslandUI.lime.opacity(0.45) : .black.opacity(0.35), radius: pressed ? 12 : 0, y: pressed ? 0 : 4)
-                .scaleEffect(pressed ? 0.95 : 1)
-        }
-        .accessibilityLabel("Move \(String(describing: direction))")
-    }
-}
-
-/// Acts on touch-down; keeps acting while held. A tap is one action; sliding the finger does nothing extra.
-private struct RepeatButton<Label: View>: View {
-    let action: () -> Void
-    @ViewBuilder let label: (Bool) -> Label
-    @State private var pressed = false
-    @State private var timer: Timer?
-    var body: some View {
-        label(pressed)
-            .contentShape(Rectangle())
-            .gesture(DragGesture(minimumDistance: 0)
-                .onChanged { _ in
-                    guard !pressed else { return }
-                    pressed = true; action()
-                    timer?.invalidate()
-                    let start = Timer(timeInterval: 0.42, repeats: false) { _ in
-                        MainActor.assumeIsolated {
-                            guard pressed else { return }
-                            let repeater = Timer(timeInterval: 0.11, repeats: true) { _ in MainActor.assumeIsolated { action() } }
-                            RunLoop.main.add(repeater, forMode: .common); timer = repeater
-                        }
-                    }
-                    RunLoop.main.add(start, forMode: .common); timer = start
-                }
-                .onEnded { _ in pressed = false; timer?.invalidate(); timer = nil })
-            .accessibilityAddTraits(.isButton)
-            .accessibilityAction { action() }
-            .onDisappear { timer?.invalidate(); timer = nil }
-    }
-}
-
-private struct RemoteButton: View {
-    let label: String
-    let caption: String
-    let size: CGFloat
-    let filled: Bool
-    var action: () -> Void
-    var body: some View {
-        VStack(spacing: 8) {
-            Button(action: action) {
-                Text(label).font(IslandUI.font(size * 0.42, bold: true)).foregroundStyle(filled ? IslandUI.navy : .white)
-                    .frame(width: size, height: size)
-                    .background(filled ? IslandUI.lime : .clear, in: Circle())
-                    .overlay(Circle().strokeBorder(filled ? IslandUI.navy.opacity(0.0) : .white.opacity(0.42), lineWidth: 3))
-                    .shadow(color: filled ? .black.opacity(0.4) : .clear, radius: 0, y: filled ? 5 : 0)
-            }.buttonStyle(PressStyle()).accessibilityLabel(caption).accessibilityIdentifier("remote-\(caption.lowercased())")
-            Text(caption.uppercased()).font(IslandUI.font(12, bold: true)).tracking(1.6).foregroundStyle(.white.opacity(0.6))
-        }
-    }
-}
-
-private struct PressStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label.scaleEffect(configuration.isPressed ? 0.92 : 1).brightness(configuration.isPressed ? 0.08 : 0)
-            .animation(.spring(response: 0.2, dampingFraction: 0.6), value: configuration.isPressed)
-    }
-}
-
 // MARK: - In game
-
-/// The phone's backdrop while it is a controller: dark and quiet, because the player's eyes are on the TV.
-private struct ControllerBackdrop: View {
-    var body: some View { IslandBrandBackground().ignoresSafeArea() }
-}
 
 /// A big lime action button for the controller (Ready, Toss, Start timing check).
 private struct ControllerButton: View {
@@ -249,18 +65,15 @@ private struct ControllerButton: View {
             Button(action: action) { face }.buttonStyle(.plain)
         }
     }
+    // UI OVERHAUL 11-15: the map's one big action (accent face, deep lip, no icon), as on the boards' TOSS / Ready to play.
     private var face: some View {
-        HStack(spacing: 10) {
-            if let icon { Image(systemName: icon).font(.system(size: size * 0.9, weight: .bold)) }
-            Text(title).font(IslandUI.font(size, bold: true))
-        }
-        .foregroundStyle(IslandUI.navy).frame(maxWidth: .infinity, minHeight: height)
-        .background { Capsule().fill(IslandUI.lime).shadow(color: .black.opacity(0.4), radius: 0, y: 5) }
+        MapActionFace(skin: .current, title: title, height: height)
+            .accessibilityElement(children: .ignore).accessibilityLabel(title)
     }
 }
 
 /// Acts the instant a finger lands, once per touch. SwiftUI's `Button` fires when the finger lifts, 60-120 ms later: on a
-/// toss or a swing that is delay the player feels directly. (The gesture `RepeatButton` uses, without the repeat.)
+/// toss or a swing that is delay the player feels directly.
 private struct PressButton<Label: View>: View {
     var enabled = true
     let action: () -> Void
@@ -288,6 +101,8 @@ struct TennisRacketController: View {
     @State private var showOptions = false
     @State private var shotAim = 0.0
     @State private var holdHint = false
+    /// The map being played: the controller wears its material (UI OVERHAUL 11-15).
+    private var skin: MapSkin { .current }
     var body: some View {
         VStack(spacing: 14) {
             if !session.showsOnlineTennisSetup { topBar }
@@ -316,9 +131,7 @@ struct TennisRacketController: View {
             } else if !session.paused && session.tennisPhase == "receive" {
                 ReceivePanel(session: session)
             } else {
-                RacketRadar(contacts: session.contacts)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                stamina
+                rallyCard
             }
             if session.ready && session.loading.finished && session.finishedMatch == nil {
                 if session.canPlayEmote { TennisEmoteControls(session: session) }
@@ -334,55 +147,69 @@ struct TennisRacketController: View {
         .foregroundStyle(.white)
         .padding(20)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(ControllerBackdrop())
+        .background(MapControllerBackground(skin: skin))
         .preferredColorScheme(.dark)
         .sheet(isPresented: $showOptions) {
             IslandPauseScreen(compact: true) { showOptions = false }.presentationDetents([.large])
         }
     }
 
-    /// Pause (hold) and the score, side by side.
+    /// The player's name on the map's plate (usernames only: no YOU, no score on the phone; the TV has it) and pause. Pause needs a
+    /// hold while playing so a swing can never trigger it; paused, one tap opens the options.
     private var topBar: some View {
-        HStack(spacing: 12) {
-            VStack(spacing: 4) {
-                Image(systemName: session.paused ? "slider.horizontal.3" : "pause.fill").font(.system(size: 17, weight: .bold))
-                    .frame(width: 46, height: 46).background(.clear, in: Circle())
-                    .overlay(Circle().strokeBorder(.white.opacity(0.38), lineWidth: 2.5))
-                    // Paused: one tap opens the options. Playing: a hold, so a swing can never pause the match.
-                    .onTapGesture { if session.paused { showOptions = true } else { withAnimation { holdHint = true } } }
-                    .onLongPressGesture(minimumDuration: 0.5) { if !session.paused { session.pause() }; showOptions = true }
-                    .accessibilityLabel(session.paused ? "Options" : "Pause. Hold to pause.")
-                    .accessibilityAddTraits(.isButton)
-                    .accessibilityAction(named: "Pause") { if !session.paused { session.pause() }; showOptions = true }
-            }
-            if session.ready && session.loading.finished { Scoreline(session: session) } else { Spacer() }
+        MapControllerHeader(skin: skin, name: MapSkin.playerName(session), plateHeight: 104) {
+            MapPauseFace(skin: skin, size: 48, symbol: session.paused ? "slider.horizontal.3" : "pause.fill")
+                .onTapGesture { if session.paused { showOptions = true } else { withAnimation { holdHint = true } } }
+                .onLongPressGesture(minimumDuration: 0.5) { if !session.paused { session.pause() }; showOptions = true }
+                .accessibilityLabel(session.paused ? "Options" : "Pause. Hold to pause.")
+                .accessibilityAddTraits(.isButton)
+                .accessibilityAction(named: "Pause") { if !session.paused { session.pause() }; showOptions = true }
+        }
+        .overlay(alignment: .leading) {
             if !session.trackingWarning.isEmpty {
-                Image(systemName: "exclamationmark.triangle.fill").foregroundStyle(.orange)
+                Image(systemName: "exclamationmark.triangle.fill").font(.system(size: 22, weight: .bold)).foregroundStyle(.orange)
             }
         }
-        // the record / mic / chat / gear dock floats over the top-right corner: keep the score clear of it
+        // the record / mic / chat / gear dock floats over the top-right corner: keep the plate clear of it
         .padding(.trailing, CaptureDock.reservedWidth(session: session))
-        .overlay(alignment: .bottomLeading) {
+        .overlay(alignment: .bottomTrailing) {
             if holdHint {
-                Text("Hold to pause").font(IslandUI.font(12, bold: true)).foregroundStyle(IslandUI.navy)
-                    .padding(.horizontal, 10).padding(.vertical, 5).background(IslandUI.lime, in: Capsule()).offset(y: 30)
+                Text("Hold to pause").font(MapFont.bold(13)).foregroundStyle(skin.accentInk)
+                    .padding(.horizontal, 10).padding(.vertical, 5).background(skin.accent, in: Capsule()).offset(y: 30)
                     .task { try? await Task.sleep(for: .seconds(1.6)); withAnimation { holdHint = false } }
             }
         }
     }
 
-    private var stamina: some View {
-        VStack(spacing: 6) {
+    /// During a rally: RALLY, the racket's hit radar and stamina, on one panel of the map's surface (board: RALLY · radar · STAMINA).
+    private var rallyCard: some View {
+        VStack(spacing: 12) {
             HStack {
-                Text("STAMINA").font(IslandUI.font(12, bold: true)).tracking(1.6).foregroundStyle(.white.opacity(0.65))
+                Text("RALLY").font(MapFont.bold(16)).tracking(1).foregroundStyle(skin.ink)
+                    .padding(.horizontal, 14).padding(.vertical, 5).background(skin.cream, in: Capsule())
                 Spacer()
-                Text("\(Int(session.stamina * 100))%").font(IslandUI.font(12, bold: true)).foregroundStyle(.white.opacity(0.65))
             }
-            Capsule().fill(.white.opacity(0.12)).frame(height: 10)
+            RacketRadar(contacts: session.contacts).frame(maxWidth: .infinity, maxHeight: .infinity)
+            stamina
+        }
+        .padding(16).mapPanel(skin, radius: 26)
+        .accessibilityIdentifier("controller-rally")
+    }
+
+    private var stamina: some View {
+        HStack(spacing: 12) {
+            VStack(alignment: .leading, spacing: 0) {
+                Text("STAMINA").font(MapFont.bold(12)).tracking(1).foregroundStyle(skin.ink.opacity(0.75))
+                Text("\(Int(session.stamina * 100))%").font(MapFont.bold(26)).foregroundStyle(skin.ink).monospacedDigit()
+            }
+            Capsule().fill(skin.ink.opacity(0.15)).frame(height: 12)
                 .overlay(alignment: .leading) {
-                    GeometryReader { g in Capsule().fill(session.stamina > 0.35 ? IslandUI.lime : Arcade.crimson).frame(width: g.size.width * min(1, max(0, session.stamina))) }
+                    GeometryReader { g in Capsule().fill(session.stamina > 0.35 ? skin.glow : Arcade.crimson).frame(width: g.size.width * min(1, max(0, session.stamina))) }
                 }
         }
+        .padding(.horizontal, 14).padding(.vertical, 8)
+        .background(skin.cream, in: RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .accessibilityElement(children: .combine).accessibilityIdentifier("controller-stamina")
     }
 }
 
@@ -390,7 +217,7 @@ struct TennisEmoteControls: View {
     let session: SportsSession
     var body: some View {
         let intro = session.emoteWindow == "intro"
-        EquippedEmoteControls(title: intro ? "YOUR INTRO · PICK AN EMOTE" : "YOUR POINT · CELEBRATE", ids: session.matchEmotes,
+        EquippedEmoteControls(title: intro ? "Choose an emote" : "Celebrate your point", ids: session.matchEmotes,
             enabled: session.canPlayEmote,
             notice: session.emoteNotice.isEmpty ? (intro ? "Your player does it on the TV when they're introduced." : "Choose an emote to celebrate your point.") : session.emoteNotice,
             identifier: "controller-emote") { session.playEmote(slot: $0) }
@@ -405,63 +232,83 @@ struct EquippedEmoteControls: View {
     let notice: String
     let identifier: String
     let select: (Int) -> Void
+    /// The map the emotes are picked on (UI OVERHAUL 11-15: cream tiles on the map's material, as board 12's "Choose an emote").
+    private var skin: MapSkin { .current }
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(title).font(IslandUI.font(12, bold: true))
-                .foregroundStyle(enabled ? IslandUI.lime : .white.opacity(0.55))
+            Text(title).font(MapFont.bold(15))
+                .foregroundStyle(enabled ? skin.ink : skin.ink.opacity(0.5))
+                .padding(.horizontal, 14).padding(.vertical, 5).background(skin.cream, in: Capsule())
             HStack(spacing: 8) {
                 ForEach(Array(ids.enumerated()), id: \.offset) { slot, id in
                     Button { select(slot) } label: {
-                        VStack(spacing: 4) {
-                            Text("\(slot + 1)").font(IslandUI.font(11, bold: true)).opacity(0.6)
-                            Text(EmoteCatalog.name(id)).font(IslandUI.font(15, bold: true)).lineLimit(1).minimumScaleFactor(0.75)
-                        }.frame(maxWidth: .infinity, minHeight: 52)
-                            .foregroundStyle(enabled ? IslandUI.navy : .white.opacity(0.5))
-                            .background(enabled ? IslandUI.lime : .white.opacity(0.08), in: RoundedRectangle(cornerRadius: 14))
+                        VStack(spacing: 2) {
+                            Text("\(slot + 1)").font(MapFont.semi(11)).opacity(0.55)
+                            Text(EmoteCatalog.name(id)).font(MapFont.bold(15)).lineLimit(1).minimumScaleFactor(0.75)
+                        }.frame(maxWidth: .infinity, minHeight: 54)
+                            .foregroundStyle(skin.ink.opacity(enabled ? 1 : 0.45))
+                            .background {
+                                RoundedRectangle(cornerRadius: 16, style: .continuous).fill(skin.frameDeep).offset(y: 3)
+                                RoundedRectangle(cornerRadius: 16, style: .continuous).fill(skin.cream.opacity(enabled ? 1 : 0.55))
+                                RoundedRectangle(cornerRadius: 16, style: .continuous).strokeBorder(skin.frame, lineWidth: 2)
+                            }
                     }.buttonStyle(.plain).disabled(!enabled)
                         .accessibilityIdentifier("\(identifier)-\(slot)")
                         .accessibilityLabel("Play \(EmoteCatalog.name(id)), emote slot \(slot + 1)")
                 }
             }
-            Text(notice).font(IslandUI.font(11, bold: false)).foregroundStyle(.white.opacity(0.55))
+            Text(notice).font(MapFont.semi(12)).foregroundStyle(.white.opacity(0.75))
         }
     }
 }
 
 // MARK: - Serve
 
-/// The player's serve on the controller: tap the target box to aim, hold ◀ ▶ to walk along the baseline, then TOSS with the
-/// meter in the middle. After the toss: swing as the TV's power bar peaks.
+/// The player's serve on the controller (board: court · T / WIDE · ◀ ▶ · TOSS): tap the court or a T / WIDE pill to aim, hold ◀ ▶ to
+/// walk along the baseline, then TOSS. After the toss: swing as the TV's power bar peaks.
 private struct ServePanel: View {
     @Bindable var session: SportsSession
+    private var skin: MapSkin { .current }
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: 14) {
             if session.tennisPhase == "toss" {
                 Spacer()
-                Image(systemName:"figure.tennis").font(.system(size:52)).foregroundStyle(IslandUI.lime)
-
+                Image(systemName: "figure.tennis").font(.system(size: 64)).foregroundStyle(skin.glow)
+                    .shadow(color: skin.glow.opacity(0.6), radius: 14)
+                Text("SWING!").font(MapFont.bold(30)).foregroundStyle(skin.cream)
                 Spacer()
             } else {
-                Text(session.serveFromDeuce ? "DEUCE" : "AD")
-                    .font(IslandUI.font(13, bold: true)).tracking(2).foregroundStyle(.white.opacity(0.7))
-                ServeAimPad(session: session).frame(maxWidth: .infinity).frame(height: 190)
-
+                ServeAimPad(session: session).frame(maxWidth: .infinity).frame(height: 210)
+                HStack(spacing: 16) {
+                    aimPill("T", across: -0.75)
+                    aimPill("WIDE", across: 0.75)
+                }
                 MoveButtons(session: session, caption: "Hold to walk the baseline")
                 Spacer(minLength: 0)
-                ControllerButton(title: "TOSS", icon: "arrow.up.circle.fill", height: 112, size: 40, onPress: true) {
+                ControllerButton(title: "TOSS", icon: "arrow.up.circle.fill", height: 104, size: 40, onPress: true) {
                     if session.haptics { UIImpactFeedbackGenerator(style: .rigid).impactOccurred() }
                     session.toss()
                 }.accessibilityIdentifier("tennisToss")
-
             }
         }
+    }
+    /// Aim down the T or out wide, keeping the depth.
+    private func aimPill(_ title: String, across: Double) -> some View {
+        let lit = (across < 0) == (session.serveAim.across < 0) && abs(session.serveAim.across) > 0.4
+        return Button {
+            session.setServeAim(across: across, depth: session.serveAim.depth)
+            if session.haptics { UISelectionFeedbackGenerator().selectionChanged() }
+        } label: {
+            MapPill(skin: skin, height: 50, lit: lit) { Text(title) }.frame(maxWidth: .infinity)
+        }.buttonStyle(.plain).accessibilityIdentifier("serve-aim-\(title.lowercased())")
     }
 }
 
 /// The target box seen from behind the baseline, with the aim point on it. A tap sets the target. The T (centre line) is on
-/// the right of the box from the deuce court and on the left from the ad court.
+/// the right of the box from the deuce court and on the left from the ad court. Drawn in the map's court colours with a ring target.
 struct ServeAimPad: View {
     @Bindable var session: SportsSession
+    private var skin: MapSkin { .current }
     var body: some View {
         GeometryReader { g in
             let w = g.size.width, h = g.size.height
@@ -470,24 +317,28 @@ struct ServeAimPad: View {
             let u = session.serveFromDeuce ? 1 - (across + 1) / 2 : (across + 1) / 2
             let point = CGPoint(x: boxLeft + u * boxW, y: (1 - depth) * h)
             ZStack {
-                RoundedRectangle(cornerRadius: 14).fill(Color(red: 0.12, green: 0.30, blue: 0.75))
-                Rectangle().fill(.white.opacity(0.14)).frame(width: boxW, height: h).position(x: boxLeft + boxW / 2, y: h / 2)
+                RoundedRectangle(cornerRadius: 18).fill(skin.surface)
+                Rectangle().fill(.white.opacity(0.12)).frame(width: boxW, height: h).position(x: boxLeft + boxW / 2, y: h / 2)
                 Path { p in
                     p.move(to: CGPoint(x: w / 2, y: 0)); p.addLine(to: CGPoint(x: w / 2, y: h))
                     p.addRect(CGRect(x: 1, y: 1, width: w - 2, height: h - 2))
-                }.stroke(.white, lineWidth: 2)
-                Rectangle().fill(.white).frame(height: 5).position(x: w / 2, y: h - 2)
-                Text("NET").font(IslandUI.font(10, bold: true)).foregroundStyle(.white.opacity(0.7)).position(x: w / 2, y: h - 12)
-                Text("T").font(IslandUI.font(12, bold: true)).foregroundStyle(.white.opacity(0.85))
-                    .position(x: session.serveFromDeuce ? boxW - 12 : boxW + 12, y: 12)
-                Text("WIDE").font(IslandUI.font(11, bold: true)).foregroundStyle(.white.opacity(0.85))
-                    .position(x: session.serveFromDeuce ? 26 : w - 26, y: 12)
-                Circle().fill(Color(hex: "FFD145")).frame(width: 30, height: 30)
-                    .overlay(Circle().strokeBorder(IslandUI.dark, lineWidth: 3.5))
-                    .shadow(color: Color(hex: "FFD145"), radius: 8)
-                    .position(point)
+                }.stroke(skin.line, lineWidth: 2.5)
+                Rectangle().fill(skin.line).frame(height: 5).position(x: w / 2, y: h - 2)
+                Text("NET").font(MapFont.bold(11)).foregroundStyle(skin.line.opacity(0.75)).position(x: w / 2, y: h - 13)
+                Text("T").font(MapFont.bold(20)).foregroundStyle(skin.line)
+                    .position(x: session.serveFromDeuce ? boxW - 16 : boxW + 16, y: 18)
+                Text("WIDE").font(MapFont.bold(18)).foregroundStyle(skin.line)
+                    .position(x: session.serveFromDeuce ? 34 : w - 34, y: 18)
+                ZStack {
+                    Circle().strokeBorder(skin.glow, lineWidth: 4).frame(width: 44, height: 44)
+                    Circle().strokeBorder(skin.glow.opacity(0.85), lineWidth: 3).frame(width: 26, height: 26)
+                    Circle().fill(skin.cream).frame(width: 12, height: 12)
+                }
+                .shadow(color: skin.glow, radius: 8)
+                .position(point)
             }
-            .clipShape(RoundedRectangle(cornerRadius: 14))
+            .clipShape(RoundedRectangle(cornerRadius: 18))
+            .overlay(RoundedRectangle(cornerRadius: 18).strokeBorder(skin.frame, lineWidth: 3))
             .contentShape(Rectangle())
             .gesture(SpatialTapGesture().onEnded { v in
                 let x = min(max(v.location.x, boxLeft), boxLeft + boxW)
@@ -508,36 +359,36 @@ private struct ReceivePanel: View {
     var body: some View {
         VStack(spacing: 18) {
             Spacer()
-            Image(systemName:"figure.tennis").font(.system(size:52)).foregroundStyle(IslandUI.lime)
-
+            Image(systemName: "figure.tennis").font(.system(size: 64)).foregroundStyle(MapSkin.current.glow)
+                .shadow(color: MapSkin.current.glow.opacity(0.6), radius: 14)
             MoveButtons(session: session, caption: "Hold to walk")
             Spacer()
         }
     }
 }
 
-/// Hold to walk left or right.
+/// Hold to walk left or right: two cream ◀ ▶ pills.
 private struct MoveButtons: View {
     let session: SportsSession
     let caption: String
     @State private var held = 0.0
+    private var skin: MapSkin { .current }
     var body: some View {
         VStack(spacing: 6) {
             HStack(spacing: 16) {
-                hold("arrowtriangle.left.fill", -1)
-                hold("arrowtriangle.right.fill", 1)
+                hold("chevron.left", -1)
+                hold("chevron.right", 1)
             }
-            Text(caption.uppercased()).font(IslandUI.font(11, bold: true)).tracking(1.6).foregroundStyle(.white.opacity(0.55))
+            Text(caption).font(MapFont.semi(13)).foregroundStyle(.white.opacity(0.75))
         }
         .onDisappear { held = 0; session.nudge(0) }
     }
     private func hold(_ icon: String, _ direction: Double) -> some View {
         let on = held == direction
-        return Image(systemName: icon).font(.system(size: 30, weight: .bold)).foregroundStyle(on ? IslandUI.lime : .white)
-            .frame(maxWidth: .infinity, minHeight: 78)
-            .background(on ? IslandUI.lime.opacity(0.22) : .white.opacity(0.09), in: RoundedRectangle(cornerRadius: 24, style: .continuous))
-            .overlay(RoundedRectangle(cornerRadius: 24, style: .continuous).strokeBorder(on ? IslandUI.lime : .white.opacity(0.22), lineWidth: 2.5))
+        return MapPill(skin: skin, height: 64, lit: on) { Image(systemName: icon).font(.system(size: 28, weight: .black)) }
+            .frame(maxWidth: .infinity)
             .scaleEffect(on ? 0.96 : 1)
+            .contentShape(Capsule())
             .gesture(DragGesture(minimumDistance: 0)
                 .onChanged { _ in if held != direction { held = direction; session.nudge(direction) } }
                 .onEnded { _ in held = 0; session.nudge(0) })
@@ -547,73 +398,102 @@ private struct MoveButtons: View {
 
 // MARK: - Setup
 
-/// While the TV flashes: the camera is timing how far its picture lags the game.
+/// While the TV flashes: the camera is timing how far its picture lags the game (board 13 screen 1: Set your direction).
 private struct DelayProbePanel: View {
     let session: SportsSession
     @State private var pulse = false
+    private var skin: MapSkin { .current }
     var body: some View {
-        VStack(spacing: 16) {
-            Spacer()
-            Image(systemName: "tv").font(.system(size: 64, weight: .bold)).foregroundStyle(IslandUI.lime).scaleEffect(pulse ? 1.08 : 0.95)
-            SportsCameraPreview(motion: session.motion).frame(height: 180)
-                .clipShape(RoundedRectangle(cornerRadius: 14))
-                .overlay { Image(systemName: "plus").font(.title).foregroundStyle(.white) }
-            Text("2 · Measure screen delay").font(IslandUI.font(24, bold: true))
-            Text("It will flash a few times while we time its picture, so your swings land when you see the ball.")
-                .font(IslandUI.font(15, bold: true)).foregroundStyle(.white.opacity(0.8)).multilineTextAlignment(.center)
-            ProgressView().tint(IslandUI.lime)
-            Spacer()
+        ScrollView {
+            MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: "Measure screen delay") {
+                SportsCameraPreview(motion: session.motion).frame(height: 170)
+                    .clipShape(RoundedRectangle(cornerRadius: 16))
+                    .overlay { Image(systemName: "plus").font(.title).foregroundStyle(.white) }
+                    .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(skin.frame, lineWidth: 3))
+                    .scaleEffect(pulse ? 1.02 : 0.98)
+                Text("Point the back of your phone at the TV. It will flash a few times while we time its picture, so your swings land when you see the ball.")
+                    .font(MapFont.semi(16)).multilineTextAlignment(.center)
+                ProgressView().tint(skin.accentDeep)
+            }
+            .padding(.top, 8)
         }
+        .scrollIndicators(.hidden)
         .onAppear { withAnimation(.easeInOut(duration: 0.5).repeatForever(autoreverses: true)) { pulse = true } }
     }
 }
 
-/// Offered the first time on a TV: what the timing check is for, and a button to start it when the player is ready.
+/// Offered the first time on a TV: what the timing check is for, and a button to start it (board 13 screen 2: Timing check).
 private struct TimingCheckPrompt: View {
     let session: SportsSession
+    private var skin: MapSkin { .current }
     var body: some View {
-        VStack(spacing: 14) {
-            Spacer()
-            Image(systemName: "metronome.fill").font(.system(size: 56, weight: .bold)).foregroundStyle(IslandUI.lime)
-            Text("2 · Timing calibration").font(IslandUI.font(26, bold: true))
-            Text("Every TV shows the picture a little late. This quick check measures that delay so your swings land exactly when you see the ball.\n\nThe flashes measure picture delay directly. Now follow the bouncing ball to check your swings. Swing every time it reaches the line; the check will keep the screen measurement.")
-                .font(IslandUI.font(15, bold: true)).foregroundStyle(.white.opacity(0.85)).multilineTextAlignment(.center).padding(.horizontal, 12)
-            if !session.timingNote.isEmpty {
-                Text(session.timingNote).font(IslandUI.font(14, bold: true)).multilineTextAlignment(.center)
+        ScrollView {
+            MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: "Timing check") {
+                BounceMark(skin: skin).frame(height: 96)
+                Text("Swing on every bounce.").font(MapFont.bold(20)).multilineTextAlignment(.center)
+                Text("Every TV shows the picture a little late. This quick check measures that delay so your swings land exactly when you see the ball.")
+                    .font(MapFont.semi(15)).multilineTextAlignment(.center).opacity(0.85)
+                if !session.timingNote.isEmpty {
+                    Text(session.timingNote).font(MapFont.semi(14)).multilineTextAlignment(.center)
+                }
+                if !session.delayTip.isEmpty {
+                    Text(session.delayTip).font(MapFont.semi(13)).multilineTextAlignment(.center).opacity(0.8)
+                        .accessibilityIdentifier("timing-tv-delay")
+                }
+                ControllerButton(title: "Start timing check", icon: "play.fill", height: 60, size: 21) { session.startTimingCheck() }.accessibilityIdentifier("timing-start")
+                MapQuietButton(skin: skin, title: "Skip for now") { session.skipTimingCheck() }.accessibilityIdentifier("timing-skip")
+                Button("Retry screen flashes") { session.measureTVDelay() }.font(MapFont.semi(14)).tint(skin.ink.opacity(0.7))
+                    .accessibilityIdentifier("timing-flashes")
             }
-            if !session.delayTip.isEmpty {
-                Text(session.delayTip).font(IslandUI.font(13, bold: true)).foregroundStyle(.white.opacity(0.75)).multilineTextAlignment(.center)
-                    .padding(.horizontal, 12).accessibilityIdentifier("timing-tv-delay")
-            }
-            Button("Retry screen flashes") { session.measureTVDelay() }.accessibilityIdentifier("timing-flashes")
-            ControllerButton(title: "Start timing check", icon: "play.fill", height: 58, size: 21) { session.startTimingCheck() }.accessibilityIdentifier("timing-start")
-            Button("Skip for now") { session.skipTimingCheck() }.accessibilityIdentifier("timing-skip")
-                .font(IslandUI.font(15, bold: true)).foregroundStyle(.white.opacity(0.7))
-            Spacer()
+            .padding(.top, 8)
         }
+        .scrollIndicators(.hidden)
+    }
+}
+
+/// Board 13's bounce picture: a ball hopping over a line with a gold mark where to swing.
+private struct BounceMark: View {
+    let skin: MapSkin
+    @State private var up = false
+    var body: some View {
+        GeometryReader { g in
+            let w = g.size.width, h = g.size.height
+            ZStack {
+                Path { p in
+                    p.move(to: CGPoint(x: w * 0.18, y: h * 0.72)); p.addQuadCurve(to: CGPoint(x: w * 0.5, y: h * 0.72), control: CGPoint(x: w * 0.34, y: -h * 0.2))
+                    p.addQuadCurve(to: CGPoint(x: w * 0.82, y: h * 0.72), control: CGPoint(x: w * 0.66, y: -h * 0.2))
+                }.stroke(skin.glow.opacity(0.55), style: StrokeStyle(lineWidth: 3, lineCap: .round, dash: [2, 7]))
+                Capsule().fill(skin.surface).frame(width: w * 0.8, height: 10).position(x: w / 2, y: h * 0.8)
+                Capsule().fill(Color(hex: "F5C542")).frame(width: 46, height: 14).overlay(Capsule().strokeBorder(.white, lineWidth: 2)).position(x: w / 2, y: h * 0.8)
+                Circle().fill(skin.glow).overlay(Circle().strokeBorder(.white, lineWidth: 3)).frame(width: 30, height: 30)
+                    .position(x: w / 2, y: up ? h * 0.12 : h * 0.66)
+            }
+        }
+        .onAppear { withAnimation(.easeInOut(duration: 0.55).repeatForever(autoreverses: true)) { up = true } }
+        .accessibilityHidden(true)
     }
 }
 
 /// While the TV runs the timing check: a get-ready countdown, then swing with the ball.
 private struct TimingCheckPanel: View {
     let countdownEnds: Date?
+    private var skin: MapSkin { .current }
     var body: some View {
         TimelineView(.periodic(from: .now, by: 0.2)) { context in
             let left = countdownEnds.map { max(0, $0.timeIntervalSince(context.date)) } ?? 0
-            VStack(spacing: 16) {
-                Spacer()
-                if left > 0 {
-                    Text("Get ready").font(IslandUI.font(26, bold: true))
-                    Text("\(Int(left.rounded(.up)))").font(IslandUI.font(110, bold: true)).foregroundStyle(IslandUI.lime).monospacedDigit()
-                    Text("Swing every time the ball drops onto the line.")
-                        .font(IslandUI.font(16, bold: true)).foregroundStyle(.white.opacity(0.85)).multilineTextAlignment(.center)
-                } else {
-                    Image(systemName: "metronome.fill").font(.system(size: 64, weight: .bold)).foregroundStyle(IslandUI.lime)
-                    Text("Swing on every bounce!").font(IslandUI.font(26, bold: true))
-                    Text("Follow the ball on the display. Two bounces warm you up; the next seven record your timing. Reset your arm between swings.")
-                        .font(IslandUI.font(15, bold: true)).foregroundStyle(.white.opacity(0.8)).multilineTextAlignment(.center)
+            VStack {
+                Spacer(minLength: 0)
+                MapSetupCard(skin: skin, name: MapSkin.playerName(.shared), title: left > 0 ? "Get ready" : "Swing on every bounce!") {
+                    if left > 0 {
+                        Text("\(Int(left.rounded(.up)))").font(MapFont.bold(110)).foregroundStyle(skin.accentDeep).monospacedDigit()
+                        Text("Swing every time the ball drops onto the line.").font(MapFont.semi(16)).multilineTextAlignment(.center)
+                    } else {
+                        BounceMark(skin: skin).frame(height: 96)
+                        Text("Follow the ball on the display. Two bounces warm you up; the next seven record your timing. Reset your arm between swings.")
+                            .font(MapFont.semi(15)).multilineTextAlignment(.center)
+                    }
                 }
-                Spacer()
+                Spacer(minLength: 0)
             }
         }
     }
@@ -637,35 +517,6 @@ private struct Scoreline: View {
         .padding(.horizontal, 16).padding(.vertical, 8)
         .background(.white.opacity(0.1), in: Capsule())
     }
-}
-
-/// The grade of the last hit, popping in over the racket.
-private struct LastHit: View {
-    let contact: TennisContact?
-    @State private var shown: UUID?
-    @State private var pop = false
-    var body: some View {
-        Group {
-            if let contact {
-                VStack(spacing: 2) {
-                    Text(contact.gradeName + "!").font(IslandUI.font(40, bold: true)).foregroundStyle(color(contact)).shadow(color: IslandUI.dark.opacity(0.7), radius: 0, y: 3)
-                    // Which way the swing was off, so timing can be learned ball by ball.
-                    Text(contact.timingWord)
-                        .font(IslandUI.font(14, bold: true)).tracking(2)
-                        .foregroundStyle(contact.timingWord == "ON TIME" ? IslandUI.lime : .white.opacity(0.85))
-                }
-                .scaleEffect(pop ? 1 : 1.6).opacity(pop ? 1 : 0)
-            }
-        }
-        .padding(.top, 2)
-        .onChange(of: contact?.id) { _, id in
-            pop = false
-            withAnimation(.spring(response: 0.3, dampingFraction: 0.5)) { pop = true }
-            shown = id
-        }
-        .onAppear { pop = contact != nil }
-    }
-    private func color(_ c: TennisContact) -> Color { RacketRadar.color(c) }
 }
 
 /// The racket seen face-on: frame, strings, the sweet spot, and a dot for each recent hit
@@ -955,25 +806,29 @@ struct OnlineTennisSetupPanel: View {
 
 struct ControllerReadyPanel: View {
     let session: SportsSession
+    private var skin: MapSkin { .current }
     var body: some View {
-        VStack(spacing: 18) {
-            Spacer()
-            Image(systemName: "checkmark.circle.fill").font(.system(size: 64)).foregroundStyle(IslandUI.lime)
+        ScrollView {
             // (a player coming back into a match being played skips the timing check: Ready is their second step)
-            Text("\(session.onlineComeback ? 2 : 3) · Ready to play").font(IslandUI.font(28, bold: true))
-            if !session.timingNote.isEmpty { Text(session.timingNote).multilineTextAlignment(.center) }
-            if !session.delayTip.isEmpty { Text(session.delayTip).font(.footnote).multilineTextAlignment(.center).foregroundStyle(.white.opacity(0.75)).padding(.horizontal, 12) }
-            Text("Watch the TV. Your phone stays your controller.").multilineTextAlignment(.center)
-            ControllerButton(title: "Ready to play", icon: "play.fill") { session.readyToPlay() }
-                .accessibilityIdentifier("controller-ready")
-            // When Ready cannot be taken (no camera frame yet, tracking lost) the reason lands in `status`. Online, this panel is the only
-            // thing standing between the player and the match, and the other player is waiting, so say why instead of doing nothing.
-            if session.multiplayerMatchID != nil, !session.status.isEmpty {
-                Text(session.status).font(.footnote).multilineTextAlignment(.center).foregroundStyle(.white.opacity(0.8)).padding(.horizontal, 12)
-                    .accessibilityIdentifier("controller-ready-status")
+            MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: "Ready to play") {
+                Image(systemName: "checkmark.seal.fill").font(.system(size: 60, weight: .bold)).foregroundStyle(skin.accentDeep)
+                    .accessibilityLabel("Step \(session.onlineComeback ? 2 : 3)")
+                if !session.timingNote.isEmpty { Text(session.timingNote).font(MapFont.semi(15)).multilineTextAlignment(.center) }
+                if !session.delayTip.isEmpty { Text(session.delayTip).font(MapFont.semi(13)).multilineTextAlignment(.center).opacity(0.8) }
+                Text("Watch the TV.\nYour phone stays your controller.").font(MapFont.bold(19)).multilineTextAlignment(.center)
+                ControllerButton(title: "Ready to play", icon: "play.fill") { session.readyToPlay() }
+                    .accessibilityIdentifier("controller-ready")
+                // When Ready cannot be taken (no camera frame yet, tracking lost) the reason lands in `status`. Online, this panel is the only
+                // thing standing between the player and the match, and the other player is waiting, so say why instead of doing nothing.
+                if session.multiplayerMatchID != nil, !session.status.isEmpty {
+                    Text(session.status).font(MapFont.semi(13)).multilineTextAlignment(.center).opacity(0.85)
+                        .accessibilityIdentifier("controller-ready-status")
+                }
             }
-            Spacer()
-        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+            .padding(.top, 8)
+        }
+        .scrollIndicators(.hidden)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -988,14 +843,15 @@ struct WaitingForPlayersPanel: View {
         return "the match to start"
     }
     var body: some View {
-        VStack(spacing: 18) {
-            Spacer()
-            ProgressView().controlSize(.large).tint(IslandUI.lime)
-            Text("You're ready").font(IslandUI.font(28, bold: true))
-            Text("Waiting for \(waitingFor)…").multilineTextAlignment(.center)
-            Text("Stay at your spot and watch the TV. The match starts as soon as everyone is set.")
-                .font(.footnote).multilineTextAlignment(.center)
-            Spacer()
+        VStack {
+            Spacer(minLength: 0)
+            MapSetupCard(skin: .current, name: MapSkin.playerName(.shared), title: "You're ready") {
+                ProgressView().controlSize(.large).tint(MapSkin.current.accentDeep)
+                Text("Waiting for \(waitingFor)…").font(MapFont.bold(18)).multilineTextAlignment(.center)
+                Text("Stay at your spot and watch the TV. The match starts as soon as everyone is set.")
+                    .font(MapFont.semi(14)).multilineTextAlignment(.center).opacity(0.85)
+            }
+            Spacer(minLength: 0)
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
             .accessibilityElement(children: .combine).accessibilityIdentifier("controller-waiting")
     }
@@ -1005,31 +861,4 @@ struct WaitingForPlayersPanel: View {
 struct AimingCalibrationPanel: View {
     let session: SportsSession
     var body: some View { ControllerReadyPanel(session: session) }
-}
-
-struct RallyAimPad:View {
-    @Bindable var session:SportsSession
-    var body:some View {
-        GeometryReader { geometry in
-            let w=geometry.size.width, h=geometry.size.height, inset:CGFloat=14
-            let width=max(1,w-inset*2), height=max(1,h-inset*2)
-            ZStack {
-                RoundedRectangle(cornerRadius:16).fill(IslandUI.navy)
-                Path { p in
-                    p.addRect(CGRect(x:inset,y:inset,width:width,height:height))
-                    p.move(to:CGPoint(x:w/2,y:inset)); p.addLine(to:CGPoint(x:w/2,y:h-inset))
-                    p.move(to:CGPoint(x:inset,y:h*0.48)); p.addLine(to:CGPoint(x:w-inset,y:h*0.48))
-                }.stroke(.white.opacity(0.65),lineWidth:2)
-                Circle().fill(IslandUI.lime).frame(width:18,height:18)
-                    .position(x:inset+CGFloat((session.shotAim+1)/2)*width,y:inset+CGFloat(1-session.shotDepth)*height)
-            }.contentShape(Rectangle())
-                .gesture(DragGesture(minimumDistance:0).onChanged { value in
-                    let across=Double((value.location.x-inset)/width)*2-1
-                    let depth=1-Double((value.location.y-inset)/height)
-                    session.setShotAim(across:across,depth:depth)
-                })
-                .accessibilityElement(children:.ignore).accessibilityLabel("Shot target. Left and right, short and deep.")
-                .accessibilityIdentifier("rally-aim-pad")
-        }
-    }
 }

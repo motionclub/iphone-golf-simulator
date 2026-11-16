@@ -81,7 +81,9 @@ namespace GolfArcade.Hub.Menu
             BuildScreen(Home, BuildHome); BuildScreen(Sport, BuildSport); BuildScreen(TennisModes, r => BuildModes(r, "tennis"));
             BuildScreen(GolfModes, r => BuildModes(r, "golf")); BuildScreen(BowlingModes, r => BuildModes(r, "bowling")); BuildScreen(Locker, BuildLocker); BuildScreen(Clubhouse, BuildClubhouse);
             BuildScreen(Loading, BuildLoading); BuildScreen(Setup, BuildSetup); BuildScreen(Players, BuildPlayers);
-            BuildPhoneModal(); BuildPlates(); BuildCursor(); BuildWipe();
+            BuildScreen(Daily, BuildDaily); BuildScreen(DailyBoard, BuildDailyBoard);   // PLAY → Daily Challenges (MenuHud.Daily.cs)
+            BuildScreen(Tutorial, BuildTutorial);   // PLAY → Tutorial (MenuHud.Tutorial.cs)
+            BuildPhoneModal(); BuildCoach(); BuildPlates(); BuildCursor(); BuildWipe();   // BuildCoach: first-launch tips (MenuHud.Coach.cs)
             StyleModes();   // the mode cards exist before the first visit (building them on entry was a 27 ms frame)
             PrewarmGlyphs();
             Show(Home, snap: true);
@@ -218,15 +220,18 @@ namespace GolfArcade.Hub.Menu
         // lanes of 10-28 stood over the hero: "make sure the characters don't get covered by UI")
         void BuildSport(RectTransform r)
         {
-            BrandUi.Headline(r, Left, 132, "Play", "Pick a sport", 720);
-            var group = new List<MenuItem>(); float y = ListTop;
+            Heading(r, "Play", 720);
+            // (five entries with TUTORIAL: the list starts a little higher and packs closer, clear of the A/B hint)
+            var group = new List<MenuItem>(); float y = ListTop - 36;
+            y += TutorialEntry(r, y, group) + 2;   // TUTORIAL (MenuHud.Tutorial.cs): first, and the only way on until its lessons are done
             foreach (var (id, word, sub, screen) in new[] { ("sport-tennis", "TENNIS", "Resort · Sky Tower · Magma Crater", TennisModes),
                                                             ("sport-golf", "GOLF", "Cliffside · Wild Isles · Magma Open", GolfModes),
                                                             ("sport-bowling", "BOWLING", "Club · Neon · Tiki · Magma", BowlingModes) })
             {
                 string go = screen;
-                y += WordItem(r, id, word, Title(word), sub, Left, y, WordSize, () => Go(go), group) + 6;
+                y += WordItem(r, id, word, Title(word), sub, Left, y, WordSize, () => Go(go), group) + 2;
             }
+            DailyEntry(r, y, group);   // DAILY CHALLENGES (new, 11-15): today's Daily Hole in One
             BuildPreview(r, "tennis");
         }
 
@@ -234,7 +239,7 @@ namespace GolfArcade.Hub.Menu
         void BuildModes(RectTransform r, string sport)
         {
             bool tennis = sport == "tennis", bowling = sport == "bowling";
-            BrandUi.Headline(r, Left, 132, tennis ? "Tennis" : bowling ? "Bowling" : "Golf", "Pick a mode", 720);
+            Heading(r, tennis ? "Tennis" : bowling ? "Bowling" : "Golf", 720);
             var rows = bowling
                 ? new[] { ("bay-bowling-play", "PLAY", "Four venues · 10 frames", true), ("bay-bowling-exhibition", "EXHIBITION", "Bowl against the computer", true), ("bay-bowling-pass", "LOCAL PLAY", "Same room · one phone, up to 4 players", true), ("bay-bowling-online", "ONLINE", "Play friends online", false) }
                 : tennis
@@ -284,7 +289,7 @@ namespace GolfArcade.Hub.Menu
         readonly List<(MenuItem item, Word word, string slot)> rail = new List<(MenuItem, Word, string)>();
         void BuildLocker(RectTransform r)
         {
-            BrandUi.Headline(r, Left, 132, "Locker", "Your look", 720);
+            Heading(r, "Locker", 720);
             // the slots as a word rail (mock .rail, 2.3cqw); the ones that open on the phone say so
             var group = new List<MenuItem>(); float y = ListTop;
             for (int i = 0; i < LockerRail.Length; i++)
@@ -353,7 +358,7 @@ namespace GolfArcade.Hub.Menu
 
         void BuildClubhouse(RectTransform r)
         {
-            BrandUi.Headline(r, Left, 132, "Clubhouse", "Friends & help", 720);
+            Heading(r, "Clubhouse", 720);
             var rows = new[] { ("board-invite", "INVITE FRIENDS", "Game Center or a party code"), ("screen-howto", "HOW TO PLAY", "Tennis, golf and bowling basics"),
                                ("shelf-trophies", "TROPHIES", "Your records and trophies"), ("mailbox-feedback", "FEEDBACK", "Send the team a note") };
             var group = new List<MenuItem>(); float y = ListTop;
@@ -517,7 +522,8 @@ namespace GolfArcade.Hub.Menu
 
         // ================================================================== screens
         static string ShotOf(string screen) => screen == Home ? MenuShots.Low : screen == Locker ? MenuShots.Solo : screen == Loading ? MenuShots.Mid : MenuShots.Close;
-        string ParentOf(string screen) => screen == Sport ? Home : screen == TennisModes || screen == GolfModes || screen == BowlingModes ? Sport
+        string ParentOf(string screen) => screen == Sport ? Home : screen == TennisModes || screen == GolfModes || screen == BowlingModes || screen == Daily || screen == Tutorial ? Sport
+            : screen == DailyBoard ? Daily
             : screen == Setup || screen == Players ? (setupSport == "golf" ? GolfModes : TennisModes) : screen == Loading ? null : Home;
 
         /// Go to a screen (the pointer, the phone's menuGo, or the session).
@@ -546,6 +552,7 @@ namespace GolfArcade.Hub.Menu
             if (screen == Sport) PreviewSport("tennis");
             ShowPreview(modes || screen == Setup || screen == Sport, screen == Setup);
             if (screen == Locker) SelectSlot(lockerSlot);
+            if (screen == Daily || screen == DailyBoard) EnterDaily();
             if (stage) stage.GoTo(ShotOf(screen), snap);
             var r = screens[screen];
             entered = Time.unscaledTime; enterRoot = r; enterGroup = groups[screen];
@@ -553,6 +560,7 @@ namespace GolfArcade.Hub.Menu
             SetHovered(null); GlowsOff();
             Send("menuScreen", screen);
             FocusAfterShow();
+            CoachAfterShow();
         }
 
         /// Back: the phone's Back button, the TV's BACK, Esc in the editor.
@@ -560,6 +568,7 @@ namespace GolfArcade.Hub.Menu
         {
             if (!Leader) return;
             if (phoneOpen) return;   // the phone closes its own panel
+            if (CoachHolds) return;   // a first-launch tip is waiting for its own button
             if (Screen == Loading) { Send("menuCancel", ""); return; }
             var parent = ParentOf(Screen);
             if (parent != null && Screen != Home) Go(parent);
@@ -578,6 +587,7 @@ namespace GolfArcade.Hub.Menu
             phoneOpen = open; phoneModal.gameObject.SetActive(open);
             if (!string.IsNullOrEmpty(title)) phoneModalTitle.text = title;
             if (open) SetHovered(null); else if (hovered == null) FocusAfterShow();
+            if (!open) CoachAfterShow();
         }
 
         // ---- the party
@@ -746,6 +756,7 @@ namespace GolfArcade.Hub.Menu
             if (phoneOpen) return visible;
             foreach (var it in chromeItems) if (it.Visible) visible.Add(it);
             if (screenItems.TryGetValue(Screen, out var list)) foreach (var it in list) if (it.Visible) visible.Add(it);
+            CoachRestrict(visible);   // a first-launch tip holds the focus on its own button (MenuHud.Coach.cs)
             return visible;
         }
         readonly Vector3[] corners = new Vector3[4];
@@ -807,6 +818,7 @@ namespace GolfArcade.Hub.Menu
             if (HubWorld.PhoneOnly && UnityEngine.Screen.width > 0) FitPhone();   // no TV: the whole phone, either way up (MenuHud.Phone)
             float now = Time.unscaledTime, dt = Time.unscaledDeltaTime;
             EditorInput();
+            CoachTick(now);   // the first-launch tip's frame (MenuHud.Coach.cs)
             // entrance: the screen's content rises 24 px and fades in (Brand Guide §10, panel open, 0.22 s ease-out)
             if (enterRoot)
             {

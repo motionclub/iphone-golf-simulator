@@ -341,8 +341,9 @@ final class LockerMirrorProofTests: XCTestCase {
         try report.write(to: proof.appendingPathComponent("fps_and_pose_cost.txt"), atomically: true, encoding: .utf8)
         NSLog("[LockerMirror] \(report)")
     }
-    /// The real loading screen (the tennis idle view) in the TV root: ReadyIdle on the skeleton and the bouncing prop ball, one "Swing to practice" at 4 s (the Forehand morph), then back to ReadyIdle.
-    func testRecordLoadingIdleAndPracticeSwing() async throws {
+    /// The real loading screen (the tennis idle view) in the TV root: ReadyIdle on the skeleton and the bouncing prop ball.
+    /// (Its "Swing to practice" Forehand morph left the app 2026-11-15: nothing on the loading screen triggered it.)
+    func testRecordLoadingIdle() async throws {
         let menu = TennisMenu.shared, session = SportsSession.shared
         let oldPlayers = session.players, oldIndex = session.playerIndex, oldMotion = session.reduceMotion
         session.players = [player(female: false)]; session.playerIndex = 0; session.reduceMotion = false
@@ -356,19 +357,17 @@ final class LockerMirrorProofTests: XCTestCase {
         defer { window.isHidden = true }
         func findScene(_ view: UIView) -> SCNView? { if let v = view as? SCNView { return v }; return view.subviews.compactMap(findScene).first }
         try await Task.sleep(for: .seconds(0.8))
-        let film = try Film(url: proof.appendingPathComponent("loading_idle_practice_tv.mp4"), size: size, bitrate: 6_000_000)
+        let film = try Film(url: proof.appendingPathComponent("loading_idle_tv.mp4"), size: size, bitrate: 6_000_000)
         let format = UIGraphicsImageRendererFormat(); format.scale = 1; format.opaque = true
         let renderer = UIGraphicsImageRenderer(size: size, format: format)
-        let started = CACurrentMediaTime(); var swung = false
+        let started = CACurrentMediaTime()
         while CACurrentMediaTime() - started < 9 {
             let elapsed = CACurrentMediaTime() - started
-            if !swung, elapsed > 4 { session.loading.practice(); swung = true }
             let scn = findScene(host.view)
             let hero = scn?.scene?.rootNode.childNode(withName: MatchHero.rootName, recursively: true)
-            var morphing = 0; hero?.enumerateChildNodes { node, _ in if let m = node.morpher, m.weights.contains(where: { $0.doubleValue > 0.01 }) { morphing += 1 } }
             let on = scn?.scene?.rootNode.childNode(withName: "skeleton", recursively: true) != nil
             let base = renderer.image { _ in host.view.drawHierarchy(in: CGRect(origin: .zero, size: size), afterScreenUpdates: false) }
-            try await film.append(caption(base, [String(format: "loading screen, tennis idle  t=%.1fs  %@", elapsed, on ? "ReadyIdle on the skeleton" : morphing > 0 ? "practice swing (Forehand morph)" : "still Ready stance"),
+            try await film.append(caption(base, [String(format: "loading screen, tennis idle  t=%.1fs  %@", elapsed, on ? "ReadyIdle on the skeleton" : "still Ready stance"),
                                                  String(format: "hero root yaw %.3f deg (fixed)   %d fps view", Double(hero?.eulerAngles.y ?? 0) * 180 / .pi, scn?.preferredFramesPerSecond ?? 0)]), at: elapsed)
             try await Task.sleep(for: .milliseconds(12))
         }

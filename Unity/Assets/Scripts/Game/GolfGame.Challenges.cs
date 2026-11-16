@@ -197,6 +197,7 @@ namespace GolfArcade.Game
         void SummariseRound()
         {
             if (Match == null || !Match.IsSolo || Card == null) return;
+            if (HoleInOne) { RoundSummary?.Invoke(HoleInOneSummary()); return; }
             int birdies = 0, eagles = 0, pars = 0, aces = 0, strokes = 0, par = 0;
             for (int i = 0; i < course.Holes.Length; i++)
             {

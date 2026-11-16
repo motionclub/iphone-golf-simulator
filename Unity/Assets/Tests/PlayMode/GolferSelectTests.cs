@@ -54,7 +54,6 @@ namespace GolfArcade.PlayTests
             var cam = Camera.main;
             cam.aspect = GameCapture.PhoneWidth / (float)GameCapture.PhoneHeight;
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;
             yield return new WaitForSecondsRealtime(0.5f);
             var look0 = GolferStyle.Current.Clone();
             var profile = ProfileStore.Active;

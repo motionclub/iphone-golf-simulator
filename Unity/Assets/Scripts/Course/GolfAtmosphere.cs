@@ -187,16 +187,6 @@ namespace GolfArcade.Course
         public static Color BallExposureNow { get; private set; } = Color.white;
         public static float BallSelfLightNow { get; private set; }
 
-        /// GolfGame.Awake hands over the ball it built. The ball gets its OWN copy of the shared flat Lit material, so no other white thing is touched.
-        public static void RegisterBall(Transform ball)
-        {
-            ballRenderer = ball ? ball.GetComponent<Renderer>() : null; ballMaterial = null;
-            if (!ballRenderer || !ballRenderer.sharedMaterial) return;
-            ballMaterial = new Material(ballRenderer.sharedMaterial) { name = "Golf ball" };
-            ballRenderer.sharedMaterial = ballMaterial;
-            SetBallLook(BallExposureNow, BallSelfLightNow);
-        }
-
         public static void SetBallLook(Color exposure, float selfLight)
         {
             BallExposureNow = exposure; BallSelfLightNow = selfLight;
@@ -304,63 +294,6 @@ namespace GolfArcade.Course
         }
 
         static Texture2D coolSky;
-
-        /// Split's sky: the tennis panorama with its warm haze and peach cloud undersides turned blue-white (blue sky
-        /// pixels untouched), made once on the GPU->CPU and cached (~2 MP, done at the first Split load).
-        /// A hand-painted Resources/Course/Look/Sky_Split_C replaces it when present.
-        static Texture2D CoolPanorama(Texture2D source)
-        {
-            if (coolSky) return coolSky;
-            var painted = Resources.Load<Texture2D>("Course/Look/Sky_Split_C");
-            if (painted) return coolSky = painted;
-            int w = source.width, h = source.height;
-            var rt = RenderTexture.GetTemporary(w, h, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.sRGB);
-            Graphics.Blit(source, rt);
-            var previous = RenderTexture.active;
-            RenderTexture.active = rt;
-            var t = new Texture2D(w, h, TextureFormat.RGBA32, true, false) { name = "Golf sky (Split, cooled)", wrapMode = TextureWrapMode.Clamp, anisoLevel = 1 };
-            t.ReadPixels(new Rect(0, 0, w, h), 0, 0, false);
-            RenderTexture.active = previous;
-            RenderTexture.ReleaseTemporary(rt);
-            var px = t.GetPixels32();
-            for (int y = 0; y < h; y++)
-            {
-                float haze = 1 - Mathf.SmoothStep(0, 1, y / (h * .28f));            // texture row 0 = the horizon
-                Color target = Color.Lerp(new Color(.96f, .98f, 1f), new Color(.84f, .92f, 1f), haze);
-                for (int x = 0; x < w; x++)
-                {
-                    int i = y * w + x; var p = px[i];
-                    float r = p.r / 255f, g = p.g / 255f, b = p.b / 255f;
-                    float warm = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(-.15f, .25f, r - b));   // 0 on blue sky, 1 on peach/gold
-                    if (warm <= 0) continue;
-                    float value = Mathf.Max(r, Mathf.Max(g, b));
-                    float k = warm * .85f;
-                    px[i] = new Color32((byte)(255 * Mathf.Lerp(r, value * target.r, k)), (byte)(255 * Mathf.Lerp(g, value * target.g, k)),
-                                        (byte)(255 * Mathf.Lerp(b, value * target.b, k)), 255);
-                }
-            }
-            t.SetPixels32(px);
-            t.Apply(true, true);
-            return coolSky = t;
-        }
-
-        /// Only if Sky_Crater_C.png has not arrived: a smoky ember-to-aubergine gradient (v = 0 horizon .. 1 top).
-        static Texture2D CraterFallback()
-        {
-            if (craterFallback) return craterFallback;
-            const int w = 4, h = 128;
-            craterFallback = new Texture2D(w, h, TextureFormat.RGBA32, false) { name = "Crater sky (fallback)", wrapMode = TextureWrapMode.Clamp };
-            var px = new Color[w * h];
-            for (int y = 0; y < h; y++)
-            {
-                float t = y / (h - 1f);
-                var c = Color.Lerp(new Color(.86f, .40f, .17f), new Color(.36f, .17f, .16f), Mathf.SmoothStep(0, 1, Mathf.Clamp01(t * 2.2f)));
-                c = Color.Lerp(c, new Color(.13f, .09f, .13f), Mathf.SmoothStep(0, 1, Mathf.Clamp01((t - .35f) / .65f)));
-                for (int x = 0; x < w; x++) px[y * w + x] = c;
-            }
-            craterFallback.SetPixels(px); craterFallback.Apply(false, true);
-            return craterFallback;
-        }
 
         /// Shared post profile and depth/shadow settings for every golf view.
         static void SetupCamera(Camera camera, bool postcard)

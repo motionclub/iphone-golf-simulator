@@ -67,7 +67,6 @@
     <Compile Include="$(Scripts)Shot/*.cs" Link="Linked/Shot/%(Filename)%(Extension)" />
     <Compile Include="$(Scripts)Swing/MotionSwingDetector.cs" Link="Linked/Swing/MotionSwingDetector.cs" />
     <Compile Include="$(Scripts)Swing/StrikeGrade.cs" Link="Linked/Swing/StrikeGrade.cs" />
-    <Compile Include="$(Scripts)Swing/GolfSwingCalibration.cs" Link="Linked/Swing/GolfSwingCalibration.cs" />
 
     <!-- The game's own tests for these rules, unchanged -->
     <Compile Include="$(EditModeTests)MultiplayerRulesTests.cs" Link="Linked/Tests/MultiplayerRulesTests.cs" />

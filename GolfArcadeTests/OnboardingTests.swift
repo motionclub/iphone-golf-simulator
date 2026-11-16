@@ -2,38 +2,182 @@ import XCTest
 import UIKit
 @testable import GolfArcade
 
+/// Onboarding v3 (PLAN_Onboarding_v3_IntroTutorial.md): the intro over the menu with no TV required, Play locked to the Tutorial
+/// (golf → tennis → bowling), the how-to-play / play-safe card before lessons and games, and the gates in GATE_RESULTS.md.
 @MainActor final class OnboardingTests: XCTestCase {
     private func fixture() -> (UserDefaults, OnboardingStore, SportProgress) {
         let d = UserDefaults(suiteName: "onboarding-tests-\(UUID())")!
         return (d, OnboardingStore(defaults: d), SportProgress(defaults: d))
     }
-    func testFreshInstallStartsAtHelloAndResumesAcrossLaunches() {
-        let (_, store, progress) = fixture()
-        let flow = OnboardingFlow(store: store, progress: progress, arguments: [])
-        XCTAssertEqual(flow.step, .hello); XCTAssertTrue(flow.holdsMenu)
-        flow.next(); XCTAssertEqual(flow.step, .account, "sign in right after the welcome")
-        XCTAssertEqual(OnboardingFlow(store: store, progress: progress, arguments: []).step, .account, "a started onboarding carries on")
+    /// A flow whose menu, Locker and lessons are stand-ins (no runtime in unit tests).
+    private func flow(_ store: OnboardingStore, _ progress: SportProgress, tv: Bool = false) -> (OnboardingFlow, () -> [String]) {
+        let f = OnboardingFlow(store: store, progress: progress, arguments: [])
+        var log: [String] = []
+        f.partyWaits = { false }; f.tvConnected = { tv }
+        f.beginLesson = { sport, station in log.append("lesson:\(sport.rawValue):\(station)") }
+        f.stateChanged = {}
+        return (f, { log })
     }
+    override func setUp() async throws { PlaySafeGate.shared.reset() }
+    override func tearDown() async throws { PlaySafeGate.shared.reset() }
+
+    // GATE NO_AIRPLAY + INTRO_ORDER + OVERLAY: the intro is tips over the live menu (no screens of its own), the same with or without a TV
+    func testFreshInstallRunsTheIntroAsTipsOverTheMenu() {
+        for tv in [false, true] {
+            let (_, store, progress) = fixture()
+            let (f, _) = flow(store, progress, tv: tv)
+            XCTAssertEqual(f.step, .welcome); XCTAssertFalse(f.holdsMenu, "the menu boots behind the intro: nothing waits for a TV")
+            XCTAssertFalse(f.introOnPhone, "the TV is never dimmed for a phone-only intro screen")
+            f.menuScreenChanged("home")
+            XCTAssertEqual(f.coach(tv: tv)?.id, "welcome"); XCTAssertEqual(f.coach(tv: tv)?.action, "next")
+            XCTAssertEqual(f.coach(tv: tv)?.body.contains("SELECT"), tv, "with a TV the tip teaches the phone's remote")
+            f.coachNext("welcome"); XCTAssertEqual(f.step, .customize)
+            XCTAssertEqual(f.coach(tv: tv)?.target, "tab-locker"); XCTAssertEqual(f.coach(tv: tv)?.action, "press")
+            f.menuScreenChanged("locker"); XCTAssertEqual(f.coach(tv: tv)?.action, "hint", "in the Locker the tip does not hold the menu")
+            f.menuScreenChanged("home"); XCTAssertEqual(f.step, .how, "back from the Locker: how it works")
+            for page in 0..<3 { XCTAssertEqual(f.coach(tv: tv)?.id, "how-\(page)"); f.coachNext("how-\(page)") }
+            XCTAssertTrue(f.coach(tv: tv)?.body.contains("2 m (6 ft)") == false, "Play safe was the card before")
+            XCTAssertEqual(f.step, .goPlay); XCTAssertEqual(f.coach(tv: tv)?.target, "play")
+            f.coachNext("how-1"); XCTAssertEqual(f.step, .goPlay, "a stale NEXT changes nothing")
+            f.menuScreenChanged("clubhouse"); XCTAssertEqual(f.coach(tv: tv)?.target, "tab-home", "wandered off: back to the Plaza first")
+            f.menuScreenChanged("home"); f.menuScreenChanged("sport"); XCTAssertEqual(f.step, .tutorial)
+            XCTAssertEqual(f.coach(tv: tv)?.target, "sport-tutorial")
+            f.menuScreenChanged("tutorial"); XCTAssertEqual(f.coach(tv: tv)?.target, "bay-tutorial-golf")
+            XCTAssertEqual(OnboardingFlow(store: store, progress: progress, arguments: []).step, .tutorial, "a quit resumes where it was")
+        }
+    }
+    func testTheTipsSaySafetyAndTheTVSideOfThings() {
+        let (_, store, progress) = fixture()
+        let (f, _) = flow(store, progress)
+        f.menuScreenChanged("home"); f.coachNext("welcome"); f.keepLook(); f.coachNext("how-0")
+        XCTAssertEqual(f.coach(tv: true)?.title, "You're on the big screen")
+        XCTAssertTrue(f.coach(tv: false)?.body.contains("AirPlay") == true, "no TV: how to get one, and golf and bowling without")
+        f.coachNext("how-1")
+        let safe = f.coach(tv: true)
+        XCTAssertTrue(safe?.body.contains("2 m (6 ft) back from the TV") == true)
+        XCTAssertFalse(safe?.body.lowercased().contains("swing hard") == true)
+        let json = f.coachJSON(tv: true)
+        XCTAssertTrue(json.contains(#""id":"how-2""#) && json.contains(#""action":"next""#), json)
+        f.partyWaits = { true }; XCTAssertEqual(f.coachJSON(tv: true), "", "no tips while a party is joining")
+    }
+    func testKeepThisLookSkipsTheLocker() {
+        let (_, store, progress) = fixture()
+        let (f, _) = flow(store, progress)
+        f.next(); f.keepLook()
+        XCTAssertEqual(f.step, .how)
+    }
+    func testThePlaySafeCardSaysTwoMetresFromTheTV() {
+        XCTAssertTrue(PlaySafeGate.safety.contains { $0.text.contains("2 m (6 ft) back from the TV") })
+        XCTAssertTrue(PlaySafeGate.safety.allSatisfy { !$0.text.lowercased().contains("swing hard") }, "App Review 1.4.5: never urge a hard swing")
+        for sport in OnboardingFlow.lessons { XCTAssertGreaterThanOrEqual(PlaySafeGate.steps(sport, tvConnected: true).count, 3, sport.rawValue) }
+        XCTAssertTrue(PlaySafeGate.steps(.tennis, tvConnected: true).joined().contains("calibration"), "tennis explains calibration first")
+    }
+
+    // GATE LOCK
+    func testPlayIsLockedToTheTutorialInOrder() {
+        let (_, store, progress) = fixture()
+        store.step = .tutorial; store.explicitRun = true
+        let (f, _) = flow(store, progress)
+        XCTAssertTrue(f.locked)
+        for bay in ["bay-tennis-exhibition", "bay-golf-round", "bay-bowling-play", "bay-golf-online", "bay-tennis-calibration", "sport-daily"] {
+            XCTAssertFalse(f.allows(bay), bay)
+        }
+        for open in ["bay-tutorial-golf", "look-mirror", "desk-settings", "screen-howto", "board-invite", "mailbox-feedback"] { XCTAssertTrue(f.allows(open), open) }
+        XCTAssertEqual(f.nextLesson, .golf)
+        XCTAssertTrue(f.available(.golf)); XCTAssertFalse(f.available(.tennis)); XCTAssertFalse(f.available(.bowling))
+        XCTAssertEqual(f.menuState, #"{"locked":true,"next":"golf","done":[],"deferred":[]}"#)
+        f.startLesson(.bowling)
+        XCTAssertNil(PlaySafeGate.shared.request, "a later lesson cannot start first")
+    }
+    func testALessonOpensItsHowToPlayCardThenStarts() {
+        let (_, store, progress) = fixture()
+        store.step = .tutorial; store.explicitRun = true; store.setLessonStation(.golf, 3)
+        let (f, log) = flow(store, progress)
+        f.startLesson(.golf)
+        let r = try? XCTUnwrap(PlaySafeGate.shared.request)
+        XCTAssertEqual(r?.sport, .golf); XCTAssertEqual(r?.tutorial, true); XCTAssertNil(r?.onDefer)
+        XCTAssertEqual(log(), [], "nothing loads before the card is accepted")
+        PlaySafeGate.shared.accept()
+        XCTAssertEqual(log(), ["lesson:golf:3"], "accepted: the lesson starts (resuming its station)")
+        XCTAssertFalse(PlaySafeGate.shared.needsCard(.golf), "and the game it loads does not ask again")
+    }
+
+    // GATE UNLOCK
+    func testFinishingAllThreeUnlocksEverything() {
+        let (_, store, progress) = fixture()
+        store.step = .tutorial; store.explicitRun = true
+        let (f, _) = flow(store, progress, tv: true)
+        f.completed(.golf); f.menuScreenChanged("tutorial")
+        XCTAssertEqual(f.celebrating, .golf); XCTAssertTrue(f.locked); XCTAssertEqual(f.nextLesson, .tennis)
+        XCTAssertEqual(f.coach(tv: true)?.title, "Golf done! Tennis next"); XCTAssertEqual(f.coach(tv: true)?.target, "bay-tutorial-tennis")
+        XCTAssertEqual(f.menuState, #"{"locked":true,"next":"tennis","done":["golf"],"deferred":[]}"#)
+        f.completed(.tennis); XCTAssertEqual(f.nextLesson, .bowling); XCTAssertTrue(f.locked)
+        f.completed(.bowling)
+        XCTAssertEqual(f.step, .done); XCTAssertFalse(f.locked); XCTAssertTrue(f.allows("bay-golf-round"))
+        XCTAssertEqual(f.celebrating, .bowling)
+        XCTAssertEqual(f.coach(tv: true)?.id, "unlocked", "the last tip says everything is unlocked")
+        f.coachNext("unlocked"); XCTAssertNil(f.celebrating); XCTAssertNil(f.coach(tv: true))
+        XCTAssertTrue(OnboardingFlow.lessons.allSatisfy(progress.finishedTutorial))
+    }
+    func testNoTVPutsTennisOffAndStillUnlocks() {
+        let (_, store, progress) = fixture()
+        store.step = .tutorial; store.explicitRun = true
+        let (f, log) = flow(store, progress, tv: false)
+        f.completed(.golf); f.dismissCelebration(playNext: false)
+        f.startLesson(.tennis)
+        XCTAssertNotNil(PlaySafeGate.shared.request?.onDefer, "no TV: the tennis card offers to put it off")
+        PlaySafeGate.shared.deferLesson()
+        XCTAssertTrue(store.tennisDeferred); XCTAssertEqual(f.nextLesson, .bowling); XCTAssertEqual(log(), [])
+        XCTAssertEqual(f.menuState, #"{"locked":true,"next":"bowling","done":["golf"],"deferred":["tennis"]}"#)
+        f.completed(.bowling)
+        XCTAssertEqual(f.step, .done, "golf and bowling done on a phone with no TV: free to play")
+        XCTAssertTrue(f.available(.tennis), "the tennis lesson stays in the Tutorial for later")
+    }
+    func testTheCardAfterALessonStartsTheNextOne() {
+        let (_, store, progress) = fixture()
+        store.step = .tutorial; store.explicitRun = true
+        let (f, _) = flow(store, progress, tv: true)
+        f.completed(.golf)
+        f.dismissCelebration(playNext: true)
+        XCTAssertNil(f.celebrating); XCTAssertEqual(PlaySafeGate.shared.request?.sport, .tennis)
+    }
+
+    // GATE SAFETY
+    func testTheFirstGameOfEachSportWaitsForTheCardOncePerRun() {
+        let gate = PlaySafeGate.shared
+        var started = 0
+        XCTAssertTrue(gate.hold(sport: "golf") { started += 1 }, "the first golf game waits on its loading screen")
+        XCTAssertTrue(gate.request?.holding == true); XCTAssertEqual(started, 0)
+        gate.accept(); XCTAssertEqual(started, 1)
+        XCTAssertFalse(gate.hold(sport: "golf") { started += 1 }, "a second golf game goes straight in")
+        XCTAssertTrue(gate.hold(sport: "bowling") { started += 1 }, "another sport asks once too")
+        gate.sessionEnded(); XCTAssertNil(gate.request, "a game left while held drops its card")
+        XCTAssertFalse(gate.hold(sport: "football") {}, "not a playable sport")
+    }
+
+    // migration
     func testPhonesThatUsedTheAppBeforeSkipIt() {
         let (d, store, progress) = fixture()
         d.set(Date().timeIntervalSince1970 - 86_400, forKey: "ftue.installedAt.v1")
-        d.set("account", forKey: "ftue.step.v1")   // an earlier build's onboarding key
         XCTAssertEqual(OnboardingFlow(store: store, progress: progress, arguments: []).step, .done)
+        let (d2, store2, progress2) = fixture()
+        d2.set("done", forKey: "ftue.step.v2")
+        XCTAssertEqual(OnboardingFlow(store: store2, progress: progress2, arguments: []).step, .done, "finished the 10-25 onboarding")
     }
     func testAFinishedLessonSkipsOnboarding() {
         for sport in [Sport.tennis, .golf] {
             let (_, store, progress) = fixture(); progress.completeTutorial(sport)
-            let flow = OnboardingFlow(store: store, progress: progress, arguments: [])
-            XCTAssertEqual(flow.step, .done); XCTAssertFalse(flow.active)
+            XCTAssertFalse(OnboardingFlow(store: store, progress: progress, arguments: []).active)
         }
     }
     func testResetOnlyClearsFTUEKeys() {
         let (d, store, progress) = fixture()
         let roster = Data([1, 2, 3]); d.set(roster, forKey: "players.v1")
         progress.completeTutorial(.tennis)
-        store.step = .card; store.characterInitialized = true; store.setLessonStation(.golf, 4)
+        store.step = .how; store.characterInitialized = true; store.setLessonStation(.golf, 4); store.tennisDeferred = true
         _ = OnboardingFlow(store: store, progress: progress, arguments: ["-resetOnboarding", "-forceOnboarding"])
-        XCTAssertEqual(store.step, .hello); XCTAssertFalse(store.characterInitialized); XCTAssertEqual(store.lessonStation(.golf), 0)
+        XCTAssertEqual(store.step, .welcome); XCTAssertFalse(store.characterInitialized); XCTAssertEqual(store.lessonStation(.golf), 0)
+        XCTAssertFalse(store.tennisDeferred)
         XCTAssertEqual(d.data(forKey: "players.v1"), roster)
         XCTAssertTrue(d.bool(forKey: "sport.tennis.tutorialDone.v1"))
     }
@@ -45,124 +189,55 @@ import UIKit
         }
     }
     func testStepKeysRoundTrip() {
-        for step in [OnboardingStep.hello, .account, .controller, .room, .player, .card, .choose, .lesson(.golf), .lesson(.tennis), .reward(.golf), .done] {
-            XCTAssertEqual(OnboardingStep(key: step.key), step)
-        }
-        XCTAssertNil(OnboardingStep(key: "tutorial:tennis"))
+        for step in OnboardingStep.allCases { XCTAssertEqual(OnboardingStep(key: step.key), step) }
+        XCTAssertNil(OnboardingStep(key: "lesson:golf"), "the 10-25 keys are not v3 steps")
     }
     func testNameIsBounded() {
         XCTAssertEqual(OnboardingStore.name("  \n"), "Player 1")
         XCTAssertEqual(OnboardingStore.name(String(repeating: "a", count: 60)).count, 14)
-        XCTAssertEqual(OnboardingStore.name(" Ray \n"), "Ray")
     }
-    func testRemoteWalksTheStepsAndBackGoesBack() {
+    func testPartyPutsTheIntroAsideAndItComesBack() {
         let (_, store, progress) = fixture()
-        store.characterInitialized = true   // (the player step would otherwise shuffle the shared test player)
-        let flow = OnboardingFlow(store: store, progress: progress, arguments: [])
-        flow.signedInOverride = false
-        XCTAssertEqual(flow.focused, "go"); flow.select(); XCTAssertEqual(flow.step, .account, "sign in comes right after the welcome")
-        XCTAssertEqual(flow.rows(), [["signin"], ["later"]])
-        flow.move(.down); XCTAssertEqual(flow.focused, "later"); flow.select(); XCTAssertEqual(flow.step, .controller, "Not now goes on")
-        flow.back(); XCTAssertEqual(flow.step, .account)
-        flow.signedInOverride = true
-        XCTAssertEqual(flow.rows(), [["next"]], "signed in: only Next")
-        flow.select(); XCTAssertEqual(flow.step, .controller)
-        XCTAssertEqual(flow.focused, "try"); flow.select(); XCTAssertEqual(flow.step, .controller, "the practice press stays on the step")
-        XCTAssertEqual(flow.focused, "next"); flow.select(); XCTAssertEqual(flow.step, .room)
-        flow.back(); XCTAssertEqual(flow.step, .controller)
-        flow.next(); flow.select()
-        XCTAssertEqual(flow.step, .player)
-        XCTAssertEqual(flow.rows(), [["male", "female"], ["skin"], ["shirt"], ["name"], ["shuffle", "save"]])
-        flow.move(.down); flow.move(.down); flow.move(.down); flow.move(.down); flow.move(.right)
-        XCTAssertEqual(flow.focused, "save"); flow.select(); XCTAssertEqual(flow.step, .card)
-        flow.select(); XCTAssertEqual(flow.step, .choose)
-        XCTAssertEqual(flow.rows(), [["golf", "tennis"], ["skip"]])
+        let (f, _) = flow(store, progress)
+        var party = false
+        f.partyWaits = { party }
+        XCTAssertTrue(f.introShowing)
+        party = true; XCTAssertFalse(f.introShowing); XCTAssertTrue(f.active, "put off, not finished")
+        party = false; XCTAssertTrue(f.introShowing); XCTAssertEqual(f.step, .welcome)
     }
-    func testSwatchRowsChangeThePlayerSideways() {
-        let (_, store, progress) = fixture()
-        let session = SportsSession.shared
-        guard session.players.indices.contains(session.playerIndex) else { return }
-        let saved = session.players[session.playerIndex]
-        defer { session.players[session.playerIndex] = saved; session.savePlayers() }
-        store.step = .player; store.explicitRun = true; store.characterInitialized = true
-        let flow = OnboardingFlow(store: store, progress: progress, arguments: [])
-        flow.focus("shirt"); let shirt = flow.shirtIndex
-        flow.move(.right); XCTAssertEqual(flow.shirtIndex, (shirt + 1) % OnboardingFlow.shirts.count)
-        XCTAssertEqual(flow.focused, "shirt", "sideways on a swatch row changes the colour, not the focus")
-        flow.focus("skin"); let skin = flow.skinIndex
-        flow.move(.left); XCTAssertEqual(flow.skinIndex, (skin - 1 + LockerColor.skinPresets.count) % LockerColor.skinPresets.count)
-        flow.tap("female"); XCTAssertTrue(flow.player?.standardFemale == true)
-        flow.setName("  Birdie "); XCTAssertEqual(flow.player?.name, "Birdie")
-    }
+
+    // lessons and rewards (unchanged from v2)
     func testLessonEventsDriveTheCoachAndResumeStation() {
         let center = LessonCenter.shared
         defer { center.end() }
-        center.receive(#"{"kind":"station","sport":"golf","index":2,"count":8,"key":"commit","name":"Commit","title":"Swing through the ball","ask":"Hit two in a row","hint":"Don't stop","tips":["a","b"]}"#)
-        XCTAssertEqual(center.sport, .golf); XCTAssertEqual(center.station.index, 2); XCTAssertTrue(center.explaining)
-        XCTAssertEqual(OnboardingFlow.shared.store.lessonStation(.golf), 2, "a lesson resumes at the station it reached")
-        for n in 1...3 {
-            center.receive(#"{"kind":"attempt","result":"miss","grade":"THIN","text":"Slowed down","misses":\#(n),"read":[["COMMIT","62%",0],["BACK","75%",1]]}"#)
-        }
-        XCTAssertEqual(center.shown, .miss); XCTAssertEqual(center.grade, "THIN"); XCTAssertEqual(center.read.count, 2)
-        XCTAssertFalse(center.explaining); XCTAssertTrue(center.hintShown); XCTAssertTrue(center.skipOffered)
-        center.receive(#"{"kind":"attempt","result":"pass","grade":"GREAT","text":"Two committed swings","misses":3,"read":[]}"#)
+        center.receive(#"{"kind":"station","sport":"bowling","index":2,"count":5,"key":"line","name":"Line up","title":"Pick your spot","ask":"Move","hint":"Arrows","tips":["a","b"]}"#)
+        XCTAssertEqual(center.sport, .bowling); XCTAssertEqual(center.station.index, 2); XCTAssertTrue(center.explaining)
+        XCTAssertEqual(OnboardingFlow.shared.store.lessonStation(.bowling), 2, "a lesson resumes at the station it reached")
+        for n in 1...3 { center.receive(#"{"kind":"attempt","result":"miss","grade":"","text":"Move 3 boards","misses":\#(n),"read":[["Board","20",0]]}"#) }
+        XCTAssertTrue(center.hintShown); XCTAssertTrue(center.skipOffered)
+        center.receive(#"{"kind":"attempt","result":"pass","grade":"PASS","text":"Nice","misses":3,"read":[]}"#)
         XCTAssertEqual(center.shown, .pass); XCTAssertFalse(center.skipOffered)
-        OnboardingFlow.shared.store.setLessonStation(.golf, 0)
+        OnboardingFlow.shared.store.setLessonStation(.bowling, 0)
     }
-    func testFinishedLessonPaysItsRewardOnceAndShowsIt() {
-        let (_, store, progress) = fixture()
-        store.step = .choose; store.explicitRun = true
-        let flow = OnboardingFlow(store: store, progress: progress, arguments: [])
-        store.setLessonStation(.tennis, 5)
-        flow.completed(.tennis)
-        XCTAssertEqual(flow.step, .reward(.tennis)); XCTAssertTrue(progress.finishedTutorial(.tennis))
-        XCTAssertEqual(store.lessonStation(.tennis), 0)
-        XCTAssertEqual(flow.rows(), [["play", "other"], ["menu"]], "the golf lesson is offered next")
-        flow.tap("menu"); XCTAssertEqual(flow.step, .done); XCTAssertFalse(flow.active)
-    }
-
     func testFirstTutorialFillsLevelTwoAndReplayPaysNothing() {
         let (_, store, _) = fixture(); let player = UUID()
         _ = Progression.shared.award(player: player, stats: MatchStats(), won: false, score: "", opponent: "", practice: false, difficulty: 0)
         let before = Progression.shared.entry(for: player)
-        Analytics.clearEvents()
-        XCTAssertEqual(Progression.shared.awardTutorial(player: player, sport: .tennis, store: store), 200 - before.xp)
-        let earned = Progression.shared.entry(for: player)
-        XCTAssertEqual(earned.level, 2); XCTAssertEqual(earned.xp, 0)
-        XCTAssertTrue(store.requestedHeadband)
-        XCTAssertEqual(Progression.shared.awardTutorial(player: player, sport: .tennis, store: store), 0)
-        XCTAssertEqual(Progression.shared.entry(for: player), earned)
-        XCTAssertEqual(Analytics.events.filter { $0.contains("reward_claimed") }.count, 1)
-        XCTAssertEqual(Progression.shared.awardTutorial(player: player, sport: .golf, store: store), 50)
-        XCTAssertEqual(Progression.shared.entry(for: player).xp, 50)
-        XCTAssertNil(store.rewardItem(.golf)); XCTAssertEqual(store.rewardItem(.tennis), "white-headband")
+        XCTAssertEqual(Progression.shared.awardTutorial(player: player, sport: .golf, store: store), 200 - before.xp)
+        XCTAssertEqual(Progression.shared.entry(for: player).level, 2)
         XCTAssertEqual(Progression.shared.awardTutorial(player: player, sport: .golf, store: store), 0)
-        XCTAssertEqual(LevelRewards.rewards(for: 2).first?.id, "white-headband")
+        XCTAssertEqual(Progression.shared.awardTutorial(player: player, sport: .bowling, store: store), 50, "bowling's lesson pays too")
     }
-
-    func testReplayPreservesHeroProgressAndLevel() {
+    func testReplayRunsTheIntroAgainAndKeepsProgress() {
         let (defaults, store, progress) = fixture()
         let hero = Data([9, 8, 7]); defaults.set(hero, forKey: "players.v1")
-        progress.completeTutorial(.tennis)
-        let flow = OnboardingFlow(store: store, progress: progress, arguments: [])
-        let player = UUID(); let level = Progression.shared.entry(for: player)
-        flow.replay()
-        XCTAssertEqual(flow.step, .hello); XCTAssertTrue(store.characterInitialized)
-        XCTAssertEqual(defaults.data(forKey: "players.v1"), hero); XCTAssertTrue(progress.finishedTutorial(.tennis))
-        XCTAssertEqual(Progression.shared.awardTutorial(player: player, sport: .tennis, store: store), 0)
-        XCTAssertEqual(Progression.shared.entry(for: player), level)
-        flow.exitToMenu()
-    }
-
-    func testInterruptedRewardJournalRecoversWithoutDoubleXP() throws {
-        let (_, store, _) = fixture(); let player = UUID()
-        let target = Progression.Entry(level: 2, xp: 0, totalXP: 200, matches: 0, wins: 0)
-        let key = "ftue.pendingReward.tennis.v1"
-        store.defaults.set(200, forKey: key + ".xp"); store.defaults.set("white-headband", forKey: key + ".item")
-        store.defaults.set(try JSONEncoder().encode(target), forKey: key)
-        XCTAssertEqual(Progression.shared.awardTutorial(player: player, sport: .tennis, store: store), 200)
-        XCTAssertEqual(Progression.shared.entry(for: player), target)
-        XCTAssertEqual(Progression.shared.awardTutorial(player: player, sport: .tennis, store: store), 0)
-        XCTAssertEqual(Progression.shared.entry(for: player).totalXP, 200)
+        for s in OnboardingFlow.lessons { progress.completeTutorial(s) }
+        let (f, _) = flow(store, progress)
+        f.replay()
+        XCTAssertEqual(f.step, .welcome); XCTAssertTrue(store.characterInitialized)
+        XCTAssertEqual(defaults.data(forKey: "players.v1"), hero)
+        XCTAssertNil(f.nextLesson, "every lesson is still done")
+        f.next(); f.keepLook(); f.next(); f.next(); f.next(); f.menuScreenChanged("home"); f.menuScreenChanged("sport")
+        XCTAssertEqual(f.step, .tutorial); XCTAssertNil(f.nextLesson)
     }
 }

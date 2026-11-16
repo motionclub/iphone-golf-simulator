@@ -15,7 +15,7 @@ namespace GolfArcade.EditorTools
     /// and MatchHeroLook.kitV2Bones follow the new palette; the mesh name gets " [gp]" (old per-garment runtime binders skip such meshes).
     /// Per piece in work/clothing-v2/pipeline/out/<Hero>/: <Tag>.gp.json + .gp.bin, optional <Tag>_correctives.json (-> Resources
     /// ..._correctives.json, featureMode gp-rbf, read by GarmentPoseCorrectives) and <Tag>_hide.bin (-> ..._hide.bytes, the skin cover).
-    /// Per hero: garment_offsets.json -> Resources/<Sport>/KitsV2/<Sex>/KitV2_<Sport>_<Sex>_offsets.json (chat 3 clearance proxies).
+    /// (Per hero garment_offsets.json is no longer copied into Resources: nothing at runtime read it. 2026-11-15)
     /// Env GP_OUT (default ../work/clothing-v2/pipeline/out), GP_HEROES (comma list). Run in an APFS clone; GOLF_MUTE=1.
     public static class GarmentPipelineInstall
     {
@@ -143,7 +143,6 @@ namespace GolfArcade.EditorTools
                     CopyIfChanged(hf, res + $"KitV2_{sport}_{sex}_{piece.Substring(4).Replace("_", "")}_hide.bytes");
                     sb.AppendLine($"  {hero} {piece}: hide list {new FileInfo(hf).Length / 12} triangles");
                 }
-                CopyIfChanged(Path.Combine(dir, "garment_offsets.json"), res + $"KitV2_{sport}_{sex}_offsets.json");
                 look.kitV2Bones = names.ToArray();
                 PrefabUtility.SaveAsPrefabAsset(root, prefabPath);
             }

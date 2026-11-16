@@ -66,6 +66,8 @@ namespace GolfArcade.PlayTests
             string only = Environment.GetEnvironmentVariable("INTRO_FILM_ONLY") ?? "golffull,drive,golfskip,golfshort,tennisfull,tennisskip";
             string courseKey = Environment.GetEnvironmentVariable("INTRO_FILM_COURSE");
             Directory.CreateDirectory(Root); lines.Clear();
+            // (the HUD shows the launch's username: INTRO_FILM_NAME stands in for it in the editor)
+            GolfArcade.UI.MapSkin.LocalName = Environment.GetEnvironmentVariable("INTRO_FILM_NAME") ?? GolfArcade.UI.MapSkin.LocalName;
             try
             {
                 ClearSeen(); PresentationPolicy.Configure("full", false, true, false);

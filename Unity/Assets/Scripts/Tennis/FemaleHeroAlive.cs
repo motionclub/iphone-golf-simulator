@@ -107,7 +107,7 @@ namespace GolfArcade.Tennis
             if (!tennis && !Look.golfKit) tennis=GetComponentInParent<HeroTennisDriver>();
             if (!golfer && Look.golfKit) { golfer=GetComponentInParent<GolferView>();golf=FindFirstObjectByType<GolfGame>(); }
             // Replays restore already posed bones; applying an additive layer again would accumulate.
-            if (tennis && tennis.game && tennis.game.ReplayPlaying || golf && golf.Replaying) return;
+            if (tennis && tennis.game && tennis.game.ReplayPlaying) return;
             bool idle=false;
             if (tennis && tennis.actor)
             {

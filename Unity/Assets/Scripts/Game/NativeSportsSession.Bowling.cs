@@ -40,7 +40,8 @@ namespace GolfArcade.Game
         }
 
         void BowlingCue(string cue) => Emit("bowlCue", cue);
-        void BowlingOver(string summary) => Emit("bowlingGame", summary);
+        // (a lesson that outlasts ten frames racks up a new game instead of ending: BowlingLesson)
+        void BowlingOver(string summary) { if (!GolfArcade.Bowling.BowlingLesson.Running) Emit("bowlingGame", summary); }
 
         bool BowlingReceive(Message m)
         {

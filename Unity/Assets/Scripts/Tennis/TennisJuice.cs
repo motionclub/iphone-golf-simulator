@@ -108,7 +108,6 @@ namespace GolfArcade.Tennis
             if (shot == Shot.Toss) End();
             flashA = .12f; Title("PERFECT SERVE!", "", .8f); Punch(1);
         }
-        public void SetBall(Transform b) => ball = b;
         /// A short called beat (NET!...) on the play camera.
         public void Call(string text) { if (shot != Shot.Ultimate) Title(text, "", .8f); }
 

@@ -306,7 +306,7 @@ namespace GolfArcade.Tennis
                 Load("Tennis/Premium/TennisCanopy");Load("Tennis/Premium/TennisUnderstoryFar");
                 Load("Tennis/Premium/TennisCoconutPalm"); // fuller arched crown with the same shared pivot/role schema
                 if (resort && System.Environment.GetEnvironmentVariable("TENNIS_RESORT_PALM_FINISH1") != "0")
-                    Load("Tennis/Premium/TennisResortPalmFinish1");
+                    Load("Course/Resort/GolfTropicalCanopy22");   // (Tennis/Premium/TennisResortPalmFinish1 was a byte-identical copy)
             }
             static int Role(string name)
             {

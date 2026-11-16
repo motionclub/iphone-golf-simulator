@@ -45,7 +45,6 @@ namespace GolfArcade.Course
             double height=1+.12*Math.Tanh((oy-y)/20);
             return Math.Exp(-Math.Max(0,distance-FogNear)*FogExtinction*bank*height);
         }
-        public static bool ExactVisible(double x,double y,double z,double ox,double oy,double oz) => Visibility(x,y,z,ox,oy,oz) >= .24;
     }
     [Serializable]
     public sealed class EnvironmentSnapshot

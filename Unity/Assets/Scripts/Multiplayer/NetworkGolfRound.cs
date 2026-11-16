@@ -72,7 +72,6 @@ namespace GolfArcade.Multiplayer {
         readonly HashSet<int> away=new();
         /// The seats whose phones are away right now (SportsMultiplayer, from the owner's suspend/resume).
         public void SetAway(IEnumerable<int> seats) { away.Clear(); foreach(var s in seats) away.Add(s); }
-        public bool IsAway(int seat)=>away.Contains(seat);
         /// Everyone has holed out: the most the round waits before the next hole loads. The phones show no card between holes
         /// (the round's card is for its end) and say golfHoleCardDone straight away, so this is only for a phone that never does.
         public const double HoleCardSeconds=4;

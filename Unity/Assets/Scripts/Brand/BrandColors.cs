@@ -70,16 +70,6 @@ namespace MotionSports.Brand
         public static readonly Color TextUnderlay = new Color(0f, 0.0314f, 0.1765f, 0.55f);
 
         public enum Rarity { Common, Rare, Epic, Legendary }
-        public static Color ForRarity(Rarity r)
-        {
-            switch (r)
-            {
-                case Rarity.Rare: return RarityRare;
-                case Rarity.Epic: return RarityEpic;
-                case Rarity.Legendary: return RarityLegendary;
-                default: return RarityCommon;
-            }
-        }
 
         /// <summary>Background gradient: navyDeep at top -> royal at 24% of height, then flat (smoothstep).</summary>
         public static Gradient Background()

@@ -16,60 +16,6 @@ namespace GolfArcade.Bowling
         static readonly Color Ember = new Color(1f, .58f, .22f);
         const int LanesEachSide = 2;
 
-        /// The masking boards: a painted sunset over the sea with palm silhouettes.
-        static Texture2D SunsetPainting()
-        {
-            const int w = 512, h = 256;
-            var tex = new Texture2D(w, h, TextureFormat.RGBA32, true) { wrapMode = TextureWrapMode.Clamp, name = "TikiSunset" };
-            var px = new Color[w * h];
-            const float horizon = .34f;
-            for (int y = 0; y < h; y++)
-                for (int x = 0; x < w; x++)
-                {
-                    float u = x / (float)w, v = y / (float)h;
-                    Color c;
-                    float dx = (u - .5f) * 2, dy = v - horizon;
-                    if (v > horizon)
-                    {
-                        float k = (v - horizon) / (1 - horizon);
-                        c = Color.Lerp(new Color(1f, .62f, .30f), new Color(.98f, .38f, .42f), Mathf.Clamp01(k * 1.6f));
-                        c = Color.Lerp(c, new Color(.36f, .22f, .52f), Mathf.Clamp01((k - .5f) * 2));
-                        float r = Mathf.Sqrt(dx * dx * 4 + dy * dy * 16);
-                        if (r < .55f) c = Color.Lerp(new Color(1f, .93f, .62f), c, Mathf.SmoothStep(.4f, .55f, r));
-                        // painted cloud streaks
-                        float cl = BowlingVenue.Noise(u * 5, v * 30, 2);
-                        if (cl > .62f && k > .15f) c = Color.Lerp(c, new Color(1f, .55f, .55f), (cl - .62f) * 2);
-                    }
-                    else
-                    {
-                        float k = (horizon - v) / horizon;
-                        c = Color.Lerp(new Color(.42f, .30f, .45f), new Color(.10f, .22f, .36f), k);
-                        // the sun's glitter path on the water
-                        float glint = Mathf.Abs(dx) < .12f * (1 - k * .4f) + .02f ? BowlingVenue.Noise(u * 80, v * 200, 4) : 0;
-                        if (glint > .55f) c = Color.Lerp(c, new Color(1f, .85f, .55f), (glint - .55f) * 2.5f);
-                    }
-                    // palm silhouettes at both edges: a leaning trunk and a crown of fronds
-                    foreach (float side in new[] { -1f, 1f })
-                    {
-                        float baseU = side < 0 ? .08f : .92f;
-                        float tu = baseU + side * -.1f * v;                      // leans in toward the middle
-                        if (v < .78f && Mathf.Abs(u - tu) < .012f * (1.4f - v)) c = new Color(.10f, .05f, .08f);
-                        float cx = baseU + side * -.078f, cy = .8f;
-                        for (int f = 0; f < 7; f++)
-                        {
-                            float a = f / 7f * Mathf.PI * 2 + .3f;
-                            float fx = cx + Mathf.Cos(a) * .09f, fy = cy + Mathf.Sin(a) * .12f - .04f * Mathf.Abs(Mathf.Cos(a));
-                            float t = Mathf.Clamp01(((u - cx) * (fx - cx) + (v - cy) * (fy - cy)) / ((fx - cx) * (fx - cx) + (fy - cy) * (fy - cy)));
-                            float px2 = cx + (fx - cx) * t - u, py2 = cy + (fy - cy) * t - v;
-                            if (px2 * px2 + py2 * py2 < Mathf.Pow(.012f * (1 - t * .7f), 2)) c = new Color(.10f, .05f, .08f);
-                        }
-                    }
-                    px[y * w + x] = c;
-                }
-            tex.SetPixels(px); tex.Apply(true);
-            return tex;
-        }
-
         /// Sand with soft ripples and a little grain.
         static Texture2D SandTexture()
         {

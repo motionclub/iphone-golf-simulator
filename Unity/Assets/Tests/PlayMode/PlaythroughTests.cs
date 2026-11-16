@@ -105,7 +105,6 @@ namespace GolfArcade.PlayTests
             var cam = Camera.main;
             if (cam) cam.aspect = GameCapture.PhoneWidth / (float)GameCapture.PhoneHeight;
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;
             yield return null;
             game.ChooseHoles(0);
             game.Play();

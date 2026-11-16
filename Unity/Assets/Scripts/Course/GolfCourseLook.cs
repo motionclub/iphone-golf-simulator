@@ -300,20 +300,10 @@ namespace GolfArcade.Course
             mowing.SetPixels(pixels); mowing.Apply(false,true);
         }
 
-        /// Called after ground/obstacle extraction. Render-only UV repairs cannot change the collision source.
-        public void FinishModel(GameObject model)
-        {
-            var steps = FinishModelSteps(model);
-            while (steps.MoveNext()) { }
-        }
-
         /// FinishModel in slices: yields how far along it is (0 to 1) after each pass, so a loading screen can be
         /// drawn between the slow ones; FinishModel runs it to the end in one go.
         public IEnumerator<float> FinishModelSteps(GameObject model)
         {
-#if UNITY_EDITOR
-            var physicsToken=GolfVisualPhysicsGate.Begin(model,hole);
-#endif
             GolfPostcardBasalt.Apply(model,hole);
             GolfLandmarkFinish.Apply(model,hole,this);
             yield return .1f;
@@ -355,16 +345,10 @@ namespace GolfArcade.Course
             if (hole.Number == 12) GolfArcade.EnvironmentArt.LuminousCoastPilot.Build(model.transform, true);
             GolfSurfaceBatching.Apply(model);
             GolfPlantInstances.Apply(model);
-#if UNITY_EDITOR
-            GolfVisualPhysicsGate.End(physicsToken,model,hole);
-#endif
         }
 
         public void DressProcedural(GameObject root)
         {
-#if UNITY_EDITOR
-            var physicsToken=GolfVisualPhysicsGate.Begin(root,hole);
-#endif
             GolfSurfaceEdges.Reset();
             foreach (var r in root.GetComponentsInChildren<MeshRenderer>())
             {
@@ -373,9 +357,6 @@ namespace GolfArcade.Course
                 if (role.HasValue) r.sharedMaterial = Get(role.Value);
             }
             GolfResortDress.Apply(root,hole);
-#if UNITY_EDITOR
-            GolfVisualPhysicsGate.End(physicsToken,root,hole);
-#endif
         }
 
         void OnDestroy()

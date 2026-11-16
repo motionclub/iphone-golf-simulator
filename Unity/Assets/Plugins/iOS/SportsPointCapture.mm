@@ -71,7 +71,10 @@ extern "C" id SportsMakePointRenderDelegate(id existing) {
     RenderPluginArrayDelegate *combined=[RenderPluginArrayDelegate new]; combined.delegateArray=@[existing,recorder]; return combined;
 }
 extern "C" {
-void SportsRecorderConfigure(const char *session,int display) { [SportsPointRecorder.shared configureSession:session?[NSString stringWithUTF8String:session]:@"" display:display]; }
+void SportsRecorderConfigure(const char *session,int display) {
+    [SportsPointRecorder.shared configureSession:session?[NSString stringWithUTF8String:session]:@"" display:display];
+    [SportsSessionRecorder.shared gameDisplayChanged:display];   // a running take follows the game to its display
+}
 void SportsRecorderEnable(bool enabled) { [SportsPointRecorder.shared setEnabled:enabled]; }
 void SportsRecorderPause(bool paused) { [SportsPointRecorder.shared setPaused:paused]; }
 void SportsRecorderBeginPoint() { [SportsPointRecorder.shared beginPoint]; }

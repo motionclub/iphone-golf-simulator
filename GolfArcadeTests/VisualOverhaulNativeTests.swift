@@ -40,7 +40,7 @@ import CryptoKit
         let faceRoles: Set<String> = ["Reference_Face_Brow", "Reference_Face_Sclera", "Reference_Face_Iris", "Reference_Face_Pupil", "Reference_Face_Limbal", "Reference_Face_Catch"]
         let resources = ["MatchHero_OriginalEye_RelativeIris", "MatchHero_OriginalEye_RelativeSclera", "MatchHero_OriginalSeam_RelativeSkinPigment"]
         for name in resources { XCTAssertNotNil(Bundle.main.url(forResource: name, withExtension: "png"), name) }
-        for golf in [false, true] { for female in [false, true] { for distance in golf ? [false] : [false, true] {
+        for golf in [false, true] { for female in [false, true] { for distance in [false] {
             let asset = try XCTUnwrap(MatchHero.asset(female: female, golf: golf, distance: distance))
             let rig = try XCTUnwrap(asset.rig())
             XCTAssertEqual(rig.info.bones.count, golf ? (female ? 96 : 61) : (female ? 89 : 152), "current Unity rig (10-19: + the golf bag's Back_Bag socket, MENU HERO; 11-12 export: + the six forearm twist bones of 11-11): the tennis heroes carry the authored finger / face bones (+ the cap's Headwear socket, ACCESSORIES)")
@@ -95,7 +95,7 @@ import CryptoKit
         let repo = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
         struct Row: Decodable { let name: String; let heroLookSourceFiles: [String: String] }
         let rows = try JSONDecoder().decode([Row].self, from: Data(contentsOf: repo.appendingPathComponent("GolfArcadeTests/VisualGolden/provenance.json")))
-        XCTAssertEqual(Set(rows.map(\.name)), ["MatchHero_Male", "MatchHero_Female", "MatchHero_Male_Distance", "MatchHero_Female_Distance", "GolfKitHero_Male", "GolfKitHero_Female"])
+        XCTAssertEqual(Set(rows.map(\.name)), ["MatchHero_Male", "MatchHero_Female", "GolfKitHero_Male", "GolfKitHero_Female"])
         var checked = 0, stale: [String] = []
         for row in rows {
             XCTAssertGreaterThan(row.heroLookSourceFiles.count, 30, "\(row.name): the provenance lists the hero look sources")
@@ -114,7 +114,7 @@ import CryptoKit
         let folder = ProcessInfo.processInfo.environment["VISUAL_GOLDEN_DIR"].map { URL(fileURLWithPath:$0) }
         let bundle = Bundle(for:VisualOverhaulNativeTests.self)
         var evidence: [String] = []
-        for golf in [false,true] { for female in [false,true] { for distance in golf ? [false] : [false,true] {
+        for golf in [false,true] { for female in [false,true] { for distance in [false] {
             let name = (golf ? "GolfKitHero_" : "MatchHero_") + (female ? "Female" : "Male") + (distance ? "_Distance" : "")
             let asset = try XCTUnwrap(MatchHero.asset(female:female,golf:golf,distance:distance),name)
             let root = MatchHeroData.buildHero(asset,picks:MatchHeroData.Picks(colour:{ _ in nil }))

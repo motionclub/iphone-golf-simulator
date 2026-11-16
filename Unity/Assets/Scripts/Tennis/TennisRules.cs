@@ -409,44 +409,6 @@ namespace GolfArcade.Tennis
             return true;
         }
 
-        /// Where an incoming ball will reach the player's baseline plane, by plain ballistics
-        /// with bounces. Pure and deterministic so the movement assist can be tested without
-        /// a scene.
-        public static bool PredictInterceptX(Vector3 position, Vector3 velocity, float planeZ, float restitution, out float x, float spin = 0)
-        {
-            x = position.x;
-            if (velocity.z >= 0 == position.z >= planeZ) return false;
-            const float dt = TennisBall.Step;
-            for (int i = 0; i < 480; i++)
-            {
-                Vector3 next = position, v = velocity;
-                TennisBall.Integrate(ref next, ref v, spin, dt);
-                // The same bounce the simulation applies, spin and all. The old prediction
-                // skipped the bounce's loss of pace, so the auto-positioning aimed short.
-                if (next.y < BallRadius && v.y < 0) { next.y = BallRadius; TennisBall.Bounce(ref v, ref spin, restitution); }
-                if ((position.z - planeZ) * (next.z - planeZ) <= 0)
-                {
-                    float span = next.z - position.z;
-                    float t = Mathf.Abs(span) < .000001f ? 0 : (planeZ - position.z) / span;
-                    x = Mathf.Lerp(position.x, next.x, Mathf.Clamp01(t));
-                    return true;
-                }
-                position = next; velocity = v;
-            }
-            return false;
-        }
-
-        /// How far to shift the player toward the predicted intercept, in court metres.
-        /// Zero once the player is inside the dead band, so the final approach is always
-        /// theirs: the assist closes the long gaps, never the last metre.
-        public static float MovementAssist(float playerX, float interceptX)
-        {
-            float gap = interceptX - playerX;
-            float beyond = Mathf.Abs(gap) - AssistDeadBand;
-            if (beyond <= 0) return 0;
-            return beyond * Mathf.Sign(gap) * AssistAuthority;
-        }
-
         /// Serve timing. The ball is tossed, rises, and must be struck near the apex with a
         /// downward swing. Miss the window and it goes into the net — one fault is allowed.
         /// The pre-serve routine (two bounces and the wind-up, see TennisServeRoutine) fills
@@ -769,16 +731,6 @@ namespace GolfArcade.Tennis
             return new Vector2(dir.x * radial * StringHalfWidth, dir.y * radial * StringHalfHeight);
         }
 
-        /// Clamp a contact offset onto the string bed for display: an assisted hit is measured
-        /// from wherever the ball was, which can be well off the racket.
-        public static Vector2 OnStringBed(Vector2 offset)
-        {
-            var scaled = new Vector2(offset.x / StringHalfWidth, offset.y / StringHalfHeight);
-            if (scaled.magnitude <= 1.05f) return offset;
-            scaled = scaled.normalized * 1.05f;
-            return new Vector2(scaled.x * StringHalfWidth, scaled.y * StringHalfHeight);
-        }
-
         /// Height of a (possibly spun) ball as it crosses the net plane, by simulation.
         public static float NetClearance(Vector3 start, Vector3 velocity, float spin)
         {
@@ -882,16 +834,6 @@ namespace GolfArcade.Tennis
         /// Now authored into the clips; kept as the reference the Blender fix uses.
         public const float BackhandCoil = 42f;        // extra degrees of shoulder turn, peak backswing
         public const float BackhandSecondGrip = .085f; // metres down the handle for the off hand
-
-        /// Coil strength across the stroke: builds into the backswing, releases through the
-        /// ball, gone by the finish.
-        public static float BackhandCoilAt(float playhead)
-        {
-            float span = Mathf.InverseLerp(StrokeEntry, StrokeExit, playhead);
-            // Peak just before contact, then fall away faster than it built.
-            return span < .35f ? Mathf.SmoothStep(0, 1, span / .35f)
-                 : Mathf.SmoothStep(1, 0, Mathf.Clamp01((span - .35f) / .5f));
-        }
 
         /// Locomotion styling, from running and tennis-movement biomechanics.
         ///

@@ -183,12 +183,10 @@ namespace GolfArcade.Tennis
             }
             if (!garment)
             {
-                rig.bodyP = q; rig.bodyD = new Vector3[n]; rig.grid = new Dictionary<Vector3Int, List<int>>();
-                for (int i = 0; i < n; i++)
-                {
-                    rig.bodyD[i] = toHero.MultiplyPoint3x4(after[i]) - q[i];
-                    var key = Rig.Key(q[i]); if (!rig.grid.TryGetValue(key, out var l)) rig.grid[key] = l = new List<int>(); l.Add(i);
-                }
+                // (the garments take the same geometric field as the body, so nothing samples these any more: the look-up grid over
+                // them, a dictionary entry and a list per cell for 52,000 vertices on every first build, is no longer made)
+                rig.bodyP = q; rig.bodyD = new Vector3[n];
+                for (int i = 0; i < n; i++) rig.bodyD[i] = toHero.MultiplyPoint3x4(after[i]) - q[i];
             }
             if (moved == 0) { cache[(source, look.female)] = source; return source; }
             if (!garment && female && normals.Length == n && System.Environment.GetEnvironmentVariable("HERO_ARM_NORMALS") != "0")

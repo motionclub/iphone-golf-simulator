@@ -20,15 +20,22 @@ namespace GolfArcade.Hub.Menu
             // Home: down from any + in the squad is PLAY (bottom left), never the tab bar
             if (dy < 0 && dx == 0 && joinSeats.Exists(j => j.item == hovered))
                 foreach (var it in Visible()) if (it.id == "play" && it.enabled) { SetHovered(it); clickPulse = -9; return; }
-            var from = RectOf(hovered).center; var dir = new Vector2(dx, dy).normalized;
+            var fromRect = RectOf(hovered); var from = fromRect.center; var dir = new Vector2(dx, dy).normalized;
+            bool vertical = dx == 0;
             MenuItem best = null; float bestScore = float.MaxValue;
             foreach (var it in Visible())
             {
                 if (it == hovered || !it.enabled) continue;
-                var d = RectOf(it).center - from;
+                var r = RectOf(it);
+                var d = r.center - from;
                 float along = Vector2.Dot(d, dir);
                 if (along < 8) continue;   // only what lies that way
                 float across = Mathf.Abs(dir.x * d.y - dir.y * d.x);
+                // up / down a list: an item whose box shares the column is straight ahead, however wide it is (11-15: DAILY CHALLENGES,
+                // wider than the sports above it for its NEW tag, had its centre so far right that BACK in the corner won and the
+                // highlight jumped past it); off to the side, the gap between the boxes, not their centres
+                // (a little of the centres' offset still counts, so of several boxes in the column the one most squarely below wins)
+                if (vertical) across = Mathf.Max(0, Mathf.Max(r.xMin - fromRect.xMax, fromRect.xMin - r.xMax)) + across * .15f;
                 // straight ahead wins over a closer item off to the side (a list's next row before the tab bar's neighbour); sideways, the same
                 // row wins harder (Home: Invite friends -> PLAY along the bottom, not up to the + JOIN seat between them)
                 float score = along + across * (dx != 0 && dy == 0 ? 4f : 2.4f);
@@ -53,6 +60,7 @@ namespace GolfArcade.Hub.Menu
         void FocusFirst()
         {
             if (!Leader || phoneOpen) return;
+            if (CoachFocus()) return;   // a first-launch tip's button (MenuHud.Coach.cs)
             MenuItem first = null;
             if (Primary.TryGetValue(Screen, out var want)) foreach (var it in Visible()) if (it.id == want && it.enabled) { SetHovered(it); return; }
             if (screenItems.TryGetValue(Screen, out var list)) foreach (var it in list) if (it.Visible && it.enabled) { first = it; break; }

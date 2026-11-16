@@ -5,18 +5,6 @@ import Darwin
 /// `waiting`: online tennis, this player is set up and the match starts when the other player is too.
 enum ControllerSetupStage { case scan, timing, ready, waiting, playing }
 
-enum TennisUltimate: Int, CaseIterable, Identifiable {
-    case skybreaker = 0, rescueLob = 1, curveball = 2
-    var id: Int { rawValue }
-    var title: String { switch self { case .skybreaker: "Skybreaker"; case .rescueLob: "Rescue Lob"; case .curveball: "Curveball" } }
-    var detail: String { switch self {
-    case .skybreaker: "Your next hit is a rocket: 30% faster, straight where you aim."
-    case .rescueLob: "Your next hit floats sky-high and deep, buying time to get back in position."
-    case .curveball: "Your next hit bends sideways in the air toward your aim side."
-    } }
-    var icon: String { switch self { case .skybreaker: "bolt.fill"; case .rescueLob: "arrow.up.forward.circle.fill"; case .curveball: "tornado" } }
-}
-
 @MainActor @Observable
 final class SportsSession {
     static let shared = SportsSession()
@@ -32,7 +20,7 @@ final class SportsSession {
     static let handheldDeck: CGFloat = 0.25
     #if DEBUG
     /// `-handheldCheck` (simulator, no Unity): the handheld layout over a stand-in frame.
-    func debugPhonePlay() { phonePlay = true }
+    func debugPhonePlay(_ on: Bool = true) { phonePlay = on }
     #endif
     var lastPlayedSport: Sport {
         guard players.indices.contains(playerIndex) else { return .tennis }
@@ -115,6 +103,9 @@ final class SportsSession {
     var golfCourse = MultiplayerLobby.currentGolfVenue(UserDefaults.standard.string(forKey: "sports.golfCourse") ?? "cliffside") {
         didSet { UserDefaults.standard.set(golfCourse, forKey: "sports.golfCourse") }
     }
+    /// The course the golf being played wears: `golfCourse`, but Cliffside during the golf lesson, whose Practice Tee is built on
+    /// Cliffside's look (Unity Course.Lesson), so its loading screen, controller and HUD show the normal map, not the last pick.
+    var shownGolfCourse: String { LessonCenter.shared.active && LessonCenter.shared.sport == .golf ? "cliffside" : golfCourse }
     /// How long a golf round is: 0 plays the course's own holes (five or six); 9 or 18 go past them, on into the next courses
     /// when `golfLinkCourses` is on, else round the same course again (Unity's Course.Round). Set on the course screen or a
     /// lobby's Match Options, and remembered.
@@ -164,14 +155,6 @@ final class SportsSession {
     }
     var status = "Connect a TV or Mac to play. This phone is your controller."
     var feedback = ""
-    var ultimateChoice = TennisUltimate(rawValue: UserDefaults.standard.integer(forKey: "tennis.ultimate")) ?? .skybreaker
-    var ultimateMeter = 0.0
-    var ultimateArmed = false
-    var canArmUltimate = false
-    var loadoutLocked = false
-    // Retained API for older callers; ultimates are no longer a gameplay action.
-    func chooseUltimate(_ choice: TennisUltimate) {}
-    func armUltimate() {}
     var stamina = 1.0
     var phase = "calibrating"
     var tracking: SportsTrackingQuality = .lost
@@ -413,7 +396,7 @@ final class SportsSession {
     }
     /// Start a golf round; legacy tutorial requests use the same playable round.
     func startGolf(tutorial: Bool, preview: Bool, daily: Int? = nil) {
-        sport = "golf"; opponentName = ""; lastGolfRound = nil
+        sport = "golf"; opponentName = ""; lastGolfRound = nil; holeInOneDay = 0
         // the day's forecast round has everything on, whatever the match settings say
         let daily = tutorial ? 0 : daily ?? 0
         let course = GolfCourseChoice(rawValue: golfCourse)?.rawValue ?? "cliffside"
@@ -425,10 +408,33 @@ final class SportsSession {
         start(preview: preview)
         launchExtras = [:]
     }
+    /// The Daily Hole in One (DailyHoleInOne.swift): Unity builds the day's three holes, cups and spawns from `day` alone (the same
+    /// for everyone), plays one shot on each and reports them ("holeInOne"); the world board goes back to it for the last card.
+    func startHoleInOne(day: Int, preview: Bool) {
+        sport = "golf"; opponentName = ""; lastGolfRound = nil; holeInOneDay = day
+        launchExtras = ["mode": "round", "course": "holeinone", "noTwists": true, "noChallenges": true, "daily": 0, "holeInOne": day]
+        start(preview: preview)
+        launchExtras = [:]
+    }
+    /// The day of the Daily Hole in One being played, or 0.
+    private(set) var holeInOneDay = 0
+    /// Today's world standing to the round's last card (Unity: GolfGame.SetHoleInOneBoard).
+    func sendHoleInOneBoard() {
+        guard active, sport == "golf", holeInOneDay != 0 else { return }
+        sendJSON(["version": 1, "session": sessionID, "action": "holeInOneBoard", "mode": DailyHoleInOne.shared.boardJSON()])
+    }
     /// A lesson (PLAN_Onboarding_GolfLesson.md): Unity runs the sport's lesson from `station` and reports it ("lesson" events).
     func startLesson(_ sport: Sport, station: Int) {
         self.sport = sport.rawValue; opponentName = sport == .tennis ? "Ray" : ""; lastGolfRound = nil
         LessonCenter.shared.begin(sport)
+        if sport == .bowling {
+            // the bowling lesson (BowlingLesson.cs): one bowler, this phone's player, on the venue last picked
+            opponentName = ""; bowlingState = ""
+            launchExtras = ["mode": players[min(playerIndex, players.count - 1)].name, "lesson": true, "lessonStation": station]
+            start(preview: !displayConnected)
+            launchExtras = [:]
+            return
+        }
         launchExtras = sport == .golf
             ? ["mode": "lesson", "course": "lesson", "noTwists": true, "noChallenges": true, "daily": 0, "lesson": true, "lessonStation": station]
             : ["mode": "lesson", "opponent": "", "opponentName": "Ray", "round": "", "difficulty": 0.1, "sets": 1, "games": 1, "coach": "",
@@ -470,7 +476,7 @@ final class SportsSession {
         SportsDisplays.shared.refresh()
         let preview = Self.benchmark && !displayConnected
         NSLog("[SportsSession] launch sport=%@ mode=%@",sport,preview ? "phone-preview" : "external-controller")
-        // From a bay in the Plaza (PLAN_MenuHub_WalkableWorld §5): the match loads behind the plaza while you sit, no TV cover.
+        // From the menu on the TV: what the launch is made from (a mode's station, or "menu"); nil for any other launch.
         let bay = Self.benchmark || multiplayerControllerOnly ? nil : HubSession.shared.bayForLaunch()
         // golf and bowling never need a TV: with none, they play on this phone, held upright (handheld play). A party guest
         // without a TV plays its own copy of the round there too, whoever else has one. Tennis still asks for one.
@@ -490,7 +496,6 @@ final class SportsSession {
         golfController = .waiting; golfControllerMap = nil
         setupStage = .scan; axisGate = SportsAxisGate(); phase="calibrating"; feedback=""; golfPhase=""; golfHasNextHole=false; golfShotReady=false; golfSwingState=0; golfTap=GolfTapSwing(); stamina=1
         multiplayerSetupStarted = false; setupProblem = ""
-        ultimateMeter=0; ultimateArmed=false; canArmUltimate=false; loadoutLocked=false
         let p=players[min(playerIndex,players.count-1)]
         UserDefaults.standard.set(sport, forKey: "sports.lastSport.\(p.id.uuidString)")
         matchEmotes = p.equippedEmotes; emoteWindow = ""; emoteNotice = ""; tennisPhase = ""; introSkip = nil
@@ -513,13 +518,11 @@ final class SportsSession {
         for (key, value) in launchExtras { pending?[key] = value }
         // from the pointer menu: the match loads under the loading screen and starts as soon as it is built (no START to press: a
         // party's guests tap Ready before the launch, on their phones)
-        let fromMenu = bay != nil && HubSession.shared.menuMode
-        // Only a walkable-Plaza bench builds the match behind the plaza (the plaza stays on the TV, no cover). Under the menu's
-        // loading cover nobody sees the plaza, and keeping it loaded while the round builds is what got the app killed for memory
-        // (10-26 20:39, party golf at Cliffside: JETSAM per-process limit at the end of the load): the scene swaps instead.
-        // An online match never builds behind the plaza either: both scenes in memory at once is the peak that gets the app killed, and a
-        // kill sends a player through the reopen path mid-match (2026-10-28: 171 MB left as online tennis loaded).
-        if let bay { pending?["seamless"] = !fromMenu && multiplayerMatchID == nil; pending?["bay"] = bay }
+        let fromMenu = bay != nil
+        // No match builds behind the menu ("seamless" is never sent): under the loading cover nobody sees the menu, and keeping its
+        // scene loaded while the round builds is what got the app killed for memory (10-26 20:39, party golf at Cliffside: JETSAM
+        // per-process limit at the end of the load; 2026-10-28: 171 MB left as online tennis loaded). The scene swaps instead.
+        if let bay { pending?["bay"] = bay }
         if fromMenu { pending?["menuLabel"] = HubSession.shared.menuLaunchLabel }
         if Self.benchmark {
             // Verification flags affect this explicit benchmark launch only;
@@ -547,8 +550,8 @@ final class SportsSession {
         loading.begin(now: LoadingModel.clockNow, multiplayer: multiplayerMatchID != nil,
                       key: sport == "golf" ? "golf-\(golfCourse)" : sport == "tennis" ? "tennis-\(tennisVenue)" : sport)
         loading.onFinish = { [weak self] in self?.loadingFinished() }
-        // never put a TV loading window over the controller-only phone; a walkable-Plaza bench loads behind the plaza with none
-        if (bay != nil && !fromMenu) || (multiplayerCalibrates && multiplayerControllerOnly) { loading.cardAppeared(); loadCoveredRuntime(in: window) }
+        // never put a TV loading window over the controller-only phone
+        if multiplayerCalibrates && multiplayerControllerOnly { loading.cardAppeared(); loadCoveredRuntime(in: window) }
         else { SportsDisplays.shared.beginLoadingCover(in: window) { [weak self] in self?.loadCoveredRuntime(in: window) } }
     }
     private func loadCoveredRuntime(in window: UIWindow) {
@@ -687,7 +690,7 @@ final class SportsSession {
         guard ready, phase == "steering" else { status="Tap Ready to set your center and play."; return }
         menuPauseVisible = false; SportsDisplays.shared.external?.isHidden = true
         if !displayConnected && !phonePlay { SportsDisplays.shared.restorePhoneControls() }
-        command("resume"); paused=false; status="Playing"; if sport == "tennis" { loadoutLocked=true }
+        command("resume"); paused=false; status="Playing"
         if sport == "tennis" { tennisControllerActive=true }
         SportsDiagnostics.write("resume phase=\(phase) target=\(target)")
     }
@@ -866,6 +869,10 @@ final class SportsSession {
     /// player sees (court direction, motion) only now.
     private func loadingFinished() {
         guard active, ready else { return }
+        // Play safe (PLAN_Onboarding_v3): the first game of each sport this run waits on its loading screen for the phone's card
+        if multiplayerMatchID == nil, !Self.benchmark, PlaySafeGate.shared.hold(sport: sport, then: { [weak self] in self?.loadingFinished() }) {
+            status = "Read the card on your phone, then tap Got it"; return
+        }
         SportsDisplays.shared.finishLoadingCover()
         SportsDiagnostics.write("loaded \(sport) \(SportsDiagnostics.memory)")
         let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("presentation/\(sessionID)", isDirectory: true)
@@ -924,7 +931,7 @@ final class SportsSession {
     func receiveMatchFinish(won: Bool, score: String) {
         guard active, finishedMatch == nil else { return }
         finishedMatch = (won, score)
-        SportsDiagnostics.write("match finished: phone Next enabled; classic=\(TennisMenu.shared.classic) external=\(displayConnected)")
+        SportsDiagnostics.write("match finished: phone Next enabled; external=\(displayConnected)")
         motion.stop()
         TennisMenu.shared.matchFinished(won: won, score: score)
         // Keep explicit phone actions visible until the player chooses one.
@@ -968,11 +975,6 @@ final class SportsSession {
     /// The last golf round's tally, as Unity reported it.
     var lastGolfRound: GolfRoundStats?
 
-    func showMatchRewards() {
-        guard active, finishedMatch != nil else { return }
-        TennisMenu.shared.beginPostMatch()
-    }
-
     private func sendGolfReady(_ action: String) {
         guard active else { return }
         var message: [String: Any] = ["version": 1, "session": sessionID, "action": action]
@@ -1006,10 +1008,11 @@ final class SportsSession {
     func exitGame() {
         // an online match: back to the Plaza (a party goes back to its bench together)
         if multiplayerMatchID != nil { HubSession.shared.leaveOnlineMatch() }
-        else if OnboardingFlow.shared.active { OnboardingFlow.shared.gameLeft() }
+        else if OnboardingFlow.shared.lessonSport != nil || LessonCenter.shared.active { OnboardingFlow.shared.gameLeft() }
         else { TennisMenu.shared.goHome() }
     }
     func end() {
+        PlaySafeGate.shared.sessionEnded()
         if active { SportsDisplays.shared.beginExitCover() }
         menuPauseVisible = false
         if active && ready {
@@ -1051,7 +1054,7 @@ final class SportsSession {
         let upHere = multiplayerMatchID == nil || (golfController.party?.myTurn == true && ["Aim", "Flight", "Replay"].contains(golfPhase))
         let want = active && sport == "golf" && ready && loading.finished && !paused && !menuPauseVisible
             && (displayConnected || multiplayerControllerOnly) && !phonePlay && upHere
-            && !OnboardingFlow.shared.holdsMenu && finishedMatch == nil
+            && finishedMatch == nil
             && ["Intro", "Aim", "Flight", "Replay", "HoleDone"].contains(golfPhase)
             && (golfPhase != "Aim" || golfShotReady || multiplayerMatchID != nil)
         guard want != unityControllerShown else { return }
@@ -1069,9 +1072,6 @@ final class SportsSession {
         let firstReady = !ready
         pending = nil; ready = true
         if displayConnected && !runtimeExternalDisplay { routeGameToExternalDisplay() }
-        if UserDefaults.standard.bool(forKey: "sports.resetCoaching") {
-            UserDefaults.standard.set(false, forKey: "sports.resetCoaching"); command("coaching")
-        }
         loading.markReady(now: Date(timeIntervalSince1970: renderedAt.flatMap { $0.isFinite && $0 > 0 ? $0 : nil } ?? ProcessInfo.processInfo.systemUptime))
         if multiplayerMatchID != nil, firstReady {
             MultiplayerService.shared.runtimeLoaded(readyAfter: loading.secondsUntilLift)
@@ -1189,6 +1189,8 @@ final class SportsSession {
                 if parts.count == 2 { Analytics.track("golf_hole_done", ["strokes": parts[0], "capped": parts[1]]) }
             case "rally": if let n=Int(event["message"] as? String ?? "") { SportProgress.shared.recordRally(n); SportsDiagnostics.write("rally persisted \(n)") }
             case "matchStats": lastMatchStats = MatchStats(line: event["message"] as? String ?? "")
+            case "holeInOne":
+                if let result = HoleInOneResult(line: event["message"] as? String ?? "") { DailyHoleInOne.shared.finished(result) }
             case "golfRound":
                 let stats = GolfRoundStats(line: event["message"] as? String ?? "")
                 if lastGolfRound == nil { lastGolfRound = stats; TennisMenu.shared.golfRoundFinished(stats) }

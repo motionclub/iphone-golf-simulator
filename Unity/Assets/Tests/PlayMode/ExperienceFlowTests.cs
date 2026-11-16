@@ -30,7 +30,7 @@ namespace GolfArcade.PlayTests
             Time.captureFramerate = 60; Time.timeScale = 1;
             yield return SceneManager.LoadSceneAsync("Golf"); yield return null;
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.Demo = true; game.InstantReplays = false; game.ChooseHoles(0); game.Play(); game.JumpToHole(12);
+            game.Demo = true; game.ChooseHoles(0); game.Play(); game.JumpToHole(12);
             Directory.CreateDirectory(Proof);
             var times = new List<string> { "compressed,flightSeconds,duration,restX,restD,lie,penalty,skipAt" };
             CourseShot reference = null;
@@ -114,7 +114,7 @@ namespace GolfArcade.PlayTests
             Time.captureFramerate=60; Time.timeScale=1;
             yield return SceneManager.LoadSceneAsync("Golf"); yield return null;
             var game=Object.FindFirstObjectByType<GolfGame>();
-            game.Demo=true;game.InstantReplays=false;game.ChooseHoles(0);game.Play();game.JumpToHole(12);
+            game.Demo=true;game.ChooseHoles(0);game.Play();game.JumpToHole(12);
             var pin=game.CurrentHole.Pin;
             game.DropBall(new CoursePoint(pin.X,pin.D-3));
             Assert.True(game.StrikeHolingPutt());
@@ -184,7 +184,7 @@ namespace GolfArcade.PlayTests
             Time.timeScale=1;Time.captureFramerate=60;
             yield return SceneManager.LoadSceneAsync("Golf");yield return null;
             var game=Object.FindFirstObjectByType<GolfGame>();
-            game.Demo=true;game.InstantReplays=false;game.ChooseHoles(0);game.Play();game.JumpToHole(12);game.DropBall(game.CurrentHole.Tee);
+            game.Demo=true;game.ChooseHoles(0);game.Play();game.JumpToHole(12);game.DropBall(game.CurrentHole.Tee);
             Directory.CreateDirectory(Proof);
             foreach(double direction in new[]{90.0,-90.0}) {
                 game.SetWind(new Wind(12,direction));yield return null;

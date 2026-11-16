@@ -86,7 +86,8 @@ namespace GolfArcade.Tennis
                 geometric[id[a]]+=area;geometric[id[b]]+=area;geometric[id[c]]+=area;
                 float size=area.magnitude;representedArea[id[a]]+=size;representedArea[id[b]]+=size;representedArea[id[c]]+=size;
             }
-            var strength=new float[unique.Count];var grid=new Dictionary<Vector3Int,List<int>>();int selected=0;
+            // (the selected positions go into flat cells, in the same order as the lists they replace: CellGrid.cs, 2026-11-15)
+            var strength=new float[unique.Count];var inGrid=new bool[unique.Count];int selected=0;
             for(int i=0;i<unique.Count;i++){
                 Vector3 delta=unique[i]-headPoint;float height=Vector3.Dot(delta,up);
                 float radial=(delta-up*height).magnitude;
@@ -95,8 +96,9 @@ namespace GolfArcade.Tennis
                 strength[i]=Smooth(neckHeight-.032f,neckHeight+.004f,height)*(1-Smooth(.145f,.185f,radial));
                 geometric[i]=geometric[i].normalized;
                 if(strength[i]<.001f||geometric[i].sqrMagnitude<.9f)continue;
-                selected++;var cell=Cell(unique[i]);if(!grid.TryGetValue(cell,out var list))grid[cell]=list=new List<int>();list.Add(i);
+                selected++;inGrid[i]=true;
             }
+            var grid=new CellGrid(unique.ToArray(),unique.Count,radius,inGrid);
             var field=new Vector3[unique.Count];
             for(int i=0;i<unique.Count;i++){
                 if(strength[i]<.001f)continue;
@@ -119,7 +121,8 @@ namespace GolfArcade.Tennis
                 }
                 var cell=Cell(unique[i]);float seed=areaWeighted?representedArea[i]:1;Vector3 sum=geometric[i]*seed;float count=seed;
                 for(int x=-1;x<=1;x++)for(int y=-1;y<=1;y++)for(int z=-1;z<=1;z++)
-                    if(grid.TryGetValue(cell+new Vector3Int(x,y,z),out var neighbours))foreach(int j in neighbours){
+                    if(grid.Find(cell.x+x,cell.y+y,cell.z+z,out int from,out int to))for(int k=from;k<to;k++){
+                        int j=grid.Items[k];
                         float d=(unique[i]-unique[j]).sqrMagnitude;if(d>=localRadius*localRadius)continue;
                         float agreement=Vector3.Dot(geometric[i],geometric[j]);if(agreement<.5f)continue;
                         float falloff=1-d/(localRadius*localRadius);float weight=falloff*falloff*agreement*agreement;

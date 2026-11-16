@@ -45,14 +45,20 @@ namespace GolfArcade.Game
         {
             var next = course.Holes[index];
             // a round linking courses names the one the hole is on ("WILD ISLES" for its 13th), not the whole tour
-            bool linked = course.Key != null && course.Key.IndexOf('+') > 0;
-            return new HoleLoadingCover.Info
+            bool linked = course.Key != null && (course.Key.IndexOf('+') > 0 || course.Key == DailyHoleInOne.CourseKey);   // (the Daily Hole in One's holes are dealt from every course)
+            var info = new HoleLoadingCover.Info
             {
                 Hole = next, Course = linked ? Course.Course.Containing(next.Number)?.Name ?? course.Name : course.Name, Name = next.Name, Blurb = next.Blurb,
                 Ordinal = index + 1, Count = course.Holes.Length, Par = next.Par, Yards = next.Length,
             };
+            // the Daily Challenge's own screen: which shot, the points so far, its own tips (GolfGame.HoleInOne.cs)
+            return HoleInOne ? DailyLoadingInfo(info, index) : info;
         }
 
+        /// What the bar says while the hole is built ("Cutting today's cup…" in the Daily Challenge).
+        string LoadWords(float p) => HoleInOne
+            ? (p < 0.3f ? "Setting up today's shot…" : p < 0.85f ? "Cutting today's cup…" : "Finding your spot…")
+            : WordsFor(p);
         static string WordsFor(float p) =>
             p < 0.1f ? "Packing the clubs…" : p < 0.3f ? "Shaping the fairway…" : p < 0.55f ? "Rolling out the greens…"
             : p < 0.85f ? "Planting the trees…" : p < 0.97f ? "Calling in the gallery…" : "Teeing it up…";
@@ -66,7 +72,7 @@ namespace GolfArcade.Game
             shotResultPanel?.gameObject.SetActive(false);
             if (!loadingCover) loadingCover = HoleLoadingCover.Create(rig.Camera);
             loadingCover.Show(InfoFor(index));
-            loadingCover.SetProgress(0.04f, WordsFor(0));
+            loadingCover.SetProgress(0.04f, LoadWords(0));
             // up and drawn before the main thread is busy: the cover fully opaque, a moment longer for the
             // phone's and the TV's own covers, and one more frame so it is on the glass
             float until = Time.unscaledTime + LoadCoverLead;
@@ -95,12 +101,12 @@ namespace GolfArcade.Game
                 LongestLoadSliceMilliseconds = Math.Max(LongestLoadSliceMilliseconds, now - previous);
                 previous = now;
                 if (!more) break;
-                loadingCover.SetProgress(progress, WordsFor(progress));
+                loadingCover.SetProgress(progress, LoadWords(progress));
                 yield return null;   // drawn: the ball rolls on, the next slice can take its turn
             }
             LastHoleLoadMilliseconds = watch.Elapsed.TotalMilliseconds;
             Debug.Log($"[HoleLoad] hole {hole.Number}: {LastHoleLoadMilliseconds:F0} ms in {HoleLoadLog.Count} slices, longest {LongestLoadSliceMilliseconds:F0} ms");
-            loadingCover.SetProgress(1f, WordsFor(1));
+            loadingCover.SetProgress(1f, LoadWords(1));
             yield return null;
             while (loadingCover.ShownFor < LoadCoverMinimum) yield return null;
             loadingHole = false;

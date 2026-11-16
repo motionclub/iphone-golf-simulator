@@ -46,6 +46,10 @@ namespace GolfArcade.Hub.Menu
             }
         }
 
+        /// A screen's title: one white line, no gold line under it (Adnan 11-15: "remove 'new every day' and any text that appears in
+        /// a sub hero like that"). It sits where the old second line was, just over the list, so no gap opens where that line went.
+        static RectTransform Heading(Transform r, string title, float width) => BrandUi.Headline(r, Left, 132 + 114, title, "", width);
+
         /// A stack entry at (x, y): `text` shown (upper case), `label` for the phone (menuHover), `sub` under it. Returns its height.
         float WordItem(Transform parent, string id, string text, string label, string sub, float x, float y, float size, Action activate, List<MenuItem> group,
             float minW = 0, bool big = false, bool phone = false)

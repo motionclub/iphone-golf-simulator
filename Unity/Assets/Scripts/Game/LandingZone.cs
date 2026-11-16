@@ -27,9 +27,6 @@ namespace GolfArcade.Game
             return z;
         }
 
-        /// Ring radius in yards; the mesh is unit-sized and scaled.
-        public void SetRadius(float yards) { radius = Mathf.Max(1.5f, yards); transform.localScale = Vector3.one * radius; transform.rotation = Quaternion.identity; }
-
         /// Where the shot can come down rather than one spot: an ellipse `across` yards either
         /// side of the line and `along` yards short and long of the ring's centre, turned to the
         /// aim `heading` (degrees, 0 = +z) — the same zone the minimap draws.

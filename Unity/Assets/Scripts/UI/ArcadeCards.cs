@@ -302,7 +302,7 @@ namespace GolfArcade.UI
         /// What PLAY AGAIN says (NEXT ROUND in the Open).
         readonly string againLabel;
 
-        public RoundCard(Transform parent, string title, string headline, int[] holes, int[] pars, int?[] strokes, int total, int toPar, Highlight[] highlights, bool nextHole, Row[] players = null, string againLabel = null)
+        public RoundCard(Transform parent, string title, string headline, int[] holes, int[] pars, int?[] strokes, int total, int toPar, Highlight[] highlights, bool nextHole, Row[] players = null, string againLabel = null, bool showTotal = true)
         {
             this.againLabel = againLabel ?? "Play again";
             bool clear = GlassKit.ClearStyle;
@@ -424,7 +424,8 @@ namespace GolfArcade.UI
             }
 
             // the total, and against par (with others, the standings are the tiles below)
-            if (solo) AddTotal(f, ref y, total, toPar);
+            // (a card scored in points, the Daily Hole in One's, has its total in the headline: no strokes against par)
+            if (solo && showTotal) AddTotal(f, ref y, total, toPar);
 
             AddRest(f, y, inner, highlights, nextHole, card, parent, W);
             Club.Enter(card, 0);

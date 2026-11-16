@@ -123,21 +123,6 @@ namespace GolfArcade.Tennis
         [System.Serializable] struct MaskReference { public float shirt, shorts, accent, skin; }
 
         static readonly Dictionary<string,Texture> crowdPalettes=new();
-        /// Six coherent existing-kit palettes. Authored atlas shading remains intact and
-        /// the masks deliberately exclude all skin/hair pixels, so identity is preserved.
-        public static void ApplyCrowdPalette(GameObject fan,bool female,int index)
-        {
-            string who=female ? "Female":"Male";int pick=Mathf.Abs(index)%6;string key=who+pick;
-            if(!crowdPalettes.TryGetValue(key,out var texture)){
-                string[] shirts={"EEEAE0","A8C7C4","E6BF8F","B6BAD5","D5AEB6","D1D8AB"};
-                string[] shorts={"334B61","385E59","46545B","3A4262","674657","4D5D43"};
-                string[] accents={"E8BC5A","EFE4CF","C69C69","D3C0A0","E8C7BC","F3E3AA"};
-                texture=RecolorKit(who,Kit.From(shirts[pick],shorts[pick],accents[pick],null,2));
-                if(!texture)return;crowdPalettes[key]=texture;
-            }
-            foreach(var renderer in fan.GetComponentsInChildren<Renderer>(true))foreach(var material in renderer.sharedMaterials)
-                if(material&&material.name.StartsWith("Higgs "+who+" "))material.mainTexture=texture;
-        }
 
         public static void PrepareCharacter(GameObject obj, Color? skin = null)
         {
@@ -254,16 +239,6 @@ namespace GolfArcade.Tennis
             if (volume.profile.TryGet(out LiftGammaGain lift)) lift.lift.Override(new Vector4(1,1,1,0));
             camera.gameObject.AddComponent<SportsPostProcessing>().Initialize(volume);
             return volume;
-        }
-
-        /// Depth of field for slow-motion replays, focused on the ball.
-        public static void ReplayFocus(Volume volume, bool on, float distance)
-        {
-            if (!volume || !volume.profile.TryGet(out DepthOfField dof)) return;
-            var owner=volume.GetComponentInParent<SportsPostProcessing>();
-            if(owner)owner.RequestDepthOfField(on);
-            else dof.active=on && TennisQuality.Current==TennisQuality.Tier.High;
-            dof.gaussianStart.Override(Mathf.Max(1, distance + 2)); dof.gaussianEnd.Override(distance + 14);
         }
 
         /// Where the sun sits: low over the left of the far court, late afternoon, so shadows

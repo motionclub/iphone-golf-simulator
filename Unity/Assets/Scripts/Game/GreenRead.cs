@@ -60,7 +60,7 @@ namespace GolfArcade.Game
             this.hole = hole;
             surface = hole.Surface ?? FlatSurface.Instance;
             radius = (float)hole.GreenRadius + 1.5f;
-            centre = new Vector3((float)hole.Pin.X, 0, (float)hole.Pin.D);
+            centre = new Vector3((float)hole.GreenCenter.X, 0, (float)hole.GreenCenter.D);   // the whole green, wherever its cup is cut
             gameObject.SetActive(true);
             Seed();
         }

@@ -2,10 +2,10 @@ import XCTest
 import SwiftUI
 @testable import GolfArcade
 
-/// PLAN_MenuHub_WalkableWorld phase 4 (party), phone half, over an in-memory network: a friend's presence becomes a plaza friend
-/// in their lobby look; the leader picks the party's game and taps Start, every other player taps Ready, and the match starts
-/// when the last one has (2026-10-25: Ready is a tap again, not sitting down); Call party reaches the others; the host leaving
-/// an idle lobby hands it to the next phone.
+/// The party in the menu, phone half, over an in-memory network: a friend's presence becomes a friend in the line-up in their
+/// lobby look; the leader picks the party's game and taps Start, every other player taps Ready, and the match starts when the
+/// last one has (2026-10-25); the host leaving an idle lobby hands it to the next phone; Leave game and Leave party.
+/// (The walk-around Plaza's benches, Call party and follow-the-leader were removed 2026-11-15, and their tests with them.)
 @MainActor
 final class HubPartyTests: XCTestCase {
     @MainActor final class Bus {
@@ -38,8 +38,8 @@ final class HubPartyTests: XCTestCase {
         let h = HubSession(); h.partyService = s; h.debugLive(session: session); return h
     }
     private var savedDisplay = false
-    override func setUp() async throws { savedDisplay = SportsSession.shared.displayConnected; SportsSession.shared.displayConnected = true; TennisMenu.shared.debugShow(.main); OnboardingFlow.shared.exitToMenu(); HubSession.partyCountdown = 0 }
-    override func tearDown() async throws { HubTestState.restore(display: savedDisplay); HubSession.partyCountdown = 2.5 }
+    override func setUp() async throws { savedDisplay = SportsSession.shared.displayConnected; SportsSession.shared.displayConnected = true; TennisMenu.shared.debugShow(.main); OnboardingFlow.shared.exitToMenu() }
+    override func tearDown() async throws { HubTestState.restore(display: savedDisplay) }
 
     func testAFriendsPresenceBecomesAPlazaFriendInTheirLook() throws {
         let bus = Bus(), a = service("Ann", shirt: "E8505B"), b = service("Bea", shirt: "3F62CC")
@@ -79,25 +79,19 @@ final class HubPartyTests: XCTestCase {
         XCTAssertEqual(b.lobby?.participants.map(\.id).sorted(), ["a", "b"]); XCTAssertEqual(a.lobby?.participants.map(\.id).sorted(), ["a", "b"])
     }
 
-    func testSittingDownTogetherStartsTheMatchFromTheHostsPhone() throws {
+    /// The party's game from the menu: the leader's station sets the sport, everyone connected is in (no benches to sit on), the
+    /// settings reach every phone, only the leader starts, Start asks everyone to get ready, and the last Ready starts the match.
+    func testThePartyGameStartsWhenTheLastPlayerTapsReady() throws {
         let bus = Bus(), a = service("Ann", shirt: "E8505B"), b = service("Bea", shirt: "3F62CC")
         try a.host(using: bus.link("a")); try b.connect(using: bus.link("b"))
         defer { b.leave(); a.leave() }
         let ha = hub(a, "ha"), hb = hub(b, "hb")
-        ha.receive(["type": "hubAction", "session": "ha", "message": "bay-tennis-online"])
+        ha.receive(["type": "menuOpen", "session": "ha", "message": "bay-tennis-online"])   // Online, picked on the TV's menu
         XCTAssertEqual(ha.station, "bay-tennis-online"); XCTAssertEqual(a.lobby?.sport, .tennis)
+        ha.debugPartyTick()   // seats: everyone connected; settings and Start belong to the leader
         ha.debugPartyTick()
-        XCTAssertEqual(a.lobby?.phase, .lobby, "alone on the bench: no start")
-        // Bea walks into the tennis room: the bench waits for her
-        hb.receive(["type": "hubPose", "session": "hb", "message": "tennis|204.600|-1000.000|0.000|0.0|1.00||"])
-        XCTAssertEqual(ha.partyWaitingFor, ["Bea"]); ha.debugPartyTick(); XCTAssertEqual(a.lobby?.phase, .lobby)
-        // ...and sits down
-        hb.receive(["type": "hubAction", "session": "hb", "message": "bay-tennis-online"])
-        hb.receive(["type": "hubPose", "session": "hb", "message": "tennis|204.600|-1000.000|3.700|0.0|0.00|bay-tennis-online|"])
-        XCTAssertEqual(ha.friendBays["b"], "bay-tennis-online"); XCTAssertTrue(ha.partyWaitingFor.isEmpty)
-        ha.debugPartyTick()   // seats + ready from the bench; settings and Start belong to the host
-        ha.debugPartyTick()
-        XCTAssertEqual(a.lobby?.phase, .lobby, "sitting never starts before the host chooses settings")
+        XCTAssertEqual(Set(a.lobby?.participants.filter { $0.seat >= 0 }.map(\.id) ?? []), ["a", "b"], "everyone connected is in")
+        XCTAssertEqual(a.lobby?.phase, .lobby, "opening the party's game never starts it")
         ha.configureParty(venue: "volcano", sets: 3, games: 6)
         XCTAssertEqual(b.lobby?.venue, "volcano"); XCTAssertEqual(b.lobby?.sets, 3); XCTAssertEqual(b.lobby?.games, 6)
         hb.forcePartyStart(); XCTAssertEqual(a.lobby?.phase, .lobby, "a guest cannot start"); XCTAssertFalse(b.partyReadyCheck)
@@ -110,48 +104,9 @@ final class HubPartyTests: XCTestCase {
         XCTAssertEqual(Set(a.lobby?.competitors.map(\.id) ?? []), ["a", "b"])
     }
 
-    /// A friend elsewhere in the plaza (the locker, or a phone with no TV) does not hold the bench up and is not pulled into the
-    /// match: their phone stays in the plaza.
-    func testAFriendElsewhereInThePlazaStaysThereWhileTheBenchPlays() throws {
-        let bus = Bus(), a = service("Ann", shirt: "E8505B"), b = service("Bea", shirt: "3F62CC"), c = service("Cy", shirt: "7BDA4A")
-        var configs: [String: MultiplayerMatchConfiguration] = [:]
-        a.onMatchRequested = { configs["a"] = $0 }; b.onMatchRequested = { configs["b"] = $0 }; c.onMatchRequested = { configs["c"] = $0 }
-        try a.host(using: bus.link("a")); try b.connect(using: bus.link("b")); try c.connect(using: bus.link("c"))
-        defer { c.leave(); b.leave(); a.leave() }
-        let ha = hub(a, "ha"), hb = hub(b, "hb"), hc = hub(c, "hc")
-        hc.receive(["type": "hubPose", "session": "hc", "message": "locker|0.000|-1000.000|0.000|0.0|0.00||"])
-        ha.receive(["type": "hubAction", "session": "ha", "message": "bay-tennis-online"])
-        hb.receive(["type": "hubAction", "session": "hb", "message": "bay-tennis-online"])
-        hb.receive(["type": "hubPose", "session": "hb", "message": "tennis|204.600|-1000.000|3.700|0.0|0.00|bay-tennis-online|"])
-        XCTAssertTrue(ha.partyWaitingFor.isEmpty, "Cy is in the locker: nobody to wait for")
-        ha.debugPartyTick(); ha.debugPartyTick(); ha.forcePartyStart(); hb.setPartyReady(true)
-        XCTAssertEqual(a.lobby?.phase, .loading)
-        XCTAssertNotNil(configs["a"]); XCTAssertNotNil(configs["b"])
-        XCTAssertNil(configs["c"], "Cy was not on the bench: Cy's phone stays in the plaza")
-        XCTAssertEqual(a.lobby?.participants.first { $0.id == "c" }?.seat, -1)
-    }
-
-    func testThePartyLandsInOneMatchAndComesBackToTheSameBay() throws {
-        let bus = Bus(), a = service("Ann", shirt: "E8505B"), b = service("Bea", shirt: "3F62CC")
-        var configs: [String: MultiplayerMatchConfiguration] = [:]
-        a.onMatchRequested = { configs["a"] = $0 }; b.onMatchRequested = { configs["b"] = $0 }
-        try a.host(using: bus.link("a")); try b.connect(using: bus.link("b"))
-        defer { b.leave(); a.leave() }
-        let ha = hub(a, "ha"), hb = hub(b, "hb")
-        for (h, s) in [(ha, "ha"), (hb, "hb")] { h.receive(["type": "hubAction", "session": s, "message": "bay-tennis-online"]) }
-        hb.receive(["type": "hubPose", "session": "hb", "message": "tennis|204.600|-1000.000|3.700|0.0|0.00|bay-tennis-online|"])
-        ha.debugPartyTick(); ha.debugPartyTick(); ha.forcePartyStart(); hb.setPartyReady(true)
-        XCTAssertNotNil(configs["a"]); XCTAssertEqual(configs["a"]?.matchID, configs["b"]?.matchID, "the same match for everyone")
-        // each phone launched from the bay (behind its plaza) and, back from the match, sits on the same bench
-        for h in [ha, hb] {
-            XCTAssertEqual(h.bayForLaunch(), "bay-tennis-online")
-            h.runtimeTaken(bay: h.bayForLaunch()); h.sessionEnded(finished: true)
-            XCTAssertEqual(h.returnBay, "bay-tennis-online")
-        }
-    }
-
-    /// ALL_SEATED + TOGETHER with a full party of four. Online tennis is 1 v 1, so four friends play golf: the host's bay makes it golf.
-    func testFourFriendsSeatedInTheGolfBayStartOneMatchAndComeBackToIt() throws {
+    /// A full party of four. Online tennis is 1 v 1, so four friends play golf: the leader's station makes it golf, everyone connected
+    /// is in, and one match starts on all four phones.
+    func testFourFriendsStartOneGolfMatchFromTheMenu() throws {
         let bus = Bus(), bay = "bay-golf-online"
         let ids = ["a", "b", "c", "d"], names = ["Ann", "Bea", "Cal", "Dee"], shirts = ["E8505B", "3F62CC", "2FA36B", "F2B233"]
         let services = ids.indices.map { service(names[$0], shirt: shirts[$0]) }
@@ -162,132 +117,54 @@ final class HubPartyTests: XCTestCase {
         defer { for s in services.reversed() { s.leave() } }
         XCTAssertEqual(services[0].lobby?.participants.count, 4)
         let hubs = ids.indices.map { hub(services[$0], "h" + ids[$0]) }
-        func sit(_ i: Int) {
-            hubs[i].receive(["type": "hubAction", "session": "h" + ids[i], "message": bay])
-            hubs[i].receive(["type": "hubPose", "session": "h" + ids[i], "message": "golf|40\(i).600|-1000.000|3.700|0.0|0.00|\(bay)|"])
-        }
-        sit(0); XCTAssertEqual(services[0].lobby?.sport, .golf, "the host's bay sets the party's sport")
-        for i in 1..<3 { sit(i) }
-        hubs[3].receive(["type": "hubPose", "session": "hd", "message": "golf|403.000|-1000.000|0.000|0.0|1.00||"])   // Dee walking in
-        hubs[0].debugPartyTick()
-        XCTAssertEqual(services[0].lobby?.phase, .lobby, "Dee is still on her way: no start")
-        XCTAssertEqual(hubs[0].partyWaitingFor, ["Dee"])
-        sit(3); hubs[0].debugPartyTick(); hubs[0].debugPartyTick(); hubs[0].forcePartyStart()
-        XCTAssertTrue(hubs[0].partyWaitingFor.isEmpty)
+        hubs[0].receive(["type": "menuOpen", "session": "ha", "message": bay])
+        XCTAssertEqual(services[0].lobby?.sport, .golf, "the leader's station sets the party's sport")
+        hubs[0].debugPartyTick(); hubs[0].debugPartyTick()
+        XCTAssertEqual(services[0].lobby?.participants.filter { $0.seat >= 0 }.count, 4, "everyone connected is in: the menu has no benches")
+        XCTAssertEqual(services[0].lobby?.phase, .lobby, "nothing starts before the leader's Start")
+        hubs[0].forcePartyStart()
         XCTAssertEqual(services[0].lobby?.phase, .lobby, "waiting for three Readys")
         for i in 1..<4 { hubs[i].setPartyReady(true) }
-        XCTAssertEqual(services[0].lobby?.phase, .loading, "everyone on the golf bench: the host's phone starts the match")
-        XCTAssertEqual(configs["a"]?.sport, "golf", "the golf bench plays golf")
+        XCTAssertEqual(services[0].lobby?.phase, .loading, "the last Ready starts the match")
+        XCTAssertEqual(configs["a"]?.sport, "golf", "the golf station plays golf")
         XCTAssertEqual(configs.count, 4, "all four phones were asked to load")
         XCTAssertEqual(Set(configs.values.map(\.matchID)).count, 1, "the same match for everyone")
-        for h in hubs {
-            XCTAssertEqual(h.bayForLaunch(), bay)
+        // every phone's launch is made from its menu (the leader's from the station it opened), and remembered for the way back
+        for (i, h) in hubs.enumerated() {
+            XCTAssertEqual(h.bayForLaunch(), i == 0 ? bay : "menu")
             h.runtimeTaken(bay: h.bayForLaunch()); h.sessionEnded(finished: true)
-            XCTAssertEqual(h.returnBay, bay, "back on the same bench")
+            XCTAssertEqual(h.returnBay, i == 0 ? bay : "menu", "back from the match the menu opens on Home")
         }
     }
 
-    /// Online made simple (work/online-gamecenter): the party enters rooms together. The leader (the lobby's owner) walks
-    /// through a door; every member's hero goes to stand beside them in that room, retried until it is there. A member walking
-    /// off alone never drags the leader.
-    func testThePartyFollowsItsLeaderThroughADoor() throws {
-        let bus = Bus(), a = service("Ann", shirt: "E8505B"), b = service("Bea", shirt: "3F62CC")
-        try a.host(using: bus.link("a")); try b.connect(using: bus.link("b"))
-        defer { b.leave(); a.leave() }
-        let ha = hub(a, "ha"), hb = hub(b, "hb")
-        var toB: [[String: Any]] = [], toA: [[String: Any]] = []
-        hb.debugSent = { toB.append($0) }; ha.debugSent = { toA.append($0) }
-        func meets(_ list: [[String: Any]]) -> [String] { list.filter { $0["action"] as? String == "hubMeet" }.compactMap { $0["mode"] as? String } }
-        ha.receive(["type": "hubPose", "session": "ha", "message": "plaza|0.000|0.000|-6.000|0.0|2.00||"])
-        XCTAssertTrue(meets(toB).isEmpty, "first sight of the leader is not a door")
-        ha.receive(["type": "hubPlace", "session": "ha", "message": "play"])
-        ha.receive(["type": "hubPose", "session": "ha", "message": "play|0.000|0.000|40.000|0.0|1.20||"])
-        XCTAssertEqual(meets(toB), ["a"], "Bea's hero goes to stand beside Ann in the PLAY hall")
-        XCTAssertTrue(hb.notice.contains("Following Ann"), hb.notice)
-        let remote = toB.last { $0["action"] as? String == "hubRemote" }
-        XCTAssertLessThan(toB.firstIndex { $0["action"] as? String == "hubMeet" }!, toB.count)
-        XCTAssertNotNil(remote, "Ann's new place reached Unity before the meet")
-        hb.receive(["type": "hubPlace", "session": "hb", "message": "play"]); hb.debugPartyTick()
-        XCTAssertEqual(meets(toB).count, 1, "arrived: no more retries")
-        // Bea walks into the locker alone: Ann stays
-        hb.receive(["type": "hubPose", "session": "hb", "message": "play|1.000|0.000|40.000|0.0|1.20||"])
-        hb.receive(["type": "hubPose", "session": "hb", "message": "locker|1.000|0.000|80.000|0.0|1.20||"])
-        XCTAssertTrue(meets(toA).isEmpty, "only the leader leads")
-    }
-
-    func testCallPartyReachesTheOthers() throws {
-        let bus = Bus(), a = service("Ann", shirt: "E8505B"), b = service("Bea", shirt: "3F62CC")
-        try a.host(using: bus.link("a")); try b.connect(using: bus.link("b"))
-        defer { b.leave(); a.leave() }
-        let ha = hub(a, "ha"), hb = hub(b, "hb")
-        var toUnity: [[String: Any]] = []; hb.debugSent = { toUnity.append($0) }
-        ha.receive(["type": "hubAction", "session": "ha", "message": "bay-golf-online"])
-        XCTAssertEqual(a.lobby?.sport, .golf, "the host's bay sets the party's sport")
-        ha.callParty()
-        XCTAssertEqual(hb.lastCall?.bay, "bay-golf-online")
-        XCTAssertTrue(toUnity.contains { $0["action"] as? String == "hubCall" && $0["mode"] as? String == "bay-golf-online" }, "Bea's TV shows the way")
-        XCTAssertTrue(hb.notice.contains("Ann"))
-        XCTAssertTrue(toUnity.contains { $0["action"] as? String == "hubGather" && $0["mode"] as? String == "bay-golf-online" }, "Call Party automatically seats the recipient")
-    }
-
-    func testJoiningClearsTheUnityStationAndKeepsWalkingAndEmotesAvailable() throws {
+    /// Joining a friend's party closes whatever station was open on this phone; the party's chat goes to the TV.
+    func testJoiningAPartyClosesTheOpenStationAndChatReachesTheTV() throws {
         let bus = Bus(), a = service("Ann", shirt: "E8505B"), b = service("Bea", shirt: "3F62CC")
         try a.host(using: bus.link("a")); try b.connect(using: bus.link("b"))
         defer { b.leave(); a.leave() }
         let hb = hub(b, "hb")
         var commands: [[String: Any]] = []; hb.debugSent = { commands.append($0) }
-        hb.useStation("rack-shirt"); XCTAssertNotNil(hb.station)
+        hb.useStation("desk-settings"); XCTAssertNotNil(hb.station)
         hb.joinedParty(host: "a")
         XCTAssertNil(hb.station); XCTAssertFalse(hb.panelOpen)
-        XCTAssertTrue(commands.contains { $0["action"] as? String == "hubB" })
-        hb.setStick(x: 1, y: 0, magnitude: 1); hb.emote("wave")
         XCTAssertEqual(hb.phase, .live)
-        XCTAssertTrue(commands.contains { $0["action"] as? String == "hubEmote" })
         hb.showChat(PartyChatMessage(senderID: "a", senderName: "Ann", text: "meet here!", date: Date()))
         XCTAssertTrue(commands.contains { $0["action"] as? String == "hubChat" && $0["remote"] as? String == "a" && $0["mode"] as? String == "meet here!" })
     }
 
-    func testPartyCallWaitsWhileThePhoneIsInactive() throws {
-        let bus = Bus(), a = service("Ann", shirt: "E8505B"), b = service("Bea", shirt: "3F62CC")
-        try a.host(using: bus.link("a")); try b.connect(using: bus.link("b"))
-        defer { b.leave(); a.leave() }
-        let ha = hub(a, "ha"), hb = hub(b, "hb")
-        var commands: [[String: Any]] = []; hb.debugSent = { commands.append($0) }
-        hb.setForeground(false); ha.useStation("bay-tennis-online"); ha.callParty()
-        XCTAssertFalse(commands.contains { $0["action"] as? String == "hubGather" })
-        hb.setForeground(true); hb.debugPartyTick()
-        XCTAssertEqual(commands.filter { $0["action"] as? String == "hubGather" }.count, 1)
-        ha.partyMessage("hubEvent", payload: "call|rack-shirt", from: "b")
-        XCTAssertNil(ha.lastCall, "a call cannot pull players into arbitrary stations")
-    }
-
-    func testCallPartyWaitsForEveryoneIncludingAFriendInTheLocker() throws {
-        let bus = Bus(), a = service("Ann", shirt: "E8505B"), b = service("Bea", shirt: "3F62CC"), c = service("Cy", shirt: "7BDA4A")
-        try a.host(using: bus.link("a")); try b.connect(using: bus.link("b")); try c.connect(using: bus.link("c"))
-        defer { c.leave(); b.leave(); a.leave() }
-        let ha = hub(a, "ha"), hb = hub(b, "hb"), hc = hub(c, "hc")
-        ha.useStation("bay-tennis-online"); hb.useStation("bay-tennis-online")
-        hb.receive(["type": "hubPose", "session": "hb", "message": "tennis|204.6|-1000|3.7|0|0|bay-tennis-online|"])
-        hc.receive(["type": "hubPose", "session": "hc", "message": "locker|0|-1000|0|0|0||"])
-        XCTAssertTrue(ha.partyAllSeated); XCTAssertTrue(ha.partyHasUnseatedFriends)
-        ha.callParty(); XCTAssertFalse(ha.partyAllSeated); XCTAssertEqual(ha.partyWaitingFor, ["Cy"])
-        hc.receive(["type": "hubPose", "session": "hc", "message": "tennis|204.6|-1000|3.7|0|0|bay-tennis-online|"])
-        XCTAssertTrue(ha.partyAllSeated); XCTAssertFalse(ha.partyHasUnseatedFriends)
-    }
-
-    /// INVITE: every Invite in the Plaza (the invite board, ☰'s shortcut, the Friends button) opens the Friends list (a sheet over
-    /// the controller) and nothing else: no Game Center sheet, no old menu screen on the phone; the hero steps away from the board.
+    /// INVITE: every Invite (the TV menu's Friends entry, the Friends button) opens the Friends list (a sheet over the controller)
+    /// and nothing else: no Game Center sheet, no old menu screen on the phone; the TV's menu is not left dimmed.
     func testInviteInThePlazaOpensTheHubAndNoMenuScreen() {
         let hub = HubSession.shared, menu = TennisMenu.shared
         hub.debugReset(); menu.debugShow(.main); hub.debugLive(session: "inv")
         var invites = 0; hub.presentInvite = { invites += 1 }
         var toUnity: [[String: Any]] = []; hub.debugSent = { toUnity.append($0) }
-        hub.receive(["type": "hubAction", "session": "inv", "message": "board-invite"])
-        XCTAssertEqual(invites, 1, "the invite board opens the Friends hub")
+        hub.receive(["type": "menuOpen", "session": "inv", "message": "board-invite"])
+        XCTAssertEqual(invites, 1, "the TV menu's Friends entry opens the Friends hub")
         XCTAssertEqual(menu.screen, .main, "no menu screen opens on the phone"); XCTAssertFalse(hub.panelOpen); XCTAssertNil(hub.station)
-        XCTAssertTrue(toUnity.contains { $0["action"] as? String == "hubB" }, "the hero steps away from the board")
+        XCTAssertTrue(toUnity.contains { $0["action"] as? String == "menuPhone" && $0["mode"] as? String == "off" }, "no station stays open: the TV's menu is live")
         hub.inviteFriends()
-        XCTAssertEqual(invites, 2, "Friends button / ☰ Invite: the hub at once, no walk")
+        XCTAssertEqual(invites, 2, "Friends button: the hub at once")
         menu.tap("homeInvite")
         XCTAssertEqual(invites, 3, "the menu's Play with Friends opens the same hub")
         XCTAssertEqual(menu.screen, .main)
@@ -327,7 +204,7 @@ final class HubPartyTests: XCTestCase {
         XCTAssertEqual(a.lobby?.participants.count, 2, "the party is still together")
     }
 
-    func testSoloBenchesAreLockedUntilTheFriendLeavesAndStartRequiresSeats() throws {
+    func testSoloStationsAreLockedUntilTheFriendLeavesAndStartWaitsForReady() throws {
         let bus = Bus(), a = service("Ann", shirt: "E8505B"), b = service("Bea", shirt: "3F62CC")
         try a.host(using: bus.link("a")); try b.connect(using: bus.link("b"))
         defer { a.leave() }
@@ -344,13 +221,12 @@ final class HubPartyTests: XCTestCase {
         XCTAssertFalse(ha.soloLocked, "leaving the party restores single player")
     }
 
-    func testHostBenchSettingsRenderAfterBothFriendsSit() async throws {
+    func testThePartyGamePanelsRender() async throws {
         let bus = Bus(), a = service("Ann", shirt: "E8505B"), b = service("Bea", shirt: "3F62CC")
         try a.host(using: bus.link("a")); try b.connect(using: bus.link("b"))
         defer { b.leave(); a.leave() }
         let ha = hub(a, "ha"), hb = hub(b, "hb")
         ha.useStation("bay-tennis-online"); hb.useStation("bay-tennis-online")
-        hb.receive(["type": "hubPose", "session": "hb", "message": "tennis|204.600|-1000.000|3.700|0.0|0.00|bay-tennis-online|"])
         ha.debugPartyTick(); ha.configureParty(venue: "volcano", sets: 3, games: 6)
         XCTAssertEqual(a.lobby?.phase, .lobby)
         guard let dir = ProcessInfo.processInfo.environment["MENU_SNAP_DIR"] else { return }

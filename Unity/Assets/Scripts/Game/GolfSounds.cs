@@ -95,8 +95,6 @@ namespace GolfArcade.Game
         public void PlayReady() => source.Shot(ready, 0.5f);
         public void PlayFanfare() => source.Shot(fanfare, 0.7f);
         public void PlayTick() => source.Shot(tick, 0.5f);
-        public void PlayConfirm() => GameAudioHost.Instance.PlayUI("sfx/ui/confirm", .8f);
-        public void PlayBack() => GameAudioHost.Instance.PlayUI("sfx/ui/cancel", .8f);
         /// The gallery's applause, for the introductions on the tee and a good shot.
         public void PlayApplause(float volume = 0.35f) => source.Shot(applause, volume);
 

@@ -33,7 +33,7 @@ extension ClubHub {
             return ClubHubContext(background: UIApplication.shared.applicationState != .active,
                                   inMatch: SportsSession.shared.active,
                                   busyLoading: hub.phase == .booting || hub.arriving,
-                                  onboarding: OnboardingFlow.shared.holdsMenu)
+                                  onboarding: OnboardingFlow.shared.introOnPhone)
         }
         playerName = { TennisMenu.shared.player?.name ?? "Player" }
         tvToast = { HubSession.shared.toast($0) }

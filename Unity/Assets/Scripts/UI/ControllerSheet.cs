@@ -388,9 +388,10 @@ namespace GolfArcade.UI
             }
         }
 
-        public void SetHole(int number, int par, double yards, string name = null)
+        /// `badge` / `pill`: a mode's own words for the hole badge and the par pill (the Daily Challenge: "SHOT 1/3", "DAILY").
+        public void SetHole(int number, int par, double yards, string name = null, string badge = null, string pill = null)
         {
-            holeText.text = $"HOLE {number}";
+            holeText.text = badge ?? $"HOLE {number}";
             // this hole's own name and numbered flag
             holeName = name;
             ShowRibbon();
@@ -401,7 +402,7 @@ namespace GolfArcade.UI
                 flagImage.color = Color.white; flagImage.type = Image.Type.Simple;
                 flagImage.rectTransform.sizeDelta = new Vector2(52, 36);
             }
-            parText.text = $"PAR {par}";
+            parText.text = badge != null && !string.IsNullOrEmpty(pill) ? pill : $"PAR {par}";
             SetDistance(yards, "yd");
         }
 

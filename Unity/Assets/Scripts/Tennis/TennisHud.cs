@@ -67,6 +67,8 @@ namespace GolfArcade.Tennis
         }
 
         public string PlayerName = "YOU", OpponentName = "KAI";
+        /// The player's name as shown: the launch's username in place of YOU (UI OVERHAUL 11-15).
+        public string ShownPlayerName => PlayerName == "YOU" && !string.IsNullOrEmpty(GolfArcade.UI.MapSkin.LocalName) ? GolfArcade.UI.MapSkin.LocalName.ToUpperInvariant() : PlayerName;
         Text eventText;
         /// Event title above the score rows.
         public string EventLabel { set { if (eventText) eventText.text = value; } }
@@ -191,6 +193,9 @@ namespace GolfArcade.Tennis
         public void Build(Canvas canvas)
         {
             font = Clear ? GolfArcade.UI.UiKit.Display : Resources.Load<Font>("Tennis/UI/Fonts/Rubik-Bold") ?? Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            // UI OVERHAUL 11-15: the map's rounded lettering (Fredoka) on the scoreboard and calls
+            skin = GolfArcade.UI.MapSkin.Tennis;
+            if (Clear) font = GolfArcade.UI.MapSkin.Bold;
             rounded = RoundedSprite(20); disc = DiscSprite(); star = StarSprite(); ball = BallSprite();
             root = (RectTransform)canvas.transform;
             var group = new GameObject("Match HUD").AddComponent<RectTransform>();
@@ -242,6 +247,7 @@ namespace GolfArcade.Tennis
                 callSub.resizeTextMinSize = 40; callSub.resizeTextMaxSize = 70;
             }
             callPanel.gameObject.SetActive(false);
+            ApplyMapSkin(group);
 
             // Supercharge pips beside the contact racket.
             for (int i = 0; i < pips.Length; i++)
@@ -256,6 +262,48 @@ namespace GolfArcade.Tennis
                 img.enabled = false; sparks.Add(new Spark { rt = img.rectTransform, img = img, at = -9 });
             }
             introAt = HudClock.Now;
+        }
+
+        // ---------------------------------------------------------------- map skin (UI OVERHAUL 11-15, boards 01-03, 12)
+
+        GolfArcade.UI.MapSkin skin;
+        Image pointBanner, pointCall; Text pointName;
+
+        /// The scoreboard on a panel of the map's material (wood rim for Tropical Resort, lavender for Sky Tower, basalt for Magma
+        /// Crater), no event or sport label (map names stand alone), and the point banner: the map's sculpted POINT plate with the
+        /// winner's username, an ACE / OUT plate beside it when that is how the point ended.
+        void ApplyMapSkin(RectTransform group)
+        {
+            // (a child of the plaque, drawn first, so it swings in and pops with it)
+            var face = skin.Panel("Map plaque", plaque, new Vector2(.5f, .5f), plaque.sizeDelta + new Vector2(12, 4), Vector2.zero, 5, .93f);
+            face.transform.parent.parent.SetSiblingIndex(0);
+            if (eventText) eventText.enabled = false;
+            var banner = skin.Plate("Point banner", callPanel, GolfArcade.UI.MapSkin.Piece.Event, "", 176, new Vector2(.5f, .5f), new Vector2(0, 26));
+            pointName = banner; pointBanner = banner.transform.parent.GetComponent<Image>();
+            pointCall = GolfArcade.UI.MapSkin.Art("Point call", callPanel, null, 92, new Vector2(.5f, .5f), new Vector2(-300, 40));
+            pointBanner.gameObject.SetActive(false); pointCall.gameObject.SetActive(false);
+        }
+
+        /// The map's POINT plate with `name`, or the plain lettering if the map has none.
+        void ShowPointBanner(string name, string detail)
+        {
+            bool art = pointBanner && skin != null && skin.EventSprite;
+            if (pointBanner) pointBanner.gameObject.SetActive(art);
+            callFallback.enabled = !art;
+            if (!art) { if (pointCall) pointCall.gameObject.SetActive(false); callSub.rectTransform.anchoredPosition = new Vector2(0, Clear ? -50 : -22); return; }
+            pointName.text = name;
+            string first = (detail ?? "").Split('·')[0].Trim().ToUpperInvariant();
+            var call = first == "ACE" || first == "OUT" ? GolfArcade.UI.MapSkin.Call(first) : null;
+            pointCall.sprite = call; pointCall.gameObject.SetActive(call);
+            if (call) pointCall.rectTransform.sizeDelta = new Vector2(92 * call.rect.width / Mathf.Max(1, call.rect.height), 92);
+            callSub.rectTransform.anchoredPosition = new Vector2(0, -84);
+        }
+        void HidePointBanner()
+        {
+            if (pointBanner) pointBanner.gameObject.SetActive(false);
+            if (pointCall) pointCall.gameObject.SetActive(false);
+            callFallback.enabled = true;
+            callSub.rectTransform.anchoredPosition = new Vector2(0, Clear ? -50 : -22);
         }
 
         // These helpers are deliberately independent of Chunky/Label: serve power stays pixel-identical.
@@ -356,7 +404,8 @@ namespace GolfArcade.Tennis
             meterLabel.enabled = tossLabel.enabled = !scoreOnly;
             Points(m, out string pa, out string pb);
             // Multi-set matches show sets won ahead of the games in the current set.
-            SetRow(rows[0], PlayerName, Digits(m.PlayerGames), pa);
+            // (usernames only: the launch's name, never YOU)
+            SetRow(rows[0], ShownPlayerName, Digits(m.PlayerGames), pa);
             SetRow(rows[1], OpponentName, Digits(m.OpponentGames), pb);
             setsText.text = m.Tiebreak ? "TIEBREAK" : m.MultiSet ? $"SET {m.PlayerSets + m.OpponentSets + (m.Complete ? 0 : 1)}  ·  SETS {m.PlayerSets}–{m.OpponentSets}" : "SET 1";
             shownServer = m.PlayerServes ? 0 : 1;
@@ -419,12 +468,14 @@ namespace GolfArcade.Tennis
             callFallback.text = winnerName.ToUpperInvariant() + " SCORED";
             callFallback.resizeTextForBestFit = true; callFallback.resizeTextMinSize = Clear ? 60 : 28; callFallback.resizeTextMaxSize = Clear ? 124 : 60;
             callSub.text = detail;
+            ShowPointBanner(winnerName.ToUpperInvariant(), detail);
             callPanel.gameObject.SetActive(true);
             callAt = HudClock.Now; callDuration = 3f;
         }
         /// A match notice that shows on the uncluttered HUD too (versus: the rival left and the CPU plays for them, or is back).
         public void ShowNotice(string title, string detail) {
             calls.Clear();
+            HidePointBanner();
             callFallback.text = title.ToUpperInvariant();
             callFallback.resizeTextForBestFit = true; callFallback.resizeTextMinSize = Clear ? 60 : 28; callFallback.resizeTextMaxSize = Clear ? 124 : 60;
             callSub.text = detail ?? "";
@@ -437,6 +488,7 @@ namespace GolfArcade.Tennis
         {
             if (calls.Count == 0) return;
             var (key, sub, good) = calls.Dequeue();
+            HidePointBanner();
             callFallback.text = key.Replace("!", "").ToUpperInvariant();
             callSub.text = sub ?? "";
             callPanel.gameObject.SetActive(true);

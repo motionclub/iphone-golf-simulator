@@ -113,7 +113,7 @@ namespace GolfArcade.Hub.Menu
             id ??= sport == "golf" ? "bay-golf-round" : sport == "bowling" ? "bay-bowling-play" : "bay-tennis-exhibition";
             if (!ModeInfo.TryGetValue(id, out var info)) return;
             Clip(sport, info.map ?? LastMap[sport]);
-            previewTitle.text = info.title; previewLine.text = info.line;
+            previewTitle.text = info.title; previewLine.text = info.line; previewTag.color = BrandColors.White;
             previewTagBox.gameObject.SetActive(false);
             previewChips.Set(info.chips); PlaceCaption(true);
         }
@@ -126,6 +126,25 @@ namespace GolfArcade.Hub.Menu
         /// The Sport screen's card: the sport's last venue and what it is.
         void PreviewSport(string sport)
         {
+            if (previewRoot && sport == "daily")
+            {
+                // DAILY CHALLENGES: a golf clip under today's challenge
+                Clip("golf", "cliffside");
+                previewTitle.text = "Daily Challenges"; previewLine.text = "Today's Daily Hole in One: three shots, the same for everyone in the world.";
+                previewTagBox.gameObject.SetActive(true); previewTag.text = "NEW"; previewTagFill.color = BrandColors.Gold; previewTag.color = BrandColors.NavyInk;
+                previewChips.Set(new[] { "HOLE IN ONE", "3 SHOTS", "WORLD RANKING" }); PlaceCaption(true);
+                return;
+            }
+            if (previewRoot && sport == "tutorial")
+            {
+                // TUTORIAL: the three lessons, golf first
+                Clip("golf", "cliffside");
+                previewTitle.text = "Tutorial"; previewLine.text = "Three short lessons: golf, then tennis, then bowling. Finish them to unlock every game.";
+                previewTagBox.gameObject.SetActive(true); previewTag.text = "START HERE"; previewTagFill.color = BrandColors.Gold; previewTag.color = BrandColors.NavyInk;
+                previewChips.Set(new[] { "GOLF", "TENNIS", "BOWLING" }); PlaceCaption(true);
+                return;
+            }
+            if (previewTag) { previewTagFill.color = BrandColors.Royal; previewTag.color = BrandColors.White; }
             if (!previewRoot || !SportInfo.TryGetValue(sport, out var info)) return;
             Clip(sport, LastMap[sport]);
             previewTitle.text = info.title; previewLine.text = info.line;
@@ -237,7 +256,7 @@ namespace GolfArcade.Hub.Menu
             screenItems[Setup].Clear(); mapCards.Clear(); choiceViews.Clear(); stepViews.Clear();
             setupWait.gameObject.SetActive(false);
             buildingFor = Setup;
-            BrandUi.Headline(setupContent, Left, 132, s.title ?? "", s.line2 ?? "", 760);
+            Heading(setupContent, s.title ?? "", 760);   // (the phone's line2 is no longer drawn: titles stand alone)
             // option rows (mock .opts): a small label, then the choices as skewed segments (the picked one white on a gold edge), or a
             // stepper ‹ value › for a long list (the CPU opponents)
             int rows = s.rows?.Length ?? 0;
@@ -344,7 +363,7 @@ namespace GolfArcade.Hub.Menu
                 previewTagBox.gameObject.SetActive(tag);
                 if (tag)
                 {
-                    previewTag.text = m.tag;
+                    previewTag.text = m.tag; previewTag.color = BrandColors.White;
                     previewTagFill.color = string.IsNullOrEmpty(m.tagHex) ? BrandColors.Royal : BrandColors.FromHex("#" + m.tagHex);
                     previewTagBox.sizeDelta = new Vector2(previewTag.preferredWidth + 40, 40);
                 }
@@ -387,7 +406,7 @@ namespace GolfArcade.Hub.Menu
             } }
         void BuildPlayers(RectTransform r)
         {
-            BrandUi.Headline(r, Left, 132, "Local play", "How many players?", 760);
+            Heading(r, "Local play", 760);
             // the tip as a quiet line (mock .note): a gold rule, two lines of words
             BrandUi.Layer(BrandUi.Box(r, "Rule", Left, ListTop + 4, 5, 84), "Gold", BrandColors.Gold);
             BrandUi.Label(BrandUi.Box(r, "Note", Left + 26, ListTop, 600, 92), "Text", "Swing, then hand the phone on. The TV says whose turn it is.", BrandUi.Medium, 30,

@@ -313,12 +313,6 @@ namespace GolfArcade.Tennis
                 {int a=normalTriangles[f],b=normalTriangles[f+1],c=normalTriangles[f+2];var area=Vector3.Cross(vertices[b]-vertices[a],vertices[c]-vertices[a]);normals[a]+=area;normals[b]+=area;normals[c]+=area;}
                 foreach(int i in p.freeVertices)normals[i]=Normalize(normals[i]);
             }
-            void Synchronize()
-            {
-                Array.Clear(aliasSums,0,aliasSums.Length);
-                foreach(int i in p.freeVertices)aliasSums[p.aliases[i]]+=delta[i];
-                foreach(int i in p.freeVertices){delta[i]=aliasSums[p.aliases[i]]/aliasCounts[p.aliases[i]];posed[i]=raw[i]+delta[i];}
-            }
             void AddShape(Shape s,float w)
             {
                 if(Mathf.Abs(w)<1e-7f||s.deltas.Length==0)return;
@@ -435,11 +429,6 @@ namespace GolfArcade.Tennis
             =>matrices[w.boneIndex0].MultiplyVector(v)*w.weight0+matrices[w.boneIndex1].MultiplyVector(v)*w.weight1
               +matrices[w.boneIndex2].MultiplyVector(v)*w.weight2+matrices[w.boneIndex3].MultiplyVector(v)*w.weight3;
 
-        static Vector4 DualPart(Vector4 q,Vector3 t)
-        {
-            var v=new Vector3(q.x,q.y,q.z);var d=(t*q.w+Vector3.Cross(t,v))*.5f;
-            return new Vector4(d.x,d.y,d.z,-Vector3.Dot(t,v)*.5f);
-        }
         static Vector3 Translation(Vector4 r,Vector4 d)
         {
             var rv=new Vector3(r.x,r.y,r.z);var dv=new Vector3(d.x,d.y,d.z);
@@ -448,18 +437,6 @@ namespace GolfArcade.Tennis
         static Vector3 Rotate(Vector4 q,Vector3 v)
         {
             var r=new Vector3(q.x,q.y,q.z);return v+Vector3.Cross(r,Vector3.Cross(r,v)+v*q.w)*2;
-        }
-        static void BlendDual(Vector4[] real,Vector4[] dual,BoneWeight w,out Vector4 r,out Vector4 d)
-        {
-            var reference=real[w.boneIndex0];
-            float b=w.weight1*(Vector4.Dot(reference,real[w.boneIndex1])<0?-1:1);
-            float c=w.weight2*(Vector4.Dot(reference,real[w.boneIndex2])<0?-1:1);
-            float e=w.weight3*(Vector4.Dot(reference,real[w.boneIndex3])<0?-1:1);
-            r=reference*w.weight0+real[w.boneIndex1]*b+real[w.boneIndex2]*c+real[w.boneIndex3]*e;
-            d=dual[w.boneIndex0]*w.weight0+dual[w.boneIndex1]*b+dual[w.boneIndex2]*c+dual[w.boneIndex3]*e;
-            float length=Mathf.Sqrt(Vector4.Dot(r,r));
-            if(length<1e-6f)throw new InvalidOperationException("Degenerate underarm dual quaternion");
-            r/=length;d/=length;d-=r*Vector4.Dot(r,d);
         }
     }
 }

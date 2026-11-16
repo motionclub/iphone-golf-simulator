@@ -24,20 +24,20 @@ namespace GolfArcade.Tennis
         /// The body's offsets, per hero, for the meshes that have no file of their own.
         sealed class Field
         {
-            public Vector3[] p, d; public Dictionary<Vector3Int, List<int>> grid = new Dictionary<Vector3Int, List<int>>();
+            public Vector3[] p, d; public CellGrid grid;   // (flat cells, same order of points as the lists it replaced: CellGrid.cs)
             const float Cell = .03f, R = .045f;
-            static Vector3Int Key(Vector3 q) => new Vector3Int(Mathf.FloorToInt(q.x / Cell), Mathf.FloorToInt(q.y / Cell), Mathf.FloorToInt(q.z / Cell));
             public Field(Vector3[] p, Vector3[] d)
             {
                 this.p = p; this.d = d;
-                for (int i = 0; i < p.Length; i++) { var k = Key(p[i]); if (!grid.TryGetValue(k, out var l)) grid[k] = l = new List<int>(); l.Add(i); }
+                grid = new CellGrid(p, p.Length, Cell);
             }
             public Vector3 Sample(Vector3 q)
             {
-                var c = Key(q); Vector3 sum = Vector3.zero; float ws = 0; int r = Mathf.CeilToInt(R / Cell);
+                int cx = CellGrid.Coord(q.x, Cell), cy = CellGrid.Coord(q.y, Cell), cz = CellGrid.Coord(q.z, Cell);
+                Vector3 sum = Vector3.zero; float ws = 0; int r = Mathf.CeilToInt(R / Cell);
                 for (int x = -r; x <= r; x++) for (int y = -r; y <= r; y++) for (int z = -r; z <= r; z++)
-                    if (grid.TryGetValue(new Vector3Int(c.x + x, c.y + y, c.z + z), out var l))
-                        foreach (int i in l) { float dist = (p[i] - q).magnitude; if (dist >= R) continue; float k = 1 - dist / R; k = k * k * k; sum += d[i] * k; ws += k; }
+                    if (grid.Find(cx + x, cy + y, cz + z, out int s, out int e))
+                        for (int n = s; n < e; n++) { int i = grid.Items[n]; float dist = (p[i] - q).magnitude; if (dist >= R) continue; float k = 1 - dist / R; k = k * k * k; sum += d[i] * k; ws += k; }
                 // (the still skin around a moved patch is in the average too: a vertex beside the patch does not take its whole offset)
                 return ws > 1e-6f ? sum / ws : Vector3.zero;
             }

@@ -178,7 +178,8 @@ namespace GolfArcade.Tennis
             {
                 // In from the sea, banking round the resort, settling over the court (each venue flies its own path).
                 TennisVenue.Drone(Smooth(Mathf.Clamp01(t / Mathf.Max(.01f, drone))) * .92f, out pos, out look, out fov);
-                if (shown != 0) { shown = 0; plate = graphics.ShowPlate(TennisVenue.CourtName.ToUpperInvariant(), TennisVenue.Title, subtitle, IntroGraphics.Sky, false, t); }
+                // (UI OVERHAUL 11-15: the map's sculpted title, its name standing alone)
+                if (shown != 0) { shown = 0; plate = graphics.ShowMapTitle(GolfArcade.UI.MapSkin.Tennis, false, t); }
                 if (t > drone - .35f) graphics.HidePlate(plate, t);
                 IntroLens.Off(camera);
             }
@@ -193,8 +194,9 @@ namespace GolfArcade.Tennis
                 if (shown != which)
                 {
                     shown = which; graphics.HidePlate(plate, t);
-                    plate = isRival ? graphics.ShowPlate(rivalRole, hud.OpponentName, rivalDetail, IntroGraphics.Grape, true, t)
-                                    : graphics.ShowPlate("THE CHALLENGER", hud.PlayerName, playerDetail, IntroGraphics.Coral, false, t);
+                    // (usernames on the map's plate: no role words)
+                    plate = isRival ? graphics.ShowNamePlate(GolfArcade.UI.MapSkin.Tennis, hud.OpponentName, true, t)
+                                    : graphics.ShowNamePlate(GolfArcade.UI.MapSkin.Tennis, hud.ShownPlayerName, false, t);
                 }
                 Emote(isRival, s, first);
                 float span = first ? firstEnd : secondEnd - firstEnd, k = Smooth(Mathf.Clamp01(s / Mathf.Max(.01f, span)));
@@ -214,8 +216,8 @@ namespace GolfArcade.Tennis
                 if (shown != 3)
                 {
                     shown = 3; graphics.HidePlate(plate, t);
-                    left = graphics.ShowPlate("", hud.PlayerName, "", IntroGraphics.Coral, false, t, 70);
-                    right = graphics.ShowPlate("", hud.OpponentName, "", IntroGraphics.Grape, true, t, 70);
+                    left = graphics.ShowNamePlate(GolfArcade.UI.MapSkin.Tennis, hud.ShownPlayerName, false, t, 70);
+                    right = graphics.ShowNamePlate(GolfArcade.UI.MapSkin.Tennis, hud.OpponentName, true, t, 70);
                     graphics.ShowVs(t);
                 }
                 var a = rivalUp ? rival : player;

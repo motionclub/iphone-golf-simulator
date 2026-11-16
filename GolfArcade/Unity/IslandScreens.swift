@@ -299,7 +299,7 @@ struct IslandSettingsScreen: View {
         case "golfBounties": return Item(title: "Golf bounties", detail: "A task on every hole that pays coins toward your XP.", control: .toggle(s.golfChallenges))
         case "coaching": return Item(title: "Coaching tips", detail: "Short hints on the phone and TV during matches.", control: .toggle(s.coachingTips))
         case "resetTips": return Item(title: "Show every coaching tip again", detail: "The hints you have already seen will come back.", control: .action("Reset", danger: false))
-        case "replayOnboarding": return Item(title: "Replay onboarding", detail: "Account, look, screen setup and a tutorial again. Your progress stays.", control: .action("Replay", danger: false))
+        case "replayOnboarding": return Item(title: "Replay onboarding", detail: "The welcome, your player and how it works again. Your lessons and progress stay.", control: .action("Replay", danger: false))
         case "resetProgress": return Item(title: "Reset campaign", detail: "Starts the Island Circuit from the beginning. Your look and level stay. Asks twice.", control: .action(menu.confirmingReset ? "Press again" : "Erase…", danger: true))
         case "range": return Item(title: "Step to cross court", detail: "How far you walk for a full court width.", control: .stepper("\(Int(s.travel * 100)) cm"))
         case "hand": return Item(title: "Plays", detail: "Which hand holds the racket.", control: .choice(["Right", "Left"], p?.handedness == .left ? 1 : 0))

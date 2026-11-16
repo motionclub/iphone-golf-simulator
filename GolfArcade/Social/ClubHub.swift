@@ -142,7 +142,7 @@ final class ClubHub {
     /// chooses another.
     @ObservationIgnored var isRejoin: @MainActor (HubInvite) -> Bool = { _ in false }
     @ObservationIgnored var forgetParty: @MainActor () -> Void = {}
-    /// Join said during first-run onboarding: onboarding steps aside until the party is over (OnboardingFlow.holdsMenu).
+    /// Join said during first-run onboarding: the intro steps aside until the party is over (OnboardingFlow.introShowing).
     @ObservationIgnored var deferOnboarding: @MainActor () -> Void = {}
     /// Connected to this player (gamePlayerID) in a party now: their invite has nothing left to join.
     @ObservationIgnored var connectedTo: @MainActor (String) -> Bool = { id in MultiplayerService.shared.partyMembers.contains { $0.id == id } }

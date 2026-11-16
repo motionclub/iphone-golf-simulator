@@ -127,7 +127,6 @@ namespace GolfArcade.PlayTests
             var main = Camera.main;
             var game = Object.FindFirstObjectByType<GolfGame>();
             Assert.IsNotNull(game);
-            game.InstantReplays = false;
             var look0 = JsonUtility.ToJson(GolferStyle.Current);
             Recorder rec = null; GameObject camGo = null;
             var list = new TakeList { fps = Fps };

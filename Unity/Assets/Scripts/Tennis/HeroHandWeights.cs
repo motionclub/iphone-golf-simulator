@@ -18,7 +18,18 @@ namespace GolfArcade.Tennis {
     Vector3 p=bind[prox].inverse.GetColumn(3),m=bind[middle].inverse.GetColumn(3);var axis=(m-p).normalized;float length=Vector3.Distance(p,m),radius=female ? .010f:.012f;
     int sideChanged=0;
     for(int vertex=0;vertex<weights.Length;vertex++) {
-     var w=weights[vertex];int[] indices={w.boneIndex0,w.boneIndex1,w.boneIndex2,w.boneIndex3};float[] amount={w.weight0,w.weight1,w.weight2,w.weight3};float hw=0,fw=0;var map=new Dictionary<int,float>();
+     var w=weights[vertex];
+     // (2026-11-15, work/perf-1115: the hand and finger shares first, added up in the same order as below, so the 99 % of the
+     // body that is no thumb root leaves before two arrays and a dictionary are allocated for it — the same weights come out)
+     {
+      float h0=0,f0=0;
+      if(w.weight0>0){if(w.boneIndex0==hand)h0+=w.weight0;if(four.Contains(w.boneIndex0))f0+=w.weight0;}
+      if(w.weight1>0){if(w.boneIndex1==hand)h0+=w.weight1;if(four.Contains(w.boneIndex1))f0+=w.weight1;}
+      if(w.weight2>0){if(w.boneIndex2==hand)h0+=w.weight2;if(four.Contains(w.boneIndex2))f0+=w.weight2;}
+      if(w.weight3>0){if(w.boneIndex3==hand)h0+=w.weight3;if(four.Contains(w.boneIndex3))f0+=w.weight3;}
+      if(h0<.2f||f0>.05f)continue;
+     }
+     int[] indices={w.boneIndex0,w.boneIndex1,w.boneIndex2,w.boneIndex3};float[] amount={w.weight0,w.weight1,w.weight2,w.weight3};float hw=0,fw=0;var map=new Dictionary<int,float>();
      for(int k=0;k<4;k++){if(amount[k]<=0)continue;if(!map.ContainsKey(indices[k]))map[indices[k]]=0;map[indices[k]]+=amount[k];if(indices[k]==hand)hw+=amount[k];if(four.Contains(indices[k]))fw+=amount[k];}
      if(hw<.2f||fw>.05f)continue;
      var delta=vertices[vertex]-p;float along=Vector3.Dot(delta,axis),s=along/length,distance=(delta-axis*along).magnitude;

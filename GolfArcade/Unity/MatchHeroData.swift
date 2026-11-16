@@ -7,7 +7,6 @@ import simd
 ///
 ///   MatchHero_<Sex>.json         manifest: parts, submeshes (each with the LOOK numbers read off the hero's runtime materials), bounds, rig description
 ///   MatchHero_<Sex>.lzfse        the Ready stance (frame 0 of <Sex>_ReadyIdle): positions, normals, indices; the kit's UVs; the body's bind-pose positions
-///   MatchHero_<Sex>_Swing_NN     the match Forehand sampled densely around the strike (morph targets for the loading screen's practice swing)
 ///   MatchHero_<Sex>_Rig.lzfse    the bind-pose mesh of every skinned part with its bone weights and inverse binds, and the clips <Sex>_ReadyIdle and <Sex>_Serve as bone tracks (60 Hz)
 ///   MatchHero_<map>.png          the look maps the runtime materials sample (cloth weave, the kit's seam maps, the soft skin normal)
 /// HERO_REGISTRY: the one list of hero model names the iOS menus load. Mirror of Unity/Assets/Scripts/Game/HeroAssets.cs; change a model
@@ -16,7 +15,9 @@ enum HeroAssets {
     /// The baked SceneKit export in CharacterAssets (<name>.json / .lzfse): tennis is the match hero with the tailored outfit, golf is the kit.
     /// Bowling is the match hero wearing the bowling kit (BowlingKitHero_<Sex>).
     static func nativeExport(golf: Bool, female: Bool, distance: Bool = false, bowling: Bool = false) -> String {
-        (golf ? "GolfKitHero_" : bowling ? "BowlingKitHero_" : "MatchHero_") + (female ? "Female" : "Male") + (distance && !golf ? "_Distance" : "")
+        // (`distance` asked for a second "_Distance" export until 2026-11-15; since the heroes moved to the V2 kits that file was a
+        // byte-for-byte copy of the close hero, 458 MB of the app, so both names now load the one export)
+        (golf ? "GolfKitHero_" : bowling ? "BowlingKitHero_" : "MatchHero_") + (female ? "Female" : "Male")
     }
 }
 
@@ -64,7 +65,7 @@ enum HeroAssets {
     struct Sub: Decodable { let material: String; let indexOffset: Int; let indexCount: Int; let look: Look? }
     struct Part: Decodable {
         let name: String, kind: String
-        let vertexCount: Int, positionOffset: Int, normalOffset: Int, swingPositionOffset: Int, swingNormalOffset: Int
+        let vertexCount: Int, positionOffset: Int, normalOffset: Int
         let uvOffset: Int?, bindPositionOffset: Int?
         /// Body: HeroFaceSkin's lid-liner distances (float2). Kit: HeroKitEdges' measurements (float4, metres).
         let lidOffset: Int?, edgeOffset: Int?
@@ -106,8 +107,7 @@ enum HeroAssets {
     struct Manifest: Decodable {
         let sex: String, baseClip: String, swingClip: String
         let parts: [Part]; let materials: [Mat]
-        let swingFrames: [String]; let swingTimes: [Float]
-        let swingLength: Float, swingContact: Float
+        let swingContact: Float
         let height: Float, headCentreY: Float, headTopY: Float, headRadius: Float
         let rig: RigInfo?
         /// MENU HERO: the racket on the back (HeroAccessories.BackRacketPose): racket node = bone(backRacketBone) * backRacket (column-major, file space).
@@ -132,34 +132,15 @@ enum HeroAssets {
     }
 
     // MARK: one sex's data
-    /// One sex's loaded data: the base-pose geometry per part and, on demand, the swing frames as morph targets and the rig (skin weights + clips).
+    /// One sex's loaded data: the base-pose geometry per part and, on demand, the rig (skin weights + clips).
     @MainActor final class Asset {
         let manifest: Manifest, geometry: [SCNGeometry], scale: Float
-        var swing: [[SCNGeometry]]?
         private var rigLoaded = false, rigCache: RigData?
         init(manifest: Manifest, geometry: [SCNGeometry]) {
             self.manifest = manifest; self.geometry = geometry; scale = MatchHeroData.stageHeight / manifest.height
         }
         var female: Bool { manifest.sex == "Female" }
         func partIndex(_ name: String) -> Int? { manifest.parts.firstIndex { $0.name == name } }
-        /// [part][frame]: positions + normals of the Forehand at manifest.swingTimes, on the base mesh's own triangles.
-        func swingTargets() -> [[SCNGeometry]]? {
-            if let swing { return swing }
-            var perPart = [[SCNGeometry]](repeating: [], count: manifest.parts.count)
-            for frame in manifest.swingFrames {
-                guard let data = MatchHeroData.data(frame) else { return nil }
-                for (i, part) in manifest.parts.enumerated() {
-                    let n = part.vertexCount * 12
-                    guard part.swingNormalOffset + n <= data.count, part.swingPositionOffset + n <= data.count else { return nil }
-                    let sources = [(part.swingPositionOffset, SCNGeometrySource.Semantic.vertex), (part.swingNormalOffset, .normal)].map { offset, semantic in
-                        SCNGeometrySource(data: data.subdata(in: offset ..< offset + n), semantic: semantic, vectorCount: part.vertexCount,
-                                          usesFloatComponents: true, componentsPerVector: 3, bytesPerComponent: 4, dataOffset: 0, dataStride: 12)
-                    }
-                    perPart[i].append(SCNGeometry(sources: sources, elements: geometry[i].elements))
-                }
-            }
-            swing = perPart; return perPart
-        }
         /// The skin weights, bind-pose meshes and clips (nil when the export has no rig or its file is missing).
         func rig() -> RigData? {
             if rigLoaded { return rigCache }

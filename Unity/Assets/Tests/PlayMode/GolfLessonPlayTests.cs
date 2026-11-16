@@ -31,7 +31,7 @@ namespace GolfArcade.PlayTests {
         IEnumerator Settle(float seconds = 40) {
             float deadline = Time.realtimeSinceStartup + seconds;
             yield return null;
-            while (Time.realtimeSinceStartup < deadline && game.Current is GolfGame.State.Flight or GolfGame.State.Result or GolfGame.State.Replay) yield return null;
+            while (Time.realtimeSinceStartup < deadline && game.Current is GolfGame.State.Flight or GolfGame.State.Result) yield return null;
             yield return null; yield return null;
         }
         string Last(string kind) { for (int i = reports.Count - 1; i >= 0; i--) if (reports[i].Contains($"\"kind\":\"{kind}\"")) return reports[i]; return null; }

@@ -22,6 +22,7 @@ namespace GolfArcade.Game
             LessonReport = json => Emit("lesson", json);
             if (golf) golf.gameObject.AddComponent<GolfLesson>().Begin(golf, m.lessonStation);
             if (tennis) tennis.BeginLesson(m.lessonStation);
+            if (bowling) bowling.gameObject.AddComponent<GolfArcade.Bowling.BowlingLesson>().Begin(bowling, m.lessonStation);
         }
 
         /// The phone's "Skip this step" (offered after three misses at one station).
@@ -30,6 +31,7 @@ namespace GolfArcade.Game
             if (m.action != "lessonSkip") return false;
             if (golf && golf.TryGetComponent<GolfLesson>(out var g)) g.SkipStation();
             if (tennis && tennis.TryGetComponent<TennisTutorial>(out var t)) t.SkipStep();
+            if (bowling && bowling.TryGetComponent<GolfArcade.Bowling.BowlingLesson>(out var b)) b.SkipStation();
             return true;
         }
     }

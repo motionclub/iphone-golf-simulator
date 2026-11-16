@@ -338,14 +338,6 @@ namespace GolfArcade.UI
                 return this;
             }
 
-            /// The highlighted card (the sun slab).
-            public Card SetHighlight(bool on)
-            {
-                faceImage.color = on ? Sun : Cream; baseImage.color = on ? SunDeep : CreamDeep;
-                Button.RestColor = faceImage.color; Button.PressedColor = faceImage.color;
-                return this;
-            }
-
             public Card SetArt(string name) { artName = name; Art.sprite = Club.Art(name); return this; }
         }
 

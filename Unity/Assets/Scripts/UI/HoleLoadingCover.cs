@@ -21,6 +21,12 @@ namespace GolfArcade.UI
             /// The hole's place in its round (1 for the first), how many holes the round has, par and length in yards.
             public int Ordinal, Count, Par;
             public double Yards;
+            /// A mode with its own screen (the Daily Challenge: GolfGame.DailyLoadingInfo) says these instead of the hole's:
+            /// the gold tab's words, the big title, the line under it, the chips (in place of par / yards / hazards), the tip
+            /// card's tab ("DAILY TIP") and its own tips. Null: the hole's.
+            public string Tab, Title, Objective, TipTab;
+            public string[] Chips;
+            public (string title, string text)[] Tips;
         }
 
         public const float FadeIn = 0.14f, FadeOut = 0.32f;
@@ -72,6 +78,8 @@ namespace GolfArcade.UI
         public float Progress => progress;
         public string Status => status ? status.text : "";
         public string Title => title ? title.text : "";
+        public string Tab => holeTabText ? holeTabText.text : "";
+        public string TipTab => tipTab ? tipTab.text : "";
         public string Number => info.Ordinal > 0 ? info.Ordinal.ToString() : "";
 
         public static HoleLoadingCover Create(Camera camera)
@@ -244,10 +252,15 @@ namespace GolfArcade.UI
         }
 
         /// The course's key art (Resources/Loading/loading-golf-<course>), or nothing (the brand field shows).
+        static int artPick;
         static Texture2D ArtFor(string course)
         {
             string name = (course ?? "").ToLowerInvariant();
             string key = name.Contains("magma") ? "magma" : name.Contains("wild") ? "wildisles" : "cliffside";
+            // UI OVERHAUL 11-15 (02 Loading art): our golfers playing the course, a fresh one of the course's each cover (Wild Isles
+            // has its own now); the older key art if those are missing
+            var painted = MapSkin.Golf(key).LoadingArt(++artPick);
+            if (painted) return painted;
             if (!arts.TryGetValue(key, out var tex)) arts[key] = tex = Resources.Load<Texture2D>("Loading/loading-golf-" + key);
             return tex;
         }
@@ -386,6 +399,12 @@ namespace GolfArcade.UI
                 rt.sizeDelta = new Vector2(w, h); rt.anchoredPosition = new Vector2(x, 0);
                 x += w + 14;
             }
+            if (info.Chips != null)
+            {
+                // a mode's own chips: the first (the score) on the Daily Challenge's coral, the others navy like a hole's
+                for (int i = 0; i < info.Chips.Length; i++) if (!string.IsNullOrEmpty(info.Chips[i])) Chip(info.Chips[i], i == 0 ? UiKit.Hex("D9365E") : BrandColors.NavyDeep);
+                return;
+            }
             Chip($"PAR {info.Par}", BrandColors.NavyDeep);
             Chip($"{info.Yards:F0} YD", BrandColors.NavyDeep);
             if (info.Hole != null)
@@ -412,9 +431,10 @@ namespace GolfArcade.UI
             var picture = ArtFor(info.Course);
             art.texture = picture; art.enabled = picture;
             if (picture) artFit.aspectRatio = (float)picture.width / Mathf.Max(1, picture.height);
-            holeTabText.text = info.Count > 1 ? $"HOLE {info.Ordinal} OF {info.Count}  ·  {(info.Course ?? "").ToUpperInvariant()}" : $"HOLE {info.Ordinal}  ·  {(info.Course ?? "").ToUpperInvariant()}";
-            title.text = info.Name ?? "";
-            objective.text = ObjectiveOf(info.Blurb);
+            holeTabText.text = !string.IsNullOrEmpty(info.Tab) ? info.Tab
+                : info.Count > 1 ? $"HOLE {info.Ordinal} OF {info.Count}  ·  {(info.Course ?? "").ToUpperInvariant()}" : $"HOLE {info.Ordinal}  ·  {(info.Course ?? "").ToUpperInvariant()}";
+            title.text = !string.IsNullOrEmpty(info.Title) ? info.Title : info.Name ?? "";
+            objective.text = !string.IsNullOrEmpty(info.Objective) ? info.Objective : ObjectiveOf(info.Blurb);
             status.text = "Packing the clubs…";
             // the card sits left on odd holes and right on even ones, so a round does not look the same every time
             cardLeft = info.Ordinal % 2 == 1;
@@ -431,8 +451,9 @@ namespace GolfArcade.UI
         {
             if (which == tipShown) return;
             tipShown = which;
-            var tip = Tips[((Mathf.Max(1, info.Ordinal) - 1) * 2 + which) % Tips.Length];
-            tipTab.text = $"GOLF TIP {which + 1}/2";
+            var tips = info.Tips != null && info.Tips.Length > 0 ? info.Tips : Tips;
+            var tip = tips[((Mathf.Max(1, info.Ordinal) - 1) * 2 + which) % tips.Length];
+            tipTab.text = $"{(string.IsNullOrEmpty(info.TipTab) ? "GOLF TIP" : info.TipTab)} {which + 1}/2";
             tipTitle.text = tip.title; tipText.text = tip.text;
             if (laidOut) Layout();
         }

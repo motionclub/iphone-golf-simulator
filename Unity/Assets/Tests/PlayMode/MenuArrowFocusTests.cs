@@ -25,7 +25,7 @@ namespace GolfArcade.Tests
             hub = HubWorld.Find(); Assert.IsNotNull(hub?.Hud, "menu mode"); hud = hub.Hud;
             hub.StartArrival(); for (int i = 0; i < 90; i++) yield return null;
         }
-        [TearDown] public void Clean() { HubWorld.EditorDriven = false; HubWorld.MenuMode = false; if (host) Object.DestroyImmediate(host); }
+        [TearDown] public void Clean() { HubWorld.EditorDriven = false; if (host) Object.DestroyImmediate(host); }
 
         void Send(string action, string mode = null, System.Action<NativeSportsSession.Message> more = null)
         {

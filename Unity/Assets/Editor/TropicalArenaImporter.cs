@@ -9,7 +9,9 @@ namespace GolfArcade.EditorTools
     {
         const string Folder = "Assets/Resources/Tennis/TropicalV3/";
         const string Kits = "Assets/Resources/Tennis/KitsV3/";
-        bool IsKit => assetPath.StartsWith(Kits);
+        /// racket.fbx and materials.json: the editor-only source of RacketGameplay (Prepare, run by the iOS export), kept out of Resources so they do not ship.
+        const string KitSource = "Assets/Characters/KitsV3Source/";
+        bool IsKit => assetPath.StartsWith(Kits) || assetPath.StartsWith(KitSource);
         [Serializable] class Entry { public string name, texture; public float[] color; public float roughness; }
         [Serializable] class Manifest { public Entry[] materials; }
         void OnPreprocessModel()
@@ -35,11 +37,11 @@ namespace GolfArcade.EditorTools
         }
         public static void Prepare()
         {
-            PrepareFolder(Folder); if(File.Exists(Kits+"materials.json")) {PrepareFolder(Kits);PrepareRacket();}
+            PrepareFolder(Folder); if(File.Exists(KitSource+"materials.json")) {PrepareFolder(Kits,KitSource+"materials.json");PrepareRacket();}
         }
         static void PrepareRacket()
         {
-            var source=AssetDatabase.LoadAssetAtPath<GameObject>(Kits+"racket.fbx");
+            var source=AssetDatabase.LoadAssetAtPath<GameObject>(KitSource+"racket.fbx");
             if(!source)return;
             var instance=UnityEngine.Object.Instantiate(source);
             var filter=instance.GetComponentInChildren<MeshFilter>();
@@ -70,9 +72,9 @@ namespace GolfArcade.EditorTools
             PrefabUtility.SaveAsPrefabAsset(root,Kits+"RacketGameplay.prefab");
             UnityEngine.Object.DestroyImmediate(root);UnityEngine.Object.DestroyImmediate(instance);AssetDatabase.SaveAssets();
         }
-        static void PrepareFolder(string folder)
+        static void PrepareFolder(string folder,string manifestPath=null)
         {
-            var manifest=JsonUtility.FromJson<Manifest>(File.ReadAllText(folder+"materials.json"));
+            var manifest=JsonUtility.FromJson<Manifest>(File.ReadAllText(manifestPath??folder+"materials.json"));
             Directory.CreateDirectory(folder+"Materials");
             foreach(var e in manifest.materials) {
             string path=folder+"Materials/"+e.name+".mat";

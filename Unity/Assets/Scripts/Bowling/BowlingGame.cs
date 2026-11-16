@@ -148,6 +148,8 @@ namespace GolfArcade.Bowling
             NewGame(Players.ToArray());
             SnapCamera();
             StartCoroutine(RenderReflections());
+            // (bowling had no frame governor: a phone that could not hold the lanes at 60 stayed below it for the whole game)
+            if (!GetComponent<GolfArcade.Tennis.TennisFrameGovernor>()) gameObject.AddComponent<GolfArcade.Tennis.TennisFrameGovernor>();
             Initialized = true;
         }
 

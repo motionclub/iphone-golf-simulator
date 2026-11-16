@@ -94,10 +94,10 @@ final class SportsDisplays: NSObject {
         }
         return preview
     }
-    // MARK: the Plaza on the phone itself (no TV)
+    // MARK: the menu on the phone itself (no TV)
 
-    /// Unity's view while the Plaza runs on the phone with no TV: a window UNDER the app's own, which turns see-through over the
-    /// plaza's part of the screen (HubControllerView's phone layout), so the controls and every sheet stay on top of it.
+    /// Unity's view while the menu runs on the phone with no TV: a window UNDER the app's own, which turns see-through over it
+    /// (MenuTouchPad), so the app's touches and every sheet stay on top of it.
     private var plazaPhone: UIWindow?
     func phonePlazaWindow() -> UIWindow? {
         refresh()
@@ -126,7 +126,7 @@ final class SportsDisplays: NSObject {
     }
     var phonePlazaShown: Bool { plazaPhone?.isHidden == false }
     /// The menu on a phone with no TV fills the screen and turns with the phone (Adnan 10-29); everything else on the phone stays upright.
-    var phoneMenuRotates: Bool { external == nil && HubSession.shared.onPhone && HubSession.shared.menuMode && !SportsSession.shared.active }
+    var phoneMenuRotates: Bool { external == nil && HubSession.shared.onPhone && !SportsSession.shared.active }
     /// The phone's windows ask again which ways they may turn; leaving the menu sideways turns the phone's screen back upright.
     func phoneOrientationChanged() {
         guard let scene = phone?.windowScene else { return }
@@ -135,21 +135,6 @@ final class SportsDisplays: NSObject {
             scene.requestGeometryUpdate(.iOS(interfaceOrientations: .portrait)) { error in NSLog("[SportsDisplay] upright request failed: %@", error.localizedDescription) }
         }
     }
-    #if DEBUG
-    /// `-phonePlazaCheck` (simulator, no Unity): a painted stand-in for Unity's plaza in the phone plaza window, to check that the
-    /// app's window lets it show through above the controls.
-    func debugFakePhonePlaza() {
-        guard let window = phonePlazaWindow() else { return }
-        let root = UIViewController(); let paint = CAGradientLayer()
-        paint.colors = [UIColor(red: 0.96, green: 0.63, blue: 0.48, alpha: 1).cgColor, UIColor(red: 0.44, green: 0.72, blue: 0.85, alpha: 1).cgColor]
-        paint.frame = window.bounds; root.view.layer.addSublayer(paint)
-        let label = UILabel(frame: CGRect(x: 0, y: window.bounds.height * 0.25, width: window.bounds.width, height: 40))
-        label.text = "UNITY PLAZA (stand-in)"; label.textAlignment = .center; label.font = .boldSystemFont(ofSize: 22); label.textColor = .white
-        root.view.addSubview(label)
-        window.rootViewController = root
-        showPhonePlaza()
-    }
-    #endif
     // MARK: bowling on the phone itself (no TV)
 
     /// Unity's view while bowling plays on the phone with no TV (PLAN_PhonePlay): a window under the app's own, which turns
@@ -410,6 +395,7 @@ final class SportsExternalScene: NSObject, UIWindowSceneDelegate {
         SportsSession.shared.pause(reason:"Display disconnected — reconnect and tap Ready"); SportsSession.shared.displayConnected=false
         SportsSession.shared.status="Display disconnected. Reconnect your TV or Mac to continue; this phone remains your controller."
         SportsDisplays.shared.external=nil; window=nil
+        RecordingService.shared.displayLost()   // what was recorded so far is finished and saved
         HubSession.shared.displayLost()
     }
 }

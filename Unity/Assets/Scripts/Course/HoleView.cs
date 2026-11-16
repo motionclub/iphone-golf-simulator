@@ -39,6 +39,15 @@ namespace GolfArcade.Course
             return Physics.Raycast(from, Vector3.down, out var hit, 800, ~GolfSolidProps.Mask, QueryTriggerInteraction.Ignore) ? hit.point.y : 0;
         }
 
+        /// The name of the modelled ground a point lies on as drawn (FAIRWAY…, GREEN…, TERRAIN…), or null on a hole without a
+        /// model: the Daily Hole in One plays from turf that looks like fairway, not only from what the hole's lines call it.
+        public static string GroundNameAt(CoursePoint p)
+        {
+            if (!Current || !Current.hasGround) return null;
+            var from = new Vector3((float)p.X, 400, (float)p.D);
+            return Physics.Raycast(from, Vector3.down, out var hit, 800, ~GolfSolidProps.Mask, QueryTriggerInteraction.Ignore) && hit.collider ? hit.collider.name : "";
+        }
+
         public static HoleView Build(Hole hole, Transform parent)
         {
             HoleView view = null;
@@ -245,7 +254,7 @@ namespace GolfArcade.Course
             var alongM = pin.position - tee.position;
             alongM -= upM * Vector3.Dot(alongM, upM);
             var teeC = new Vector3((float)Hole.Tee.X, 0, (float)Hole.Tee.D);
-            var pinC = new Vector3((float)Hole.Pin.X, 0, (float)Hole.Pin.D);
+            var pinC = new Vector3((float)Hole.GreenCenter.X, 0, (float)Hole.GreenCenter.D);   // (the green's middle: a moved cup must not move the model)
             float scale = (pinC - teeC).magnitude / Mathf.Max(0.001f, alongM.magnitude);
             var rotation = Quaternion.LookRotation(pinC - teeC, Vector3.up) * Quaternion.Inverse(Quaternion.LookRotation(alongM, upM));
             var offset = teeC - rotation * (tee.position * scale);
@@ -278,7 +287,7 @@ namespace GolfArcade.Course
                                 : name is "MAT_LAVA" or "MAT_WINDOW" ? UnlitMat(color)       // they glow
                                 // a waterfall stays bright from every side (lit, its far side went grey)
                                 : name == "MAT_FOAM" && r.name.StartsWith("WATER_FALL") ? UnlitMat(Color.Lerp(color, Colour("MAT_WATER_SHALLOW") ?? color, 0.3f))
-                                : Turf.TryGetValue(name, out var turf) ? TurfMat(color, turf) : Mat(color);
+                                : Mat(color);
                     else if (mats[i].shader.name == "Standard") mats[i] = ImportedMaterial(mats[i]);
                 }
                 r.sharedMaterials = mats;
@@ -361,7 +370,7 @@ namespace GolfArcade.Course
         HeightGrid SampleSurface()
         {
             double reach = Hole.GreenRadius + 12;
-            return HeightGrid.Sample(Hole.Pin.X - reach, Hole.Pin.D - reach, 2 * reach, 2 * reach, 0.5, GroundHeight);
+            return HeightGrid.Sample(Hole.GreenCenter.X - reach, Hole.GreenCenter.D - reach, 2 * reach, 2 * reach, 0.5, GroundHeight);
         }
 
         /// Most of the mesh's faces point at the ground.
@@ -706,35 +715,6 @@ namespace GolfArcade.Course
             // lit a little from within, so its red stays saturated in shade and in the distance haze
             if (m.HasProperty("_EmissionColor")) { m.EnableKeyword("_EMISSION"); m.SetTexture("_EmissionMap", tex); m.SetColor("_EmissionColor", new Color(.42f, .42f, .42f)); m.globalIlluminationFlags = MaterialGlobalIlluminationFlags.None; }
             r.sharedMaterial = m;
-        }
-
-        /// Which of the Blender-baked turf tiles (Resources/Course/Turf, turf_textures.py) a
-        /// surface wears: the tile, how many yards one covers, how strongly it shows.
-        static readonly Dictionary<string, (string tile, float yards, float strength)> Turf = new()
-        {
-            ["MAT_FAIRWAY"] = ("fairway", 10f, 0.28f), ["MAT_FAIRWAY_STRIPE"] = ("fairway", 10f, 0.28f),
-            ["MAT_FIRSTCUT"] = ("fairway", 8f, 0.32f), ["MAT_GREEN"] = ("green", 4f, 0.9f),
-            ["MAT_ROUGH"] = ("rough", 6f, 0.4f), ["MAT_BUNKER_LIP"] = ("rough", 6f, 0.35f),
-            ["MAT_SAND"] = ("sand", 3f, 0.45f),
-            ["MAT_ROUGH_ASH"] = ("rough", 6f, 0.35f), ["MAT_SNOW"] = ("rough", 7f, 0.12f), ["MAT_DESERT"] = ("sand", 4f, 0.35f),
-            ["MAT_ROUGH_JUNGLE"] = ("rough", 6f, 0.4f), ["MAT_MOSS"] = ("rough", 6f, 0.35f), ["MAT_SAND_BLACK"] = ("sand", 3f, 0.4f),
-        };
-        static readonly Dictionary<(Color, string), Material> turfMaterials = new();
-
-        /// Grass or sand: its palette colour with its detail tile over it (GolfArcade/Turf).
-        public static Material TurfMat(Color color, (string tile, float yards, float strength) turf)
-        {
-            if (turfMaterials.TryGetValue((color, turf.tile), out var m) && m) return m;
-            var shader = Shader.Find("GolfArcade/Turf");
-            var tex = Resources.Load<Texture2D>("Course/Turf/" + turf.tile);
-            if (!shader || !tex) return Mat(color);
-            tex.wrapMode = TextureWrapMode.Repeat; tex.filterMode = FilterMode.Trilinear; tex.anisoLevel = 8;
-            m = new Material(shader) { color = color, name = "Turf " + turf.tile };
-            m.SetTexture("_Detail", tex);
-            m.SetFloat("_Tile", turf.yards);
-            m.SetFloat("_Strength", turf.strength);
-            turfMaterials[(color, turf.tile)] = m;
-            return m;
         }
 
         static readonly Dictionary<Color, Material> materials = new();

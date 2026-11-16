@@ -10,18 +10,18 @@ using UnityEngine.SceneManagement;
 
 namespace GolfArcade.Game
 {
-    /// The `hub` session kind (PLAN_MenuHub_WalkableWorld §5 step 1): with a TV connected the menus are the walkable Plaza
-    /// (Hub.unity) instead of the native TV menu. Same bridge as a match: the phone sends `start` with sport "hub", then the
-    /// stick on the binary sample channel (target = x, aim = y, power = deflection, at the phone's 30–60 Hz) and buttons as
-    /// commands. Unity reports where the player is.
+    /// The `hub` session kind: the menu (Hub.unity: the squad line-up on a venue plate, MenuStage + MenuHud), on the TV or, with no TV,
+    /// on the phone's own screen. Same bridge as a match: the phone sends `start` with sport "hub", then its pointer on the binary
+    /// sample channel and buttons as commands. (The walk-around Plaza this replaced left the game on 2026-11-15; `hub*` keeps its
+    /// wire names, and any other `hub*` command an older phone still sends is swallowed.)
     ///
-    ///   phone -> Unity   start{sport:"hub", phoneOnly (no TV: the plaza above the phone's own controls, PLAY shut)}  hubMeet{mode:friend id} (joined their party: go to them)  hubArrive (the loading screen is off the TV: fly in)  hubToast{mode:text} (a message in the corner: an invite, a friend joining)  hubA  hubB  hubEmote{mode:id}  hubGo{mode:place|spot}  hubUse{mode:spot} (go there and use it)  hubLook{female,skin,skinHex,shirt,shorts,accent,racket}  end
-    ///   Unity -> phone   loadProgress(0..1 scene)  buildProgress(0..1 plaza build)  ready  hubPlace(place)  hubZone(kind|id|label|detail)  hubAction(spot id)  hubState(place|zone|speed|inputAge ms p50|p95)
+    ///   phone -> Unity   start{sport:"hub", phoneOnly (no TV: the menu fills the phone)}  hubArrive (the loading screen is off the TV)  hubToast{mode:text} (a message in the corner: an invite, a friend joining)  hubEmote{mode:id}  hubLook{female,skin,skinHex,shirt,shorts,accent,racket}  hubRemote{remote:RemoteState}  hubRoster{mode:ids}  hubChat{remote:id, mode:text}  end
+    ///   Unity -> phone   loadProgress(0..1 scene)  buildProgress(0..1 menu build)  ready  hubPose(place|x|y|z|yaw|speed|seat|emote)
     public sealed partial class NativeSportsSession
     {
-        /// A match start from a bay: load it behind the plaza (additive, hidden) and hand off with a dive into the bay screen.
+        /// `seamless`: load the match behind the menu (additive, hidden) and hand off with a fade. No phone sends it today.
         public partial class Message { public bool seamless; public string bay; public string remote; public bool phoneOnly; }
-        /// The pointer menu (PLAN_PointerMenu.md): `menu` boots the plaza as the menu's backdrop; `leader` = this phone drives it (no
+        /// The pointer menu (PLAN_PointerMenu.md): `menu` is always sent and no longer read (the hub is the menu); `leader` = this phone drives it (no
         /// party, or the party's leader); `soloLocked` = friends are here (solo modes lock); `screen` = the screen to open on (back from a
         /// match); `colour` = your party colour. A match start from the menu: `hold` = wait for START on the TV once it is built
         /// (solo / local), `menuLabel` = the mode's name for the loader.
@@ -32,12 +32,11 @@ namespace GolfArcade.Game
         ///   Unity -> phone  menuScreen(id)  menuHover(id|label)  menuOpen(route id)  menuLook(slot|hex)  menuStart  menuCancel
         ///                   menuState(screen|hover|x|y|shown, the leader's, ≤15 Hz)
         public partial class Message { public bool menu, hold, soloLocked; public bool leader = true; public string screen, menuLabel; public int colour; }
-        bool hubMode; HubWorld hub; float nextHubBeat, nextHubPose;
+        bool hubMode; HubWorld hub; float nextHubPose;
         /// The menu's own session and token: a match loading behind the menu takes over `session` / `token`, but the menu (and its
         /// pointer) keeps working until the hand-off.
         string menuSession; int menuToken; double lastMenuSample = -1; string menuReturn;
-        readonly float[] hubAges = new float[64]; int hubAgeCount, hubAgeNext;
-        /// True while the phone is driving the Plaza.
+        /// True while the phone is driving the menu.
         public static bool HubActive { get; private set; }
         public HubWorld Hub => hub;
 
@@ -66,19 +65,20 @@ namespace GolfArcade.Game
             InputRate.Stop();
             Application.targetFrameRate = m.external ? 60 : FrameRate.Target(m.fps, Screen.currentResolution.refreshRateRatio.value);
             QualitySettings.vSyncCount = 0;
+            GolfArcade.Tennis.TennisQuality.FitScreen(m.external);
             // What the plaza used to inherit from GolfGame.Awake while Golf was the build's first scene (Boot.unity is now): the screen
-            // never sleeps in the menu, and Unity keeps running behind the phone's own screens. (Its shadows are HubArt.Lighting's.)
+            // never sleeps in the menu, and Unity keeps running behind the phone's own screens. (Its shadows are MenuLight.Lighting's.)
             Screen.sleepTimeout = SleepTimeout.NeverSleep; Application.runInBackground = true;
-            // the phone stays upright with a TV (it is the controller) and in the walkable plaza alone (it draws above its controls); the menu
-            // alone fills the phone and turns with it, sideways or upright (the app allows landscape only then: SportsDisplays.phoneMenuRotates)
-            if (m.phoneOnly && m.menu)
+            // the phone stays upright with a TV (it is the controller); with no TV the menu fills the phone and turns with it, sideways or
+            // upright (the app allows landscape only then: SportsDisplays.phoneMenuRotates)
+            if (m.phoneOnly)
             {
                 Screen.autorotateToPortrait = Screen.autorotateToLandscapeLeft = Screen.autorotateToLandscapeRight = true;
                 Screen.autorotateToPortraitUpsideDown = false;
                 Screen.orientation = ScreenOrientation.AutoRotation;
             }
             else Screen.orientation = ScreenOrientation.Portrait;
-            HubWorld.StartFemale = m.female; HubWorld.DeferBuild = true; HubWorld.PhoneOnly = m.phoneOnly; HubWorld.MenuMode = m.menu;
+            HubWorld.StartFemale = m.female; HubWorld.DeferBuild = true; HubWorld.PhoneOnly = m.phoneOnly;   // (the hub is the pointer menu whether or not the start says `menu`: an old phone gets it too)
             menuSession = m.session; menuToken = m.token; lastMenuSample = -1;
             var op = SceneManager.LoadSceneAsync("Hub");
             float nextProgress = 0;
@@ -99,21 +99,16 @@ namespace GolfArcade.Game
                 for (var steps = hub.BuildSteps(m.female); steps.MoveNext();)
                 { Emit("buildProgress", steps.Current.ToString("0.00", CultureInfo.InvariantCulture)); yield return null; }
             if (!hub || !hub.Initialized || !hub.Camera) { loading = false; Emit("error", "The plaza did not load."); yield break; }
-            hub.PlaceChanged += p => { if (hubMode) Emit("hubPlace", p); };
-            hub.ZoneChanged += _ => { if (hubMode) Emit("hubZone", ZoneMessage()); };
-            hub.Interacted += id => { if (hubMode) Emit("hubAction", id); };
             hub.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket, m.back);
             WireMenu(hub, m);
-            if (hub.Hud) { if (!string.IsNullOrEmpty(m.screen)) hub.Hud.Go(m.screen); else hub.PrepareArrival(); }   // back from a match: straight onto the menu
-            else if (!string.IsNullOrEmpty(m.bay) && !m.phoneOnly) hub.SitAt(m.bay);   // back from a match: on the same bench (RETURN)
+            if (hub.Hud && !string.IsNullOrEmpty(m.screen)) hub.Hud.Go(m.screen);   // back from a match: straight onto the menu
             else hub.PrepareArrival();   // a fresh boot: the first frame is the arrival's opening shot, held until the phone says go
             gameplayCamera = hub.Camera;
-            paused = true;   // the point recorder stays off; the plaza itself never pauses (timeScale stays 1)
+            paused = true;   // the point recorder stays off; the menu itself never pauses (timeScale stays 1)
             yield return Present(m.external, "ready");
             loading = false;
             if (!Ready) yield break;
             hub.ArriveBy(Time.unscaledTime + 1.5f);   // (hubArrive normally comes first, once the loading screen has faded off the TV)
-            Emit("hubPlace", hub.Place); Emit("hubZone", ZoneMessage());
             if (hub.Hud) Emit("menuScreen", hub.Hud.Screen);
         }
 
@@ -155,7 +150,10 @@ namespace GolfArcade.Game
                 case "menuPhone": hud.SetPhonePanel(m.mode == "on", m.reason); return true;
                 case "menuParty": hud.SetParty(m.leader, m.soloLocked); return true;
                 case "menuRows": hud.SetRows(m.mode); return true;
-                case "menuSetupState": hud.SetSetup(m.mode); return true;   // the TV's match setup, described by the phone (MenuSetup.swift)
+                case "menuSetupState": hud.SetSetup(m.mode); return true;
+                case "menuTutorialState": hud.SetTutorial(m.mode); return true;
+                case "menuCoach": hud.SetCoach(m.mode); return true;   // the first-launch tip over the menu (OnboardingFlow.coach), "" = none   // PLAY → Tutorial: the lock and the lessons' state (OnboardingFlow.menuState)
+                case "menuDailyState": hud.SetDaily(m.mode); return true;   // today's Daily Hole in One and the world board (DailyHoleInOne.swift)   // the TV's match setup, described by the phone (MenuSetup.swift)
                 case "menuTag": hud.SetFriendTag(m.remote ?? "", m.mode); return true;
                 case "menuMirror":
                 {
@@ -189,8 +187,7 @@ namespace GolfArcade.Game
             session = m.session; token = m.token; lastSample = -1; tennis = null; golf = null; hub = world; Time.timeScale = 1;
             if (world.gameObject.scene.IsValid()) SceneManager.SetActiveScene(world.gameObject.scene);
             menuSession = m.session; menuToken = m.token; lastMenuSample = -1;
-            if (world.Hud) world.MatchLoading(-1);
-            else { if (!string.IsNullOrEmpty(m.bay)) world.SitAt(m.bay); else world.LeaveStation(); world.BayLoading(-1); }
+            world.MatchLoading(-1);
             world.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket, m.back);
             WireMenu(world, m);
             // a cancelled load: back on the list it was started from
@@ -198,7 +195,6 @@ namespace GolfArcade.Game
             gameplayCamera = world.Camera; paused = true;
             yield return Present(m.external, "ready");
             loading = false;
-            Emit("hubPlace", world.Place); Emit("hubZone", ZoneMessage());
             if (world.Hud) Emit("menuScreen", world.Hud.Screen);
         }
 
@@ -256,7 +252,6 @@ namespace GolfArcade.Game
                 for (float t = 0; t < .65f; t += Time.unscaledDeltaTime) yield return null;
                 yield return hub.FadeOut(.3f);
             }
-            else if (hub) { hub.BayLoading(1); yield return hub.Dive(.55f); }
             TennisGame.SliceInit = false; Application.backgroundLoadingPriority = ThreadPriority.Normal;
             var plaza = hub ? hub.gameObject.scene : default;
             if (hub) hub.gameObject.SetActive(false);
@@ -296,14 +291,6 @@ namespace GolfArcade.Game
             if (plaza) plaza.MatchLoading(-1);
         }
 
-        string ZoneMessage()
-        {
-            if (!hub) return "";
-            if (hub.ZoneSpot != null) { var s = hub.ZoneSpot; return $"{(s.kind == HubLayout.Kind.Bay ? "bay" : "station")}|{s.id}|{s.label}|{s.detail}"; }
-            if (hub.ZoneDoor != null) { var d = hub.ZoneDoor; return $"door|{d.id}|{d.label}|{(d.locked ? "Coming soon" : HubWorld.DoorClosed(d) ? "TV needed" : "Walk in")}"; }
-            return "";
-        }
-
         /// Hub commands; false lets the shared handler take it (sound, haptics, display).
         bool HubCommand(Message m)
         {
@@ -311,16 +298,12 @@ namespace GolfArcade.Game
             switch (m.action)
             {
                 case "end":
-                    if (hub && hub.Player) hub.Player.SetStick(0, 0, 0);
                     StopAllCoroutines(); loading = false; Ready = false; LeaveHub(); Active = false; Left = false;
                     return true;
-                case "pause": case "resume": return true;   // the plaza has no pause
-                case "hubA": if (hub) hub.Interact(); return true;
-                case "hubB": if (hub) hub.LeaveStation(); return true;
+                case "pause": case "resume": return true;   // the menu has no pause
+                case "hubB": return true;   // still sent by the phone's menu flows (it used to stand you up from a bench): nothing to do
                 case "hubArrive": if (hub) hub.StartArrival(); return true;
                 case "hubToast": if (hub && !string.IsNullOrEmpty(m.mode)) hub.ShowToast(m.mode); return true;
-                case "hubUse": if (hub && !string.IsNullOrEmpty(m.mode)) hub.GoTo(m.mode, true); return true;
-                case "hubGo": if (hub && !string.IsNullOrEmpty(m.mode)) hub.GoTo(m.mode); return true;
                 case "hubEmote":
                     if (hub && hub.Player && TennisEmotes.TryClip(m.mode, out var clip))
                         Emit("emoteResult", hub.Player.PlayEmote(clip.ToString()) ? TennisEmotes.Name(m.mode) : "Stand still to emote");
@@ -329,15 +312,14 @@ namespace GolfArcade.Game
                     if (hub) hub.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket, m.back);
                     if (hub && hub.Hud) hub.Hud.SetLook(m.shirt, m.shorts, m.accent, m.racket);
                     return true;
-                // party (PLAN §4): a friend's state, the member list, Call party
+                // party: a friend's state, the member list, chat
                 case "hubRemote": if (hub && !string.IsNullOrEmpty(m.remote)) HubRemotes.For(hub).Receive(JsonUtility.FromJson<RemoteState>(m.remote)); return true;
                 case "hubRoster": if (hub) HubRemotes.For(hub).Roster((m.mode ?? "").Split(new[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries)); return true;
-                case "hubCall": if (hub) HubRemotes.For(hub).Call(m.mode); return true;
-                case "hubGather": if (hub) hub.GatherParty(m.mode); return true;
                 case "hubChat": if (hub) HubRemotes.For(hub).Chat(m.remote, m.mode); return true;
-                case "hubMeet": if (hub && HubRemotes.For(hub).TryGetLast(m.mode ?? "", out var meetPlace, out var meetAt)) hub.Meet(meetPlace, meetAt); return true;
             }
-            return false;
+            // any other hub command (an older phone's walk-around buttons: hubA, hubGo, hubUse, hubCall, hubGather, hubMeet, or one from a
+            // newer phone): swallowed here, so it can never fall through into the match handlers
+            return m.action != null && m.action.StartsWith("hub", System.StringComparison.Ordinal);
         }
 
         void HubUpdate()
@@ -350,39 +332,22 @@ namespace GolfArcade.Game
                 if (!AcceptSample(sample, token, lastSample, now)) continue;
                 lastSample = sample.time; latest = sample; have = true;
             }
-            if (have)
-            {
-                // the pointer menu: the phone's pointer moves the TV's cursor; the walkable plaza: the stick walks the hero
-                if (hub.Hud) { if (latest.menuPointer) hub.Hud.Pointer(latest.target, latest.aim, latest.power > 0, latest.swing != 0, latest.swingStart, latest.touch); }
-                else hub.Player.SetStick(latest.target, latest.aim, latest.power, latest.time);
-                hubAges[hubAgeNext] = (float)(now - latest.time); hubAgeNext = (hubAgeNext + 1) % hubAges.Length; hubAgeCount = Mathf.Min(hubAgeCount + 1, hubAges.Length);
-            }
-            // a phone that stops talking (backgrounded, out of range) must not leave the hero running
-            else if (lastSample > 0 && now - lastSample > .4 && hub.Player.StickMagnitude > 0) hub.Player.SetStick(0, 0, 0);
-            // my pose for the party (the phone relays it to friends at ~10 Hz; the menu's line-up only needs it now and then for the
-            // emotes): place|x|y|z|yaw|speed|seated bay|emote
+            // the phone's pointer moves the TV's cursor
+            if (have && hub.Hud && latest.menuPointer) hub.Hud.Pointer(latest.target, latest.aim, latest.power > 0, latest.swing != 0, latest.swingStart, latest.touch);
+            // my pose for the party (the phone relays it to friends as hubPresence, which comes back as their hubRemote: that is what
+            // puts a friend's hero in the squad); the line-up only needs it now and then, for the emotes
             if (Time.unscaledTime >= nextHubPose)
             {
-                nextHubPose = Time.unscaledTime + (hub.Hud ? 1f : .1f);
-                var pp = hub.Player.transform.position;
-                string seat = hub.SeatedInBay ? hub.Station.id : "";
+                nextHubPose = Time.unscaledTime + 1f;
                 string emote = hub.Player.hero && hub.Player.hero.Playing != null ? hub.Player.hero.Playing : "";
-                Emit("hubPose", string.Format(CultureInfo.InvariantCulture, "{0}|{1:0.000}|{2:0.000}|{3:0.000}|{4:0.0}|{5:0.00}|{6}|{7}", hub.Place, pp.x, pp.y, pp.z, hub.Player.Yaw, hub.Player.Speed, seat, emote));
-            }
-            if (Time.unscaledTime >= nextHubBeat)
-            {
-                nextHubBeat = Time.unscaledTime + .25f;
-                Emit("hubState", string.Format(CultureInfo.InvariantCulture, "{0}|{1}|{2:0.00}|{3:0}|{4:0}", hub.Place, hub.ZoneId, hub.Player.Speed, AgePercentile(.5f) * 1000, AgePercentile(.95f) * 1000));
+                Emit("hubPose", HubPose(hub.Player.transform.position, hub.Player.Yaw, emote));
             }
         }
 
-        readonly float[] ageScratch = new float[64];
-        float AgePercentile(float p)
-        {
-            if (hubAgeCount == 0) return 0;
-            System.Array.Copy(hubAges, ageScratch, hubAgeCount); System.Array.Sort(ageScratch, 0, hubAgeCount);
-            return ageScratch[Mathf.Clamp(Mathf.RoundToInt(p * (hubAgeCount - 1)), 0, hubAgeCount - 1)];
-        }
+        /// hubPose in the wire format every build parses: place|x|y|z|yaw|speed|seated bay|emote. The menu is one place where nobody
+        /// walks or sits, so the place is always "plaza", the speed 0 and the seat empty.
+        public static string HubPose(Vector3 at, float yaw, string emote) =>
+            string.Format(CultureInfo.InvariantCulture, "{0}|{1:0.000}|{2:0.000}|{3:0.000}|{4:0.0}|{5:0.00}|{6}|{7}", HubRemotes.Plaza, at.x, at.y, at.z, yaw, 0f, "", emote ?? "");
     }
 }
 

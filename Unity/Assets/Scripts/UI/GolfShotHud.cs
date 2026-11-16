@@ -325,6 +325,8 @@ namespace GolfArcade.UI
         }
 
         public void SetHole(int n,int par)=>hole.text=$"HOLE {n:00} · PAR {par}";
+        /// A mode's own words in the hole's place ("DAILY · SHOT 1/3").
+        public void SetHoleLabel(string words)=>hole.text=words;
         RectTransform conditionsRoot;
         /// Today's conditions under the shot card: a chip for the weather and one for each twist,
         /// in their colours with their icons.
@@ -658,6 +660,49 @@ namespace GolfArcade.UI
                 img.color=new Color(1,1,1,Mathf.Clamp01(.55f+heat));
             }
         }
+        // ---------------------------------------------------------------- map skin (UI OVERHAUL 11-15, boards 04-06 + 15)
+        MapSkin skin; Image skinCard, pctPill; Text pctText; Image topNotch;
+        /// The course's colours: the hole card on a panel of its material, the meter's rim in it, one fill in the course's light
+        /// with four clear notches (25 / 50 / 75 / 100 %), and a small live percentage beside the fill's top (board 15).
+        public void ApplySkin(MapSkin s)
+        {
+            if(s==null||s==skin)return; skin=s;
+            if(GlassKit.ClearStyle&&infoRoot){
+                if(skinCard)Destroy(skinCard.transform.parent.parent.gameObject);
+                skinCard=s.Panel("Map card",infoRoot,new Vector2(.5f,.5f),infoRoot.sizeDelta-new Vector2(8,8),Vector2.zero,5,.88f);
+                skinCard.transform.parent.parent.SetSiblingIndex(0);
+            }
+            if(!meterRoot)return;
+            foreach(var g in meterRoot.GetComponentsInChildren<Image>(true)){
+                if(g.name=="Power rim"){var t=g.GetComponent<ThemedGraphic>();if(t)Destroy(t);g.color=s.Frame;}
+                if(g.name=="Power rail"){var t=g.GetComponent<ThemedGraphic>();if(t)Destroy(t);g.color=Color.Lerp(s.Bottom,new Color(.02f,.05f,.1f),.6f);}
+            }
+            // one fill, deep at the foot and the course's light at the top (the bands' own colours stay on their marker dots,
+            // which match the landing marks on the map)
+            for(int i=0;i<4;i++)if(bandFills[i])bandFills[i].color=Color.Lerp(Color.Lerp(s.Glow,new Color(.05f,.3f,.65f),.55f),s.Glow,(i+.5f)/4f);
+            if(!topNotch&&bandFills[0]){
+                topNotch=UiKit.Panel(meterRoot,"Band divider",Color.white,new Vector2(0,1),new Vector2(0,1),new Vector2(RailX,-RailY-2),new Vector2(RailW,4),false);
+                topNotch.raycastTarget=false;
+            }
+            if(!pctPill){
+                pctPill=UiKit.Panel(meterRoot,"Power percent",Color.white,new Vector2(0,1),new Vector2(0,1),Vector2.zero,new Vector2(S(52,76),S(26,38)),false);
+                pctPill.sprite=GlassKit.RoundRect;pctPill.type=Image.Type.Sliced;pctPill.pixelsPerUnitMultiplier=3f;pctPill.raycastTarget=false;
+                pctPill.rectTransform.pivot=new Vector2(0,.5f);
+                pctText=MapSkin.Letters("Percent",pctPill.rectTransform,"0%",MapSkin.Bold,S(15,24),Color.white,Color.clear,0);
+                var r=pctText.rectTransform;r.anchorMin=Vector2.zero;r.anchorMax=Vector2.one;r.offsetMin=r.offsetMax=Vector2.zero;
+                pctPill.gameObject.SetActive(false);
+            }
+            pctPill.color=s.Ink;pctText.color=s.Cream;
+        }
+        void PlacePercent(float load)
+        {
+            if(!pctPill)return;
+            bool show=load>.004f;pctPill.gameObject.SetActive(show);if(!show)return;
+            pctText.text=Mathf.RoundToInt(load*100)+"%";
+            pctPill.transform.SetAsLastSibling();
+            pctPill.rectTransform.anchoredPosition=new Vector2(RailX+RailW+RailRim+6,-(RailY+RailH*(1-load)));
+        }
+
         public void SetContact(string quality)=>contact.text=quality.TrimEnd('!')+" CONTACT";
         public void SetPower(float load,string yards){
             load=Mathf.Clamp01(load);powerLoad=load;
@@ -677,6 +722,7 @@ namespace GolfArcade.UI
             var fr=meterFill.rectTransform;fr.sizeDelta=new Vector2(RailW-2*FillInset,fillH);fr.anchoredPosition=new Vector2(RailX+FillInset,-top);
             foreach(var p in new[]{pearlRing,pearlCore})p.rectTransform.anchoredPosition=new Vector2(MeterWidth/2,-top);
             liveYards.text=string.IsNullOrEmpty(yards)?"— yd":yards;
+            PlacePercent(load);
         }
         /// The meter's checkpoints (the loads the four landing marks on the map are for): a small tick in each one's colour
         /// beside the rail, and the gold sweet spot on the one that reaches the pin, else on the top one (full power).

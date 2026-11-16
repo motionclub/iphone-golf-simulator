@@ -20,11 +20,6 @@ namespace GolfArcade.Tests
                 Assert.That(c.frameRate, Is.EqualTo(60f).Within(.01f), $"{sex}/{kv.Key} frame rate");
                 Assert.That(c.length * 60f, Is.EqualTo(kv.Value - 1).Within(.6f), $"{sex}/{kv.Key} length in 60 Hz frames");
             }
-            foreach (var n in new[] { "Bowl_Approach4", "Bowl_FollowThrough", "Bowl_HandStraight", "Bowl_HandHook", "Bowl_HandBackup" })
-            {
-                Assert.IsTrue(clips.TryGetValue(n, out var c), $"{sex}/{n} is missing");
-                Assert.That(c.frameRate, Is.EqualTo(60f).Within(.01f), $"{sex}/{n} frame rate");
-            }
         }
 
         [TestCase(false)]

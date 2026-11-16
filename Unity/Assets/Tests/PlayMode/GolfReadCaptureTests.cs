@@ -200,7 +200,6 @@ namespace GolfArcade.PlayTests
             log = new StringWriter();
             yield return SceneManager.LoadSceneAsync("Golf", LoadSceneMode.Single);
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;
             try
             {
                 yield return null;

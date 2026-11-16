@@ -3,9 +3,8 @@ import XCTest
 @testable import GolfArcade
 
 /// Friends + controller lock (2026-10-11), the phone's screens as they look (written to $MENU_SNAP_DIR/friends-*.png): the invite
-/// banner drawn above a sheet (BANNER_VISIBLE), the Friends list with one-tap invites to online and offline friends, the party
-/// bench, the online bench, the match-over panel, and the Plaza on a phone with no TV (the plaza above the controls; the plaza
-/// picture is Unity's own still from HubPhoneOnlyTests when $PLAZA_STILL is set).
+/// banner drawn above a sheet (BANNER_VISIBLE), the Friends list with one-tap invites to online and offline friends, the party's
+/// game panel, the online bench and the match-over panel.
 @MainActor
 final class FriendsLobbyProofTests: XCTestCase {
     private var savedDisplay = false
@@ -55,13 +54,13 @@ final class FriendsLobbyProofTests: XCTestCase {
     func testFriendsListAndPanels() async throws {
         let hub = HubSession.shared
         SportsSession.shared.displayConnected = true
-        // the party bench while a friend is still on their way, the online bench searching, the match over
-        hub.debugLive(place: "tennis")
+        // the online bench searching, the match over
+        hub.debugLive()
         try await render(HubOnlineBenchPanelPreview(), "friends-online-bench")
         try await render(HubMatchOverPreview(), "friends-match-over")
     }
 
-    /// The party bench: who is on it, who it waits for (a friend walking into the tennis room), a friend elsewhere in the plaza.
+    /// The party's game panel on the leader's phone, three in the party (opened from the TV menu's Online).
     func testThePartyBench() async throws {
         SportsSession.shared.displayConnected = true
         let bus = HubPartyTests.Bus()
@@ -75,28 +74,10 @@ final class FriendsLobbyProofTests: XCTestCase {
         try a.host(using: bus.link("a")); try b.connect(using: bus.link("b")); try c.connect(using: bus.link("c"))
         defer { c.leave(); b.leave(); a.leave() }
         func hub(_ s: MultiplayerService, _ id: String) -> HubSession { let h = HubSession(); h.partyService = s; h.debugLive(session: id); return h }
-        let ha = hub(a, "ha"), hb = hub(b, "hb"), hc = hub(c, "hc")
-        hc.receive(["type": "hubPose", "session": "hc", "message": "locker|0.000|-1000.000|0.000|0.0|0.00||"])
-        hb.receive(["type": "hubPose", "session": "hb", "message": "tennis|204.600|-1000.000|0.000|0.0|1.00||"])
-        ha.receive(["type": "hubAction", "session": "ha", "message": "bay-tennis-online"])
-        XCTAssertEqual(ha.partyWaitingFor, ["Bea"])
+        let ha = hub(a, "ha")
+        ha.receive(["type": "menuOpen", "session": "ha", "message": "bay-tennis-online"])
+        XCTAssertEqual(ha.station, "bay-tennis-online"); XCTAssertEqual(ha.party?.participants.count, 3)
         try await render(HubPartyBayPanel(hub: ha), "friends-party-bench")
-    }
-
-    /// PHONE_ONLY: with no TV the plaza draws in the top of the phone's screen (Unity), the same controls under it; PLAY is shut.
-    func testThePlazaOnAPhoneWithNoTV() async throws {
-        let hub = HubSession.shared
-        SportsSession.shared.displayConnected = false
-        hub.debugLive(place: "plaza", zone: "door|door-plaza-play|Play|TV needed", onPhone: true)
-        let still = ProcessInfo.processInfo.environment["PLAZA_STILL"].flatMap { UIImage(contentsOfFile: $0) }
-        try await render(ZStack(alignment: .top) {
-            Group {
-                if let still { Image(uiImage: still).resizable().aspectRatio(contentMode: .fill).frame(width: 402, height: 874, alignment: .top).clipped() }
-                else { LinearGradient(colors: [Color(hex: "F5A07A"), Color(hex: "6FB7D9")], startPoint: .top, endPoint: .bottom) }
-            }.ignoresSafeArea()
-            HubControllerView()
-        }, "friends-phone-only-plaza")
-        XCTAssertEqual(hub.zone?.prompt, "Play · connect a TV (AirPlay) to play")
     }
 
     private func render<V: View>(_ view: V, _ name: String, size: CGSize = CGSize(width: 402, height: 874)) async throws {

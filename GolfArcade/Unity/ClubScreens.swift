@@ -23,57 +23,6 @@ extension TennisMenu {
 // MARK: - Sport hub
 
 
-// MARK: - Coming soon / party / quick play
-
-struct ClubLockedScreen: View {
-    let menu: TennisMenu
-    let sport: Sport
-    let compact: Bool
-    var body: some View {
-        ClubScreen(scene: "pavilion", breadcrumb: ["Pick a sport", sport.title.capitalized], compact: compact, tint: 0.2) {
-            ZStack(alignment: .bottomLeading) {
-                SceneImage(name: Club.scene(for: sport)).saturation(0.3)
-                LinearGradient(colors: [.clear, Club.lagoonDeep.opacity(0.9)], startPoint: .center, endPoint: .bottom)
-                HStack(alignment: .bottom, spacing: 24) {
-                    VStack(alignment: .leading, spacing: 10) {
-                        ClubBadge(kind: .soon)
-                        Text(sport.title.capitalized).font(Club.display(compact ? 60 : 110)).foregroundStyle(.white)
-                        Text("\(sport.tagline). We're building it now — tennis and golf are ready today.")
-                            .font(Club.ui(compact ? 15 : 20, 600)).foregroundStyle(.white.opacity(0.9)).frame(maxWidth: 620, alignment: .leading)
-                        ClubButton(title: "Back to sports", icon: "arrow.left", focused: menu.isFocused("back"), size: 22) { menu.tap("back") }
-                    }
-                    Spacer()
-                    if !compact { ClubArt(name: sport.rawValue, fallback: sport.icon).frame(width: 230, height: 230).rotationEffect(.degrees(-10)) }
-                }.padding(compact ? 18 : 36)
-            }
-            .clipShape(RoundedRectangle(cornerRadius: 30, style: .continuous))
-        }
-    }
-}
-
-struct ClubPartyScreen: View {
-    let menu: TennisMenu
-    let compact: Bool
-    var body: some View {
-        ClubScreen(scene: "home", breadcrumb: ["Clubhouse", "With friends"], compact: compact) {
-            HStack(spacing: 30) {
-                VStack(alignment: .leading, spacing: 16) {
-                    ClubBadge(kind: .soon)
-                    Text("Play with friends").font(Club.display(compact ? 44 : 76)).foregroundStyle(.white)
-                    Text("Couch parties and online invites are on the way. Until then, the island's rivals are ready for you.")
-                        .font(Club.ui(compact ? 15 : 21, 500)).foregroundStyle(.white.opacity(0.85)).frame(maxWidth: 560, alignment: .leading)
-                    HStack(spacing: 14) {
-                        ClubButton(title: "Play solo", focused: menu.isFocused("partySolo"), size: 22) { menu.tap("partySolo") }
-                        ClubButton(title: "Back", icon: "", focused: menu.isFocused("back"), style: .quiet, size: 22) { menu.tap("back") }
-                    }
-                }
-                if !compact { ClubArt(name: "friends").frame(width: 300, height: 300).clubEntrance(1) }
-            }
-            .frame(maxHeight: .infinity)
-        }
-    }
-}
-
 // MARK: - Adventure ladder and quick match
 
 

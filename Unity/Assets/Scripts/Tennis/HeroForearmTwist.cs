@@ -43,7 +43,10 @@ namespace GolfArcade.Tennis
                 }
                 for (int i = 0; i < w.Length; i++)
                 {
-                    var bw = w[i]; var ids = new List<int> { bw.boneIndex0, bw.boneIndex1, bw.boneIndex2, bw.boneIndex3 }; var ws = new List<float> { bw.weight0, bw.weight1, bw.weight2, bw.weight3 };
+                    var bw = w[i];
+                    // (most of the body has no forearm weight: out before the two lists are allocated — same result, 2026-11-15)
+                    if (!((bw.boneIndex0 == il && bw.weight0 > 0) || (bw.boneIndex1 == il && bw.weight1 > 0) || (bw.boneIndex2 == il && bw.weight2 > 0) || (bw.boneIndex3 == il && bw.weight3 > 0))) continue;
+                    var ids = new List<int> { bw.boneIndex0, bw.boneIndex1, bw.boneIndex2, bw.boneIndex3 }; var ws = new List<float> { bw.weight0, bw.weight1, bw.weight2, bw.weight3 };
                     float wl = 0; for (int k = 3; k >= 0; k--) if (ids[k] == il && ws[k] > 0) { wl += ws[k]; ids.RemoveAt(k); ws.RemoveAt(k); }
                     if (wl <= 0) continue;
                     float tt = Mathf.Clamp01(Vector3.Dot(v[i] - E, W - E) / len2); int seg = tt < At[1] ? 0 : tt < At[2] ? 1 : 2; float u = Mathf.InverseLerp(At[seg], At[seg + 1], tt);

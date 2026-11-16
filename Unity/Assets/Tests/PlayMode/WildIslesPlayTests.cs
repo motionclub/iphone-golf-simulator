@@ -48,7 +48,6 @@ namespace GolfArcade.PlayTests
             var cam = Camera.main;
             if (cam) cam.aspect = GameCapture.PhoneWidth / (float)GameCapture.PhoneHeight;
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;
             yield return null;
             game.ChooseHoles(0);
             game.Play();
@@ -166,7 +165,6 @@ namespace GolfArcade.PlayTests
             var cam = Camera.main;
             cam.aspect = GameCapture.PhoneWidth / (float)GameCapture.PhoneHeight;
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;
             var me = ProfileStore.Active;
             string saved = JsonUtility.ToJson(me);
             int holes = game.ChosenHoles;

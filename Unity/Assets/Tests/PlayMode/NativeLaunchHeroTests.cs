@@ -60,7 +60,6 @@ namespace GolfArcade.PlayTests
             var ph = game.Player.GetComponentInChildren<HeroTennisDriver>(true);
             Assert.IsNotNull(ph, "player hero after two rebuilds");
             Assert.IsNotNull(ph.matchLook, "the player is a match hero"); Assert.IsTrue(ph.matchLook.female, "the second rebuild (SelectCharacter(true)) is the female body");
-            Assert.IsNull(ph.look, "no old Hero01 look on the player"); Assert.IsNull(ph.cosmetics, "no old hair / headwear on the player");
             string dir = Path.GetFullPath("../work/hero-mainstay/proof/lineup"); Directory.CreateDirectory(dir);
             var cam = new GameObject("Lineup cam").AddComponent<Camera>(); cam.enabled = false; cam.fieldOfView = 30;
             var rt = new RenderTexture(360, 540, 24); var tex = new Texture2D(360, 540, TextureFormat.RGB24, false); cam.targetTexture = rt;
@@ -82,7 +81,6 @@ namespace GolfArcade.PlayTests
                 var rh = game.Opponent.GetComponentInChildren<HeroTennisDriver>(true);
                 Assert.IsNotNull(rh, r.Key + " must be a match hero");
                 Assert.IsNotNull(rh.matchLook, r.Key + " is a match hero, not the old Hero01"); Assert.AreEqual(r.Female, rh.matchLook.female, r.Key + " body follows TennisRoster.Female");
-                Assert.IsNull(rh.look, r.Key + " has no old Hero01 look"); Assert.IsNull(rh.cosmetics, r.Key + " has no old hair / headwear");
                 Assert.AreEqual(2, Object.FindObjectsByType<HeroTennisDriver>(FindObjectsSortMode.None).Length, "no orphan heroes after " + r.Key);
                 Shot(game.Opponent.transform, $"{n++:00}_{r.Key}");
             }

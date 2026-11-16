@@ -50,7 +50,6 @@ namespace GolfArcade.PlayTests
             var cam = Camera.main;
             if (cam) cam.aspect = GameCapture.PhoneWidth / (float)GameCapture.PhoneHeight;
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;
             yield return null;
             var alex = new PlayerProfile { Name = "Alex", Body = 0, Kit = 0 };
             var sam = new PlayerProfile { Name = "Sam", Body = 1, Kit = 1 };

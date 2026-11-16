@@ -21,7 +21,7 @@ namespace GolfArcade.Game {
         string introPick;
         /// The hole this phone has voted to skip the flyover of (online).
         int skipVotedFor=-1;
-        HoleIntro holeIntro; IntroGraphics introGraphics; IntroGraphics.Tag introTag; IntroGraphics.Plate introPlate; HoleIntro.Feature introTagFeature;
+        HoleIntro holeIntro; IntroGraphics introGraphics; IntroGraphics.Tag introTag; IntroGraphics.Plate introPlate, introTitle; HoleIntro.Feature introTagFeature;
         int introShot=-1; float introClock;
         string GolfVenueKey => "golf.venue." + course.Key + "." + hole.Number;
         public bool PresentationBusy => Current==State.Intro;
@@ -53,9 +53,10 @@ namespace GolfArcade.Game {
             hud.HideHoleIntro();   // (the opening's graphics are IntroGraphics' now)
             holeIntro=new HoleIntro(hole); introShot=-1; introClock=0;
             if(!introGraphics && hud.IntroLayer) introGraphics=IntroGraphics.On(hud.IntroLayer);
-            introGraphics?.Clear(); introTag=null; introPlate=null;
+            introGraphics?.Clear(); introTag=null; introPlate=null; introScorePlate=null;
+            if(HoleInOne) PickDailySide();   // the Daily Challenge's own opening (GolfGame.HoleInOne.cs)
         }
-        void EndIntroGraphics() { introGraphics?.Clear(); introTag=null; introPlate=null; introNamePlate=null; IntroLens.Off(rig.Camera); }
+        void EndIntroGraphics() { introGraphics?.Clear(); introTag=null; introPlate=null; introScorePlate=null; introNamePlate=null; IntroLens.Off(rig.Camera); }
         void BeginGolfBeat() {
             if(golfBeat>2) {
                 EndShowcase(); hud.HideNameplate(); hud.HideSkipVotes(); EndIntroGraphics();
@@ -67,8 +68,10 @@ namespace GolfArcade.Game {
             var beat=golfBeat==0?PresentationBeat.Venue:golfBeat==1?PresentationBeat.WalkOn:PresentationBeat.Start;
             var cut=golfBeat==0?golfVenueCut:golfBeat==1?golfWalkCut:golfStartCut;
             float duration=PresentationDirector.Budget(beat,true,cut);
+            // the Daily Challenge's opening is its own (from the day's spot to the flag), with its own length
+            if(golfBeat==0 && DailyIntro && cut!=PresentationCut.Off) duration=DailyIntroSeconds;
             golfCueLed=false; int entered=golfBeat;
-            if(golfBeat==1) { meeting=cheered=false; introNamePlate=null; hud.HideSkipVotes(); introGraphics?.HideTag(introTag,introClock); introTag=null; introGraphics?.HidePlate(introPlate,introClock); }
+            if(golfBeat==1) { meeting=cheered=false; introNamePlate=null; hud.HideSkipVotes(); introGraphics?.HideTag(introTag,introClock); introTag=null; introGraphics?.HidePlate(introPlate,introClock); HideDailyPlates(); }
             if(golfBeat==2) { introGraphics?.HidePlate(introNamePlate,introClock); IntroLens.Off(rig.Camera); TakeTheAddress(); }
             PresentationPolicy.Event(beat.ToString(),"begin",golfPresentation.Sequence+1,cut.ToString());
             // the flyover's first shot is on screen from its first frame (no frame of the old view before the cut)
@@ -115,8 +118,9 @@ namespace GolfArcade.Game {
         /// more: Adnan, 2026-10-19.)
         void FrameFlyover(float s) {
             bool full=golfVenueCut==PresentationCut.Full||overviewReturn;
-            holeIntro.Pose(full,s,rig.Camera.aspect,out var at,out var look,out var fov);
-            int shot=holeIntro.ShotAt(full,s,out var local,out var len);
+            Vector3 at,look; float fov,local,len; int shot;
+            if(DailyIntro) DailyIntroPose(s,rig.Camera.aspect,out at,out look,out fov,out shot,out local,out len);
+            else { holeIntro.Pose(full,s,rig.Camera.aspect,out at,out look,out fov); shot=holeIntro.ShotAt(full,s,out local,out len); }
             // The lens' heights come off raycasts that hit everything (a tree's crown, a rock, the bridge): over a wooded or
             // built-up hole they leapt metres from one frame to the next and the picture jerked. A shot keeps its path but
             // its heights are eased (the horizontal travel is untouched); a new shot is a clean cut.
@@ -131,13 +135,21 @@ namespace GolfArcade.Game {
             if(introGraphics==null) return;
             if(shot!=introShot) {
                 introShot=shot; introGraphics.HideTag(introTag,introClock); introTag=null;
-                if(shot==0) {
+                if(DailyIntro) { if(shot==0) ShowDailyPlates(); }   // (its plates stay up over the green too)
+                else if(shot==0) {
                     // (the hole's weather before its wind, when the round has weather: "THUNDERSTORM · 18 MPH ↗")
                     string wind=WeatherWords(Wind.IsCalm?"Calm":Wind.Describe(heading)).ToUpperInvariant();
-                    introPlate=introGraphics.ShowPlate($"HOLE {hole.PlayNumber}",hole.Name.ToUpperInvariant(),$"PAR {hole.Par}   ·   {hole.Length:F0} YD   ·   {wind}",IntroGraphics.Sky,false,introClock);
-                } else introGraphics.HidePlate(introPlate,introClock);
+                    // UI OVERHAUL 11-15 (boards 04-06 ARRIVAL): the course's sculpted title alone (its name standing alone, no second
+                    // blue hole plate), the hole's facts on a cream tab under it; the hole's own name only when it is not the course's
+                    var skin=GolfArcade.UI.MapSkin.Golf(Course.Course.Containing(hole.Number)?.Key ?? course?.Key);
+                    string named=hole.Name.ToUpperInvariant(); bool own=!string.IsNullOrEmpty(named) && named!=skin.Title.ToUpperInvariant();
+                    string facts=$"HOLE {hole.PlayNumber}{(own?" · "+named:"")}  ·  PAR {hole.Par}  ·  {hole.Length:F0} YD  ·  {wind}";
+                    introPlate=null;
+                    introTitle=introGraphics.ShowMapTitle(skin,true,introClock,280,false,facts);
+                } else { introGraphics.HidePlate(introPlate,introClock); introGraphics.HidePlate(introTitle,introClock); }
             }
-            if(shot==0 && local>len-.35f) introGraphics.HidePlate(introPlate,introClock);
+            if(DailyIntro) { if(shot==1 && local>len-.3f) { introGraphics.HidePlate(introPlate,introClock); HideDailyPlates(); } }
+            else if(shot==0 && local>len-.35f) { introGraphics.HidePlate(introPlate,introClock); introGraphics.HidePlate(introTitle,introClock); }
             if(introTag!=null) {
                 if(local>len-.25f) introGraphics.HideTag(introTag,introClock);
                 introGraphics.Pin(introTag,rig.Camera,introTagFeature.At+Vector3.up*(introTagFeature.Kind=="green"?1.6f:1f),introClock);
@@ -221,7 +233,7 @@ namespace GolfArcade.Game {
         /// From the flyover straight to the golfer's introduction (or back to the shot, from the overview).
         void JumpToIntro() {
             golfPresentation.Cancel(); PresentationStinger.Stop(); EndShowcase(); hud.HideSkipVotes();
-            introGraphics?.HidePlate(introPlate,introClock); introGraphics?.HideTag(introTag,introClock); introTag=null;
+            introGraphics?.HidePlate(introPlate,introClock); HideDailyPlates(); introGraphics?.HideTag(introTag,introClock); introTag=null;
             PresentationPolicy.Event("Venue","skip",golfPresentation.Sequence);
             golfBeat=overviewReturn?3:1; BeginGolfBeat();
         }

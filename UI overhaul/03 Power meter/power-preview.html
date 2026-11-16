@@ -1,0 +1,62 @@
+<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>UI overhaul — power preview</title><style>body{margin:0;padding:32px 16px;background:#f6f0e5}*{box-sizing:border-box}</style><script>
+let state={};try{state=JSON.parse(localStorage.getItem('ui-overhaul-power')||'{}')}catch(e){}
+window.openai={widgetState:state,setWidgetState:async function(next){this.widgetState=next;try{localStorage.setItem('ui-overhaul-power',JSON.stringify(next))}catch(e){}}};
+</script><div id="four-notch-power" class="viz-dotted-background">
+  <style>
+    #four-notch-power{padding:20px 0;font-family:ui-rounded,system-ui,sans-serif}
+    #four-notch-power .power-product{--power-level:72;--power-ink:#142c43;--power-cream:#fff4df;max-width:660px;margin:auto;background:#142e45;color:#fff4df;border-radius:24px;box-shadow:inset 0 2px 1px #486275,0 12px 28px #15233225;overflow:hidden}
+    #four-notch-power .power-header{padding:16px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ffffff20;font-weight:650;font-size:14px;letter-spacing:.06em}
+    #four-notch-power .power-name{background:#f4e5c9;color:#142c43;padding:7px 16px;border-radius:12px;box-shadow:0 3px 0 #bfb39c}
+    #four-notch-power .power-content{display:grid;grid-template-columns:210px 1fr;align-items:center;gap:20px;padding:22px}
+    #four-notch-power .power-gauge{position:relative;height:360px;width:200px}
+    #four-notch-power .power-rim{position:absolute;left:69px;top:10px;width:58px;height:340px;border-radius:28px;background:linear-gradient(90deg,#c8b99d,#fff6e6 28%,#ead9bb 83%,#bba98b);box-shadow:0 5px 8px #0004,inset 0 2px 1px #fff9}
+    #four-notch-power .power-axis{position:absolute;left:77px;top:20px;width:42px;height:320px}
+    #four-notch-power .power-track{position:absolute;inset:0;background:#0a2134;box-shadow:inset 0 3px 5px #0006;border-radius:20px;overflow:hidden}
+    #four-notch-power .power-fill{position:absolute;bottom:0;left:0;right:0;height:calc(var(--power-level)*1%);background:linear-gradient(0deg,#187bce,#18d6d3)}
+    #four-notch-power .power-notch{position:absolute;left:0;right:0;bottom:calc(var(--notch)*1%);height:3px;background:#fff4df;transform:translateY(1.5px);z-index:2}
+    #four-notch-power .power-notch[data-notch="100"]{transform:none}
+    #four-notch-power .power-scale{position:absolute;left:62px;bottom:calc(var(--notch)*1%);transform:translateY(50%);font-size:13px;font-weight:550;font-variant-numeric:tabular-nums;white-space:nowrap;color:#eee5d2}
+    #four-notch-power .power-readout{position:absolute;right:54px;bottom:calc(var(--power-level)*1%);transform:translateY(50%);width:48px;height:23px;display:flex;align-items:center;justify-content:center;border-radius:7px;background:#fff4df;color:#142c43;font-size:13px;font-weight:650;font-variant-numeric:tabular-nums;box-shadow:0 2px 3px #0003}
+    #four-notch-power .power-readout:after{content:"";position:absolute;right:-6px;border-top:4px solid transparent;border-bottom:4px solid transparent;border-left:6px solid #fff4df}
+    #four-notch-power .power-endpoint{position:absolute;left:-2px;right:-2px;bottom:calc(var(--power-level)*1%);height:2px;transform:translateY(1px);background:#fff;z-index:3;box-shadow:0 1px 1px #001a2d}
+    #four-notch-power .power-controls{padding-right:22px;display:flex;flex-direction:column;gap:14px}
+    #four-notch-power .power-control-label{display:flex;justify-content:space-between;gap:15px;font-size:14px;font-weight:550}
+    #four-notch-power input{accent-color:#23d4cf;width:100%;min-height:44px;margin:0;cursor:ew-resize}
+    #four-notch-power .power-control-limits{display:flex;justify-content:space-between;font-size:12px;color:#c8d5de;font-variant-numeric:tabular-nums}
+    @media(max-width:480px){#four-notch-power .power-content{grid-template-columns:190px minmax(0,1fr);padding:14px 8px;gap:0}#four-notch-power .power-controls{padding-right:16px}#four-notch-power .power-header{padding:16px}#four-notch-power .power-control-label{flex-wrap:wrap}}
+  </style>
+  <section class="power-product" aria-label="Cliffside power meter preview">
+    <div class="power-header"><span>POWER</span><span class="power-name">ADNAN</span></div>
+    <div class="power-content">
+      <div class="power-gauge" role="meter" aria-label="Power" aria-valuemin="0" aria-valuemax="100" aria-valuenow="72" aria-valuetext="72 percent">
+        <div class="power-rim"></div>
+        <div class="power-axis">
+          <div class="power-track"><div class="power-fill"></div></div>
+          <div class="power-notch" data-notch="25" style="--notch:25"></div><span class="power-scale" style="--notch:25">25%</span>
+          <div class="power-notch" data-notch="50" style="--notch:50"></div><span class="power-scale" style="--notch:50">50%</span>
+          <div class="power-notch" data-notch="75" style="--notch:75"></div><span class="power-scale" style="--notch:75">75%</span>
+          <div class="power-notch" data-notch="100" style="--notch:100"></div><span class="power-scale" style="--notch:100">100%</span>
+          <div class="power-endpoint"></div><output class="power-readout">72%</output>
+        </div>
+      </div>
+      <div class="power-controls">
+        <label class="power-control-label" for="four-notch-power-input"><span>Power</span><output class="power-control-value">72%</output></label>
+        <input id="four-notch-power-input" type="range" min="0" max="100" step="1" value="72" aria-label="Adjust power percentage">
+        <div class="power-control-limits"><span>0%</span><span>100%</span></div>
+      </div>
+    </div>
+  </section>
+  <script>
+    (()=>{
+      const root=document.getElementById('four-notch-power');
+      const product=root.querySelector('.power-product'),input=root.querySelector('input'),gauge=root.querySelector('.power-gauge');
+      const readouts=[root.querySelector('.power-readout'),root.querySelector('.power-control-value')];
+      function apply(raw){const value=Math.max(0,Math.min(100,Math.round(Number(raw)||0)));product.style.setProperty('--power-level',String(value));input.value=String(value);readouts.forEach(x=>x.textContent=value+'%');gauge.setAttribute('aria-valuenow',String(value));gauge.setAttribute('aria-valuetext',value+' percent');return value}
+      const initial=window.openai?.widgetState?.modelContent?.power;
+      apply(typeof initial==='number'?initial:72);
+      input.addEventListener('input',()=>{const value=apply(input.value);window.openai?.setWidgetState?.({modelContent:{power:value,notches:[25,50,75,100]}})?.catch(()=>{})});
+      window.addEventListener('openai:set_globals',event=>{const value=event.detail?.globals?.widgetState?.modelContent?.power;if(typeof value==='number')apply(value)});
+    })();
+  </script>
+</div>
+</html>

@@ -73,18 +73,6 @@ namespace GolfArcade.Tennis {
     hero.body.SetBlendShapeWeight(indices[k-1],amount*100f);
    }
   }
-  /// Diagnostic neutral used by independent stage goldens. Runtime ApplyFist keeps
-  /// the sampled clip as its blend origin; ordinary animation is not reset here.
-  public static void ResetDigitsToRest(MatchHeroLook hero,bool left){
-   if(!hero||!hero.body)return;var target=Load(hero.female);string side=left?"Left":"Right";
-   var hand=hero.Bone(left?HumanBodyBones.LeftHand:HumanBodyBones.RightHand);
-   foreach(string digit in new[]{"Thumb","Index","Middle","Ring","Little"})foreach(string joint in new[]{"Proximal","Intermediate","Distal"}){
-    string name=side+digit+joint;var b=hero.Bone((HumanBodyBones)Enum.Parse(typeof(HumanBodyBones),name));
-    if(!b||!target.neutralDigits.TryGetValue(name,out var pose))throw new InvalidOperationException("Authored neutral missing bone "+name);
-    Decompose(b.parent.worldToLocalMatrix*hand.localToWorldMatrix*pose,out var p,out var q,out var s);b.localPosition=p;b.localRotation=q;b.localScale=s;
-   }
-   SetCorrectiveWeights(hero,left,0);
-  }
   public static bool ApplyFist(MatchHeroLook hero,bool left,float strength){
    if(!hero||!hero.body||!hero.body.sharedMesh.name.Contains("(hand v3 bind)"))return false;
    var target=Load(hero.female);float weight=Mathf.Clamp01(strength);string side=left?"Left":"Right";
@@ -104,6 +92,5 @@ namespace GolfArcade.Tennis {
    return true;
   }
   public static Vector3 SourceToImportedBody(bool female,Vector3 source)=>Load(female).axis.MultiplyPoint3x4(source);
-  public static Vector3 ExpectedSourcePoint(MatchHeroLook hero,bool left,Vector3 source){var c=Load(hero.female);string side=left?"Left":"Right";var hand=hero.Bone(left?HumanBodyBones.LeftHand:HumanBodyBones.RightHand);return hand.TransformPoint(c.handBind[side].MultiplyPoint3x4(c.axis.MultiplyPoint3x4(source)));}
  }
 }

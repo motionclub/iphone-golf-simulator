@@ -273,12 +273,12 @@ final class PartyJoinTests: XCTestCase {
         let flow = OnboardingFlow(store: OnboardingStore(defaults: d), progress: SportProgress(defaults: d), arguments: [])
         var party = false
         flow.partyWaits = { party }
-        XCTAssertTrue(flow.active); XCTAssertTrue(flow.holdsMenu)
+        XCTAssertTrue(flow.active); XCTAssertTrue(flow.introShowing)
         party = true
-        XCTAssertFalse(flow.holdsMenu, "the Plaza (or the phone's own Plaza with no TV) while joining or in a party")
+        XCTAssertFalse(flow.introShowing, "the Plaza (or the phone's own Plaza with no TV) while joining or in a party")
         XCTAssertTrue(flow.active, "onboarding is put off, not finished")
         party = false
-        XCTAssertTrue(flow.holdsMenu, "and comes back where it was once the party is over")
-        XCTAssertEqual(flow.step, .hello)
+        XCTAssertTrue(flow.introShowing, "and comes back where it was once the party is over")
+        XCTAssertEqual(flow.step, .welcome)
     }
 }

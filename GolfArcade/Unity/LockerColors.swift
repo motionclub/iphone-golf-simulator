@@ -11,8 +11,6 @@ enum LockerColor {
     static let hairStops = ["141010", "2B1D17", "4A2F20", "6B4128", "8E4A25", "B35E2E", "C98B4C", "DDB468", "ECD59C", "F3EBD7", "C9CDD3"]
     /// Skin / hair presets shown as quick swatches (positions on the ramps).
     static let skinPresets: [Double] = [0.05, 0.2, 0.36, 0.52, 0.68, 0.84, 0.98]
-    static let hairPresets: [(String, Double)] = [("Black", 0.0), ("Dark brown", 0.14), ("Brown", 0.28), ("Auburn", 0.42), ("Copper", 0.52),
-                                                   ("Honey", 0.63), ("Blond", 0.72), ("Platinum", 0.9), ("Silver", 1.0)]
 
     static func ramp(_ stops: [String], _ t: Double) -> String {
         let x = min(1, max(0, t)) * Double(stops.count - 1)
@@ -116,7 +114,6 @@ extension Player {
     /// Where the sliders sit for the current colours.
     var skinT: Double { look["skin"]?.first ?? Double(standardSkin) / 5 * 0.8 + 0.1 }
     var hairT: Double { if let v = look["hair"], v.count == 1 { return v[0] }; return [0.0, 0.3, 0.45, 0.72, 1.0, 0.5][hairColor] }
-    var hairDyed: Bool { (look["hair"]?.count ?? 0) >= 3 }
     func hueShade(_ slot: String) -> (Double, Double) {
         if let v = look[slot], v.count >= 2 { return (v[0], v[1]) }
         return outfitHex(slot).map(LockerColor.hueShadeOf) ?? (0.58, 0)

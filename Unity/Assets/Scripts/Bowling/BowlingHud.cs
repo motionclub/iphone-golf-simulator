@@ -60,16 +60,20 @@ namespace GolfArcade.Bowling
 
         /// A brand panel: the Shadow Ink drop shadow, a white border, the fill inset by the border.
         /// `pos` is the corner given by the anchor (UiKit pivots on its anchor). Returns all three.
-        static GameObject[] Plate(Transform parent, string name, Vector2 anchorAt, Vector2 pos, Vector2 size, Color fill, float border = 5)
+        static GameObject[] Plate(Transform parent, string name, Vector2 anchorAt, Vector2 pos, Vector2 size, Color fill, float border = 5, Color? rim = null)
         {
             var shadow = UiKit.Panel(parent, name + "Shadow", BrandColors.Shadow, anchorAt, anchorAt, pos + new Vector2(0, -12), size);
-            var edge = UiKit.Panel(parent, name + "Border", BrandColors.White, anchorAt, anchorAt, pos, size);
+            var edge = UiKit.Panel(parent, name + "Border", rim ?? BrandColors.White, anchorAt, anchorAt, pos, size);
             var inset = new Vector2(anchorAt.x > .5f ? -border : border, anchorAt.y > .5f ? -border : border);
             var inner = UiKit.Panel(parent, name, fill, anchorAt, anchorAt, pos + inset, size - Vector2.one * border * 2);
             return new[] { shadow.gameObject, edge.gameObject, inner.gameObject };
         }
 
         readonly CanvasScaler scaler; readonly Camera hudCamera;
+        // UI OVERHAUL 11-15 (boards 07-10): the centre's colours on the score plate, cream frame cells, LAST THROW on the centre's
+        // card, and the centre's sculpted STRIKE! for strikes
+        readonly MapSkin skin = MapSkin.Bowling;
+        readonly Text speedCard; readonly Image strikeArt;
 
         public BowlingHud(Camera camera, IList<string> players)
         {
@@ -82,9 +86,8 @@ namespace GolfArcade.Bowling
 
             // --- the score plate
             float plateHeight = 52 + players.Count * RowHeight + 14;
-            Plate(root, "ScorePlate", TopLeft, new Vector2(Left, -Top), new Vector2(PlateWidth, plateHeight), new Color(BrandColors.NavyDeep.r, BrandColors.NavyDeep.g, BrandColors.NavyDeep.b, .92f));            // gold pill title tab on the top-left edge
-            UiKit.Panel(root, "TitleTab", BrandColors.Gold, TopLeft, TopLeft, new Vector2(Left + 28, -Top + 20), new Vector2(230, 40));
-            Label(root, "TitleTabText", Display, 26, BrandColors.NavyInk, TextAnchor.MiddleCenter, TopLeft, new Vector2(Left + 28, -Top + 20), new Vector2(230, 40), false).text = BowlingVenue.Title;
+            Plate(root, "ScorePlate", TopLeft, new Vector2(Left, -Top), new Vector2(PlateWidth, plateHeight), new Color(skin.Top.r, skin.Top.g, skin.Top.b, .94f), 7, skin.Frame);
+            // (no title tab: the live HUD carries no map or sport label, board 07)
             for (int f = 0; f < 10; f++)
                 Label(root, "FrameNo", HudLabel, BrandType.HudLabel, BrandColors.N300, TextAnchor.MiddleCenter, TopLeft, new Vector2(CellX(f), -Top - 16), new Vector2(f == 9 ? TenthWidth : CellWidth, 30), false).text = (f + 1).ToString();
             Label(root, "TotalLabel", HudLabel, BrandType.HudLabel, BrandColors.N300, TextAnchor.MiddleRight, TopLeft, new Vector2(Left + PlateWidth - 180, -Top - 16), new Vector2(150, 30), false).text = "TOTAL";
@@ -99,6 +102,17 @@ namespace GolfArcade.Bowling
             Plate(group, "SpeedPlate", speedAt, new Vector2(-40, 34), new Vector2(300, 110), new Color(BrandColors.NavyDeep.r, BrandColors.NavyDeep.g, BrandColors.NavyDeep.b, .92f));
             speedNumber = Label(group, "SpeedNumber", HudNumber, BrandType.HudNumber, BrandColors.Gold, TextAnchor.MiddleRight, speedAt, new Vector2(-148, 44), new Vector2(190, 92));
             Label(group, "SpeedLabel", HudLabel, BrandType.HudLabel, BrandColors.N300, TextAnchor.MiddleLeft, speedAt, new Vector2(-58, 52), new Vector2(80, 40), false).text = "MPH";
+            // the centre's LAST THROW card (Club Lanes' says LAST THROW on it; the others get the words above)
+            if (skin.CardSprite)
+            {
+                foreach (Transform c in group) c.gameObject.SetActive(false);
+                speedCard = skin.Plate("SpeedCard", group, MapSkin.Piece.Card, "", 150, speedAt, new Vector2(-230, 120));
+                if (skin.Id != "bowling-club")
+                {
+                    var words = MapSkin.Letters("LastThrow", group, "LAST THROW", MapSkin.Bold, 30, skin.Cream, BrandColors.NavyInk, 2);
+                    var rt = words.rectTransform; rt.anchorMin = rt.anchorMax = speedAt; rt.sizeDelta = new Vector2(300, 40); rt.anchoredPosition = new Vector2(-230, 214);
+                }
+            }
             Speed(0);
 
             // --- the result banner: arc + chunk-shadowed gold word + sparkles, and a subline
@@ -127,6 +141,8 @@ namespace GolfArcade.Bowling
                 s.rectTransform.anchoredPosition = i == 0 ? new Vector2(470, 150) : new Vector2(-520, -40);
                 sparkles[i] = s.rectTransform;
             }
+            strikeArt = MapSkin.Art("StrikeArt", banner, skin.EventSprite, 300, center, new Vector2(0, 40));
+            strikeArt.gameObject.SetActive(false);
             sub = Label(root, "Subline", Subline, 48, BrandColors.White, TextAnchor.MiddleCenter, center, new Vector2(0, -60), new Vector2(1400, 70));
             var subPlate = sub.gameObject.AddComponent<Outline>(); subPlate.effectColor = BrandColors.TextUnderlay; subPlate.effectDistance = new Vector2(2, -2);
             Banner(null, null, 0, Praise.Good);
@@ -163,11 +179,11 @@ namespace GolfArcade.Bowling
             for (int f = 0; f < 10; f++)
             {
                 float x = CellX(f), w = f == 9 ? TenthWidth : CellWidth;
-                UiKit.Panel(root, "Well", BrandColors.NavyInk, TopLeft, TopLeft, new Vector2(x, top - 4), new Vector2(w, RowHeight - 12));
+                UiKit.Panel(root, "Well", skin.Cream, TopLeft, TopLeft, new Vector2(x, top - 4), new Vector2(w, RowHeight - 12));
                 int balls = f == 9 ? 3 : 2;
                 for (int b = 0; b < balls; b++)
-                    r.marks[f, b] = Label(root, "Mark", HudNumber, 36, BrandColors.White, TextAnchor.MiddleCenter, TopLeft, new Vector2(x + w - (balls - b) * 42 - 4, top - 6), new Vector2(40, 36), false);
-                r.cumulative[f] = Label(root, "Cum", HudNumber, 34, BrandColors.White, TextAnchor.MiddleCenter, TopLeft, new Vector2(x, top - 40), new Vector2(w, 42), false);
+                    r.marks[f, b] = Label(root, "Mark", HudNumber, 36, skin.Ink, TextAnchor.MiddleCenter, TopLeft, new Vector2(x + w - (balls - b) * 42 - 4, top - 6), new Vector2(40, 36), false);
+                r.cumulative[f] = Label(root, "Cum", HudNumber, 34, skin.Ink, TextAnchor.MiddleCenter, TopLeft, new Vector2(x, top - 40), new Vector2(w, 42), false);
             }
             r.total = Label(root, "Total", HudNumber, 56, BrandColors.White, TextAnchor.MiddleRight, TopLeft, new Vector2(Left + PlateWidth - 180, top - 2), new Vector2(150, RowHeight - 8));
             return r;
@@ -183,7 +199,7 @@ namespace GolfArcade.Bowling
                 {
                     string m = s.Mark(f, b);
                     r.marks[f, b].text = m;
-                    r.marks[f, b].color = m == "F" ? BrandColors.Error : m == "X" ? BrandColors.Gold : BrandColors.White;
+                    r.marks[f, b].color = m == "F" ? BrandColors.Error : skin.Ink;
                 }
                 var c = s.Cumulative(f);
                 r.cumulative[f].text = c.HasValue ? c.Value.ToString() : "";
@@ -209,7 +225,11 @@ namespace GolfArcade.Bowling
             bannerAt = Time.unscaledTime; bannerUntil = Time.unscaledTime + seconds;
             banner.gameObject.SetActive(!string.IsNullOrEmpty(word));
             sub.gameObject.SetActive(!string.IsNullOrEmpty(subline));
-            arc.gameObject.SetActive(praise == Praise.Big || praise == Praise.Nice);
+            // a strike (STRIKE!, and the turkeys and beyond that also start with it) is the centre's sculpted STRIKE!
+            bool art = strikeArt && strikeArt.sprite && (word ?? "").StartsWith("STRIKE", System.StringComparison.OrdinalIgnoreCase);
+            if (strikeArt) strikeArt.gameObject.SetActive(art);
+            bannerText.enabled = !art; foreach (var c in chunk) c.enabled = !art;
+            arc.gameObject.SetActive(!art && (praise == Praise.Big || praise == Praise.Nice));
             arc.rectTransform.localScale = praise == Praise.Nice ? new Vector3(.62f, .62f, 1) : Vector3.one;
             foreach (var s in sparkles) s.gameObject.SetActive(praise == Praise.Big);
             Tick();
@@ -224,6 +244,7 @@ namespace GolfArcade.Bowling
         {
             speedPlate.SetActive(mph > 0);
             speedNumber.text = mph.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture);
+            if (speedCard) speedCard.text = speedNumber.text + " MPH";
         }
 
         public void Tick()

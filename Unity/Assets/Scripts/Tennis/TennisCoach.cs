@@ -116,15 +116,19 @@ namespace GolfArcade.Tennis
         [System.Runtime.InteropServices.DllImport("__Internal")]
         static extern void SportsSetTennisResult(string value);
 #endif
-        public void ShowResults(TennisMatch match, int hits, int longestRally)
+        public void ShowResults(TennisMatch match, int hits, int longestRally, string me = null, string rival = null)
         {
 #if UNITY_IOS && !UNITY_EDITOR
             // Persist exactly when the visible TV finish card is presented.
             // The phone reads this independently of the gameplay event queue.
             SportsSetTennisResult((match.PlayerWonMatch ? "won|" : "lost|") + match.FinalScore);
 #endif
-            resultTitle.text = match.MultiSet ? (match.PlayerWonMatch ? "YOU WIN THE MATCH" : "OPPONENT WINS THE MATCH") : (match.PlayerWonMatch ? "YOU WIN THE SET" : "OPPONENT WINS THE SET");
-            resultTitle.color = match.PlayerWonMatch ? new Color(.5f, 1, .6f) : new Color(1, .7f, .5f);
+            // UI OVERHAUL 11-15 (board 14): usernames only, never YOU / OPPONENT
+            me = string.IsNullOrEmpty(me) ? (string.IsNullOrEmpty(GolfArcade.UI.MapSkin.LocalName) ? "PLAYER" : GolfArcade.UI.MapSkin.LocalName) : me;
+            rival = string.IsNullOrEmpty(rival) ? "RIVAL" : rival;
+            resultTitle.text = (match.PlayerWonMatch ? me : rival).ToUpperInvariant() + (match.MultiSet ? " WINS THE MATCH" : " WINS THE SET");
+            resultTitle.color = Color.white;
+            SkinResults(match, me, rival);
             int clean = GradeCounts[(int)Timing.Great] + GradeCounts[(int)Timing.Excellent] + GradeCounts[(int)Timing.Perfect];
             resultBody.text = (match.MultiSet ? $"Sets {match.FinalScore}\n" : $"Games {match.PlayerGames}–{match.OpponentGames}\n") +
                 $"Balls returned {hits}   ·   Longest rally {longestRally}\n" +
@@ -133,8 +137,46 @@ namespace GolfArcade.Tennis
             card.gameObject.SetActive(true);
         }
 
+        // ---- map skin (UI OVERHAUL 11-15, board 14 "Match complete")
+        GameObject skinGroup; Text skinScore, skinMe, skinRival;
+        /// The map's sculpted title left, and on the right a panel of its material: Match complete, the two usernames either side
+        /// of the score. The stats card moves under it.
+        void SkinResults(TennisMatch match, string me, string rival)
+        {
+            var skin = GolfArcade.UI.MapSkin.Tennis;
+            var root = (RectTransform)card.transform.parent;
+            if (!skinGroup)
+            {
+                skinGroup = new GameObject("Match complete", typeof(RectTransform));
+                var g = (RectTransform)skinGroup.transform; g.SetParent(root, false); g.anchorMin = g.anchorMax = new Vector2(.5f, .5f); g.sizeDelta = Vector2.zero;
+                GolfArcade.UI.MapSkin.Art("Map title", g, skin.TitleSprite, 250, new Vector2(.5f, .5f), new Vector2(-330, 40));
+                var face = skin.Panel("Score panel", g, new Vector2(.5f, .5f), new Vector2(560, 130), new Vector2(260, 150));
+                var tab = skin.Panel("Tab", g, new Vector2(.5f, .5f), new Vector2(300, 46), new Vector2(260, 232), 4, 1);
+                var tabText = GolfArcade.UI.MapSkin.Letters("Tab text", tab.rectTransform, "Match complete", GolfArcade.UI.MapSkin.Bold, 30, skin.Cream, skin.Ink, 1.5f);
+                Fill(tabText.rectTransform);
+                skinMe = Word(face.rectTransform, new Vector2(-190, 0), 170, 34, skin.Cream, skin.Ink);
+                skinScore = Word(face.rectTransform, Vector2.zero, 170, 64, skin.Cream, skin.Ink);
+                skinRival = Word(face.rectTransform, new Vector2(190, 0), 170, 34, skin.Cream, skin.Ink);
+            }
+            skinGroup.SetActive(true);
+            skinMe.text = me.ToUpperInvariant(); skinRival.text = rival.ToUpperInvariant();
+            skinScore.text = match.MultiSet ? $"{match.PlayerSets}–{match.OpponentSets}" : $"{match.PlayerGames}–{match.OpponentGames}";
+            var r = card.rectTransform; r.anchoredPosition = new Vector2(260, -110); r.sizeDelta = new Vector2(560, 260);
+            UiGradient.On(card, new Color(skin.Top.r, skin.Top.g, skin.Top.b, .94f), new Color(skin.Bottom.r, skin.Bottom.g, skin.Bottom.b, .94f));
+            var frame = card.GetComponent<Outline>(); if (frame) frame.effectColor = skin.Frame;
+            resultTitle.transform.localScale = Vector3.one * .7f;
+        }
+        static void Fill(RectTransform r) { r.anchorMin = Vector2.zero; r.anchorMax = Vector2.one; r.offsetMin = r.offsetMax = Vector2.zero; }
+        static Text Word(RectTransform parent, Vector2 pos, float w, int size, Color fill, Color stroke)
+        {
+            var t = GolfArcade.UI.MapSkin.Letters("Word", parent, "", GolfArcade.UI.MapSkin.Bold, size, fill, stroke, 2);
+            var r = t.rectTransform; r.anchorMin = r.anchorMax = new Vector2(.5f, .5f); r.sizeDelta = new Vector2(w, 110); r.anchoredPosition = pos;
+            return t;
+        }
+
         public void HideResults()
         {
+            if (skinGroup) skinGroup.SetActive(false);
             card.gameObject.SetActive(false);
             System.Array.Clear(GradeCounts, 0, GradeCounts.Length);
         }

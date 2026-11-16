@@ -13,7 +13,7 @@ namespace GolfArcade.EnvironmentArt
 
         /// Venues switched to the rendered backgrounds. Each joins once it passes its gates; RENDERED_BG_VENUES
         /// (comma list: resort, skyscraper, volcano, golf) overrides for proof runs.
-        static readonly string[] Live = { "resort", "skyscraper", "volcano", "golf", "hub" };
+        static readonly string[] Live = { "resort", "skyscraper", "volcano", "golf" };
         static bool On(string venue)
         {
             var env = System.Environment.GetEnvironmentVariable("RENDERED_BG_VENUES");
@@ -73,45 +73,6 @@ namespace GolfArcade.EnvironmentArt
             root.position = centre;   // layout is relative to the hole's centre
             Scenery(root, layout, -.3f, centre);
             return true;
-        }
-
-        /// The plaza hub (and its rooms' outdoor grounds): the hub draws its sky on a dome mesh, not the skybox.
-        /// The dome keeps its size and place but is shaded by the rendered sky (sun disc at the real light);
-        /// the plaza also gets the rendered clouds. Returns false when the hub is not switched over.
-        public static bool HubDome(Transform root, Vector3 centre, float radius)
-        {
-            if (!RenderedSky.Enabled || !On("hub")) return false;
-            // golden hour, airy and pastel like the club's art direction: warm low glow, a lighter upper sky
-            var sky = RenderedSky.Install(null, new RenderedSky.Profile { SunsetOverride = .7f, SeaLevel = -.4f, AerialDistance = 6000, HazeScaleHeight = 1200,
-                DriveFogColour = false, Saturation = 1.1f, MultiScatter = .4f, Exposure = 16f, UpperTint = new Color(1.4f, 1.3f, 1.12f), Cirrus = .35f });
-            var dome = new GameObject("Rendered sky dome");
-            dome.transform.SetParent(root, false); dome.transform.position = centre; dome.transform.localScale = Vector3.one * radius;
-            dome.AddComponent<MeshFilter>().sharedMesh = Sphere();
-            var r = dome.AddComponent<MeshRenderer>(); r.sharedMaterial = sky;
-            r.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off; r.receiveShadows = false;
-            r.lightProbeUsage = UnityEngine.Rendering.LightProbeUsage.Off; r.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
-            if (radius > 200 && !GameObject.Find("Rendered backdrop"))
-            {
-                var bd = new GameObject("Rendered backdrop"); bd.transform.SetParent(root, false);
-                Clouds(bd.transform, 777, 24, new Vector2(3.5f, 1.2f), new CloudLayout { FrontShare = 0, BaseMin = 500, BaseMax = 1000 });
-            }
-            return true;
-        }
-
-        static Mesh sphere;
-        static Mesh Sphere()
-        {
-            if (sphere) return sphere;
-            const int seg = 48, rings = 24;
-            var v = new List<Vector3>(); var t = new List<int>();
-            for (int i = 0; i <= rings; i++)
-            {
-                float e = Mathf.PI * (i / (float)rings - .5f);
-                for (int j = 0; j <= seg; j++) { float a = j * Mathf.PI * 2 / seg; v.Add(new Vector3(Mathf.Cos(e) * Mathf.Sin(a), Mathf.Sin(e), Mathf.Cos(e) * Mathf.Cos(a))); }
-            }
-            for (int i = 0; i < rings; i++) for (int j = 0; j < seg; j++) { int a = i * (seg + 1) + j, b = a + seg + 1; t.AddRange(new[] { a, a + 1, b, a + 1, b + 1, b }); }
-            sphere = new Mesh { name = "Rendered sky dome" }; sphere.SetVertices(v); sphere.SetTriangles(t, 0); sphere.RecalculateBounds();
-            return sphere;
         }
 
         /// Called from the venue's own light setup (TennisLook / the venue builders' sky sections), so the

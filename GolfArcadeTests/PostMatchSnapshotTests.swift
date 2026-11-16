@@ -110,6 +110,5 @@ final class PostMatchSnapshotTests: XCTestCase {
         XCTAssertGreaterThan(result.endLevel, 1, "a big win levels up")
         XCTAssertEqual(Progression.shared.entry(for: player).level, result.endLevel)
         XCTAssertEqual(Progression.shared.entry(for: player).wins, 1)
-        XCTAssertTrue(LevelRewards.rewards(for: result.endLevel).isEmpty, "no rewards yet")
     }
 }

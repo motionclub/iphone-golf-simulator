@@ -39,9 +39,6 @@ enum TennisStory {
 
     // MARK: - The first-time tutorial
 
-    static let tutorialIntro: [StoryLine] = [
-        StoryLine(speaker: "stranger", text: "New face, huh? Grab a racket — I'll feed you a few."),
-    ]
     static let tutorialDone: [StoryLine] = [
         StoryLine(speaker: "stranger", text: "Not bad. Not bad at all. You move like someone who's going to be trouble."),
         StoryLine(speaker: "announcer", text: "Tutorial complete! The Island Circuit, training court and exhibition matches are now open."),

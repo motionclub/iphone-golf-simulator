@@ -20,12 +20,11 @@ static const double kMinFreeWhileRecording = 300.0 * 1024.0 * 1024.0;
 static const double kMaxSessionSeconds = 90.0 * 60.0;
 static const double kWatchdogInterval = 0.5, kDiskInterval = 5.0;
 static const int kMaxPendingFrames = 4;
-// Going from the menu or Plaza into a match (and back) loads a whole scene: the TV gets no frames, and its surface may be
-// swapped, for as long as that takes (the app budgets 15-20 s). A take rides through that; a TV that really went away is
-// ended at once by the app (sceneDidDisconnect -> RecordingService.displayLost), so these are only the backstop.
-static const double kDisplayMissingSeconds = 45.0;
-static const double kNoFrameBackstopSeconds = 60.0, kFirstFrameTimeoutSeconds = 10.0;
-static const double kBadPictureSeconds = 30.0;
+// A take is ended by the player (or by leaving the app, heat, storage, the 90 minute limit), never by a quiet TV. The menus,
+// loading and results screens are the app's own window over Unity's: Unity presents nothing there, sometimes for minutes, and
+// its surface may be swapped going into a match. The take waits through all of it and picks up with the next game frame.
+// (Was: no frame for 10 s after the start, or 60 s later, ended the take; started from a menu that meant it ended, with
+// nothing saved, before the game was ever up.) A TV that really went away is ended by the app (RecordingService.displayLost).
 static const size_t kMaxQueuedAudio = 300;   // ~3 s of 10 ms ticks waiting for the writer
 
 enum { kIdle = 0, kActive = 1, kFinishing = 2 };
@@ -64,7 +63,7 @@ static NSString *ParseConfig(const char *json, SessionConfig *out) {
     }
     if (c.fps != 30 && c.fps != 60) return @"Recording runs at 30 or 60 frames per second.";
     if (c.width < 320 || c.height < 180 || c.width > 3840 || c.height > 2160 || (c.width & 1) || (c.height & 1)) return @"That recording size is not supported.";
-    if (c.display < 0) return @"That display is not available.";
+    if (c.display < -1) return @"That display is not available.";   // -1 = whichever display the game is on
     c.mbps = std::min(60.0, std::max(1.0, c.mbps));
     auto gain = [](float g) { return std::isfinite(g) ? std::min(8.0f, std::max(0.0f, g)) : 1.0f; };
     c.gainGame = gain(c.gainGame); c.gainVoice = gain(c.gainVoice); c.gainMic = gain(c.gainMic);
@@ -128,6 +127,7 @@ static NSString *MessageForReason(NSString *reason) {
     std::atomic<uint64_t> frames, dropped;
     std::atomic<double> lastPts;       // presentation time of the last appended video frame
     double lastEncode;                 // render thread only
+    int64_t lastSlot;                  // render thread only: the last 1/fps slot of the video timeline that got a frame
     sports::PumpClock clock;           // audio queue only
     sports::AudioPts apts;             // audio queue only
     std::vector<float> tick;           // audio queue only
@@ -150,7 +150,7 @@ static NSString *MessageForReason(NSString *reason) {
 - (instancetype)init {
     if ((self = [super init])) {
         pending = 0; failed = false; stopping = false; firstTime = 0; frames = 0; dropped = 0; lastPts = 0;
-        lastEncode = 0; audioDropped = 0; droppedReported = 0; _work = dispatch_group_create();
+        lastEncode = 0; lastSlot = -1; audioDropped = 0; droppedReported = 0; _work = dispatch_group_create();
     }
     return self;
 }
@@ -168,13 +168,14 @@ static NSString *MessageForReason(NSString *reason) {
     SportsSessionTake *_take;
     std::atomic<int> _state;
     std::atomic<int> _display;
+    // Where the game draws (Unity tells us at every game start): 1 = the TV, 0 = this phone. A take started with display -1 follows it.
+    std::atomic<int> _gameDisplay; std::atomic<bool> _follow;
     std::atomic<void (*)(const char *)> _callback;
     std::atomic<double> _lastFrameSeen;
     std::atomic<bool> _surfaceOK;
     // Control Center / a banner / the app switcher peek: Unity pauses, no frames arrive, but the app has not left.
     std::atomic<bool> _inactive;
-    // An unrecordable TV frame (a scene change, the loading cover, a resized surface) is skipped; only a picture that stays
-    // unrecordable for kBadPictureSeconds ends the take, and what was recorded is kept.
+    // An unrecordable TV frame (a scene change, the loading cover, a resized surface) is skipped and logged; it never ends the take.
     std::atomic<double> _badPictureSince; std::atomic<int> _badPictureLogged;
     sports::AudioMixer _mixer;
     dispatch_source_t _watchdog, _audioTimer;
@@ -185,6 +186,7 @@ static NSString *MessageForReason(NSString *reason) {
     // control queue only
     double _lastDiskCheck, _missingSince;
     BOOL _thermalWarned, _dropWarned;
+    double _lastQuietLog;
     double _lastDropWarning;
 }
 
@@ -192,7 +194,7 @@ static NSString *MessageForReason(NSString *reason) {
 
 - (instancetype)init {
     if ((self = [super init])) {
-        _state = kIdle; _display = 1; _callback = nullptr; _lastFrameSeen = 0; _surfaceOK = true;
+        _state = kIdle; _display = 1; _gameDisplay = 1; _follow = false; _callback = nullptr; _lastFrameSeen = 0; _surfaceOK = true;
         _control = dispatch_queue_create("club.session-control", DISPATCH_QUEUE_SERIAL);
         _encode = dispatch_queue_create("club.session-encoder", DISPATCH_QUEUE_SERIAL);
         dispatch_queue_attr_t rt = dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_USER_INITIATED, 0);
@@ -221,8 +223,10 @@ static NSString *MessageForReason(NSString *reason) {
     NSData *data = [NSJSONSerialization dataWithJSONObject:event options:0 error:nil];
     NSString *json = data ? [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] : nil;
     if (!json) return;
-    NSLog(@"[SessionCapture] %@", json);
-    SportsRecorderLog([@"event " stringByAppendingString:json]);
+    if (![reason isEqualToString:@"notReady"]) {
+        NSLog(@"[SessionCapture] %@", json);
+        SportsRecorderLog([@"event " stringByAppendingString:json]);
+    }
     void (*callback)(const char *) = _callback.load();
     if (!callback) return;
     dispatch_async(dispatch_get_main_queue(), ^{ callback(json.UTF8String); });
@@ -235,6 +239,8 @@ static NSString *MessageForReason(NSString *reason) {
     SessionConfig config;
     NSString *problem = ParseConfig(json, &config);
     if (problem) { [self emitFailure:problem reason:@"error"]; return 0; }
+    bool follow = config.display < 0;
+    if (follow) config.display = _gameDisplay.load();
     if (_state.load() != kIdle) {
         [self emit:@"warning" message:_state.load() == kActive ? @"A recording is already running." : @"The last recording is still being saved. Try again in a moment." reason:@"error" extra:nil];
         return 0;
@@ -246,11 +252,18 @@ static NSString *MessageForReason(NSString *reason) {
         __block NSString *refusal = nil;
         if (NSThread.isMainThread) refusal = check(config.display);
         else dispatch_sync(dispatch_get_main_queue(), ^{ refusal = check(config.display); });
-        if (refusal) { [self emitFailure:refusal reason:@"error"]; return 0; }
+        if (refusal) { [self emitFailure:refusal reason:@"notReady"]; return 0; }   // the app tries again
     }
     __block int result = 0;
-    dispatch_sync(_control, ^{ result = [self startOnControl:config]; });
+    dispatch_sync(_control, ^{ result = [self startOnControl:config]; if (result) self->_follow.store(follow); });
     return result;
+}
+
+- (void)gameDisplayChanged:(int)display {
+    if (display < 0) return;
+    _gameDisplay.store(display);
+    if (_follow.load() && _state.load() == kActive && _display.exchange(display) != display)
+        SportsRecorderLog([NSString stringWithFormat:@"the game moved to display %d: recording follows", display]);
 }
 
 - (NSURL *)recordingsDirectory {
@@ -347,7 +360,7 @@ static NSString *MessageForReason(NSString *reason) {
     _lastFrameSeen.store(now); _surfaceOK.store(true); _badPictureSince.store(0); _badPictureLogged.store(0);
     SportsRecorderLog([NSString stringWithFormat:@"start %dx%d %d fps %.0f Mbps audio game=%d voice=%d mic=%d display=%d file=%@ writer=%@",
         config.width, config.height, config.fps, config.mbps, config.gameAudio, config.voice, config.mic, config.display, take.url.lastPathComponent, WriterStatus(take.writer)]);
-    _lastDiskCheck = now; _missingSince = 0; _thermalWarned = NO; _dropWarned = NO; _lastDropWarning = 0;
+    _lastDiskCheck = now; _missingSince = 0; _lastQuietLog = now; _thermalWarned = NO; _dropWarned = NO; _lastDropWarning = 0;
     _display.store(config.display);
     { std::lock_guard<std::mutex> lock(_takeMutex); _take = take; }
     _state.store(kActive);
@@ -412,20 +425,12 @@ static NSString *MessageForReason(NSString *reason) {
         _lastDiskCheck = now;
         if (FreeBytes([self recordingsDirectory]) < kMinFreeWhileRecording) { [self beginFinish:@"storage" failed:NO message:nil]; return; }
     }
-    // The TV surface going away (not while the app is only inactive: Unity draws nothing then, on purpose).
-    if (_inactive.load()) { _missingSince = 0; return; }
-    double sinceFrame = now - _lastFrameSeen.load();
-    BOOL (^probe)(int) = self.surfaceProbe;
-    if (probe) {
-        int display = take.config.display;
-        dispatch_async(dispatch_get_main_queue(), ^{ self->_surfaceOK.store(probe(display)); });
-        if (!_surfaceOK.load()) {
-            if (_missingSince == 0) _missingSince = now;
-            else if (now - _missingSince > kDisplayMissingSeconds) { [self beginFinish:@"display" failed:NO message:nil]; return; }
-        } else _missingSince = 0;
-        double limit = take->frames.load() == 0 ? kFirstFrameTimeoutSeconds : kNoFrameBackstopSeconds;
-        if (sinceFrame > limit) { [self beginFinish:@"display" failed:NO message:nil]; return; }
-    } else if (sinceFrame > kDisplayMissingSeconds) { [self beginFinish:@"display" failed:NO message:nil]; return; }
+    // A quiet TV (menu, loading, pause) never ends the take; the log says how long it has been, once a minute.
+    double quiet = now - _lastFrameSeen.load();
+    if (quiet > 60.0 && now - _lastQuietLog > 60.0 && !_inactive.load()) {
+        _lastQuietLog = now;
+        SportsRecorderLog([NSString stringWithFormat:@"no game frame for %.0f s (frames so far %llu): waiting", quiet, take->frames.load()]);
+    }
     // Dropped frames: tell the host, rarely.
     uint64_t dropped = take->dropped.load();
     if (dropped > take->droppedReported && now - _lastDropWarning > 60.0) {
@@ -490,7 +495,7 @@ static NSString *MessageForReason(NSString *reason) {
             NSLog(@"[SessionCapture] writer error: %@", writer.error);
             salvage(message ?: @"The recording stopped because the phone's video encoder had a problem."); return;
         }
-        if (frames < 1) { fail(@"No picture was recorded from the TV.", [reason isEqualToString:@"user"] ? @"error" : reason); return; }
+        if (frames < 1) { fail(@"Nothing was recorded: the game was not on screen while recording.", @"empty"); return; }
         // any other failure (an unrecordable picture, ...) with a healthy writer: finish the file normally, with the reason
         NSString *endReason = failed ? @"error" : reason;
         double videoEnd = take->lastPts.load() + 1.0 / take.config.fps;
@@ -536,13 +541,18 @@ static NSString *MessageForReason(NSString *reason) {
 - (void)captureTexture:(id<MTLTexture>)source commandBuffer:(id<MTLCommandBuffer>)command timestamp:(double)now {
     if (_state.load() != kActive || !command) return;
     SportsSessionTake *take = nil;
+    int64_t slot = 0;
     {   // Cheap gate. Taking a work-group slot under the lock is what lets finalization wait for exactly the frames that were accepted.
         std::lock_guard<std::mutex> lock(_takeMutex);
         take = _take;
         if (!take || take->stopping.load() || take->failed.load()) return;
         _lastFrameSeen.store(now);
-        const SessionConfig &config = take.config;
-        if (take->lastEncode > 0 && now - take->lastEncode < 1.0 / config.fps - 0.002) return;
+        // One frame per 1/fps slot of the video timeline, so the file is a constant 60 fps (editors read it as 60, not as a
+        // variable rate) and every frame of a 60 Hz game is kept. (Was: a frame less than 14.7 ms after the last one was
+        // skipped, which ordinary frame-time jitter triggered, and frames carried raw wall-clock times.)
+        double started = take->firstTime.load();
+        slot = started > 0 ? (int64_t)std::llround((now - started) * take.config.fps) : 0;
+        if (slot <= take->lastSlot) return;
         if (take->pending.load() >= kMaxPendingFrames) { take->dropped++; return; }
         take->pending++; dispatch_group_enter(take.work);
     }
@@ -554,11 +564,10 @@ static NSString *MessageForReason(NSString *reason) {
     if (!source || source.framebufferOnly || source.width < 320 || source.height < 180 || !formatOK) {
         // Was: the first such frame ended the take as FAILED and deleted the file. Now the frame is skipped and logged.
         take->dropped++; leave();
-        double since = _badPictureSince.load(); if (since == 0) { _badPictureSince.store(now); since = now; }
+        if (_badPictureSince.load() == 0) _badPictureSince.store(now);
         if (_badPictureLogged.fetch_add(1) < 5)
             SportsRecorderLog([NSString stringWithFormat:@"unrecordable TV frame skipped: %@ %lux%lu framebufferOnly=%d format=%lu",
                 source ? @"texture" : @"no texture", (unsigned long)source.width, (unsigned long)source.height, source.framebufferOnly, (unsigned long)format]);
-        if (now - since > kBadPictureSeconds) [self requestEnd:@"display" failed:NO message:nil];
         return;
     }
     _badPictureSince.store(0);
@@ -583,10 +592,9 @@ static NSString *MessageForReason(NSString *reason) {
     [encoder setFragmentBytes:&gamma length:sizeof(gamma) atIndex:0];
     [encoder drawPrimitives:MTLPrimitiveTypeTriangle vertexStart:0 vertexCount:3]; [encoder endEncoding];
 
-    take->lastEncode = now;
-    double first = take->firstTime.load();
-    if (first == 0) { first = now; take->firstTime.store(now); }   // audio aligns itself to this instant
-    double pts = now - first;
+    take->lastEncode = now; take->lastSlot = slot;
+    if (take->firstTime.load() == 0) take->firstTime.store(now);   // slot 0; audio aligns itself to this instant
+    double pts = (double)slot / config.fps;
     [command addCompletedHandler:^(id<MTLCommandBuffer> completed) {
         dispatch_async(self->_encode, ^{
             if (!take->failed.load()) {
@@ -598,7 +606,11 @@ static NSString *MessageForReason(NSString *reason) {
                         take->failed.store(true);
                         [self requestEnd:@"error" failed:YES message:@"The recording stopped because the phone's video encoder had a problem."];
                     } else take->dropped++;
-                } else { take->frames++; take->lastPts.store(pts); }
+                } else {
+                    take->lastPts.store(pts);
+                    // the first game frame is in the file: the app's timer starts here
+                    if (take->frames.fetch_add(1) == 0) [self emit:@"rolling" message:@"Recording the game." reason:nil extra:nil];
+                }
             }
             CFRelease(mapped); CVPixelBufferRelease(pixel);
             take->pending--; dispatch_group_leave(take.work);

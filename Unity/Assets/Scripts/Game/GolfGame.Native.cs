@@ -33,6 +33,8 @@ namespace GolfArcade.Game {
             setup = GameSetup.Solo(ProfileStore.Active, selected.Key);
             // the day's forecast round: the date is the seed, the same round for everyone that day
             if (DailyRound > 0) setup.Seed = DailyRound;
+            // the Daily Hole in One: its own three holes, one shot each, the day as the seed (GolfGame.HoleInOne.cs)
+            if (HoleInOne) HoleInOneSetup();
             deferFirstHole = true; StartRound(); deferFirstHole = false;
             if (firstHoleSteps != null)
             {
@@ -46,7 +48,6 @@ namespace GolfArcade.Game {
         }
         public void NativeContinue() {
             if(Current==State.Intro) { SkipPresentation(); return; }
-            if (Current == State.Replay) { SkipReplay(); return; }
             if (Current == State.Result) { ContinueShotResult(); return; }
             if (Current != State.RoundDone || networkConfigured) return;   // (a multiplayer round's end belongs to the lobby)
             if (NativeHasNextHole) NextHole(); else PlayAgain();
@@ -96,7 +97,7 @@ namespace GolfArcade.Game {
             var sheet = hud.Controller;
             sheet.OnClub = i => SelectClub(GolfArcade.Shot.GolfClubs.All[i]);
             sheet.SetScreen(true);
-            sheet.Skip.Pressed = () => { if (Current is State.Replay or State.Result) SkipReplay(); else SkipPresentation(); };
+            sheet.Skip.Pressed = () => { if (Current != State.Result) SkipPresentation(); };
             for (int i = 0; i < sheet.IntroEmotes.Length; i++) { int slot = i; sheet.IntroEmotes[i].Pressed = () => ChooseIntroEmote(slot); }
             // tap to swing: a tap starts the swing at once, a second tap cancels it
             sheet.StartSwing.Pressed = () => {

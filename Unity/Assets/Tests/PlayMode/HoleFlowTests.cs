@@ -70,7 +70,6 @@ namespace GolfArcade.PlayTests
             var cam = Camera.main;
             if (cam) cam.aspect = GameCapture.PhoneWidth / (float)GameCapture.PhoneHeight;
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;
             int holes = game.ChosenHoles; string chosen = PlayerPrefs.GetString("course", "cliffside");
             try
             {
@@ -153,7 +152,6 @@ namespace GolfArcade.PlayTests
             var cam = Camera.main;
             if (cam) cam.aspect = GameCapture.PhoneWidth / (float)GameCapture.PhoneHeight;
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;
             var hud = Object.FindFirstObjectByType<GolfArcade.UI.Hud>();
             int holes = game.ChosenHoles; string chosen = PlayerPrefs.GetString("course", "cliffside");
             try

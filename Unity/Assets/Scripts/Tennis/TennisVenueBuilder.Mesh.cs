@@ -137,25 +137,6 @@ namespace GolfArcade.Tennis
                 for (int i = 0; i < tris.Length; i += 3) { T.Add(baseIndex + tris[i]); T.Add(baseIndex + tris[i + 1]); T.Add(baseIndex + tris[i + 2]); }
             }
 
-            /// A low-poly rock: an unshared (flat-shaded) icosphere with planar UVs from world position.
-            public void FlatLump(Vector3 centre, Vector3 radii, float seed, float lumpiness)
-            {
-                var (dirs, tris) = Ico(1);
-                var pos = new Vector3[dirs.Length];
-                for (int i = 0; i < dirs.Length; i++)
-                {
-                    var d = dirs[i];
-                    float n = 1 + (Noise(d.x * 2.3f + seed, d.y * 2.0f + d.z * 1.7f + seed * .7f) - .5f) * 2 * lumpiness;
-                    pos[i] = centre + Vector3.Scale(d, radii) * n;
-                }
-                Vector2 Uv(Vector3 p) => new Vector2((p.x + p.z * .3f) / 9f, (p.y + p.z * .4f) / 9f);
-                for (int i = 0; i < tris.Length; i += 3)
-                {
-                    int a = Add(pos[tris[i]], Uv(pos[tris[i]])), b = Add(pos[tris[i + 1]], Uv(pos[tris[i + 1]])), c = Add(pos[tris[i + 2]], Uv(pos[tris[i + 2]]));
-                    T.Add(a); T.Add(b); T.Add(c);
-                }
-            }
-
             public Mesh ToMesh(string name, bool normals = true)
             {
                 var m = new Mesh { name = name, indexFormat = V.Count > 60000 ? IndexFormat.UInt32 : IndexFormat.UInt16 };
@@ -234,8 +215,6 @@ namespace GolfArcade.Tennis
                 }
         }
 
-        internal static float Hash01(int x, int y, int seed) => Hash(x, y, seed);
-
         /// A colour ramp texture: v runs 0..1 along `stops`, u adds a little per-column variation. Clamped in v, repeating in u.
         internal static Texture2D Ramp(string name, (float at, Color c)[] stops, int w = 8, int h = 128, float variation = .03f)
         {
@@ -275,53 +254,5 @@ namespace GolfArcade.Tennis
         /// v runs from elevation `elMin` to 90 degrees. `paint(az radians, el degrees)` returns the colour.
         static readonly Dictionary<string, Texture2D> domeCache = new Dictionary<string, Texture2D>();
 
-        /// `key` caches the baked texture for the life of the app: a match restarts without paying for the sky again.
-        internal static GameObject TexDome(Transform parent, string key, System.Func<float, float, Color> paint, float elMin = -12f, int texW = 1024, int texH = 256, float radius = 3000f)
-        {
-            if (!domeCache.TryGetValue(key, out var tex) || !tex)
-            {
-                var bake = System.Diagnostics.Stopwatch.StartNew();
-                tex = new Texture2D(texW, texH, TextureFormat.RGBA32, true, false) { name = "Sky dome texture " + key, wrapMode = TextureWrapMode.Repeat, filterMode = FilterMode.Bilinear, anisoLevel = 1 };
-                tex.wrapModeV = TextureWrapMode.Clamp;
-                var px = new Color32[texW * texH];
-                for (int y = 0; y < texH; y++)
-                {
-                    float el = Mathf.Lerp(elMin, 90f, (y + .5f) / texH);
-                    for (int x = 0; x < texW; x++)
-                    {
-                        var c = paint((x + .5f) / texW * Mathf.PI * 2, el);
-                        float dither = (Hash(x, y, 77) - .5f) * (1.6f / 255f);          // breaks 8-bit banding in the long gradients
-                        px[y * texW + x] = new Color(Mathf.Clamp01(c.r + dither), Mathf.Clamp01(c.g + dither), Mathf.Clamp01(c.b + dither), 1);
-                    }
-                }
-                tex.SetPixels32(px); tex.Apply(true, true);
-                domeCache[key] = tex;
-                Log("sky dome '" + key + "' baked in " + bake.ElapsedMilliseconds + " ms (first match only; cached after)", 0);
-            }
-            float[] els = { elMin, -6, -3, -1, 0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 18, 22, 26, 30, 35, 40, 45, 52, 60, 70, 80, 90 };
-            const int lon = 96;
-            var mb = new MB();
-            for (int j = 0; j < els.Length; j++)
-            {
-                float phi = els[j] * Mathf.Deg2Rad;
-                for (int i = 0; i <= lon; i++)
-                {
-                    float th = i / (float)lon * Mathf.PI * 2;
-                    mb.Add(new Vector3(Mathf.Cos(phi) * Mathf.Cos(th), Mathf.Sin(phi), Mathf.Cos(phi) * Mathf.Sin(th)) * radius, new Vector2(i / (float)lon, (els[j] - elMin) / (90f - elMin)));
-                }
-            }
-            for (int j = 0; j < els.Length - 1; j++)
-                for (int i = 0; i < lon; i++)
-                {
-                    int a = j * (lon + 1) + i, b = a + lon + 1;
-                    mb.T.AddRange(new[] { a, a + 1, b, a + 1, b + 1, b });
-                }
-            var mesh = mb.ToMesh("Sky dome", false); mesh.bounds = new Bounds(Vector3.zero, Vector3.one * radius * 2.2f);
-            var mat = new Material(Alpha) { name = "Sky dome", renderQueue = 1000 };
-            mat.mainTexture = tex; if (mat.HasProperty("_BaseMap")) mat.SetTexture("_BaseMap", tex);
-            var go = MeshObject(parent, "Sky dome", mesh, mat);
-            go.AddComponent<TennisVenueFx.FollowCamera>();
-            return go;
-        }
     }
 }

@@ -46,8 +46,8 @@ namespace GolfArcade.PlayTests
                 else if(i==8) pos=p+new Vector3(0,5.6f,.05f);
                 else if(i==9) pos=p+new Vector3(.8f,.38f,4.8f);
                 else if(i==10) {
-                    var a=driver.look.animator;
-                    target=(a.GetBoneTransform(HumanBodyBones.RightHand).position+a.GetBoneTransform(HumanBodyBones.LeftHand).position)*.5f;
+                    var h=driver.matchLook;   // (the old Hero01 look is gone: the match hero's bones by name)
+                    target=(h.Bone(HumanBodyBones.RightHand).position+h.Bone(HumanBodyBones.LeftHand).position)*.5f;
                     pos=target+new Vector3(1.2f,.65f,1.5f);
                 } else { target=p+Vector3.up*.45f; pos=target+new Vector3(1.7f,.15f,2); }
                 cam.transform.position=pos; cam.transform.LookAt(target,i==8?Vector3.forward:Vector3.up); cam.fieldOfView=36;

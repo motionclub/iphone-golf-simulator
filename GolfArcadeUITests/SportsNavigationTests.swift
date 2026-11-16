@@ -1,20 +1,7 @@
 import XCTest
 
-final class SportsNavigationTests:XCTestCase {
-    func testNativeMenuHasNoScanGateAndExplainsMissingUnity() {
-        let app=XCUIApplication(); app.launch()
-        XCTAssertTrue(app.navigationBars["Sports Arcade"].waitForExistence(timeout:10))
-        let preview=app.buttons["startUnityPreview"]
-        let form=app.collectionViews.firstMatch
-        for _ in 0..<8 { if preview.exists && preview.isHittable { break }; form.swipeUp() }
-        XCTAssertTrue(preview.exists)
-        // The action must recheck routing rather than remain disabled by stale state.
-        XCTAssertTrue(app.buttons["startExternalGame"].isEnabled)
-        preview.tap()
-        app.swipeDown(); app.swipeDown()
-        XCTAssertTrue(app.staticTexts.containing(NSPredicate(format:"label CONTAINS %@","physical-device build")).firstMatch.waitForExistence(timeout:5))
-    }
-}
+/// (testNativeMenuHasNoScanGateAndExplainsMissingUnity drove the classic "Sports Arcade" form, which left the app 2026-11-15.)
+final class SportsNavigationTests:XCTestCase {}
 
 
 extension SportsNavigationTests {

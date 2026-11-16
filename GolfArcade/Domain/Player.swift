@@ -54,8 +54,6 @@ struct Player: Codable, Identifiable, Equatable, Sendable {
     var heightChoice: Int { get { min(4,max(0,heightValue ?? 2)) } set { heightValue=min(4,max(0,newValue)) } }
     var buildChoice: Int { get { min(4,max(0,buildValue ?? 2)) } set { buildValue=min(4,max(0,newValue)) } }
 
-    var isScanned: Bool { calibration != nil }
-
     init(id: UUID = UUID(), name: String, colorIndex: Int, handedness: Handedness = .right, calibration: PlayerCalibration? = nil) {
         self.id = id
         self.name = name

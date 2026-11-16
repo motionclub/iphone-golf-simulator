@@ -52,6 +52,51 @@ namespace GolfArcade.Tennis
 
         public static void Apply() => Apply(ForModel(SystemInfo.deviceModel));
 
+        // ---- What this phone held the last time (2026-11-15, "consistently smooth 60 fps for everyone") ----
+        // Every launch used to start again from the tier's full settings, so a phone that cannot hold them spent the first minute
+        // or more of every match below 60 while the governor found its level one step at a time (4 s to settle, then 2–6 s of late
+        // frames, per step; golf's shadow reach alone is eight steps). The steps a phone needed in a sport are remembered and
+        // taken at once at its next launch, under the loading screen. After three sessions that held their level for a minute
+        // without a further step, one step back up is tried, so a phone that was only hot that day gets its picture back.
+        public const int CalmSessionsToStepUp = 3;
+        const string Memory = "quality.v1.";
+        static string memory; static bool replaying;
+        /// The steps taken from memory at this launch.
+        public static int Remembered { get; private set; }
+
+        /// The phone's tier for `sport` ("tennis", "golf", "bowling"), then the steps down it needed there before.
+        public static void Apply(string sport)
+        {
+            Apply();
+            memory = string.IsNullOrEmpty(sport) ? null : Memory + sport;
+            Remembered = 0;
+            if (memory == null || Application.isEditor) return;
+            int level = PlayerPrefs.GetInt(memory, 0), calm = PlayerPrefs.GetInt(memory + ".calm", 0);
+            if (level > 0 && PlayerPrefs.GetInt(memory + ".held", 0) == 1 && PlayerPrefs.GetInt(memory + ".stepped", 0) == 0 && ++calm >= CalmSessionsToStepUp) { level--; calm = 0; }
+            PlayerPrefs.SetInt(memory, level); PlayerPrefs.SetInt(memory + ".calm", calm);
+            PlayerPrefs.SetInt(memory + ".held", 0); PlayerPrefs.SetInt(memory + ".stepped", 0);
+            replaying = true;
+            try { while (Remembered < level && StepDown(Pipeline)) Remembered++; } finally { replaying = false; }
+            if (Remembered > 0) Debug.Log($"[TennisQuality] {sport}: {Remembered} step(s) down from the start, as this phone needed last time");
+        }
+
+        /// A governor's word that this session has run a minute at its level without late frames.
+        public static void MarkHeld() { if (memory != null && !Application.isEditor && PlayerPrefs.GetInt(memory + ".held", 0) == 0) PlayerPrefs.SetInt(memory + ".held", 1); }
+
+        /// The game drawn on the phone's own screen (no TV): its 3D is drawn 1080 lines across the short side, not the panel's
+        /// 1179 to 1320, and scaled up under the interface (which stays at the panel's own sharpness). That is 16 to 33 % fewer
+        /// pixels to shade, and still Adnan's floor of 1080p. A TV is drawn at its own size, as before.
+        public const int PhoneLines = 1080;
+        public static bool PhoneScreenCap = true;
+        public static void FitScreen(bool external)
+        {
+            var urp = Pipeline; if (!urp) return;
+            int lines = Mathf.Min(Screen.width, Screen.height);
+            urp.renderScale = !PhoneScreenCap || external || lines <= PhoneLines ? 1f : Mathf.Max(.75f, PhoneLines / (float)lines);
+        }
+        // what the steps have done to the shadows so far: golf sets its own long shadows when its scene wakes, after Apply
+        static bool cascadesCut; static float shadowScale = 1;
+
         static UniversalRenderPipelineAsset live;
 
         /// Under URP the pipeline asset owns MSAA, shadows and render scale. Each session
@@ -76,7 +121,7 @@ namespace GolfArcade.Tennis
 
         public static void Apply(Tier tier)
         {
-            Current = tier; Reductions = 0;
+            Current = tier; Reductions = 0; cascadesCut = false; shadowScale = 1;
             var s = For(tier);
             QualitySettings.antiAliasing = s.Msaa;
             QualitySettings.pixelLightCount = s.PixelLights;
@@ -114,9 +159,10 @@ namespace GolfArcade.Tennis
             if (!urp) return;
             var s = For(Current);
             if (!on) { urp.shadowDistance = s.ShadowDistance; urp.shadowCascadeCount = s.ShadowCascades; return; }
-            urp.shadowDistance = GolfShadowDistance;
+            // (less the steps down already taken: the ones remembered from this phone's last round are taken before the course wakes)
+            urp.shadowDistance = Mathf.Max(MinShadowDistance, GolfShadowDistance * shadowScale);
             // (four cascades keep the address shadow sharpest; two cost half the shadow passes and read the same in flight)
-            urp.shadowCascadeCount = Current == Tier.High ? 4 : 2;
+            urp.shadowCascadeCount = cascadesCut ? 1 : Current == Tier.High ? 4 : 2;
             urp.cascade2Split = .18f;
             urp.cascade4Split = new Vector3(.05f, .14f, .38f);
         }
@@ -138,7 +184,16 @@ namespace GolfArcade.Tennis
         /// FRAME_RATE_60B: never the resolution. Adnan's floor is 60 fps at 1080p or more, and a render scale of .85 drew a
         /// 1080p TV at 918 lines (and the phone below 1080), so the steps are effects only: MSAA, AO, cascades, shadow reach
         /// and level of detail. The render scale stays at 1 (TennisQuality.Apply sets it).
-        public static bool StepDown() => StepDown(Pipeline);
+        public static bool StepDown()
+        {
+            if (!StepDown(Pipeline)) return false;
+            // remembered for this phone's next launch of the sport (Apply(sport))
+            if (memory != null && !replaying && !Application.isEditor)
+            {
+                PlayerPrefs.SetInt(memory, PlayerPrefs.GetInt(memory, 0) + 1); PlayerPrefs.SetInt(memory + ".stepped", 1); PlayerPrefs.SetInt(memory + ".calm", 0);
+            }
+            return true;
+        }
 
         /// One step down on `urp` (the session's pipeline copy; tests pass their own).
         public static bool StepDown(UniversalRenderPipelineAsset urp)
@@ -146,8 +201,8 @@ namespace GolfArcade.Tennis
             if (!urp) return false;
             if (urp.msaaSampleCount > 2) urp.msaaSampleCount = 2;
             else if (Current == Tier.High && !Application.isEditor) { SetAmbientOcclusion(false); Current = Tier.Standard; }
-            else if (urp.shadowCascadeCount > 1) urp.shadowCascadeCount = 1;
-            else if (urp.shadowDistance > MinShadowDistance + 1) { urp.shadowDistance = Mathf.Max(MinShadowDistance, urp.shadowDistance * .7f); QualitySettings.shadowDistance = urp.shadowDistance; }
+            else if (urp.shadowCascadeCount > 1) { urp.shadowCascadeCount = 1; cascadesCut = true; }
+            else if (urp.shadowDistance > MinShadowDistance + 1) { urp.shadowDistance = Mathf.Max(MinShadowDistance, urp.shadowDistance * .7f); QualitySettings.shadowDistance = urp.shadowDistance; shadowScale *= .7f; }
             else if (QualitySettings.lodBias > .75f) QualitySettings.lodBias = .7f;
             else if (urp.msaaSampleCount > 1) urp.msaaSampleCount = 1;
             else return false;

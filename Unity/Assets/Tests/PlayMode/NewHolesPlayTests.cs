@@ -35,7 +35,6 @@ namespace GolfArcade.PlayTests
             Time.timeScale = 1f;
             yield return SceneManager.LoadSceneAsync("Golf", LoadSceneMode.Single);
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;
             yield return null;
             game.ChooseHoles(0);
             game.Play();
@@ -71,7 +70,6 @@ namespace GolfArcade.PlayTests
             Time.timeScale = 1f;
             yield return SceneManager.LoadSceneAsync("Golf", LoadSceneMode.Single);
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;
             yield return null;
             game.ChooseHoles(0);
             game.Play();
@@ -127,7 +125,6 @@ namespace GolfArcade.PlayTests
             var cam = Camera.main;
             if (cam) cam.aspect = GameCapture.PhoneWidth / (float)GameCapture.PhoneHeight;
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;
             yield return null;
             game.ChooseHoles(0);
             yield return new WaitForSecondsRealtime(0.8f);

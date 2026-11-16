@@ -641,7 +641,6 @@ namespace GolfArcade.Tennis
         }
         [Serializable] public class ClipContacts { public ClipContact[] clips; }
         [Serializable] public class ClipContact { public string clip; public float contact; }
-        public float ContactFor(string logicalClip) { int i = Resolve(logicalClip); return contacts.TryGetValue(i, out float c) ? c : TennisRules.StrokeContact; }
 
         // --- Commands ---------------------------------------------------------------------
 

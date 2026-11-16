@@ -4,7 +4,7 @@ import UIKit
 /// Where the front end is. The same state drives the menu on the TV (steered from the phone's
 /// remote) and on the phone itself when no TV is connected.
 enum MenuScreen: Hashable {
-    case title, main, party, multiplayer, localChoice, localPlayers, onlineChoice, homeEmotes, gameSelect, hub(Sport), locked(Sport)
+    case title, main, party, multiplayer, localChoice, localPlayers, onlineChoice, homeEmotes, gameSelect, hub(Sport)
     case campaign, training, exhibition, character, settings, howTo
     case connect, loading, results, story
     /// Choose the court or course before the game loads.
@@ -29,6 +29,8 @@ struct MenuLaunch: Equatable {
     var games: Int?
     /// Golf's daily forecast round (yyyymmdd), played again by Play Again; nil an ordinary round.
     var daily: Int?
+    /// The Daily Hole in One (yyyymmdd, UTC: DailyHoleInOne.swift), launched from PLAY → Daily Challenges; nil any other round.
+    var holeInOne: Int?
     init(sport: Sport = .tennis, mode: Mode, round: Int? = nil) { self.sport = sport; self.mode = mode; self.round = round }
     /// A campaign round (non-nil) or tennis training.
     init(round: Int?) { self.init(mode: round == nil ? .training : .campaign, round: round) }
@@ -83,16 +85,9 @@ final class TennisMenu {
     var quickDifficulty = 1
     var quickLength = 0
     var selectedRound = 0
-    var pendingCampaignRound: Int?
     /// Campaign → More → New tournament asks once before it erases the draw.
     private(set) var confirmingRestart = false
 
-    func confirmCampaignRound() {
-        guard let round = pendingCampaignRound else { return }
-        pendingCampaignRound = nil
-        guard campaign.unlocked(round) else { refuse("Win the previous round to unlock"); return }
-        play(round: round)
-    }
     private(set) var launch: MenuLaunch?
     /// A match waiting on the court or course picker.
     private var pendingPick: (launch: MenuLaunch, onPhone: Bool)?
@@ -139,8 +134,6 @@ final class TennisMenu {
     /// Settings → Audio → Feel test: which entry was played last, and its name.
     private(set) var feelTestLabel = ""
     private var feelTestShown = 0
-    /// The classic multi-sport form (every raw option), from Settings → Developer.
-    var classic = false
     private(set) var settingsTab: SettingsTab = .gameplay
     /// The locker: Gear (equip per sport and slot) or Customize (colours). See `lockerRows()` and the extension at the bottom.
     enum LockerTab: String { case gear, customize, emotes }
@@ -184,7 +177,7 @@ final class TennisMenu {
     }
     static func settingsRows(_ tab: SettingsTab) -> [String] {
         switch tab {
-        case .gameplay: ["level", "presentationIntros", "holeFlyover", "presentationBigMoments", "golfBounties", "resetProgress"]
+        case .gameplay: ["level", "presentationIntros", "holeFlyover", "presentationBigMoments", "golfBounties", "replayOnboarding", "resetProgress"]
         case .controls: ["swingPrediction", "fastInput", "range", "hand", "relock", "timing"]
         case .guide: GuideDeck.allCases.map(\.rowID)
         case .display: ["tennisCamera", "fps", "overscan"]
@@ -211,7 +204,6 @@ final class TennisMenu {
         case .online(let route): return online.rows(route, menu: self)
         case .gameSelect: return [Sport.allCases.filter(\.playable).map { "sport-\($0.rawValue)" }, ["back"]]
         case .hub(let sport): return Self.hubItems(sport).map { [$0] } + [["back"]]
-        case .locked: return [["back"]]
         case .campaign:
             if confirmingRestart { return [["restartNo", "restartYes"]] }
             return [(0..<5).map { "round\($0)" }, (5..<10).map { "round\($0)" }, ["campaignPlay", "campaignMore"], ["back"]]
@@ -259,7 +251,7 @@ final class TennisMenu {
         if next != screen, screen != .loading, screen != .connect, screen != .story, screen != .postMatch { previous = screen }
         if next == .postMatch { postMatchDone = false }
         if next != screen { transitions += 1; ClubSound.play("whoosh", volume: 0.35) }
-        screen = next; notice = ""; confirmingReset = false; pendingCampaignRound = nil; confirmingRestart = false
+        screen = next; notice = ""; confirmingReset = false; confirmingRestart = false
         // Land on the thing you most likely want.
         switch next {
         case .main: row = 0; column = 0
@@ -271,19 +263,6 @@ final class TennisMenu {
         case .map: row = 0; column = mapChoices.firstIndex { $0.id == selectedMap } ?? 0   // start on the last court
         default: row = 0; column = 0
         }
-    }
-
-    /// Home → Continue: whatever is next for this player. The tennis tutorial first, then the
-    /// next Island Circuit round (with its story), then the draw to defend the title.
-    var continueLabel: (title: String, subtitle: String) {
-        if campaign.champion { return ("Defend your title", "The Island Circuit awaits") }
-        let o = campaign.next
-        return ("Continue", "\(o.roundTitle) · vs \(o.name)")
-    }
-
-    func continueJourney() {
-        if campaign.champion { show(.campaign); return }
-        play(round: campaign.nextRound)
     }
 
     /// Notices fade on their own (IslandMenuNotice): clear it if it is still the one that was shown.
@@ -391,7 +370,8 @@ final class TennisMenu {
             guard let sport = Sport(rawValue: String(s.dropFirst(6))) else { return }
             // Golf and bowling have one way to play solo: straight on to their courses / venues.
             if sport == .golf || sport == .bowling { begin(MenuLaunch(sport: sport, mode: .round)); return }
-            show(sport.playable ? .hub(sport) : .locked(sport))
+            guard sport.playable else { return }   // (rows(.gameSelect) lists playable sports only; the "Coming soon" screen left 2026-11-15)
+            show(.hub(sport))
         case let t where t.hasPrefix("tab-"):
             settingsTab = SettingsTab(rawValue: String(t.dropFirst(4))) ?? .gameplay
         // Hubs.
@@ -426,6 +406,7 @@ final class TennisMenu {
             if confirmingReset {
                 confirmingReset = false; progress.resetTutorials(); campaign.restart(); notice = "Progress reset"
             } else { confirmingReset = true; notice = "Press again to erase campaign progress" }
+        case "replayOnboarding": OnboardingFlow.shared.replay(); goHome()
         case "relock": notice = "The court direction is set again at the start of your next match"; session.motion.clearAxis()
         case "timing": session.forceTimingCheckNextMatch(); notice = "The timing check runs at the start of your next match"
         case let l where l.hasPrefix("lk-"): lockerSelect(l)
@@ -482,7 +463,8 @@ final class TennisMenu {
         case .online(let route): online.back(route, menu: self)
         case .title: return
         case .loading:
-            if OnboardingFlow.shared.active { OnboardingFlow.shared.back(); return }
+            // a lesson loading: back to the menu (its Tutorial row resumes it)
+            if OnboardingFlow.shared.lessonSport != nil { OnboardingFlow.shared.gameLeft(); return }
             let destination = launchOrigin ?? launch.map(hubAfter) ?? .main
             pendingPick = nil; result = nil
             if session.active { session.end() }
@@ -493,7 +475,7 @@ final class TennisMenu {
         case .party, .settings, .homeEmotes: show(.main)
         case .multiplayer, .gameSelect, .onlineChoice, .localChoice: show(.party)
         case .localPlayers: show(.localChoice)
-        case .hub, .locked: show(.gameSelect)
+        case .hub: show(.gameSelect)
         case .campaign: if confirmingRestart { confirmingRestart = false; _ = focus("campaignPlay") } else { show(.hub(.tennis)) }
         case .training, .exhibition: show(.hub(.tennis))
         case .connect: show(launch.map(hubAfter) ?? .main)
@@ -567,13 +549,6 @@ final class TennisMenu {
         return true
     }
 
-    func setBodySize(_ value: Double) {
-        let s = session
-        guard s.players.indices.contains(s.playerIndex) else { return }
-        s.players[s.playerIndex].bodySize = value
-        s.savePlayers()
-    }
-
     private func randomize() {
         let s = session, p = s.playerIndex
         guard s.players.indices.contains(p) else { return }
@@ -599,19 +574,17 @@ final class TennisMenu {
         if session.displayConnected { show(.main) } else { show(.hub(sport)) }
     }
 
-    /// Older routes (Settings → tutorial): the sport's lesson.
-    func startTutorial(_ sport: Sport) { OnboardingFlow.shared.startLesson(sport) }
     /// A lesson (PLAN_Onboarding_GolfLesson.md): no map, its own practice venue, from `station` on.
     func beginLesson(_ sport: Sport, station: Int) {
         guard !online.service.hasFriendsInLobby else { refuse(HubSession.soloLockMessage); return }
         launch = MenuLaunch(sport: sport, mode: .tutorial); launchOrigin = .main; result = nil; pendingPick = nil
         SportsDisplays.shared.refresh()
-        guard session.displayConnected else { show(.connect); return }
+        // golf and bowling lessons play handheld on a phone with no TV; tennis needs one (PlaySafeGate offers to put it off)
+        guard session.displayConnected || sport.playsOnPhone else { show(.connect); return }
         show(.loading)
         session.startLesson(sport, station: station)
         if !session.active, screen == .loading { launchFailed(session.status) }
     }
-    func tutorialFinished() {}
 
     // MARK: Story
 
@@ -645,7 +618,7 @@ final class TennisMenu {
         }
     }
 
-    func openCharacterEditor() { classic = false; show(.character) }
+    func openCharacterEditor() { show(.character) }
     /// Leave the current local screen or game and return to the main menu.
     /// The Plaza (HubSession) opens a destination directly: a station or bay is that room's way into the screen.
     func openFromPlaza(_ next: MenuScreen) {
@@ -688,7 +661,8 @@ final class TennisMenu {
             let names = launch.mode == .exhibition ? bowlerNames(1) + [session.bowlingOpponent.launchName] : bowlerNames(count)
             session.startBowling(players: names, preview: !session.displayConnected)
         } else if launch.sport == .golf {
-            session.startGolf(tutorial: false, preview: onPhone, daily: launch.daily)
+            if let day = launch.holeInOne { session.startHoleInOne(day: day, preview: onPhone) }
+            else { session.startGolf(tutorial: false, preview: onPhone, daily: launch.daily) }
         } else {
             let opponent = launch.round.map { TennisCampaign.draw[$0] }
             let difficulty = launch.mode == .training ? Self.trainingLevels[trainingLevel].difficulty
@@ -776,17 +750,6 @@ final class TennisMenu {
         if choice == .menu { result = nil; postMatch = nil }
         session.end()
         if choice == .menu { show(.main) }
-    }
-
-    /// Which post-match choices make sense for the match just played.
-    var afterMatchChoices: [AfterMatch] {
-        guard let launch else { return [.replay, .menu] }
-        // Change court is offered wherever a tennis match asks for a court (everything but the tutorial).
-        let court: [AfterMatch] = launch.sport.playable ? [.court] : []
-        if launch.mode == .campaign, let result {
-            return result.won && !campaign.champion ? [.next, .replay] + court + [.menu] : [.replay] + court + [.menu]
-        }
-        return [.replay] + court + [.menu]
     }
 
     /// The match is over: close Unity and show the XP screen. Called by the phone's Continue button,
@@ -888,7 +851,6 @@ final class TennisMenu {
         story = lines; storyIndex = index; afterStory = .results; storyInstant = true
         screen = .story; row = 0; column = 0; notice = ""
     }
-    func debugLaunch(_ launch: MenuLaunch?) { self.launch = launch }
     /// Tests: show the rep screen for a made-up match.
     func debugPostMatch(_ summary: PostMatchSummary, launch: MenuLaunch?) {
         postMatch = summary; postMatchDone = false; self.launch = launch

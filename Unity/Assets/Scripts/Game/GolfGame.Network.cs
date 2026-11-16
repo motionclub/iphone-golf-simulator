@@ -131,7 +131,7 @@ namespace GolfArcade.Game {
         }
         /// Something went wrong mid-round: never the solo rules. The shot in the air follows the host's path, and the next turn is
         /// lined up again from the host's state.
-        void NetworkFault() { networkSolo=false; networkLineUp=null; Time.timeScale=1; hud.ShowReplay(false); }
+        void NetworkFault() { networkSolo=false; networkLineUp=null; Time.timeScale=1; }
 
         void NetworkStep(SportsMultiplayer net,NetworkGolfState state) {
             // a later hole is built behind the loading screen, as in single player; the round waits for every phone
@@ -272,7 +272,6 @@ namespace GolfArcade.Game {
         /// The last shot's flight and result put away, for the next player's turn.
         void EndNetworkShot() {
             if(wasNetworkResult){wasNetworkResult=false;if(shotResultPanel)shotResultPanel.gameObject.SetActive(false);hud.ShowPlayHud(true);}
-            if(Current==State.Replay){Time.timeScale=1;hud.ShowReplay(false);rig.ResetZoom();rig.RestoreFov();effects.EndFlight();hole.Windmill?.Drive(null);hole.Movers?.Hold(null);}
             if(Current==State.Flight){effects.EndFlight();hole.Windmill?.Drive(null);hole.Movers?.Hold(null);ballLook.Pov(false);aimLine.positionCount=0;}
             Haptics.Release();sounds.Release();
         }
@@ -489,7 +488,7 @@ namespace GolfArcade.Game {
         /// Every golfer is on this phone (pass the phone): no turn clock.
         bool sharedRound=>partyConfiguration!=null&&partyConfiguration.participants.Where(p=>p.seat>=0).All(p=>partyConfiguration.Controls(partyConfiguration.localID,p.seat));
         /// The walk-on nameplate: the golfer actually on the tee.
-        string NameplateName=>networkConfigured&&SportsMultiplayer.Active&&SportsMultiplayer.Instance.GolfState!=null?NetworkName(SportsMultiplayer.Instance.GolfState.turn):Match?.Current?.Name??"YOU";
+        string NameplateName=>networkConfigured&&SportsMultiplayer.Active&&SportsMultiplayer.Instance.GolfState!=null?NetworkName(SportsMultiplayer.Instance.GolfState.turn):Match?.Current?.Name??(string.IsNullOrEmpty(GolfArcade.UI.MapSkin.LocalName)?"YOU":GolfArcade.UI.MapSkin.LocalName);
         string NetworkName(int seat)=>SportsMultiplayer.Instance.Configuration.participants.FirstOrDefault(p=>p.seat==seat)?.name??"Player";
         /// The swing goes to the host with its club and line; the host rules on it and every phone flies it (FlyNetworkShot).
         bool NetworkShot(GolfArcade.Swing.SwingImpact impact) {

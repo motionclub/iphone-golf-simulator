@@ -59,7 +59,5 @@ namespace GolfArcade.Bowling
 
         static float Smooth(float x) { x = Mathf.Clamp01(x); return x * x * (3 - 2 * x); }
 
-        /// 0 = pushaway, 1..3 = steps 1–3 planted, 4 = sliding.
-        public static int StepIndex(float t) => t < Step1 ? 0 : t < Step2 ? 1 : t < Step3 ? 2 : t < SlidePlant ? 3 : 4;
     }
 }

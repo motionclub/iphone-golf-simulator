@@ -18,6 +18,10 @@ namespace GolfArcade.Tennis
         Profile profile; SkinnedMeshRenderer top; Transform[,] joints; int[] shapes; float[] weights;
         readonly Vector3[] directions = new Vector3[8]; float[] features = new float[28];
         Transform[,] frames; int[] nearest;
+        /// Not this component's kit (a garment-pipeline profile, or no profile at all): it stays off.
+        bool off; int tries;
+        /// How many times Init has read the profile file (the tests check it is not read every frame).
+        public int ProfileReads { get; private set; }
 
         public static void Attach(MatchHeroLook look)
         {
@@ -30,15 +34,23 @@ namespace GolfArcade.Tennis
         bool Init()
         {
             if (profile != null) return true;
+            if (off) return false;
+            // 2026-11-15: a failed Init used to run again every frame, for good. Every top is a garment-pipeline profile now
+            // ("gp-rbf", driven by GarmentPoseCorrectives), so every hero loaded and decoded its 160–250 KB profile each frame:
+            // about 0.7 MB of garbage and a millisecond of main thread per hero per frame (work/perf-1115). A kit that is not
+            // there yet is tried for a few frames; a profile that is not this component's switches it off.
+            if (++tries > 30) { SwitchOff(); return false; }
             if (!look) look = GetComponent<MatchHeroLook>();
             if (!look || !look.kitV2 || look.kit == null) return false;
             top = look.kit.FirstOrDefault(r => r && r.name == "Kit_Top");
             if (!top || !top.sharedMesh || top.sharedMesh.blendShapeCount == 0) return false;
             string sport = look.KitSportFolder, sex = look.female ? "Female" : "Male";
             var text = Resources.Load<TextAsset>($"{sport}/KitsV2/{sex}/KitV2_{sport}_{sex}_Top_correctives");
-            if (!text || text.text.Contains("\"gp-rbf\"")) return false;   // pipeline profiles are driven by GarmentPoseCorrectives
-            var p = JsonUtility.FromJson<Profile>(text.text);
-            if (p?.anchors == null || p.anchors.Length == 0) return false;
+            ProfileReads++;
+            string json = text ? text.text : null;
+            if (json == null || json.Contains("\"gp-rbf\"")) { SwitchOff(); return false; }   // pipeline profiles are driven by GarmentPoseCorrectives
+            var p = JsonUtility.FromJson<Profile>(json);
+            if (p?.anchors == null || p.anchors.Length == 0) { SwitchOff(); return false; }
             var all = look.GetComponentsInChildren<Transform>(true);
             joints = new Transform[8, 2];
             for (int i = 0; i < 8; i++) for (int j = 0; j < 2; j++) { joints[i, j] = all.FirstOrDefault(t => t.name == Segments[i, j]); if (!joints[i, j]) return false; }
@@ -54,6 +66,8 @@ namespace GolfArcade.Tennis
             profile = p;
             return true;
         }
+
+        void SwitchOff() { off = true; enabled = false; }
 
         public void Apply()
         {

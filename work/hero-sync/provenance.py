@@ -25,7 +25,7 @@ for src in sorted(glob.glob(os.path.join(golden, '*_golden.json'))):
         'unitySourceSha256': sha(src), 'packedSha256': sha(packed), 'packedBytes': os.path.getsize(packed), 'manifestSha256': sha(manifest),
         'frozenFaceSourceFiles': heads, 'heroLookSourceFiles': look,
         'note': 'HERO_SYNC %s: work/hero-sync/sync_heroes.sh export of the current Unity heroes' % datetime.date.today().isoformat()})
-order = ['MatchHero_Male', 'MatchHero_Female', 'MatchHero_Male_Distance', 'MatchHero_Female_Distance', 'GolfKitHero_Male', 'GolfKitHero_Female']
+order = ['MatchHero_Male', 'MatchHero_Female', 'GolfKitHero_Male', 'GolfKitHero_Female']
 rows.sort(key=lambda r: order.index(r['name']) if r['name'] in order else len(order))
 out = os.path.join(repo, 'GolfArcadeTests/VisualGolden/provenance.json')
 json.dump(rows, open(out, 'w'), indent=2); open(out, 'a').write('\n')

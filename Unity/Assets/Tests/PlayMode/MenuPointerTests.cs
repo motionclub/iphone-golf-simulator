@@ -12,7 +12,7 @@ using Object = UnityEngine.Object;
 
 namespace GolfArcade.Tests
 {
-    /// The pointer menu (PLAN_PointerMenu.md): boots the plaza in menu mode through the same bridge message the phone sends, then
+    /// The pointer menu (PLAN_PointerMenu.md): boots the menu through the same bridge message the phone sends, then
     /// drives the TV menu with the pointer (the HUD's PointAt hook = a pointer sample at that spot) and checks the screens, the
     /// line-up and the phone-bound events. With ML_OUT set, also films every screen at 1920×1080 with the HUD drawn (proof).
     public class MenuPointerTests
@@ -30,12 +30,12 @@ namespace GolfArcade.Tests
             bridge.Receive(JsonUtility.ToJson(new NativeSportsSession.Message { version = 1, session = "menu-test", action = "start", sport = "hub", menu = true, leader = true, playerName = "Adnan", female = false, touch = true, shirt = "E8505B", shorts = "24345E", accent = "FFFFFF", back = "racket_back" }));
             for (int i = 0; i < 1200 && !bridge.Ready; i++) yield return null;
             hub = HubWorld.Find(); hud = hub ? hub.Hud : null;
-            Assert.IsNotNull(hud, "menu mode builds the HUD");
+            Assert.IsNotNull(hud, "the menu builds the HUD");
             hud.Event += (t, m) => events.Add(t + " " + m);
             hub.StartArrival();
             for (float t = 0; t < 1.8f; t += Time.unscaledDeltaTime) yield return null;
         }
-        [TearDown] public void Clean() { HubWorld.EditorDriven = false; HubWorld.MenuMode = false; if (host) Object.DestroyImmediate(host); }
+        [TearDown] public void Clean() { HubWorld.EditorDriven = false; if (host) Object.DestroyImmediate(host); }
 
         IEnumerator Click(string id)
         {
@@ -46,14 +46,14 @@ namespace GolfArcade.Tests
         }
         IEnumerator Settle(float s = .9f) { for (float t = 0; t < s; t += Time.unscaledDeltaTime) yield return null; }
 
-        [UnityTest, Timeout(300000)] public IEnumerator MenuModeBuildsOnlyThePlazaAndStandsTheHeroOnTheLineUp()
+        [UnityTest, Timeout(300000)] public IEnumerator TheMenuBuildsNoPlazaAndStandsTheHeroOnTheLineUp()
         {
             Assert.IsNotNull(hub.Menu); Assert.AreEqual(MenuHud.Home, hud.Screen);
             Assert.IsTrue(hub.Player.locked, "nobody walks in the menu");
             Assert.Less(Vector3.Distance(hub.Player.transform.position, MenuShots.Slots[0]), .05f);
             Assert.Less(Mathf.Abs(Mathf.DeltaAngle(hub.Player.Yaw, MenuShots.FacingYaw(MenuShots.Slots[0]))), 5f, "faces the camera");
             Assert.Less(Vector3.Distance(hub.Camera.transform.position, MenuShots.For(MenuShots.Low).position), .1f, "home: the low shot (the centred one with a backdrop)");
-            Assert.IsNull(GameObject.Find("Locker Room"), "no rooms in menu mode");
+            Assert.IsNull(hub.transform.Find("Hub world"), "no plaza behind the menu");
             yield break;
         }
 
@@ -110,7 +110,7 @@ namespace GolfArcade.Tests
 
         [UnityTest, Timeout(300000)] public IEnumerator FriendsFillTheLineUpAndAGuestCannotDrive()
         {
-            Receive("hubRemote", remote: JsonUtility.ToJson(new RemoteState { id = "sam", name = "Sam", place = HubLayout.Plaza, female = true, shirt = "FF6B4A", shorts = "1E2A6E", colour = 1, x = 0, z = -7 }));
+            Receive("hubRemote", remote: JsonUtility.ToJson(new RemoteState { id = "sam", name = "Sam", place = "plaza", female = true, shirt = "FF6B4A", shorts = "1E2A6E", colour = 1, x = 0, z = -7 }));
             yield return Settle(.5f);
             Assert.AreEqual(2, hub.Menu.Heroes);
             Assert.IsTrue(HubRemotes.For(hub).TryGetShown("sam", out var at));
@@ -140,7 +140,7 @@ namespace GolfArcade.Tests
         {
             if (string.IsNullOrEmpty(Out)) { Assert.Ignore("ML_OUT not set"); yield break; }
             Directory.CreateDirectory(Out);
-            Receive("hubRemote", remote: JsonUtility.ToJson(new RemoteState { id = "sam", name = "Sam", place = HubLayout.Plaza, female = true, shirt = "FF6B4A", shorts = "1E2A6E", colour = 1, x = 0, z = -7 }));
+            Receive("hubRemote", remote: JsonUtility.ToJson(new RemoteState { id = "sam", name = "Sam", place = "plaza", female = true, shirt = "FF6B4A", shorts = "1E2A6E", colour = 1, x = 0, z = -7 }));
             yield return Settle(.6f);
             yield return Shot("01_home");
             Assert.IsTrue(hud.TryCentre("play", out var play)); hud.PointAt(play, false, presses); yield return Settle(.3f);

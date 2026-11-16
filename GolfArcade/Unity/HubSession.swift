@@ -1,49 +1,22 @@
 import SwiftUI
 
-/// What the player stands next to in the Plaza, from Unity's `hubZone` event ("kind|id|label|detail").
-struct HubZone: Equatable {
-    enum Kind: String { case door, station, bay }
-    var kind: Kind, id: String, label: String, detail: String
-    init?(line: String) {
-        let parts = line.split(separator: "|", maxSplits: 3, omittingEmptySubsequences: false).map(String.init)
-        guard parts.count >= 3, let kind = Kind(rawValue: parts[0]), !parts[1].isEmpty else { return nil }
-        self.kind = kind; id = parts[1]; label = parts[2]; detail = parts.count > 3 ? parts[3] : ""
-    }
-    /// What the phone's strip says: "Locker · walk in", "Shirt · A to use", "Exhibition · A to sit".
-    var prompt: String {
-        switch kind {
-        case .door: detail == "Coming soon" ? "\(label) · coming soon" : detail == "TV needed" ? "\(label) · connect a TV (AirPlay) to play" : "\(label) · walk in"
-        case .station: "\(label) · A to use"
-        case .bay: "\(label) · A to sit"
-        }
-    }
-}
-
-/// The walkable menu (PLAN_MenuHub_WalkableWorld): the Plaza in Unity is the game's only menu and the phone is its controller, an
-/// analog stick. This owns that session: when to open the plaza, the runtime start, the stick stream (the binary sample channel:
-/// target = x, aim = y, power = deflection), the buttons, and Unity's reports of where the player is.
+/// The menu (PLAN_PointerMenu.md): Unity's Hub scene is the game's only menu and the phone is its controller (MenuControllerView).
+/// This owns that session: when to open the menu, the runtime start, the menu's commands and Unity's menu events, and the party's
+/// presence relay. (The walk-around Plaza it replaced was removed 2026-11-15; "plaza", "station" and "bay" live on as names.)
 ///
-/// With a TV the plaza is on the TV. With none it is on the phone itself, in the top part of the screen above the same controls,
-/// and the PLAY hall is shut (a match needs a TV; connecting one moves the plaza onto it). It never runs during a match
-/// (SportsSession owns the runtime then) or first-run onboarding. A station's own screen (the locker, settings, a bay's match
-/// options) opens as a panel on the phone; nothing else ever replaces the controller: no lobby screens, no Game Center sheets.
+/// With a TV the menu is on the TV. With none it is on the phone itself, full screen (MenuTouchPad; connecting a TV moves it onto
+/// the TV). It never runs during a match (SportsSession owns the runtime then) or first-run onboarding. A station's own screen
+/// (the locker, settings, a mode's match options) opens as a panel on the phone; nothing else ever replaces the controller: no
+/// lobby screens, no Game Center sheets.
 @MainActor @Observable
 final class HubSession {
     static let shared = HubSession()
     enum Phase: Equatable { case off, booting, live, suspended, failed }
 
     private(set) var phase: Phase = .off
-    /// Where the player is: "plaza", "locker", "clubhouse", "play", "tennis", "golf".
-    private(set) var place = "plaza"
-    private(set) var zone: HubZone?
-    /// The last station or bay the player pressed A at.
-    private(set) var lastAction: String?
     /// The station or bay in use: the TV frames the hero, the phone shows its panel (the existing menu screen for it).
     private(set) var station: String?
     var notice = ""
-    /// Unity's measured age of the stick samples it applied (p50, p95), milliseconds.
-    private(set) var inputAge = (p50: 0.0, p95: 0.0)
-    private(set) var speed = 0.0
     private(set) var sessionID = ""
     private var token: Int32 = 0
     /// The plaza scene is what Unity has loaded right now (false once a match replaced it).
@@ -78,16 +51,12 @@ final class HubSession {
     @ObservationIgnored private var paceKey = "hub"
     private static var bootsThisRun = 0
     @ObservationIgnored private var timer: Timer?
-    @ObservationIgnored private var stick = (x: 0.0, y: 0.0, mag: 0.0)
-    @ObservationIgnored private var lastSampleSent = 0.0
     @ObservationIgnored private var bootStarted = Date.distantPast
     @ObservationIgnored private var windowRetries = 0
     private(set) var foreground = true
 
     func setForeground(_ active: Bool) {
         guard active != foreground else { if active { evaluate() }; return }
-        // Drop a held stick on every interruption; never replay it after returning.
-        setStick(x: 0, y: 0, magnitude: 0)
         foreground = active
         if active { evaluate() } else { endNearbyBrowse(); updatePointer() }
     }
@@ -95,12 +64,8 @@ final class HubSession {
     private var session: SportsSession { .shared }
     private var menu: TennisMenu { .shared }
 
-    // MARK: the pointer menu (PLAN_PointerMenu.md): the plaza is the menu's backdrop, the phone points at the TV
+    // MARK: the pointer menu (PLAN_PointerMenu.md): the phone points at the TV
 
-    /// The pointer menu instead of the walkable plaza (on unless switched off for a comparison: defaults hub.pointerMenu = false).
-    static var pointerMenu: Bool { UserDefaults.standard.object(forKey: "hub.pointerMenu") as? Bool ?? true }
-    /// This plaza session is the pointer menu (decided at boot).
-    private(set) var menuMode = false
     /// The TV's screen: home, sport, modes:tennis, modes:golf, locker, clubhouse, loading.
     private(set) var menuScreen = "home"
     /// The mode the TV's match setup is open for (MenuSetup), nil before the first.
@@ -116,6 +81,31 @@ final class HubSession {
     @ObservationIgnored private var menuPhoneSent = false
     @ObservationIgnored private var menuPartySent = ""
     @ObservationIgnored private var menuStateScreen = ""
+    @ObservationIgnored private var menuPhoneTitle: String?
+    @ObservationIgnored private var menuTutorialSent = ""
+    @ObservationIgnored private var menuCoachSent = ""
+    @ObservationIgnored private var celebrationShown: Sport?
+    /// The first-launch tip over the menu (OnboardingFlow.coach → MenuHud.Coach), sent whenever it changes. Back from a finished lesson the
+    /// menu opens straight on the Tutorial, where the tip points at the next lesson.
+    private func syncCoach() {
+        guard phase == .live, menuLeader else { return }
+        let flow = OnboardingFlow.shared
+        if let done = flow.celebrating, flow.locked, celebrationShown != done, menuScreen == "home" {
+            celebrationShown = done; menuCommand("menuGo", mode: "tutorial")
+        }
+        let tip = flow.coachJSON(tv: !onPhone)
+        guard tip != menuCoachSent else { return }
+        menuCoachSent = tip
+        menuCommand("menuCoach", mode: tip)
+    }
+    /// Play's Tutorial lock and the lessons' state, for the TV's menu (MenuHud.Tutorial); sent whenever it changes.
+    private func syncTutorial() {
+        guard phase == .live else { return }
+        let state = OnboardingFlow.shared.menuState
+        guard state != menuTutorialSent else { return }
+        menuTutorialSent = state
+        menuCommand("menuTutorialState", mode: state)
+    }
 
     /// ARROW FOCUS (Adnan 10-28): the TV's highlight moves with the arrow pad; Select presses what is lit (no cursor is sent).
     static let menuArrows = true
@@ -142,7 +132,7 @@ final class HubSession {
     }
     /// A menu command, under the menu's own session.
     private func menuCommand(_ action: String, mode: String? = nil, extra: [String: Any] = [:]) {
-        guard menuMode, foreground, phase == .live else { return }
+        guard foreground, phase == .live else { return }
         var message: [String: Any] = ["version": 1, "session": sessionID, "action": action]
         if let mode { message["mode"] = mode }
         message.merge(extra) { _, new in new }
@@ -150,20 +140,24 @@ final class HubSession {
     }
     /// The pointer runs while this phone drives the menu on the TV (not with a detail screen open on the phone, never with a match).
     private func updatePointer() {
-        let want = !Self.menuArrows && menuMode && foreground && !onPhone && menuLeader && !panelOpen && onlineBench == nil && !ClubHub.shared.hubOpen
+        let want = !Self.menuArrows && foreground && !onPhone && menuLeader && !panelOpen && onlineBench == nil && !ClubHub.shared.hubOpen
             && phase == .live && !session.active && token != 0
         if want { MenuPointerSource.shared.start(token: token) } else if MenuPointerSource.shared.isRunning { MenuPointerSource.shared.stop() }
     }
     /// The phone's detail screen opened or closed: the TV dims ("Finish on your phone") or comes back.
     private func syncMenuPhone(force: Bool = false) {
-        guard menuMode, phase == .live else { return }
-        let open = panelOpen || onlineBench != nil || ClubHub.shared.hubOpen || (station.map { Self.partyBays.contains($0) } ?? false && party != nil)
-        guard open != menuPhoneSent || force else { return }
-        menuPhoneSent = open; menuCommand("menuPhone", mode: open ? "on" : "off")
+        guard phase == .live else { return }
+        // (a lesson's play-safe card is on the phone too: the TV says so; the first-launch tips are on the menu itself, MenuHud.Coach)
+        let safe = PlaySafeGate.shared.request
+        let open = panelOpen || onlineBench != nil || ClubHub.shared.hubOpen || (station.map { Self.partyBays.contains($0) } ?? false && party != nil) || safe != nil
+        let title = safe.map { $0.tutorial ? "\($0.sport.title.capitalized) lesson" : "Play safe" }
+        guard open != menuPhoneSent || force || (open && title != nil && title != menuPhoneTitle) else { return }
+        menuPhoneSent = open; menuPhoneTitle = title
+        menuCommand("menuPhone", mode: open ? "on" : "off", extra: title.map { ["reason": $0] } ?? [:])
     }
     /// Who drives (leader) and whether the solo modes are locked (friends here): the TV styles its lists by it.
     private func syncMenuParty() {
-        guard menuMode, phase == .live else { return }
+        guard phase == .live else { return }
         let key = "\(menuLeader)|\(soloLocked)"
         guard key != menuPartySent else { return }
         menuPartySent = key
@@ -174,17 +168,41 @@ final class HubSession {
     var menuLaunchLabel: String {
         switch station ?? returnBay ?? "" {
         case "bay-tennis-exhibition": "Exhibition"; case "bay-tennis-campaign": "Campaign"; case "bay-tennis-training": "Training"
-        case "bay-golf-round": "Round"; case "bay-golf-pass", "bay-bowling-pass": "Pass the phone"; case "bay-tennis-online", "bay-golf-online", "bay-bowling-online": "Online"
+        case "bay-golf-round": "Round"; case "bay-golf-daily": "Daily Hole in One"; case "bay-golf-pass", "bay-bowling-pass": "Pass the phone"; case "bay-tennis-online", "bay-golf-online", "bay-bowling-online": "Online"
         case "bay-bowling-play": "10 frames"; case "bay-bowling-exhibition": "Exhibition"
         default: ""
         }
     }
+    // MARK: Daily Hole in One (DailyHoleInOne.swift)
+
+    /// Today's Daily Hole in One from the TV's Daily Challenges: one go a day (played: the world board instead).
+    func startHoleInOne() {
+        let daily = DailyHoleInOne.shared
+        if daily.playedToday { menuCommand("menuGo", mode: MenuDaily.board); return }
+        let day = daily.today
+        startFromMenu("bay-golf-daily") {
+            TennisMenu.shared.openFromPlaza(.main)
+            var launch = MenuLaunch(sport: .golf, mode: .round); launch.holeInOne = day
+            TennisMenu.shared.begin(launch, skipMap: true)
+        }
+    }
+    /// Today's challenge and the world board to the TV's daily screens.
+    func sendDaily() { menuCommand("menuDailyState", mode: DailyHoleInOne.shared.boardJSON()) }
+    /// The plaza is back: the board as it stands, and straight to it after a finished challenge.
+    private func syncDaily() {
+        sendDaily()
+        let daily = DailyHoleInOne.shared
+        if daily.boardPending { daily.boardPending = false; menuCommand("menuGo", mode: MenuDaily.board) }
+    }
+
     /// A menu event while a match loads behind the menu (SportsSession owns the runtime's events then).
     func menuEvent(_ type: String, _ message: String) { handleMenu(type, message) }
 
     private func handleMenu(_ type: String, _ message: String) {
         switch type {
-        case "menuScreen": menuScreen = message
+        case "menuScreen": menuScreen = message; OnboardingFlow.shared.menuScreenChanged(message)
+        // NEXT on a first-launch tip over the menu (MenuHud.Coach)
+        case "menuCoach": OnboardingFlow.shared.coachNext(message)
         case "menuHover":
             let f = message.split(separator: "|", maxSplits: 1, omittingEmptySubsequences: false).map(String.init)
             let id = f.first ?? "", label = f.count > 1 ? f[1] : ""
@@ -215,6 +233,9 @@ final class HubSession {
             if session.haptics { UINotificationFeedbackGenerator().notificationOccurred(.success) }
             MenuSetup.start(message)
         case "menuCancel": if session.active { session.end() }
+        // PLAY → Daily Challenges (MenuHud.Daily.cs): start today's Daily Hole in One; a daily screen opened, so a fresh world board
+        case "menuDaily": startHoleInOne()
+        case "menuDailyLoad": sendDaily(); Task { await DailyHoleInOne.shared.load() }
         case "menuState":
             // the leader's screen and cursor, for the party's TVs (≤15 a second; a screen change goes reliably)
             guard let party, partyService.isOwner, party.participants.count >= 2 else { return }
@@ -227,12 +248,10 @@ final class HubSession {
 
     /// Should the plaza be up right now? Whenever no match has the runtime: on the TV with one connected, on the phone without.
     var wanted: Bool {
-        !session.active && !OnboardingFlow.shared.holdsMenu && !SportsSession.benchmark && phase != .failed && !menu.classic && !runtimeMissing
+        !session.active && !SportsSession.benchmark && phase != .failed && !runtimeMissing
     }
-    /// The plaza is on this phone's own screen (no TV): it draws above the controls (HubControllerView's phone layout).
+    /// The menu is on this phone's own screen (no TV): Unity draws it full screen, under MenuTouchPad.
     private(set) var onPhone = false
-    /// The share of the phone's height the plaza takes on a phone with no TV (Unity's HubWorld.PhoneViewShare is the same).
-    static let phoneViewShare = 0.56
     /// No Unity in this build (the simulator): the plaza cannot open at all.
     private(set) var runtimeMissing = false
     /// A station's own screen is open on the phone (the locker, settings, a bay's match options). Never a lobby or home screen.
@@ -252,7 +271,7 @@ final class HubSession {
         guard foreground else { return }
         // the panel's own Back / Done went past the station's screens (home, or an old menu screen): the station is finished
         if let s = station, !Self.partyBays.contains(s), s != Self.nearbyBay, !Self.panelScreens(menu.screen) {
-            station = nil; returnBay = nil; command("hubB")
+            station = nil; returnBay = nil
             if menu.screen != .main && menu.screen != .title { menu.openFromPlaza(.main) }
         }
         // the plaza never shows a lobby screen: a party lives in the plaza itself
@@ -269,7 +288,7 @@ final class HubSession {
         if phase != .off, phase != .failed, onPhone != wantPhone {
             SportsDiagnostics.write("hub moves to the \(wantPhone ? "phone" : "TV")")
             endUnitySession()
-            timer?.invalidate(); timer = nil; phase = .off; loaded = false; zone = nil; station = nil; arriving = false
+            timer?.invalidate(); timer = nil; phase = .off; loaded = false; station = nil; arriving = false
             if onPhone { SportsDisplays.shared.endPhonePlaza() }
         }
         switch phase {
@@ -289,8 +308,7 @@ final class HubSession {
         phase = .booting; bootStarted = Date(); lastBootSignal = bootStarted; heardFromUnity = false
         notice = ""; loadProgress = 0; beginPace(); progress(0.03); revealedOnPhone = false
         sessionID = UUID().uuidString; token = Int32.random(in: 1...Int32.max); loaded = false
-        place = "plaza"; zone = nil; lastAction = nil
-        menuMode = Self.pointerMenu; menuScreen = "home"; menuHoverLabel = ""; menuHoverID = ""; menuPhoneSent = false; menuPartySent = ""
+        menuScreen = "home"; menuHoverLabel = ""; menuHoverID = ""; menuPhoneSent = false; menuPartySent = ""
         if onPhone { returnBay = nil }   // (no benches without a TV)
         SportsDiagnostics.write("hub boot session=\(sessionID) on \(onPhone ? "phone" : "TV")")
         // A display cycle first: the first Unity start blocks the main thread while it boots.
@@ -316,16 +334,16 @@ final class HubSession {
         }
     }
 
-    /// A match takes the runtime: stop walking and idle Unity (the match's own screens take over).
+    /// A match takes the runtime: idle Unity (the match's own screens take over).
     private func suspend() {
-        setStick(x: 0, y: 0, magnitude: 0); endNearbyBrowse()
+        endNearbyBrowse()
         if phase == .booting { phase = .off; timer?.invalidate(); timer = nil; if onPhone { SportsDisplays.shared.endPhonePlaza() }; return }
         phase = .suspended; timer?.invalidate(); timer = nil
         if onPhone { SportsDisplays.shared.endPhonePlaza() } else { SportsDisplays.shared.showMenu() }
         if !session.active { SportsRuntime.shared().pause(true) }
     }
 
-    /// The bay you launched from: back from the match, you sit on its bench again (RETURN).
+    /// What the last match was launched from (bayForLaunch). Back from it, the start says `screen: home` and there is no arrival.
     private(set) var returnBay: String?
 
     // MARK: after an online match (a party's, or a quick match from an online bench)
@@ -384,14 +402,13 @@ final class HubSession {
     }
     /// The online match stopped on this phone (its lobby is back in the plaza, or it was left).
     func onlineMatchEnded() { matchOver = nil; if menu.screen != .main { menu.openFromPlaza(.main) } }
-    /// A match ended. Played to the end: back on the same bench. Stopped while loading or quit early: back on your feet (CANCEL).
+    /// A match ended. Stopped while loading or quit early: `returnBay` is forgotten.
     func sessionEnded(finished: Bool) { if !finished { returnBay = nil }; updatePointer() }
-    /// The bay to launch from (the match loads behind the plaza), or nil for a normal launch.
+    /// What a launch from the menu on the TV is made from (a party's guests too): the mode's station ("bay-…"), or "menu". Nil when
+    /// the menu is not up on a TV (it is on the phone, or not loaded): a normal launch.
     func bayForLaunch() -> String? {
-        // the pointer menu: every match from it loads behind the menu on the TV (a party's guests too)
-        if menuMode { guard phase == .live, loaded, !onPhone else { return nil }; return station.flatMap { $0.hasPrefix("bay-") ? $0 : nil } ?? "menu" }
-        guard phase == .live, loaded, let s = station, s.hasPrefix("bay-") else { return nil }
-        return s
+        guard phase == .live, loaded, !onPhone else { return nil }
+        return station.flatMap { $0.hasPrefix("bay-") ? $0 : nil } ?? "menu"
     }
     /// A match took the runtime (SportsSession.start): its scene replaces the plaza (from a bay: once it is ready behind it).
     /// Launches made from a bay (behind the plaza), for tests and diagnostics.
@@ -408,7 +425,7 @@ final class HubSession {
         guard !onPhone else { return }
         timer?.invalidate(); timer = nil; endNearbyBrowse()
         endUnitySession()
-        phase = .off; loaded = false; zone = nil; station = nil; returnBay = nil; arriving = false
+        phase = .off; loaded = false; station = nil; returnBay = nil; arriving = false
     }
 
     private func fail(_ message: String) {
@@ -487,23 +504,14 @@ final class HubSession {
 
     /// What a station or bay opens: a menu screen (as a panel on the phone, with `taps` made on it), or an action.
     struct Route { var screen: MenuScreen?; var taps: [String] = []; var action: (@MainActor () -> Void)? = nil }
-    /// Every spot in the Plaza (Unity's HubLayout.Spots; HubLayoutTests checks the same list).
-    static let spotIDs = ["rack-shirt", "rack-shorts", "rack-shoes", "rack-racket", "rack-club", "look-mirror", "emote-mirror",
-                          "desk-settings", "screen-howto", "shelf-trophies", "mailbox-feedback", "board-invite",
-                          "bay-tennis-exhibition", "bay-tennis-campaign", "bay-tennis-training", "bay-tennis-online",
-                          "bay-golf-round", "bay-golf-online", "bay-golf-pass"]
     static func route(_ id: String) -> Route? {
         switch id {
-        case "rack-shirt": Route(screen: .character, taps: ["lk-tab-customize", "lk-shirt"])
-        case "rack-shorts": Route(screen: .character, taps: ["lk-tab-customize", "lk-shorts"])
-        case "rack-shoes": Route(screen: .character, taps: ["lk-sport-tennis", "lk-slot-shoes"])
-        case "rack-racket": Route(screen: .character, taps: ["lk-sport-tennis", "lk-slot-racket"])
         case "rack-club": Route(screen: .character, taps: ["lk-sport-golf", "lk-slot-club"])
         case "look-mirror": Route(screen: .character, taps: ["lk-tab-customize"])
         case "emote-mirror": Route(screen: .character, taps: ["lk-tab-emotes"])
         case "desk-settings": Route(screen: .settings)
         case "screen-howto": Route(screen: .howTo)
-        case "shelf-trophies", "bay-tennis-campaign": Route(screen: .campaign)
+        case "shelf-trophies": Route(screen: .campaign)
         case "mailbox-feedback": Route(action: { BetaFeedback.open() })
         case "board-invite": Route(action: { HubSession.shared.inviteFriends() })
         // every bench is one sport and one mode, straight to its own screen
@@ -521,34 +529,37 @@ final class HubSession {
         case "bay-bowling-online": Route(action: { HubSession.shared.useOnlineBench(.bowling) })
         // two phones in one room, one TV (a menu entry, not a place to walk to): hosts a nearby tennis game; the friend's phone offers "Join …?"
         case "bay-tennis-nearby": Route(action: { HubSession.shared.useNearbyBench() })
+        // PLAY → TUTORIAL (MenuHud.Tutorial): a lesson's how-to-play + safety card on the phone, then the lesson
+        case "bay-tutorial-golf": Route(action: { OnboardingFlow.shared.startLesson(.golf) })
+        case "bay-tutorial-tennis": Route(action: { OnboardingFlow.shared.startLesson(.tennis) })
+        case "bay-tutorial-bowling": Route(action: { OnboardingFlow.shared.startLesson(.bowling) })
         default: nil
         }
     }
 
-    /// Unity confirmed A at a spot (hubAction): open its panel.
-    static let soloStations: Set<String> = ["bay-tennis-exhibition", "bay-tennis-campaign", "bay-tennis-training", "bay-golf-round", "bay-golf-pass", "shelf-trophies", "bay-tennis-nearby",
+    /// The single-player stations: locked while friends are in your party.
+    static let soloStations: Set<String> = ["bay-tennis-exhibition", "bay-tennis-campaign", "bay-tennis-training", "bay-golf-round", "bay-golf-pass", "bay-golf-daily", "shelf-trophies", "bay-tennis-nearby",
                                              "bay-bowling-play", "bay-bowling-exhibition", "bay-bowling-pass"]
     var soloLocked: Bool { partyService.hasFriendsInLobby }
-    var zonePrompt: String? {
-        guard let zone else { return nil }
-        return soloLocked && Self.soloStations.contains(zone.id) ? "\(zone.label) · locked while in a party" : zone.prompt
-    }
     static let soloLockMessage = "Single-player is locked while friends are in your party. Choose Party game to play together."
     static let friendJoiningMessage = "Your friend is still joining. One moment…"
     /// START on the TV's own match setup (MenuSetup): the bay is in use as if its panel had launched the match.
     func startFromMenu(_ id: String, _ go: () -> Void) {
+        if !OnboardingFlow.shared.allows(id) { notice = OnboardingFlow.lockMessage; toast(notice); return }
         if soloLocked, Self.soloStations.contains(id) { notice = Self.soloLockMessage; toast(notice); return }
         station = id
         go()
         evaluate()
     }
     func useStation(_ id: String) {
+        // first launch (PLAN_Onboarding_v3): Play is the Tutorial's until its lessons are done
+        if !OnboardingFlow.shared.allows(id) { notice = OnboardingFlow.lockMessage; toast(notice); return }
         if soloLocked, Self.soloStations.contains(id) {
-            notice = Self.soloLockMessage; command("hubB"); toast(notice); return
+            notice = Self.soloLockMessage; toast(notice); return
         }
         // a friend is still joining this phone's party (connected, their lobby on its way): an online game would leave them behind
         if Self.partyBays.contains(id), party == nil, partyService.isParty, partyService.joiningPeers > 0 {
-            notice = Self.friendJoiningMessage; command("hubB"); toast(notice); return
+            notice = Self.friendJoiningMessage; toast(notice); return
         }
         if Self.partyBays.contains(id), let party {
             // a party's game: the bench's sport becomes the party's (leader), the phone shows the party, the leader picks the map and
@@ -559,10 +570,10 @@ final class HubSession {
             haptic(); evaluate(); return
         }
         if id == Self.nearbyBay { station = id; useNearbyBench(); evaluate(); return }
-        guard let route = Self.route(id) else { command("hubB"); return }
+        guard let route = Self.route(id) else { return }
         if let action = route.action {
-            // a bench's action keeps you seated on it (its panel is the course picker / the search); a station's just happens
-            if id.hasPrefix("bay-") { station = id; action(); evaluate() } else { action(); command("hubB") }
+            // a mode's action keeps its station open (its panel is the course picker / the search); a station's just happens
+            if id.hasPrefix("bay-") { station = id; action(); evaluate() } else { action() }
             return
         }
         if let screen = route.screen { menu.openFromPlaza(screen) }
@@ -578,9 +589,8 @@ final class HubSession {
     /// Game Center is looking for players for the online bench (it shows no screen of its own).
     private(set) var searching = false
     @ObservationIgnored private var searchTask: Task<Void, Never>?
-    @ObservationIgnored private var returning = false
-    /// An online bench with no party: look for players of its sport at once (not when you are put back on it after a match).
-    func useOnlineBench(_ sport: MultiplayerSport) { onlineBench = sport; if !returning { findPlayers() } }
+    /// An online bench with no party: look for players of its sport at once.
+    func useOnlineBench(_ sport: MultiplayerSport) { onlineBench = sport; findPlayers() }
     func findPlayers() {
         guard party == nil, let sport = onlineBench else { return }
         guard partyService.authenticated else { notice = "Sign in to Game Center to play online (Friends › Sign in)."; return }
@@ -608,12 +618,12 @@ final class HubSession {
         if searching { searching = false; partyService.cancelSearch() }
         if !partyService.isParty, partyService.lobby?.phase == .lobby { partyService.leave() }
     }
-    /// B, Done or Leave seat: back to walking.
+    /// Done, Close or Leave seat: the station's screen closes and the menu has the phone again.
     func leaveStation() {
         guard station != nil || panelOpen else { return }
         if onlineBench != nil { stopSearching(); onlineBench = nil }
         if station == Self.nearbyBay { stopHostingNearby() }
-        if station != nil { station = nil; returnBay = nil; command("hubB") }
+        if station != nil { station = nil; returnBay = nil }
         if menu.screen != .main && menu.screen != .title { menu.openFromPlaza(.main) }
         evaluate()
     }
@@ -626,21 +636,10 @@ final class HubSession {
     }
     /// What Friends does: opens the Friends list. Tests count the calls instead.
     @ObservationIgnored var presentInvite: @MainActor () -> Void = { ClubHub.shared.hubOpen = true; ClubHub.shared.start() }
-    /// Joined a friend's party: your hero goes to stand beside theirs (as soon as their position arrives).
-    @ObservationIgnored private var meetHost: String?
-    @ObservationIgnored private var partyJoinPending = false
+    /// Joined a friend's party: whatever was open on this phone closes (the party is in the menu's line-up).
     func joinedParty(host: String) {
-        pendingPartyBay = nil; gatheredBay = nil; gatheredMembers = []
-        meetHost = host == partyService.localID ? nil : host
-        // Clear the actual Unity station too; clearing only the phone state leaves
-        // Player.locked set when an invite is accepted from a locker or a bench.
-        partyJoinPending = true; finishPartyJoin()
         station = nil; returnBay = nil; onlineBench = nil
         if menu.screen != .main { menu.openFromPlaza(.main) }
-    }
-    private func finishPartyJoin() {
-        guard partyJoinPending, phase == .live, foreground else { return }
-        partyJoinPending = false; command("hubB"); setStick(x: 0, y: 0, magnitude: 0)
     }
     /// A short message on the TV in the plaza (an invite arrived, a friend is joining): Unity draws it over the plaza.
     func toast(_ text: String) { command("hubToast", mode: text) }
@@ -648,27 +647,9 @@ final class HubSession {
         guard party != nil, message.kind != .system else { return }
         command("hubChat", mode: message.text, remote: message.mine ? "" : message.senderID)
     }
-    /// ☰ shortcut: walk there (a quick fade) and use it.
-    func openStation(_ id: String) { command("hubUse", mode: id); haptic() }
-    func backToPlaza() {
-        if phase == .failed { retry(); return }
-        // a party's lobby stays: the plaza is where it lives now
-        if menu.screen != .main && menu.screen != .title { menu.openFromPlaza(.main) }
-        evaluate()
-    }
 
-    // MARK: input
+    // MARK: the look, the start, commands
 
-    /// The stick: direction (-1...1 each, +y = away from the camera) and deflection 0...1.
-    func setStick(x: Double, y: Double, magnitude: Double) {
-        let mag = max(0, min(1, magnitude.isFinite ? magnitude : 0))
-        stick = foreground ? (x.isFinite ? max(-1, min(1, x)) : 0, y.isFinite ? max(-1, min(1, y)) : 0, mag) : (0, 0, 0)
-        if mag == 0 || phase == .live { sendStick(force: mag == 0) }
-    }
-    func pressA() { command("hubA"); haptic() }
-    func pressB() { command("hubB") }
-    func emote(_ id: String) { command("hubEmote", mode: id); haptic() }
-    func go(_ target: String) { command("hubGo", mode: target); haptic() }
     @ObservationIgnored private var lookSent = ""
     /// A locker change was saved: show it on the plaza hero now (LOCKER_LIVE).
     func lookChanged() {
@@ -703,11 +684,9 @@ final class HubSession {
                        "fps": 60, "left": p.handedness == .left, "emotes": p.equippedEmotes]) { _, new in new }
         if let returnBay, !onPhone { message["bay"] = returnBay }
         lastStartSent = Date()
-        if menuMode {
-            message["menu"] = true; message["leader"] = menuLeader; message["soloLocked"] = soloLocked; message["playerName"] = p.name
-            message["colour"] = party?.participants.firstIndex { $0.id == partyService.localID } ?? 0
-            if returnBay != nil { message["screen"] = "home" }   // back from a match: straight onto the menu, no fly-in
-        }
+        message["menu"] = true; message["leader"] = menuLeader; message["soloLocked"] = soloLocked; message["playerName"] = p.name
+        message["colour"] = party?.participants.firstIndex { $0.id == partyService.localID } ?? 0
+        if returnBay != nil { message["screen"] = "home" }   // back from a match: straight onto the menu, no fly-in
         sendJSON(message)
     }
 
@@ -730,22 +709,9 @@ final class HubSession {
         SportsRuntime.shared().send(text)
     }
 
-    /// One stick reading on the binary channel Unity polls every frame (no JSON, no allocation on the Unity side).
-    private func sendStick(force: Bool = false) {
-        guard loaded || force, token != 0 else { return }
-        let now = SportsRuntime.shared().clock()
-        let sample = SportsSample(version: Int32(SportsSampleVersion), session: token, time: now,
-            target: Float(stick.x), power: Float(stick.mag), aim: Float(stick.y),
-            swing: 0, swingStart: 0, swingAbort: 0, flags: Int32(SportsSampleValid),
-            handSide: 0, lift: 0, strokeFacing: 0, qx: 0, qy: 0, qz: 0, qw: 0, rx: 0, ry: 0, rz: 0, gx: 0, gy: 0, gz: 0,
-            onsetTime: 0, confirmationTime: 0, abortTime: 0)
-        SportsRuntime.shared().push(sample)
-        lastSampleSent = now
-    }
-
     private func startTimer() {
         timer?.invalidate()
-        // 60 Hz: the stick goes out on every tick while it is held (and a zero when it is let go); Unity's events come back here.
+        // 60 Hz: Unity's events come back here, and the party and the menu's state are kept in step.
         let t = Timer(timeInterval: 1.0 / 60, repeats: true) { [weak self] _ in MainActor.assumeIsolated { self?.tick() } }
         RunLoop.main.add(t, forMode: .common); timer = t
     }
@@ -754,8 +720,7 @@ final class HubSession {
         guard foreground else { return }
         guard !session.active else { timer?.invalidate(); timer = nil; return }
         partyTick()
-        if menuMode { syncMenuParty(); syncMenuPhone(); updatePointer() }
-        if stick.mag > 0 && phase == .live { sendStick() }
+        syncMenuParty(); syncMenuPhone(); syncTutorial(); syncCoach(); updatePointer()
         if phase == .booting {
             let now = Date()
             if now.timeIntervalSince(lastBootSignal) > Self.bootStall { bootStalled(); return }
@@ -769,30 +734,28 @@ final class HubSession {
     }
 
     #if DEBUG
-    /// Tests and snapshots: pretend the plaza is up (no Unity in the simulator) with this place and zone.
-    func debugLive(place: String = "plaza", zone: String = "", session: String = "debug-hub", onPhone: Bool = false) {
+    /// Tests and snapshots: pretend the menu is up (no Unity in the simulator).
+    func debugLive(session: String = "debug-hub", onPhone: Bool = false) {
         sessionID = session; phase = .live; loaded = true; self.onPhone = onPhone; revealedOnPhone = onPhone; runtimeMissing = false
-        self.place = place; self.zone = HubZone(line: zone)
     }
-    /// Tests: the boot message the plaza would send (no Unity in the simulator).
-    func debugBoot(session: String, onPhone: Bool = false, menu: Bool = false) { sessionID = session; token = 7; phase = .booting; loadProgress = 0; beginPace(); lastBootSignal = Date(); heardFromUnity = false; self.onPhone = onPhone; menuMode = menu; sendStart() }
-    /// Tests: the pointer menu up (no Unity in the simulator).
-    func debugMenu(leader: Bool = true) { menuMode = true; menuScreen = "home"; menuPartySent = ""; menuPhoneSent = false }
+    /// Tests: the boot message the menu would send (no Unity in the simulator).
+    func debugBoot(session: String, onPhone: Bool = false) { sessionID = session; token = 7; phase = .booting; loadProgress = 0; beginPace(); lastBootSignal = Date(); heardFromUnity = false; self.onPhone = onPhone; sendStart() }
+    /// Tests: the menu back on Home, nothing sent yet (no Unity in the simulator).
+    func debugMenu(leader: Bool = true) { menuScreen = "home"; menuPartySent = ""; menuPhoneSent = false }
     func debugPartyTick() { partyTick() }
     /// Tests: the arrival fly-in finished (or never ran).
     func debugArrived() { arriving = false }
     /// Snapshots: sitting on an online bench (searching or not), no Game Center.
     func debugOnlineBench(_ sport: MultiplayerSport, searching: Bool) { station = sport == .golf ? "bay-golf-online" : "bay-tennis-online"; onlineBench = sport; self.searching = searching }
-    func debugReset() { timer?.invalidate(); timer = nil; phase = .off; autoRetried = false; heardFromUnity = false; loaded = false; loadProgress = 0; pace = .fixed(0); arriving = false; zone = nil; station = nil; returnBay = nil; place = "plaza"; notice = ""; lookSent = ""; debugSent = nil
-        foreground = true; onPhone = false; revealedOnPhone = false; runtimeMissing = false; searching = false; onlineBench = nil; searchTask?.cancel(); meetHost = nil; matchOver = nil; partyStartAt = nil
-        partyJoinPending = false; pendingPartyBay = nil; gatheredBay = nil; gatheredMembers = []; follow = nil
+    func debugReset() { timer?.invalidate(); timer = nil; phase = .off; autoRetried = false; heardFromUnity = false; loaded = false; loadProgress = 0; pace = .fixed(0); arriving = false; station = nil; returnBay = nil; notice = ""; lookSent = ""; debugSent = nil
+        foreground = true; onPhone = false; revealedOnPhone = false; runtimeMissing = false; searching = false; onlineBench = nil; searchTask?.cancel(); matchOver = nil
         nearbyHosting = false; nearbyJoining = nil; nearbyDismissed = []; nearbyBrowsing = false
         nearbyBrowse = Self.browseNearby; nearbyHost = Self.hostNearby; nearbyJoin = Self.joinNearby
-        menuMode = false; menuScreen = "home"; menuHoverLabel = ""; menuHoverID = ""; menuPhoneSent = false; menuPartySent = ""; MenuPointerSource.shared.stop()
+        menuScreen = "home"; menuHoverLabel = ""; menuHoverID = ""; menuPhoneSent = false; menuPartySent = ""; MenuPointerSource.shared.stop()
         presentInvite = { ClubHub.shared.hubOpen = true; ClubHub.shared.start() } }
     #endif
 
-    // MARK: party (PLAN §4: friends in your plaza, sitting together, Call party)
+    // MARK: party (friends in your line-up, the party's game, the ready check)
 
     static let partyBays: Set<String> = ["bay-tennis-online", "bay-golf-online", "bay-bowling-online"]
     /// The sport a bench is for, by its id.
@@ -805,10 +768,6 @@ final class HubSession {
         guard partyService.isParty, let lobby = partyService.lobby, lobby.phase == .lobby, lobby.participants.filter({ !$0.isGuest }).count >= 2 else { return nil }
         return lobby
     }
-    /// Where each friend is sitting (bay id), and the place they are in, from their presence.
-    private(set) var friendBays: [String: String] = [:]
-    private(set) var friendPlaces: [String: String] = [:]
-    private(set) var lastCall: (from: String, bay: String)?
     @ObservationIgnored private var lastPose = ""
     /// Seconds, for pacing the pose relay (tests run it on their own clock).
     @ObservationIgnored var uptime: () -> Double = { ProcessInfo.processInfo.systemUptime }
@@ -846,9 +805,6 @@ final class HubSession {
         case "hubPresence":
             guard let p = try? JSONDecoder().decode(Presence.self, from: Data(payload.utf8)),
                   let index = party.participants.firstIndex(where: { $0.id == sender }) else { return }
-            friendBays[sender] = p.bay.isEmpty ? nil : p.bay
-            let was = friendPlaces[sender]
-            friendPlaces[sender] = p.place
             let who = party.participants[index], look = who.loadout
             var remote: [String: Any] = ["id": sender, "name": who.name, "colour": index, "female": who.female, "place": p.place,
                                          "x": p.x, "y": p.y, "z": p.z, "yaw": p.yaw, "speed": p.speed, "bay": p.bay, "emote": p.emote]
@@ -858,92 +814,18 @@ final class HubSession {
             remote["accent"] = look?.colours["accent"] ?? ""
             guard let data = try? JSONSerialization.data(withJSONObject: remote), let text = String(data: data, encoding: .utf8) else { return }
             command("hubRemote", remote: text)
-            // just joined their party: go and stand beside them
-            if meetHost == sender, phase == .live, foreground { finishPartyJoin(); meetHost = nil; command("hubMeet", mode: sender) }
-            // the leader went through a door (or travelled): the whole party goes with them (their pose has just reached Unity)
-            if sender == party.ownerID, let was, was != p.place, p.place != place, pendingPartyBay == nil { followLeader(sender, to: p.place, name: who.name) }
         case "hubEvent":
             let f = payload.split(separator: "|", omittingEmptySubsequences: false).map(String.init)
             // the leader's menu (screen, lit item, cursor): this TV follows it
-            if f.first == "menu", menuMode, sender == party.ownerID, !partyService.isOwner {
+            if f.first == "menu", sender == party.ownerID, !partyService.isOwner {
                 menuCommand("menuMirror", mode: f.dropFirst().joined(separator: "|"))
                 if let screen = f.dropFirst().first { menuScreen = screen }
                 return
-            }
-            if f.first == "starting", f.count > 1 {
-                notice = "Everyone's on the bench · starting \(Self.benchSport(f[1]).rawValue)…"
-                if session.haptics { UINotificationFeedbackGenerator().notificationOccurred(.success) }
-            }
-            if f.first == "call", f.count == 2, Self.partyBays.contains(f[1]) {
-                lastCall = (sender, f[1]); command("hubCall", mode: f[1])
-                let name = party.participants.first { $0.id == sender }?.name ?? "A friend"
-                notice = "Joining \(name) on the \(Self.benchSport(f[1]).rawValue.capitalized) bench…"
-                meetHost = nil; pendingPartyBay = f[1]; expectCalledParty(at: f[1]); seatCalledParty()
-                if session.haptics { UINotificationFeedbackGenerator().notificationOccurred(.warning) }
             }
         default: break
         }
     }
 
-    // MARK: party follows its leader (the lobby's owner): rooms are entered together
-
-    /// Going to stand beside the leader in their new place: retried until this phone's hero is there (a door or a fade may be
-    /// running), for a few seconds at most.
-    @ObservationIgnored private var follow: (leader: String, place: String, until: Double, next: Double)?
-    private func followLeader(_ leader: String, to target: String, name: String) {
-        let t = ProcessInfo.processInfo.systemUptime
-        follow = (leader, target, t + 4, t)
-        notice = "Following \(name) to \(HubControllerView.placeName(target).capitalized)"
-        stepFollow()
-    }
-    private func stepFollow() {
-        guard let f = follow else { return }
-        let t = ProcessInfo.processInfo.systemUptime
-        if party == nil || place == f.place || t > f.until || pendingPartyBay != nil { follow = nil; return }
-        guard t >= f.next, phase == .live, foreground else { return }
-        follow?.next = t + 0.5
-        command("hubMeet", mode: f.leader)
-    }
-
-    @ObservationIgnored private var pendingPartyBay: String?
-    @ObservationIgnored private var gatheredBay: String?
-    @ObservationIgnored private var gatheredMembers: Set<String> = []
-    private func expectCalledParty(at bay: String) {
-        gatheredBay = bay
-        gatheredMembers = Set(party?.participants.filter { $0.connected && !$0.isGuest }.map(\.id) ?? [])
-    }
-    private func seatCalledParty() {
-        guard phase == .live, foreground, let bay = pendingPartyBay else { return }
-        pendingPartyBay = nil; command("hubGather", mode: bay)
-    }
-
-    /// Bring everyone to this bench; hubAction/hubPose confirm their actual seats.
-    func callParty() {
-        guard party != nil, let bay = station, Self.partyBays.contains(bay) else { return }
-        expectCalledParty(at: bay)
-        partyService.sendHub("hubEvent", payload: "call|" + bay, reliable: true); haptic()
-    }
-    var partyHasUnseatedFriends: Bool {
-        guard !menuMode, let party, let bay = station else { return false }
-        return party.participants.contains { $0.connected && !$0.isGuest && $0.id != partyService.localID && friendBays[$0.id] != bay }
-    }
-    /// At least two players are on this online bench; nobody walking through the PLAY rooms is left behind.
-    /// Everyone playing is here: the bench holds at least two of the party, and every friend who is in the play rooms (tennis or
-    /// golf, so on their way) has sat down too. Friends elsewhere in the plaza (the locker, phone only) do not hold the match up.
-    var partyAllSeated: Bool {
-        guard let party, let bay = station, Self.partyBays.contains(bay) else { return false }
-        let others = party.participants.filter { $0.connected && !$0.isGuest && $0.id != partyService.localID }
-        // the pointer menu has no benches: everyone connected is in the line-up, so everyone is in
-        if menuMode { return !others.isEmpty }
-        let seated = others.filter { friendBays[$0.id] == bay }
-        return !seated.isEmpty && partyWaitingFor.isEmpty
-    }
-    /// Friends in the PLAY hall or a sport room who have not sat on this bench yet.
-    var partyWaitingFor: [String] {
-        guard !menuMode, let party, let bay = station else { return [] }
-        return party.participants.filter { $0.connected && !$0.isGuest && $0.id != partyService.localID && friendBays[$0.id] != bay
-                                           && ((gatheredBay == bay && gatheredMembers.contains($0.id)) || ["play", "tennis", "golf"].contains(friendPlaces[$0.id] ?? "")) }.map(\.name)
-    }
     func setPartyReady(_ ready: Bool) {
         do { try partyService.setReady(ready) } catch { notice = error.localizedDescription }
         if ready, session.haptics { UINotificationFeedbackGenerator().notificationOccurred(.success) } else { haptic() }
@@ -975,23 +857,19 @@ final class HubSession {
         do { try partyService.configure(lobby.sport, venue: venue ?? lobby.venue, sets: sets ?? lobby.sets, games: games ?? lobby.games) }
         catch { notice = error.localizedDescription }
     }
+    /// Leader, with the party's game open: everyone connected is in (the menu has no benches to sit on).
     private func updatePartySeats() {
         guard partyService.isOwner, let bay = station, Self.partyBays.contains(bay), let lobby = party else { return }
-        let me = partyService.localID
-        partyService.seatParty(lobby.participants.filter { $0.connected && !$0.isGuest && (menuMode || $0.id == me || friendBays[$0.id] == bay) }.map(\.id))
+        partyService.seatParty(lobby.participants.filter { $0.connected && !$0.isGuest }.map(\.id))
     }
 
     private func partyTick() {
         if !partyInstalled { installParty() }
         guard phase == .live else { return }
-        if party == nil { pendingPartyBay = nil; gatheredBay = nil; gatheredMembers = [] }
-        finishPartyJoin()
-        seatCalledParty()
-        stepFollow()
-        // the member list: anyone who left walks off
+        // the member list: anyone who left is taken out of the line-up
         let ids = party?.participants.map(\.id).filter { $0 != partyService.localID }.sorted() ?? []
         let roster = ids.joined(separator: ",")
-        if roster != rosterSent { rosterSent = roster; command("hubRoster", mode: roster); friendBays = friendBays.filter { ids.contains($0.key) }; friendPlaces = friendPlaces.filter { ids.contains($0.key) } }
+        if roster != rosterSent { rosterSent = roster; command("hubRoster", mode: roster) }
         // the leader pressed Start: every other phone buzzes and the TV says so (the phone shows the big Ready button)
         let check = partyService.partyReadyCheck
         if check != readyCheckSeen {
@@ -1003,7 +881,6 @@ final class HubSession {
             }
         }
         if !check { updatePartySeats() }
-        partyStartAt = nil
     }
     @ObservationIgnored private var readyCheckSeen = false
 
@@ -1053,7 +930,7 @@ final class HubSession {
     func useNearbyBench() {
         // friends in your party play together from the Online modes; a nearby game would break the party up
         guard !soloLocked || nearbyHosting else {
-            notice = Self.soloLockMessage; if station == Self.nearbyBay { station = nil; command("hubB") }; return
+            notice = Self.soloLockMessage; if station == Self.nearbyBay { station = nil }; return
         }
         station = Self.nearbyBay
         endNearbyBrowse()
@@ -1120,11 +997,6 @@ final class HubSession {
         if nearbyHosting, partyService.lobby == nil, station != Self.nearbyBay { nearbyHosting = false }
     }
 
-    /// Seconds between everyone sitting down and the match starting (the panels count down).
-    static var partyCountdown = 2.5
-    /// When the host's phone starts the party's match (everyone seated); nil while waiting.
-    private(set) var partyStartAt: Double?
-
     /// One Unity event (also called directly by tests).
     func receive(_ event: [String: Any]) {
         let type = event["type"] as? String ?? ""
@@ -1142,17 +1014,10 @@ final class HubSession {
             pace.markReady(at: now)
             let fresh = phase == .booting && returnBay == nil
             if phase == .booting { phase = .live; autoRetried = false; SportsDiagnostics.write("hub ready after \(String(format: "%.2f", Date().timeIntervalSince(bootStarted))) s") }
-            // back from a match on the same bench: its panel again (staying seated = rematch, B = stand up); the menu opens on Home
-            if let bay = returnBay, station == nil, !menuMode { returning = true; useStation(bay); returning = false }
-            if menuMode { returnBay = nil; menuPartySent = ""; syncMenuParty(); updatePointer() }
+            // back from a match the menu opens on Home (the start said so): the flag has done its work
+            returnBay = nil; menuPartySent = ""; menuTutorialSent = ""; menuCoachSent = ""; syncMenuParty(); syncTutorial(); syncCoach(); updatePointer(); syncDaily()
             if !wanted { suspend() } else if fresh { arrive() } else { reveal() }
-        case "hubPlace": place = message
-        case "hubZone": zone = HubZone(line: message)
-        case "hubAction": lastAction = message; useStation(message)
         case "hubPose": lastPose = message; sendPresence()
-        case "hubState":
-            let f = message.split(separator: "|", omittingEmptySubsequences: false).map(String.init)
-            if f.count >= 5 { speed = Double(f[2]) ?? 0; inputAge = (Double(f[3]) ?? 0, Double(f[4]) ?? 0) }
         case "emoteResult": notice = message
         case "error": if phase == .booting { fail(message) } else { notice = message }
         default: if type.hasPrefix("menu") { handleMenu(type, message) }

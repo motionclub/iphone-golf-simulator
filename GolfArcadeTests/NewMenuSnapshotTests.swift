@@ -197,15 +197,6 @@ final class NewMenuSnapshotTests: XCTestCase {
         try await both("match-over") { IslandResultsScreen(menu: menu, compact: $0) }
         TennisCampaign.shared.restart()
     }
-
-    func testRemoteScreens() async throws {
-        let restore = setUpPlayer(); defer { restore() }
-        let menu = TennisMenu.shared
-        menu.debugShow(.campaign, row: 2)
-        try await saveHosted(TennisRemote(), "remote-phone", phone)
-        menu.debugShow(.character)
-        try await saveHosted(TennisRemote(), "remote-locker-phone", phone)
-    }
 }
 
 extension NewMenuSnapshotTests {

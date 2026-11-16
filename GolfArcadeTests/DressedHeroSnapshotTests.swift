@@ -167,29 +167,25 @@ final class DressedHeroSnapshotTests: XCTestCase {
         return try snapshot(c, size: size)
     }
 
-    private func stage(_ p: Player, size: CGSize = CGSize(width: 720, height: 1000), swing: Double? = nil) throws -> CharacterModelPreview.Coordinator {
+    private func stage(_ p: Player, size: CGSize = CGSize(width: 720, height: 1000)) throws -> CharacterModelPreview.Coordinator {
         let c = CharacterModelPreview.Coordinator(cameraDistance: 3.3); c.update(p)
         c.scene.background.contents = UIColor(red: 0.93, green: 0.62, blue: 0.48, alpha: 1)   // the locker's warm coral wall
-        if let t = swing {
-            let hero = try XCTUnwrap(c.hero); MatchHero.preparePractice(hero)
-            let asset = try XCTUnwrap(MatchHero.asset(female: p.standardFemale))
-            MatchHero.practiceFrame(hero, progress: 0.1 + 0.75 * t / Double(asset.manifest.swingLength))
-        }
         return c
     }
 
-    /// Proof renders for both sexes, default and picks, in the Ready stance and at the Forehand contact frame; and the claim "the picks change only the kit" as pixels.
+    /// Proof renders for both sexes, default and picks, in the Ready stance; and the claim "the picks change only the kit" as pixels.
+    /// (The Forehand-contact render left with the morph practice swing and its swing frames, 2026-11-15.)
     func testRecordDressedSnapshots() throws {
         let size = CGSize(width: 720, height: 1000)
         for female in [false, true] {
             let sex = female ? "female" : "male"
-            for (label, swing) in [("ready", nil), ("contact", 0.6667)] as [(String, Double?)] {
-                let a = try stage(player(female: female, picks: false), swing: swing), b = try stage(player(female: female, picks: true), swing: swing)
+            for label in ["ready"] {
+                let a = try stage(player(female: female, picks: false)), b = try stage(player(female: female, picks: true))
                 let imgA = try snapshot(a, size: size), imgB = try snapshot(b, size: size)
                 try XCTUnwrap(imgA.pngData()).write(to: proof.appendingPathComponent("\(sex)_\(label)_default.png"))
                 try XCTUnwrap(imgB.pngData()).write(to: proof.appendingPathComponent("\(sex)_\(label)_coral_navy_lime.png"))
                 // pixel test: everything that changed lies on the kit (2 px dilation)
-                let m = try stage(player(female: female, picks: true), swing: swing)
+                let m = try stage(player(female: female, picks: true))
                 let mask = try kitMask(m, size: size)
                 let w = Int(size.width), h = Int(size.height)
                 func px(_ im: UIImage) throws -> [UInt8] {

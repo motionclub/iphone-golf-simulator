@@ -1,12 +1,13 @@
 import SwiftUI
 
-/// The app's root. The phone is always a controller: with no match on it drives the Plaza (on the TV, or on the phone's own screen
+/// The app's root. The phone is always a controller: with no match on it drives the menu (on the TV, or on the phone's own screen
 /// with no TV), and during a match it is the racket or the golf controller. Nothing else takes the phone's screen: no lobby
-/// screens, no old menus, no Game Center sheets. (The classic multi-sport form stays behind Settings → Developer in debug builds.)
+/// screens, no old menus, no Game Center sheets.
 struct SportsHome: View {
     @State private var session = SportsSession.shared
     @State private var menu = TennisMenu.shared
     @State private var onboarding = OnboardingFlow.shared
+    @State private var playSafe = PlaySafeGate.shared
     @State private var hub = HubSession.shared
     @State private var clubHub = ClubHub.shared
     @State private var partyUI = PartyUI.shared
@@ -15,13 +16,10 @@ struct SportsHome: View {
     @Environment(\.scenePhase) private var scenePhase
     // (the screen on its own: one long chain inside body is too much for the type checker in Xcode 26.2)
     @ViewBuilder private var screen: some View {
-        if menu.classic && !session.active { ClassicSportsHome() }
-        else if onboarding.holdsMenu && !session.active { OnboardingRoot(flow: onboarding) }
         // hosting tennis for a friend's phone nearby (the menu's "Tennis with a friend nearby"), over any menu
-        else if !session.active && hub.station == HubSession.nearbyBay { HubNearbyBenchPanel(hub: hub) }
-        // no match: the Plaza's controller, whatever else happens (invites, a party, a friend joining, the plaza loading or failing)
-        else if !session.active { if hub.runtimeMissing { TennisPhoneMenu() } else if hub.menuMode { MenuControllerView() } else { HubControllerView() } }
-        else if onboarding.holdsMenu { OnboardingRoot(flow: onboarding) }
+        if !session.active && hub.station == HubSession.nearbyBay { HubNearbyBenchPanel(hub: hub) }
+        // no match: the menu's controller, whatever else happens (invites, a party, a friend joining, the menu loading or failing)
+        else if !session.active { if hub.runtimeMissing { TennisPhoneMenu() } else { MenuControllerView() } }
         // an online match is over: its result is on the TV, the phone takes everyone back to the Plaza
         else if session.multiplayerMatchID != nil && hub.matchOver != nil { HubMatchOverPanel(hub: hub) }
         else if session.showsOnlineTennisSetup { TennisRacketController(session: session) }
@@ -63,6 +61,9 @@ struct SportsHome: View {
         .task { while !Task.isCancelled { hub.nearbyTick(); try? await Task.sleep(for: .milliseconds(250)) } }
         .sheet(isPresented: $partyUI.settingsOpen) { PartySettingsView(dismiss: { partyUI.settingsOpen = false }).presentationDetents([.large]) }
         .onOpenURL { clubHub.open(url: $0) }
+        // how to play + play safe: before each lesson, and before the first game of each sport each time the app runs
+        .overlay { if let request = playSafe.request { PlaySafeSheet(request: request).transition(.move(edge: .bottom)) } }
+        .animation(.spring(response: 0.42, dampingFraction: 0.9), value: playSafe.request?.id)
     }
 
     private var withBars: some View {
@@ -72,7 +73,7 @@ struct SportsHome: View {
             // for the host and starts the guest's 15 s forfeit clock. Golf hides it for its own reasons.
             // (nor in handheld play: the deck is the bottom of the screen, level with the game above it)
             // (nor over the menu on a phone with no TV: it fills the screen; Feedback is in the Clubhouse)
-            if (!session.active && !(hub.menuMode && hub.onPhone)) || (session.active && session.sport != "golf" && session.multiplayerMatchID == nil && !session.phonePlay) { BetaFeedbackBar() }
+            if (!session.active && !hub.onPhone) || (session.active && session.sport != "golf" && session.multiplayerMatchID == nil && !session.phonePlay) { BetaFeedbackBar() }
         }
         .simultaneousGesture(TapGesture().onEnded {
             guard session.active, session.loading.finished, !session.paused, session.multiplayerMatchID == nil else { return }
@@ -153,15 +154,13 @@ struct SportsHome: View {
     private var withLobbyWatches: some View {
         withWatches
         .onChange(of: menu.online.service.lobby?.revision) { _, _ in clubHub.publishPresence() }
-        .onChange(of: menu.classic) { _, _ in hub.evaluate() }
-        .onChange(of: onboarding.holdsMenu) { _, _ in hub.evaluate() }
+        .onChange(of: onboarding.step) { _, _ in hub.evaluate() }
         .onChange(of:menu.online.service.lobby?.revision) { _,_ in menu.online.sync(menu) }
         .onChange(of:menu.online.service.lastError) { _,error in if let error { menu.onlineNotice(error); if hub.drivesPhone { hub.notice = error } } }
         .onChange(of: hub.drivesPhone) { _, _ in SportsDisplays.shared.phoneSeeThrough(hub.drivesPhone && hub.onPhone) }
         .onChange(of: hub.onPhone) { _, _ in SportsDisplays.shared.phoneSeeThrough(hub.drivesPhone && hub.onPhone); SportsDisplays.shared.phoneOrientationChanged() }
-        .onChange(of: hub.menuMode) { _, _ in SportsDisplays.shared.phoneOrientationChanged() }
         .onChange(of: session.active) { _, _ in SportsDisplays.shared.phoneOrientationChanged() }
-        .onChange(of: session.displayConnected) { _, _ in SportsDisplays.shared.phoneOrientationChanged() }
+        .onChange(of: session.displayConnected) { _, on in SportsDisplays.shared.phoneOrientationChanged(); if !on { RecordingService.shared.displayLost() } }
     }
 
     var body: some View {
@@ -176,6 +175,8 @@ struct SportsHome: View {
         clubHub.configureLive(); clubHub.start()
         PartySafety.shared.refresh()
         menu.online.installCallbacks(menu)
+        // a recording cut short by the app closing is saved now (the native recorder writes a playable file as it goes)
+        Task { await RecordingService.shared.recoverLeftovers() }
         let args = ProcessInfo.processInfo.arguments
         #if DEBUG
         if args.contains("-golfControllerDesign") {
@@ -193,15 +194,6 @@ struct SportsHome: View {
                 _ = session.golfTap.observe(phase: "Aim", shotReady: true, unityState: 2, now: now)
             }
             if args.contains("-golfControllerLoading") { session.loading.begin(now: Date()) }
-        }
-        if args.contains("-phonePlazaCheck") {
-            OnboardingFlow.shared.exitToMenu(); session.displayConnected = false
-            hub.debugLive(place: "plaza", zone: "door|door-plaza-play|Play|TV needed", onPhone: true)
-            SportsDisplays.shared.debugFakePhonePlaza()
-            if args.contains("-phonePlazaInvite") {
-                clubHub.notification(invite: HubInvite(inviteID: "check", from: HubPlayerRef(id: "sam", name: "Sam"), sport: "tennis", lobbyCode: "ABC234", group: 0, capacity: 2,
-                                                       expiresAt: Date().timeIntervalSince1970 * 1000 + 110_000), accept: nil)
-            }
         }
         // handheld play without Unity (simulator): a game frame from a file stands in for the round above the deck
         //   -handheldCheck golf|bowling <frame.jpg> [-handheldMap <map.png>] [-handheldMapOpen]
@@ -279,65 +271,6 @@ struct SportsHome: View {
     }
 }
 
-/// Every sport and every raw option, as the app had before the tennis front end.
-struct ClassicSportsHome: View {
-    @State private var session = SportsSession.shared
-    var body: some View {
-        @Bindable var session=session
-        NavigationStack {
-            Group {
-            if session.active && session.tennisControllerActive {
-                TennisController(session:session)
-            } else {
-            Form {
-                Section("Display") {
-                    Label(session.displayConnected ? "External display connected" : "Connect AirPlay or a wired display",systemImage:"tv")
-                    Text(session.status).accessibilityIdentifier("sportsStatus")
-                }
-                if session.active {
-                    SportsControls(session:session)
-                } else {
-                    Section("Game") {
-                        Picker("Sport",selection:$session.sport) { Text("Golf · Cliffside").tag("golf"); Text("Tennis Rally").tag("tennis") }.accessibilityIdentifier("sportPicker")
-                        Picker("Player",selection:$session.playerIndex) {
-                            ForEach(session.players.indices,id:\.self) { i in Text(session.players[i].name).tag(i) }
-                        }
-                    }
-                    SportsPlayerEditor(session:session)
-                    Section("Controls") {
-                        Text("Tennis: you set the court direction once by aiming the back of the phone at the TV. After that hold the phone however you like — the grip can change between forehands and backhands. Step sideways to move; make a deliberate stroke to hit. Golf: swing the phone to hit.")
-                        Slider(value:$session.travel,in:0.3...1.2) { Text("Movement range") }
-                        Text("Movement range: step \(Int(session.travel*100)) cm for full court width")
-                        Toggle("Sound",isOn:$session.sound)
-                        Toggle("Haptics",isOn:$session.haptics)
-                        Toggle("120 fps on ProMotion displays",isOn:$session.highFrameRate)
-                    }
-                    if session.sport == "tennis" {
-                        Section("Tennis") {
-                            Picker("Opponent",selection:$session.tennisDifficulty) {
-                                Text("Relaxed").tag(0.15); Text("Standard").tag(0.45); Text("Tough").tag(0.8)
-                            }.pickerStyle(.segmented).accessibilityIdentifier("tennisDifficulty")
-                            Button("Show the coaching tips again") { UserDefaults.standard.set(true,forKey:"sports.resetCoaching") }
-                        }
-                    }
-                    Section {
-                        Button("Play on external display") { session.start() }.accessibilityIdentifier("startExternalGame")
-                        Text("TV shows the game. This iPhone stays your controller.")
-                        Text("A connected TV or Mac is required to play.")
-                    }
-                }
-            }
-            }
-            }
-            .navigationTitle("Sports Arcade")
-            .toolbar {
-                if !session.active { Button("Tennis menu") { TennisMenu.shared.classic=false } }
-            }
-            .buttonStyle(.borderless)
-        }
-    }
-}
-
 /// Blocks play until the court direction is locked. A single Ready tap cannot reveal where
 /// the TV is when the phone's facing changes every stroke, so this is captured once up front.
 struct AxisGatePanel:View {
@@ -367,111 +300,6 @@ struct AxisGatePanel:View {
             }
         }.padding(20).frame(maxWidth:.infinity)
             .accessibilityIdentifier("axisGatePanel")
-    }
-}
-
-private struct TennisController:View {
-    @Bindable var session:SportsSession
-    @State private var aim=0.0
-    var body:some View {
-        GeometryReader { geometry in
-            VStack(spacing:16) {
-                HStack {
-                    Label("Tennis controller",systemImage:"tennis.racket")
-                    Spacer()
-                    Button(session.paused ? "Ready" : "Pause") {
-                        if session.paused { session.readyToPlay() } else { session.pause() }
-                    }.disabled(!session.axisGate.locked)
-                        .accessibilityIdentifier("sessionPauseResume")
-                }
-                if !session.axisGate.locked { AxisGatePanel(session:session) }
-                Text(session.paused ? session.status : "Step sideways to position. Swing the phone to hit.")
-                    .font(.subheadline).multilineTextAlignment(.center).accessibilityIdentifier("sportsStatus")
-                if !session.trackingWarning.isEmpty {
-                    Label(session.trackingWarning,systemImage:"exclamationmark.triangle.fill")
-                        .font(.footnote).foregroundStyle(.orange)
-                        .accessibilityIdentifier("trackingWarning")
-                }
-                ProgressView("Stamina",value:session.stamina)
-                Spacer(minLength:0)
-                Text("Aim · \(aim < -0.15 ? "Left" : aim > 0.15 ? "Right" : "Center")")
-                Slider(value:$aim,in:-1...1) { Text("Shot direction") }
-                    .onChange(of:aim) { _,value in session.setAim(value) }
-                    .accessibilityIdentifier("tennisAim")
-                Text("Yellow target: aim · Cyan line: ball flight\nHarder strokes are faster but need cleaner timing and positioning.")
-                    .font(.footnote).multilineTextAlignment(.center)
-                Text(session.feedback).font(.footnote).multilineTextAlignment(.center)
-                    .accessibilityIdentifier("controllerFeedback")
-                if session.axisGate.locked {
-                    Button("Left/right are swapped — flip") { session.flipSteering() }
-                        .font(.footnote).accessibilityIdentifier("flipSteering")
-                    Button("Re-aim at the TV") { session.beginAxisCapture() }
-                        .font(.footnote).accessibilityIdentifier("reAimAxis")
-                }
-                Spacer(minLength:0)
-                PointClipControls(session: session)
-                Button("Quit to menu",role:.destructive) { if session.multiplayerMatchID != nil { TennisMenu.shared.online.select("net-leave",menu:TennisMenu.shared) } else { session.end() } }
-                    .frame(maxWidth:.infinity,minHeight:48)
-                    .accessibilityIdentifier("sessionMenu")
-            }.padding(24).frame(maxWidth:.infinity,maxHeight:.infinity)
-        }
-    }
-}
-
-private struct SportsPlayerEditor:View {
-    @Bindable var session:SportsSession
-    var body:some View {
-        Section("Permanent character") {
-            TextField("Name",text:$session.players[session.playerIndex].name)
-            Toggle("Female character",isOn:$session.players[session.playerIndex].standardFemale)
-            Picker("Skin tone",selection:$session.players[session.playerIndex].standardSkin) {
-                ForEach(0..<6) { Text(["Fair","Light","Tan","Olive","Brown","Deep"][$0]).tag($0) }
-            }
-            Picker("Hand",selection:$session.players[session.playerIndex].handedness) { Text("Right").tag(Handedness.right); Text("Left").tag(Handedness.left) }
-        }
-    }
-}
-
-private struct SportsControls:View {
-    @Bindable var session:SportsSession
-    @State private var aim=0.0
-    var body:some View {
-        if session.sport == "tennis" && !session.axisGate.locked {
-            Section("Court direction") { AxisGatePanel(session:session) }
-        }
-        Section("\(session.sport.capitalized) controller") {
-            Text("Input: Phone motion")
-            if !session.trackingWarning.isEmpty {
-                Label(session.trackingWarning,systemImage:"exclamationmark.triangle.fill")
-                    .foregroundStyle(.orange).accessibilityIdentifier("trackingWarning")
-            }
-            Text(session.paused ? "Stand at your center and tap Ready" : "Phone controller active")
-            Text(session.feedback).accessibilityIdentifier("controllerFeedback")
-            if session.sport == "tennis" { ProgressView("Stamina",value:session.stamina) }
-            Button(session.paused ? "Ready" : "Pause") { if session.paused { session.readyToPlay() } else { session.pause() } }
-                .disabled(!session.ready || (session.sport == "tennis" && !session.axisGate.locked))
-                .accessibilityIdentifier("sessionPauseResume")
-            if session.sport == "tennis" && session.axisGate.locked {
-                Button("Left/right are swapped — flip") { session.flipSteering() }.accessibilityIdentifier("flipSteering")
-                Button("Re-aim at the TV") { session.beginAxisCapture() }.accessibilityIdentifier("reAimAxis")
-            }
-            if session.sport == "golf" {
-                HStack { Button("Previous club") { session.command("club",value:-1) }; Spacer(); Button("Next club") { session.command("club",value:1) } }
-            } else { Button("New serve") { session.command("refeed") } }
-            Slider(value:$aim,in:-1...1) { Text("Aim") }.onChange(of:aim) { _,value in session.setAim(value) }
-        }
-        if session.sport == "tennis" {
-            Section("Recording") { PointRecordingSettings(session: session) }
-        }
-        PartySettingsSections()
-        Section("Session") {
-            if session.paused {
-                Toggle("Sound",isOn:$session.sound).onChange(of:session.sound) { _,v in session.command("sound",value:v ? 1 : 0) }
-                Toggle("Haptics",isOn:$session.haptics).onChange(of:session.haptics) { _,v in session.command("haptics",value:v ? 1 : 0) }
-            }
-            Button("Restart") { session.end(); session.start() }
-            Button("Return to menu",role:.destructive) { session.end() }.accessibilityIdentifier("sessionMenu")
-        }
     }
 }
 

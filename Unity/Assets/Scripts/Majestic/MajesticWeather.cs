@@ -240,9 +240,6 @@ namespace GolfArcade.Majestic
             Rainbow = rainbowTo; Beams = beamsTo;
         }
 
-        /// Proof harness: the rain-clearing event now (as GolfGame.SkiesCleared does when rain turns clear).
-        public void ClearingNow(float hold = 40f) { Phase = WeatherPhase.Clearing; clearingUntil = Time.time + hold; rainbowTo = beamsTo = 1; }
-
         void PlayWindow(float now)
         {
             if (!tennis) { playTo = 1; return; }

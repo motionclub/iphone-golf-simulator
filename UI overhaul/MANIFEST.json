@@ -1,0 +1,550 @@
+{
+  "package": "UI overhaul",
+  "date": "2026-11-15",
+  "current_ui_boards": 15,
+  "loading_art_images": 25,
+  "loading_contact_sheets": 1,
+  "earlier_concept_boards": 21,
+  "files": [
+    {
+      "path": "01 Current UI/GATE_RESULTS.md",
+      "bytes": 2877,
+      "sha256": "db8075351502126212bd34b2ace6ebf3ca30d4f7a778189f09a9002927d39b0c"
+    },
+    {
+      "path": "01 Current UI/PROMPTS.md",
+      "bytes": 45341,
+      "sha256": "7554c80a04c8939de3d71bb6f897137b01e2ddd7e9a27c21560c1330671b5b4f"
+    },
+    {
+      "path": "01 Current UI/README.md",
+      "bytes": 4233,
+      "sha256": "bc79f85b90e6b42b0a8c2b503dae8cf4bb34ffa51f7c304fd10958cd70b7dd4a"
+    },
+    {
+      "path": "01 Current UI/REVISIONS.md",
+      "bytes": 8170,
+      "sha256": "1ec318199c57bfec8eb9ea243f1627f5a700099a8c5be4a9055e042ce385c3c6"
+    },
+    {
+      "path": "01 Current UI/gallery.html",
+      "bytes": 7639,
+      "sha256": "f7d79191e4ecea54b8621a01ed31c75c2ef5612ef1df52e1625e30ce1905b3fc"
+    },
+    {
+      "path": "01 Current UI/proof/01-tropical-resort.png",
+      "bytes": 2280760,
+      "sha256": "c884b12fa333e8c743de5e4c4a3d33254208cc16290dca2f4e5cce2440941230"
+    },
+    {
+      "path": "01 Current UI/proof/02-sky-tower.png",
+      "bytes": 1949543,
+      "sha256": "b341b0e5de5569fa685edad16a8ff6738da0ab36f1f4d9e147113bee45deed0d"
+    },
+    {
+      "path": "01 Current UI/proof/03-magma-crater.png",
+      "bytes": 2026320,
+      "sha256": "a4b13d4f6c92ab614ab0c7925982f0939699cb26549d796f649f829eca96d212"
+    },
+    {
+      "path": "01 Current UI/proof/04-cliffside.png",
+      "bytes": 2134645,
+      "sha256": "e0d01e90c502e1af4556bb502690d107281ddc5f9335b2d5772b66c29498477a"
+    },
+    {
+      "path": "01 Current UI/proof/05-wild-isles.png",
+      "bytes": 2213825,
+      "sha256": "9bfa8ddb2918c996a6f27524fd2cedf9956c0d7489ccfd50fe4aac38546b74a2"
+    },
+    {
+      "path": "01 Current UI/proof/06-magma-open.png",
+      "bytes": 2193860,
+      "sha256": "860738ee27a17bb537814010f1968f62047cbd85859ab936a3c859396bc6442d"
+    },
+    {
+      "path": "01 Current UI/proof/07-club-lanes.png",
+      "bytes": 2288208,
+      "sha256": "ccd056a74a99988262142aa789de563bc121fdb4b042591052f5c705f5f60445"
+    },
+    {
+      "path": "01 Current UI/proof/08-neon-nights.png",
+      "bytes": 2232775,
+      "sha256": "d690a57a1741d2f0204ece1527deb8a1c34a72dbf88a8db2242ec075e66c8d24"
+    },
+    {
+      "path": "01 Current UI/proof/09-tiki-shores.png",
+      "bytes": 2294860,
+      "sha256": "768660a7619badd247a325ace06950e9bfca21b0a41fc78869df2afea281646c"
+    },
+    {
+      "path": "01 Current UI/proof/10-magma-lanes.png",
+      "bytes": 2232821,
+      "sha256": "c9472d426fbe7a3cbbce528d264886f08c1ff975b85ec19ff98de4e5881fc016"
+    },
+    {
+      "path": "01 Current UI/proof/11-map-selection-loading.png",
+      "bytes": 2187557,
+      "sha256": "ece8b9705116d9357b5fd55fd95c7c3e4bed57bb311c014b785aaa3be200fd98"
+    },
+    {
+      "path": "01 Current UI/proof/12-player-intros-events.png",
+      "bytes": 2220316,
+      "sha256": "51b8ccd8f25ddfbc519ee59fd0e6d0d16b7fc74a13f87416d3dffa36dbf1a0ea"
+    },
+    {
+      "path": "01 Current UI/proof/13-setup-ready-pause.png",
+      "bytes": 2144913,
+      "sha256": "ea25e4f48f60be9bd95e093107ce9ba62fa840378bc0996a42a30103002d67aa"
+    },
+    {
+      "path": "01 Current UI/proof/14-results-round-end.png",
+      "bytes": 2373492,
+      "sha256": "643fb90989a164dcefe4767955001efcdcb8ff5b44ac3a635d68584cf182c5db"
+    },
+    {
+      "path": "01 Current UI/proof/15-precise-power-meter.png",
+      "bytes": 2217463,
+      "sha256": "6461ddd998306a60fca64293a5959013abfe9f279dc8d835313608498534d3a1"
+    },
+    {
+      "path": "02 Loading art/CODEX_PROMPT.md",
+      "bytes": 10145,
+      "sha256": "3b0cf8ac1f56725e3f87c238eb5f8082be54abe1b35b230d721a91a86f6db35e"
+    },
+    {
+      "path": "02 Loading art/gallery.html",
+      "bytes": 5639,
+      "sha256": "2055f49c1fbaf4937a5506d99ab5c3542b8b629eca2437901eb03041b36e2c2a"
+    },
+    {
+      "path": "02 Loading art/out/baseball-first-base-lead.jpg",
+      "bytes": 395772,
+      "sha256": "38ff5b54c08f809a833a867cb8b6e3f456805b35491f6af3fe133602d2b1ee93"
+    },
+    {
+      "path": "02 Loading art/out/baseball-infield-grounder.jpg",
+      "bytes": 481819,
+      "sha256": "d4e26708e8d4d364c2ebc20e407f1a5c601e228439135dc6c73fef064454ee74"
+    },
+    {
+      "path": "02 Loading art/out/baseball-plate-catch.jpg",
+      "bytes": 515359,
+      "sha256": "68e004fd7d57f41b9de83bdc11403fd73cf4e03cdef6c6ca6f1284d8ee533755"
+    },
+    {
+      "path": "02 Loading art/out/baseball-seaside-pitch.jpg",
+      "bytes": 438805,
+      "sha256": "788224906aece61119371bb026c6750e492d0dc9de5051862153ffc2b9b368ed"
+    },
+    {
+      "path": "02 Loading art/out/baseball-warning-track.jpg",
+      "bytes": 402339,
+      "sha256": "f3f5cc323c15b7240441605883405ae8801b785aa97f51a3bfb2016b973fbb79"
+    },
+    {
+      "path": "02 Loading art/out/bowling-club-set.jpg",
+      "bytes": 420627,
+      "sha256": "0b9adeb11e7bc62b51ee39fa8b7ca4c81f066e7456ced1ea49c4a92d5449625a"
+    },
+    {
+      "path": "02 Loading art/out/bowling-magma-spare.jpg",
+      "bytes": 363280,
+      "sha256": "8f6c245d585b4ee6520a01ab891683b8b19b8e2708c64505f14746a63adcdda8"
+    },
+    {
+      "path": "02 Loading art/out/bowling-neon-release.jpg",
+      "bytes": 331181,
+      "sha256": "6794f02fe22e3fd7cc63eb332c8bc20114c785200263c6491de5a2e105697166"
+    },
+    {
+      "path": "02 Loading art/out/bowling-neon-strike.jpg",
+      "bytes": 215885,
+      "sha256": "f0700ba2ac769cfbd35280ba9004d66858e5b06ce4ff102c536a1b00e2ab4ab0"
+    },
+    {
+      "path": "02 Loading art/out/bowling-tiki-approach.jpg",
+      "bytes": 503875,
+      "sha256": "fc57df66f559beab7c27d8f2cc15b727b0c074c90b5bc346b74cb8ec159794ec"
+    },
+    {
+      "path": "02 Loading art/out/boxing-beachside-exchange.jpg",
+      "bytes": 410814,
+      "sha256": "ee8ad34bf372a4f01ca1d91e071d70753455914b5f7d2dea4bcedf8829dd61cd"
+    },
+    {
+      "path": "02 Loading art/out/boxing-center-footwork.jpg",
+      "bytes": 586164,
+      "sha256": "f0d37f50112ee87738537345c707f194305cfdf6543351c157ce1a2b124fe59b"
+    },
+    {
+      "path": "02 Loading art/out/boxing-corner-reset.jpg",
+      "bytes": 407740,
+      "sha256": "343182905934d5a346ce2c6e9c8733c5219110be06a79f35d9d474685c06e76c"
+    },
+    {
+      "path": "02 Loading art/out/boxing-final-bell.jpg",
+      "bytes": 415423,
+      "sha256": "a59a21c5694fccbc9d23920e4a3449e96aa5932d0e95cb36d04b5b006caecd0d"
+    },
+    {
+      "path": "02 Loading art/out/boxing-ringside-slip.jpg",
+      "bytes": 421870,
+      "sha256": "86ab2e3b62c0bfcbe7aca61ff2a076920e56c2d409385c97234acfc561302c47"
+    },
+    {
+      "path": "02 Loading art/out/contact-sheet.jpg",
+      "bytes": 762245,
+      "sha256": "2644b11984af3b393c2f5d9e9e1547d392ae53d8e4cc5aaaf7312b756a86b29e"
+    },
+    {
+      "path": "02 Loading art/out/golf-cliffside-female.jpg",
+      "bytes": 535727,
+      "sha256": "4241965054718f7c5f66b3e4eb170d9a960baaed0230b9cdf910235a29fa4c5d"
+    },
+    {
+      "path": "02 Loading art/out/golf-cliffside-male.jpg",
+      "bytes": 512624,
+      "sha256": "961450b4f3bccba891c81d811def778f2894e0753e2d6c5922283a3492c40868"
+    },
+    {
+      "path": "02 Loading art/out/golf-magma-female.jpg",
+      "bytes": 531399,
+      "sha256": "60e6f4b4d077326c1f0bdc5f0d67cce6d12733b574c71149dbf3e63a389824e7"
+    },
+    {
+      "path": "02 Loading art/out/golf-magma-male.jpg",
+      "bytes": 403916,
+      "sha256": "61229ef5362ef274f6bae4a4357473c67b293fc78da3454563e95e60b6aff6c8"
+    },
+    {
+      "path": "02 Loading art/out/golf-wildisles-male.jpg",
+      "bytes": 478356,
+      "sha256": "7cb4f8205f54db3bde300546b2466eb45e325d9eeee6eea0c203d5b244ac39ef"
+    },
+    {
+      "path": "02 Loading art/out/tennis-resort-forehand.jpg",
+      "bytes": 403507,
+      "sha256": "80125dfb836513ea97e5cc7c2432d8a973984a1f722b569b2fe6ffed8599d27b"
+    },
+    {
+      "path": "02 Loading art/out/tennis-resort-volley.jpg",
+      "bytes": 446681,
+      "sha256": "05f502fedbb98f70de1afb0993ff83715188b9aba491af849082bdd7e1d71e39"
+    },
+    {
+      "path": "02 Loading art/out/tennis-rooftop-serve.jpg",
+      "bytes": 366280,
+      "sha256": "2c56c7d17fc96ae204cdfcbed03b46bf87b32a6d2b1f639a50429b9a03880957"
+    },
+    {
+      "path": "02 Loading art/out/tennis-rooftop-stretch.jpg",
+      "bytes": 376504,
+      "sha256": "a62e9440bdd57c845bb945d23dffe4e6fba5972bbb8e7c93e4882779ded2f4fb"
+    },
+    {
+      "path": "02 Loading art/out/tennis-volcano-backhand.jpg",
+      "bytes": 436571,
+      "sha256": "cfce477f0a34aca524ad1a006c9e1289818e7146bb772bd2b8b88dcdeef3fa7b"
+    },
+    {
+      "path": "02 Loading art/refs/character-female-turnaround.jpg",
+      "bytes": 589530,
+      "sha256": "312d12e705f14ecb45c6c8c7257b67f2aec8770842a152f3e867c26b56c473c9"
+    },
+    {
+      "path": "02 Loading art/refs/character-female.jpg",
+      "bytes": 54392,
+      "sha256": "d86e54e8a568d08d29d0f90307032fd54a011965179432d3f2e8244011ffec1d"
+    },
+    {
+      "path": "02 Loading art/refs/character-male.jpg",
+      "bytes": 69909,
+      "sha256": "9ceca6bd550825dfdf62339ba6f69e9849937f3a2d12246e0f0c1522ef768a21"
+    },
+    {
+      "path": "02 Loading art/refs/course-cliffside.jpg",
+      "bytes": 533625,
+      "sha256": "7e1882ba4dcb30f0b8e25160433988fae8894369fa4aaec619680381f891d407"
+    },
+    {
+      "path": "02 Loading art/refs/course-magma.jpg",
+      "bytes": 506082,
+      "sha256": "5b2386f6b7f473e5a6930dbddf4154614d0a66f11c7c03ff4185ad158191d257"
+    },
+    {
+      "path": "02 Loading art/refs/course-wildisles-overview.jpg",
+      "bytes": 111467,
+      "sha256": "ed4a77604ecaa37a13abfa8b4392c7f4c07dc25705664828639d563f0ef9c949"
+    },
+    {
+      "path": "02 Loading art/refs/course-wildisles.jpg",
+      "bytes": 429209,
+      "sha256": "0d963e0391039295bd8058a69962a59299aef1a8aa520d61b73df0e25e09e31a"
+    },
+    {
+      "path": "03 Power meter/power-preview-rendered.html",
+      "bytes": 93843,
+      "sha256": "312475a33541ceb246a27513f76f85f81b5d84a6e012f7c4642ce1d14413ce2b"
+    },
+    {
+      "path": "03 Power meter/power-preview-source.html",
+      "bytes": 6268,
+      "sha256": "2f0ea7ea0c14aee65e2dd643bd5c936a46de64e7f9822b2b24f2e7da82095f62"
+    },
+    {
+      "path": "03 Power meter/power-preview.html",
+      "bytes": 6813,
+      "sha256": "0b741a451b67d2347046d28383e96412c53057a4798067e3944cd7fa1b47bcb6"
+    },
+    {
+      "path": "04 Earlier concepts/ARCHIVE_NOTICE.md",
+      "bytes": 248,
+      "sha256": "fab29e63bd8fd9fff4b0b28efb21d46279d4ae27844593c538c2632a21b710fe"
+    },
+    {
+      "path": "04 Earlier concepts/GATE_RESULTS.md",
+      "bytes": 1500,
+      "sha256": "3e1be20e475f5ce106a400c69fe2470fc852b901badd349827506ed224f113ea"
+    },
+    {
+      "path": "04 Earlier concepts/PROMPTS.md",
+      "bytes": 9768,
+      "sha256": "4fbbb5bc2881792322192665633770f8d1f997555627731a0a96abce07ead7e9"
+    },
+    {
+      "path": "04 Earlier concepts/README.md",
+      "bytes": 2276,
+      "sha256": "0fe2873e8ddc198743dc33fbb46e0785a22744b95d117242304c97a8c09fa821"
+    },
+    {
+      "path": "04 Earlier concepts/all-maps-custom/GATE_RESULTS.md",
+      "bytes": 1689,
+      "sha256": "611f86df52b0252b3ca39a51e075133d53d8211e64013cb2adcc11424e123b2d"
+    },
+    {
+      "path": "04 Earlier concepts/all-maps-custom/PROMPTS.md",
+      "bytes": 32856,
+      "sha256": "9e5da7225300b6913931d151cb186bd63678d6902fe18abc5f8487aed94e6df5"
+    },
+    {
+      "path": "04 Earlier concepts/all-maps-custom/README.md",
+      "bytes": 4033,
+      "sha256": "5d5f77c35d71835cbf047ac6b12c5e2258c9afc69bee07f37497601b4f8aa68e"
+    },
+    {
+      "path": "04 Earlier concepts/all-maps-custom/proof/01-tennis-tropical-resort.png",
+      "bytes": 2145390,
+      "sha256": "1373fe07883d34bd969d456a32366f2e02a1f61cc8a10bae53b75649f52adf76"
+    },
+    {
+      "path": "04 Earlier concepts/all-maps-custom/proof/02-tennis-sky-tower.png",
+      "bytes": 1924692,
+      "sha256": "943f29490abce028c30d87b5482bcfde3b0d48cfe43287c5195a93064b06a11f"
+    },
+    {
+      "path": "04 Earlier concepts/all-maps-custom/proof/03-tennis-magma-crater.png",
+      "bytes": 1808068,
+      "sha256": "0d85ec22303c89e89e35a1e80f126a3233c36a02e404727746463a351a4a3d1a"
+    },
+    {
+      "path": "04 Earlier concepts/all-maps-custom/proof/04-golf-cliffside.png",
+      "bytes": 1932836,
+      "sha256": "807baae507859c230db708cb508f5562353c4b5996ade80f813d6d17e7a5ade4"
+    },
+    {
+      "path": "04 Earlier concepts/all-maps-custom/proof/05-golf-wild-isles.png",
+      "bytes": 2063450,
+      "sha256": "80a3f27f336f102982dbbcf222d0a4cebd14ad81d516952ce88b5e9bc615d0ff"
+    },
+    {
+      "path": "04 Earlier concepts/all-maps-custom/proof/06-golf-magma-open.png",
+      "bytes": 2162437,
+      "sha256": "0dfec9295705259b21e6127878b4aa456d09f4c17a27de31ae2ac439d0d2e96b"
+    },
+    {
+      "path": "04 Earlier concepts/all-maps-custom/proof/07-bowling-club-lanes.png",
+      "bytes": 2151096,
+      "sha256": "7e1d071f769666325e3b0da19056457cf7421d592774e126e55bbbe1ce2b2d7e"
+    },
+    {
+      "path": "04 Earlier concepts/all-maps-custom/proof/08-bowling-neon-nights.png",
+      "bytes": 2045964,
+      "sha256": "195bcc4c084377a7be9ee85a9bd75ce0c6967c20b2fe38e88485fc2b173672d8"
+    },
+    {
+      "path": "04 Earlier concepts/all-maps-custom/proof/09-bowling-tiki-shores.png",
+      "bytes": 2261917,
+      "sha256": "540a827b085b9d80fa58713efc249d5672e6812c66712146d1c0377d75d0856e"
+    },
+    {
+      "path": "04 Earlier concepts/all-maps-custom/proof/10-bowling-magma-lanes.png",
+      "bytes": 2050359,
+      "sha256": "d71d74ffdc0ce5df15534d4d862e99a8e9b565275a9e64ddeaf815c166df5717"
+    },
+    {
+      "path": "04 Earlier concepts/pool-party-maps/GATE_RESULTS.md",
+      "bytes": 1352,
+      "sha256": "6c2b5f6afba05598a42b6754c2c2dc4c5563923c907f505626792d623f4ebc0f"
+    },
+    {
+      "path": "04 Earlier concepts/pool-party-maps/PROMPTS.md",
+      "bytes": 9493,
+      "sha256": "ebe6f5e96769356c0df95257d7b5fac427c670ba53d794d85b58e3d1703d296d"
+    },
+    {
+      "path": "04 Earlier concepts/pool-party-maps/README.md",
+      "bytes": 1375,
+      "sha256": "f3f2f5ad239be845475641fddf9d00e8648397496c1dbfdac3c2dfa1b8be4e98"
+    },
+    {
+      "path": "04 Earlier concepts/pool-party-maps/proof/01-tropical-pool-party.png",
+      "bytes": 2188885,
+      "sha256": "31ad1e38cddd713613fdfd7dd862dcd2b3188818ef98b4b975bbe7a1ac626191"
+    },
+    {
+      "path": "04 Earlier concepts/pool-party-maps/proof/02-rooftop-pool-party.png",
+      "bytes": 1849732,
+      "sha256": "5b6b5c12cc1e4ff5711facab98650942d30a819411d29010feb9f9935547abda"
+    },
+    {
+      "path": "04 Earlier concepts/pool-party-maps/proof/03-volcano-pool-party.png",
+      "bytes": 1849390,
+      "sha256": "5d03d56d992d07af076bb0eb5bcfa0defd299cd299bf309bb4b341ff9a54db9f"
+    },
+    {
+      "path": "04 Earlier concepts/proof/01-club-bubble.png",
+      "bytes": 2013474,
+      "sha256": "b473efdb603274d8388b923c241b2f5bcabf41bdd124e5682e97a034345bb364"
+    },
+    {
+      "path": "04 Earlier concepts/proof/02-court-ticket.png",
+      "bytes": 2007579,
+      "sha256": "7289170000287845f3818612818e5f8fe6674f4d7e974b7a54459a7392210ae3"
+    },
+    {
+      "path": "04 Earlier concepts/proof/03-open-air.png",
+      "bytes": 1940634,
+      "sha256": "44c953098912c31ea0be49dc232da0f43db7a619bab7ef7ce9b7b8799f517163"
+    },
+    {
+      "path": "04 Earlier concepts/round-2/GATE_RESULTS.md",
+      "bytes": 1672,
+      "sha256": "9d7082d84984dcb78ab6ec6a204185e408938426475b543698a1ef835b41ea5c"
+    },
+    {
+      "path": "04 Earlier concepts/round-2/PROMPTS.md",
+      "bytes": 15487,
+      "sha256": "a006141974f59fd14b6628898cdb12d87fbcbf0063811cbd8617aafa311ad568"
+    },
+    {
+      "path": "04 Earlier concepts/round-2/README.md",
+      "bytes": 1144,
+      "sha256": "c2b506ed52ea3b930773c819a193a25b2f6a212bfc1a62a01715645abbf0f751"
+    },
+    {
+      "path": "04 Earlier concepts/round-2/proof/04-pool-party.png",
+      "bytes": 2162442,
+      "sha256": "e206c2576fe6bc980d8f9661d9818a8178dbd37de9509a5e2ee32aafbdc7d4d7"
+    },
+    {
+      "path": "04 Earlier concepts/round-2/proof/05-flip-side.png",
+      "bytes": 2155449,
+      "sha256": "e1261ac9a02b38b82f93d5c1799f91891d995937314b8b8ebc16b43cfd8f739c"
+    },
+    {
+      "path": "04 Earlier concepts/round-2/proof/06-comic-serve.png",
+      "bytes": 2137497,
+      "sha256": "963bbf80e76aec11f9f5fa7c31828a3a9f6b46e7a64f9f4bb58aa79cd0f115bf"
+    },
+    {
+      "path": "04 Earlier concepts/round-2/proof/07-court-mark.png",
+      "bytes": 1943837,
+      "sha256": "c8a9e6e2ac83583adedfc294f7279b4c4d96bfbbdbcd1015c28f257744874d27"
+    },
+    {
+      "path": "04 Earlier concepts/round-2/proof/08-paper-world.png",
+      "bytes": 2414233,
+      "sha256": "b0a7def68a31d866251f53da4baa93efb786b3cc9d5a6d249a35825bb5e5a59c"
+    },
+    {
+      "path": "05 Reference maps/clear_tee.jpg",
+      "bytes": 571502,
+      "sha256": "cd7e47fbe907c0f43ca901aafffdee68108659cd25867200e41d973672b22cc7"
+    },
+    {
+      "path": "05 Reference maps/game_tennis_rally.jpg",
+      "bytes": 366263,
+      "sha256": "470ad1b386eb63e7edf4fae69dd405b58a315df832a6f0032fd52f43b16c3ef3"
+    },
+    {
+      "path": "05 Reference maps/game_tennis_serve.jpg",
+      "bytes": 360990,
+      "sha256": "8991c7d5af5eb02400e9bcb1b4948e08d3bc86a656ede61a85ce5a5afc72c92e"
+    },
+    {
+      "path": "05 Reference maps/map-bowling-club.jpg",
+      "bytes": 261752,
+      "sha256": "b7bd31c23de4e9466f659fc368532de3df3e0dd3babfdea1f1130300fa77bc8d"
+    },
+    {
+      "path": "05 Reference maps/map-bowling-magma.jpg",
+      "bytes": 247921,
+      "sha256": "2c171f091a5282630cdac0bafce5015f5007a3ca7396e62905b75d3245a4ad36"
+    },
+    {
+      "path": "05 Reference maps/map-bowling-neon.jpg",
+      "bytes": 274165,
+      "sha256": "231a05a26655264dcf86458604b528df1e926d68554a67b1325f2160310c0a7a"
+    },
+    {
+      "path": "05 Reference maps/map-bowling-tiki.jpg",
+      "bytes": 277797,
+      "sha256": "aeef2ef28f043200cadf1b758e544ebea5227166d67cb5a45739a907e38d871f"
+    },
+    {
+      "path": "05 Reference maps/map-golf-cliffside.jpg",
+      "bytes": 121157,
+      "sha256": "fe31326013d7670e62d80330c9abbcc5a31277e0e344a0e08860ae53af3f9fbe"
+    },
+    {
+      "path": "05 Reference maps/map-golf-magma.jpg",
+      "bytes": 320579,
+      "sha256": "d705dc7978d4dca8835e4ad00692911f24bbd322c1f2f02db998e6907686fa5b"
+    },
+    {
+      "path": "05 Reference maps/map-golf-wildisles.jpg",
+      "bytes": 135096,
+      "sha256": "da0fd20fc31af4b30d329926683d6c5963b8c46cff6474d7697fe57582a9d034"
+    },
+    {
+      "path": "05 Reference maps/map-resort.jpg",
+      "bytes": 256845,
+      "sha256": "67904c910d4f7529af4666c91d29f3e462a16930e1d88e166b0e38b1dd1c1d8d"
+    },
+    {
+      "path": "05 Reference maps/map-skyscraper.jpg",
+      "bytes": 164897,
+      "sha256": "8cd14604043b1a544df6bd4fe316082ebc1e4142c511003f005b499eb36c379d"
+    },
+    {
+      "path": "05 Reference maps/map-volcano.jpg",
+      "bytes": 152137,
+      "sha256": "197415af5528fe623c06cd261e5b7daed7d0b82a83e5f23a76f6418a39c93cee"
+    },
+    {
+      "path": "GATE_RESULTS.md",
+      "bytes": 896,
+      "sha256": "fcd5d8f472ea70ef8dcd4b551360ef5748a2645d65bbc3fce1f94e887aee1b53"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1975,
+      "sha256": "7a5527ce3c1f4ce49b7ccb64c75bed2b7317444e39053531d2a09cafb2600240"
+    },
+    {
+      "path": "index.html",
+      "bytes": 2530,
+      "sha256": "d62adfff371dac78ccf4f2558c07334e577d6bdf8b36b5d72ec1a6f757e19832"
+    }
+  ]
+}

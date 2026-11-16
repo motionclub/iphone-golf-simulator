@@ -97,7 +97,6 @@ struct CharacterModelPreview: UIViewRepresentable {
     var framing: PreviewFraming = .body
     var outfitSport: Sport = .tennis
     var idleSport: Sport? = nil
-    var practiceSequence: Int? = nil
     var menuActivity: ClubPreviewActivity? = nil
     var emote: String? = nil
     var emoteSequence = 0
@@ -139,14 +138,12 @@ struct CharacterModelPreview: UIViewRepresentable {
             return
         }
         let animate = false
-        context.coordinator.configureIdle(sport: idleSport, animate: animate)   // (the idle used to stop for the practice swing because it turned the whole character; it is the skeleton now)
-        if let sequence = practiceSequence { context.coordinator.practice(sequence) }
-        view.isPlaying = animate || practiceSequence != nil
+        context.coordinator.configureIdle(sport: idleSport, animate: animate)
+        view.isPlaying = animate
         view.preferredFramesPerSecond = 60   // LOCKER_MIRROR: the idle view runs at the same 60 fps as the club tiles
     }
     static func dismantleUIView(_ view: SCNView, coordinator: Coordinator) {
         view.isPlaying = false
-        coordinator.practiceTimer?.invalidate()
         coordinator.clubTimer?.invalidate()
         coordinator.stopMotion()
         coordinator.character.removeAllActions()
@@ -199,11 +196,6 @@ struct CharacterModelPreview: UIViewRepresentable {
             case .body: return SCNVector3(0, 0.76, 0)
             }
         }
-        /// 3/4 head shot for the style cards: a metre from the face, a little off centre.
-        func headShotCamera() {
-            guard let cam = camera else { return }
-            cam.position = SCNVector3(0.42, headCentre + 0.05, 0.95); cam.look(at: SCNVector3(0, headCentre - 0.01, 0))
-        }
         func setFraming(_ f: PreviewFraming, view: SCNView, animated: Bool) {
             guard f != framing || !framed else { return }
             framing = f
@@ -215,57 +207,6 @@ struct CharacterModelPreview: UIViewRepresentable {
         }
         var previous: Player?
         private var outfitSport: Sport = .tennis
-        private var lastPractice = 0
-        var practiceTimer: Timer?
-        /// The tennis idle plays ReadyIdle between practice swings (the practice swing itself is still the Forehand morph on the static Ready stance).
-        private var idleWanted = false
-        private var settleTask: Task<Void, Never>?
-        func practice(_ sequence: Int) {
-            guard sequence != lastPractice else { return }; lastPractice = sequence
-            guard hero != nil else { return }
-            practiceTimer?.invalidate(); practiceTimer = nil; settleTask?.cancel()
-            if outfitSport == .golf {
-                play(MenuMotion(kind: .clipOnce("golfIron"), lead: 0.18, fadeIn: 0.24, fadeOut: 0.35))
-                return
-            }
-            guard outfitSport == .tennis else { return }
-            // FRAME_RATE_60B: the Forehand as exported bone tracks (60 Hz samples, skinned like every other menu clip) when the
-            // export has it; the morph swing below blends 12 stored poses and stays only for exports made before the clip was added.
-            if let root = hero, MatchHero.asset(female: root.value(forKey: "heroFemale") as? Bool ?? false)?.rig()?.clips["forehand"] != nil {
-                play(MenuMotion(kind: .clipOnce("forehand"), lead: 0.18, fadeIn: 0.24, fadeOut: 0.35))
-                return
-            }
-            guard rig != nil, var playing = motion else { startMorphPractice(); return }
-            // the hero is on its skeleton (ReadyIdle): ease it to the still Ready stance first, then hand over to the morph swing
-            playing.settleFrom = CACurrentMediaTime() - motionStart; motion = playing
-            let wait = playing.settleDuration
-            settleTask = Task { @MainActor [weak self] in
-                try? await Task.sleep(for: .seconds(wait))
-                if !Task.isCancelled { self?.startMorphPractice() }
-            }
-        }
-        /// One practice swing: the match Forehand as morph targets on the static Ready-stance hero, ending back on the ReadyIdle loop when the tennis idle is on.
-        private func startMorphPractice() {
-            guard let root = hero else { return }
-            stopMotion()   // the morph swing builds on the static Ready stance: no skeleton in its way
-            MatchHero.preparePractice(root)
-            practiceTimer?.invalidate()
-            let start = Date()
-            let timer = Timer(timeInterval: 1.0 / 60, repeats: true) { [weak self] _ in
-                MainActor.assumeIsolated {
-                    guard let self, let root = self.hero else { return }
-                    let progress = min(1, Date().timeIntervalSince(start) / 1.5)
-                    MatchHero.practiceFrame(root, progress: progress)
-                    if progress >= 1 { self.practiceTimer?.invalidate(); self.practiceTimer = nil; self.endMorphPractice() }
-                }
-            }
-            practiceTimer = timer; RunLoop.main.add(timer, forMode: .common)
-        }
-        private func endMorphPractice() {
-            // the swing ends on the still Ready stance (all weights 0): drop the morphers so the skeleton can take over again at ReadyIdle frame 0
-            hero?.enumerateChildNodes { node, _ in node.morpher = nil }
-            if idleWanted { play(.ready) }
-        }
         // MARK: LOCKER_MIRROR - the hero moves by playing clips on its own skeleton, never by turning the character root
         /// The skeleton player on the hero on stage (nil while the hero is the static Ready stance) and what it is playing (nil = a still Ready pose).
         private(set) var rig: HeroRig?
@@ -294,7 +235,6 @@ struct CharacterModelPreview: UIViewRepresentable {
             link.add(to: .main, forMode: .common); displayLink = link
         }
         func stopMotion() {
-            settleTask?.cancel(); settleTask = nil
             stopLink(); rig?.detach(); rig = nil; motion = nil
             if let zoom = serveZoom { camera?.simdPosition = zoom.base; serveZoom = nil }
         }
@@ -366,7 +306,7 @@ struct CharacterModelPreview: UIViewRepresentable {
         func configureClub(_ activity: ClubPreviewActivity, animate: Bool) {
             let key = "\(activity.rawValue)-\(animate)"
             guard key != clubKey else { return }
-            clubTimer?.invalidate(); practiceTimer?.invalidate(); practiceTimer = nil
+            clubTimer?.invalidate()
             stopMotion()
             character.removeAllActions(); character.eulerAngles = SCNVector3Zero
             scene.rootNode.childNode(withName: "clubProps", recursively: false)?.removeFromParentNode()
@@ -438,7 +378,6 @@ struct CharacterModelPreview: UIViewRepresentable {
         func configureIdle(sport: Sport?, animate: Bool) {
             let key = "\(sport?.rawValue ?? "none")-\(animate)-\(backCarry?.rawValue ?? "hand")"
             guard key != idleKey else { return }; idleKey = key
-            idleWanted = animate && (sport == .tennis || sport == .golf)
             character.removeAllActions(); character.position = SCNVector3Zero; character.eulerAngles = SCNVector3Zero
             stopMotion()
             scene.rootNode.childNode(withName: "idleBall", recursively: false)?.removeFromParentNode()
@@ -491,7 +430,6 @@ struct CharacterModelPreview: UIViewRepresentable {
 /// (MatchHeroLockerExport) from Resources/Tennis/Customization/PlayerMale|PlayerFemale:
 ///   CharacterAssets/MatchHero_<Sex>.json         parts, submeshes (each with the LOOK numbers of Unity's runtime material), bounds, the rig description
 ///   CharacterAssets/MatchHero_<Sex>.lzfse        the Ready stance (frame 0 of <Sex>_ReadyIdle), positions + normals + indices; the kit's UVs; the body's bind-pose positions
-///   CharacterAssets/MatchHero_<Sex>_Swing_NN     the match Forehand clip sampled at manifest.swingTimes (morph targets for the loading screen's practice swing)
 ///   CharacterAssets/MatchHero_<Sex>_Rig.lzfse    LOCKER_MIRROR: bind-pose meshes + bone weights + the clips <Sex>_ReadyIdle and <Sex>_Serve as bone tracks (the menu tiles play these)
 ///   CharacterAssets/MatchHero_<map>.png          the cloth weave, the kit's seam maps and the soft skin normal Unity's materials sample
 /// The data types, loaders, surfaces (the cloth / skin look) and the skeleton player are in MatchHeroData / MatchHeroSurfaces / MatchHeroMotion.swift.
@@ -510,7 +448,6 @@ struct CharacterModelPreview: UIViewRepresentable {
     typealias Manifest = MatchHeroData.Manifest
     typealias Asset = MatchHeroData.Asset
 
-    static func previewData(_ name: String) -> Data? { MatchHeroData.data(name) }
     static func asset(female: Bool, golf: Bool = false, distance: Bool = false, bowling: Bool = false) -> Asset? {
         // a build without the bowling export shows the tennis hero rather than nothing
         if bowling, !distance, let kit = MatchHeroData.asset(female: female, bowling: true) { return kit }
@@ -593,35 +530,6 @@ struct CharacterModelPreview: UIViewRepresentable {
         return club
     }
 
-    /// Vertex targets sampled from the unchanged match Forehand (the clip the court plays), for the locker's practice swing.
-    static func preparePractice(_ root: SCNNode) {
-        guard let female = root.value(forKey: "heroFemale") as? Bool, let asset = asset(female: female), let targets = asset.swingTargets() else { return }
-        root.enumerateChildNodes { node, _ in
-            guard node.morpher == nil, let i = node.value(forKey: "menuPartIndex") as? Int, targets.indices.contains(i), !targets[i].isEmpty else { return }
-            let morph = SCNMorpher(); morph.targets = targets[i]; morph.calculationMode = .normalized; morph.unifiesNormals = false; node.morpher = morph
-        }
-    }
-
-    /// progress 0...1 over one practice swing: ease out of the Ready stance, play the Forehand clip, ease back.
-    static func practiceFrame(_ root: SCNNode, progress: Double) {
-        guard let female = root.value(forKey: "heroFemale") as? Bool, let asset = asset(female: female) else { return }
-        let times = asset.manifest.swingTimes.map(Double.init)
-        let active = min(1, progress / 0.1) * min(1, (1 - progress) / 0.15)
-        let clipTime = min(1, max(0, (progress - 0.1) / 0.75)) * Double(asset.manifest.swingLength)
-        let hi = min(times.count - 1, times.firstIndex(where: { $0 >= clipTime }) ?? times.count - 1), lo = max(0, hi - 1)
-        let span = times[hi] - times[lo], mix = span > 0 ? min(1, max(0, (clipTime - times[lo]) / span)) : 1
-        SCNTransaction.begin(); SCNTransaction.disableActions = true
-        root.enumerateChildNodes { node, _ in
-            guard let morph = node.morpher else { return }
-            for i in 0 ..< morph.targets.count {
-                // (spelt out with its types: as one expression it is slow for the type checker, too slow for CI's)
-                let fromLo: Double = i == lo ? (1 - mix) * active : 0
-                let fromHi: Double = i == hi ? (lo == hi ? 1 : mix) * active : 0
-                morph.setWeight(CGFloat(fromLo + fromHi), forTargetAt: i)
-            }
-        }
-        SCNTransaction.commit()
-    }
 }
 
 /// One SceneKit surface for the whole party. Each hero keeps its own rig, look and animation clock.

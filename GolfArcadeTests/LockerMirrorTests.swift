@@ -151,43 +151,6 @@ final class LockerMirrorTests: XCTestCase {
         XCTAssertEqual(shirt(female).weaveAngle, 0, accuracy: 0.01)
     }
 
-    /// Seams stay darker: the baked seam map has its darkening on the hems, the collar and the folds of the OUTER wall. Sampled at the kit's UVs the way Unity samples it (v up), the hem and collar
-    /// vertices are darker than the rest; with the rows the other way round they are not. A flipped map would put the darkening in the wrong places.
-    func testSeamMapOrientationPutsTheDarkeningOnTheHemsAndCollar() throws {
-        for female in [false, true] {
-            let asset = try XCTUnwrap(MatchHero.asset(female: female))
-            let bin = try XCTUnwrap(MatchHeroData.data(female ? "MatchHero_Female" : "MatchHero_Male"))
-            // (the shirts, and the male shorts: the female skort is two layers, where a hem / waist split says nothing about the rows)
-            for (partName, tag) in female ? [("Kit_Top", "Top")] : [("Kit_Top", "Top"), ("Kit_Bottom", "Bottom")] {
-                let part = try XCTUnwrap(asset.manifest.parts.first { $0.name == partName })
-                let map = try XCTUnwrap(MatchHeroSurfaces.image("MatchHero_Kit_\(female ? "Female" : "Male")_\(tag)", linear: false, maxPixels: 1024))
-                let w = map.width, h = map.height
-                var px = [UInt8](repeating: 0, count: w * h * 4)
-                let ctx = CGContext(data: &px, width: w, height: h, bitsPerComponent: 8, bytesPerRow: w * 4, space: CGColorSpace(name: CGColorSpace.sRGB)!, bitmapInfo: CGImageAlphaInfo.noneSkipLast.rawValue)!
-                ctx.draw(map, in: CGRect(x: 0, y: 0, width: w, height: h))
-                let v = part.vertexCount
-                let pos = bin.withUnsafeBytes { raw in (0 ..< v).map { raw.loadUnaligned(fromByteOffset: part.positionOffset + $0 * 12 + 4, as: Float.self) } }   // y
-                let uvOffset = try XCTUnwrap(part.uvOffset)
-                let uvs = bin.withUnsafeBytes { raw in (0 ..< v).map { SIMD2(raw.loadUnaligned(fromByteOffset: uvOffset + $0 * 8, as: Float.self), raw.loadUnaligned(fromByteOffset: uvOffset + $0 * 8 + 4, as: Float.self)) } }
-                // the image rows are stored upside down at load (Unity's v = 0 is the bottom row): row = v * h on the stored image is what the sampler reads
-                func sample(_ uv: SIMD2<Float>, flipped: Bool) -> Float {
-                    let x = min(w - 1, max(0, Int(uv.x * Float(w)))), row = min(h - 1, max(0, Int(uv.y * Float(h))))
-                    return Float(px[((flipped ? h - 1 - row : row) * w + x) * 4]) / 255
-                }
-                let sorted = pos.sorted()
-                let lo = sorted[v * 4 / 100], hi = sorted[v * 96 / 100]
-                let edge = (0 ..< v).filter { pos[$0] <= lo || pos[$0] >= hi }, rest = (0 ..< v).filter { pos[$0] > lo && pos[$0] < hi }
-                func darkening(flipped: Bool) -> Float {
-                    let values = uvs.map { sample($0, flipped: flipped) }
-                    return rest.map { values[$0] }.reduce(0, +) / Float(rest.count) - edge.map { values[$0] }.reduce(0, +) / Float(edge.count)
-                }
-                let right = darkening(flipped: false), wrong = darkening(flipped: true)
-                XCTAssertGreaterThan(right, 0.004, "\(female ? "Female" : "Male") \(partName): the hem and collar are darker than the rest (by \(right))")
-                XCTAssertGreaterThan(right, wrong + 0.004, "\(female ? "Female" : "Male") \(partName): and darker than they would be with the rows the other way round (\(wrong))")
-            }
-        }
-    }
-
     /// Default trim: shirt trim and the shorts band stay the authored dark (#09090A), not the shirt white; a picked shirt colour still derives its trim with kitDerive; the shorts band the same.
     func testDefaultTrimIsTheAuthoredDarkAndAPickedShirtStillDerivesItsTrim() throws {
         for female in [false, true] {
@@ -546,7 +509,6 @@ final class LockerMirrorTests: XCTestCase {
                 c.pose(at: 2.2)
                 XCTAssertLessThan(simd_distance(hand.simdPosition, h0), 1e-4, "\(label): back to the same Ready pose"); XCTAssertLessThan(simd_distance(hips.simdPosition, p0), 1e-4)
                 XCTAssertFalse(c.character.hasActions, "\(label): no action turns the character")
-                XCTAssertNil(c.practiceTimer, "\(label): no practice timer")
                 XCTAssertNil(c.hero?.childNode(withName: "Body", recursively: false)?.morpher, "\(label): no Forehand morph on the hero")
             }
         }
@@ -589,7 +551,7 @@ final class LockerMirrorTests: XCTestCase {
                 let a = motion.pose(rig.data, at: later), b = MenuMotion.ready.pose(rig.data, at: later)
                 for (x, y) in zip(a, b) { XCTAssertLessThan(simd_distance(x.t, y.t), 1e-6) }
             }
-            XCTAssertNil(c.practiceTimer); XCTAssertFalse(c.character.hasActions)
+            XCTAssertFalse(c.character.hasActions)
             XCTAssertNil(hero.childNode(withName: "Body", recursively: false)?.morpher, "no Forehand loop on the play tile")
             // the serve starts from Ready and ends in Ready: blended in and out, no pop
             let start = motion.pose(rig.data, at: motion.lead - 0.001), start2 = motion.pose(rig.data, at: motion.lead + 0.001)

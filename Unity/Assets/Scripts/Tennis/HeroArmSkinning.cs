@@ -32,15 +32,23 @@ namespace GolfArcade.Tennis
             var palette=new List<Transform>(source);var binds=new List<Matrix4x4>(bind);var lookup=new Dictionary<long,int>();
             var weights=owned.boneWeights;
             bool limbOnly=body.sharedMesh.name.Contains("(anatomical arm weights)");
+            // 2026-11-15 (work/perf-1115): what each bone is, worked out once per bone. Asked per vertex it was Transform.name
+            // (into the engine, a new string each time) and up to twenty culture-aware EndsWith calls for each of 52,000
+            // vertices, with two small arrays allocated per vertex: 0.2–0.6 s of the main thread on every hero spawn, first
+            // or not. The weights that come out are the same (HeroPerfGuard's fingerprints, work/perf-1115).
+            var names=new string[source.Length];var arm=new bool[source.Length];var shoulder=new bool[source.Length];var allowed=new bool[source.Length];
+            for(int i=0;i<source.Length;i++){names[i]=source[i].name;arm[i]=Arm(names[i]);shoulder[i]=names[i].EndsWith("Shoulder");allowed[i]=arm[i]||names[i]=="Chest"||names[i]=="Spine"||names[i]=="UpperChest";}
+            var ids=new int[4];var ws=new float[4];
             for(int v=0;v<weights.Length;v++)
             {
-                var w=weights[v];var ids=new[]{w.boneIndex0,w.boneIndex1,w.boneIndex2,w.boneIndex3};var ws=new[]{w.weight0,w.weight1,w.weight2,w.weight3};
+                var w=weights[v];ids[0]=w.boneIndex0;ids[1]=w.boneIndex1;ids[2]=w.boneIndex2;ids[3]=w.boneIndex3;ws[0]=w.weight0;ws[1]=w.weight1;ws[2]=w.weight2;ws[3]=w.weight3;
                 // Sort explicitly: imported weights need not arrive in descending order.
                 for(int i=0;i<4;i++)for(int j=i+1;j<4;j++)if(ws[j]>ws[i]){var f=ws[i];ws[i]=ws[j];ws[j]=f;var k=ids[i];ids[i]=ids[j];ids[j]=k;}
-                if(ws[1]<.00001f||!Joint(source[ids[0]].name,source[ids[1]].name))continue;
+                // (= Joint(name, name): an arm bone on one side at least, and both among the arm, chest and spine)
+                if(ws[1]<.00001f||!((arm[ids[0]]||arm[ids[1]])&&allowed[ids[0]]&&allowed[ids[1]]))continue;
                 // The torso/arm fold needs linear skinning: rotating that thin
                 // bridge through a DQ arc creates a broad web under a raised arm.
-                if(limbOnly && (source[ids[0]].name.EndsWith("Shoulder") || source[ids[1]].name.EndsWith("Shoulder") || !Arm(source[ids[0]].name) || !Arm(source[ids[1]].name)))continue;
+                if(limbOnly && (shoulder[ids[0]] || shoulder[ids[1]] || !arm[ids[0]] || !arm[ids[1]]))continue;
                 int a=Mathf.Min(ids[0],ids[1]),b=Mathf.Max(ids[0],ids[1]);long key=((long)a<<32)|(uint)b;
                 if(!lookup.TryGetValue(key,out int first))
                 {

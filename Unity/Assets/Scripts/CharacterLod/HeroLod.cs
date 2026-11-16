@@ -14,6 +14,18 @@
 // Triangle lists come from Resources/CharacterLOD/HeroLodCache.bytes (keyed by a hash of the final runtime mesh) or, on a
 // miss, from a worker thread; until they exist the hero simply stays at LOD0.
 // Env: CHARACTER_LOD=0 disables it; CHARACTER_LOD_FORCE=0..4 pins the level (proof films and A/B runs).
+//
+// 2026-11-15 (work/perf-1115, "the game is way laggier now"): measured, 54 of 66 hero meshes missed the shipped cache. Its key
+// hashed every vertex position, so each change to a hero's shape since the bake (the 11-11 build, the 11-12 studio offsets, new
+// tops and shoes) orphaned its entries; every match then simplified every hero part on the thread pool for 5 to 13 s (an M5; a
+// phone takes longer), drew the heroes in full until that was done, and compacted four copies of each part in one frame (hitches
+// up to 0.4 s, 0.7 s seen). Now:
+//   - the key is the mesh's triangles alone (HeroLodCache.Hash): a LOD is a list of triangles over the original vertices, so it
+//     fits any mesh with those triangles whatever its shape, on the phone as in the Editor (float results need not match bit for
+//     bit across the two), and a reshaped hero keeps hitting the cache;
+//   - a LOD copy is made the first time its level is drawn, one copy a frame, and a hero changes level once all its parts have
+//     theirs (no frame builds 4 copies of 8 parts any more);
+//   - a miss is worked out on one low-priority thread, a part at a time, not on every pool thread at once.
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +50,7 @@ namespace GolfArcade.CharacterLod
         public static readonly double[] Ratio = { 1, .50, .30, .12, .10 };
         public static readonly double[] MaxError = { 0, .0020, .0035, .0080, .0120 };
         public const int MinTriangles = 4000;
-        public const int Version = 4;                                      // bump when the simplifier or the parameters change
+        public const int Version = 5;                                      // bump when the simplifier, the parameters or the cache key change
         public const string ProxyPrefix = "HeroLod ";
 
         public static bool Enabled = Environment.GetEnvironmentVariable("CHARACTER_LOD") != "0";
@@ -58,6 +70,7 @@ namespace GolfArcade.CharacterLod
             public Mesh lod0; public Mesh[] lods = new Mesh[Levels];
             public int[] tris = new int[Levels];
             public bool ready, failed, pending, requested;   // requested: holds a HeroLodLibrary user count (released once)
+            public bool bonesSet;                              // the proxy has the original's bones (checked again every 30 frames)
             // proxy drawing LOD>0, and what the original had before we hid it
             public Renderer proxy; public SkinnedMeshRenderer proxySkin; public MeshFilter proxyFilter;
             public bool hidden, keptOffscreen;
@@ -94,7 +107,7 @@ namespace GolfArcade.CharacterLod
             if (!built && ++stableFrames >= 12 && Time.unscaledTime - bornAt > .3f) { Build(); built = true; }
             foreach (var p in parts)
             {
-                if (p.pending && HeroLodLibrary.TryGet(p.lod0, out var lods)) Finish(p, lods);
+                if (p.pending && HeroLodLibrary.TryGet(p.lod0, out var levels)) Finish(p, levels);
                 if (!p.renderer || p.Current != p.lod0) nextScan = 0;
             }
             Apply(Choose());
@@ -138,7 +151,7 @@ namespace GolfArcade.CharacterLod
                 Show(part);
                 // only a part that requested LODs holds a user count: releasing one that never did took another hero's (shared garment) LODs
                 if (part.requested) HeroLodLibrary.Release(part.lod0);
-                part.lod0 = cur; part.lods = new Mesh[Levels]; part.ready = part.failed = part.pending = part.requested = false;
+                part.lod0 = cur; part.lods = new Mesh[Levels]; part.ready = part.failed = part.pending = part.requested = part.bonesSet = false;
                 if (!Eligible(part)) { if (part.proxy) Destroy(part.proxy.gameObject); parts.Remove(part); }
             }
             foreach (var p in parts) if (!p.renderer && p.proxy) Destroy(p.proxy.gameObject);
@@ -165,12 +178,13 @@ namespace GolfArcade.CharacterLod
             }
         }
 
-        void Finish(Part p, Mesh[] lods)
+        /// The part's triangle lists are there; its LOD copies are made when a level is first drawn (HeroLodLibrary.Level).
+        void Finish(Part p, int[][][] levels)
         {
             p.pending = false;
-            if (lods == null) { p.failed = true; return; }
-            p.lods = (Mesh[])lods.Clone(); p.lods[0] = p.lod0;
-            for (int l = 1; l < Levels; l++) { long t = 0; for (int s = 0; s < lods[l].subMeshCount; s++) t += lods[l].GetIndexCount(s) / 3; p.tris[l] = (int)t; }
+            if (levels == null) { p.failed = true; return; }
+            p.lods = new Mesh[Levels]; p.lods[0] = p.lod0;
+            for (int l = 1; l < Levels; l++) { long t = 0; foreach (var sub in levels[l]) t += sub.Length / 3; p.tris[l] = (int)t; }
             p.ready = true;
         }
 
@@ -213,15 +227,33 @@ namespace GolfArcade.CharacterLod
         }
 
         // ---------- drawing ----------
+        /// The level on screen: `Level` once every part has its copy for it, until then the one before.
+        int drawn;
         void Apply(int level)
         {
             Level = level;
+            // the copies for a level are made as it is first wanted, one a frame over all heroes; the hero changes level together
+            if (level > 0)
+                foreach (var p in parts)
+                {
+                    if (!p.renderer || !p.ready || p.Current != p.lod0 || p.lods[level]) continue;
+                    p.lods[level] = HeroLodLibrary.Level(p.lod0, level);
+                    if (!p.lods[level]) { level = drawn; break; }
+                }
+            drawn = level;
             foreach (var p in parts)
             {
                 if (!p.renderer) continue;
                 if (level == 0 || !p.ready || p.Current != p.lod0 || !p.lods[level]) { Show(p); continue; }
                 Proxy(p, p.lods[level]);
             }
+        }
+
+        static bool SameItems(Transform[] a, Transform[] b)
+        {
+            if (a.Length != b.Length) return false;
+            for (int i = 0; i < a.Length; i++) if (a[i] != b[i]) return false;
+            return true;
         }
 
         /// The original draws again; the proxy rests (hidden, never disabled: see the header).
@@ -252,8 +284,14 @@ namespace GolfArcade.CharacterLod
                 var s = p.proxySkin;
                 if (s.sharedMesh != mesh) s.sharedMesh = mesh;
                 if (s.rootBone != p.skin.rootBone) s.rootBone = p.skin.rootBone;
-                if (!ReferenceEquals(s.bones, null) && s.bones.Length == p.skin.bones.Length) { if (Time.frameCount % 30 == 0 && !s.bones.SequenceEqual(p.skin.bones)) s.bones = p.skin.bones; }
-                else s.bones = p.skin.bones;
+                // (SkinnedMeshRenderer.bones hands out a new array every time it is read: looked at when the proxy starts and every
+                // 30 frames after, not four times a frame per part)
+                if (!p.bonesSet || Time.frameCount % 30 == 0)
+                {
+                    var want = p.skin.bones; var have = p.bonesSet ? s.bones : null;
+                    if (have == null || !SameItems(have, want)) s.bones = want;
+                    p.bonesSet = true;
+                }
                 s.quality = p.skin.quality; s.localBounds = p.skin.localBounds; s.updateWhenOffscreen = false;
                 s.skinnedMotionVectors = p.skin.skinnedMotionVectors;
                 int shapes = Mathf.Min(mesh.blendShapeCount, p.lod0.blendShapeCount);
@@ -262,7 +300,9 @@ namespace GolfArcade.CharacterLod
             else if (p.proxyFilter.sharedMesh != mesh) p.proxyFilter.sharedMesh = mesh;
             // materials (same objects, so tints applied to them follow), shadows, layers, probes, property block
             r.GetSharedMaterials(mats); x.GetSharedMaterials(proxyMats);
-            if (!mats.SequenceEqual(proxyMats)) x.sharedMaterials = mats.ToArray();
+            bool sameMaterials = mats.Count == proxyMats.Count;
+            for (int i = 0; sameMaterials && i < mats.Count; i++) sameMaterials = mats[i] == proxyMats[i];
+            if (!sameMaterials) x.sharedMaterials = mats.ToArray();
             x.shadowCastingMode = r.shadowCastingMode; x.receiveShadows = r.receiveShadows;
             x.renderingLayerMask = r.renderingLayerMask; x.lightProbeUsage = r.lightProbeUsage; x.reflectionProbeUsage = r.reflectionProbeUsage;
             x.probeAnchor = r.probeAnchor ? r.probeAnchor : r.transform; x.motionVectorGenerationMode = r.motionVectorGenerationMode;
@@ -284,7 +324,33 @@ namespace GolfArcade.CharacterLod
     /// LOD meshes shared by every hero that uses the same source mesh (garment assets are shared; runtime body meshes are not).
     public static class HeroLodLibrary
     {
-        sealed class Entry { public Mesh[] lods; public int users; public Task<int[][][]> job; public bool done; }
+        sealed class Entry { public int[][][] levels; public Mesh[] lods = new Mesh[HeroLod.Levels]; public int users; public Task<int[][][]> job; public bool done; }
+
+        // one low-priority thread works the misses off, a part at a time: the game's own threads keep their cores
+        static readonly Queue<Task> jobs = new(); static System.Threading.Thread worker;
+        static void Enqueue(Task job)
+        {
+            lock (jobs)
+            {
+                jobs.Enqueue(job);
+                if (worker == null || !worker.IsAlive)
+                {
+                    worker = new System.Threading.Thread(Work) { IsBackground = true, Priority = System.Threading.ThreadPriority.Lowest, Name = "Hero LOD" };
+                    worker.Start();
+                }
+                System.Threading.Monitor.Pulse(jobs);
+            }
+        }
+        static void Work()
+        {
+            while (true)
+            {
+                Task job;
+                lock (jobs) { while (jobs.Count == 0) System.Threading.Monitor.Wait(jobs); job = jobs.Dequeue(); }
+                job.RunSynchronously();   // (a failure stays in the task: TryGet reports it)
+            }
+        }
+        static int copiedOnFrame = -1;
         static readonly Dictionary<Mesh, Entry> entries = new();
         /// Computed this session, keyed by mesh hash: what the bake tool writes into the cache file.
         public static readonly Dictionary<ulong, int[][][]> Computed = new();
@@ -298,15 +364,16 @@ namespace GolfArcade.CharacterLod
             try
             {
                 var hash = HeroLodCache.Hash(source);
-                if (HeroLodCache.TryGet(hash, source, out var cached)) { CacheHits++; e.lods = Make(source, cached); e.done = true; return true; }
+                if (HeroLodCache.TryGet(hash, source, out var cached)) { CacheHits++; e.levels = cached; e.done = true; return true; }
                 CacheMisses++;
                 var input = Extract(source, skin);
-                e.job = Task.Run(() =>
+                e.job = new Task<int[][][]>(() =>
                 {
                     var levels = new int[HeroLod.Levels][][];
                     for (int l = 1; l < HeroLod.Levels; l++) levels[l] = HeroLodSimplifier.Simplify(input, HeroLod.Ratio[l], HeroLod.MaxError[l]).submeshes;
                     return levels;
                 });
+                Enqueue(e.job);
                 pendingHash[source] = hash;
                 return true;
             }
@@ -314,7 +381,8 @@ namespace GolfArcade.CharacterLod
         }
         static readonly Dictionary<Mesh, ulong> pendingHash = new();
 
-        public static bool TryGet(Mesh source, out Mesh[] lods)
+        /// The triangle lists of `source`'s levels once they are known (false: still being worked out; true with null: none).
+        public static bool TryGet(Mesh source, out int[][][] lods)
         {
             lods = null;
             if (!source || !entries.TryGetValue(source, out var e)) return true;   // gone: report "no LODs"
@@ -322,10 +390,20 @@ namespace GolfArcade.CharacterLod
             {
                 if (e.job == null || !e.job.IsCompleted) return false;
                 if (e.job.IsFaulted) { Debug.LogWarning("[HeroLod] " + source.name + ": " + e.job.Exception?.GetBaseException().Message); e.done = true; return true; }
-                var levels = e.job.Result; e.lods = Make(source, levels); e.done = true;
+                var levels = e.job.Result; e.levels = levels; e.done = true;
                 if (pendingHash.TryGetValue(source, out var h)) { Computed[h] = levels; pendingHash.Remove(source); }
             }
-            lods = e.lods; return true;
+            lods = e.levels; return true;
+        }
+
+        /// `source`'s LOD copy for `level`, made on first use: at most one copy is made a frame (null: ask again next frame).
+        public static Mesh Level(Mesh source, int level)
+        {
+            if (!source || level <= 0 || level >= HeroLod.Levels || !entries.TryGetValue(source, out var e) || e.levels == null) return null;
+            if (e.lods[level]) return e.lods[level];
+            if (Application.isPlaying && Time.frameCount == copiedOnFrame) return null;
+            copiedOnFrame = Time.frameCount;
+            return e.lods[level] = Compact(source, e.levels[level]);
         }
 
         public static void Release(Mesh source)
@@ -334,13 +412,6 @@ namespace GolfArcade.CharacterLod
             if (--e.users > 0) return;
             if (e.lods != null) for (int l = 1; l < e.lods.Length; l++) if (e.lods[l]) UnityEngine.Object.Destroy(e.lods[l]);
             entries.Remove(source); pendingHash.Remove(source);
-        }
-
-        static Mesh[] Make(Mesh source, int[][][] levels)
-        {
-            var lods = new Mesh[HeroLod.Levels]; lods[0] = source;
-            for (int l = 1; l < HeroLod.Levels; l++) lods[l] = Compact(source, levels[l]);
-            return lods;
         }
 
         /// A copy of `source` holding only the vertices `tris` uses, byte for byte (every vertex stream: positions, normals,
@@ -452,12 +523,14 @@ namespace GolfArcade.CharacterLod
     {
         static Dictionary<ulong, (int offset, int length)> index; static byte[] data;
 
+        /// The key of a mesh's LODs: its triangles (and vertex count), not its vertex positions. A LOD is a list of triangles over
+        /// the original vertices, so it fits every mesh with these triangles; and a key over the positions was orphaned by each
+        /// change to a hero's shape, and would be by any float that differs between the Editor that baked it and a phone.
         public static ulong Hash(Mesh m)
         {
             ulong h = 1469598103934665603UL;
             void Mix(uint x) { for (int i = 0; i < 4; i++) { h ^= (x >> (8 * i)) & 0xff; h *= 1099511628211UL; } }
             Mix((uint)HeroLod.Version); Mix((uint)m.vertexCount); Mix((uint)m.subMeshCount);
-            foreach (var p in m.vertices) { Mix((uint)BitConverter.SingleToInt32Bits(p.x)); Mix((uint)BitConverter.SingleToInt32Bits(p.y)); Mix((uint)BitConverter.SingleToInt32Bits(p.z)); }
             for (int s = 0; s < m.subMeshCount; s++) { var t = m.GetTriangles(s); Mix((uint)t.Length); foreach (var i in t) Mix((uint)i); }
             return h;
         }

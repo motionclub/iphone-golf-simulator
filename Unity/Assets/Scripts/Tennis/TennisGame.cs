@@ -20,12 +20,6 @@ namespace GolfArcade.Tennis
         bool playerWonPoint, pointEmoteChosen;
         HeroTennisDriver.Clip? pendingPointEmote;
         public void EquipEmotes(string[] ids) { equippedEmotes = TennisEmotes.Normalize(ids); }
-        public float PlayEquippedIntro() {
-            var driver = Player ? Player.GetComponentInChildren<HeroTennisDriver>() : null;
-            if (driver && TennisEmotes.TryClip(equippedEmotes[0], out var clip) && driver.PlayEmote(clip)) return driver.EmoteDuration(clip);
-            if (Player) Player.PlayIntro();
-            return 0;
-        }
         /// The player's first equipped emote: their intro unless they pick another on the phone.
         public HeroTennisDriver.Clip? EquippedIntroClip => TennisEmotes.TryClip(equippedEmotes[0], out var clip) ? clip : null;
         /// Versus, while the intro can be skipped: one ask from either phone is enough.
@@ -271,16 +265,25 @@ namespace GolfArcade.Tennis
             umpire = TennisUmpire.Spawn(environment.transform.parent);
             if (venue == TennisVenueKind.Resort) { stands = gameObject.AddComponent<TennisStandsCrowd>(); stands.Build(null); }
             if (SliceInit) { InitProgress = .45f; yield return null; }
+            // (the character the app is about to ask for, when it has said: the court builds that hero once, instead of the standard
+            // one first and the chosen one over it)
+            if (LaunchFemale is bool chosen) { FemalePlayer = chosen; LaunchFemale = null; }
             Player = new GameObject("Player — permanent standard").AddComponent<TennisActor>();
             Player.transform.position = new Vector3(0, .035f, -11.2f);
             Player.Build(FemalePlayer, PlayerSkinFor(FemalePlayer), NativeSportsSession.Left, PlayerBody(FemalePlayer));
+            playerBuiltFemale = FemalePlayer;
             if (SliceInit) { InitProgress = .5f; yield return null; }
-            Opponent = new GameObject("Opponent — permanent standard").AddComponent<TennisActor>();
+            // (the rival the app is about to name, when it has: built here once, as ConfigureMatch would build them over the standard one)
+            var launchRival = LaunchOpponent != null ? TennisRoster.Find(LaunchOpponent) : null; LaunchOpponent = null;
+            Opponent = new GameObject(launchRival != null ? "Opponent — " + launchRival.Key : "Opponent — permanent standard").AddComponent<TennisActor>();
             Opponent.transform.SetPositionAndRotation(new Vector3(0, .035f, 11.2f), Quaternion.Euler(0,180,0));
-            Opponent.Build(!FemalePlayer, new Color(.52f,.31f,.18f), false);
+            if (launchRival != null) { Opponent.Build(launchRival.Female, launchRival.Skin, false, launchRival.Key); if (launchRival.Boss) Opponent.RestingFace = TennisActor.Expression.Focus; }
+            else Opponent.Build(!FemalePlayer, new Color(.52f,.31f,.18f), false);
+            opponentBuiltAs = launchRival?.Key;
             Opponent.Motion = TennisActor.Style.Rival;
             if (SliceInit) { InitProgress = .58f; yield return null; }
-            if (SliceInit) { TennisHeroSetup.AttachPlayer(this); InitProgress = .64f; yield return null; TennisHeroSetup.AttachRival(this); }   // = Attach, one hero a frame
+            if (SliceInit) { TennisHeroSetup.AttachPlayer(this); InitProgress = .64f; yield return null; TennisHeroSetup.AttachRival(this, launchRival); }   // = Attach, one hero a frame
+            else if (launchRival != null) { if (TennisHeroSetup.Enabled) { TennisHeroSetup.AttachPlayer(this); TennisHeroSetup.AttachRival(this, launchRival); } }
             else TennisHeroSetup.Attach(this);
             if (SliceInit) { InitProgress = .7f; yield return null; }
             BuildBall();
@@ -981,7 +984,7 @@ namespace GolfArcade.Tennis
             if (Match.Complete) Debug.Log("[MatchFinish] reactions complete; publishing stats");
             if (Match.Complete && !matchReported) MatchStatsReady?.Invoke(MatchStatsLine());   // queued before the results, so the phone has them
             if (Match.Complete) Debug.Log("[MatchFinish] publishing result card");
-            if (Match.Complete && coach) coach.ShowResults(Match, Hits, LongestRally);
+            if (Match.Complete && coach) coach.ShowResults(Match, Hits, LongestRally, hud ? hud.ShownPlayerName : null, hud ? hud.OpponentName : null);
             if (Match.Complete) Debug.Log("[MatchFinish] result card published");
             ScoreChanged?.Invoke($"{Match.PlayerGames},{Match.OpponentGames},{Match.Scoreboard}");
             if (Match.Complete && !matchReported)
@@ -1034,14 +1037,6 @@ namespace GolfArcade.Tennis
             return "POINT";
         }
 
-        string PointContext(bool toPlayer, string why = null)
-        {
-            // An opponent's miss says why: the player sees what earned the point.
-            string who = toPlayer ? "POINT " + (hud ? hud.PlayerName : "YOU") : "POINT " + (hud ? hud.OpponentName : "RIVAL");
-            if (!string.IsNullOrEmpty(why)) who += " · " + why;
-            return RallyShots >= 4 ? $"{who}  ·  {RallyShots}-SHOT RALLY" : who;
-        }
-
         /// The player's own character: the customisable base avatar (blender/scripts/fit_avatar.py),
         /// male or female, in the players' default skin tone (sampled from its texture, for the
         /// separate grip hands).
@@ -1066,9 +1061,21 @@ namespace GolfArcade.Tennis
         }
         public string OpponentKey { get; private set; }
 
-        public void SelectCharacter(bool female)
+        /// The player's character the app will choose once the court is up (NativeSportsSession sets it before the scene loads).
+        public static bool? LaunchFemale;
+        /// The rival's key the app will name in ConfigureMatch (null: none, the standard opponent).
+        public static string LaunchOpponent;
+        bool? playerBuiltFemale;
+        /// The rival the opponent standing there was built as (null: the standard opponent).
+        string opponentBuiltAs;
+
+        /// `keepIfSame`: the character already standing there is kept (the app's launch: it always names the character, and
+        /// building the same hero a second time was half a second and more of every load — 2026-11-15, work/perf-1115). Without
+        /// it the hero is always rebuilt (the Editor's films and probes rebuild on purpose after changing a setting).
+        public void SelectCharacter(bool female, bool keepIfSame = false)
         {
-            FemalePlayer = female;
+            if (keepIfSame && Player && playerBuiltFemale == female && FemalePlayer == female) { BeginPoint(); return; }
+            FemalePlayer = female; playerBuiltFemale = female;
             if (!Player) return;
             Vector3 position = Player.transform.position;
             Destroy(Player.gameObject);
@@ -1105,7 +1112,7 @@ namespace GolfArcade.Tennis
                 Destroy(Opponent.gameObject);
                 Opponent = new GameObject("Opponent — permanent standard").AddComponent<TennisActor>();
                 Opponent.transform.SetPositionAndRotation(p0, r0);
-                Opponent.Build(!FemalePlayer, new Color(.52f,.31f,.18f), false);
+                Opponent.Build(!FemalePlayer, new Color(.52f,.31f,.18f), false); opponentBuiltAs = null;
                 Opponent.Motion = TennisActor.Style.Rival;
                 if (fx) HookActorFx(Opponent);
                 { var s = TennisLook.AddContactShadow(Opponent.transform, HeroShoeShape.Presence ? .62f : .55f, HeroShoeShape.Presence ? .70f : .45f); s.HeightOverride = 0; s.Surface = Opponent.transform; }
@@ -1113,8 +1120,10 @@ namespace GolfArcade.Tennis
                 if (replay) replay.Build(new[] { Player.transform, Opponent.transform }, ball, GameplayCamera, OnReplayPose);
             }
             OpponentKey = rival != null ? rival.Key : null;
-            if (rival != null && Opponent)
+            // (not when that rival is already the one standing there: the court built them at its start, TennisGame.LaunchOpponent)
+            if (rival != null && Opponent && opponentBuiltAs != rival.Key)
             {
+                opponentBuiltAs = rival.Key;
                 Vector3 position = Opponent.transform.position; Quaternion rotation = Opponent.transform.rotation;
                 Destroy(Opponent.gameObject);
                 Opponent = new GameObject("Opponent — " + rival.Key).AddComponent<TennisActor>();
@@ -1959,7 +1968,6 @@ namespace GolfArcade.Tennis
         public float RivalUltimate { get; private set; }
         public const float UltimateChargeLead = .14f;
         public const float UltimateSpeed = 1.3f, RivalUltimateGain = .075f;
-        public static float UltimateGain(Timing g) => g >= Timing.Perfect ? .12f : g >= Timing.Excellent ? .09f : g >= Timing.Great ? .07f : g >= Timing.Good ? .05f : .02f;
         bool ultimateBall, playerUltCharged, rivalUltCharged;
         public string LastRivalStrike { get; private set; }
         static readonly bool HonestContactEnabled = System.Environment.GetEnvironmentVariable("HERO_BASELINE") != "1";

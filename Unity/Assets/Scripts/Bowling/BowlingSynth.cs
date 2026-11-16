@@ -287,25 +287,6 @@ namespace GolfArcade.Bowling
             return buf;
         }
 
-        /// In the gutter: a hollow rattle (the ball knocking the channel's sides).
-        public static float[] GutterLoop(float seconds = 3)
-        {
-            var rng = new Random(5); int n = (int)(seconds * Rate); var buf = new float[n * 2];
-            double lp = 0, hp = 0, a = 1 - Math.Exp(-2 * Math.PI * 900.0 / Rate), ah = 1 - Math.Exp(-2 * Math.PI * 180.0 / Rate);
-            for (int f = 0; f < n; f++)
-            {
-                double w = rng.NextDouble() * 2 - 1; lp += a * (w - lp); hp += ah * (lp - hp);
-                buf[2 * f] = buf[2 * f + 1] = (float)((lp - hp) * 1.4);
-            }
-            for (double t = .03; t < seconds - .2; t += .05 + rng.NextDouble() * .16)
-            {
-                double pan = (rng.NextDouble() - .5) * .3;
-                Mode(buf, t, 260 + rng.NextDouble() * 60, .05, .35, pan); Mode(buf, t, 610 + rng.NextDouble() * 90, .035, .2, pan);
-            }
-            buf = Loop(buf, .25f); Normalise(buf, .7f, 1);
-            return buf;
-        }
-
         /// The ball landing on the lane (a loft is a louder, deeper drop).
         public static float[] Landing(float loft)
         {
@@ -348,17 +329,6 @@ namespace GolfArcade.Bowling
                 buf[2 * f] += (float)(lp * .22 * env); buf[2 * f + 1] += (float)(lp * .22 * env);
             }
             Reverb(buf, room); Normalise(buf, .6f, 1);
-            return buf;
-        }
-
-        /// The ball return: the air blower's whoosh, then the ball knocking into the rack.
-        public static float[] BallReturn()
-        {
-            var rng = new Random(11); var buf = new float[(int)(1.6 * Rate) * 2];
-            Noise(buf, 0, .9, .45, 60, 900, -.2, rng, .25);
-            Thump(buf, .85, 140, 70, .2, .8, -.2); Mode(buf, .85, 380, .07, .3, -.2); Mode(buf, .85, 1150, .03, .15, -.2);
-            Thump(buf, 1.05, 120, 70, .12, .3, -.2);
-            Normalise(buf, .75f, 1);
             return buf;
         }
 

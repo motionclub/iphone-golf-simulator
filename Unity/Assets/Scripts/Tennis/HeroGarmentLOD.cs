@@ -54,6 +54,9 @@ namespace GolfArcade.Tennis
             if (initialized) return pieces.Count > 0;
             if (!look) look = GetComponent<MatchHeroLook>();
             if (!look || look.golfKit || look.kit == null) return false;
+            // CLOTHING V2 pieces are their own close and far mesh: a hero dressed only in those has no distance kit to load (every
+            // shipped hero since the V2 kits; the old distance kit, Resources/Tennis/KitsLOD, left the game on 2026-11-15)
+            if (look.kit.All(r => !r || !r.sharedMesh || MatchHeroLook.IsKitV2(r.sharedMesh))) { initialized = true; return false; }
             var source = Resources.Load<GameObject>("Tennis/KitsLOD/" + (look.female ? "Female" : "Male"));
             if (!source) return false;
             var byName = look.GetComponentsInChildren<Transform>(true).GroupBy(t => t.name).ToDictionary(g => g.Key, g => g.First());

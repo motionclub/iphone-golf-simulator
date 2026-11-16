@@ -86,7 +86,7 @@ namespace GolfArcade.Course
             else role="FirBark";
             if(materialCache.TryGetValue(role,out var cached))return cached;
             var diffuse=Resources.Load<Texture2D>("Course/Resort/CoastalBotanyMaps/"+role+"_C");
-            var normal=Resources.Load<Texture2D>("Course/Resort/CoastalBotanyMaps/"+role+"_N");
+            var normal=Resources.Load<Texture2D>("Course/Resort/CoastalBotanyMaps/"+(role=="SaplingNeedles"?"FirNeedles":role)+"_N");   // (the sapling's normal map was a byte-identical copy of the fir's)
             bool leaf=baked||role.Contains("Needles")||role is "Shrub" or "Fern";
             var mat=new Material(shader){name="Coastal12 artist "+role,enableInstancing=true};
             if(diffuse)mat.SetTexture("_BaseMap",diffuse);else Debug.LogError("[GolfCoastalBotany] missing artist diffuse "+role);

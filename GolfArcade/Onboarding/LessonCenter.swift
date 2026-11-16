@@ -85,11 +85,16 @@ final class LessonOverlay {
     static let shared = LessonOverlay()
     private var window: UIWindow?
     func install() {
-        guard window == nil, let scene = SportsDisplays.shared.external?.windowScene else { return }
+        guard window == nil else { return }
+        // On the TV when there is one; with none (golf and bowling played on the phone) a compact coach card on the phone itself
+        // (PLAN_Onboarding_v3: no TV is needed for the Tutorial's golf and bowling)
+        let tv = SportsDisplays.shared.external?.windowScene
+        guard let scene = tv ?? SportsDisplays.shared.phone?.windowScene
+                ?? UIApplication.shared.connectedScenes.compactMap({ $0 as? UIWindowScene }).first(where: { $0.session.role == .windowApplication }) else { return }
         let w = UIWindow(windowScene: scene)
         w.windowLevel = .normal + 2
         w.backgroundColor = .clear; w.isUserInteractionEnabled = false
-        let host = UIHostingController(rootView: LessonHUDRoot())
+        let host = tv != nil ? UIHostingController(rootView: AnyView(LessonHUDRoot())) : UIHostingController(rootView: AnyView(LessonPhoneHUD(center: .shared, session: .shared)))
         host.view.backgroundColor = .clear; w.rootViewController = host
         w.isHidden = false; window = w
     }
@@ -108,6 +113,11 @@ private struct LessonHUDRoot: View {
     }
 }
 
+/// The lesson over the game on the TV (Adnan 2026-11-15: "less covering the screen, especially the coach … easily able to see the
+/// character … start with the gif intro, with the explainers on top of that, then transparent so the person can get good gameplay").
+/// The lesson's first step opens on the how-to GIF with the station's tips laid over it (until the first swing). After that the HUD
+/// is a slim, see-through stack at the top: which step, its title, one line of coaching (and the hint after two misses). Nothing sits
+/// over the middle or the bottom of the screen, where the player is.
 struct LessonHUD: View {
     @Bindable var center: LessonCenter
     @Bindable var session: SportsSession
@@ -117,28 +127,64 @@ struct LessonHUD: View {
             && (session.sport != "tennis" || session.setupStage == .playing)
         ZStack {
             if live && !center.station.title.isEmpty {
-                VStack(spacing: 6) {
-                    Text("\(center.sport == .tennis ? "TENNIS" : "GOLF") LESSON · \(center.station.index + 1) OF \(center.station.count)")
-                        .font(Onb.font(14, 900)).tracking(1.6).foregroundStyle(Onb.ink)
-                        .padding(.horizontal, 14).frame(height: 30).background(Onb.gold, in: Capsule())
-                    Text(center.station.title).font(Onb.font(34, 900)).italic().foregroundStyle(.white)
-                        .shadow(color: Onb.ink.opacity(0.8), radius: 6, y: 2)
-                    LessonSteps(index: center.station.index, count: center.station.count)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top).padding(.top, 18)
-                if center.explaining { LessonExplainer(station: center.station).transition(.scale(scale: 0.94).combined(with: .opacity)) }
-                LessonCoachCard(center: center)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom).padding(.bottom, 26)
-                if !center.grade.isEmpty, center.shown != .ask {
-                    LessonGradePop(word: center.grade, pass: center.shown == .pass).id(center.attempt)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top).padding(.top, 150)
+                if center.explaining, center.station.index == 0, let sport = center.sport, HowToGIF.available(sport) {
+                    LessonGIFIntro(station: center.station, sport: sport).transition(.opacity)
+                } else {
+                    VStack(spacing: 6) {
+                        Text("\(center.sport?.title ?? "") LESSON · \(center.station.index + 1) OF \(center.station.count)")
+                            .font(Onb.font(12, 900)).tracking(1.4).foregroundStyle(Onb.ink)
+                            .padding(.horizontal, 12).frame(height: 24).background(Onb.gold.opacity(0.92), in: Capsule())
+                        Text(center.station.title).font(Onb.font(26, 900)).italic().foregroundStyle(.white)
+                            .shadow(color: Onb.ink.opacity(0.9), radius: 4, y: 2)
+                        LessonSteps(index: center.station.index, count: center.station.count).scaleEffect(0.8)
+                        LessonCoachStrip(center: center)
+                        if center.explaining { LessonTipsLine(station: center.station) }
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top).padding(.top, 12)
+                    if !center.grade.isEmpty, center.shown != .ask {
+                        LessonGradePop(word: center.grade, pass: center.shown == .pass).id(center.attempt)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top).padding(.top, 210)
+                    }
                 }
             }
         }
         .frame(width: 1280, height: 720)
         .animation(.spring(response: 0.38, dampingFraction: 0.84), value: center.attempt)
-        .animation(.easeInOut(duration: 0.3), value: center.explaining)
+        .animation(.easeInOut(duration: 0.35), value: center.explaining)
         .animation(.easeInOut(duration: 0.3), value: center.station.index)
+    }
+}
+
+/// The lesson's opening: how it looks to play this sport in front of the TV (the GIF), with the station's tips over its lower part.
+/// Up until the first swing; the game stays visible round it.
+private struct LessonGIFIntro: View {
+    let station: LessonCenter.Station
+    let sport: Sport
+    var body: some View {
+        VStack(spacing: 10) {
+            ZStack(alignment: .bottomLeading) {
+                HowToGIF(sport: sport).frame(width: 720, height: 450)
+                LinearGradient(colors: [.clear, Onb.ink.opacity(0.88)], startPoint: UnitPoint(x: 0.5, y: 0.35), endPoint: .bottom)
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("\(sport.title) LESSON · HOW IT LOOKS").font(Onb.font(13, 900)).tracking(2).foregroundStyle(Onb.goldHi)
+                    Text(station.title).font(Onb.font(30, 900)).italic().foregroundStyle(.white)
+                    ForEach(Array(station.tips.enumerated()), id: \.offset) { i, tip in
+                        HStack(alignment: .top, spacing: 10) {
+                            Text("\(i + 1)").font(Onb.font(13, 900)).foregroundStyle(Onb.ink).frame(width: 24, height: 24).background(Onb.goldHi, in: Circle())
+                            Text(tip).font(Onb.font(17, 700)).foregroundStyle(.white).fixedSize(horizontal: false, vertical: true)
+                        }
+                    }
+                }
+                .padding(22)
+            }
+            .frame(width: 720, height: 450)
+            .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+            .overlay(RoundedRectangle(cornerRadius: 24, style: .continuous).strokeBorder(.white, lineWidth: 3))
+            .shadow(color: Onb.deep.opacity(0.5), radius: 14, y: 10)
+            Text("Swing when you're ready").font(Onb.font(18, 800)).foregroundStyle(.white)
+                .padding(.horizontal, 16).frame(height: 34).background(Onb.ink.opacity(0.6), in: Capsule())
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -157,85 +203,132 @@ private struct LessonSteps: View {
     }
 }
 
-/// What to do now, how the last attempt went (the Shot Read), the hint after two misses, and the skip after three.
-private struct LessonCoachCard: View {
+/// One see-through line of coaching under the title: what to do, or how the last try went; the hint after two misses.
+private struct LessonCoachStrip: View {
     @Bindable var center: LessonCenter
+    var compact = false
     var body: some View {
         let pass = center.shown == .pass, miss = center.shown == .miss
-        VStack(alignment: .leading, spacing: 10) {
-            HStack(spacing: 10) {
-                Image(systemName: pass ? "checkmark" : miss ? "arrow.counterclockwise" : "figure.\(center.sport == .tennis ? "tennis" : "golf")")
-                    .font(.system(size: 17, weight: .black)).foregroundStyle(Onb.ink)
-                    .frame(width: 34, height: 34).background(pass ? Onb.green : miss ? Color(hex: "FFB547") : Onb.goldHi, in: Circle())
-                Text(pass ? "NICE!" : miss ? "NOT QUITE" : center.sport == .tennis ? "COACH RAY" : "COACH")
-                    .font(Onb.font(16, 900)).tracking(2).foregroundStyle(pass ? Color(hex: "6BEBA2") : miss ? Color(hex: "FFC46B") : Onb.goldHi)
-                Spacer()
-                if center.misses > 0, !pass { Text("\(center.misses) \(center.misses == 1 ? "try" : "tries")").font(Onb.font(14, 700)).foregroundStyle(Onb.mute) }
+        VStack(alignment: compact ? .leading : .center, spacing: 4) {
+            HStack(spacing: 8) {
+                Image(systemName: pass ? "checkmark" : miss ? "arrow.counterclockwise" : center.sport?.icon ?? "figure.golf")
+                    .font(.system(size: compact ? 10 : 12, weight: .black)).foregroundStyle(Onb.ink)
+                    .frame(width: compact ? 18 : 22, height: compact ? 18 : 22).background(pass ? Onb.green : miss ? Color(hex: "FFB547") : Onb.goldHi, in: Circle())
+                Text(center.shown == .ask ? center.station.ask : center.text)
+                    .font(Onb.font(compact ? 13 : 17, 700)).foregroundStyle(pass ? Color(hex: "8CF5B8") : miss ? Color(hex: "FFD08A") : .white)
+                    .lineLimit(2).fixedSize(horizontal: false, vertical: true)
             }
-            Text(center.text).font(Onb.font(24, 800)).foregroundStyle(.white).fixedSize(horizontal: false, vertical: true)
             if center.hintShown {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("TRY THIS").font(Onb.font(13, 900)).tracking(2).foregroundStyle(Onb.goldHi)
-                    Text(center.station.hint).font(Onb.font(19, 600)).foregroundStyle(.white).fixedSize(horizontal: false, vertical: true)
-                }
-                .padding(14).frame(maxWidth: .infinity, alignment: .leading)
-                .background(Onb.ink, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
-                .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(Onb.goldHi, lineWidth: 2.5))
+                Text("Try this: \(center.station.hint)").font(Onb.font(compact ? 12 : 15, 700)).foregroundStyle(Onb.goldHi).lineLimit(2)
             }
-            if !center.read.isEmpty, center.shown != .ask {
-                HStack(spacing: 8) {
+            if !compact, !center.read.isEmpty, center.shown != .ask {
+                HStack(spacing: 6) {
                     ForEach(center.read) { r in
                         let color = r.state == 1 ? Onb.green : r.state == 0 ? Color(hex: "FF6B5B") : Color(hex: "FFB547")
-                        HStack(spacing: 7) {
-                            Text(r.key).font(Onb.font(12, 800)).tracking(1).foregroundStyle(Onb.mute)
-                            Text(r.value).font(Onb.font(16, 800)).foregroundStyle(.white)
-                            Circle().fill(color).frame(width: 9, height: 9)
+                        HStack(spacing: 5) {
+                            Text(r.key).font(Onb.font(10, 800)).tracking(0.8).foregroundStyle(Onb.mute)
+                            Text(r.value).font(Onb.font(13, 800)).foregroundStyle(.white)
+                            Circle().fill(color).frame(width: 7, height: 7)
                         }
-                        .padding(.horizontal, 11).frame(height: 34)
-                        .background(Onb.ink, in: RoundedRectangle(cornerRadius: 11, style: .continuous))
-                        .overlay(RoundedRectangle(cornerRadius: 11, style: .continuous).strokeBorder(color, lineWidth: 2))
+                        .padding(.horizontal, 8).frame(height: 24)
+                        .background(Onb.ink.opacity(0.5), in: Capsule())
                     }
                 }
             }
-            if pass { Text("Next station in a moment…").font(Onb.font(14, 700)).foregroundStyle(Onb.mute) }
-            if center.skipOffered { Text("Stuck? SKIP THIS STEP is on your phone.").font(Onb.font(14, 800)).foregroundStyle(Onb.goldHi) }
+            if center.skipOffered { Text(compact ? "Stuck? SKIP is below." : "Stuck? SKIP THIS STEP is on your phone.").font(Onb.font(compact ? 11 : 13, 800)).foregroundStyle(Onb.goldHi) }
         }
-        .padding(.horizontal, 24).padding(.vertical, 18).frame(width: 660, alignment: .leading)
-        .background(Onb.navy, in: RoundedRectangle(cornerRadius: 26, style: .continuous))
-        .overlay(RoundedRectangle(cornerRadius: 26, style: .continuous).strokeBorder(pass ? Onb.green : .white, lineWidth: 3.5))
-        .shadow(color: Onb.deep.opacity(0.45), radius: 10, y: 10)
+        .padding(.horizontal, compact ? 10 : 16).padding(.vertical, compact ? 6 : 8).frame(maxWidth: compact ? .infinity : 760, alignment: compact ? .leading : .center)
+        .background(Onb.ink.opacity(0.42), in: RoundedRectangle(cornerRadius: compact ? 12 : 16, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: compact ? 12 : 16, style: .continuous).strokeBorder(pass ? Onb.green.opacity(0.8) : .white.opacity(0.25), lineWidth: 1.5))
     }
 }
 
-/// The grade, big, the moment an attempt is judged.
+/// The grade, the moment an attempt is judged: big enough to read from the sofa, gone in a moment.
 private struct LessonGradePop: View {
     let word: String, pass: Bool
+    var size: CGFloat = 54
     @State private var shown = false
     var body: some View {
         let color: Color = ["PERFECT!", "ACE!", "POINT!", "PAR!", "IN!"].contains(word) ? Onb.goldHi
             : ["THIN", "LATE", "FAULT", "MISSED", "BUNKER", "TOO FIRM"].contains(word) ? Onb.coral
             : ["GREAT", "GREAT!", "EXCELLENT", "SAVED!"].contains(word) ? .white : Color(hex: "9CC2FF")
-        Text(word).font(Onb.font(84, 900)).italic().foregroundStyle(color)
-            .shadow(color: Onb.ink, radius: 0, x: 0, y: 5).shadow(color: Onb.ink.opacity(0.6), radius: 14, y: 10)
+        Text(word).font(Onb.font(size, 900)).italic().foregroundStyle(color)
+            .shadow(color: Onb.ink, radius: 0, x: 0, y: 4).shadow(color: Onb.ink.opacity(0.6), radius: 10, y: 6)
             .scaleEffect(shown ? 1 : 0.5).opacity(shown ? 1 : 0)
-            .onAppear { withAnimation(.spring(response: 0.36, dampingFraction: 0.55)) { shown = true } }
+            .onAppear {
+                withAnimation(.spring(response: 0.36, dampingFraction: 0.55)) { shown = true }
+                withAnimation(.easeOut(duration: 0.5).delay(1.6)) { shown = false }
+            }
     }
 }
 
-/// The station's "how it works" card, up from the station's start until the first attempt.
-private struct LessonExplainer: View {
+/// A station's tips (no GIF, or a later station), one small see-through line each, until the first try.
+private struct LessonTipsLine: View {
     let station: LessonCenter.Station
+    var compact = false
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            Text("HOW IT WORKS").font(Onb.font(14, 900)).tracking(2.4).foregroundStyle(Onb.mute)
+        VStack(alignment: .leading, spacing: 3) {
             ForEach(Array(station.tips.enumerated()), id: \.offset) { i, tip in
-                HStack(alignment: .top, spacing: 12) {
-                    Text("\(i + 1)").font(Onb.font(15, 900)).foregroundStyle(Onb.ink).frame(width: 28, height: 28).background(Onb.goldHi, in: Circle())
-                    Text(tip).font(Onb.font(19, 700)).foregroundStyle(.white).fixedSize(horizontal: false, vertical: true)
-                }
+                Text("\(i + 1)  \(tip)").font(Onb.font(compact ? 12 : 14, 700)).foregroundStyle(.white.opacity(0.92)).lineLimit(compact ? 2 : 1)
             }
         }
-        .padding(24).frame(width: 440, alignment: .leading).onbPanel(radius: 26)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .trailing).padding(.trailing, 150).padding(.bottom, 120)
+        .padding(.horizontal, compact ? 10 : 14).padding(.vertical, compact ? 6 : 8).frame(maxWidth: compact ? .infinity : 760, alignment: .leading)
+        .background(Onb.ink.opacity(0.32), in: RoundedRectangle(cornerRadius: compact ? 12 : 14, style: .continuous))
+    }
+}
+
+/// The lesson's coach on the phone itself (no TV: golf and bowling play handheld). Its first step opens on the GIF with the tips over
+/// it; after that a slim see-through strip at the top, so the game (and the player) stays in view.
+struct LessonPhoneHUD: View {
+    @Bindable var center: LessonCenter
+    @Bindable var session: SportsSession
+    var body: some View {
+        let live = center.active && session.active && session.ready && session.loading.finished && !session.menuPauseVisible && !center.station.title.isEmpty
+        VStack {
+            if live {
+                if center.explaining, center.station.index == 0, let sport = center.sport, HowToGIF.available(sport) {
+                    // (a clear 16:10 box sets the size: the animated image view and the gradient would take all the room offered)
+                    Color.clear.aspectRatio(16 / 10, contentMode: .fit)
+                        .overlay { HowToGIF(sport: sport) }
+                        .overlay { LinearGradient(colors: [.clear, Onb.ink.opacity(0.88)], startPoint: UnitPoint(x: 0.5, y: 0.3), endPoint: .bottom) }
+                        .overlay(alignment: .bottomLeading) {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text("\(sport.title) LESSON · HOW IT LOOKS").font(Onb.font(10, 900)).tracking(1.4).foregroundStyle(Onb.goldHi)
+                                ForEach(Array(center.station.tips.enumerated()), id: \.offset) { i, tip in
+                                    Text("\(i + 1)  \(tip)").font(Onb.font(12, 700)).foregroundStyle(.white).fixedSize(horizontal: false, vertical: true)
+                                }
+                            }
+                            .padding(10)
+                        }
+                    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                    .overlay(RoundedRectangle(cornerRadius: 16, style: .continuous).strokeBorder(.white, lineWidth: 2))
+                    .padding(.horizontal, 10).padding(.top, 54)
+                    .transition(.opacity)
+                } else {
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack(spacing: 6) {
+                            Text("\(center.sport?.title ?? "") · \(center.station.index + 1)/\(center.station.count)")
+                                .font(Onb.font(10, 900)).tracking(1).foregroundStyle(Onb.ink)
+                                .padding(.horizontal, 7).frame(height: 18).background(Onb.gold.opacity(0.92), in: Capsule())
+                            Text(center.station.title).font(Onb.font(14, 900)).italic().foregroundStyle(.white)
+                                .shadow(color: Onb.ink.opacity(0.9), radius: 3, y: 1).lineLimit(1)
+                            Spacer(minLength: 0)
+                            if !center.grade.isEmpty, center.shown != .ask {
+                                Text(center.grade).font(Onb.font(14, 900)).italic().foregroundStyle(center.shown == .pass ? Onb.green : Onb.coral)
+                            }
+                        }
+                        LessonCoachStrip(center: center, compact: true)
+                        if center.explaining { LessonTipsLine(station: center.station, compact: true) }
+                    }
+                    .padding(.horizontal, 10).padding(.top, 54)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+                }
+            }
+            Spacer()
+        }
+        .allowsHitTesting(false)
+        .animation(.spring(response: 0.38, dampingFraction: 0.84), value: center.attempt)
+        .animation(.easeInOut(duration: 0.35), value: center.explaining)
+        .animation(.easeInOut(duration: 0.3), value: center.station.index)
     }
 }

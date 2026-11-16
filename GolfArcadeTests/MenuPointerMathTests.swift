@@ -54,13 +54,13 @@ final class MenuPointerMathTests: XCTestCase {
 
     // MARK: HubSession
 
-    override func setUp() async throws { HubSession.shared.debugReset(); OnboardingFlow.shared.exitToMenu(); TennisMenu.shared.classic = false }
+    override func setUp() async throws { HubSession.shared.debugReset(); OnboardingFlow.shared.exitToMenu() }
     override func tearDown() async throws { HubSession.shared.debugReset() }
 
     func testTheMenuBootTellsUnityToBuildTheMenu() {
         let hub = HubSession.shared
         var start: [String: Any]?; hub.debugSent = { if $0["action"] as? String == "start" { start = $0 } }
-        hub.debugBoot(session: "menu", menu: true)
+        hub.debugBoot(session: "menu")
         XCTAssertEqual(start?["menu"] as? Bool, true)
         XCTAssertEqual(start?["leader"] as? Bool, true, "no party: you drive")
         XCTAssertEqual(start?["soloLocked"] as? Bool, false)
@@ -69,6 +69,9 @@ final class MenuPointerMathTests: XCTestCase {
 
     func testTheTVsEventsReachThePhone() {
         let hub = HubSession.shared
+        // the menu is on a TV: with none connected (the simulator) opening a station moves the menu to the phone and drops it
+        let savedDisplay = SportsSession.shared.displayConnected; SportsSession.shared.displayConnected = true
+        defer { HubTestState.restore(display: savedDisplay) }
         hub.debugLive(); hub.debugMenu()
         hub.receive(["type": "menuScreen", "session": "debug-hub", "message": "modes:tennis"])
         XCTAssertEqual(hub.menuScreen, "modes:tennis")
@@ -98,6 +101,8 @@ final class MenuPointerMathTests: XCTestCase {
 
     func testAMatchFromTheMenuLoadsBehindIt() {
         let hub = HubSession.shared
+        let savedDisplay = SportsSession.shared.displayConnected; SportsSession.shared.displayConnected = true   // the menu is on a TV
+        defer { HubTestState.restore(display: savedDisplay) }
         hub.debugLive(); hub.debugMenu()
         XCTAssertEqual(hub.bayForLaunch(), "menu", "the menu's launches load behind it on the TV")
         hub.receive(["type": "menuOpen", "session": "debug-hub", "message": "bay-tennis-training"])
@@ -112,7 +117,7 @@ final class MenuPointerMathTests: XCTestCase {
         let savedExternal = displays.external, savedDisplay = session.displayConnected
         displays.external = UIWindow(frame: CGRect(x: 0, y: 0, width: 1920, height: 1080)); session.displayConnected = true
         defer { if session.active { session.end() }; displays.external = savedExternal; HubTestState.restore(display: savedDisplay) }
-        // (no menuOpen here: in the test host the app's own hub boot clears the station it sets, as testTheTVsEventsReachThePhone shows)
+        // (no menuOpen here: testAMatchFromTheMenuLoadsBehindIt covers the station's launch)
         hub.debugLive(); hub.debugMenu()
         XCTAssertEqual(hub.bayForLaunch(), "menu")
         let covers = displays.coversShown, launches = hub.bayLaunches

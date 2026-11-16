@@ -67,8 +67,6 @@ namespace GolfArcade.Majestic
         /// near mesh is untouched; switched off, the LODGroup and the copy are removed.
         static readonly List<(LODGroup g, GameObject far)> farTrees = new();
         static readonly Dictionary<Mesh, Mesh> farMeshes = new();
-        /// Proof tooling (pop check): force every far-tree cell to one level (0 = full mesh), -1 = normal selection.
-        public static void ForceFarLod(int lod) { foreach (var (g, _) in farTrees) if (g) g.ForceLOD(lod); }
         public static IEnumerable<LODGroup> FarGroups { get { foreach (var (g, _) in farTrees) if (g) yield return g; } }
         public static long FarSavedTriangles; public static int FarCells => farTrees.Count;
         const float FarYards = 130f;   // pop check r34: at 87 yd the flyover saw the swap on trees in view

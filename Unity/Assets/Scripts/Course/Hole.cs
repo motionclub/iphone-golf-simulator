@@ -203,7 +203,13 @@ namespace GolfArcade.Course
         public double CupRadius => CupCaptureRadius * (Rules?.Cup ?? 1);
 
         public CoursePoint Tee => Centerline[0];
-        public CoursePoint Pin => Centerline[Centerline.Length - 1];
+        /// The middle of the green: the course model is placed by it (its MARKER_PIN) and the green and fringe are measured from it.
+        public CoursePoint GreenCenter => Centerline[Centerline.Length - 1];
+        /// Where today's cup is cut, from the middle of the green (yards). Zero but in the Daily Hole in One, which moves the pin
+        /// about the green every day (DailyHoleInOne.cs); everything that aims at, measures to or drops into the cup uses `Pin`.
+        public CoursePoint CupOffset;
+        /// The cup (and the flag in it).
+        public CoursePoint Pin => new(GreenCenter.X + CupOffset.X, GreenCenter.D + CupOffset.D);
 
         public double Length
         {
@@ -296,8 +302,8 @@ namespace GolfArcade.Course
                 if (h.Contains(p))
                     return h.Kind switch { HazardKind.Water or HazardKind.Lava => CourseLie.Water, HazardKind.Ice => CourseLie.Ice, _ => CourseLie.Bunker };
             if (!OnLand(p)) return CourseLie.Water;
-            if (p.DistanceTo(Pin) <= GreenRadius) return CourseLie.Green;
-            if (p.DistanceTo(Pin) <= GreenRadius + FringeWidth) return CourseLie.Fringe;
+            if (p.DistanceTo(GreenCenter) <= GreenRadius) return CourseLie.Green;
+            if (p.DistanceTo(GreenCenter) <= GreenRadius + FringeWidth) return CourseLie.Fringe;
             if (p.DistanceTo(Tee) <= 4) return CourseLie.Tee;
             double offset = DistanceFromCenterline(p);
             if (offset <= FairwayWidth / 2) return Dream!=null && Dream.IceAt(p)?CourseLie.Ice:CourseLie.Fairway;
@@ -823,7 +829,9 @@ namespace GolfArcade.Course
         {
             Hole PracticeThree(int ordinal) => new Hole { Number = 3, Ordinal = ordinal, Par = 3, Centerline = new[] { P(0, 0), P(8, 115) }, FairwayWidth = 50,
                 GreenRadius = 20, Hazards = new[] { Bunker(-12, 108, 14, 18) } };
-            return new Course { Name = "Practice Tee", Key = "lesson", Holes = new[] { PracticeThree(1), PracticeThree(2) } };
+            // (named for the map it wears: an unthemed hole is Cliffside's look, so the screens say Cliffside, not a practice
+            // name — 2026-11-16, Adnan: "for onboarding tutorial, just make it the normal map name")
+            return new Course { Name = "Cliffside", Key = "lesson", Holes = new[] { PracticeThree(1), PracticeThree(2) } };
         }
 
         public static Course Meadow() => new()

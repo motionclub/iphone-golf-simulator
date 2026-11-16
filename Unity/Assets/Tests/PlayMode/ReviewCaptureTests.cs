@@ -46,7 +46,6 @@ namespace GolfArcade.PlayTests
             yield return SceneManager.LoadSceneAsync("Golf", LoadSceneMode.Single);
             PhoneShaped();
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;   // (ReplayTests covers the replays; these keep their timings)
             Assert.IsNotNull(game?.Swing?.Synthetic);
             yield return new WaitForSecondsRealtime(1.0f);
             Assert.IsNotNull(GameCapture.Save($"{Dir}/0-menu.png"));
@@ -133,7 +132,6 @@ namespace GolfArcade.PlayTests
             yield return SceneManager.LoadSceneAsync("Golf", LoadSceneMode.Single);
             PhoneShaped();
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;   // (ReplayTests covers the replays; these keep their timings)
             Assert.IsNotNull(game?.Swing?.Synthetic);
             yield return null;
             game.Play();
@@ -202,7 +200,6 @@ namespace GolfArcade.PlayTests
             yield return SceneManager.LoadSceneAsync("Golf", LoadSceneMode.Single);
             PhoneShaped();
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;   // (ReplayTests covers the replays; these keep their timings)
             Assert.IsNotNull(game?.Swing?.Synthetic);
             yield return null;
             game.Play();
@@ -249,7 +246,6 @@ namespace GolfArcade.PlayTests
             yield return SceneManager.LoadSceneAsync("Golf", LoadSceneMode.Single);
             PhoneShaped();
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;   // (ReplayTests covers the replays; these keep their timings)
             yield return null;
             game.Play();
             yield return null;
@@ -278,7 +274,6 @@ namespace GolfArcade.PlayTests
             yield return SceneManager.LoadSceneAsync("Golf", LoadSceneMode.Single);
             PhoneShaped();
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;   // (ReplayTests covers the replays; these keep their timings)
             Assert.IsNotNull(game?.Swing?.Synthetic);
             yield return null;
             game.Play();
@@ -320,7 +315,6 @@ namespace GolfArcade.PlayTests
             yield return SceneManager.LoadSceneAsync("Golf", LoadSceneMode.Single);
             PhoneShaped();
             var game = Object.FindFirstObjectByType<GolfGame>();
-            game.InstantReplays = false;   // (ReplayTests covers the replays; these keep their timings)
             Assert.IsNotNull(game?.Swing?.Synthetic);
             yield return null;
             game.Play();

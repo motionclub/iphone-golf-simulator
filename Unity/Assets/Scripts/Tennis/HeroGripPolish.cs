@@ -78,21 +78,6 @@ namespace GolfArcade.Tennis
             }
             p.bone.localRotation=Quaternion.Slerp(old[0],p.bone.localRotation,strength);m.bone.localRotation=Quaternion.Slerp(old[1],m.bone.localRotation,strength);d.bone.localRotation=Quaternion.Slerp(old[2],d.bone.localRotation,strength);
         }
-        public static void AlignWrist(MatchHeroLook hero,bool left,float strength=1)
-        {
-            if(!hero||!hero.body)return;var hand=hero.Bone(left?HumanBodyBones.LeftHand:HumanBodyBones.RightHand);var arm=hero.Bone(left?HumanBodyBones.LeftLowerArm:HumanBodyBones.RightLowerArm);var middle=Bone(hero,left,"Middle","Proximal");if(!hand||!arm||!middle)return;
-            int h=System.Array.IndexOf(hero.body.bones,hand),m=System.Array.IndexOf(hero.body.bones,middle);if(h<0||m<0)return;var bind=hero.body.sharedMesh.bindposes;var palmAxis=bind[h].MultiplyPoint3x4(bind[m].inverse.GetColumn(3)).normalized;
-            var from=hand.TransformVector(palmAxis).normalized;var to=(hand.position-arm.position).normalized;var old=hand.localRotation;
-            var turn=Matrix4x4.Translate(hand.position)*Matrix4x4.Rotate(Quaternion.FromToRotation(from,to))*Matrix4x4.Translate(-hand.position);var local=hand.parent.worldToLocalMatrix*turn*hand.localToWorldMatrix;
-            Vector3 x=local.GetColumn(0),y=local.GetColumn(1),z=local.GetColumn(2);var scale=new Vector3(x.magnitude,y.magnitude,z.magnitude);if(Vector3.Dot(Vector3.Cross(x,y),z)<0)scale.x=-scale.x;var rotation=Quaternion.LookRotation(z/scale.z,y/scale.y);hand.localRotation=Quaternion.Slerp(old,rotation,Mathf.Clamp01(strength));
-        }
-        public static Vector3 PalmContactTarget(MatchHeroLook hero,bool left,string digit)
-        {
-            var hand=hero.Bone(left?HumanBodyBones.LeftHand:HumanBodyBones.RightHand);var records=Rest(hero);string prefix=left?"Left":"Right";
-            if(!hand||!records.TryGetValue(prefix+digit+"Proximal",out var r))return Vector3.zero;
-            if(digit=="Thumb")return Vector3.Lerp(Bone(hero,left,"Index","Proximal").position,Bone(hero,left,"Index","Intermediate").position,.65f)+hand.TransformVector(r.palmNormal).normalized*.008f;
-            return hand.TransformPoint(r.palmTarget);
-        }
         /// Chat 4 (2026-10-17): the off hand when it is not on the racket. The clips carry one stiff finger pose for it (a claw with straight
         /// knuckles and bent tips, or a flat splayed paddle; left curl frozen at 63-68 deg in every run frame). Real players keep that hand
         /// soft (REFERENCES.md: t2hmOyh61_M, f7aHe4JHz3c, n1ilKdCCnpw - the off hand reaches out loose during the take-back and folds in on
@@ -101,7 +86,6 @@ namespace GolfArcade.Tennis
         static readonly float[] RelaxCurl={22,32,16}, RelaxThumb={10,14,8};
         public const float RelaxWeight=.8f;
         static readonly System.Collections.Generic.Dictionary<MatchHeroLook,float> freeWeight=new();
-        public static float FreeHandWeight(MatchHeroLook hero)=>hero&&freeWeight.TryGetValue(hero,out var w)?w:0;
         public static void ApplyFreeHand(MatchHeroLook hero,float dt)
         {
             if(!hero||hero.golfKit||!hero.racketGrip||System.Environment.GetEnvironmentVariable("HERO_FREE_HAND")=="0")return;

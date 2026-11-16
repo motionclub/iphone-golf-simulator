@@ -18,7 +18,8 @@ targets:
     platform: iOS
     sources:
       - path: GolfArcade
-        excludes: [Unity/SportsInfo.plist, Unity/MenuVideo, "Unity/CharacterAssets/Custom*", "Unity/CharacterAssets/Higgs*", "Unity/CharacterAssets/Hero*", "Unity/CharacterAssets/Player*"]
+        # (the kit and accessory maps ship as .ktx, the only form the app reads; their .png twins stay in the repo as the sources of those .ktx)
+        excludes: [Unity/SportsInfo.plist, "Unity/CharacterAssets/MatchHero_Acc_*.png", "Unity/CharacterAssets/MatchHero_KitV*_*.png"]
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: $(APP_BUNDLE_ID)

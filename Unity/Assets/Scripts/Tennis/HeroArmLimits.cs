@@ -42,10 +42,6 @@ namespace GolfArcade.Tennis
         }
         sealed class State { public readonly float[] swivel = new float[2], turn = new float[2], support = new float[2], free = new float[2]; public int frame = -100; public readonly Report[] report = new Report[2]; }
         static readonly Dictionary<MatchHeroLook, State> states = new Dictionary<MatchHeroLook, State>();
-        public static bool TryReport(MatchHeroLook look, int side, out Report r)
-        {
-            r = default; if (!look || !states.TryGetValue(look, out var s)) return false; r = s.report[side]; return r.frame == Time.frameCount;
-        }
 
         struct Frame { public Vector3 ax, ac, pn; }
         static bool HandFrame(Transform hand, Transform ip, Transform mp, Transform lp, bool left, out Frame f)

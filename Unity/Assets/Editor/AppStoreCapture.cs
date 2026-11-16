@@ -82,7 +82,7 @@ namespace GolfArcade.EditorTools
 
         static IEnumerator Golf(GolfGame game)
         {
-            Time.captureFramerate = 30; game.InstantReplays = false;
+            Time.captureFramerate = 30;
             var cam = game.GameplayCamera; var rig = cam.GetComponent<CameraRig>();
             game.PrepareNativeAddress();
             for (int i = 0; i < 40; i++) yield return null;

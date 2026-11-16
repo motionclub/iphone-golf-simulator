@@ -83,11 +83,11 @@ namespace GolfArcade.PlayTests
             for (int k = 0; k < 30; k++) yield return null;
             golf.NativeReady(); UnityEngine.Random.InitState(902); golf.NativeSwing(.78f);
             yield return Frames("golf_hole", 10f, rows);
-            // plaza: booted the way the phone boots it
+            // the menu (the row keeps its old name, "plaza"): booted the way the phone boots it
             HubWorld.EditorDriven = true;
             host = new GameObject("NativeSportsSession"); Object.DontDestroyOnLoad(host);
             var bridge = host.AddComponent<NativeSportsSession>();
-            bridge.Receive(JsonUtility.ToJson(new NativeSportsSession.Message { version = 1, session = "fr60b", action = "start", sport = "hub", touch = true, shirt = "E8505B", shorts = "24345E", accent = "FFFFFF" }));
+            bridge.Receive(JsonUtility.ToJson(new NativeSportsSession.Message { version = 1, session = "fr60b", action = "start", sport = "hub", menu = true, touch = true, shirt = "E8505B", shorts = "24345E", accent = "FFFFFF" }));
             for (int i = 0; i < 1200 && !bridge.Ready; i++) yield return null;
             for (int k = 0; k < 120; k++) yield return null;
             yield return Frames("plaza", 10f, rows);
@@ -245,18 +245,17 @@ namespace GolfArcade.PlayTests
             golf.NativeReady(); golf.TryNativePresentation();
             club = gHand = gHead = null;
             yield return Record("golf_hole12_intro", 600, Main, GolfProbe);
-            // plaza: the hero walks a circle (Free Walk / Run) under the follow camera
+            // the menu (the row keeps its old name, "plaza"): the hero holds the line-up stance in front of the venue plate
             HubWorld.EditorDriven = true;
             host = new GameObject("NativeSportsSession"); Object.DontDestroyOnLoad(host);
             var bridge = host.AddComponent<NativeSportsSession>();
-            bridge.Receive(JsonUtility.ToJson(new NativeSportsSession.Message { version = 1, session = "fr60b", action = "start", sport = "hub", touch = true, shirt = "E8505B", shorts = "24345E", accent = "FFFFFF" }));
+            bridge.Receive(JsonUtility.ToJson(new NativeSportsSession.Message { version = 1, session = "fr60b", action = "start", sport = "hub", menu = true, touch = true, shirt = "E8505B", shorts = "24345E", accent = "FFFFFF" }));
             for (int i = 0; i < 1200 && !bridge.Ready; i++) yield return null;
             var hub = HubWorld.Find();
             for (int k = 0; k < 240; k++) yield return null;
             Transform pHand = null, pHead = null;
             yield return Record("plaza", 420, () => hub ? hub.Camera : Main(), t =>
             {
-                if (hub && hub.Player) hub.Player.SetStick(Mathf.Sin(Time.time * .8f), Mathf.Cos(Time.time * .8f), .8f);
                 if (!pHand && hub && hub.Player) { pHand = Named(hub.Player.transform, n => n == "RightHand"); pHead = Named(hub.Player.transform, n => n == "Head"); }
                 if (hub && hub.Player) t.Add("hero", hub.Player.transform.position);
                 if (pHand) t.Add("hand_r", pHand.position);

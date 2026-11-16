@@ -33,10 +33,13 @@ namespace GolfArcade.UI
         /// Canvas units per design unit (the parent fits 1920 x 1080 of them), and the parent's size in design units.
         float k = 1;
         public Vector2 Size => space.rect.size / k;
+        /// Drawn on an upright screen (handheld play on a phone with no TV).
+        public bool Portrait => space && space.rect.width < space.rect.height;
         void Fit()
         {
             var r = space.rect.size; if (r.x <= 1 || r.y <= 1) return;
-            k = Mathf.Min(r.x / 1920f, r.y / 1080f);
+            // (an upright screen, a phone in handheld play, is laid out 1440 wide: a third bigger, still clear of each other)
+            k = Mathf.Min(r.x / (Portrait ? 1440f : 1920f), r.y / 1080f);
             foreach (var t in tags) if (t.root) t.root.localScale = Vector3.one * k;
         }
         void LateUpdate() => Fit();
@@ -132,6 +135,85 @@ namespace GolfArcade.UI
             return p;
         }
         public void HidePlate(Plate p, float time) { if (p != null && !p.hiding) { p.hiding = true; p.hiddenAt = time; } }
+
+        // ---------------------------------------------------------------- map pieces (UI OVERHAUL 11-15)
+
+        /// The map's arrival: its sculpted title (boards 01-10 ARRIVAL) low in a corner, popping in like a plate, and a small
+        /// "Skip intro ›" pill in the far corner (the phone's button skips; this says so on the TV).
+        public Plate ShowMapTitle(MapSkin skin, bool right, float time, float height = 330, bool skipHint = true, string detail = null)
+        {
+            var sprite = skin.TitleSprite;
+            if (!sprite) return ShowPlate("", skin.Title, detail ?? "", Sky, right, time);
+            float w = height * sprite.rect.width / Mathf.Max(1, sprite.rect.height);
+            var p = TitleShell("Map title", right, time, w, height, skipHint, detail);
+            var img = new GameObject("Sculpted title").AddComponent<Image>(); img.transform.SetParent(p.main, false);
+            img.sprite = sprite; img.preserveAspect = true; img.raycastTarget = false;
+            var rt = img.rectTransform; rt.anchorMin = Vector2.zero; rt.anchorMax = Vector2.one; rt.offsetMin = rt.offsetMax = Vector2.zero;
+            var drop = img.gameObject.AddComponent<Shadow>(); drop.effectColor = new Color(0, 0, 0, .35f); drop.effectDistance = new Vector2(0, -10);
+            return p;
+        }
+
+        /// A mode's own name where the map's title stands (the Daily Challenge: "DAILY CHALLENGE"), lettered into the map's sculpted
+        /// plate, with the same pop, bob and cream fact tab as the map's title (2026-11-16, Adnan: the same UI as the game, named for
+        /// the mode).
+        public Plate ShowWordTitle(MapSkin skin, string words, bool right, float time, float height = 230, bool skipHint = false, string detail = null, float bottom = -1)
+        {
+            if (!skin.PlateSprite) return ShowPlate("", words, detail ?? "", right ? Grape : Coral, right, time);
+            float w = height * skin.PlateSprite.rect.width / Mathf.Max(1, skin.PlateSprite.rect.height);
+            var p = TitleShell("Mode title", right, time, w, height, skipHint, detail, bottom);
+            skin.Plate("Plate art", p.main, MapSkin.Piece.Plate, (words ?? "").ToUpperInvariant(), height, new Vector2(.5f, .5f), Vector2.zero);
+            return p;
+        }
+
+        /// The frame a title stands in: low in its corner, tilted a touch, the facts on a cream tab under it (centred under the
+        /// title, or held to the screen's edge side when wider than it, so it never runs off a narrow screen), the Skip chip.
+        Plate TitleShell(string name, bool right, float time, float w, float height, bool skipHint, string detail, float bottom = -1)
+        {
+            var p = new Plate { side = right ? 1 : -1, tilt = right ? 1.6f : -1.6f, born = time, baseY = 20 };
+            p.at = new Vector2(right ? -70 : 70, bottom >= 0 ? bottom : string.IsNullOrEmpty(detail) ? 70 : 118);
+            p.root = Holder(space, name, new Vector2(right ? 1 : 0, 0), new Vector2(right ? 1 : 0, 0), p.at * k, new Vector2(w, height));
+            p.group = p.root.gameObject.AddComponent<CanvasGroup>();
+            p.main = Holder(p.root, "Title art", new Vector2(.5f, 0), new Vector2(.5f, 0), Vector2.zero, new Vector2(w, height));
+            if (!string.IsNullOrEmpty(detail))
+            {
+                float dw = Mathf.Min(60 + detail.Length * 19, Size.x - 2 * 70 - 40);
+                bool centred = dw <= w;
+                float x = centred ? .5f : right ? 1 : 0;
+                p.tab = Holder(p.root, "Detail", new Vector2(x, 0), new Vector2(x, 1), new Vector2(0, -2), new Vector2(dw, 62));
+                Shape(p.tab, "Pill", Cream, UiKit.RoundedLarge, Vector2.zero, Vector2.zero);
+                var t = Words(Holder(p.tab, "Detail text", new Vector2(.5f, .5f), new Vector2(.5f, .5f), Vector2.zero, new Vector2(dw - 30, 62)), detail, 30, Ink, MapSkin.Bold, TextAnchor.MiddleCenter);
+                t.horizontalOverflow = HorizontalWrapMode.Wrap; t.resizeTextForBestFit = true; t.resizeTextMinSize = 18; t.resizeTextMaxSize = 30;
+            }
+            if (skipHint)
+            {
+                p.chip = Holder(p.root, "Skip intro", new Vector2(right ? 0 : 1, 0), new Vector2(.5f, .5f), Vector2.zero, new Vector2(200, 92));
+                p.chip.SetParent(space, true);
+                p.chip.anchorMin = p.chip.anchorMax = new Vector2(right ? 0 : 1, 0); p.chip.anchoredPosition = new Vector2((right ? 1 : -1) * 170 * k, 110 * k);
+                p.chip.localScale = Vector3.one * k;
+                Shape(p.chip, "Pill", Cream, UiKit.RoundedLarge, Vector2.zero, Vector2.zero);
+                Words(Holder(p.chip, "Skip text", new Vector2(.5f, .5f), new Vector2(.5f, .5f), Vector2.zero, new Vector2(200, 92)), "Skip intro ›", 34, Ink, MapSkin.Bold, TextAnchor.MiddleCenter);
+                p.chip.SetParent(p.root, true);
+            }
+            p.root.localRotation = Quaternion.Euler(0, 0, p.tilt);
+            plates.Add(p); TickPlate(p, time);
+            return p;
+        }
+
+        /// A player's username on the map's sculpted plate (board 12 intros: no role words, no YOU).
+        public Plate ShowNamePlate(MapSkin skin, string name, bool right, float time, float bottom = 92, float height = 190)
+        {
+            if (!skin.PlateSprite) return ShowPlate("", name, "", right ? Grape : Coral, right, time, bottom);
+            var p = new Plate { side = right ? 1 : -1, tilt = right ? 2f : -2f, born = time };
+            p.at = new Vector2(right ? -90 : 90, bottom);
+            float w = height * skin.PlateSprite.rect.width / Mathf.Max(1, skin.PlateSprite.rect.height);
+            p.root = Holder(space, "Name plate", new Vector2(right ? 1 : 0, 0), new Vector2(right ? 1 : 0, 0), p.at * k, new Vector2(w, height + 40));
+            p.group = p.root.gameObject.AddComponent<CanvasGroup>();
+            p.main = Holder(p.root, "Plate", new Vector2(.5f, 0), new Vector2(.5f, 0), new Vector2(0, 34), new Vector2(w, height));
+            skin.Plate("Plate art", p.main, MapSkin.Piece.Plate, (name ?? "").ToUpperInvariant(), height, new Vector2(.5f, .5f), Vector2.zero);
+            p.root.localRotation = Quaternion.Euler(0, 0, p.tilt);
+            plates.Add(p); TickPlate(p, time);
+            return p;
+        }
         static float Spring(float x) { x = Mathf.Clamp01(x); return 1 - Mathf.Exp(-x * 6.5f) * Mathf.Cos(x * 10.5f); }
         static float Ease(float x) { x = Mathf.Clamp01(x); return x * x * (3 - 2 * x); }
         void TickPlate(Plate p, float time)
@@ -158,30 +240,6 @@ namespace GolfArcade.UI
         {
             public RectTransform root; internal RectTransform bubble, tail, dot, ring; internal CanvasGroup group; internal float born; internal Color fill;
             internal bool hiding; internal float hiddenAt; internal Vector2 offset; internal float width;
-        }
-        /// A bubble with `label` and `sub`, pinned to a spot by its tail; colour by what the spot is.
-        public Tag ShowTag(string label, string sub, Color fill, float time)
-        {
-            var t = new Tag { born = time, fill = fill };
-            t.width = Mathf.Max(label.Length * 31, sub.Length * 16) + 90;
-            t.root = Holder(space, "Tag", new Vector2(.5f, .5f), new Vector2(.5f, .5f), Vector2.zero, Vector2.zero); t.root.localScale = Vector3.one * k;
-            t.group = t.root.gameObject.AddComponent<CanvasGroup>();
-            t.ring = Holder(t.root, "Ring", new Vector2(.5f, .5f), new Vector2(.5f, .5f), Vector2.zero, new Vector2(64, 64));
-            var ring = new GameObject("Ring").AddComponent<Image>(); ring.transform.SetParent(t.ring, false); ring.sprite = UiKit.Ring; ring.color = Color.white; ring.raycastTarget = false;
-            ring.rectTransform.anchorMin = Vector2.zero; ring.rectTransform.anchorMax = Vector2.one; ring.rectTransform.offsetMin = ring.rectTransform.offsetMax = Vector2.zero;
-            t.dot = Holder(t.root, "Dot", new Vector2(.5f, .5f), new Vector2(.5f, .5f), Vector2.zero, new Vector2(30, 30));
-            Shape(t.dot, "Rim", Color.white, UiKit.Circle, Vector2.zero, Vector2.zero);
-            Shape(t.dot, "Fill", fill, UiKit.Circle, new Vector2(6, 6), new Vector2(-6, -6));
-            t.tail = Holder(t.root, "Tail", new Vector2(.5f, .5f), new Vector2(.5f, .5f), Vector2.zero, new Vector2(38, 38));
-            Shape(t.tail, "Rim", Color.white, UiKit.Rounded, Vector2.zero, Vector2.zero);
-            Shape(t.tail, "Fill", fill, UiKit.Rounded, new Vector2(7, 7), new Vector2(-7, -7));
-            t.bubble = Sticker(t.root, "Bubble", fill, new Vector2(.5f, .5f), new Vector2(.5f, 0), Vector2.zero, new Vector2(t.width, 132), 7);
-            var a = Holder(t.bubble, "Label", new Vector2(.5f, 1), new Vector2(.5f, 1), new Vector2(0, -14), new Vector2(t.width - 40, 66));
-            Words(a, label, 48, Color.white, UiKit.Display, TextAnchor.MiddleCenter, 3, Darker(fill, .55f));
-            var b = Holder(t.bubble, "Sub", new Vector2(.5f, 0), new Vector2(.5f, 0), new Vector2(0, 16), new Vector2(t.width - 40, 40));
-            Words(b, sub, 27, Ink, UiKit.Strong, TextAnchor.MiddleCenter);
-            tags.Add(t);
-            return t;
         }
         public void HideTag(Tag t, float time) { if (t != null && !t.hiding) { t.hiding = true; t.hiddenAt = time; } }
         /// Pin the tag on a viewport point of `camera`'s picture (hidden behind the lens or off the screen).
@@ -227,8 +285,9 @@ namespace GolfArcade.UI
         /// A small "VS" sticker between two plates.
         public RectTransform ShowVs(float time)
         {
-            var r = Sticker(space, "VS", Coral, new Vector2(.5f, 0), new Vector2(.5f, 0), Vector2.zero, new Vector2(170, 110), 7);
-            Words(Holder(r, "VS text", new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(0, 3), new Vector2(170, 110)), "VS", 64, Color.white, UiKit.Display, TextAnchor.MiddleCenter, 3, Darker(Coral, .5f));
+            // (board 12: a cream VS pill with the plates' navy ink)
+            var r = Sticker(space, "VS", Cream, new Vector2(.5f, 0), new Vector2(.5f, 0), Vector2.zero, new Vector2(170, 110), 7);
+            Words(Holder(r, "VS text", new Vector2(.5f, .5f), new Vector2(.5f, .5f), new Vector2(0, 3), new Vector2(170, 110)), "VS", 64, Ink, MapSkin.Bold, TextAnchor.MiddleCenter);
             var plate = new Plate { root = r, main = r, group = r.gameObject.AddComponent<CanvasGroup>(), born = time, tilt = -4, side = 1, baseY = 150 };
             plates.Add(plate); TickPlate(plate, time);
             return r;

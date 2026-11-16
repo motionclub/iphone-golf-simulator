@@ -25,49 +25,8 @@ import SceneKit
 
 // MARK: - Settings
 
-struct SettingsScreen: View {
-    let menu: TennisMenu
-    let compact: Bool
-    var body: some View {
-        let s = SportsSession.shared
-        let p = s.players.indices.contains(s.playerIndex) ? s.players[s.playerIndex] : nil
-        VStack(alignment: .leading, spacing: compact ? 10 : 12) {
-            ArcadeText(text: "SETTINGS", size: compact ? 34 : 46, top: .white, bottom: Arcade.sky)
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 10) {
-                    ForEach(SettingsTab.allCases, id: \.self) { tab in
-                        let id = "tab-\(tab.rawValue)"
-                        let current = menu.settingsTab == tab
-                        Text(tab.title.uppercased()).font(Arcade.font(compact ? 14 : 17)).tracking(1)
-                            .foregroundStyle(current ? Arcade.navyDeep : .white)
-                            .padding(.horizontal, 16).padding(.vertical, 8)
-                            .background(Capsule().fill(current ? AnyShapeStyle(LinearGradient(colors: [Arcade.gold, Arcade.goldDeep], startPoint: .top, endPoint: .bottom)) : AnyShapeStyle(Arcade.navyDeep.opacity(0.7))))
-                            .focusGlow(menu.isFocused(id), corner: 30)
-                            .onTapGesture { menu.tap(id) }
-                    }
-                }.padding(.vertical, 8).padding(.horizontal, 4)
-            }
-            VStack(spacing: 10) {
-                ForEach(TennisMenu.settingsRows(menu.settingsTab), id: \.self) { id in
-                    let (label, value) = Self.describe(id, s, p)
-                    ChoiceRow(label: label, value: value, focused: menu.isFocused(id), compact: compact) { menu.tap(id) }
-                }
-            }
-            if !menu.notice.isEmpty {
-                Text(menu.notice).font(Arcade.font(compact ? 14 : 17, .bold)).foregroundStyle(Arcade.gold)
-            }
-            Spacer(minLength: 0)
-            HStack {
-                ArcadeButton(title: "Back", icon: "chevron.left", focused: menu.isFocused("back"),
-                             top: Arcade.skyDeep, bottom: Arcade.navy, size: compact ? 20 : 22) { menu.tap("back") }
-                Spacer()
-                if !compact { HintBar() }
-            }
-        }
-        .padding(compact ? 18 : 36)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-    }
-
+/// The label and value of a settings row (the phone remote's labels; the SwiftUI settings page that drew them left 2026-11-15).
+@MainActor enum SettingsScreen {
     static func describe(_ id: String, _ s: SportsSession, _ p: Player?) -> (String, String) {
         switch id {
         case "level": ("Training & exhibition coach", TennisMenu.trainingLevels.first { abs($0.difficulty - s.tennisDifficulty) < 0.01 }?.name ?? "Standard")
@@ -105,89 +64,6 @@ struct SettingsScreen: View {
 
 
 // MARK: - Loading
-
-/// Ten short tips per sport, including controls, identity and game-night etiquette.
-enum PartyLoadingTips {
-    static func tips(for sport: Sport) -> [String] {
-        let shared = [
-            "Leave enough room for a full swing.",
-            "Pause before passing the phone.",
-            "Your outfit is saved in the Locker.",
-            "Play on a TV for a wider view.",
-            "Adjust sound and haptics in Settings.",
-            "You can change your look between matches."
-        ]
-        return shared + (sport == .golf ? [
-            "A smooth swing beats a frantic one.",
-            "Check your aim before you take the shot.",
-            "Give the golfer a little quiet before the swing.",
-            "Use a shorter swing for a short putt."
-        ] : [
-            "Tap Toss, then time your serve swing.",
-            "Meet the ball in front of you for a clean return.",
-            "Aim for open court instead of swinging harder.",
-            "Swing at a wide ball: your player stretches for it."
-        ])
-    }
-}
-
-@MainActor enum PresentationPortraits {
-    private static let cache = NSCache<NSString, UIImage>()
-    static func key(_ player: Player, sport: Sport) -> String {
-        let encoder = JSONEncoder(); encoder.outputFormatting = [.sortedKeys]
-        guard let data = try? encoder.encode(player), var appearance = (try? JSONSerialization.jsonObject(with: data)) as? [String: Any] else { return "unavailable" }
-        appearance.removeValue(forKey: "id"); appearance.removeValue(forKey: "name")
-        return "v1|\(sport.rawValue)|" + ((try? JSONSerialization.data(withJSONObject: appearance, options: .sortedKeys))?.base64EncodedString() ?? "unavailable")
-    }
-    static func image(_ player: Player, sport: Sport) -> UIImage? {
-        let key = key(player, sport: sport) as NSString
-        if let image = cache.object(forKey: key) { return image }
-        let coordinator = CharacterModelPreview.Coordinator(cameraDistance: 3.8)
-        coordinator.update(player, sport: sport)
-        guard let root = coordinator.hero, let asset = MatchHero.asset(female: player.standardFemale, golf: sport == .golf),
-              let rig = HeroRig(root: root, asset: asset),
-              let clip = rig.data.clips.first(where: { $0.key == "wave" || $0.key == "bringIt" })?.value else { return nil }
-        rig.attach(); rig.apply(clip.pose(at: clip.length * 0.35, loop: false))
-        rig.data.applyMorphWeights(clip.morphWeights(at: clip.length * 0.35, loop: false), to: root)
-        coordinator.camera?.position = SCNVector3(0, 0.95, 3.8)
-        coordinator.camera?.look(at: SCNVector3(0, 0.9, 0))
-        let renderer = SCNRenderer(device: nil, options: nil)
-        renderer.scene = coordinator.scene; renderer.pointOfView = coordinator.camera
-        let image = renderer.snapshot(atTime: 0, with: CGSize(width: 320, height: 320), antialiasingMode: .multisampling4X)
-        cache.countLimit = 24; cache.setObject(image, forKey: key)
-        return image
-    }
-}
-
-private struct PresentationRosterCard: View {
-    let name: String
-    let player: Player?
-    let sport: Sport
-    let loaded: Bool?
-    let compact: Bool
-    @State private var portrait: UIImage?
-    private var cacheKey: String { player.map { PresentationPortraits.key($0, sport: sport) } ?? name }
-    var body: some View {
-        VStack(spacing: 4) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 22).fill(Club.lagoonDeep.opacity(0.72))
-                if let portrait { Image(uiImage: portrait).resizable().scaledToFit() }
-                else { Image(systemName: "person.fill").resizable().scaledToFit().foregroundStyle(IslandUI.lime.opacity(0.8)).padding(26) }
-            }.frame(height: compact ? 140 : 245)
-            HStack(spacing: 6) {
-                Text(name).font(IslandUI.font(compact ? 19 : 26, bold: true)).lineLimit(1).minimumScaleFactor(0.75)
-                if loaded == true { Image(systemName: "checkmark.circle.fill").foregroundStyle(IslandUI.lime) }
-            }
-        }.accessibilityElement(children: .ignore).accessibilityLabel("\(name)\(loaded == true ? ", loaded" : "")")
-        .task(id: cacheKey) {
-            portrait = nil
-            // Let the cover paint before allocating an offscreen hero render.
-            try? await Task.sleep(for: .milliseconds(120))
-            guard !Task.isCancelled, let player else { return }
-            portrait = PresentationPortraits.image(player, sport: sport)
-        }
-    }
-}
 
 // MARK: - MotionSports loading pieces (MotionSports_Brand_Guide.pdf §4–8)
 
@@ -467,47 +343,6 @@ final class ArcRingView: UIView {
     }
 }
 
-/// The signature swing arc across a screen (§7): part of a tilted ellipse, tapering from 15 % at the tail to full width at the
-/// head, alpha 0 → 1, a white core with an Arc Warm fringe and glow. Points are fractions of the view.
-struct MSSwingArc: View {
-    var center = CGPoint(x: 0.64, y: 1.06)
-    var radii = CGSize(width: 0.6, height: 0.79)
-    var from: Double = 168, to: Double = 28   // degrees, tail → head
-    var width: CGFloat = 16
-    var body: some View {
-        Canvas { ctx, size in
-            let steps = 160
-            func point(_ t: Double) -> CGPoint {
-                let a = (from + (to - from) * t) * .pi / 180
-                return CGPoint(x: size.width * (center.x + radii.width * cos(a)), y: size.height * (center.y - radii.height * sin(a)))
-            }
-            // One filled ribbon per layer (no seams between pieces), widening from 15 % at the tail to full at the head.
-            func ribbon(_ scale: CGFloat) -> Path {
-                var left: [CGPoint] = [], right: [CGPoint] = []
-                for i in 0...steps {
-                    let t = Double(i) / Double(steps), p = point(t), q = point(min(1, t + 0.002)), r = point(max(0, t - 0.002))
-                    let dx = q.x - r.x, dy = q.y - r.y, len = max(0.0001, hypot(dx, dy))
-                    let half = width * scale * (0.15 + 0.85 * t) / 2
-                    left.append(CGPoint(x: p.x - dy / len * half, y: p.y + dx / len * half))
-                    right.append(CGPoint(x: p.x + dy / len * half, y: p.y - dx / len * half))
-                }
-                var path = Path(); path.addLines(left + right.reversed()); path.closeSubpath()
-                return path
-            }
-            // alpha 0 → 1 tail to head (the arc runs left to right)
-            let tail = point(0), head = point(1)
-            func shade(_ color: Color, _ alpha: Double) -> GraphicsContext.Shading {
-                .linearGradient(Gradient(stops: [.init(color: color.opacity(0), location: 0), .init(color: color.opacity(alpha * 0.35), location: 0.45),
-                                                 .init(color: color.opacity(alpha), location: 1)]), startPoint: tail, endPoint: head)
-            }
-            ctx.drawLayer { glow in glow.addFilter(.blur(radius: width * 1.8)); glow.fill(ribbon(3.4), with: shade(MSBrand.arcWarm, 0.75)) }
-            ctx.drawLayer { soft in soft.addFilter(.blur(radius: width * 0.3)); soft.fill(ribbon(1.2), with: shade(MSBrand.arcWarm, 1)) }
-            ctx.fill(ribbon(0.5), with: shade(.white, 1))
-        }
-        .allowsHitTesting(false).accessibilityHidden(true)
-    }
-}
-
 extension MSBrand {
     static let arcWarm = Color(hex: "EDB15D")
     /// Royal at the spotlight, Deep Navy, Navy Ink at the edges (§4 background + spotlight).
@@ -545,17 +380,34 @@ struct LoadingScreen: View {
         if session.sport == "bowling" { return .bowling }
         return menu.launch?.sport ?? Sport(rawValue: session.sport) ?? .tennis
     }
-    private var venueID: String { lobbyLoading ? service.lobby?.venue ?? (sport == .golf ? session.golfCourse : session.tennisVenue) : (sport == .golf ? session.golfCourse : session.tennisVenue) }
+    private var venueID: String { lobbyLoading ? service.lobby?.venue ?? (sport == .golf ? session.golfCourse : session.tennisVenue) : (sport == .golf ? session.shownGolfCourse : session.tennisVenue) }
     private var golfCourse: String { MultiplayerLobby.currentGolfVenue(MultiplayerLobby.golfRoundParts(venueID).course) }
+    /// The Daily Challenge is loading (PLAY → Daily Challenges): its own screen, not a course's (Adnan 11-15: "should mention
+    /// daily challenge, be focused towards daily challenge").
+    private var daily: Bool { sport == .golf && !lobbyLoading && (menu.launch?.holeInOne != nil || session.holeInOneDay != 0) }
+    static let dailyTitle = "Daily Challenge", dailyKicker = "DAILY CHALLENGE"
+    static let dailyFacts = "Hole in one  ·  3 shots  ·  3,000 pts"
     /// "Tropical Resort", "Cliffside", "the lanes".
     private var venueName: String {
+        if daily { return Self.dailyTitle }
         switch sport {
-        case .golf: GolfCourseChoice(rawValue: golfCourse)?.title ?? "Cliffside"
-        case .bowling: "the lanes"
-        default: TennisVenueChoice(rawValue: venueID)?.title ?? "Tropical Resort"
+        case .golf: return GolfCourseChoice(rawValue: golfCourse)?.title ?? "Cliffside"
+        case .bowling: return skin.title
+        default: return TennisVenueChoice(rawValue: venueID)?.title ?? "Tropical Resort"
         }
     }
+    /// The map loading: its sculpted title, colours and loading art (UI OVERHAUL 11-15, board 11).
+    private var skin: MapSkin {
+        MapSkin.of(sport: sport.rawValue, venue: sport == .bowling ? session.bowlingVenue : sport == .golf ? golfCourse : venueID)
+    }
+    /// This load's picture (02 Loading art): one of the map's, kept for the whole load.
+    private var loadingArt: UIImage? {
+        let names = skin.loadingArt
+        let pick = Int((loading.started?.timeIntervalSince1970 ?? 0).rounded()) % max(1, names.count)
+        return MapSkin.image(names[pick]) ?? art
+    }
     private var modeLine: String {
+        if daily { return Self.dailyFacts }
         if sport == .golf { return "Golf · Stroke Play · \(GolfCourseChoice.venueTitle(lobbyLoading || menu.launch?.daily != nil ? venueID : MultiplayerLobby.golfRound(venueID, holes: session.golfHoles, link: session.golfLinkCourses)))" }
         if sport == .bowling { return "Bowling · 10 frames" }
         if menu.launch?.mode == .training { return "Tennis · Practice · \(venueName)" }
@@ -574,10 +426,24 @@ struct LoadingScreen: View {
     /// What the bar says: the venue, or why it is waiting.
     private var line: String {
         let status = loading.statusText
-        return loading.phase == .loading && !loading.isStalled && loading.waitingPlayers.isEmpty ? "Loading \(venueName)…" : status
+        return loading.phase == .loading && !loading.isStalled && loading.waitingPlayers.isEmpty ? (daily ? "Loading today's challenge…" : "Loading \(venueName)…") : status
     }
-    /// The tip card sits left for tip 1 and right for tip 2, the wordmark in the other top corner.
-    private var cardLeading: Bool { (loading.tipNumber ?? 1) == 1 }
+    /// The tip card sits left for tip 1 and right for tip 2, the wordmark in the other top corner (the Daily Challenge keeps its
+    /// card left, under its title).
+    private var cardLeading: Bool { daily || (loading.tipNumber ?? 1) == 1 }
+    /// The Daily Challenge in the map's own UI (2026-11-16, Adnan: "use the same UI we use for in game now, but just name it daily
+    /// challenge"): DAILY CHALLENGE lettered into the course's sculpted plate where the map's title stands, what it is on a cream
+    /// tab under it (the TV intro's DAILY CHALLENGE plate is the same piece: IntroGraphics.ShowWordTitle).
+    private func dailyTitle(height: CGFloat) -> some View {
+        VStack(alignment: .leading, spacing: height * 0.04) {
+            MapPlate(skin: skin, text: Self.dailyKicker, height: height)
+            Text(Self.dailyFacts.uppercased()).font(MapFont.bold(height * 0.12)).foregroundStyle(skin.ink).lineLimit(1).minimumScaleFactor(0.6)
+                .padding(.horizontal, height * 0.1).padding(.vertical, height * 0.04)
+                .background(skin.cream, in: Capsule()).overlay(Capsule().strokeBorder(skin.frame, lineWidth: max(2, height * 0.012)))
+                .padding(.leading, height * 0.12)
+        }
+        .accessibilityElement(children: .combine).accessibilityIdentifier("loading-daily-header")
+    }
 
     var body: some View {
         Group { if compact { phone } else { tv } }
@@ -593,21 +459,28 @@ struct LoadingScreen: View {
 
     // MARK: TV (1280×720)
 
+    /// Board 11 (Sky Tower loading): the map's loading art full screen inside a rim of its material, the sculpted title lower left,
+    /// the players' ready list on the right (usernames only), and a bar along the foot: Loading… 68 %, a slim rail, a short tip.
     private var tv: some View {
         ZStack(alignment: .topLeading) {
-            backdrop.frame(width: 1280, height: 720).clipped()
-            LinearGradient(stops: [.init(color: MSBrand.navyInk.opacity(0.45), location: 0), .init(color: .clear, location: 0.22),
-                                   .init(color: .clear, location: 0.58), .init(color: MSBrand.navyInk.opacity(0.78), location: 1)],
-                           startPoint: .top, endPoint: .bottom)
-            MSWordmark(size: 34).position(x: cardLeading ? 1150 - 105 : 130 + 105, y: 66)
-            if loading.tip != nil {
-                tipCard(width: 600).frame(width: 600)
-                    .position(x: cardLeading ? 130 + 300 : 1150 - 300, y: 452)
-                    .id(loading.tipNumber).transition(.opacity)
+            ZStack {
+                MSBrand.backdrop()
+                if let loadingArt { Image(uiImage: loadingArt).resizable().scaledToFill().mapPushIn() }
+            }.frame(width: 1280, height: 720).clipped()
+            LinearGradient(stops: [.init(color: .clear, location: 0.55), .init(color: skin.bottom.opacity(0.55), location: 1)], startPoint: .top, endPoint: .bottom)
+            Group {
+                if daily { dailyTitle(height: 190) } else { MapTitleArt(skin: skin, height: 230) }
             }
+            .mapEntrance(delay: 0.15, from: CGSize(width: -60, height: 40)).mapBob()
+            .frame(width: 620, height: 270, alignment: .bottomLeading).position(x: 60 + 310, y: 465)
+            // (top right: the art keeps that corner clear, and the player under it in view)
+            readyList(width: 330).frame(width: 330, height: 330, alignment: .top).position(x: 1280 - 56 - 165, y: 46 + 165)
             if needsControls { controls.position(x: 640, y: 300) }
-            bar(labelSize: 24, height: 20).frame(width: 1020).position(x: 130 + 510, y: 618)
-            MSArcRing(color: accent).frame(width: 44, height: 44).position(x: 1190, y: 636)
+            footBar.mapEntrance(from: CGSize(width: 0, height: 110), scale: 1, tilt: 0).frame(width: 1280, height: 104).position(x: 640, y: 720 - 52)
+            // the rim of the map's material round the screen
+            RoundedRectangle(cornerRadius: 34, style: .continuous)
+                .strokeBorder(LinearGradient(colors: [skin.frame, skin.frameDeep], startPoint: .top, endPoint: .bottom), lineWidth: 14)
+                .frame(width: 1280, height: 720)
         }
         .frame(width: 1280, height: 720).clipped()
         .ignoresSafeArea()
@@ -615,35 +488,111 @@ struct LoadingScreen: View {
         .animation(.easeInOut(duration: 0.35), value: loading.tipNumber)
     }
 
+    /// Loading… 68 % · a slim rail in the map's light · the tip's headline (Keep your phone ready).
+    private var footBar: some View {
+        HStack(spacing: 22) {
+            Text(line == "Loading \(venueName)…" || line == "Loading today's challenge…" ? "Loading…" : line)
+                .font(MapFont.bold(30)).foregroundStyle(skin.cream).lineLimit(1).minimumScaleFactor(0.5).fixedSize(horizontal: line.count < 24, vertical: false)
+                .accessibilityIdentifier("presentation-loading-status")
+            MSLoadingPercent(pace: loading.pace, anchor: loading.anchor, font: MapFont.uiBold(30), color: UIColor(skin.cream))
+            MSLoadingBar(pace: loading.pace, anchor: loading.anchor, fill: skin.glow, height: 18).frame(maxWidth: .infinity)
+            Rectangle().fill(skin.cream.opacity(0.35)).frame(width: 2, height: 46)
+            Text(loading.tipTitle ?? "Keep your phone ready").font(MapFont.semi(22)).italic().foregroundStyle(skin.cream)
+                .lineLimit(1).minimumScaleFactor(0.6).frame(width: 300, alignment: .leading)
+                .id(loading.tipNumber).transition(.opacity)
+                .accessibilityIdentifier("loading-tip")
+        }
+        .padding(.horizontal, 44)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(LinearGradient(colors: [skin.top.opacity(0.94), skin.bottom.opacity(0.98)], startPoint: .top, endPoint: .bottom))
+        .overlay(alignment: .top) { Rectangle().fill(skin.frame).frame(height: 4) }
+    }
+
+    /// Who is in this match and whether their game is ready: a check, or … while it loads.
+    private struct Seat: Identifiable { let id: String; let name: String; let ready: Bool }
+    private var seats: [Seat] {
+        let localReady = loading.phase != .loading
+        let me = MapSkin.playerName(session)
+        if let lobby = service.lobby, lobby.competitors.count > 1 {
+            return lobby.competitors.map { p in
+                let isMe = p.name == me
+                return Seat(id: "\(p.seat)", name: p.name, ready: isMe ? localReady : !loading.waitingPlayers.contains(p.name) && localReady)
+            }
+        }
+        var list = [Seat(id: "me", name: me, ready: localReady)]
+        if sport == .tennis, !session.opponentName.isEmpty { list.append(Seat(id: "cpu", name: session.opponentName, ready: true)) }
+        return list
+    }
+    private func readyList(width: CGFloat) -> some View {
+        let colors: [Color] = [Color(hex: "2F7BEA"), Color(hex: "8F5BE8"), Color(hex: "E3A21A"), Color(hex: "2FB36A")]
+        return VStack(spacing: 14) {
+            ForEach(Array(seats.prefix(4).enumerated()), id: \.element.id) { i, seat in
+                HStack(spacing: 12) {
+                    Image(systemName: "person.fill").font(.system(size: 22, weight: .bold)).foregroundStyle(.white)
+                        .frame(width: 50, height: 50).background(colors[i % colors.count], in: Circle())
+                        .overlay(Circle().strokeBorder(.white, lineWidth: 3))
+                    Text(seat.name.uppercased()).font(MapFont.bold(24)).foregroundStyle(skin.ink).lineLimit(1).minimumScaleFactor(0.6)
+                    Spacer(minLength: 4)
+                    Image(systemName: seat.ready ? "checkmark" : "ellipsis").font(.system(size: 17, weight: .black))
+                        .contentTransition(.symbolEffect(.replace))
+                        .foregroundStyle(seat.ready ? .white : skin.ink).frame(width: 36, height: 36)
+                        .background(seat.ready ? Color(hex: "2FB34E") : skin.cream.mix(skin.ink, 0.12), in: Circle())
+                        .overlay(Circle().strokeBorder(.white, lineWidth: 2))
+                }
+                .padding(.leading, 6).padding(.trailing, 10).frame(height: 62)
+                .background(skin.cream, in: Capsule())
+                .mapEntrance(delay: 0.3 + Double(i) * 0.12, from: CGSize(width: 70, height: 0), scale: 0.8, tilt: 3)
+                .animation(.spring(response: 0.35, dampingFraction: 0.5), value: seat.ready)
+                .accessibilityElement(children: .ignore).accessibilityLabel("\(seat.name), \(seat.ready ? "ready" : "loading")")
+            }
+        }
+        .padding(16).frame(width: width)
+        .background {
+            RoundedRectangle(cornerRadius: 26, style: .continuous).fill(skin.frameDeep).offset(y: 5)
+            RoundedRectangle(cornerRadius: 26, style: .continuous).fill(skin.top.opacity(0.92))
+            RoundedRectangle(cornerRadius: 26, style: .continuous).strokeBorder(skin.frame, lineWidth: 4)
+        }
+        .accessibilityIdentifier("loading-ready-list")
+    }
+
     // MARK: Phone (upright)
 
+    /// The phone's loading: the art and the sculpted title on top, the ready list, the bar and the tip, Leave match.
     private var phone: some View {
         GeometryReader { g in
             ZStack(alignment: .top) {
-                MSBrand.backdrop(spotlight: UnitPoint(x: 0.5, y: 0.6), radius: 520).ignoresSafeArea()
+                LinearGradient(colors: [skin.top, skin.bottom], startPoint: .top, endPoint: .bottom).ignoresSafeArea()
                 VStack(spacing: 0) {
                     ZStack(alignment: .bottomLeading) {
-                        backdrop.frame(width: g.size.width, height: g.size.height * 0.44).clipped()
-                        LinearGradient(colors: [MSBrand.navyInk.opacity(0.55), .clear, .clear, MSBrand.navyDeep], startPoint: .top, endPoint: .bottom)
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(venueName == "the lanes" ? "Bowling" : venueName).font(MSLoadingFont.display(34)).lineLimit(1).minimumScaleFactor(0.6)
-                            Text(modeLine).font(MSLoadingFont.subline(15)).foregroundStyle(MSBrand.n300).lineLimit(1).minimumScaleFactor(0.7)
+                        ZStack { MSBrand.backdrop(); if let loadingArt { Image(uiImage: loadingArt).resizable().scaledToFill().mapPushIn() } }
+                            .frame(width: g.size.width, height: g.size.height * 0.44).clipped()
+                        LinearGradient(colors: [.clear, .clear, skin.top], startPoint: .top, endPoint: .bottom)
+                        Group {
+                            if daily { dailyTitle(height: 104) } else { MapTitleArt(skin: skin, height: 120) }
                         }
-                        .shadow(color: MSBrand.textShadow.opacity(0.6), radius: 6, y: 2)
-                        .padding(.horizontal, 22).padding(.bottom, 14)
+                        .mapEntrance(delay: 0.15, from: CGSize(width: -40, height: 30)).mapBob(amount: 3)
+                        .padding(.horizontal, 18).padding(.bottom, 4)
                     }
                     .frame(height: g.size.height * 0.44)
-                    .overlay(alignment: .top) { MSWordmark(size: 24).padding(.top, g.safeAreaInsets.top + 12) }
-                    VStack(spacing: 22) {
-                        if loading.tip != nil { tipCard(width: nil).id(loading.tipNumber).transition(.opacity) }
+                    .overlay(Rectangle().fill(skin.frame).frame(height: 4), alignment: .bottom)
+                    VStack(spacing: 18) {
+                        readyList(width: min(360, g.size.width - 44))
                         Spacer(minLength: 0)
-                        HStack(alignment: .bottom, spacing: 12) {
-                            bar(labelSize: 17, height: 16)
-                            MSArcRing(color: accent).frame(width: 30, height: 30)
+                        VStack(spacing: 10) {
+                            HStack {
+                                Text(line == "Loading \(venueName)…" || line == "Loading today's challenge…" ? "Loading…" : line)
+                                    .font(MapFont.bold(20)).foregroundStyle(skin.cream).lineLimit(2).minimumScaleFactor(0.6)
+                                Spacer(minLength: 8)
+                                MSLoadingPercent(pace: loading.pace, anchor: loading.anchor, font: MapFont.uiBold(20), color: UIColor(skin.cream))
+                            }
+                            MSLoadingBar(pace: loading.pace, anchor: loading.anchor, fill: skin.glow, height: 14)
+                            Text(loading.tipTitle ?? "Keep your phone ready").font(MapFont.semi(16)).italic().foregroundStyle(skin.cream.opacity(0.9))
+                                .frame(maxWidth: .infinity, alignment: .leading).id(loading.tipNumber).transition(.opacity)
                         }
+                        .accessibilityElement(children: .combine).accessibilityIdentifier("presentation-loading-status")
                         controls
                     }
-                    .padding(.horizontal, 22).padding(.top, 26).padding(.bottom, max(18, g.safeAreaInsets.bottom))
+                    .padding(.horizontal, 22).padding(.top, 22).padding(.bottom, max(18, g.safeAreaInsets.bottom))
                 }
             }
             .ignoresSafeArea()
@@ -675,7 +624,7 @@ struct LoadingScreen: View {
         .overlay(RoundedRectangle(cornerRadius: tv ? 16 : 14, style: .continuous).strokeBorder(.white, lineWidth: tv ? 4 : 3))
         .shadow(color: MSBrand.shadowInk.opacity(0.43), radius: 14, y: 11)
         .overlay(alignment: .topLeading) {
-            Text("\(sport.title) TIP \(loading.tipNumber ?? 1)/\(LoadingModel.tipsPerLoad)")
+            Text("\(daily ? "DAILY" : sport.title) TIP \(loading.tipNumber ?? 1)/\(LoadingModel.tipsPerLoad)")
                 .font(MSLoadingFont.display(tv ? 14 : 12)).tracking(0.5).foregroundStyle(MSBrand.navyInk)
                 .padding(.horizontal, 12).padding(.vertical, 4)
                 .background(MSBrand.gold, in: Capsule()).overlay(Capsule().strokeBorder(.white, lineWidth: 2))
@@ -727,7 +676,7 @@ extension TennisMenu {
     /// A readable name for a menu item, for the phone remote.
     static func label(for id: String) -> String {
         if id.hasPrefix("home-emote-") { return TennisMenu.homeEmoteName(String(id.dropFirst(11))) }
-        if id.hasPrefix("sport-"), let s = Sport(rawValue: String(id.dropFirst(6))) { return s.playable ? s.title.capitalized : "\(s.title.capitalized) · coming soon" }
+        if id.hasPrefix("sport-"), let s = Sport(rawValue: String(id.dropFirst(6))) { return s.title.capitalized }
         if id.hasPrefix("tab-"), let t = SettingsTab(rawValue: String(id.dropFirst(4))) { return "Settings · \(t.title)" }
         if id.hasPrefix("lk-") { return lockerLabel(id) }
         if id.hasPrefix("map-"), let v = TennisVenueChoice(rawValue: String(id.dropFirst(4))) { return v.title }

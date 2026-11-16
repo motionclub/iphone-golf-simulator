@@ -18,26 +18,6 @@ namespace GolfArcade.EditorTools
         public static void Bake()
         {
             Directory.CreateDirectory(Dir);
-            Save("crater_rock", 512, (u, v) =>
-            {
-                // weathered volcanic rock: dark basalt strata, ash-dusted ledges, rust staining, rare sulphur
-                float n = Fbm(u, v, 6, 5, 21), band = TileNoiseXY(u, v, 2, 26, 8), b2 = TileNoiseXY(u, v, 3, 9, 15);
-                float ash = Sm(.52f, .68f, Fbm(u, v, 4, 4, 44)), rust = Sm(.56f, .70f, Fbm(u, v, 5, 3, 61)), sulfur = Sm(.70f, .78f, Fbm(u, v, 7, 3, 3));
-                var c = Color.Lerp(new Color(.07f, .06f, .06f), new Color(.25f, .21f, .19f), Mathf.Clamp01(n * .9f + (band - .5f) * .5f));
-                c = Color.Lerp(c, new Color(.40f, .37f, .34f), ash * .55f * Sm(.35f, .6f, b2));
-                c = Color.Lerp(c, new Color(.34f, .16f, .08f), rust * .38f);
-                c = Color.Lerp(c, new Color(.50f, .40f, .14f), sulfur * .32f);
-                float seam = .72f + .5f * Sm(.42f, .58f, b2);   // darker joints between strata
-                return new Color(c.r * seam, c.g * seam, c.b * seam, 1);
-            });
-            Save("crater_relief", 256, (u, v) =>
-            {
-                float H(float x, float y) => Fbm(x, y, 12, 4, 7) * .65f + TileNoiseXY(x, y, 4, 30, 2) * .35f;
-                const float e = 1f / 256f, k = 7f;
-                float dx = H(u + e, v) - H(u - e, v), dy = H(u, v + e) - H(u, v - e);
-                var nrm = new Vector3(-dx * k, -dy * k, 1).normalized;
-                return new Color(nrm.x * .5f + .5f, nrm.y * .5f + .5f, nrm.z * .5f + .5f, 1);
-            });
             Save("lava_streams", 512, (u, v) =>
             {
                 // lava streams running down the flank: long thin veins, some fed, some dry
@@ -58,12 +38,6 @@ namespace GolfArcade.EditorTools
             });
             Save("lava_base", 256, (u, v) => LavaAt(u, v, false));
             Save("lava_glow", 256, (u, v) => LavaAt(u, v, true));
-            Save("ash_gravel", 256, (u, v) =>
-            {
-                float n = Fbm(u, v, 8, 4, 61), speck = Hash(Mathf.FloorToInt(u * 128), Mathf.FloorToInt(v * 128), 3) * .12f;
-                float g = .20f + n * .22f + speck;
-                return new Color(g * 1.10f, g * .98f, g * .86f, 1);
-            });
             Save("ash_cloud", 256, (u, v) =>
             {
                 // a tiling deck of ash: alpha is its density (the sky shader tints it)
@@ -159,8 +133,7 @@ namespace GolfArcade.EditorTools
             importer.wrapMode = TextureWrapMode.Repeat;
             importer.filterMode = FilterMode.Bilinear;
             importer.anisoLevel = 4;
-            if (name == "crater_relief") importer.textureType = TextureImporterType.NormalMap;
-            else if (name is "lava_streams" or "lava_cracks") importer.sRGBTexture = false;
+            if (name is "lava_streams" or "lava_cracks") importer.sRGBTexture = false;
             else if (name is "soft" or "puff") { importer.wrapMode = TextureWrapMode.Clamp; importer.alphaIsTransparency = true; }
         }
     }

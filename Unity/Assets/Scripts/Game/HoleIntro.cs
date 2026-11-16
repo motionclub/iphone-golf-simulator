@@ -269,15 +269,5 @@ namespace GolfArcade.Game
             return false;
         }
 
-        /// The tag's colour for each kind.
-        public static Color ColourOf(string kind) => kind switch
-        {
-            "carry" or "pool" or "edge" or "vista" => GolfArcade.UI.IntroGraphics.Sky,
-            "lava" or "lavacarry" => GolfArcade.UI.IntroGraphics.Lava,
-            "greenside" or "fairway" => GolfArcade.UI.IntroGraphics.Sun,
-            "windmill" => GolfArcade.UI.IntroGraphics.Coral,
-            "rocks" => GolfArcade.UI.IntroGraphics.Grape,
-            _ => GolfArcade.UI.IntroGraphics.Grass,
-        };
     }
 }

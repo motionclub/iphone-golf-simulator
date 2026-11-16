@@ -52,19 +52,6 @@ enum LevelCurve {
     }
 }
 
-/// Something a level unlocks. There are none yet: `LevelRewards.rewards` is the place to add them.
-struct LevelReward: Identifiable, Equatable {
-    let id: String
-    var title: String
-    var detail: String
-    var icon: String
-}
-enum LevelRewards {
-    static func rewards(for level: Int) -> [LevelReward] {
-        level == 2 ? [LevelReward(id: "white-headband", title: "White Headband", detail: "Your first Island Sports Club reward.", icon: "sparkles")] : []
-    }
-}
-
 /// One line of the post-match XP breakdown.
 struct XPLine: Identifiable, Equatable {
     let id: Int
@@ -100,6 +87,8 @@ struct GolfRoundStats: Equatable {
     var coins = 0, rings = 0, bounties = 0, bountyHoles = 0
     /// Holes played in a storm or fog, twists dealt, and the day's forecast round (yyyymmdd) or 0.
     var rough = 0, twists = 0, daily = 0
+    /// The Daily Hole in One's points (out of 3000), or 0 for any other round.
+    var holeInOne = 0
     var course = ""
 
     init() {}
@@ -114,6 +103,7 @@ struct GolfRoundStats: Equatable {
             case "aces": aces = v; case "eagles": eagles = v; case "birdies": birdies = v; case "pars": pars = v
             case "coins": coins = v; case "rings": rings = v; case "bounties": bounties = v; case "bountyHoles": bountyHoles = v
             case "rough": rough = v; case "twists": twists = v; case "daily": daily = v
+            case "holeInOne": holeInOne = v
             default: break
             }
         }
@@ -244,6 +234,12 @@ final class Progression {
     /// with its streak. Every line is a reason the player can see and chase.
     static func golfBreakdown(_ g: GolfRoundStats, dailyFirst: Bool, streak: Int) -> [XPLine] {
         var rows: [(String, String, Int)] = []
+        // the Daily Hole in One: its points, not a card against par
+        if g.course == "holeinone" {
+            rows.append(("Daily Hole in One", "\(g.holeInOne.formatted()) / 3,000 pts", 60 + g.holeInOne / 25))
+            if g.aces > 0 { rows.append(("Hole in one!", "\u{00D7} \(g.aces)", 150 * g.aces)) }
+            return rows.filter { $0.2 > 0 }.enumerated().map { XPLine(id: $0.offset, title: $0.element.0, detail: $0.element.1, xp: $0.element.2) }
+        }
         rows.append(("Round played", "\(g.holes) holes", 30 + 10 * max(1, g.holes)))
         if g.toPar < 0 { rows.append(("Under par", g.toParText, min(160, 40 * -g.toPar))) }
         else if g.toPar == 0 { rows.append(("Level par", "", 30)) }
@@ -324,29 +320,6 @@ final class Progression {
         save()
         return PostMatchSummary(won: won, score: score, opponent: opponent, stats: stats, lines: lines, total: total, practice: practice,
                                 startLevel: startLevel, startXP: startXP, endLevel: entry.level, endXP: entry.xp)
-    }
-}
-
-/// A level and its XP bar, small: the header and the home screen show it.
-struct LevelStrip: View {
-    let player: UUID
-    var compact = false
-    var body: some View {
-        let e = Progression.shared.entry(for: player)
-        let need = LevelCurve.needed(e.level)
-        HStack(spacing: 8) {
-            Text("LV \(e.level)").font(Club.caps(compact ? 11 : 13)).tracking(1).foregroundStyle(Club.ink)
-                .padding(.horizontal, 8).padding(.vertical, 3).background(Capsule().fill(Club.sun))
-            Text(LevelCurve.rank(e.level).uppercased()).font(Club.caps(compact ? 10 : 12)).tracking(1.5).foregroundStyle(.white.opacity(0.85))
-            GeometryReader { g in
-                ZStack(alignment: .leading) {
-                    Capsule().fill(.white.opacity(0.2))
-                    Capsule().fill(Club.sun).frame(width: g.size.width * CGFloat(e.xp) / CGFloat(need))
-                }
-            }
-            .frame(width: compact ? 70 : 110, height: 6)
-            Text("\(e.xp)/\(need) XP").font(Club.ui(compact ? 10 : 12, 600)).foregroundStyle(.white.opacity(0.75)).monospacedDigit()
-        }
     }
 }
 
