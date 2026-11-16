@@ -217,13 +217,16 @@ final class SportsSession {
     var aimLesson:TennisAimLesson?
     var aimLessonMessage=""
     private var aimChecked=false
-    private var aimFeedSequence=0
+    private(set) var aimFeedSequence=0
     private var aimFeedAt=0.0
-    private var aimWaiting=false
+    private(set) var aimWaiting=false
     private var aimSwing:TennisAimSwing?
     @ObservationIgnored private var aimFeedTask:Task<Void,Never>?
     @ObservationIgnored private var aimTimeoutTask:Task<Void,Never>?
-    var aimingSetup:Bool { aimLesson != nil }
+    /// Play → Calibration: a practice court (Unity's aim drill) where the player swings at left / straight / right targets.
+    var calibrationMode=false
+    /// The lesson finished and the profile is saved: the phone offers Done.
+    var calibrationComplete:Bool { aimLesson?.phase == .complete }
     /// Extra start fields for the tennis front end (mode, opponent, round).
     private var launchExtras: [String:Any] = [:]
     private(set) var multiplayerMatchID: String?
@@ -384,7 +387,9 @@ final class SportsSession {
     func savePlayers() { PlayerRosterStore.save(players); HubSession.shared.lookChanged() }
     /// Start tennis from the front end: a campaign round against `opponent`, or training.
     func startTennis(opponent: TennisOpponent?, round: Int?, mode: String? = nil, difficulty: Double, coach: [String] = [], preview: Bool, sets: Int? = nil, games: Int? = nil) {
-        let mode = mode == "tutorial" ? "exhibition" : mode
+        calibrationMode = mode == "calibration"
+        // (Unity knows the calibration court as plain training: the aim drill is switched on once the player is ready)
+        let mode = mode == "tutorial" ? "exhibition" : mode == "calibration" ? "training" : mode
         sport = "tennis"
         opponentName = opponent?.name.components(separatedBy: " ").first ?? (mode == "tutorial" ? "Ray" : "Coach")
         launchExtras = ["mode": mode ?? (opponent == nil ? "training" : "campaign"), "opponent": opponent?.key ?? "",
@@ -600,12 +605,86 @@ final class SportsSession {
 
     private var aimProfileKey:String {
         let player=players[min(playerIndex,players.count-1)]
-        return "tennis.aim.v1.\(player.id.uuidString).\(player.handedness == .left ? "left" : "right")"
+        // v3 (11-16): swing directions with the acceleration sign fixed; v2 ones were learned inverted, v1 ones are racket-face angles
+        return "tennis.aim.v3.\(player.id.uuidString).\(player.handedness == .left ? "left" : "right")"
     }
-    private func storedAimProfile() -> TennisAimProfile? {
+    func storedAimProfile() -> TennisAimProfile? {
         guard !players.isEmpty, let data=UserDefaults.standard.data(forKey:aimProfileKey),
               let profile=try? JSONDecoder().decode(TennisAimProfile.self,from:data), profile.valid else { return nil }
         return profile
+    }
+
+    // MARK: Aim calibration (Play → Calibration)
+
+    /// Start the lesson on the live practice court: Unity feeds one ball per target ("aimFeed"), and the landing it reports
+    /// ("aimLanding") says where the swing really sent it. Twelve takes learn this player's racket angles for left, straight and right
+    /// on each wing; twelve fresh ones check them. Every take is also written to the diagnostics log with its raw face-angle trace.
+    func beginAimingSetup() {
+        guard active, ready, !paused, sport == "tennis", calibrationMode else { return }
+        aimFeedTask?.cancel(); aimTimeoutTask?.cancel()
+        aimLesson=TennisAimLesson()
+        aimLessonMessage=aimLesson?.message ?? ""
+        motion.setAimProfile(aimLesson?.profile)
+        command("aimPractice",value:1)
+        setShotDepth(0.75)
+        queueAimFeed()
+        SportsDiagnostics.write("aimcal begin source=swing-direction")
+    }
+    /// Throw the learned profile away and learn it again.
+    func restartCalibration() {
+        UserDefaults.standard.removeObject(forKey:aimProfileKey)
+        beginAimingSetup()
+    }
+    private func queueAimFeed() {
+        aimFeedTask?.cancel(); aimTimeoutTask?.cancel(); aimWaiting=false; aimSwing=nil
+        guard let lesson=aimLesson else { return }
+        motion.setAimProfile(lesson.profile)
+        guard lesson.phase != .complete else { return }
+        let launched=sessionID
+        aimFeedTask=Task { @MainActor [weak self] in
+            do { try await Task.sleep(for:.milliseconds(650)) } catch { return }
+            guard let self, self.sessionID == launched, !self.paused, let trial=self.aimLesson?.current else { return }
+            self.aimFeedSequence+=1; self.aimFeedAt=SportsRuntime.shared().clock(); self.aimWaiting=true
+            let sequence=self.aimFeedSequence
+            self.sendJSON(["version":1,"session":self.sessionID,"action":"aimFeed","value":trial.lane,"value2":trial.wing == 0 ? 1 : -1,"aimSequence":sequence])
+            self.aimTimeoutTask=Task { @MainActor [weak self] in
+                do { try await Task.sleep(for:.seconds(7)) } catch { return }
+                guard let self, self.sessionID == launched, self.aimWaiting, self.aimFeedSequence == sequence else { return }
+                self.aimWaiting=false; self.aimLessonMessage="Take another comfortable swing toward the target."; self.queueAimFeed()
+            }
+        }
+    }
+    /// Unity: where the aim-drill ball the player just hit landed (court x in metres, left negative) and whether the hit was legal.
+    func receiveAimLanding(_ message:String) {
+        let f=message.split(separator:"|").map(String.init)
+        guard f.count == 4, let sequence=Int(f[0]), let x=Double(f[1]), x.isFinite, let legal=Int(f[3]) else { return }
+        receiveAimLanding(sequence:sequence,x:x,legal:legal == 1)
+    }
+    private func receiveAimLanding(sequence:Int,x:Double,legal:Bool) {
+        guard sequence == aimFeedSequence, aimWaiting, !paused, var lesson=aimLesson else { return }
+        aimWaiting=false; aimTimeoutTask?.cancel()
+        guard let swing=aimSwing else { aimLessonMessage="Swing through toward the target and try again."; queueAimFeed(); return }
+        let phase=lesson.phase, trial=lesson.current
+        let accepted=lesson.record(swing,landingX:x,legal:legal)
+        let t0=swing.time
+        let trace=swing.trace.map { String(format:"%d:%.1f:%.2f:%.2f:%.2f",Int((($0.time-t0)*1000).rounded()),$0.angle,$0.rate,$0.side,$0.forward) }.joined(separator:",")
+        SportsDiagnostics.write(String(format:"aimcal take phase=%@ wing=%d lane=%d angle=%.2f face=%.2f facing=%.0f landingX=%.3f legal=%d accepted=%d trace=%@",
+            phase == .capture ? "capture" : "check",trial?.wing ?? -1,trial?.lane ?? 9,swing.angle,swing.face,swing.facing,x,legal ? 1 : 0,accepted ? 1 : 0,trace))
+        aimLesson=lesson; aimLessonMessage=lesson.message
+        motion.setAimProfile(lesson.profile)
+        if lesson.phase == .complete, let profile=lesson.profile, let data=try? JSONEncoder().encode(profile) {
+            UserDefaults.standard.set(data,forKey:aimProfileKey)
+            SportsDiagnostics.write("aimcal saved fore=\(profile.forehand) back=\(profile.backhand)")
+            if haptics { UINotificationFeedbackGenerator().notificationOccurred(.success) }
+        }
+        queueAimFeed()
+    }
+    /// Done: keep the saved profile, close the practice court and go back to the Play list.
+    func finishCalibration() {
+        aimFeedTask?.cancel(); aimTimeoutTask?.cancel(); aimWaiting=false; aimSwing=nil; aimLesson=nil
+        command("aimPractice",value:0)
+        calibrationMode=false
+        end()
     }
     /// Court scanning finishes before timing. The match remains held until Ready.
     func offerTimingCalibration() {
@@ -718,6 +797,7 @@ final class SportsSession {
         setupStage = .playing
         command("controllerSetup", value: 0)
         resume()
+        if calibrationMode { if aimLesson == nil { beginAimingSetup() } else { queueAimFeed() } }
     }
     /// Unity renders the timing ball on the TV; motion samples keep flowing from the phone.
     func startTimingCheck() {
@@ -1038,7 +1118,7 @@ final class SportsSession {
         retainCourtDirectionForRematch = false; multiplayerSetupStarted = false
         timer?.invalidate(); timer=nil; pending=nil; measuringDelay=false; checkingTiming=false
         loading.cancel(); tutorialStep=nil; finishedMatch=nil; timingPrompt=false; setupStage = .scan
-        SportsRuntime.shared().pause(true); active=false; ready=false; paused=true; tennisControllerActive=false
+        SportsRuntime.shared().pause(true); active=false; ready=false; paused=true; tennisControllerActive=false; calibrationMode=false
         SportsDisplays.shared.endPreview(); status="Choose a sport."
         SportsDisplays.shared.showMenu()
         TennisMenu.shared.sessionEnded()
@@ -1163,6 +1243,8 @@ final class SportsSession {
                 let skip = fields.count == 3 ? IntroSkip(voted: fields[0], needed: fields[1], mine: fields[2] == 1) : nil
                 if skip != introSkip { introSkip = skip }
             case "timing": receiveTimingResult(event["message"] as? String ?? "failed")
+            case "aimLanding": receiveAimLanding(event["message"] as? String ?? "")
+            case "aimMiss": break   // the aim drill's ball got past the player: the feed timeout asks for another
             case "screenLag":
                 // one TV for two phones: the TV credit this phone's game gives its player, for the controller-only phone (same picture)
                 if multiplayerSplit, multiplayerMatchID != nil, let ms = Double(event["message"] as? String ?? ""), ms.isFinite {

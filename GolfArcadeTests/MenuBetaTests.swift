@@ -12,7 +12,7 @@ import SwiftUI
         menu.tap("partySolo"); XCTAssertEqual(menu.screen, .gameSelect)
         menu.back(); XCTAssertEqual(menu.screen, .party)
         // every way to play is on the one Play list: alone, in the same room, or online
-        XCTAssertEqual(menu.rows(.party), [["partySolo"], ["partyNearbyTennis"], ["partyLocal"], ["partyOnline"], ["back"]])
+        XCTAssertEqual(menu.rows(.party), [["partySolo"], ["partyNearbyTennis"], ["partyLocal"], ["partyOnline"], ["calibration"], ["back"]])
         menu.tap("partyOnline"); XCTAssertEqual(menu.screen, .onlineChoice)
         menu.tap("onlineQuick"); XCTAssertEqual(menu.screen, .online(.entry))
         menu.back(); XCTAssertEqual(menu.screen, .onlineChoice)
@@ -20,6 +20,16 @@ import SwiftUI
         menu.back(); XCTAssertEqual(menu.screen, .main)
         menu.debugShow(.online(.nearby)); menu.goHome()
         XCTAssertEqual(menu.screen, .main, "Browsing without joining must return home directly")
+    }
+    func testCalibrationIsOnThePlayListAndLaunchesTheAimPracticeCourt() {
+        let menu = TennisMenu()
+        menu.tap("start"); menu.tap("play")
+        XCTAssertTrue(menu.rows(.party).flatMap { $0 }.contains("calibration"))
+        XCTAssertEqual(TennisMenu.label(for: "calibration"), "Calibration")
+        menu.tap("calibration")
+        XCTAssertEqual(menu.launch?.mode, .calibration)
+        XCTAssertEqual(menu.launch?.sport, .tennis)
+        menu.debugShow(.main)
     }
     func testLocalPlayIsTwoTapsFromPlayAndGolfOnlyAsksHowManyAreSharingThePhone() {
         let menu = TennisMenu()

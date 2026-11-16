@@ -19,7 +19,7 @@ enum MenuMove { case up, down, left, right }
 
 /// What the player chose to play.
 struct MenuLaunch: Equatable {
-    enum Mode: String { case campaign, training, exhibition, tutorial, round }
+    enum Mode: String { case campaign, training, exhibition, tutorial, round, calibration }
     var sport: Sport = .tennis
     var mode: Mode
     /// Campaign round, or the rival faced in an exhibition.
@@ -314,7 +314,7 @@ final class TennisMenu {
 
     func select() {
         let id = focused
-        if online.service.hasFriendsInLobby, ["campaign", "training", "exhibition", "round", "golfRound", "golfDaily", "localPassPhone"].contains(id) {
+        if online.service.hasFriendsInLobby, ["campaign", "training", "exhibition", "round", "calibration", "golfRound", "golfDaily", "localPassPhone"].contains(id) {
             refuse(HubSession.soloLockMessage); return
         }
         if screen.isOnline || id == "partyNearby" || id.hasPrefix("net-") {
@@ -331,6 +331,7 @@ final class TennisMenu {
             // Change court after a match: the same match again, but the court picker first.
             if let launch { result = nil; postMatch = nil; launchOrigin = hubAfter(launch); begin(launch, onPhone: !session.displayConnected) }
         case "homePlay": show(.party)
+        // Aim calibration: a practice court where the player swings at left / straight / right targets (SportsSession.beginAimingSetup)
         case "campaignPlay":
             if campaign.unlocked(selectedRound) { play(round: selectedRound) } else { refuse("Win the previous round to unlock") }
         case "quickStart":
@@ -500,6 +501,7 @@ final class TennisMenu {
         case .training: .training
         case .exhibition: .exhibition
         case .tutorial, .round: .hub(launch.sport)
+        case .calibration: .main
         }
     }
 
@@ -667,7 +669,7 @@ final class TennisMenu {
             let opponent = launch.round.map { TennisCampaign.draw[$0] }
             let difficulty = launch.mode == .training ? Self.trainingLevels[trainingLevel].difficulty
                 : launch.mode == .tutorial ? 0.1 : launch.difficulty ?? opponent?.difficulty ?? session.tennisDifficulty
-            session.startTennis(opponent: launch.mode == .tutorial || launch.mode == .training ? nil : opponent,
+            session.startTennis(opponent: launch.mode == .tutorial || launch.mode == .training || launch.mode == .calibration ? nil : opponent,
                                 round: launch.mode == .campaign ? launch.round : nil,
                                 mode: launch.mode.rawValue, difficulty: difficulty,
                                 coach: launch.mode == .campaign ? launch.round.map { TennisStory.changeovers($0) } ?? [] : [],

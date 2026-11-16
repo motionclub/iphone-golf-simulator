@@ -385,20 +385,29 @@ final class SportsIntegrationTests:XCTestCase {
 
 extension SportsIntegrationTests {
     func testAimCalibrationSupportsAsymmetricGripsAndHeadingWrap() throws {
-        let wing=try XCTUnwrap(TennisAimWing.fit([0:[179,-179],-1:[158,160],1:[-151,-149]]))
+        let wing=try XCTUnwrap(TennisAimWing.fit([0:[179,-179],-1:[139,141],1:[-151,-149]]))
         XCTAssertEqual(wing.aim(180),0,accuracy:0.001)
-        XCTAssertEqual(wing.aim(159),-0.8,accuracy:0.001)
+        XCTAssertEqual(wing.aim(140),-0.8,accuracy:0.001)
         XCTAssertEqual(wing.aim(-150),0.8,accuracy:0.001)
-        XCTAssertEqual(wing.aim(-130),1)
-        let back=TennisAimWing(neutral:12,left:-28,right:32)
+        XCTAssertEqual(wing.aim(-110),1)
+        XCTAssertEqual(wing.aim(-166),0,"up to half way to the side lane is straight")
+        XCTAssertGreaterThan(wing.aim(-164),0.3,"just past half way is the side lane in Unity (|aim| > 0.3)")
+        let back=TennisAimWing(neutral:12,left:-28,right:44)
         let profile=TennisAimProfile(forehand:wing,backhand:back)
         XCTAssertEqual(profile.aim(angle:12,facing:-1),0)
-        XCTAssertEqual(profile.aim(angle:32,facing:-1),0.8,accuracy:0.001)
+        XCTAssertEqual(profile.aim(angle:44,facing:-1),0.8,accuracy:0.001)
+        // uncalibrated: straight is +-25 degrees, so a slightly cross-court straight swing still goes straight
+        XCTAssertEqual(TennisAimWing.standard.aim(-22),0)
+        XCTAssertLessThan(TennisAimWing.standard.aim(-30),-0.3)
+        XCTAssertGreaterThan(TennisAimWing.standard.aim(60),0.8)
         XCTAssertEqual(try JSONDecoder().decode(TennisAimProfile.self,from:JSONEncoder().encode(profile)),profile)
     }
     func testAimCalibrationRejectsAmbiguousOrInvalidSwings() {
         XCTAssertNil(TennisAimWing.fit([0:[0,1],-1:[-4,-3],1:[32,33]]))
-        XCTAssertNil(TennisAimWing.fit([0:[0,20],-1:[-32,-31],1:[32,33]]))
+        // real swings scatter (11-15 device takes, about 20 degrees): the lane medians still separate, so this is accepted
+        XCTAssertNotNil(TennisAimWing.fit([0:[-12,14],-1:[-55,-20],1:[18,50]]))
+        XCTAssertNil(TennisAimWing.fit([0:[0,2],-1:[1,3],1:[32,33]]), "a left lane on the straight side is rejected")
+        XCTAssertNil(TennisAimWing.fit([0:[0,2],-1:[-15,-12],1:[32,33]]), "a left lane this close would make straight too narrow")
         XCTAssertNil(TennisAimWing.fit([0:[0,.nan],-1:[-32,-31],1:[32,33]]))
         var lesson=TennisAimLesson()
         XCTAssertFalse(lesson.record(TennisAimSwing(time:1,angle:0,facing:-1),landingX:0,legal:true))
@@ -457,7 +466,7 @@ extension SportsIntegrationTests {
         XCTAssertEqual(session.shotAim,1); XCTAssertEqual(session.shotDepth,0)
         session.aimLesson=TennisAimLesson()
         session.aimLessonMessage="Watch the highlighted target, then swing comfortably."
-        let renderer=ImageRenderer(content:AimingCalibrationPanel(session:session)
+        let renderer=ImageRenderer(content:CalibrationPanel(session:session)
             .frame(width:393,height:852).background(Color(red:0.08,green:0.12,blue:0.22)))
         renderer.scale=3
         let image=try XCTUnwrap(renderer.uiImage)

@@ -167,7 +167,7 @@ final class HubSession {
     /// The mode name for the TV's loader, from the bench the match was started from.
     var menuLaunchLabel: String {
         switch station ?? returnBay ?? "" {
-        case "bay-tennis-exhibition": "Exhibition"; case "bay-tennis-campaign": "Campaign"; case "bay-tennis-training": "Training"
+        case "bay-tennis-exhibition": "Exhibition"; case "bay-tennis-campaign": "Campaign"; case "bay-tennis-training": "Training"; case "bay-tennis-calibration": "Calibration"
         case "bay-golf-round": "Round"; case "bay-golf-daily": "Daily Hole in One"; case "bay-golf-pass", "bay-bowling-pass": "Pass the phone"; case "bay-tennis-online", "bay-golf-online", "bay-bowling-online": "Online"
         case "bay-bowling-play": "10 frames"; case "bay-bowling-exhibition": "Exhibition"
         default: ""
@@ -517,6 +517,7 @@ final class HubSession {
         // every bench is one sport and one mode, straight to its own screen
         case "bay-tennis-exhibition": Route(screen: .exhibition)
         case "bay-tennis-training": Route(screen: .training)
+        // aim calibration: the practice court where the player swings at left / straight / right targets (SportsSession.beginAimingSetup)
         case "bay-golf-round": Route(action: { TennisMenu.shared.openFromPlaza(.main); TennisMenu.shared.begin(MenuLaunch(sport: .golf, mode: .round)) })   // the course picker
         case "bay-golf-pass": Route(screen: .localPlayers)   // how many players, then straight into the round
         // bowling (pointer menu rows): the venue picker; how many bowlers then the venue
@@ -538,7 +539,7 @@ final class HubSession {
     }
 
     /// The single-player stations: locked while friends are in your party.
-    static let soloStations: Set<String> = ["bay-tennis-exhibition", "bay-tennis-campaign", "bay-tennis-training", "bay-golf-round", "bay-golf-pass", "bay-golf-daily", "shelf-trophies", "bay-tennis-nearby",
+    static let soloStations: Set<String> = ["bay-tennis-exhibition", "bay-tennis-campaign", "bay-tennis-training", "bay-tennis-calibration", "bay-golf-round", "bay-golf-pass", "bay-golf-daily", "shelf-trophies", "bay-tennis-nearby",
                                              "bay-bowling-play", "bay-bowling-exhibition", "bay-bowling-pass"]
     var soloLocked: Bool { partyService.hasFriendsInLobby }
     static let soloLockMessage = "Single-player is locked while friends are in your party. Choose Party game to play together."

@@ -153,14 +153,15 @@ namespace GolfArcade.Multiplayer {
             // timing the pace and depth. `p.aim` arrives in the host's frame (SportsMultiplayer.Submit flips seat
             // 1's), so `* sign` turns it back into the hitter's own left/right first.
             float rollX=(float)rallyRandom.NextDouble()*2-1,rollZ=(float)rallyRandom.NextDouble()*2-1;
-            var target=TennisRules.MistimedOut(late)   // badly timed: it sails out, as in a local match
-                ? TennisRules.MistimedLanding(p.aim*sign,late,rollX,rollZ)
+            bool lob=TennisRules.MistimedOut(late);   // badly timed: a slow high lob into the middle, as in a local match (11-16)
+            var target=lob
+                ? TennisRules.MistimedLob(p.aim*sign,rollX,rollZ)
                 : TennisRules.SwingPlacement(p.aim*sign,hit.Quality,rollX,rollZ);
             State.ball.y=Math.Max(.45f,State.ball.y);
             // `target` is in the hitter's own frame (x to their right, z away from them). Seat 1 stands at the far end
             // and sees the court turned half a circle (TennisGame.Network), so both axes flip for them: "swing left
             // = left" is the same on both screens.
-            Launch(new(target.x*sign,Radius,sign*target.z),hit.Speed);
+            Launch(new(target.x*sign,Radius,sign*target.z),lob?TennisRules.MistimedLobPace*.7f:hit.Speed);
             State.reason=TennisRules.GradeLabel(TennisRules.Grade(hit.Quality));
             State.receiver=1-seat;State.bounces=0;State.serveFlight=false;State.contact++;p.swingAt=-100;p.confirmedSwing=false;holding=false;
         }

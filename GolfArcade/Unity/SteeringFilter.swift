@@ -333,17 +333,23 @@ struct TennisAimWing: Codable, Equatable, Sendable {
     var neutral: Double
     var left: Double
     var right: Double
-    static let standard = Self(neutral: 0, left: -32, right: 32)
-    var valid: Bool { neutral.isFinite && left.isFinite && right.isFinite && neutral-left >= 8 && right-neutral >= 8 && right-left <= 150 }
+    // Swing directions (11-16): an uncalibrated straight lane is +-25 degrees, sides past it.
+    static let standard = Self(neutral: 0, left: -50, right: 50)
+    /// Side lanes must sit at least 24 degrees from straight, or straight would be too narrow to hit.
+    var valid: Bool { neutral.isFinite && left.isFinite && right.isFinite && neutral-left >= 24 && right-neutral >= 24 && right-left <= 200 }
     static func relative(_ angle: Double, to center: Double) -> Double {
         SportsMotionGeometry.wrap((angle-center) * .pi/180) * 180 / .pi
     }
     func aim(_ angle: Double) -> Double {
         guard valid, angle.isFinite else { return 0 }
         let delta = Self.relative(angle, to: neutral)
-        let dead = 2.5
         let span = delta < 0 ? neutral-left : right-neutral
-        return (delta < 0 ? -1 : 1) * min(1, 0.8 * max(0, abs(delta)-dead) / (span-dead))
+        // Straight is everything up to half way to that side's lane (15..30 deg): 11-16, Adnan "not feasible to aim center
+        // court" with a +-13.6 deg straight lane. Past it the aim starts at 0.35 (Unity's side lane is |aim| > 0.3),
+        // is 0.8 at the learned side lane, and 1 further out.
+        let band = min(30, max(15, span / 2))
+        guard abs(delta) > band else { return 0 }
+        return (delta < 0 ? -1 : 1) * min(1, 0.35 + 0.45 * (abs(delta)-band) / max(1, span-band))
     }
     static func fit(_ samples: [Int: [Double]]) -> Self? {
         guard let centers=samples[0], let ls=samples[-1], let rs=samples[1], centers.count >= 2, ls.count >= 2, rs.count >= 2,
@@ -351,12 +357,14 @@ struct TennisAimWing: Codable, Equatable, Sendable {
         func mean(_ angles: [Double], around center: Double) -> Double {
             center + angles.map { relative($0, to: center) }.reduce(0,+) / Double(angles.count)
         }
-        let center=mean(centers,around:centers[0])
-        let l=mean(ls,around:center), r=mean(rs,around:center)
-        for angles in [centers,ls,rs] {
-            let m=mean(angles,around:center)
-            if angles.contains(where:{ abs(relative($0,to:m)) > 7 }) { return nil }
+        // Real swings scatter by about 20 degrees (11-15 device takes: a 7 degree cluster rule made the lesson loop for 121 takes),
+        // so each lane is its median; a lane is only rejected when it does not sit clearly on its own side of straight (`valid`).
+        func median(_ angles: [Double], around c: Double) -> Double {
+            let d=angles.map { relative($0,to:c) }.sorted(), n=d.count
+            return c + (n % 2 == 1 ? d[n/2] : (d[n/2-1]+d[n/2])/2)
         }
+        let center=median(centers,around:mean(centers,around:centers[0]))
+        let l=median(ls,around:center), r=median(rs,around:center)
         let wing=Self(neutral:center,left:l,right:r)
         return wing.valid ? wing : nil
     }
@@ -369,10 +377,88 @@ struct TennisAimProfile: Codable, Equatable, Sendable {
     func aim(angle: Double, facing: Double) -> Double { (facing >= 0 ? forehand : backhand).aim(angle) }
 }
 
-struct TennisAimSwing: Sendable {
+/// One racket-face reading: the face angle (degrees, positive to the player's right) and the gyro's total rate (rad/s).
+struct TennisAimSample: Sendable {
     var time: Double
     var angle: Double
+    var rate: Double
+    /// The phone's acceleration in the room (m/s²): to the player's right of the TV direction, and toward the TV.
+    var side: Double = 0
+    var forward: Double = 0
+}
+
+struct TennisAimSwing: Sendable {
+    var time: Double
+    /// The swing's direction (TennisSwingPath), degrees right of the TV direction: what aims.
+    var angle: Double
     var facing: Double
+    /// The last ~1.2 s of face readings up to this swing, logged with each calibration take.
+    var trace: [TennisAimSample] = []
+    /// Where the racket face pointed at the same moment, logged only (it no longer aims).
+    var face: Double = .nan
+}
+
+/// Swing-direction aim (Adnan 11-15: "it should be directional swinging based upon the motion, not based upon phone location"):
+/// the way the phone travels through the swing, from its own acceleration turned into the room frame, relative to the TV.
+/// Where the phone is, where the TV was scanned from and how it is held change nothing; only the motion does.
+enum TennisSwingPath {
+    /// Room-frame horizontal acceleration (m/s²), Z-vertical motion frame.
+    struct Sample: Sendable { var time: Double; var x: Double; var y: Double }
+    /// The forward swing starts a little before the stroke detector's onset.
+    static let lead = 0.08
+    /// Below this speed (m/s) the swing has no direction yet (11-16 takes: readings under ~1 m/s were the turn out of
+    /// the backswing, pointing anywhere, and threw the ball to a full side).
+    static let minSpeed = 1.0
+    /// A direction further than this from the TV (degrees) is the backswing or the follow-through, not a swing toward the court.
+    static let maxAngle = 100.0
+    /// Velocity gathered between `from` and `to` (sum of a·dt; each sample's step capped so a gap is not a leap).
+    static func velocity(_ samples: [Sample], from: Double, to: Double) -> SIMD2<Double> {
+        var v = SIMD2<Double>(0, 0)
+        for i in samples.indices where samples[i].time >= from && samples[i].time <= to {
+            let dt = i > 0 ? min(0.03, max(0, samples[i].time - samples[i - 1].time)) : 0.01
+            v += SIMD2(samples[i].x, samples[i].y) * dt
+        }
+        return v
+    }
+    /// The swing's direction in degrees, positive to the player's right of the TV direction; nil while it has none.
+    static func angle(_ samples: [Sample], from: Double, to: Double, tvHeading: Double) -> Double? {
+        let v = velocity(samples, from: from, to: to)
+        guard simd_length(v) >= minSpeed else { return nil }
+        let angle = -SportsMotionGeometry.wrap(atan2(v.y, v.x) - tvHeading) * 180 / .pi
+        return abs(angle) <= maxAngle ? angle : nil
+    }
+    /// The phone's real acceleration in the room frame (m/s²). CoreMotion reports acceleration as gravity + userAcceleration,
+    /// with gravity (0,0,-1) g for a phone lying flat: the opposite sign to the real acceleration, so userAcceleration is negated
+    /// (11-16: unnegated, every swing's direction pointed backwards and left/right came out inverted).
+    static func roomAcceleration(user a: SIMD3<Double>, attitude q: simd_quatd) -> SIMD3<Double> {
+        SportsMotionGeometry.rotate(-a * 9.81, by: q)
+    }
+    /// A room-frame vector as (to the player's right, toward the TV).
+    static func split(x: Double, y: Double, tvHeading: Double) -> (side: Double, forward: Double) {
+        (x * sin(tvHeading) - y * cos(tvHeading), x * cos(tvHeading) + y * sin(tvHeading))
+    }
+}
+
+/// Intuitive swing aim, no calibration (11-16, Adnan: "when someone swings left it goes left and right it goes right and middle
+/// it goes middle ... a spectrum"). The reading is half where the racket faces as the shot locks and half how it turned over the
+/// last 100 ms, relative to the TV. On his 121 labelled takes it picked the asked lane in 71 % of forehands and 89 % of
+/// backhands against these fixed centres (a forehand naturally finishes a little left of the TV).
+enum TennisSwingAim {
+    static let forehandCentre = -13.0
+    static let backhandCentre = 1.0
+    /// Up to this many degrees either side of the centre is straight down the middle.
+    static let straightBand = 12.0
+    /// At this many degrees the ball goes to the full side.
+    static let fullAt = 45.0
+    static let turnWindow = 0.1
+    static func reading(face: Double, turn: Double) -> Double { 0.5 * face + 0.5 * turn }
+    /// -1 (full left) .. 0 (middle) .. 1 (full right).
+    static func aim(reading: Double, facing: Double) -> Double {
+        guard reading.isFinite else { return 0 }
+        let d = TennisAimWing.relative(reading, to: facing >= 0 ? forehandCentre : backhandCentre)
+        guard abs(d) > straightBand else { return 0 }
+        return (d < 0 ? -1 : 1) * min(1, (abs(d) - straightBand) / (fullAt - straightBand))
+    }
 }
 
 /// The requested lane is a lesson instruction; only actual new-shot landings validate it.
@@ -412,7 +498,7 @@ struct TennisAimLesson {
             samples[wing,default:[:]][trial.lane,default:[]].append(swing.angle)
         } else {
             if legal && Self.lane(at:landingX) == trial.lane { successes+=1; wingSuccesses[wing]+=1; message="That reached the target." }
-            else { message="That missed the lane. Keep the racket face pointed toward the target." }
+            else { message="That missed the lane. Swing through toward the target." }
         }
         index+=1
         if index == trials.count {
@@ -426,13 +512,13 @@ struct TennisAimLesson {
                         guard let angles=group[lane], angles.count >= 2 else { return true }
                         let d=angles.map { TennisAimWing.relative($0,to:center) }
                         let spread: Double = (d.max() ?? 0) - (d.min() ?? 0)
-                        if spread > 14 { return true }
+                        if spread > 45 { return true }
                         let mean: Double = d.reduce(0, +) / Double(d.count)
                         return lane != 0 && mean * Double(lane) < 8
                     } ?? 0
                     samples[badWing]?[badLane]=[]
                     trials=[Trial(wing:badWing,lane:badLane),Trial(wing:badWing,lane:badLane)]; index=0
-                    message="Those swings overlapped. Repeat this target with a small, clear change of racket angle."
+                    message="Those swings overlapped. Repeat this target and swing clearly toward it."
                     return true
                 }
                 profile=TennisAimProfile(forehand:forehand,backhand:backhand)

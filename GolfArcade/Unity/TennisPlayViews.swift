@@ -126,6 +126,8 @@ struct TennisRacketController: View {
                 ControllerReadyPanel(session: session)
             } else if session.setupStage == .waiting {
                 WaitingForPlayersPanel()
+            } else if session.calibrationMode && session.sport == "tennis" && session.setupStage == .playing {
+                CalibrationPanel(session: session)
             } else if !session.paused && (session.tennisPhase == "serve" || session.tennisPhase == "toss") {
                 ServePanel(session: session)
             } else if !session.paused && session.tennisPhase == "receive" {
@@ -832,6 +834,51 @@ struct ControllerReadyPanel: View {
     }
 }
 
+/// Play → Calibration: the lesson card on the phone. The TV shows the target ring and the ball; this says which shot to hit and how far
+/// along the lesson is. Twelve takes learn the player's racket angles, twelve more check them.
+struct CalibrationPanel: View {
+    @Bindable var session: SportsSession
+    private var lesson: TennisAimLesson? { session.aimLesson }
+    private var complete: Bool { session.calibrationComplete }
+    private func laneWord(_ lane: Int) -> String { lane < 0 ? "LEFT" : lane > 0 ? "RIGHT" : "STRAIGHT" }
+    private func laneIcon(_ lane: Int) -> String { lane < 0 ? "arrow.left" : lane > 0 ? "arrow.right" : "arrow.up" }
+    var body: some View {
+        VStack(spacing: 16) {
+            Spacer()
+            if let lesson {
+                Text(complete ? "AIMING READY" : lesson.progress.uppercased())
+                    .font(IslandUI.font(13, bold: true)).tracking(2).foregroundStyle(IslandUI.lime)
+                if complete {
+                    Image(systemName: "checkmark.circle.fill").font(.system(size: 72)).foregroundStyle(IslandUI.lime)
+                } else if let trial = lesson.current {
+                    Image(systemName: laneIcon(trial.lane)).font(.system(size: 72, weight: .bold)).foregroundStyle(IslandUI.lime)
+                    Text("\(trial.wing == 0 ? "Forehand" : "Backhand") · \(laneWord(trial.lane))").font(IslandUI.font(30, bold: true))
+                    // the lesson only accepts the grip it asked for (TennisAimLesson.record), so say how to hold it
+                    Text(trial.wing == 0 ? "Forehand: the screen faces the TV as you swing" : "Backhand: the back of the phone faces the TV as you swing")
+                        .font(.footnote.weight(.semibold)).multilineTextAlignment(.center).foregroundStyle(.white.opacity(0.85)).padding(.horizontal, 24)
+                        .accessibilityIdentifier("calibration-grip")
+                }
+                ProgressView(value: Double(min(lesson.index, lesson.trials.count)), total: Double(max(lesson.trials.count, 1)))
+                    .tint(IslandUI.lime).padding(.horizontal, 40)
+                Text(session.aimLessonMessage).font(IslandUI.font(16, bold: true)).multilineTextAlignment(.center).padding(.horizontal, 20)
+                    .accessibilityIdentifier("calibration-message")
+                if !complete {
+                    Text("Watch the TV and swing toward the ring. The direction you swing aims, not where the phone points.")
+                        .font(.footnote).multilineTextAlignment(.center).foregroundStyle(.white.opacity(0.75)).padding(.horizontal, 24)
+                }
+            } else {
+                ProgressView().tint(.white)
+                Text("Starting calibration…").font(IslandUI.font(20, bold: true))
+            }
+            ControllerButton(title: complete ? "Done" : "Stop", icon: complete ? "checkmark" : "xmark") { session.finishCalibration() }
+                .accessibilityIdentifier("calibration-done")
+            Button("Start over") { session.restartCalibration() }
+                .frame(minHeight: 44).tint(IslandUI.lime).accessibilityIdentifier("calibration-restart")
+            Spacer()
+        }.frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+}
+
 /// Online tennis: this player is set up. The match starts when the other player is too.
 struct WaitingForPlayersPanel: View {
     private var waitingFor: String {
@@ -855,10 +902,4 @@ struct WaitingForPlayersPanel: View {
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
             .accessibilityElement(children: .combine).accessibilityIdentifier("controller-waiting")
     }
-}
-
-// Compatibility for archived previews; the aiming exercise has been retired.
-struct AimingCalibrationPanel: View {
-    let session: SportsSession
-    var body: some View { ControllerReadyPanel(session: session) }
 }

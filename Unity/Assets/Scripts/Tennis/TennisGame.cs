@@ -2184,10 +2184,13 @@ namespace GolfArcade.Tennis
                 ? TennisRules.SwingPlacement(swingAim, hit.Quality, rollX, rollZ)
                 : TennisRules.TimedPlacement(ShotAimTarget, hit.Quality, rollX, rollZ);
             // Badly timed: it sails out (TennisRules.OutTiming). Overheads keep their own rules.
-            if (SwingAims && !Player.Overhead && TennisRules.MistimedOut(hitLateness))
-                target = TennisRules.MistimedLanding(swingAim, hitLateness, rollX, rollZ);
-            BallSpin = SpinFor(Player.Kind, Player.Power);
-            BallVelocity = TennisRules.RallyVelocity(BallPosition,target,hit.Speed,BallSpin,hit.Quality);
+            // Badly timed (TennisRules.OutTiming): a slow high lob into the middle, easy to hit back (11-16). Overheads keep their own rules.
+            bool mistimedLob = SwingAims && !Player.Overhead && TennisRules.MistimedOut(hitLateness);
+            if (mistimedLob) target = TennisRules.MistimedLob(swingAim, rollX, rollZ);
+            BallSpin = mistimedLob ? 0 : SpinFor(Player.Kind, Player.Power);
+            BallVelocity = mistimedLob
+                ? TennisRules.RallyArcVelocity(BallPosition, target, TennisRules.MistimedLobPace, 0, TennisRules.MistimedLobClearance)
+                : TennisRules.RallyVelocity(BallPosition,target,hit.Speed,BallSpin,hit.Quality);
             Feedback = $"{TennisRules.GradeLabel(LastGrade)} · {Player.StrokeLabel} · {hit.Label} · {hit.Speed*3.6f:0} km/h"
                 + (Streak > 0 ? $"\n{Streak} clean in a row — {TennisRules.SuperchargeStreak - Streak} to supercharge" : "");
             ballRenderer.material.color = LastWasSupercharged ? new Color(.7f,1,1) : Color.Lerp(new Color(1,.8f,.7f), Color.white, hit.Quality);
@@ -2430,7 +2433,8 @@ namespace GolfArcade.Tennis
             }
             // The aim ring is the player's chosen target. With motion play the swing itself aims (the racket
             // face at contact), so there is nothing meaningful to show before it; touch and keyboard aim ahead.
-            bool aimsAhead = !NativeControlled || NativeSportsSession.Touch || AimPractice;
+            // (motion aim practice too: the swing's direction aims, so a ring following the phone's pointing would teach the wrong thing)
+            bool aimsAhead = !NativeControlled || NativeSportsSession.Touch;
             bool showAim = (Flow == Phase.Rally && incoming && aimsAhead) || Flow == Phase.PlayerServeHold || Flow == Phase.PlayerServeToss;
             aimRing.enabled = showAim;
             if (!showAim) return;

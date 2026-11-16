@@ -120,6 +120,14 @@ final class SportsMotion: NSObject, ARSessionDelegate, @unchecked Sendable {
     private var faceNeutral = [0.0, 0.0]
     private var aimProfile: TennisAimProfile?
     private var aimHistory = [(time:Double,angle:Double,wing:Int)]()
+    /// Raw face angle and gyro rate for the last ~1.2 s, handed to the aim calibration with every swing.
+    private var faceTrace = [TennisAimSample]()
+    /// Room-frame horizontal acceleration for the last ~1.2 s, and the swing-direction aim read from it (TennisSwingPath).
+    private var pathTrace = [TennisSwingPath.Sample]()
+    private var pathAngle: Double?
+    private var pathLocked = false
+    /// For 200 ms after the shot locks, where the swing's direction goes next (logged as "aimcal post", 11-16).
+    private var postUntil = -Double.infinity, postFrom = 0.0, postStart = 0.0, postLog = [String]()
     private var faceAim = 0.0
     /// Distance to the TV from the depth sensor while the axis is being captured.
     private var tvDistance: Double?
@@ -458,15 +466,47 @@ final class SportsMotion: NSObject, ARSessionDelegate, @unchecked Sendable {
             if let tv=tvHeading { strokeFacing=SportsMotionGeometry.strokeFacing(screenHeading:screenHeading,tvHeading:tv,previous:strokeFacing) }
             else { strokeFacing=SportsMotionGeometry.strokeFacing(screenNormal:screenNormal,courtForward:courtForward,previous:strokeFacing) }
         }
-        if previousPhase != .swinging && filter.phase == .swinging { activeStrokeFacing=strokeFacing }
+        if previousPhase != .swinging && filter.phase == .swinging { activeStrokeFacing=strokeFacing; pathAngle=nil; pathLocked=false }
         // Use the same short filtered racket-face window for practice and live shots.
         // Profiles stay fixed throughout a match; follow-through cannot re-learn "straight".
         let swinging = filter.phase == .swinging || swing != nil
         let facing = swinging ? activeStrokeFacing : strokeFacing
         let wing = facing >= 0 ? 0 : 1
+        // Swing-direction aim (11-15): the way the phone travels through the swing, from its acceleration in the room frame,
+        // gathered from just before the stroke's onset and fixed when the stroke is confirmed (when Unity locks the shot).
+        var side=0.0, forward=0.0
+        if tennis, let att=attitude {
+            let room=TennisSwingPath.roomAcceleration(user:SIMD3<Double>(a.x,a.y,a.z),attitude:att)
+            pathTrace.append(TennisSwingPath.Sample(time:time,x:room.x,y:room.y))
+            pathTrace.removeAll { time-$0.time > 1.2 }
+            if let tv=tvHeading {
+                (side,forward)=TennisSwingPath.split(x:room.x,y:room.y,tvHeading:tv)
+                if time <= postUntil {
+                    let v=TennisSwingPath.velocity(pathTrace,from:postFrom,to:time)
+                    let dir = -SportsMotionGeometry.wrap(atan2(v.y,v.x)-tv)*180 / .pi
+                    postLog.append(String(format:"%d:%.0f:%.1f",Int(((time-postStart)*1000).rounded()),dir,simd_length(v)))
+                } else if !postLog.isEmpty {
+                    SportsDiagnostics.write("aimcal post locked=\(pathAngle.map { String(format:"%.1f",$0) } ?? "none") ms:dir:speed=\(postLog.joined(separator:","))")
+                    postLog.removeAll()
+                }
+            }
+        }
+        if swing != nil { pathLocked=true; postUntil=time+0.2; postFrom=filter.onsetTime-TennisSwingPath.lead; postStart=time; postLog.removeAll() }
         if tennis, let tv=tvHeading, let screen=screenHeading {
             let angle=SportsMotionGeometry.faceAngle(screenHeading:screen,tvHeading:tv,facing:facing)
             aimHistory.append((time,angle,wing))
+            faceTrace.append(TennisAimSample(time:time,angle:angle,rate:speed,side:side,forward:forward))
+            faceTrace.removeAll { time-$0.time > 1.2 }
+            // Intuitive aim (11-16): where the racket faces now, half, plus how it turned over the last 100 ms, half; fixed at
+            // the stroke's confirmation (when Unity locks the shot). Before a swing there is no aim (straight).
+            if swinging, !pathLocked || swing != nil, let last=faceTrace.last {
+                let back=faceTrace.last { time-$0.time >= TennisSwingAim.turnWindow } ?? faceTrace[0]
+                pathAngle=TennisSwingAim.reading(face:last.angle,turn:TennisAimWing.relative(last.angle,to:back.angle))
+            }
+            if swing != nil {
+                SportsDiagnostics.write(String(format:"aim swing reading=%.1f aim=%.2f facing=%.0f face=%.1f",pathAngle ?? .nan,
+                    pathAngle.map { TennisSwingAim.aim(reading:$0,facing:facing) } ?? 0,facing,faceTrace.last?.angle ?? .nan))
+            }
         }
         aimHistory.removeAll { time-$0.time > 0.06 }
         if aimHistory.count > 8 { aimHistory.removeFirst(aimHistory.count-8) }
@@ -476,8 +516,9 @@ final class SportsMotion: NSObject, ARSessionDelegate, @unchecked Sendable {
             let offsets=recent.map { TennisAimWing.relative($0.angle,to:latest.angle) }.sorted()
             let angle=latest.angle+offsets[offsets.count/2]
             filteredAngle=angle
-            faceAim=(aimProfile ?? TennisAimProfile(forehand:.standard,backhand:.standard)).aim(angle:angle,facing:facing)
         }
+        // Before a swing there is no direction, so the aim is straight: pointing the phone never aims.
+        faceAim = swinging ? pathAngle.map { TennisSwingAim.aim(reading:$0,facing:facing) } ?? 0 : 0
         // The racket in the hand is at the ball: a strike the game has already decided is felt now, from this queue.
         if filter.contacts>swingContacts { swingContacts=filter.contacts; if live && tennis { RacketFeel.swingReachedBall() } }
         if let swing { NSLog("[SportsMotion] tennis stroke power=%.2f",swing) }
@@ -487,8 +528,8 @@ final class SportsMotion: NSObject, ARSessionDelegate, @unchecked Sendable {
         if live {
             if let swing {
                 lastPower=swing; swings+=1
-                if let angle=filteredAngle {
-                    let aimSwing=TennisAimSwing(time:time,angle:angle,facing:activeStrokeFacing)
+                if let angle=pathAngle {
+                    let aimSwing=TennisAimSwing(time:time,angle:angle,facing:activeStrokeFacing,trace:faceTrace,face:filteredAngle ?? .nan)
                     Task { @MainActor [weak self] in self?.onAimSwing?(aimSwing) }
                 }
             }
@@ -533,7 +574,7 @@ final class SportsMotion: NSObject, ARSessionDelegate, @unchecked Sendable {
     private func captureTVHeading() {
         guard let attitude else { tvHeading=nil; return }
         tvHeading=SportsMotionGeometry.heading(SportsMotionGeometry.rotate(SIMD3<Double>(0,0,-1),by:attitude))
-        faceNeutral=[0,0]; faceAim=0; aimHistory.removeAll()
+        faceNeutral=[0,0]; faceAim=0; aimHistory.removeAll(); faceTrace.removeAll(); pathTrace.removeAll(); pathAngle=nil
     }
 
     /// Median LiDAR depth over the middle of the frame: the distance to whatever the lens is

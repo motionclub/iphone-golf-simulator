@@ -888,15 +888,17 @@ namespace GolfArcade.Tennis
 
         /// Racket-face aim (-1..1 as the phone sends it; its calibration tops out near 0.8) inside this
         /// band hits straight up the middle: wrist wobble must not steer a ball.
-        public const float SwingAimDeadBand = .3f;
+        public const float SwingAimDeadBand = .05f;
         /// Kept for the face reading's range: the phone's aim value at a clearly turned wrist.
         public const float SwingAimFull = .75f;
 
-        /// Direction from the swing: -1 (left lane), 0 (straight) or 1 (right lane), from the racket-face aim.
+        /// Direction from the swing, a spectrum (11-16, Adnan: "swings left it goes left, right goes right, middle goes middle
+        /// ... a spectrum"): -1 full left .. 0 middle .. 1 full right. The phone already keeps a straight band (TennisSwingAim),
+        /// so only sensor noise is taken off here; the phone's 0.8 is the full side.
         public static float SideFromSwing(float aim)
         {
             float a = Mathf.Clamp(aim, -1, 1);
-            return Mathf.Abs(a) <= SwingAimDeadBand ? 0 : Mathf.Sign(a);
+            return Mathf.Abs(a) <= SwingAimDeadBand ? 0 : Mathf.Sign(a) * Mathf.Min(1, (Mathf.Abs(a) - SwingAimDeadBand) / (.8f - SwingAimDeadBand));
         }
 
         /// Rally pace from timing (`TimingScore`, 1 on the ball .. 0 at the edge of contact), in the speed the
@@ -940,7 +942,7 @@ namespace GolfArcade.Tennis
             // A side lane is an angle: on a clean hit it lands short of the baseline right by the sideline and keeps
             // travelling wide, which is what pulls the rival off the court (a deep corner gave it time to get there:
             // 2026-10-26 tuning, a clean deep corner beat the standard rival 0% of the time). Straight goes deep.
-            float z = Mathf.Lerp(6.2f, side != 0 ? TennisFlight.SideLanding : TennisFlight.DeepLanding, control) + Mathf.Clamp(rollZ, -1, 1) * spread;
+            float z = Mathf.Lerp(6.2f, Mathf.Lerp(TennisFlight.DeepLanding, TennisFlight.SideLanding, Mathf.Abs(side)), control) + Mathf.Clamp(rollZ, -1, 1) * spread;
             return new Vector3(Mathf.Clamp(x, -CourtHalfWidth + .12f, CourtHalfWidth - .12f), BallRadius,
                 Mathf.Clamp(z, 2.8f, CourtHalfLength - .3f));
         }
@@ -951,7 +953,19 @@ namespace GolfArcade.Tennis
         public const float OutTiming = .17f;
         public static bool MistimedOut(float late) => Mathf.Abs(late) > OutTiming;
 
+        /// A swing more than `OutTiming` off is a lob (11-16, Adnan: "bad timing should result in lobs or easier to hit balls"):
+        /// slow and high into the middle of the court, never out, leaning a little toward the swing's side. Easy for the rival.
+        public const float MistimedLobClearance = 2.4f;
+        public static float MistimedLobPace => SlowRallyPace * .85f;
+        public static Vector3 MistimedLob(float aim, float rollX, float rollZ)
+        {
+            float x = SideFromSwing(aim) * 1.6f + Mathf.Clamp(rollX, -1, 1) * .5f;
+            float z = 7.6f + Mathf.Clamp(rollZ, -1, 1) * .8f;
+            return new Vector3(Mathf.Clamp(x, -CourtHalfWidth + .6f, CourtHalfWidth - .6f), BallRadius, z);
+        }
+
         /// Where a ball swung at more than `OutTiming` off lands: out, and further out the worse the timing.
+        /// (Unused since 11-16: a mistimed ball is a lob, `MistimedLob`.)
         public static Vector3 MistimedLanding(float aim, float late, float rollX, float rollZ)
         {
             float side = SideFromSwing(aim);
@@ -979,7 +993,7 @@ namespace GolfArcade.Tennis
         public static string SwingSideWord(float aim)
         {
             float side = SideFromSwing(aim);
-            return side < -.01f ? "LEFT" : side > .01f ? "RIGHT" : "";
+            return side < -.33f ? "LEFT" : side > .33f ? "RIGHT" : "";
         }
 
         /// Which authored stroke suits the ball. Height and distance pick the animation, so

@@ -284,6 +284,7 @@ final class HubRouteTests: XCTestCase {
             ("Island Circuit", ["shelf-trophies"], { $0 == .campaign }),
             ("Quick match", ["bay-tennis-exhibition"], { $0 == .exhibition }),
             ("Training", ["bay-tennis-training"], { $0 == .training }),
+            ("Calibration", ["bay-tennis-calibration"], { _ in TennisMenu.shared.launch?.mode == .calibration }),
             ("Golf round (course picker)", ["bay-golf-round"], { $0 == .map && TennisMenu.shared.mapSport == .golf }),
             ("Online tennis", ["bay-tennis-online"], { $0 == .main && HubSession.shared.onlineBench == .tennis && HubSession.shared.station == "bay-tennis-online" }),
             ("Online golf", ["bay-golf-online"], { $0 == .main && HubSession.shared.onlineBench == .golf && HubSession.shared.station == "bay-golf-online" }),

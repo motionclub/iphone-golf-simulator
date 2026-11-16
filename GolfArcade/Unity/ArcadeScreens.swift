@@ -693,7 +693,7 @@ extension TennisMenu {
         case "quickLength": return "Match length"
         case "quickStart": return "Start Match"
         case "homePlay": return "Play with Friends"
-        case "partySolo": return "Single Player"
+        case "partySolo": return "Single Player"; case "calibration": return "Calibration"
         case "partyMultiplayer": return "Multiplayer"
         case "partyOnline": return "Online"
         case "partyLocal": return "Local"
