@@ -404,7 +404,7 @@ struct LoadingScreen: View {
     private var loadingArt: UIImage? {
         let names = skin.loadingArt
         let pick = Int((loading.started?.timeIntervalSince1970 ?? 0).rounded()) % max(1, names.count)
-        return MapSkin.image(names[pick]) ?? art
+        return MapSkin.image(names[pick])
     }
     private var modeLine: String {
         if daily { return Self.dailyFacts }
@@ -412,14 +412,6 @@ struct LoadingScreen: View {
         if sport == .bowling { return "Bowling · 10 frames" }
         if menu.launch?.mode == .training { return "Tennis · Practice · \(venueName)" }
         return "Tennis · Singles · \(venueName)"
-    }
-    /// The venue's loading art (Assets: loading-<sport>-<venue>), else its map still.
-    private var art: UIImage? {
-        switch sport {
-        case .golf: UIImage(named: "loading-golf-\(golfCourse)") ?? UIImage(named: "map-golf-\(golfCourse).jpg")
-        case .bowling: UIImage(named: "loading-bowling-lanes")
-        default: UIImage(named: "loading-tennis-\(venueID)") ?? UIImage(named: "map-\(venueID).jpg")
-        }
     }
     /// The sport's colour on the bar and the percentage: tennis gold, golf green, bowling glow blue.
     private var accent: Color { sport == .golf ? MSBrand.success : sport == .bowling ? MSBrand.glow : MSBrand.gold }
@@ -448,13 +440,6 @@ struct LoadingScreen: View {
     var body: some View {
         Group { if compact { phone } else { tv } }
             .accessibilityIdentifier("presentation-loading-card")
-    }
-
-    private var backdrop: some View {
-        ZStack {
-            MSBrand.backdrop()
-            if let art { Image(uiImage: art).resizable().scaledToFill() }
-        }
     }
 
     // MARK: TV (1280×720)

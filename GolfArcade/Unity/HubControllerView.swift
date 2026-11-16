@@ -64,17 +64,13 @@ struct HubLoadingScreen: View {
     }
 }
 
-/// LOADING ACTION (2026-11-13): the boot screen's pictures, in-game moments from all three sports and seven venues
-/// (Assets.xcassets/LoadingShots: frames of the trailer and of in-game captures, picked by eye; the tennis dive is left out because its
-/// body warps). `anchor` is which part of a picture wider than 16:9 shows (0 its left edge, 1 its right), set so the player sits right of
-/// the wordmark. Picked and proved in work/loading-action-1113.
+/// The boot screen's pictures: only the 25 painted UI-overhaul loading pictures (GolfArcade/Unity/MapSkins/load-*.jpg); the 11-13 trailer
+/// and in-game frames (Assets.xcassets/LoadingShots) were removed on 2026-11-16. `anchor` is which part of a picture wider than 16:9 shows
+/// (0 its left edge, 1 its right).
 struct LoadingShot: Equatable { let asset: String; let label: String; let anchor: CGFloat }
 enum LoadingShots {
     static let seconds = 3.0
     static let ink = Color(hex: "06123F")
-    private static func shots(_ first: Int, _ label: String, _ anchors: [CGFloat]) -> [LoadingShot] {
-        anchors.enumerated().map { LoadingShot(asset: String(format: "loadshot-%02d", first + $0.offset), label: label, anchor: $0.element) }
-    }
     /// UI OVERHAUL 11-15 (02 Loading art): the 25 painted loading pictures of our players on our maps replace the trailer frames.
     /// Map names stand alone (no sport labels); the boxing and baseball pictures have no map of ours, so they carry no label.
     static let pool: [LoadingShot] = [
@@ -88,12 +84,6 @@ enum LoadingShots {
         ("boxing-final-bell", ""), ("baseball-infield-grounder", ""), ("baseball-plate-catch", ""), ("baseball-seaside-pitch", ""),
         ("baseball-warning-track", ""), ("baseball-first-base-lead", ""),
     ].map { LoadingShot(asset: "load-\($0.0).jpg", label: $0.1, anchor: 0.5) }
-        // the in-game moments picked on 11-13 stay in the reel too (a big pool, never the same few), their labels now map names only
-        + shots(0, "SKY TOWER", [0, 0, 0, 0, 0, 0.27, 0.54, 0.35, 0, 0])
-        + shots(10, "MAGMA OPEN", [0, 0, 0, 0, 0.15, 0.35, 0.54, 0])
-        + shots(18, "NEON NIGHTS", [0.35, 0.35, 0.1, 0.35, 0.15, 0.05, 0.35, 0.15])
-        + shots(26, "TROPICAL RESORT", [0.5, 0.5, 0.5]) + shots(29, "MAGMA CRATER", [0.5, 0.5, 0.5])
-        + shots(32, "CLUB LANES", [0]) + shots(33, "MAGMA LANES", [0]) + shots(34, "TIKI SHORES", [0])
     /// Snapshots: show this shot and hold it.
     nonisolated(unsafe) static var pinned: Int?
     static let lastKey = "loading.lastShot"

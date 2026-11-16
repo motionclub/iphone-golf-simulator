@@ -164,7 +164,8 @@ final class HubSessionTests: XCTestCase {
     /// LOADING ACTION (2026-11-13): every shot is in the app, a boot plays each one once before any comes back, never the same shot
     /// twice in a row (across a reshuffle too), and a boot never opens on the shot the last one ended on.
     func testLoadingShotsShuffleThroughTheWholePool() {
-        XCTAssertGreaterThanOrEqual(LoadingShots.pool.count, 30, "a big pool, not the same few")
+        XCTAssertEqual(LoadingShots.pool.count, 25, "the 25 painted loading pictures, nothing older")
+        for shot in LoadingShots.pool { XCTAssertTrue(shot.asset.hasPrefix("load-"), shot.asset) }
         for shot in LoadingShots.pool { XCTAssertNotNil(UIImage(named: shot.asset), shot.asset) }
         // UI OVERHAUL 11-15: map names stand alone (no sport labels), and every map of all three sports is in the reel
         for shot in LoadingShots.pool { for word in ["TENNIS", "GOLF", "BOWLING"] { XCTAssertFalse(shot.label.contains(word), shot.label) } }
@@ -184,7 +185,7 @@ final class HubSessionTests: XCTestCase {
         SportsSession.shared.displayConnected = true; TennisMenu.shared.debugShow(.title)
         hub.debugBoot(session: "snap-shots"); hub.receive(["type": "buildProgress", "session": "snap-shots", "message": "0.58"])
         defer { LoadingShots.pinned = nil }
-        for n in [3, 12, 20, 28, 33] {
+        for n in [3, 12, 20, 24] {
             LoadingShots.pinned = n
             try await save(HubLoadingScreen(hub: hub), "hub-loading-shot-\(n)", size: CGSize(width: 1280, height: 720))
         }

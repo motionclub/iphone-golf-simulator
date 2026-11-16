@@ -136,6 +136,10 @@ namespace GolfArcade.Hub.Menu
             // wider than the TV (a phone held sideways, no TV): keep the TV's width of view, so the backdrop plate (shot at 16:9) and the
             // line-up keep their size and the plate only loses a little sky and floor
             if (MenuShots.Centred && c.aspect > 16f / 9f) fov = 2 * Mathf.Atan(Mathf.Tan(fov * .5f * Mathf.Deg2Rad) * (16f / 9f) / c.aspect) * Mathf.Rad2Deg;
+            // an upright phone's Home holds the whole squad (you and the + on every empty spot): the lens opens until the view is
+            // UprightHalfWidth wide each side (the backdrop plate fills whatever the lens shows)
+            if (MenuShots.Upright && Shot == MenuShots.Low && c.aspect < 1)
+                fov = Mathf.Max(fov, 2 * Mathf.Atan(MenuShots.UprightHalfWidth / c.aspect) * Mathf.Rad2Deg);
             c.fieldOfView = fov; c.farClipPlane = 600f;
         }
 

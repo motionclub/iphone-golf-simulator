@@ -66,7 +66,6 @@ namespace GolfArcade.UI
         int tipShown = -1;
         bool visible;
         Info info;
-        static readonly Dictionary<string, Texture2D> arts = new();
         static Sprite star, ringSprite;
 
         /// Up on screen, or fading out.
@@ -251,18 +250,15 @@ namespace GolfArcade.UI
             return Sprite.Create(tex, new Rect(0, 0, n, n), new Vector2(.5f, .5f));
         }
 
-        /// The course's key art (Resources/Loading/loading-golf-<course>), or nothing (the brand field shows).
+        /// The course's painted loading picture (Resources/MapSkins/load-golf-*), or nothing (the brand field shows).
         static int artPick;
         static Texture2D ArtFor(string course)
         {
             string name = (course ?? "").ToLowerInvariant();
             string key = name.Contains("magma") ? "magma" : name.Contains("wild") ? "wildisles" : "cliffside";
             // UI OVERHAUL 11-15 (02 Loading art): our golfers playing the course, a fresh one of the course's each cover (Wild Isles
-            // has its own now); the older key art if those are missing
-            var painted = MapSkin.Golf(key).LoadingArt(++artPick);
-            if (painted) return painted;
-            if (!arts.TryGetValue(key, out var tex)) arts[key] = tex = Resources.Load<Texture2D>("Loading/loading-golf-" + key);
-            return tex;
+            // has its own now); the older key art (Resources/Loading) was removed 2026-11-16
+            return MapSkin.Golf(key).LoadingArt(++artPick);
         }
 
         // ---- Layout

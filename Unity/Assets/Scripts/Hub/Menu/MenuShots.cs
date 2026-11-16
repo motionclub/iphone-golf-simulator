@@ -23,8 +23,15 @@ namespace GolfArcade.Hub.Menu
 
         /// Where you stand (slot 0).
         static readonly Vector3 Slot0 = new Vector3(-.1f, 0, -7.6f);
-        /// Floor slots, you first: the squad.
-        public static Vector3[] Slots => SquadSlots;
+        /// Floor slots, you first: the squad (tighter on an upright phone).
+        public static Vector3[] Slots => Upright ? UprightSlots : SquadSlots;
+        /// UPRIGHT LOBBY (Adnan 11-16: "for 9:16 ... the character model needs to be closer to the middle and more visible ... the + signs on
+        /// either side and ppl should be able to see all 4 of them so zoom out a bit"): the menu fills an upright phone with no TV (MenuHud
+        /// sets this every frame). The squad closes up so all four spots fit the narrow view without shrinking you much.
+        public static bool Upright;
+        public static readonly Vector3[] UprightSlots = Squad(new Vector2(0, 0), new Vector2(-.75f, .5f), new Vector2(.75f, .5f), new Vector2(-1.4f, 1.1f));
+        /// Upright Home: the view's half-width (tan of half the horizontal angle) that holds the whole upright squad and its + spots.
+        public const float UprightHalfWidth = .30f;
         /// MENU SQUAD (Adnan 11-13: "lobby shooter style is best", work/menu-lineup-1113): you in the middle at the front, a friend a step back
         /// on each side, the fourth further back on the left; in metres along the camera's right and away from it, from slot 0.
         public static readonly Vector3[] SquadSlots = Squad(new Vector2(0, 0), new Vector2(-1.2f, .75f), new Vector2(1.2f, .75f), new Vector2(-2.4f, 1.75f));

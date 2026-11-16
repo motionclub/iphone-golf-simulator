@@ -51,8 +51,11 @@ final class OnboardingFlow {
         var selected = store.step
         if !first && !store.explicitRun && !store.hasSavedStep { selected = .done }
         if !store.explicitRun && !store.hasSavedStep && (store.legacyStep == "done" || progress.anyTutorialDone) { selected = .done }
-        #if DEBUG
+        // Release too (2026-11-16): launch arguments only Xcode / devicectl can pass, to put a test phone through onboarding again
+        // (-freshOnboarding also clears the finished lessons, so the Tutorial runs again)
+        if arguments.contains("-freshOnboarding") { progress.resetTutorials() }
         if arguments.contains("-resetOnboarding") { store.reset(); _ = store.installedAt; selected = .welcome }
+        #if DEBUG
         let force = arguments.contains("-forceOnboarding")
         let legacy = arguments.contains { arg in
             ["-skipPlayerCalibration", "-startInCameraMode", "-startCourse", "--lobby-mock", "--lobby", "--character-editor", "-benchTennis", "-benchGolf", "-range.swingInput"].contains(arg) || arg.hasPrefix("--resume-tennis-round-")

@@ -19,7 +19,12 @@ namespace GolfArcade.Hub.Menu
         /// The TV rows the upright panel holds, from the headlines down past the setup's START.
         const float PanelFrom = 110, PanelRows = 1000;
 
-        struct PhoneFrame { public bool upright; public float scale, w, h, top, bottom, panelTop; }
+        struct PhoneFrame { public bool upright; public float scale, w, h, top, bottom, panelTop, homeTop; }
+        /// Upright Home (11-16): the panel holds only PLAY, so it starts this far above the bottom and the hero gets the screen's middle.
+        const float HomePanelRows = 230;
+        /// Home is showing on an upright phone with no TV (the camera then draws down to just above PLAY).
+        static bool uprightHome;
+        string panelFor;
         PhoneFrame fitted; bool fittedOnce;
         float tabsFrom;
 
@@ -32,6 +37,7 @@ namespace GolfArcade.Hub.Menu
                 f.scale = sw / PortraitW; f.w = PortraitW; f.h = sh / f.scale;
                 f.top = Mathf.Max(0, sh - safe.yMax) / f.scale; f.bottom = Mathf.Max(0, safe.y) / f.scale;
                 f.panelTop = Mathf.Max(f.top + 560, f.h - f.bottom - PanelRows);
+                f.homeTop = Mathf.Max(f.panelTop, f.h - f.bottom - HomePanelRows);
             }
             else { f.scale = Mathf.Min(sh / 1080f, sw / 1920f); f.w = 1920; f.h = 1080; }
             return f;
@@ -43,7 +49,7 @@ namespace GolfArcade.Hub.Menu
             if (UnityEngine.Screen.width <= 0) return new Rect(0, 0, 1, 1);
             var f = PhoneLayout();
             if (!f.upright) return new Rect(0, 0, 1, 1);
-            float share = Mathf.Clamp01((f.panelTop + 80) / f.h);
+            float share = Mathf.Clamp01(((uprightHome ? f.homeTop : f.panelTop) + 80) / f.h);
             return new Rect(0, 1 - share, 1, share);
         }
 
@@ -51,6 +57,8 @@ namespace GolfArcade.Hub.Menu
         void FitPhone()
         {
             var f = PhoneLayout();
+            MenuShots.Upright = f.upright; uprightHome = f.upright && Screen == Home;
+            if (panelFor != Screen && fittedOnce) { panelFor = Screen; ArrangePanel(); }
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ConstantPixelSize; scaler.scaleFactor = f.scale;
             canvasRT.anchorMin = canvasRT.anchorMax = canvasRT.pivot = new Vector2(.5f, .5f);
             canvasRT.sizeDelta = new Vector2(f.w, f.h); canvasRT.anchoredPosition = Vector2.zero;
@@ -96,7 +104,7 @@ namespace GolfArcade.Hub.Menu
                 lists = new Vector2(0, dy);
                 switch (id)
                 {
-                    case Home: lists = new Vector2(0, dy + ListTop - HomePlayY); break;   // PLAY at the top of the panel
+                    case Home: lists = new Vector2(0, fitted.homeTop + 40 - HomePlayY); break;   // PLAY at the top of Home's low panel
                     case Locker: pops = new Vector2(400 - 1336, dy + 60); break;   // the swatches beside the rail
                     case Players: pops = new Vector2(Left - (RightEdge - 3 * 204 - 2 * 24 - 6), dy + ListTop + 130 - 308); break;   // the counts under the note
                     case Setup: pops = new Vector2(Left - RightX - 12, fitted.panelTop - 150 - (PreviewSetupY + PreviewH + 40)); break;   // the course strip just above the panel
@@ -169,7 +177,8 @@ namespace GolfArcade.Hub.Menu
                 BrandUi.Layer(panelBg, "Solid", BrandColors.NavyDeep).rectTransform.offsetMax = new Vector2(0, -240);
             }
             panelBg.gameObject.SetActive(true);
-            panelBg.anchoredPosition = new Vector2(0, -(fitted.panelTop - 240)); panelBg.sizeDelta = new Vector2(PortraitW, fitted.h - fitted.panelTop + 240);
+            float top = Screen == Home ? fitted.homeTop : fitted.panelTop;
+            panelBg.anchoredPosition = new Vector2(0, -(top - 240)); panelBg.sizeDelta = new Vector2(PortraitW, fitted.h - top + 240);
         }
 
         // ---- points: the camera may draw in part of the phone, and the frame may not fill it

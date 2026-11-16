@@ -816,6 +816,7 @@ namespace GolfArcade.Hub.Menu
             if (!canvas) return;
             if (world && world.Camera) canvas.targetDisplay = world.Camera.targetDisplay;   // the TV (Present retargets only canvases that existed then)
             if (HubWorld.PhoneOnly && UnityEngine.Screen.width > 0) FitPhone();   // no TV: the whole phone, either way up (MenuHud.Phone)
+            else MenuShots.Upright = false;
             float now = Time.unscaledTime, dt = Time.unscaledDeltaTime;
             EditorInput();
             CoachTick(now);   // the first-launch tip's frame (MenuHud.Coach.cs)
