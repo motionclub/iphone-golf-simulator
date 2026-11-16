@@ -443,9 +443,7 @@ namespace GolfArcade.Game
             Debug.Log($"[SportsDisplay] camera={gameplayCamera.name} aspect={gameplayCamera.aspect} size={Display.displays[index].renderingWidth}x{Display.displays[index].renderingHeight}");
             foreach(var canvas in FindObjectsByType<Canvas>(FindObjectsSortMode.None))
                 if(!canvas.GetComponent<GolfArcade.UI.PhoneScreenOnly>()) canvas.targetDisplay=index;
-            // Golf as on the standalone build: the controller sheet on the phone's own screen. In a multiplayer round too, on the
-            // phone with the TV and on a guest's phone with none (which draws only the sheet: the TV is the host's).
-            if(golf && (external || GolfGuestController)) golf.NativePhoneController();
+            // (11-16: the standalone build's controller sheet is no longer drawn on the phone: the app's own controller plays golf)
             if(GolfGuestController) foreach(var canvas in FindObjectsByType<Canvas>(FindObjectsSortMode.None))
                 if(!canvas.GetComponent<GolfArcade.UI.PhoneScreenOnly>()) canvas.enabled=false;
             Debug.Log($"[SportsDisplay] Gameplay cameras routed to display {index}, active={Display.displays[index].active}");

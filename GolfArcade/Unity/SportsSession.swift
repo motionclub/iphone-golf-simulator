@@ -1131,12 +1131,9 @@ final class SportsSession {
     /// party screen is in front while others play, for the hole's intro and the results.
     private var unityControllerShown = false
     private func updateGolfPhoneController() {
-        let upHere = multiplayerMatchID == nil || (golfController.party?.myTurn == true && ["Aim", "Flight", "Replay"].contains(golfPhase))
-        let want = active && sport == "golf" && ready && loading.finished && !paused && !menuPauseVisible
-            && (displayConnected || multiplayerControllerOnly) && !phonePlay && upHere
-            && finishedMatch == nil
-            && ["Intro", "Aim", "Flight", "Replay", "HoleDone"].contains(golfPhase)
-            && (golfPhase != "Aim" || golfShotReady || multiplayerMatchID != nil)
+        // 2026-11-16 (Adnan: "it had the old controller … make sure … the old controller is gone"): the native controller
+        // (GolfPhoneController, the UI overhaul's) plays every shot; Unity's standalone sheet never comes in front of it again
+        let want = false
         guard want != unityControllerShown else { return }
         unityControllerShown = want
         // (a guest without a TV of its own keeps Unity in a window of its own, under the native controller)

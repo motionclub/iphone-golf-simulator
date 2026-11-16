@@ -268,6 +268,8 @@ struct GolfPhoneController: View {
         }.interactiveDismissDisabled().presentationDetents([.large])
             .presentationBackground(skin.cream)
             .tint(skin.ink)
+            // (the controller is dark; on the cream sheet the rows need dark type, or they vanish white on cream)
+            .environment(\.colorScheme, .light).foregroundStyle(skin.ink)
     }
 
     /// The handheld map's stat chips: PAR 4 · 416 YD · 7 MPH.
