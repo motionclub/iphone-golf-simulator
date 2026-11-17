@@ -99,6 +99,13 @@ struct GolfPhoneController: View {
     private enum Leaving { case game, party }
     @State private var leaving: Leaving?
     @State private var stickOffset = CGSize.zero
+    /// Drag to aim works like a trackpad (11-16, Adnan: "the trackpad is a bit too sensitive"): sideways movement turns the aim by
+    /// aimDegreesPerPoint, sent as small nudges; where the drag started does not matter.
+    @State private var lastDragX: CGFloat?
+    @State private var aimCarry: Double = 0
+    static let aimDegreesPerPoint = 0.2
+    /// One "aim" nudge is this many degrees in Unity (GolfGame.AimTapDegrees).
+    static let aimTapDegrees = 1.5
     @State private var draggingAim = false
     @State private var lastAimSent = -Double.infinity
     /// Handheld play: the hole map opened full screen from its corner of the game view.
@@ -146,10 +153,10 @@ struct GolfPhoneController: View {
         }
         .statusBarHidden().persistentSystemOverlays(.hidden).preferredColorScheme(.dark)
         .sheet(isPresented: $session.menuPauseVisible) {
-            pauseMenu
+            GamePauseMenu(session: session)
         }
         .onChange(of: session.paused) { _, paused in
-            if paused { draggingAim = false; stickOffset = .zero }
+            if paused { draggingAim = false; stickOffset = .zero; lastDragX = nil; aimCarry = 0 }
         }
     }
 
@@ -158,11 +165,7 @@ struct GolfPhoneController: View {
     private var controllerCanvas: some View {
         ZStack(alignment: .topLeading) {
             Color.clear
-            Button { BetaFeedback.open() } label: {
-                Image(systemName: "bubble.left.fill").font(.system(size: 17, weight: .bold)).foregroundStyle(skin.ink)
-                    .frame(width: 44, height: 44).background(skin.cream, in: Circle()).overlay(Circle().strokeBorder(skin.frame, lineWidth: 2.5))
-            }.buttonStyle(.plain).position(x: 50, y: 70)
-                .accessibilityLabel("Send feedback by text").accessibilityIdentifier("beta-feedback")
+            // (top left is the record / mic dock, CaptureDock; feedback is in the pause menu)
             MapPlate(skin: skin, text: playerName.uppercased(), height: 104).mapEntrance(delay: 0.1).position(x: 232, y: 70)
                 .accessibilityIdentifier("controller-name-plate")
             Button { session.pause() } label: { MapPauseFace(skin: skin, size: 50) }
@@ -231,47 +234,6 @@ struct GolfPhoneController: View {
             .accessibilityLabel(session.multiplayerControllerOnly ? "Using the host’s display" : session.displayConnected ? "TV connected" : "TV disconnected")
     }
 
-    private var pauseMenu: some View {
-        NavigationStack {
-            Form {
-                Section {
-                    Button("Resume game") { session.readyToPlay() }
-                        .disabled(!session.displayConnected && !session.multiplayerControllerOnly && !session.phonePlay).accessibilityIdentifier("golf-resume")
-                    if !session.displayConnected && !session.multiplayerControllerOnly && !session.phonePlay { Text("Reconnect your TV to continue.") }
-                }
-                Section("Settings") {
-                    Toggle("Sound", isOn: $session.sound)
-                        .onChange(of: session.sound) { _, enabled in session.command("sound", value: enabled ? 1 : 0) }
-                    Toggle("Haptics", isOn: $session.haptics)
-                        .onChange(of: session.haptics) { _, enabled in session.command("haptics", value: enabled ? 1 : 0) }
-                }
-                // the golf screen has no room for the chat and settings buttons, so they live here (record and mic stay on the screen)
-                PartySettingsSections()
-                if PartyChat.enabled { Section("Party") {
-                    Button { PartyChat.shared.stripOpen = true } label: { Label("Party chat", systemImage: "bubble.left.and.bubble.right.fill") }.accessibilityIdentifier("golf-party-chat")
-                } }
-                Section {
-                    Button("Send feedback") { BetaFeedback.open() }
-                    Button("Leave game", role: .destructive) { if session.multiplayerMatchID != nil { leaving = .game } else { session.exitGame() } }
-                        .accessibilityIdentifier("controller-exit")
-                    if HubSession.shared.inParty {
-                        Button("Leave party", role: .destructive) { leaving = .party }.accessibilityIdentifier("controller-leave-party")
-                    }
-                }
-            }.scrollContentBackground(.hidden).navigationTitle("Paused").navigationBarTitleDisplayMode(.inline)
-                .sheet(isPresented: $partyChat) { PartyChatView(dismiss: { partyChat = false }).presentationDetents([.large]) }
-                .confirmationDialog(leaving == .party ? "Leave the party?" : "Leave this game?", isPresented: Binding(get: { leaving != nil }, set: { if !$0 { leaving = nil } }), titleVisibility: .visible) {
-                    if leaving == .party { Button("Leave party", role: .destructive) { leaving = nil; HubSession.shared.leaveParty() } }
-                    else { Button("Leave game", role: .destructive) { leaving = nil; session.exitGame() } }
-                    Button("Keep playing", role: .cancel) { leaving = nil }
-                } message: { Text(leaving == .party ? HubSession.shared.leavePartyLine : HubSession.shared.leaveGameLine) }
-        }.interactiveDismissDisabled().presentationDetents([.large])
-            .presentationBackground(skin.cream)
-            .tint(skin.ink)
-            // (the controller is dark; on the cream sheet the rows need dark type, or they vanish white on cream)
-            .environment(\.colorScheme, .light).foregroundStyle(skin.ink)
-    }
-
     /// The handheld map's stat chips: PAR 4 · 416 YD · 7 MPH.
     private func statBadge(_ text: String, icon: String?) -> some View {
         HStack(spacing: 6) {
@@ -332,7 +294,7 @@ struct GolfPhoneController: View {
                     updateJoystick(drag.location, centre: CGPoint(x: size.width / 2, y: size.height / 2), reach: 110, final: true)
                     // (the TV's menu ring re-arms when the stick comes back to the middle)
                     if canMenu { session.aimGolf(across: 0, forward: 0) }
-                    draggingAim = false; stickOffset = .zero
+                    draggingAim = false; stickOffset = .zero; lastDragX = nil; aimCarry = 0
                 })
         }
         .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
@@ -467,7 +429,7 @@ struct GolfPhoneController: View {
                 .onEnded { drag in
                     updateJoystick(drag.location, centre: CGPoint(x: 78, y: 78), reach: 48, final: true)
                     if canMenu { session.aimGolf(across: 0, forward: 0) }
-                    draggingAim = false; stickOffset = .zero
+                    draggingAim = false; stickOffset = .zero; lastDragX = nil; aimCarry = 0
                 })
             .accessibilityIdentifier("golf-aim-joystick")
     }
@@ -501,6 +463,7 @@ struct GolfPhoneController: View {
     /// `reach`: how far the thumb travels from `centre`. The shown stick is kept in the 48-point units the round pad was drawn in.
     private func updateJoystick(_ location: CGPoint, centre: CGPoint, reach: CGFloat, final: Bool) {
         guard canAim || canMenu else { return }
+        if canAim && !canMenu { trackpad(location, centre: centre, reach: reach, final: final); return }
         let dx = location.x - centre.x, dy = location.y - centre.y
         let distance = hypot(dx, dy)
         guard distance > 10 else { return }
@@ -512,6 +475,23 @@ struct GolfPhoneController: View {
         guard final || now - lastAimSent >= 1.0 / 60 else { return }
         lastAimSent = now
         session.aimGolf(across: dx / distance, forward: -dy / distance)
+    }
+    /// Sideways movement since the last update turns the aim (aimDegreesPerPoint), in nudges of up to one aim tap; the thumb shown
+    /// on the pad follows the finger sideways.
+    private func trackpad(_ location: CGPoint, centre: CGPoint, reach: CGFloat, final: Bool) {
+        draggingAim = true
+        let dx = max(-reach, min(reach, location.x - centre.x))
+        stickOffset = CGSize(width: dx / reach * 48, height: 0)
+        if let last = lastDragX { aimCarry += Double(location.x - last) * Self.aimDegreesPerPoint }
+        lastDragX = final ? nil : location.x
+        let now = ProcessInfo.processInfo.systemUptime
+        guard final || now - lastAimSent >= 1.0 / 60 else { return }
+        let step = max(-1, min(1, aimCarry / Self.aimTapDegrees))
+        if abs(step * Self.aimTapDegrees) >= 0.05 {
+            lastAimSent = now
+            session.setAim(step); aimCarry -= step * Self.aimTapDegrees
+        }
+        if final { aimCarry = 0 }
     }
     private func aimArrow(_ symbol: String, x: CGFloat, y: CGFloat, label: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {

@@ -188,7 +188,7 @@ struct CaptureDock: View {
     }
     /// A phone swing or a golf aim is live: keep the dock tiny and out of the way.
     private var compact: Bool { Self.isCompact(session) }
-    /// Golf has no free corner, so its dock is always the small one, up in the status-bar strip beside the Dynamic Island.
+    /// Golf's dock is the small one, in the controller's top-left corner (11-16: up in the status strip it could not be reached).
     private var golf: Bool { session.active && session.sport == "golf" }
     static func isCompact(_ session: SportsSession) -> Bool {
         if session.active && session.sport == "golf" { return true }
@@ -203,8 +203,9 @@ struct CaptureDock: View {
         guard party || record else { return 0 }
         var width: CGFloat = 24
         if party { width += CGFloat(1 + (compact ? 0 : (inParty ? 1 : 0) + 1)) * 44 }
-        // the record button is a 44 pt dot on its own: a label beside it squeezed the score and covered the menu's player chip
-        if record { width += 44 + 8 }
+        // the record button is a 44 pt dot on its own (a label beside it squeezed the score and covered the menu's player chip);
+        // recording, it is the red stop pill with the time
+        if record { width += (recording.state == .recording ? 96 : 44) + 8 }
         return width
     }
 
@@ -223,20 +224,28 @@ struct CaptureDock: View {
             .padding(compact ? 4 : 6)
             .background(.black.opacity(0.35), in: Capsule())
             .overlay(Capsule().strokeBorder(.white.opacity(0.18), lineWidth: 1))
-            .frame(maxWidth: .infinity, alignment: .trailing).padding(.trailing, 10)
-            // golf: up in the status strip. The menu (no game on): under the player chip in its top-right corner.
-            .padding(.top, golf ? -52 : session.active ? 0 : 62)
+            .frame(maxWidth: .infinity, alignment: golf ? .leading : .trailing).padding(golf ? .leading : .trailing, 10)
+            // golf: the controller's top-left corner. The menu (no game on): under the player chip in its top-right corner.
+            .padding(.top, golf ? 2 : session.active ? 0 : 62)
             .sheet(isPresented: $showSettings) { PartySettingsView(dismiss: { showSettings = false }).presentationDetents([.large]) }
             .sheet(isPresented: $showRecordings) { RecordingLibraryView(dismiss: { showRecordings = false }).presentationDetents([.large]) }
             .accessibilityElement(children: .contain).accessibilityIdentifier("capture-dock")
         }
     }
 
-    /// One tap starts, one tap stops and saves to Photos. Red and squared while recording.
+    /// One tap starts, one tap stops and saves to Photos. Recording, it is a red STOP pill with the time (as easy to find as to start).
     private var recordButton: some View {
         Button { recording.toggle() } label: {
-            // golf's dock sits in the status-bar strip beside the battery: it keeps the small dot there
-            let dot: CGFloat = golf ? 36 : 44
+            let dot: CGFloat = golf ? 40 : 44
+            if recording.state == .recording {
+                HStack(spacing: 7) {
+                    RoundedRectangle(cornerRadius: 3).fill(.white).frame(width: 13, height: 13)
+                    Text(recording.timeText).font(.system(size: 15, weight: .heavy)).monospacedDigit().foregroundStyle(.white)
+                }
+                .padding(.horizontal, 14).frame(height: dot).background(Color.red, in: Capsule())
+                .overlay(Capsule().strokeBorder(.white.opacity(0.9), lineWidth: 2))
+                .contentShape(Capsule())
+            } else {
             ZStack {
                     Circle().fill(recording.isRecording ? Color.red : Color.white.opacity(0.18)).frame(width: dot, height: dot)
                     Circle().strokeBorder(.white.opacity(recording.isRecording ? 0.9 : 0.55), lineWidth: 2).frame(width: dot, height: dot)
@@ -245,6 +254,7 @@ struct CaptureDock: View {
                     else { Circle().fill(Color.red).frame(width: golf ? 16 : 20, height: golf ? 16 : 20) }
             }
             .contentShape(Circle())
+            }
         }
         .buttonStyle(.plain).disabled(!recording.canToggle)
         // hold for Recordings: where every recording went (a disabled button still takes the long press through this gesture)

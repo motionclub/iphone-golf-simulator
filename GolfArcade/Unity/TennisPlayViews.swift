@@ -151,8 +151,8 @@ struct TennisRacketController: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(MapControllerBackground(skin: skin))
         .preferredColorScheme(.dark)
-        .sheet(isPresented: $showOptions) {
-            IslandPauseScreen(compact: true) { showOptions = false }.presentationDetents([.large])
+        .sheet(isPresented: Binding(get: { showOptions || (session.menuPauseVisible && session.active) }, set: { if !$0 { showOptions = false } })) {
+            GamePauseMenu(session: session) { showOptions = false }
         }
     }
 

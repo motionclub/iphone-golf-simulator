@@ -391,3 +391,73 @@ struct IslandPauseScreen: View {
         .sheet(isPresented: $partySettings) { PartySettingsView(dismiss: { partySettings = false }).presentationDetents([.large]) }
     }
 }
+
+/// The one pause menu on the phone, every sport (2026-11-16, Adnan: "make a standard pause menu … match all of them to be similar to
+/// golf"): golf's sheet, in the map's cream and ink. Resume; sound and haptics (and tennis's own setup checks); voice, chat and
+/// recording; feedback; leave the game or the party, each asked once.
+struct GamePauseMenu: View {
+    @Bindable var session: SportsSession
+    /// Closes an options sheet opened while already paused (tennis's gear); Resume also ends the pause.
+    var dismiss: () -> Void = {}
+    private enum Leaving { case game, party }
+    @State private var leaving: Leaving?
+    @State private var partyChat = false
+    private var hub: HubSession { .shared }
+    private var skin: MapSkin { .current }
+    private var online: Bool { session.multiplayerMatchID != nil }
+    private var canResume: Bool { session.displayConnected || session.multiplayerControllerOnly || session.phonePlay }
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section {
+                    Button("Resume game") { session.readyToPlay(); dismiss() }.disabled(!canResume).accessibilityIdentifier("pause-resume")
+                    if !canResume { Text("Reconnect your TV to continue.") }
+                }
+                Section("Settings") {
+                    Toggle("Sound", isOn: $session.sound)
+                        .onChange(of: session.sound) { _, enabled in session.command("sound", value: enabled ? 1 : 0) }
+                    Toggle("Haptics", isOn: $session.haptics)
+                        .onChange(of: session.haptics) { _, enabled in session.command("haptics", value: enabled ? 1 : 0) }
+                }
+                if session.sport == "tennis" {
+                    Section("Tennis") {
+                        Button("Re-aim at the TV") { session.menuPauseVisible = false; SportsDisplays.shared.external?.isHidden = true; session.beginAxisCapture(); dismiss() }
+                        Button("Recenter racket") { session.recalibrateAiming(); dismiss() }
+                            .disabled(!session.motion.axisLocked || session.checkingTiming || session.measuringDelay)
+                        Button("Flip left / right") { session.flipSteering() }
+                        // (not online: a network match has no timing check, so its screens would never finish)
+                        if session.displayConnected && session.multiplayerMatchID == nil {
+                            Button("Re-check swing timing") { session.menuPauseVisible = false; SportsDisplays.shared.external?.isHidden = true; session.recheckTiming(); dismiss() }
+                        }
+                        PointRecordingSettings(session: session)
+                    }
+                }
+                PartySettingsSections()
+                if PartyChat.enabled { Section("Party") {
+                    Button { PartyChat.shared.stripOpen = true } label: { Label("Party chat", systemImage: "bubble.left.and.bubble.right.fill") }
+                } }
+                Section {
+                    Button("Send feedback") { BetaFeedback.open() }
+                    Button("Leave game", role: .destructive) { leaving = .game }.accessibilityIdentifier("controller-exit")
+                    if hub.inParty { Button("Leave party", role: .destructive) { leaving = .party }.accessibilityIdentifier("controller-leave-party") }
+                }
+            }
+            .scrollContentBackground(.hidden).navigationTitle("Paused").navigationBarTitleDisplayMode(.inline)
+            .confirmationDialog(leaving == .party ? "Leave the party?" : "Leave this game?", isPresented: Binding(get: { leaving != nil }, set: { if !$0 { leaving = nil } }), titleVisibility: .visible) {
+                if leaving == .party { Button("Leave party", role: .destructive) { leaving = nil; dismiss(); hub.leaveParty() } }
+                else { Button("Leave game", role: .destructive) { leaving = nil; dismiss(); leaveGame() } }
+                Button("Keep playing", role: .cancel) { leaving = nil }
+            } message: { Text(leaving == .party ? hub.leavePartyLine : online ? hub.leaveGameLine : "Your score in this game will be lost.") }
+        }
+        .interactiveDismissDisabled().presentationDetents([.large])
+        .presentationBackground(skin.cream).tint(skin.ink)
+        // (the controllers are dark; on the cream sheet the rows need dark type, or they vanish white on cream)
+        .environment(\.colorScheme, .light).foregroundStyle(skin.ink)
+        .accessibilityIdentifier("game-pause-menu")
+    }
+    /// Each sport leaves its game the way it always has (tennis's match ends through the menu; online, only the game is left).
+    private func leaveGame() {
+        if session.sport == "tennis" { if online { hub.leaveOnlineMatch() } else { TennisMenu.shared.finishMatch(.menu) } }
+        else { session.exitGame() }
+    }
+}

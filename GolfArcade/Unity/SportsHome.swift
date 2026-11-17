@@ -28,7 +28,7 @@ struct SportsHome: View {
             MatchFinishControls(session: session)
                 .background(Club.lagoonDeep.ignoresSafeArea())
         }
-        else if session.active && session.menuPauseVisible && session.sport != "golf" { IslandPauseScreen(compact: true) }
+        // (paused: each controller stays, under the one pause menu every sport shares, GamePauseMenu)
         else if session.active && session.sport == "golf" {
             GolfPhoneController(session: session)
         }
@@ -125,11 +125,13 @@ struct SportsHome: View {
                 // the flyover's skip; online it is skipped once everyone has asked (the intros themselves always play)
                 if session.active && session.loading.finished && !session.paused, let skip = session.introSkip,
                    session.tennisPhase == "intro" || session.golfPhase == "Intro" {
-                    Button(skip.needed > 1 ? (skip.mine ? "Waiting for everyone · \(skip.voted)/\(skip.needed)" : "Skip intro · \(skip.voted)/\(skip.needed)") : "Skip intro") {
-                        session.command("presentationSkip")
+                    // (the map's own pill, UI overhaul: lit in its accent until this phone has asked)
+                    Button { session.command("presentationSkip") } label: {
+                        MapPill(skin: .current, height: 54, lit: !skip.mine) {
+                            Text(skip.needed > 1 ? (skip.mine ? "Waiting · \(skip.voted)/\(skip.needed)" : "Skip intro · \(skip.voted)/\(skip.needed)") : "Skip intro")
+                        }
                     }
-                    .disabled(skip.mine)
-                    .font(IslandUI.font(18, bold: true)).padding(16).background(skip.mine ? IslandUI.paper : IslandUI.lime, in: Capsule()).foregroundStyle(skip.mine ? IslandUI.ink : IslandUI.navy)
+                    .buttonStyle(.plain).disabled(skip.mine)
                     .accessibilityIdentifier("presentation-skip")
                 }
             }.handheldLift(session.phonePlay, base: 16)

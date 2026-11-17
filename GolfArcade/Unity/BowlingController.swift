@@ -54,6 +54,7 @@ struct BowlingPhoneController: View {
             if phase != "Setup" && phase != "Hold" && phase != "Approach" { holding = false }
         }
         .onDisappear { if holding { release() } }
+        .sheet(isPresented: $session.menuPauseVisible) { GamePauseMenu(session: session) }
     }
 
     private var gameOver: Bool { state.phase == "GameOver" }

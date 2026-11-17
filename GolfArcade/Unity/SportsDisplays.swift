@@ -222,7 +222,11 @@ final class SportsDisplays: NSObject {
         finishLoadingCover()
         guard let scene = destination.windowScene else { startRuntime(); return }
         let cover = UIWindow(windowScene: scene)
-        cover.windowLevel = UIWindow.Level(rawValue: destination.windowLevel.rawValue + 100)
+        // On the phone's own screen (handheld play: the game's window sits just under the app's) the cover goes between the game and
+        // the app, never over the app: the safety card and its button are the app's and must stay on top and tappable (2026-11-16,
+        // Adnan: "it wont let u ready up after the load unless ur screen mirrored").
+        let onPhone = scene.session.role == .windowApplication && destination.windowLevel < .normal
+        cover.windowLevel = onPhone ? UIWindow.Level(rawValue: UIWindow.Level.normal.rawValue - 0.5) : UIWindow.Level(rawValue: destination.windowLevel.rawValue + 100)
         cover.backgroundColor = .clear
         let host = UIHostingController(rootView: PresentationLoadingCover(compact: scene.session.role == .windowApplication))
         host.view.backgroundColor = .clear; cover.rootViewController = host
