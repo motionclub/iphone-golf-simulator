@@ -66,7 +66,11 @@ extern "C" bool SportsCaptureMetalReady() { return pointMetal!=nullptr; }
     UnityDisplaySurfaceMTL *surface=(UnityDisplaySurfaceMTL *)presentingDisplay.surface;
     // Read the resolved Unity color target, including the gameplay HUD, before presentation.
     // The TV target is distinct from UIKit's phone controller window.
-    id<MTLTexture> texture=surface->targetColorRB ? pointMetal->TextureFromRenderBuffer(surface->targetColorRB) : surface->swapchain.drawableTexture;
+    // Unity 6000.3 on iOS renders straight into the drawable (targetColorRB is only a proxy that acquires one on use): asking for
+    // the proxy's texture here, inside the present, acquired a drawable and crashed (EXC_BAD_ACCESS in AcquireSwapchainDrawable,
+    // 2026-11-16 20:42). Read the drawable this frame was drawn into; no drawable yet, no frame.
+    id<MTLTexture> texture=surface->swapchain.drawableTexture;
+    if(!texture) return;
     // Encode into Unity's still-open buffer so the capture follows scene/HUD
     // rendering, and completes before Unity presents/reuses the drawable.
     pointMetal->EndCurrentCommandEncoder();
