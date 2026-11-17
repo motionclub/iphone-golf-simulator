@@ -125,6 +125,8 @@ struct PlaySafeSheet: View {
                 .padding(16).frame(maxWidth: .infinity, alignment: .leading)
                 .background(MotionBrand.navyInk.opacity(0.55), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
                 .overlay(RoundedRectangle(cornerRadius: 20, style: .continuous).strokeBorder(.white.opacity(0.25), lineWidth: 1.5))
+                Label("Ringer on to feel your swing power and every hit.", systemImage: "bell.fill")
+                    .font(MotionBrand.font(.medium, 15)).foregroundStyle(MotionBrand.gold)
                 if needsTV {
                     Text("Tennis needs a TV: Control Center › Screen Mirroring.")
                         .font(MotionBrand.font(.medium, 16)).foregroundStyle(MotionBrand.gold).fixedSize(horizontal: false, vertical: true)

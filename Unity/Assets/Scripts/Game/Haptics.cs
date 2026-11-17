@@ -144,9 +144,34 @@ namespace GolfArcade.Game
             GolfHaptics_TensionSet(0.15f + 0.85f * l * l, 0.2f + 0.7f * l);
         }
 
+        /// Swing power (2026-11-16, Adnan: vibrations "for how powerful their swing is gearing towards", for phone-only play): a tap
+        /// at each quarter of the meter (25 / 50 / 75 / 100 %), each firmer than the last, over the wind-up buzz. Call with every load.
+        public static void PowerNotch(double load)
+        {
+            if (!On) return;
+            if (UnityEngine.Time.realtimeSinceStartup - toppedAt < 1.5f) return;
+            int n = (int)System.Math.Floor(Clamp01(load) * 4 + 1e-4);
+            if (n > notch) { notch = n; Play(Cue.Top, .3f + .7f * n / 4f); }
+            else if (n < notch - 1) notch = n;   // the backswing came well back down: count again from there
+        }
+        static int notch;
+
+        /// A bowling release, felt by its timing: PERFECT rings, GOOD knocks, early or late is a dull tap, a slip or foul warns.
+        public static void BowlingRelease(int grade)
+        {
+            if (!On) return;
+            switch (grade)
+            {
+                case 0: Hit(new HitFeel { Style = HitStyle.Heavy, Grade = 5, Power = .8f, Center = 1 }); break;
+                case 1: Hit(new HitFeel { Style = HitStyle.Heavy, Grade = 3, Power = .7f, Center = .85f }); break;
+                case 2: case 3: Hit(new HitFeel { Style = HitStyle.Heavy, Grade = 1, Power = .55f, Center = .4f, Mistime = .4f }); break;
+                default: Warning(); break;
+            }
+        }
+
         public static void Release()
         {
-            toppedAt = -10;
+            toppedAt = -10; notch = 0;
             StopTension();
         }
 

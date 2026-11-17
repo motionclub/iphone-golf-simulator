@@ -146,7 +146,14 @@ struct GolfPhoneController: View {
                             .frame(width: 464, height: 1000)
                             .scaleEffect(scale)
                             .frame(width: geometry.size.width, height: geometry.size.height)
+                        // (this layout ignores the safe area: the map keeps clear of the Dynamic Island and the home bar)
+                        if mapExpanded {
+                            ZStack { LinearGradient(colors: [skin.top, skin.bottom], startPoint: .top, endPoint: .bottom); handheldMap.padding(.top, 54).padding(.bottom, 20) }
+                                .transition(.opacity)
+                        }
                     }
+                    .animation(.easeOut(duration: 0.18), value: mapExpanded)
+                    .onChange(of: session.golfPhase) { _, phase in if phase != "Aim" { mapExpanded = false } }
                 }
                 .ignoresSafeArea()
             }
@@ -266,6 +273,14 @@ struct GolfPhoneController: View {
                 aimArrow("chevron.down", x: 0, y: size.height / 2 - 30, label: "Aim down course") { session.aimGolf(across: 0, forward: -1) }
                 aimArrow("chevron.left", x: -size.width / 2 + 30, y: 0, label: "Aim left") { nudge(-1) }
                 aimArrow("chevron.right", x: size.width / 2 - 30, y: 0, label: "Aim right") { nudge(1) }
+                // the hole map full screen (2026-11-16, Adnan: a map "ppl can click to expand … make sure thats a thing for airplay mode")
+                if session.golfControllerMap != nil || isDesignPreview {
+                    Button { mapExpanded = true } label: {
+                        Image(systemName: "arrow.up.left.and.arrow.down.right").font(.system(size: 17, weight: .black)).foregroundStyle(skin.ink)
+                            .frame(width: 46, height: 46).background(skin.cream, in: Circle()).overlay(Circle().strokeBorder(skin.frame, lineWidth: 2.5))
+                    }.buttonStyle(.plain).offset(x: size.width / 2 - 38, y: -size.height / 2 + 38)
+                        .accessibilityLabel("Open the hole map").accessibilityIdentifier("golf-map-open")
+                }
                 Button {
                     if canMenu { session.selectGolfMenu() }
                     else if session.paused || !session.golfShotReady { session.readyToPlay() }

@@ -377,6 +377,8 @@ namespace GolfArcade.Bowling
             netSendPending = Networked && IsLocal(Current);
             LastThrow = th;
             sound?.Release(th);
+            // the release in the hand (2026-11-16): felt by its timing, this phone's own bowler only
+            if (IsLocal(Current) && !IsCpu(Current)) GolfArcade.Game.Haptics.BowlingRelease((int)th.Grade);
             foulSlide = th.Foul;
             if (Bowler && Bowler.ApproachActive)
             {

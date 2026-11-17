@@ -1921,6 +1921,7 @@ namespace GolfArcade.Game
             ShowWindUp(load);
             // The wind-up: the phone buzzes harder and the creak climbs as the meter fills.
             Haptics.Tension(load);
+            Haptics.PowerNotch(load);   // a firmer tap at each quarter of the meter
             hud.SetStatus("Backswing…");
             SendNetworkLoad((float)load);
         }
@@ -2171,8 +2172,9 @@ namespace GolfArcade.Game
             bool hudShowsCourse = hud.Controller == null || hud.OnTv || NativeControlled;   // (not under the controller in a preview)
             // the pin: on the maps, and on the picture — over it, or at the edge pointing the way
             // (not while a badge is stamped over the picture: the marker draws over everything)
-            bool pinWanted = aimingShot && club != GolfClub.Putter && hudShowsCourse && Current != State.Menu && !hud.BadgeShowing;
+            bool pinWanted = aimingShot && club != GolfClub.Putter && hudShowsCourse && Current != State.Menu && !hud.BadgeShowing && !GolfShotHud.Handheld;   // (handheld: the big badge instead, GolfGame.PinMarker.cs)
             hud.SetPinMarker(pinWanted ? rig.Camera : null, holeView && holeView.FlagTop is Vector3 flagTop ? flagTop : plan.Pin + Vector3.up * 3.2f, $"PIN  {ballAt.DistanceTo(hole.Pin):F0} YD");
+            DriveHandheldPin();
             hud.SetCourseTargets(rig.Camera, checkpointSpots, aimingShot && club != GolfClub.Putter && hudShowsCourse);
             // the yardage riding the ball, counting through the flight and the run
             if (flightHud && (Current == State.Flight || Current == State.Result) && ball.gameObject.activeSelf && hudShowsCourse)

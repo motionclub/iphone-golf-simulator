@@ -413,11 +413,14 @@ struct GamePauseMenu: View {
                     Button("Resume game") { session.readyToPlay(); dismiss() }.disabled(!canResume).accessibilityIdentifier("pause-resume")
                     if !canResume { Text("Reconnect your TV to continue.") }
                 }
-                Section("Settings") {
+                Section {
                     Toggle("Sound", isOn: $session.sound)
                         .onChange(of: session.sound) { _, enabled in session.command("sound", value: enabled ? 1 : 0) }
                     Toggle("Haptics", isOn: $session.haptics)
                         .onChange(of: session.haptics) { _, enabled in session.command("haptics", value: enabled ? 1 : 0) }
+                } header: { Text("Settings") } footer: {
+                    // (an iPhone set not to vibrate in silent mode drops every swing tap)
+                    Text("Turn your ringer on to feel your swing power and every hit.")
                 }
                 if session.sport == "tennis" {
                     Section("Tennis") {
