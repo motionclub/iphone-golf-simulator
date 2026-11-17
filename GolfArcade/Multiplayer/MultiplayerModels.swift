@@ -134,6 +134,16 @@ struct MultiplayerLobby: Codable, Equatable, Sendable {
     var hasScreenForSport: Bool {
         sport != .tennis || (sharedScreen == true ? competitors.contains(where: \.hasScreen) : competitors.allSatisfy(\.hasScreen))
     }
+    /// Tennis players in one room set up their rackets one after the other, not at once: the court scan points at the TV, and the
+    /// flashes and the timing ball are on it. The phone with the TV goes first, then the others in seat order. Returns who `id` is
+    /// still waiting for: the first player ahead of it who is connected and not yet through the timing check (step "ready") or Ready.
+    /// Nil when nobody is ahead, or when each player has a TV of their own somewhere else (they set up at the same time).
+    func setupTurnAhead(of id: String) -> MultiplayerParticipant? {
+        guard sport == .tennis, sharedScreen == true || competitors.contains(where: { $0.view == .split }),
+              let me = competitors.first(where: { $0.id == id }) else { return nil }
+        func order(_ p: MultiplayerParticipant) -> (Int, Int) { (p.view == .split ? 0 : 1, p.seat) }
+        return competitors.first { $0.id != id && order($0) < order(me) && !$0.calibrated && $0.setupStep != "ready" }
+    }
     mutating func configure(sport: MultiplayerSport, venue: String) {
         self.sport = sport; self.venue = venue
         for i in participants.indices { participants[i].seat = i < capacity ? i : -1; participants[i].ready = false; participants[i].loaded = false; participants[i].calibrated = false }

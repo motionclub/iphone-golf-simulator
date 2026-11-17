@@ -650,8 +650,16 @@ struct OnlineTennisTVSetup: View {
                 .background(IslandUI.navy, in: RoundedRectangle(cornerRadius: 20))
         }
     }
+    /// One TV in the room, this phone is through its own steps: the other player setting up on this TV now.
+    private var partnerTurn: MultiplayerParticipant? {
+        guard session.setupTurnWaitingFor == nil, [.ready, .waiting].contains(session.setupStage), let lobby = service.lobby,
+              lobby.sharedScreen == true || lobby.competitors.contains(where: { $0.view == .split }) else { return nil }
+        return lobby.competitors.first { $0.id != service.localID && !$0.calibrated && ["direction", "timing"].contains($0.setupStep ?? "") }
+    }
     private var title: String {
         if let count = service.startCountdown { return "Starting in \(count)" }
+        if session.setupTurnWaitingFor != nil { return "You're up next" }
+        if let partner = partnerTurn { return "\(partner.name)'s turn" }
         switch session.setupStage {
         case .scan: return "Set your racket direction"
         case .timing: return "Timing check"
@@ -660,6 +668,11 @@ struct OnlineTennisTVSetup: View {
         }
     }
     private var instruction: String {
+        if let first = session.setupTurnWaitingFor { return "\(first) sets up first. Give them room to swing." }
+        if let partner = partnerTurn {
+            return partner.setupStep == "timing" ? "\(partner.name) is checking their timing. Give them room to swing."
+                : "\(partner.name): point the back of your phone at this TV. Hold still for one second."
+        }
         switch session.setupStage {
         case .scan: return "Point the back of your phone at this TV. Hold still for one second."
         case .timing: return "Start the timing check on your phone, then swing with the bouncing ball."
@@ -681,7 +694,9 @@ struct OnlineTennisSetupPanel: View {
                 Text("SET UP YOUR RACKET").font(IslandUI.font(13, bold: true)).tracking(2).foregroundStyle(IslandUI.lime)
                 // Solo's own screens, in solo's order (2026-10-28): the court scan, the TV's delay, the timing check, Ready. Only a
                 // player coming back into a match already being played gets the quick scan and Ready below, then the countdown.
-                if session.setupStage == .scan && !session.onlineComeback {
+                if let first = session.setupTurnWaitingFor {
+                    turnWait(first)
+                } else if session.setupStage == .scan && !session.onlineComeback {
                     AxisGatePanel(session: session)
                 } else if session.setupStage == .scan {
                     direction
@@ -724,6 +739,20 @@ struct OnlineTennisSetupPanel: View {
             .frame(maxWidth: .infinity).padding(.vertical, 24)
         }
         .accessibilityIdentifier("online-tennis-setup")
+    }
+
+    /// One TV in the room: the other player sets up on it first. This phone's setup opens by itself when they are through.
+    private func turnWait(_ first: String) -> some View {
+        VStack(spacing: 20) {
+            Image(systemName: "hourglass").font(.system(size: 52)).foregroundStyle(IslandUI.lime).accessibilityHidden(true)
+            Text("You're next").font(IslandUI.font(30, bold: true))
+            Text("\(first) is setting up on the TV. Give them room to swing — your setup starts as soon as they're done.")
+                .multilineTextAlignment(.center)
+            Button("Set up now") { scanStarted = Date(); session.skipSetupTurn() }
+                .buttonStyle(.bordered).controlSize(.large).tint(IslandUI.lime)
+                .accessibilityIdentifier("setup-turn-skip")
+        }
+        .accessibilityIdentifier("setup-turn-wait")
     }
 
     private var direction: some View {
@@ -780,8 +809,9 @@ struct OnlineTennisSetupPanel: View {
     private func playerStatus(_ player: MultiplayerParticipant, local: Bool, calibrated: Bool) -> String {
         if !player.connected { return "Reconnecting" }
         if calibrated { return player.loaded ? "Ready" : "Ready · Court loading" }
-        if local { return session.setupStage == .ready ? "Tap Ready" : session.setupStage == .timing ? "Checking timing" : "Setting direction" }
+        if local { return session.setupTurnWaitingFor != nil ? "Up next" : session.setupStage == .ready ? "Tap Ready" : session.setupStage == .timing ? "Checking timing" : "Setting direction" }
         if player.setupStep == "ready" { return "About to tap Ready" }
+        if player.setupStep == "next" { return "Up next" }
         if player.setupStep == "timing" { return "Checking timing" }
         if player.setupStep == "direction" { return "Setting direction" }
         return player.loaded ? "Setting up racket" : "Loading court"

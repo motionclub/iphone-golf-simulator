@@ -5,6 +5,31 @@ import Network
 
 @MainActor
 final class MultiplayerTests: XCTestCase {
+    /// One TV in the room: players set up one after the other (the TV phone first, then by seat); two TVs apart: at the same time.
+    func testPlayersSharingATVSetUpOneAfterTheOther() {
+        var tv = MultiplayerParticipant(id: "tv", name: "Ana", seat: 1, hasScreen: true, view: .split)
+        var pad = MultiplayerParticipant(id: "pad", name: "Ben", seat: 0, view: .controllerOnly)
+        func lobby() -> MultiplayerLobby { MultiplayerLobby(ownerID: "pad", participants: [pad, tv]) }
+        XCTAssertNil(lobby().setupTurnAhead(of: "tv"), "the phone with the TV goes first, whatever its seat")
+        XCTAssertEqual(lobby().setupTurnAhead(of: "pad")?.id, "tv")
+        tv.setupStep = "timing"; XCTAssertEqual(lobby().setupTurnAhead(of: "pad")?.id, "tv", "still mid-setup")
+        tv.setupStep = "ready"; XCTAssertNil(lobby().setupTurnAhead(of: "pad"), "through the timing check: the next player's turn")
+        tv.setupStep = nil; tv.calibrated = true; XCTAssertNil(lobby().setupTurnAhead(of: "pad"))
+        tv.calibrated = false; tv.connected = false
+        XCTAssertNil(lobby().setupTurnAhead(of: "pad"), "nobody waits on a player who is gone")
+        tv.connected = true
+        // a Nearby lobby (same room) where both phones have a TV: seat order
+        tv.view = .near; pad.view = .near; pad.hasScreen = true
+        var room = lobby(); room.sharedScreen = true
+        XCTAssertNil(room.setupTurnAhead(of: "pad")); XCTAssertEqual(room.setupTurnAhead(of: "tv")?.id, "pad")
+        // apart, a TV each: no waiting
+        room.sharedScreen = false
+        XCTAssertNil(room.setupTurnAhead(of: "tv")); XCTAssertNil(room.setupTurnAhead(of: "pad"))
+        // golf never waits
+        room.sharedScreen = true; room.sport = .golf
+        XCTAssertNil(room.setupTurnAhead(of: "tv"))
+    }
+
     @MainActor final class Bus {
         var links: [String: Link] = [:]
         /// Messages on a link with delay, waiting for the test clock to reach their arrival time.

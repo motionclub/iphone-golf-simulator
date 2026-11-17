@@ -233,6 +233,8 @@ final class SportsSession {
     #if DEBUG
     /// For tests: puts the session in (or takes it out of) an online match without a TV and a Unity runtime.
     func debugSetOnlineMatch(_ id: String?, seat: Int = -1) { multiplayerMatchID = id; multiplayerSeat = seat }
+    func debugBeginOnlineSetup() { beginMultiplayerCalibration() }
+    func debugPollSetupTurn() { if let lobby = MultiplayerService.shared.lobby { advanceSetupTurn(lobby) } }
     #endif
     private(set) var multiplayerControllerOnly = false
     /// This phone's TV shows both players (one TV for two phones): the TV credit Unity gives its player goes to the lobby (screenLag).
@@ -241,6 +243,9 @@ final class SportsSession {
     /// The shared TV's delay the controller-only phone has already handed to Unity (so a change is applied once).
     private var appliedSharedDelay: Double?
     private var multiplayerSetupStarted = false
+    /// One TV in the room: the player setting up on it before this one (MultiplayerLobby.setupTurnAhead). This phone's own setup
+    /// starts when they are through their timing check; nil when it is this phone's turn.
+    private(set) var setupTurnWaitingFor: String?
     var retainCourtDirectionForRematch = false
     var setupProblem = ""
     /// Setup belongs to this phone, independently of the opponent's renderer or connection. It starts once this phone's loading
@@ -500,7 +505,7 @@ final class SportsSession {
         tvDelay = timingCalibration ?? 0; appliedSharedDelay = nil
         golfController = .waiting; golfControllerMap = nil
         setupStage = .scan; axisGate = SportsAxisGate(); phase="calibrating"; feedback=""; golfPhase=""; golfHasNextHole=false; golfShotReady=false; golfSwingState=0; golfTap=GolfTapSwing(); stamina=1
-        multiplayerSetupStarted = false; setupProblem = ""
+        multiplayerSetupStarted = false; setupTurnWaitingFor = nil; setupProblem = ""
         let p=players[min(playerIndex,players.count-1)]
         UserDefaults.standard.set(sport, forKey: "sports.lastSport.\(p.id.uuidString)")
         matchEmotes = p.equippedEmotes; emoteWindow = ""; emoteNotice = ""; tennisPhase = ""; introSkip = nil
@@ -914,8 +919,37 @@ final class SportsSession {
             status = "Your direction is still set. Tap Ready to set your centre again."
             return
         }
+        let service = MultiplayerService.shared
+        if !onlineComeback, let first = service.lobby?.setupTurnAhead(of: service.localID) {
+            setupTurnWaitingFor = first.name
+            command("controllerSetup", value: 1)
+            pause(reason: "\(first.name) is setting up on the TV. You're next.")
+            service.runtimeSetupStep("next")
+            SportsDiagnostics.write("online setup waits for seat=\(first.seat) (one TV, one player at a time)")
+            return
+        }
+        beginOwnMultiplayerSetup()
+    }
+    private func beginOwnMultiplayerSetup() {
+        setupTurnWaitingFor = nil
         beginAxisCapture()
         MultiplayerService.shared.runtimeSetupStep("direction")
+    }
+    /// The player ahead is through (or gone): this phone's turn. Polled while waiting.
+    private func advanceSetupTurn(_ lobby: MultiplayerLobby) {
+        guard setupTurnWaitingFor != nil, showsOnlineTennisSetup else { return }
+        if let first = lobby.setupTurnAhead(of: MultiplayerService.shared.localID), !onlineComeback {
+            if first.name != setupTurnWaitingFor { setupTurnWaitingFor = first.name }
+            return
+        }
+        SportsDiagnostics.write("online setup turn: this phone sets up now")
+        beginOwnMultiplayerSetup()
+    }
+    /// "Set up now": do not wait for the player ahead (they can finish on the TV after).
+    func skipSetupTurn() {
+        guard setupTurnWaitingFor != nil, showsOnlineTennisSetup else { return }
+        SportsDiagnostics.write("online setup turn skipped by the player")
+        beginOwnMultiplayerSetup()
     }
     /// A player coming back mid-match: the direction is locked, straight to Ready.
     private func multiplayerScanComplete() {
@@ -1115,7 +1149,7 @@ final class SportsSession {
                 self.motion.stop()
             }
         } else { motion.stop() }
-        retainCourtDirectionForRematch = false; multiplayerSetupStarted = false
+        retainCourtDirectionForRematch = false; multiplayerSetupStarted = false; setupTurnWaitingFor = nil
         timer?.invalidate(); timer=nil; pending=nil; measuringDelay=false; checkingTiming=false
         loading.cancel(); tutorialStep=nil; finishedMatch=nil; timingPrompt=false; setupStage = .scan
         SportsRuntime.shared().pause(true); active=false; ready=false; paused=true; tennisControllerActive=false; calibrationMode=false
@@ -1162,6 +1196,7 @@ final class SportsSession {
             // Tennis lifts its LOCAL cover after its own first frame. Opponent loading belongs in setup status, never over calibration.
             loading.updatePlayers(waiting: sport == "tennis" ? [] : lobby.competitors.filter { !$0.loaded }.map(\.name), allReady: sport == "tennis" || lobby.phase == .calibrating || lobby.phase == .playing)
             if setupStage == .waiting, lobby.phase == .playing { beginMultiplayerPlay() }
+            advanceSetupTurn(lobby)
             // MultiplayerService retries loaded/calibrated reports until the lobby acknowledges them, including during loading.
             // A phone with no TV is judged against the shared TV's delay, which the phone with the TV reports to the lobby: at launch,
             // and again whenever its game's TV credit (learned from play) moves (Unity's screenLag). It becomes this phone's starting

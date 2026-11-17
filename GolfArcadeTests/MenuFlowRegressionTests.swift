@@ -93,6 +93,43 @@ import UIKit
         session.active = false
     }
 
+    /// One TV for two phones: the controller phone waits while the TV phone sets up, then its own setup opens by itself.
+    func testSharingATVTheSecondPlayerSetsUpAfterTheFirst() throws {
+        let session = SportsSession(), service = MultiplayerService.shared
+        try service.enableMock(count: 2, player: Player(name: "You", colorIndex: 0))
+        defer { service.leave(); session.active = false }
+        service.mockState(phase: .calibrating)
+        service.mockOneTV(otherStep: "direction")
+        session.active = true; session.sport = "tennis"; session.motion.fixtureSensors = true
+        session.debugSetOnlineMatch("one-tv", seat: 0)
+        session.loading.cancel(); session.setupStage = .scan
+        session.debugBeginOnlineSetup()
+        XCTAssertEqual(session.setupTurnWaitingFor, "Sam", "the phone with the TV sets up first")
+        XCTAssertEqual(session.setupStage, .scan); XCTAssertTrue(session.showsOnlineTennisSetup)
+        session.readyToPlay()
+        XCTAssertEqual(session.setupStage, .scan, "Ready cannot jump the queue")
+        service.mockOneTV(otherStep: "timing"); session.debugPollSetupTurn()
+        XCTAssertEqual(session.setupTurnWaitingFor, "Sam", "still their turn during the timing check")
+        service.mockOneTV(otherStep: "ready"); session.debugPollSetupTurn()
+        XCTAssertNil(session.setupTurnWaitingFor, "through the timing check: this phone's turn")
+        XCTAssertEqual(session.setupStage, .scan, "this phone's own court scan starts")
+    }
+
+    func testSetUpNowSkipsTheWaitForTheTVPhone() throws {
+        let session = SportsSession(), service = MultiplayerService.shared
+        try service.enableMock(count: 2, player: Player(name: "You", colorIndex: 0))
+        defer { service.leave(); session.active = false }
+        service.mockState(phase: .calibrating)
+        service.mockOneTV(otherStep: nil)
+        session.active = true; session.sport = "tennis"; session.motion.fixtureSensors = true
+        session.debugSetOnlineMatch("one-tv-skip", seat: 0)
+        session.loading.cancel(); session.setupStage = .scan
+        session.debugBeginOnlineSetup()
+        XCTAssertEqual(session.setupTurnWaitingFor, "Sam")
+        session.skipSetupTurn()
+        XCTAssertNil(session.setupTurnWaitingFor)
+    }
+
     func testRepeatedRendererReadyDoesNotClearCompletedOnlineCalibration() throws {
         let session = SportsSession(), service = MultiplayerService.shared
         try service.enableMock(count: 2, player: Player(name: "You", colorIndex: 0))

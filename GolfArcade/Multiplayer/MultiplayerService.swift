@@ -1098,7 +1098,7 @@ final class MultiplayerService {
             }
         case "setupStep":
             guard p.matchID == lobby?.matchID, lobby!.sport == .tennis, lobby!.participants[i].seat >= 0,
-                  [.loading, .calibrating].contains(lobby!.phase), ["direction", "timing", "ready"].contains(p.payload) else { return }
+                  [.loading, .calibrating].contains(lobby!.phase), ["next", "direction", "timing", "ready"].contains(p.payload) else { return }
             lobby!.participants[i].setupStep = p.payload
         case "display": lobby!.participants[i].hasScreen = p.payload == "true"
         case "screenDelay":
@@ -1619,6 +1619,16 @@ extension MultiplayerService {
         for i in lobby!.participants.indices { lobby!.participants[i].ready = ready; lobby!.participants[i].loaded = i % 2 == 0; lobby!.participants[i].calibrated = phase == .playing || phase == .results }
         if lobby!.participants.count > 1 { lobby!.participants[1].connected = !disconnected; lobby!.participants[1].paused = paused }
         if spectator { lobby!.participants[0].seat = -1 }
+        lobby?.revision += 1
+    }
+    /// Tests: one TV for two phones. The other player's phone has it (and is at `otherStep` of its setup); this one is a controller.
+    func mockOneTV(otherStep: String?) {
+        guard transport is LobbyMockTransport, lobby != nil else { return }
+        for i in lobby!.participants.indices {
+            let mine = lobby!.participants[i].id == localID
+            lobby!.participants[i].view = mine ? .controllerOnly : .split; lobby!.participants[i].hasScreen = !mine
+            if !mine { lobby!.participants[i].setupStep = otherStep }
+        }
         lobby?.revision += 1
     }
     /// Tests: what a background Nearby browse found.
