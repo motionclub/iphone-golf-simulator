@@ -99,13 +99,12 @@ struct GolfPhoneController: View {
     private enum Leaving { case game, party }
     @State private var leaving: Leaving?
     @State private var stickOffset = CGSize.zero
-    /// Drag to aim works like a trackpad (11-16, Adnan: "the trackpad is a bit too sensitive"): sideways movement turns the aim by
-    /// aimDegreesPerPoint, sent as small nudges; where the drag started does not matter.
-    @State private var lastDragX: CGFloat?
-    @State private var aimCarry: Double = 0
-    static let aimDegreesPerPoint = 0.2
-    /// One "aim" nudge is this many degrees in Unity (GolfGame.AimTapDegrees).
-    static let aimTapDegrees = 1.5
+    /// Drag to aim works like a pointer (11-16, Adnan: "the trackpad is a bit too sensitive"): the finger moves the aim gently, in
+    /// any direction (GolfPhoneController.trackpad).
+    @State private var lastDrag: CGPoint?
+    @State private var pointer: CGVector?
+    /// How far one point of finger travel moves the aim's unit direction: about 0.2° per point near the current aim.
+    static let aimPointerGain: CGFloat = 0.0035
     @State private var draggingAim = false
     @State private var lastAimSent = -Double.infinity
     /// Handheld play: the hole map opened full screen from its corner of the game view.
@@ -163,7 +162,7 @@ struct GolfPhoneController: View {
             GamePauseMenu(session: session)
         }
         .onChange(of: session.paused) { _, paused in
-            if paused { draggingAim = false; stickOffset = .zero; lastDragX = nil; aimCarry = 0 }
+            if paused { draggingAim = false; stickOffset = .zero; lastDrag = nil; pointer = nil }
         }
     }
 
@@ -309,7 +308,7 @@ struct GolfPhoneController: View {
                     updateJoystick(drag.location, centre: CGPoint(x: size.width / 2, y: size.height / 2), reach: 110, final: true)
                     // (the TV's menu ring re-arms when the stick comes back to the middle)
                     if canMenu { session.aimGolf(across: 0, forward: 0) }
-                    draggingAim = false; stickOffset = .zero; lastDragX = nil; aimCarry = 0
+                    draggingAim = false; stickOffset = .zero; lastDrag = nil; pointer = nil
                 })
         }
         .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
@@ -444,7 +443,7 @@ struct GolfPhoneController: View {
                 .onEnded { drag in
                     updateJoystick(drag.location, centre: CGPoint(x: 78, y: 78), reach: 48, final: true)
                     if canMenu { session.aimGolf(across: 0, forward: 0) }
-                    draggingAim = false; stickOffset = .zero; lastDragX = nil; aimCarry = 0
+                    draggingAim = false; stickOffset = .zero; lastDrag = nil; pointer = nil
                 })
             .accessibilityIdentifier("golf-aim-joystick")
     }
@@ -491,22 +490,28 @@ struct GolfPhoneController: View {
         lastAimSent = now
         session.aimGolf(across: dx / distance, forward: -dy / distance)
     }
-    /// Sideways movement since the last update turns the aim (aimDegreesPerPoint), in nudges of up to one aim tap; the thumb shown
-    /// on the pad follows the finger sideways.
+    /// The drag moves the aim like a pointer (2026-11-16, Adnan: "too sensitive", then "i cant go up on the trackpad"): the aim's own
+    /// direction on the map (up = up the course) is nudged by the finger's movement, aimPointerGain per point, in any direction, and
+    /// sent as that direction; where the drag started does not matter.
     private func trackpad(_ location: CGPoint, centre: CGPoint, reach: CGFloat, final: Bool) {
         draggingAim = true
-        let dx = max(-reach, min(reach, location.x - centre.x))
-        stickOffset = CGSize(width: dx / reach * 48, height: 0)
-        if let last = lastDragX { aimCarry += Double(location.x - last) * Self.aimDegreesPerPoint }
-        lastDragX = final ? nil : location.x
-        let now = ProcessInfo.processInfo.systemUptime
-        guard final || now - lastAimSent >= 1.0 / 60 else { return }
-        let step = max(-1, min(1, aimCarry / Self.aimTapDegrees))
-        if abs(step * Self.aimTapDegrees) >= 0.05 {
-            lastAimSent = now
-            session.setAim(step); aimCarry -= step * Self.aimTapDegrees
+        let dx = max(-reach, min(reach, location.x - centre.x)), dy = max(-reach, min(reach, location.y - centre.y))
+        stickOffset = CGSize(width: dx / reach * 48, height: dy / reach * 48)
+        if pointer == nil {
+            let d = reading.direction.map { CGVector(dx: CGFloat($0.x), dy: CGFloat($0.y)) } ?? CGVector(dx: 0, dy: 1)
+            let n = max(0.001, hypot(d.dx, d.dy)); pointer = CGVector(dx: d.dx / n, dy: d.dy / n)
         }
-        if final { aimCarry = 0 }
+        if let last = lastDrag, var p = pointer {
+            p.dx += (location.x - last.x) * Self.aimPointerGain; p.dy -= (location.y - last.y) * Self.aimPointerGain
+            let n = max(0.001, hypot(p.dx, p.dy)); p = CGVector(dx: p.dx / n, dy: p.dy / n); pointer = p
+        }
+        lastDrag = final ? nil : location
+        let now = ProcessInfo.processInfo.systemUptime
+        if let p = pointer, final || now - lastAimSent >= 1.0 / 60 {
+            lastAimSent = now
+            session.aimGolf(across: Double(p.dx), forward: Double(p.dy))
+        }
+        if final { pointer = nil }
     }
     private func aimArrow(_ symbol: String, x: CGFloat, y: CGFloat, label: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {

@@ -372,6 +372,8 @@ final class SportsAppDelegate: NSObject, UIApplicationDelegate {
     }
     func application(_ application:UIApplication, supportedInterfaceOrientationsFor window:UIWindow?) -> UIInterfaceOrientationMask {
         if SportsDisplays.shared.isPreview(window) || window?.windowScene?.session.role == .windowExternalDisplayNonInteractive { return .landscape }
+        // a window left without a scene (its TV went away): any way up, so its controller always has an orientation in common
+        if let window, window.windowScene == nil { return .all }
         // (the walkable Plaza on a phone with no TV stays upright too: it draws above the controls; the menu alone turns either way)
         return SportsDisplays.shared.phoneMenuRotates ? .allButUpsideDown : .portrait
     }

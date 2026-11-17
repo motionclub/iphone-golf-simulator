@@ -19,7 +19,13 @@
 @interface SportsExternalRendererController : UIViewController
 @end
 @implementation SportsExternalRendererController
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations { return UIInterfaceOrientationMaskLandscape; }
+// Landscape only while it is on the TV's scene. A TV that went away leaves this controller in a window with no TV scene, where the
+// app asks for portrait: "no common orientation" aborted the app at its next snapshot (crash 2026-11-16 20:26, going to the background).
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    UIWindowScene *scene = self.view.window.windowScene;
+    if (!scene || scene.session.role != UIWindowSceneSessionRoleExternalDisplayNonInteractive) return UIInterfaceOrientationMaskAll;
+    return UIInterfaceOrientationMaskLandscape;
+}
 @end
 
 // Unity creates its secondary UIWindow with a raw subview and no controller.

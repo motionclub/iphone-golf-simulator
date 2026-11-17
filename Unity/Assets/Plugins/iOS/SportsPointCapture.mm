@@ -22,13 +22,24 @@ static void PointPresent(id connection,SEL selector,id<MTLCommandBuffer> buffer)
     originalPresent(connection,selector,buffer);
     presentingDisplay=nil; presentingBuffer=nil;
 }
+// Unity 6000.3 presents each display with -presentWith:toMainScreen: (DisplayConnection no longer has -presentWith:, so the hook
+// above attached to nothing and both recorders saw 0 frames: "recording is just stuck at 0 seconds", 2026-11-16).
+static void (*originalPresentTo)(id,SEL,id<MTLCommandBuffer>,BOOL);
+static void PointPresentTo(id connection,SEL selector,id<MTLCommandBuffer> buffer,BOOL mainScreen) {
+    presentingDisplay=connection; presentingBuffer=buffer; capturedPoint=false; capturedSession=false;
+    originalPresentTo(connection,selector,buffer,mainScreen);
+    presentingDisplay=nil; presentingBuffer=nil;
+}
 static void UNITY_INTERFACE_API PointPluginLoad(IUnityInterfaces *interfaces) { pointMetal=interfaces->Get<IUnityGraphicsMetalV2>(); }
 static void UNITY_INTERFACE_API PointPluginUnload() { pointMetal=nullptr; }
 extern "C" void SportsRegisterPointCapture() {
     UnityRegisterPlugin(PointPluginLoad,PointPluginUnload);
     static dispatch_once_t once; dispatch_once(&once,^{
-        Method method=class_getInstanceMethod(DisplayConnection.class,@selector(presentWith:));
+        Method to=class_getInstanceMethod(DisplayConnection.class,@selector(presentWith:toMainScreen:));
+        if(to) originalPresentTo=(void(*)(id,SEL,id<MTLCommandBuffer>,BOOL))method_setImplementation(to,(IMP)PointPresentTo);
+        Method method=to ? nil : class_getInstanceMethod(DisplayConnection.class,@selector(presentWith:));
         if(method) originalPresent=(void(*)(id,SEL,id<MTLCommandBuffer>))method_setImplementation(method,(IMP)PointPresent);
+        if(!to && !method) NSLog(@"[SessionCapture] no DisplayConnection present method to hook: recording will see no frames");
     });
 }
 
