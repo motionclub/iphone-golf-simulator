@@ -229,7 +229,12 @@ final class SportsSession {
     var calibrationComplete:Bool { aimLesson?.phase == .complete }
     /// Extra start fields for the tennis front end (mode, opponent, round).
     private var launchExtras: [String:Any] = [:]
-    private(set) var multiplayerMatchID: String?
+    private(set) var multiplayerMatchID: String? {
+        // An online match keeps playing while something only covers the app (a banner, Control Center, the AirPlay picker): Unity
+        // froze the game there while the link stayed up, so the other phone heard a connected player whose game said nothing
+        // (2026-11-11 log: 44 s of silence, the CPU took the player over). Only the background stops it (SportsRuntime).
+        didSet { SportsRuntime.shared().keepPlayingWhenInactive = multiplayerMatchID != nil }
+    }
     #if DEBUG
     /// For tests: puts the session in (or takes it out of) an online match without a TV and a Unity runtime.
     func debugSetOnlineMatch(_ id: String?, seat: Int = -1) { multiplayerMatchID = id; multiplayerSeat = seat }
@@ -237,6 +242,8 @@ final class SportsSession {
     func debugPollSetupTurn() { if let lobby = MultiplayerService.shared.lobby { advanceSetupTurn(lobby) } }
     #endif
     private(set) var multiplayerControllerOnly = false
+    /// The game's last bridge report (its frame number, paused, input age), for the logs.
+    @ObservationIgnored private(set) var bridgeLine = "bridge (no report yet)"
     /// This phone's TV shows both players (one TV for two phones): the TV credit Unity gives its player goes to the lobby (screenLag).
     private var multiplayerSplit = false
     private var multiplayerSeat = -1
@@ -762,6 +769,7 @@ final class SportsSession {
             command("cancelTimingCheck"); checkingTiming = false; timingPrompt = true; timingCountdownEnds = nil
         }
         SportsDiagnostics.write("pause reason=\(reason) phase=\(phase)")
+        if multiplayerMatchID != nil { MultiplayerService.shared.shareDiagnostic("pause reason=\(reason) setup=\(setupStage)") }
         sendJSON(["version":1,"session":sessionID,"action":"pause","reason":reason]); paused=true; status=reason
         if reason == "Paused on phone — tap Ready to continue", ready, loading.finished, finishedMatch == nil {
             menuPauseVisible = true
@@ -1250,7 +1258,10 @@ final class SportsSession {
                 feedback=event["message"] as? String ?? ""; stamina=event["stamina"] as? Double ?? 1
                 if SportsRuntime.shared().clock()>=nextDiagnostic {
                     nextDiagnostic=SportsRuntime.shared().clock()+4   // every 4 s: at 1 s the log held only the last few minutes, too little to explain a crash
-                    SportsDiagnostics.write("bridge nativePaused=\(paused) phase=\(phase) target=\(target) unityFrame=\(event["frame"] ?? "unknown") unityPaused=\(event["paused"] ?? "unknown") playerX=\(event["playerX"] ?? "unknown") inputAge=\(event["inputAge"] ?? "unknown") \(SportsDiagnostics.memory)")
+                    bridgeLine = "bridge nativePaused=\(paused) phase=\(phase) target=\(target) unityFrame=\(event["frame"] ?? "unknown") unityPaused=\(event["paused"] ?? "unknown") playerX=\(event["playerX"] ?? "unknown") inputAge=\(event["inputAge"] ?? "unknown") \(SportsDiagnostics.memory)"
+                    SportsDiagnostics.write(bridgeLine)
+                    // (in an online match the other phone logs it too: whether this phone's game is running, seen from both logs)
+                    if multiplayerMatchID != nil { MultiplayerService.shared.shareDiagnostic(bridgeLine) }
                 }
             case "displayReady":
                 if displayConnected { SportsDisplays.shared.external?.isHidden=true }

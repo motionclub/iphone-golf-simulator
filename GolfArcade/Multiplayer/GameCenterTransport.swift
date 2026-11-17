@@ -271,6 +271,10 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
     /// Apple's own real-time invitation is being joined (the link waits for it).
     private var realTimeJoining = false
     private var savedAt = Date.distantPast
+    /// When the party's current match came up. Apple often ends a match in its first seconds (error 4: both phones met in the
+    /// group at once and one session lost); the link meets again within seconds, so that is no lost connection to announce.
+    private var matchSince = Date.distantPast
+    static let settlingSeconds = 5.0
     private var lostNoticeShown = false
     /// The matchmaking the link uses: GKMatchmaker (tests: an in-memory server).
     var matchmaker: PartyMatchmaker = GameKitPartyMatchmaker()
@@ -461,7 +465,7 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
         let name = goal.map(\.name) ?? (party?.leader == leader ? party?.leaderName : nil) ?? (leader == localID ? GKLocalPlayer.local.displayName : "your friend")
         let healed = party?.leader == leader
         if let old = match, old !== found { drop(old, "replaced by the party's new match") }
-        match = found; matchIsParty = true; disconnected.removeAll(); strangers.removeAll()
+        match = found; matchIsParty = true; matchSince = Date(); disconnected.removeAll(); strangers.removeAll()
         let s = Date().timeIntervalSince1970
         for id in found.playerIDs { lastHeard[id] = Date(); missingSince[id] = nil; departed.remove(id) }
         var members = Set(found.playerIDs + [localID, leader])
@@ -496,7 +500,16 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
             let s = Date().timeIntervalSince1970
             for id in p.members where id != localID { missingSince[id] = missingSince[id] ?? s }
             p.at = s; party = p; saveParty(force: true)
-            if !lostNoticeShown { lostNoticeShown = true; onLinkNotice?(p.leader == localID ? "Lost the connection to your party. Reconnecting…" : "Lost the connection to \(p.leaderName)'s party. Reconnecting…") }
+            let settling = Date().timeIntervalSince(matchSince) < Self.settlingSeconds
+            if settling { SportsDiagnostics.write("party link: the match ended while settling (\(String(format: "%.1f", Date().timeIntervalSince(matchSince))) s old); meeting again") }
+            let notice = p.leader == localID ? "Lost the connection to your party. Reconnecting…" : "Lost the connection to \(p.leaderName)'s party. Reconnecting…"
+            if !lostNoticeShown && !settling { lostNoticeShown = true; onLinkNotice?(notice) }
+            // (a settling match that does not come back in a few seconds is announced after all)
+            if settling { Task { @MainActor [weak self] in
+                try? await Task.sleep(for: .seconds(Self.settlingSeconds))
+                guard let self, self.match == nil, self.party != nil, !self.lostNoticeShown else { return }
+                self.lostNoticeShown = true; self.onLinkNotice?(notice)
+            } }
         } else if !matchIsParty {
             onError?(MultiplayerError.unavailable("The online match lost its connection."))
         }

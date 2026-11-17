@@ -1043,6 +1043,31 @@ final class MultiplayerTests: XCTestCase {
         XCTAssertGreaterThan(p.runtimes[0].received.filter { $0.kind == "resumePeer" }.count, resumedBefore, "...and resume once it is heard again")
         XCTAssertEqual(p.host.lobby?.phase, .playing)
     }
+    /// 2026-11-11: the guest's phone was heard the whole match (heartbeats) while its game sent nothing for 44 s, and the host's CPU
+    /// quietly took it over. A heard phone whose game is silent is woken, and its opponent is told why play waits.
+    func testAHeardPhoneWhoseGameFallsSilentIsWokenAndItsOpponentToldWhy() throws {
+        let p = try party(2); defer { p.close() }; try start(p)
+        var woken = [0, 0]
+        for (n, s) in p.services.enumerated() { s.gameRunning = { true }; s.appActive = { true }; s.gameState = { "test" }; s.resumeRuntime = { woken[n] += 1 } }
+        advancePastStart(p)
+        var sequence: Int64 = 1
+        func pose(_ n: Int) {
+            let s = p.services[n]
+            let move = MultiplayerPacket(lobbyID: s.lobby!.id, matchID: s.lobby!.matchID, sender: s.localID, sequence: sequence, kind: "peer", reliable: false, payload: "pose")
+            sequence += 1; p.runtimes[n].outgoing.append(String(data: try! JSONEncoder().encode(move), encoding: .utf8)!)
+        }
+        func play(_ seconds: Double, posing: [Int]) { for _ in 0..<Int(seconds * 10) { for n in posing { pose(n) }; advance(p, by: 0.1) } }
+        play(2, posing: [0, 1])
+        XCTAssertEqual(woken, [0, 0], "two games talking: nobody is woken")
+        XCTAssertNil(p.host.lastError)
+        play(MultiplayerTuning.silenceSeconds + 2.5, posing: [0])   // b's link is heard (heartbeats), its game says nothing
+        XCTAssertEqual(woken[1], 1, "the silent game is woken (asked by the host and by its own phone, once per few seconds)")
+        XCTAssertEqual(woken[0], 0, "the host's own game is talking")
+        XCTAssertEqual(p.host.lastError, "\(MultiplayerService.waitingGamePrefix)\(p.host.lobby!.participants.first { $0.id == "b" }!.name)'s game…")
+        XCTAssertFalse(p.runtimes[0].received.contains { $0.kind == "suspend" }, "a heard phone is not a lost connection")
+        play(0.5, posing: [0, 1])
+        XCTAssertNil(p.host.lastError, "the notice goes once its game talks again")
+    }
     func testACompetitorQuietForTooLongIsDropped() throws {
         let p = try party(2); defer { p.close() }; try start(p)
         advancePastStart(p)

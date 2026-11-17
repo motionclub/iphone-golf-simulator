@@ -60,6 +60,16 @@ final class MultiplayerService {
     @ObservationIgnored private var ownerRestarted = false
     /// Game moves this match, written to SportsDiagnostics.log every 10 s.
     @ObservationIgnored private var moves = MoveStats()
+    /// When each other competitor's game last sent a move (tennis versus: its poses go out 30 times a second), and when this phone's
+    /// own game last handed one over. A link that is heard while its game says nothing is a stuck game, not a lost connection
+    /// (2026-11-11: the guest's heartbeat never stopped, its game was silent for 44 s, the host's CPU took it over).
+    @ObservationIgnored private var lastMoveFrom: [String: Double] = [:]
+    @ObservationIgnored private var lastOwnMove = -Double.infinity
+    @ObservationIgnored private var nextWake: [String: Double] = [:]
+    @ObservationIgnored private var nextSelfWake = 0.0
+    @ObservationIgnored private var waitingNotice: Set<String> = []
+    /// Lines shared with the other phones of the match (`shareDiagnostic`) this second.
+    @ObservationIgnored private var diagBudget = (at: 0.0, count: 0)
     @ObservationIgnored private var nextMoveReport: Double = 0
     /// Guest: the match this phone left (Leave game) while its leader still runs it. The leader is asked once a second until its
     /// lobby lets this phone go, and that match never pulls this phone back in.
@@ -829,13 +839,18 @@ final class MultiplayerService {
         guard packet.matchID == config.matchID else { moves.drop("another match"); return }
         guard config.participants.contains(where: { $0.id == peer && $0.seat >= 0 }) else { moves.drop("sender not seated in the match"); return }
         var move = packet; move.lobbyID = config.lobbyID   // (the game checks its match's lobby; the sender's copy may be another)
-        moves.received += 1
+        moves.received += 1; lastMoveFrom[peer] = now
+        if waitingNotice.remove(peer) != nil {
+            SportsDiagnostics.write("multiplayer: \(peer.suffix(6))'s game is talking again")
+            if lastError?.hasPrefix(Self.waitingGamePrefix) == true { lastError = nil }
+        }
         pushRuntimePacket(move)
     }
     /// The moves line in SportsDiagnostics.log (every 10 s during a tennis or bowling match, and when it ends).
     private func reportMoves() {
         guard let config = matchConfiguration, config.sport == "tennis" || config.sport == "bowling" else { return }
-        SportsDiagnostics.write("multiplayer moves \(config.sport) \(isOwner ? "owner" : "guest"): \(moves.line)")
+        let line = "multiplayer moves \(config.sport) \(isOwner ? "owner" : "guest"): \(moves.line)"
+        SportsDiagnostics.write(line); shareDiagnostic(line)
     }
     /// Diagnostics: why packets were dropped (each reason logged a few times, so the log says what went wrong between two phones).
     @ObservationIgnored private var dropNotes: [String: Int] = [:]
@@ -919,6 +934,17 @@ final class MultiplayerService {
         // A game move: the running match decides (its launch configuration), never this phone's copy of the lobby, which can be a
         // revision behind (2026-10-28: no tennis move crossed between two phones, and the CPU played the guest on the host's TV).
         if packet.kind == "peer" { takeMove(packet, from: peer); return }
+        // The other phone's own account of the match (its game's stats, its pauses, setup and lifecycle), written into this phone's
+        // log too: either player's log then tells both sides (older builds ignore both kinds).
+        if packet.kind == "diag" {
+            guard matchConfiguration != nil, packet.payload.utf8.count <= 1200 else { return }
+            SportsDiagnostics.write("peer \(peer.suffix(6)) says: \(packet.payload)"); return
+        }
+        // The other phone hears this phone's link but not its game: wake the game.
+        if packet.kind == "wake" {
+            guard let config = matchConfiguration, packet.matchID == config.matchID else { return }
+            wakeOwnGame("\(peer.suffix(6)) hears this phone but not its game"); return
+        }
         guard let state = lobby, packet.lobbyID == state.id else { return }
         if packet.kind == "partyAdmission", peer == state.ownerID, state.phase == .lobby, packet.payload.utf8.count <= 128 {
             gameCenter?.allowPartyPlayer(packet.payload); return
@@ -1374,6 +1400,7 @@ final class MultiplayerService {
         runtimeClear()
         silent.removeAll(); silenceArmedAt = .infinity; local?.holdForReconnect = true
         matchConfiguration = config; quickSport = nil; lastError = nil; stats = NetStats(); moves = MoveStats(); nextMoveReport = now + 10
+        lastMoveFrom.removeAll(); lastOwnMove = -Double.infinity; nextWake.removeAll(); nextSelfWake = 0; waitingNotice.removeAll()
         localLoadReport = nil; localCalibrationReported = false; nextSetupReport = 0; scheduledRunAt = 0
         SportsDiagnostics.write("multiplayer launch \(config.sport) \(isOwner ? "owner" : "guest") seat=\(config.participants.first { $0.id == localID }?.seat ?? -1) peers=\(transport?.peers.count ?? 0) \(SportsDiagnostics.memory)")
         #if DEBUG
@@ -1423,9 +1450,67 @@ final class MultiplayerService {
         lobby?.phase = .interrupted; lobby?.revision += 1; publishLobby()
         try? broadcast("stop"); stopRuntime(); lastError = reason
     }
+    // MARK: a game that stops talking while its link is up
+
+    static let waitingGamePrefix = "Waiting for "
+    /// Seconds a competitor's game may send nothing while its phone is still heard before it is woken (its poses go 30 times a second).
+    static let gameQuietSeconds = 3.0
+    /// Versus tennis (both phones play the point; their games send each other moves the whole match): a phone that is heard (heartbeat,
+    /// pings) while its game sends nothing has a stuck game, not a lost link. It is told to wake its game, and its opponent sees why
+    /// play waits, instead of the CPU quietly taking it over. This phone checks its own game the same way.
+    private func watchGames() {
+        guard let config = matchConfiguration, config.sport == "tennis", lobby?.phase == .playing, localSeat >= 0, now >= silenceArmedAt else { return }
+        for p in config.participants where p.seat >= 0 && p.id != localID && !p.isGuest {
+            // only a game that has talked in this match (a match without versus moves never has) and whose phone is heard now
+            guard let moved = lastMoveFrom[p.id], now - moved >= Self.gameQuietSeconds,
+                  now - (lastHeard[p.id] ?? -Double.infinity) < MultiplayerTuning.silenceSeconds, now >= nextWake[p.id] ?? 0 else { continue }
+            nextWake[p.id] = now + Self.gameQuietSeconds
+            SportsDiagnostics.write("multiplayer: \(p.id.suffix(6))'s link is up but its game has said nothing for \(String(format: "%.1f", now - moved)) s; waking it")
+            var w = packet("wake"); w.matchID = config.matchID; w.lobbyID = config.lobbyID
+            try? sendPacket(w, to: [p.id])
+            if waitingNotice.insert(p.id).inserted { lastError = "\(Self.waitingGamePrefix)\(p.name)'s game…" }
+        }
+        // this phone's own game: it has talked in this match and stopped while the app is open
+        if lastOwnMove > -Double.infinity, !lastMoveFrom.isEmpty, now - lastOwnMove >= Self.gameQuietSeconds, now >= nextSelfWake, appActive() {
+            wakeOwnGame("this phone's game has sent nothing for \(String(format: "%.1f", now - lastOwnMove)) s")
+        }
+    }
+    /// Whether the app is in front (a stuck game in the background is the AwayPolicy's case, not this).
+    @ObservationIgnored var appActive: () -> Bool = { UIApplication.shared.applicationState != .background }
+    /// This phone's game is up (tests: no Unity), and what it was doing, for the log.
+    @ObservationIgnored var gameRunning: () -> Bool = { SportsSession.shared.active }
+    @ObservationIgnored var gameState: () -> String = {
+        "app=\(UIApplication.shared.applicationState.rawValue) session paused=\(SportsSession.shared.paused) setup=\(SportsSession.shared.setupStage) \(SportsSession.shared.bridgeLine)"
+    }
+    /// Lets this phone's game run again (tests: counted).
+    @ObservationIgnored var resumeRuntime: () -> Void = { SportsRuntime.shared().pause(false) }
+    /// Wakes this phone's game: Unity resumed (whatever paused it), the shared start and the latest score asked for again, and the
+    /// state that led here written to the log and shared with the other phone.
+    private func wakeOwnGame(_ why: String) {
+        // (asked by the other phone and noticed here at once: one wake every few seconds whoever asks)
+        guard matchConfiguration != nil, gameRunning(), now >= nextSelfWake else { return }
+        nextSelfWake = now + Self.gameQuietSeconds
+        let state = gameState()
+        SportsDiagnostics.write("multiplayer wake: \(why); \(state)")
+        shareDiagnostic("woke its game: \(why); \(state)")
+        resumeRuntime()
+        if !isOwner, scheduledRunAt == 0 { try? sendControl("startRequest") }
+        pushRuntime("snapshotRequest")
+    }
+    /// One line of this phone's account, to the other phones of the running match (at most 4 a second; they write it in their log).
+    func shareDiagnostic(_ line: String) {
+        guard let config = matchConfiguration, transport != nil, !(transport?.peers.isEmpty ?? true) else { return }
+        if now - diagBudget.at >= 1 { diagBudget = (now, 0) }
+        guard diagBudget.count < 4 else { return }
+        diagBudget.count += 1
+        var p = packet("diag", payload: String(line.prefix(1000))); p.matchID = config.matchID; p.lobbyID = config.lobbyID
+        try? sendPacket(p, to: nil)
+    }
+
     func update() {
         guard let transport else { return }
         if matchConfiguration != nil, now >= nextMoveReport { nextMoveReport = now + 10; reportMoves() }
+        watchGames()
         // Leave game: asked again each second (a lost request must not keep this phone in the game) until the leader lets it go
         if let left = leftMatch, now >= nextLeaveRequest {
             if isOwner || lobby?.matchID != left || localSeat < 0 { leftMatch = nil }
@@ -1544,7 +1629,7 @@ final class MultiplayerService {
                 continue
             }
             guard outgoing.matchID == (matchConfiguration?.matchID ?? lobby?.matchID) else { if outgoing.kind == "peer" { moves.drop("from another match") }; continue }
-            if outgoing.kind == "stats" { SportsDiagnostics.write("unity network stats: \(outgoing.payload)"); continue }
+            if outgoing.kind == "stats" { SportsDiagnostics.write("unity network stats: \(outgoing.payload)"); shareDiagnostic("unity network stats: \(outgoing.payload)"); continue }
             do {
                 if outgoing.kind == "availability" { try sendControl("availability", payload: outgoing.payload) }
                 else if outgoing.kind == "peer" {
@@ -1554,6 +1639,7 @@ final class MultiplayerService {
                         moves.drop("this phone is not seated in the match"); continue
                     }
                     var p = packet("peer", payload: outgoing.payload, reliable: outgoing.reliable); p.lobbyID = config.lobbyID; p.matchID = config.matchID
+                    lastOwnMove = now
                     do { try sendPacket(p, to: nil); moves.sent += 1 } catch { moves.sendFailed += 1 }
                 }
                 else if outgoing.kind == "input" {

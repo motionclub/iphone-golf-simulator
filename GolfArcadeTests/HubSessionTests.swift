@@ -27,6 +27,26 @@ final class HubSessionTests: XCTestCase {
         runtime.setForeground(false); runtime.setForeground(false); runtime.setForeground(true)
         XCTAssertEqual(Array(runtime.debugLifecycleEvents().dropFirst(before)), ["resign", "active"], "an invite/Control Center interruption is not backgrounding")
     }
+    /// An online match plays on while the app is only covered (a banner, Control Center): Unity is not paused, so the other phone
+    /// never hears a connected player whose game stopped (2026-11-11). Going to the background still pauses it, and it resumes.
+    func testAnOnlineMatchKeepsUnityRunningWhileTheAppIsOnlyCovered() {
+        let runtime = SportsRuntime.shared(), nc = NotificationCenter.default
+        runtime.setForeground(true); runtime.keepPlayingWhenInactive = true
+        defer { runtime.keepPlayingWhenInactive = false; runtime.setForeground(true) }
+        var before = runtime.debugLifecycleEvents().count
+        runtime.setForeground(false); runtime.setForeground(true)
+        XCTAssertEqual(Array(runtime.debugLifecycleEvents().dropFirst(before)), ["resign-kept", "active-kept"])
+        before = runtime.debugLifecycleEvents().count
+        nc.post(name: UIApplication.willResignActiveNotification, object: nil)
+        nc.post(name: UIApplication.didEnterBackgroundNotification, object: nil)
+        nc.post(name: UIApplication.willEnterForegroundNotification, object: nil)
+        nc.post(name: UIApplication.didBecomeActiveNotification, object: nil)
+        XCTAssertEqual(Array(runtime.debugLifecycleEvents().dropFirst(before)), ["resign-kept", "pause", "background", "foreground", "active"])
+        runtime.keepPlayingWhenInactive = false
+        before = runtime.debugLifecycleEvents().count
+        runtime.setForeground(false); runtime.setForeground(true)
+        XCTAssertEqual(Array(runtime.debugLifecycleEvents().dropFirst(before)), ["resign", "active"], "off a match, covering pauses as before")
+    }
     private var savedDisplay = false
     override func setUp() async throws {
         savedDisplay = SportsSession.shared.displayConnected
