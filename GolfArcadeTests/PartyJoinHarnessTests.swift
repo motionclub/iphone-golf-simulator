@@ -741,7 +741,6 @@ final class PartyLinkHarnessTests: XCTestCase {
     private func tennisMovesCross(_ h: Phone, _ hb: Bridge, _ j: Phone, _ jb: Bridge, file: StaticString = #filePath, line: UInt = #line) async {
         let hl = hb.launches.count, jl = jb.launches.count, hm = hb.received.count, jm = jb.received.count
         for p in [h, j] { p.service.setScreen(true) }
-        h.service.requiresStableLink = false
         await run([h, j], "both TVs in the lobby", file: file, line: line) { h.service.lobby?.participants.allSatisfy(\.hasScreen) == true }
         do { try h.service.configure(.tennis); try h.service.startPartyGame() } catch { XCTFail("start: \(error.localizedDescription)", file: file, line: line); return }
         await run([h, j], "the ready check", file: file, line: line) { j.service.partyReadyCheck }
@@ -772,7 +771,6 @@ final class PartyLinkHarnessTests: XCTestCase {
         let hb = Bridge(), jb = Bridge(), h = phone("H", "Ann", server, bridge: hb), j = phone("J", "Bea", server, bridge: jb)
         await together(server, h, j)
         for p in [h, j] { p.service.setScreen(true) }
-        h.service.requiresStableLink = false
         await run([h, j], "both TVs in the lobby") { h.service.lobby?.participants.allSatisfy(\.hasScreen) == true }
         if stage == .lobby { return (h, hb, j, jb) }
         try? h.service.configure(.tennis); try? h.service.startPartyGame()

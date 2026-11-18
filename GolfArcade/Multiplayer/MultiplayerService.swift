@@ -105,16 +105,13 @@ final class MultiplayerService {
     /// Guests: when the host's phone went missing mid-match (it may only be out of the app).
     @ObservationIgnored private var ownerMissingSince: Double?
     @ObservationIgnored private var stats = NetStats()
-    // Connection check before a tennis match: the guest grades its own pings and reports to the owner, who starts only when every
-    // guest's connection has been steady (see LinkWindow). `requiresStableLink` is off only in tests about something else.
-    var requiresStableLink = true
-    private(set) var linkNeedsDecision = false
+    // Connection grade during tennis setup: the guest grades its own pings and reports to the owner (see LinkWindow), which marks
+    // `linkOK` for the logs. It never holds up the start (11-17: setup always said the connection was weak, then started anyway):
+    // play begins once every player has finished setup and tapped Ready.
     @ObservationIgnored private var linkWindow = LinkWindow()
     @ObservationIgnored private var nextLinkReport: Double = 0
     @ObservationIgnored private var linkSteadySince: [String: Double] = [:]
     @ObservationIgnored private var linkHeardAt: [String: Double] = [:]
-    @ObservationIgnored private var linkWaitingSince: Double?
-    @ObservationIgnored private var linkOverride = false
     // Tennis setup between loading and play: when it began, whether the "still waiting" note went out, and which competitors
     // reloaded mid-match (play stays paused for them until they point their phone at the TV again).
     @ObservationIgnored private var calibrationStarted: Double = 0
@@ -575,7 +572,7 @@ final class MultiplayerService {
         presentationReadyAt.removeAll(); scheduledRunAt = 0; silent.removeAll(); silenceArmedAt = .infinity; stats = NetStats()
         awaitingCalibration.removeAll(); calibrationNoticed = false
         loadReports.removeAll()
-        linkSteadySince.removeAll(); linkHeardAt.removeAll(); linkWaitingSince = nil; linkOverride = false; linkNeedsDecision = false
+        linkSteadySince.removeAll(); linkHeardAt.removeAll()
         assignViews()
         let id = UUID().uuidString
         self.lobby?.matchID = id; self.lobby?.phase = .loading; self.lobby?.readyCheck = nil; emotes.removeAll()
@@ -618,7 +615,7 @@ final class MultiplayerService {
         lobby?.queue.removeAll { !remaining.contains($0) }
         if rotateSeats && lobby?.sport == .tennis { rotate() }
         for i in lobby!.participants.indices { lobby!.participants[i].ready = lobby!.participants[i].isGuest; lobby!.participants[i].loaded = false; lobby!.participants[i].calibrated = false; lobby!.participants[i].linkOK = false; lobby!.participants[i].view = nil; lobby!.participants[i].screenDelay = nil }
-        awaitingCalibration.removeAll(); linkNeedsDecision = false
+        awaitingCalibration.removeAll()
         lobby?.revision += 1; publishLobby()
     }
     func findMorePlayers() async throws {
@@ -700,7 +697,7 @@ final class MultiplayerService {
         lastLook.removeAll(); lastEmote.removeAll(); emotes.removeAll(); localEmoteAt = -Double.infinity; clockOffset = 0; clockFilter = ClockFilter(); nextPing = 0; lastHeard.removeAll(); silent.removeAll(); nextHeartbeat = 0; silenceArmedAt = .infinity
         awaitingCalibration.removeAll(); calibrationNoticed = false; localNetworkDenied = false
         localLoadReport = nil; localCalibrationReported = false; loadReports.removeAll(); scheduledRunAt = 0
-        linkWindow = LinkWindow(); nextLinkReport = 0; linkSteadySince.removeAll(); linkHeardAt.removeAll(); linkWaitingSince = nil; linkOverride = false; linkNeedsDecision = false
+        linkWindow = LinkWindow(); nextLinkReport = 0; linkSteadySince.removeAll(); linkHeardAt.removeAll()
     }
     private func requireOwnerIdle() throws {
         guard isOwner, lobby?.phase == .lobby else { throw MultiplayerError.invalidOperation("The owner can change this only in the lobby.") }
@@ -1151,12 +1148,12 @@ final class MultiplayerService {
         lobby?.revision += 1; publishLobby()
         advancePhase()
     }
-    /// Moves the lobby along when what it was waiting for has happened: everyone loaded; for tennis, everyone set up and on a steady connection.
+    /// Moves the lobby along when what it was waiting for has happened: everyone loaded; for tennis, everyone set up and Ready.
     private func advancePhase() {
         if lobby?.phase == .loading, lobby!.competitors.count >= 2, lobby!.competitors.allSatisfy(\.loaded) {
             loadingNeedsDecision = false
             if lobby!.sport == .tennis { beginCalibration(); advancePhase() } else { beginPlay() }
-        } else if lobby?.phase == .calibrating, lobby!.competitors.count >= 2, lobby!.competitors.allSatisfy({ $0.loaded && $0.calibrated }), linksAreSteady {
+        } else if lobby?.phase == .calibrating, lobby!.competitors.count >= 2, lobby!.competitors.allSatisfy({ $0.loaded && $0.calibrated }) {
             beginPlay()
         } else if abortSetupIfShort() {
             return
@@ -1173,16 +1170,6 @@ final class MultiplayerService {
         }
         guard state.canStart else { return }
         do { try startMatch() } catch { lastError = error.localizedDescription }
-    }
-    /// The owner is never measured (it is the other end); every other tennis competitor must have been steady, unless the owner chose to play anyway.
-    private var linksAreSteady: Bool {
-        guard requiresStableLink, !linkOverride, let state = lobby else { return true }
-        return state.competitors.allSatisfy { $0.id == state.ownerID || ($0.linkOK && now - (linkHeardAt[$0.id] ?? -Double.infinity) <= 1) }
-    }
-    /// The owner starts despite a weak connection (offered after a few seconds of waiting).
-    func playAnyway() {
-        guard isOwner, lobby?.phase == .calibrating else { return }
-        linkOverride = true; linkNeedsDecision = false; advancePhase()
     }
     /// A guest's grade for its own connection: steady means Fair or better for 1.5 s in a row.
     private func noteLink(from peer: String, report: String) {
@@ -1213,12 +1200,11 @@ final class MultiplayerService {
         // Direction/centre can already be complete while another phone was loading. Keep those acknowledgements.
         lobby!.phase = .calibrating; lobby!.revision += 1; publishLobby()
     }
-    /// The two notices setup can post (a weak connection, slow setup) start with these.
-    private static let weakLinkNoticePrefix = "The connection to ", slowSetupNoticePrefix = "Still waiting for "
-    /// The "Play anyway" choice and those two notices are about setup; once play begins they would only sit on the screen all match.
+    /// The notice setup can post (slow setup) starts with this.
+    private static let slowSetupNoticePrefix = "Still waiting for "
+    /// That notice is about setup; once play begins it would only sit on the screen all match.
     private func clearSetupNotices() {
-        linkNeedsDecision = false
-        if let text = lastError, text.hasPrefix(Self.weakLinkNoticePrefix) || text.hasPrefix(Self.slowSetupNoticePrefix) { lastError = nil }
+        if let text = lastError, text.hasPrefix(Self.slowSetupNoticePrefix) { lastError = nil }
     }
     /// Schedule the shared start (after the slowest phone's loading cover has gone) and tell everyone.
     private func beginPlay() {
@@ -1572,19 +1558,6 @@ final class MultiplayerService {
                     linkHeardAt.removeValue(forKey: id); linkSteadySince[id] = nil
                     if let i = lobby?.participants.firstIndex(where: { $0.id == id }), lobby!.participants[i].linkOK { lobby!.participants[i].linkOK = false; lobby?.revision += 1; publishLobby() }
                 }
-            }
-            // Everyone is set up but a connection is not steady: after a few seconds the owner is offered "Play anyway".
-            if lobby?.phase == .calibrating, requiresStableLink, !linkOverride {
-                let setUp = lobby!.competitors.count >= 2 && lobby!.competitors.allSatisfy { $0.loaded && $0.calibrated }
-                if setUp && !linksAreSteady {
-                    let since = linkWaitingSince ?? now; linkWaitingSince = since
-                    if !linkNeedsDecision, now - since >= MultiplayerTuning.linkDecisionSeconds {
-                        linkNeedsDecision = true
-                        let weak = lobby!.competitors.filter { $0.id != lobby!.ownerID && !$0.linkOK }.map(\.name)
-                        let text = "\(Self.weakLinkNoticePrefix)\(weak.joined(separator: " and ")) is weak. Play anyway, or leave."
-                        lastError = text; try? broadcast("notice", payload: text)
-                    }
-                } else { linkWaitingSince = nil }
             }
             // Setup that drags on is mentioned to everyone (nobody is forced to wait: Leave is always on screen).
             if lobby?.phase == .calibrating, !calibrationNoticed, now - calibrationStarted >= MultiplayerTuning.calibrationNoticeSeconds {

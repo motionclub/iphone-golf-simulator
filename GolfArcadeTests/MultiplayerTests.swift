@@ -99,16 +99,13 @@ final class MultiplayerTests: XCTestCase {
         func close() { for s in services.reversed() { s.leave() } }
     }
     /// `screens[n]` says whether phone n has a TV connected; by default every phone does, as in a two-TV match.
-    /// `linkCheck`: the owner waits for every guest's connection to be steady before a tennis match starts (off by default, so the many
-    /// tests that are about something else do not have to run the clock).
-    func party(_ count: Int = 4, screens: [Bool]? = nil, linkCheck: Bool = false, sharedScreen: Bool = true) throws -> Party {
+    func party(_ count: Int = 4, screens: [Bool]? = nil, sharedScreen: Bool = true) throws -> Party {
         let bus = Bus(), runtime = Runtime(), host = runtime.service()
-        host.requiresStableLink = linkCheck
         host.setScreen(screens?[0] ?? true)
         try host.host(using: bus.link("a"))
         try host.setSharedScreen(sharedScreen)
         var services = [host], runtimes = [runtime]
-        for n in 1..<count { let r = Runtime(), s = r.service(); s.requiresStableLink = linkCheck; s.setScreen(screens?[n] ?? true); try s.connect(using: bus.link(String(UnicodeScalar(97+n)!))); services.append(s); runtimes.append(r) }
+        for n in 1..<count { let r = Runtime(), s = r.service(); s.setScreen(screens?[n] ?? true); try s.connect(using: bus.link(String(UnicodeScalar(97+n)!))); services.append(s); runtimes.append(r) }
         return Party(bus: bus, services: services, runtimes: runtimes)
     }
     func start(_ p: Party, _ sport: MultiplayerSport = .tennis) throws {
@@ -389,7 +386,7 @@ final class MultiplayerTests: XCTestCase {
     }
 
     func testConnectionCheckRunsWhileCourtsLoadAndDoesNotAddAnotherSetupWait() throws {
-        let p = try party(2, linkCheck: true); defer { p.close() }
+        let p = try party(2); defer { p.close() }
         for service in p.services { try service.setReady(true) }; try p.host.startMatch()
         p.host.runtimeCalibrated(); p.services[1].runtimeCalibrated()
         run(p, for: 4)
@@ -725,7 +722,7 @@ final class MultiplayerTests: XCTestCase {
     }
     /// A two-phone tennis party that has loaded; `calibrated` says whether both players have also finished setting up.
     private func linkCheckParty(delay: Double = 0, loss: Double = 0, calibrated: Bool = true) throws -> Party {
-        let p = try party(2, linkCheck: true)
+        let p = try party(2)
         try p.host.setReady(true); try p.services[1].setReady(true); try p.host.startMatch()
         for l in p.bus.links.values { l.oneWayDelay = delay; l.lossRate = loss }
         p.host.runtimeLoaded(); p.services[1].runtimeLoaded()
@@ -733,36 +730,19 @@ final class MultiplayerTests: XCTestCase {
         if calibrated { p.host.runtimeCalibrated(); p.services[1].runtimeCalibrated(); run(p, for: 0.5) }
         return p
     }
-    func testAGoodConnectionStartsOnceItHasBeenSteadyForAWhile() throws {
-        let p = try linkCheckParty(delay: 0.02); defer { p.close() }   // 40 ms round trip
-        XCTAssertEqual(p.host.lobby?.phase, .calibrating, "set up, but the connection has not been watched yet")
-        run(p, for: 1.0)
-        XCTAssertEqual(p.host.lobby?.phase, .calibrating, "a second of good pings is not yet a steady connection")
-        run(p, for: 4.0)
+    func testBothPlayersReadyStartsAtOnceEvenOnAWeakConnection() throws {
+        // 11-17: setup always said the connection was weak, then started anyway. Ready from both players is the only gate now.
+        let p = try linkCheckParty(delay: 0.15, loss: 0.25); defer { p.close() }   // 300 ms round trip, a quarter of pings lost
         XCTAssertEqual(p.host.lobby?.phase, .playing)
-        XCTAssertEqual(p.host.lobby?.participants.first { $0.id == "b" }?.linkOK, true)
         XCTAssertEqual(p.services[1].lobby?.phase, .playing)
+        XCTAssertFalse(p.host.lastError?.contains("weak") == true); XCTAssertFalse(p.services[1].lastError?.contains("weak") == true)
     }
-    func testAWeakConnectionWaitsThenOffersPlayAnywayToTheOwnerOnly() throws {
-        let p = try linkCheckParty(delay: 0.15); defer { p.close() }   // 300 ms round trip
-        run(p, for: 6)
-        XCTAssertEqual(p.host.lobby?.phase, .calibrating)
-        XCTAssertFalse(p.host.linkNeedsDecision, "it waits a few seconds before asking")
-        run(p, for: 5)
-        XCTAssertEqual(p.host.lobby?.phase, .calibrating)
-        XCTAssertTrue(p.host.linkNeedsDecision)
-        XCTAssertTrue(p.services[1].lastError?.contains("weak") == true, "the guest hears why it is waiting")
-        p.services[1].playAnyway()
-        XCTAssertEqual(p.host.lobby?.phase, .calibrating, "only the owner can choose to play anyway")
-        p.host.playAnyway()
+    func testOnePlayerReadyKeepsWaitingForTheOther() throws {
+        let p = try linkCheckParty(calibrated: false); defer { p.close() }
+        p.host.runtimeCalibrated(); run(p, for: 12)
+        XCTAssertEqual(p.host.lobby?.phase, .calibrating, "nothing starts the match until both have tapped Ready")
+        p.services[1].runtimeCalibrated(); run(p, for: 0.5)
         XCTAssertEqual(p.host.lobby?.phase, .playing)
-        XCTAssertFalse(p.host.linkNeedsDecision)
-    }
-    func testALossyConnectionIsNotSteadyEvenWhenTheRoundTripsAreFast() throws {
-        let p = try linkCheckParty(delay: 0.02, loss: 0.25); defer { p.close() }   // a quarter of pings and pongs vanish
-        run(p, for: 9)
-        XCTAssertEqual(p.host.lobby?.phase, .calibrating)
-        XCTAssertTrue(p.host.linkNeedsDecision)
     }
     func testWithoutAGuestReportingTheOwnerDoesNotCallItSteady() throws {
         let p = try linkCheckParty(delay: 0.02, calibrated: false); defer { p.close() }
@@ -775,21 +755,8 @@ final class MultiplayerTests: XCTestCase {
         run(p, for: 6)   // the pings lost during the silence must scroll out of the 20-ping window, then 1.5 s of good ones (modelled: ~4.3 s)
         XCTAssertEqual(p.host.lobby?.participants.first { $0.id == "b" }?.linkOK, true, "...and it is steady again after a while of good pings")
     }
-    func testTheWeakConnectionNoticeAndPlayAnywayGoAwayOnceTheLinkRecoversAndPlayBegins() throws {
-        let p = try linkCheckParty(delay: 0.15); defer { p.close() }   // 300 ms round trip
-        run(p, for: 11)
-        XCTAssertTrue(p.host.linkNeedsDecision)
-        XCTAssertTrue(p.host.lastError?.contains("weak") == true)
-        XCTAssertTrue(p.services[1].lastError?.contains("weak") == true)
-        for l in p.bus.links.values { l.oneWayDelay = 0.02 }   // the connection improves by itself, without anyone choosing Play anyway
-        run(p, for: 8)
-        XCTAssertEqual(p.host.lobby?.phase, .playing)
-        XCTAssertFalse(p.host.linkNeedsDecision, "no dead Play anyway button for the rest of the match")
-        XCTAssertNil(p.host.lastError, "the weak-connection notice is about setup")
-        XCTAssertNil(p.services[1].lastError)
-    }
     func testTheConnectionCheckNeverHoldsUpGolfOrAMatchThatIsAlreadyRunning() throws {
-        let p = try party(2, linkCheck: true); defer { p.close() }
+        let p = try party(2); defer { p.close() }
         try start(p, .golf)    // golf has no setup phase, so no check
         XCTAssertEqual(p.host.lobby?.phase, .playing)
     }
@@ -1260,7 +1227,6 @@ final class MultiplayerTests: XCTestCase {
         TennisMenu.shared.debugShow(.main); OnboardingFlow.shared.exitToMenu()
         let bus = Bus(), hostRuntime = Runtime(), guestRuntime = Runtime()
         let hostService = hostRuntime.service(), guestService = guestRuntime.service()
-        hostService.requiresStableLink = false; guestService.requiresStableLink = false
         let host = HubSession(), guest = HubSession()
         host.partyService = hostService; guest.partyService = guestService
         defer { hostService.leave(); guestService.leave(); ClubHub.shared.context = savedContext; HubTestState.restore(display: saved); withExtendedLifetime(bus) {} }
@@ -1423,7 +1389,6 @@ final class MultiplayerTests: XCTestCase {
         let host = hostRuntime.service()
         let guest = MultiplayerService(sendToRuntime: { bridge.push($0) }, pollRuntime: { nil }, clearRuntime: { bridge.clear() }, clock: { guestRuntime.time })
         guest.onMatchRequested = { guestRuntime.configurations.append($0) }; guest.onReturnToLobby = {}
-        host.requiresStableLink = false; guest.requiresStableLink = false
         host.setScreen(true); guest.setScreen(true)
         try host.host(using: bus.link("a")); try guest.connect(using: bus.link("b"))
         let party = Party(bus: bus, services: [host, guest], runtimes: [hostRuntime, guestRuntime])
@@ -1444,7 +1409,6 @@ final class MultiplayerTests: XCTestCase {
         let host = hostRuntime.service()
         let guest = MultiplayerService(sendToRuntime: { bridge.push($0) }, pollRuntime: { nil }, clock: { guestRuntime.time })
         guest.onMatchRequested = { guestRuntime.configurations.append($0) }; guest.onReturnToLobby = {}
-        host.requiresStableLink = false; guest.requiresStableLink = false
         host.setScreen(true); guest.setScreen(true)
         try host.host(using: bus.link("a")); try guest.connect(using: bus.link("b"))
         let party = Party(bus: bus, services: [host, guest], runtimes: [hostRuntime, guestRuntime])

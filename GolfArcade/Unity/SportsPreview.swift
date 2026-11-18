@@ -1,12 +1,12 @@
-import ARKit
+import CoreImage
 import SwiftUI
 
 /// Rear-camera viewfinder for the aim-at-the-TV step.
 ///
-/// It draws frames from the steering `ARSession` rather than opening a second capture
-/// session — two sessions cannot own the camera at once, and the aiming step has to show
-/// exactly what world tracking is seeing. Without it there is no way to tell a working
-/// camera from a dead one, or to know what you are actually pointing at.
+/// It draws the frames SportsMotion's own camera is already reading for the TV search rather
+/// than opening a second capture session: two sessions cannot own the camera at once, and the
+/// aiming step has to show exactly what the search is seeing. Without it there is no way to
+/// tell a working camera from a dead one, or to know what you are actually pointing at.
 final class SportsPreviewView: UIView {
     private let context = CIContext(options: [.useSoftwareRenderer: false])
     private var lastOrientation: CGImagePropertyOrientation = .right
@@ -19,7 +19,7 @@ final class SportsPreviewView: UIView {
     }
     required init?(coder: NSCoder) { fatalError("init(coder:) is unused") }
 
-    /// ARKit hands over the sensor's native landscape buffer; rotate it to match how the
+    /// The camera hands over the sensor's native landscape buffer; rotate it to match how the
     /// phone is actually being held so aiming is not guesswork.
     func show(_ pixelBuffer: CVPixelBuffer) {
         let orientation = Self.imageOrientation(for: window?.windowScene?.interfaceOrientation ?? .portrait)

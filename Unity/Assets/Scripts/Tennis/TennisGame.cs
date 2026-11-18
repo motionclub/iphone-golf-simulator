@@ -2178,10 +2178,14 @@ namespace GolfArcade.Tennis
             overheadAttempted = false; TrackingOverhead = false; queuedOverheadPower = -1;
             // The swing picks the side, its timing (through quality) the depth and pace.
             // Explicit aim practice retains the lesson's target.
+            // 11-17 (Andrew: shots "more accurate and not as random, more intentional from our movements"): the player's ball goes
+            // exactly where the swing and its timing send it, no random scatter. The two draws are still taken so the shared random
+            // sequence (online play, replays) stays in step; only their effect on the player's landing spot is gone.
             float rollX = (float)random.NextDouble() * 2 - 1, rollZ = (float)random.NextDouble() * 2 - 1;
+            rollX = 0; rollZ = 0;
             float swingAim = shotAimLocked ? lockedShotAim.x : AimInput;
             Vector3 target = SwingAims
-                ? TennisRules.SwingPlacement(swingAim, hit.Quality, rollX, rollZ)
+                ? TennisRules.SwingPlacement(swingAim, hit.Quality, rollX, rollZ, Player.Power)
                 : TennisRules.TimedPlacement(ShotAimTarget, hit.Quality, rollX, rollZ);
             // Badly timed: it sails out (TennisRules.OutTiming). Overheads keep their own rules.
             // Badly timed (TennisRules.OutTiming): a slow high lob into the middle, easy to hit back (11-16). Overheads keep their own rules.

@@ -552,7 +552,7 @@ final class ClubHubTests: XCTestCase {
         init(_ name: String) {
             service = MultiplayerService(sendToRuntime: { _ in true }, pollRuntime: { nil })
             service.onMatchRequested = { _ in }; service.onReturnToLobby = {}
-            service.setScreen(true); service.requiresStableLink = false
+            service.setScreen(true)
             service.setIdentity(name: name, loadout: MultiplayerLoadout(skinHex: "C47A4C", colours: ["shirt": "E8505B"], emotes: EmoteCatalog.defaults, shirtHex: "E8505B", shortsHex: "24345E"))
         }
         var inLobby: Bool { service.lobby != nil && service.isParty }

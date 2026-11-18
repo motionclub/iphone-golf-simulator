@@ -674,7 +674,7 @@ struct OnlineTennisTVSetup: View {
                 : "\(partner.name): point the back of your phone at this TV. Hold still for one second."
         }
         switch session.setupStage {
-        case .scan: return "Point the back of your phone at this TV. Hold still for one second."
+        case .scan: return "Point the back of your phone at this TV. It will blink twice."
         case .timing: return "Start the timing check on your phone, then swing with the bouncing ball."
         case .ready: return "Stand where you'll play. Tap Ready on your phone."
         default: return service.startCountdown == nil ? "Each player finishes setup on their own phone." : "Stay at your spot and get ready to play."
@@ -763,7 +763,7 @@ struct OnlineTennisSetupPanel: View {
                 Image(systemName: "tv").font(.system(size: 52))
             }.foregroundStyle(IslandUI.lime).accessibilityHidden(true)
             Text("Set your direction").font(IslandUI.font(30, bold: true))
-            Text("Point the back of your phone at your TV. Hold still for one second.")
+            Text("Point the back of your phone at your TV. It will blink twice.")
                 .multilineTextAlignment(.center)
             ZStack {
                 Circle().stroke(.white.opacity(0.15), lineWidth: 8)
@@ -818,14 +818,7 @@ struct OnlineTennisSetupPanel: View {
     }
 
     @ViewBuilder private var recovery: some View {
-        if service.lobby?.phase == .calibrating,
-           service.lobby?.competitors.allSatisfy({ $0.calibrated }) == true {
-            Text("Checking the connection…").font(.subheadline)
-        }
         if let error = service.lastError { Text(error).font(.subheadline).multilineTextAlignment(.center) }
-        if service.isOwner && service.linkNeedsDecision {
-            ControllerButton(title: "Play anyway", icon: "play.fill") { service.playAnyway() }
-        }
         if service.loadingNeedsDecision || session.loading.isStalled {
             Text("The court is taking longer to load. Your racket setup is saved.").font(.subheadline).multilineTextAlignment(.center)
             Button("Keep waiting") { try? service.keepWaitingForLoad(); session.loading.keepWaiting() }
@@ -915,8 +908,6 @@ struct WaitingForPlayersPanel: View {
         let lobby = MultiplayerService.shared.lobby, competitors = lobby?.competitors ?? []
         let names = competitors.filter { !$0.calibrated }.map(\.name)
         if !names.isEmpty { return names.joined(separator: " and ") }
-        // Everyone is set up: the owner is still checking that every guest's connection is steady.
-        if competitors.contains(where: { !$0.linkOK && $0.id != lobby?.ownerID }) { return "a steady connection" }
         return "the match to start"
     }
     var body: some View {

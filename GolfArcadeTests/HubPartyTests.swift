@@ -30,7 +30,7 @@ final class HubPartyTests: XCTestCase {
         let s = MultiplayerService(sendToRuntime: { _ in true }, pollRuntime: { nil }, clock: { 100 })
         s.onMatchRequested = { _ in }; s.onReturnToLobby = {}
         // every phone in the Plaza has a TV (the plaza only runs with one); the link-steadiness gate has its own MultiplayerTests
-        s.setScreen(true); s.requiresStableLink = false
+        s.setScreen(true)
         s.setIdentity(name: name, female: name == "Bea", loadout: MultiplayerLoadout(skinHex: "C47A4C", colours: ["shirt": shirt], emotes: EmoteCatalog.defaults, shirtHex: shirt, shortsHex: "24345E"))
         return s
     }
@@ -271,7 +271,7 @@ final class HubPartyTests: XCTestCase {
         let bus = Bus()
         func timed(_ name: String) -> MultiplayerService {
             let s = MultiplayerService(sendToRuntime: { _ in true }, pollRuntime: { nil }, clock: { t })
-            s.onMatchRequested = { _ in }; s.onReturnToLobby = {}; s.setScreen(true); s.requiresStableLink = false
+            s.onMatchRequested = { _ in }; s.onReturnToLobby = {}; s.setScreen(true)
             s.setIdentity(name: name); return s
         }
         let a = timed("Ann"), b = timed("Bea")
@@ -336,7 +336,7 @@ final class HubPartyTests: XCTestCase {
         for (i, name) in names.enumerated() {
             let s = MultiplayerService(sendToRuntime: { _ in true }, pollRuntime: { nil }, clock: clock), c = Counted()
             s.onMatchRequested = { (_: MultiplayerMatchConfiguration) in c.launches += 1 }; s.onReturnToLobby = { c.stops += 1 }
-            s.setScreen(true); s.requiresStableLink = false; s.setIdentity(name: name)
+            s.setScreen(true); s.setIdentity(name: name)
             if i == 0 { try s.host(using: bus.link(String(name.prefix(1)).lowercased())) } else { try s.connect(using: bus.link(String(name.prefix(1)).lowercased())) }
             phones.append(s); counts.append(c)
         }

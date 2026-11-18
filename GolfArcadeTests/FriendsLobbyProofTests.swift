@@ -66,7 +66,7 @@ final class FriendsLobbyProofTests: XCTestCase {
         let bus = HubPartyTests.Bus()
         func phone(_ name: String, _ shirt: String) -> MultiplayerService {
             let s = MultiplayerService(sendToRuntime: { _ in true }, pollRuntime: { nil }, clock: { 100 })
-            s.onMatchRequested = { _ in }; s.onReturnToLobby = {}; s.setScreen(true); s.requiresStableLink = false
+            s.onMatchRequested = { _ in }; s.onReturnToLobby = {}; s.setScreen(true)
             s.setIdentity(name: name, loadout: MultiplayerLoadout(skinHex: "C47A4C", colours: ["shirt": shirt], emotes: EmoteCatalog.defaults, shirtHex: shirt, shortsHex: "24345E"))
             return s
         }
