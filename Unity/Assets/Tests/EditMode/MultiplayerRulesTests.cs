@@ -336,7 +336,7 @@ namespace GolfArcade.Tests {
             Assert.True(m.Input(0,Golf(m,1),m.State.time));FinishFlight(m);
             Assert.False(m.State.complete,"one hit each");Assert.AreEqual(1,m.State.turn);Assert.AreEqual(1,m.State.playoffRound);
             Assert.True(m.Input(1,Golf(m,2),m.State.time));FinishFlight(m);
-            if(m.State.complete) {Assert.That(m.State.winner,Is.AnyOf(0,1));Assert.AreEqual(a.pd<b.pd?0:1,m.State.winner);}
+            if(m.State.complete) {Assert.That(m.State.winner,Is.EqualTo(0).Or.EqualTo(1));Assert.AreEqual(a.pd<b.pd?0:1,m.State.winner);}
             else Assert.AreEqual(2,m.State.playoffRound,"level shots drop again");
             Assert.AreEqual(30,a.total,"the card is never touched");
         }
