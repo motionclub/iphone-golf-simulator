@@ -44,11 +44,13 @@ final class DailyHoleInOneTests: XCTestCase {
         for tenth in 0..<1500 { XCTAssertGreaterThanOrEqual(DailyHoleInOne.score(feet: Double(tenth) / 10, holed: false), DailyHoleInOne.score(feet: Double(tenth + 1) / 10, holed: false)) }
     }
 
-    func testDayIsUTC() {
+    func testDayIsEastern() {
         let f = ISO8601DateFormatter()
-        XCTAssertEqual(DailyHoleInOne.day(of: f.date(from: "2026-11-15T23:59:59Z")!), 20261115)
-        XCTAssertEqual(DailyHoleInOne.day(of: f.date(from: "2026-11-16T00:00:00Z")!), 20261116)
-        XCTAssertEqual(DailyHoleInOne.day(of: f.date(from: "2026-11-15T20:00:00-08:00")!), 20261116, "the same day for the whole world")
+        XCTAssertEqual(DailyHoleInOne.day(of: f.date(from: "2026-11-16T04:59:59Z")!), 20261115, "11:59 pm Eastern is still the 15th")
+        XCTAssertEqual(DailyHoleInOne.day(of: f.date(from: "2026-11-16T05:00:00Z")!), 20261116, "12 midnight Eastern starts the 16th")
+        XCTAssertEqual(DailyHoleInOne.day(of: f.date(from: "2026-11-15T20:00:00-08:00")!), 20261115, "the same day for the whole world")
+        XCTAssertEqual(DailyHoleInOne.day(of: f.date(from: "2026-07-01T03:59:59Z")!), 20260630, "summer time: midnight Eastern is 04:00 UTC")
+        XCTAssertEqual(DailyHoleInOne.day(of: f.date(from: "2026-07-01T04:00:00Z")!), 20260701)
     }
 
     func testPercentileAndTop() {
@@ -101,7 +103,7 @@ final class DailyHoleInOneTests: XCTestCase {
         XCTAssertEqual(json["state"] as? String, "live")
         XCTAssertEqual(json["rank"] as? Int, 7); XCTAssertEqual(json["players"] as? Int, 7)
         XCTAssertEqual(json["percentile"] as? Int, 0); XCTAssertEqual(json["top"] as? Int, 100)
-        XCTAssertEqual(json["hours"] as? Int, 12)
+        XCTAssertEqual(json["hours"] as? Int, 17, "noon UTC is 7 am Eastern: 17 hours to the next 12 midnight Eastern")
         XCTAssertEqual((json["entries"] as? [[String: Any]])?.first?["name"] as? String, "Ann")
     }
 

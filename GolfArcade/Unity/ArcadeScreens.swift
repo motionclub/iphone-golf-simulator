@@ -371,8 +371,12 @@ extension Color {
 struct LoadingScreen: View {
     let menu: TennisMenu
     let compact: Bool
+    /// Leaving a game (2026-11-19, Adnan: "the same loading screens you get when entering a game"): the same screen runs on its own
+    /// model while the Plaza opens again (SportsDisplays.beginExitCover), without the Leave / Retry buttons.
+    var model: LoadingModel? = nil
+    var returning = false
     private var session: SportsSession { .shared }
-    private var loading: LoadingModel { session.loading }
+    private var loading: LoadingModel { model ?? session.loading }
     private var service: MultiplayerService { menu.online.service }
     private var lobbyLoading: Bool { service.lobby?.phase == .loading }
     private var sport: Sport {
@@ -575,7 +579,7 @@ struct LoadingScreen: View {
                                 .frame(maxWidth: .infinity, alignment: .leading).id(loading.tipNumber).transition(.opacity)
                         }
                         .accessibilityElement(children: .combine).accessibilityIdentifier("presentation-loading-status")
-                        controls
+                        if !returning { controls }
                     }
                     .padding(.horizontal, 22).padding(.top, 22).padding(.bottom, max(18, g.safeAreaInsets.bottom))
                 }
@@ -634,7 +638,7 @@ struct LoadingScreen: View {
 
     /// Leave / Retry / Keep waiting. The phone always offers Leave match; the TV shows them only when there is a decision.
     private var needsControls: Bool {
-        loading.isStalled || loading.phase == .failed || (session.multiplayerMatchID != nil || lobbyLoading) && service.loadingNeedsDecision
+        !returning && (loading.isStalled || loading.phase == .failed || (session.multiplayerMatchID != nil || lobbyLoading) && service.loadingNeedsDecision)
     }
     private var controls: some View {
         HStack(spacing: 16) {

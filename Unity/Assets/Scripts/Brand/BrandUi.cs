@@ -297,11 +297,11 @@ namespace MotionSports.Brand
             t.GetComponent<Shadow>().enabled = false;
             return box;
         }
-        /// The gold skewed GO button (START MATCH / TEE OFF): label + the A disc, a parallelogram clipped inside its box.
+        /// The gold skewed GO button (START MATCH / TEE OFF): its label, a parallelogram clipped inside its box (no controller letters: the TV menu is hover and select).
         public static (RectTransform face, Text label) GoButton(RectTransform box, string label, bool on = true)
         {
-            // sized to its words: [pad] LABEL [gap] (A) [pad], the box's height sets the scale (the mock's .go: 2.2cqw type, 1.1cqw pad)
-            float h = box.sizeDelta.y, d = h * .46f;
+            // sized to its words: [pad] LABEL [pad], the box's height sets the scale (the mock's .go: 2.2cqw type, 1.1cqw pad)
+            float h = box.sizeDelta.y;
             var face = Fill(box, "Face");
             var glow = Layer(face, "Glow", new Color(BrandColors.Gold.r, BrandColors.Gold.g, BrandColors.Gold.b, on ? .32f : 0), 0, -1, Glow);
             glow.rectTransform.offsetMin = new Vector2(-34, -30); glow.rectTransform.offsetMax = new Vector2(34, 14);
@@ -309,10 +309,9 @@ namespace MotionSports.Brand
             if (on) HGradient.On(fill, BrandColors.Gold, GoldLight);
             var text = Word(face, "Label", label, ExtraBoldItalic, h * .5f, on ? BrandColors.NavyInk : BrandColors.N300);
             foreach (var sh in text.GetComponents<Shadow>()) sh.enabled = !on;   // ink on gold: no underlay
-            float pad = h * .55f, tw = text.preferredWidth, w = pad + tw + (on ? h * .26f + d : 0) + pad * 1.1f;
+            float pad = h * .55f, tw = text.preferredWidth, w = pad + tw + pad * 1.1f;
             box.sizeDelta = new Vector2(w, h);
             text.rectTransform.offsetMin = new Vector2(pad, 0); text.rectTransform.offsetMax = new Vector2(0, 0);
-            if (on) FaceButton(face, "A", pad + tw + h * .26f, (h - d) / 2, d, BrandColors.NavyInk, BrandColors.White);
             return (face, text);
         }
         /// A dark skewed chip with a gold left edge (the name and settings chips top right).

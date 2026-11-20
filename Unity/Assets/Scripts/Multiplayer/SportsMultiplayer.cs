@@ -276,7 +276,7 @@ namespace GolfArcade.Multiplayer {
         void Result(string score){
             var r=new MatchResult {sport=Configuration.sport,reason=score=="interrupted"?"interrupted":"complete",score=score};
             if(tennis!=null&&tennis.State.score.Complete)r.winner=tennis.State.score.PlayerWonMatch?0:1;
-            if(golf!=null)r.golfers=golf.State.golfers;
+            if(golf!=null){r.golfers=golf.State.golfers;r.winner=golf.State.winner;}   // (the lowest card, or the playoff's closest)
             SendSnapshot(true); pendingResult=JsonUtility.ToJson(r); resultDue=SharedClock+(r.reason=="interrupted"?0:3);
         }
         void Send(string kind,string payload,bool reliable=true) {

@@ -70,6 +70,9 @@ final class HubSession {
     private(set) var menuScreen = "home"
     /// The mode the TV's match setup is open for (MenuSetup), nil before the first.
     private(set) var menuSetupMode: String?
+    /// What the TV's locker is showing (LockerTV): its sport and section.
+    @ObservationIgnored private var lockerTVSport = "tennis"
+    @ObservationIgnored private var lockerTVSection = "top"
     /// What the TV has lit under the pointer ("" = nothing).
     private(set) var menuHoverLabel = ""
     @ObservationIgnored private var menuHoverID = ""
@@ -218,6 +221,18 @@ final class HubSession {
             guard f.count == 2, Player.outfitSlots.contains(f[0]), session.players.indices.contains(session.playerIndex) else { return }
             if f[1].isEmpty { session.players[session.playerIndex].clearOutfit(f[0]) } else { session.players[session.playerIndex].setOutfitHex(f[0], f[1]) }
             session.savePlayers()
+        // the TV's locker (LockerTV): which sport and section it is showing, and each pick on it
+        case "menuLocker":
+            let f = message.split(separator: "|", maxSplits: 1, omittingEmptySubsequences: false).map(String.init)
+            guard f.count == 2 else { return }
+            lockerTVSport = f[0]; lockerTVSection = f[1]
+            if let json = LockerTV.json(sport: lockerTVSport, section: lockerTVSection) { menuCommand("menuLockerState", mode: json) }
+        case "menuLockerSet":
+            let f = message.split(separator: "|", maxSplits: 1, omittingEmptySubsequences: false).map(String.init)
+            guard f.count == 2 else { return }
+            if session.haptics { UISelectionFeedbackGenerator().selectionChanged() }
+            LockerTV.set(f[0], f[1])
+            if let json = LockerTV.json(sport: lockerTVSport, section: lockerTVSection) { menuCommand("menuLockerState", mode: json) }
         case "menuStart": if session.haptics { UINotificationFeedbackGenerator().notificationOccurred(.success) }
         // the TV's match setup (MenuSetup): describe the screen, apply a change, start
         case "menuSetup":
@@ -466,6 +481,7 @@ final class HubSession {
     private(set) var revealedOnPhone = false
     private func reveal() {
         guard phase == .live, !arriving else { return }
+        SportsDisplays.shared.hubRevealing()
         if onPhone { revealedOnPhone = true } else { SportsDisplays.shared.external?.isHidden = true }
     }
     /// The loading screen fading into the arrival (between the full bar and the plaza on the TV).
@@ -481,6 +497,7 @@ final class HubSession {
         DispatchQueue.main.asyncAfter(deadline: .now() + Self.readyHold + max(0, pace.end - ProcessInfo.processInfo.systemUptime)) { [weak self] in
             guard let self, self.sessionID == launch else { return }
             self.command("hubArrive")
+            SportsDisplays.shared.hubRevealing()   // (the cover of a return from a game lifts with the reveal)
             if self.onPhone {
                 withAnimation(.easeOut(duration: Self.revealFade)) { self.revealedOnPhone = true }
                 DispatchQueue.main.asyncAfter(deadline: .now() + Self.revealFade) { self.arriving = false; self.askForFriendsOnce() }

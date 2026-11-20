@@ -1887,7 +1887,16 @@ namespace GolfArcade.Tennis
             // complete a quarter of a second before contact, as coaching describes.
             float prepare = 0;
             bool backhand = false;
-            if (incoming && BallVelocity.z < -.5f)
+            bool overheadLoad = false;
+            // 11-19 (Adnan: "shouldn't load for a backhand then do an overhand"): a smash on its way loads the overhead itself
+            // (racket straight up into the trophy, the other arm up at the ball), from ~1 s out and fully loaded when the swing is
+            // due (TennisOverheads.ReadySwing); it used to prepare the ground-stroke wing and switch ~0.1 s before contact.
+            if (TrackingOverhead && incoming)
+            {
+                overheadLoad = true;
+                prepare = 1 - Mathf.Clamp01((overheadPlan.Time - TennisOverheads.ReadySwing) / .55f);
+            }
+            else if (incoming && BallVelocity.z < -.5f)
             {
                 float toArrive = TimeToPlane(Player.transform.position.z + .6f);
                 prepare = 1 - Mathf.Clamp01((toArrive - .25f) / .45f);
@@ -1895,8 +1904,8 @@ namespace GolfArcade.Tennis
                 preparedLeft = leftSide;
                 backhand = leftSide != NativeSportsSession.Left;
             }
-            Player.Prepare(prepare, backhand);
-            if (prepare > .3f && coach && NativeControlled) coach.Offer(backhand ? TennisCoach.Tip.Backhand : TennisCoach.Tip.FirstBall);
+            Player.Prepare(prepare, backhand, false, overheadLoad);
+            if (prepare > .3f && !overheadLoad && coach && NativeControlled) coach.Offer(backhand ? TennisCoach.Tip.Backhand : TennisCoach.Tip.FirstBall);
             if (RemoteRival) return;
             if (!incoming && BallVelocity.z > .5f)
             {

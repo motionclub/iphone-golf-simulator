@@ -41,6 +41,9 @@ namespace GolfArcade.Tennis
                 float gap = (at - pc).magnitude - r - skin;   // ball surface to palm skin
                 want = 1 - Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.03f, .07f, gap));
             }
+            // 11-19: a hero whose tossing arm follows the clip in the wind-up (HeroTennisDriver.tossFollowsClip) carries the ball in the
+            // palm until it is released; the routine's straight-line ball path is off the hand's arc by several centimetres there.
+            if (driver.TossFollowsClip && driver.actor.PrepareAmount > .001f && game.ServeBallHeld(driver.actor)) want = 1;
             hold = want;   // no easing: the fade is in the distance itself, and an eased weight would lag the ball off the palm
             if (small > .001f) ball.localScale *= r / TennisRules.BallRadius;   // (TennisGame sets the scale every frame, squash included)
             if (hold <= .001f) return;

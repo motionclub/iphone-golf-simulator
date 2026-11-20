@@ -29,6 +29,7 @@ namespace GolfArcade.Bowling
         Vector3 target; float targetYaw, yaw, speed;
         bool walking, driven;
         Transform upperArm, lowerArm, hand, leftUpper, leftLower, leftHand, midProx, idxProx, litProx, midDist, lMidProx, lIdxProx, lLitProx;
+        Transform trailThigh, trailShin, trailFoot;
         float carryW;   // the two-handed carry's share of the arms (eases in and out over ~0.25 s)
         HeroBallGrip.Hand gripR, gripL;
         Vector3 holeLocal; bool holeKnown; static bool logged;
@@ -63,6 +64,9 @@ namespace GolfArcade.Bowling
                 hero.leftUpper = hero.Look.Bone(HumanBodyBones.LeftUpperArm); hero.leftLower = hero.Look.Bone(HumanBodyBones.LeftLowerArm); hero.leftHand = hero.Look.Bone(HumanBodyBones.LeftHand);
                 hero.lMidProx = hero.Look.Bone(HumanBodyBones.LeftMiddleProximal); hero.lIdxProx = hero.Look.Bone(HumanBodyBones.LeftIndexProximal); hero.lLitProx = hero.Look.Bone(HumanBodyBones.LeftLittleProximal);
                 hero.gripR = HeroBallGrip.Find(hero.Look.Bone, false); hero.gripL = HeroBallGrip.Find(hero.Look.Bone, true);
+                hero.trailThigh = hero.Look.Bone(HumanBodyBones.RightUpperLeg);
+                hero.trailShin = hero.Look.Bone(HumanBodyBones.RightLowerLeg);
+                hero.trailFoot = hero.Look.Bone(HumanBodyBones.RightFoot);
             }
             hero.target = at; hero.yaw = hero.targetYaw = facingYaw;
             root.transform.rotation = Quaternion.Euler(0, facingYaw, 0);
@@ -154,11 +158,19 @@ namespace GolfArcade.Bowling
             if (!Anim || !Anim.Has(id)) return false;
             if (!approach && !IsShotVariant(id)) SettleApproach();   // a reaction / walk clip starts from the stand where the shot ended
             if (!Anim.Play(id, loop, at)) return false;
-            Anim.ActionRate = 1;
+            Anim.ActionRate = IsShotVariant(id) ? approachRate : 1;   // the approach and its release variants run on the game's time warp (BowlingApproach.Rate)
             clipId = id; clipStarted = Time.time - at;
             if (approach) followFrom = -1;
             if (approach) { approachClip = true; shiftPending = true; }
             return true;
+        }
+
+        float approachRate = 1;
+        /// The game's playback rate for the approach clips this frame (BowlingApproach.Rate): smooth steps, a faster swing and release.
+        public void SetApproachRate(float rate)
+        {
+            approachRate = rate;
+            if (Anim && ClipPlaying && IsShotVariant(clipId)) Anim.ActionRate = rate;
         }
 
         static bool IsShotVariant(string id) => id.StartsWith("BowlRelease") || id.StartsWith("BowlDrop") || id.StartsWith("BowlFollow") || id == BowlingClips.Foul || id == BowlingClips.Shot;
@@ -356,11 +368,70 @@ namespace GolfArcade.Bowling
 
         void LateUpdate() { if (!Anim) PoseArms(); }
 
+        /// 11-19 ("it looks as if the character just drops the ball"): the authored hand reaches the ankle and stops, so the ball left a hand that
+        /// was slowing down and going nowhere. The bowling arm now reaches on down the lane through the release (a shoulder-elbow solve that moves the
+        /// hand forward, eased in over the last 0.3 s before the release and out over the 0.5 s after), so the hand keeps its speed as the ball goes.
+        static bool ReachClip(string id) => id == BowlingClips.Shot || id == BowlingClips.Straight || id == BowlingClips.Hook || id == BowlingClips.Backup
+            || id == BowlingClips.FollowL || id == BowlingClips.FollowR;
+        const float ReachFrom = 1.85f, ReachPeak = 2.30f, ReachEnd = 3.05f;
+
+        void ReachThrough(float clipT)
+        {
+            // The arm keeps swinging up and through about the shoulder (it cannot reach further: it is already at full length) so the hand's pace falls
+            // away over ~0.4 s instead of stopping inside 0.1 s. Eased in before the release, out as the clip's own arm gets to the top.
+            float w = Mathf.SmoothStep(0, 1, Mathf.InverseLerp(ReachFrom, ReachPeak, clipT)) * (1 - Mathf.SmoothStep(0, 1, Mathf.InverseLerp(ReachPeak, ReachEnd, clipT)));
+            if (w < 1e-3f || !upperArm) return;
+            upperArm.rotation = Quaternion.AngleAxis(-(Female ? 28f : 32f) * w, transform.right) * upperArm.rotation;
+        }
+
+        void RefineFollowThrough(float secondsAfterRelease)
+        {
+            if (secondsAfterRelease <= 0 || secondsAfterRelease >= .92f) return;
+
+            Vector3 right = transform.right, up = transform.up, forward = transform.forward;
+            float reach = SwingWeight(secondsAfterRelease, 0, .12f, .27f);
+            float finish = SwingWeight(secondsAfterRelease, .10f, .40f, .92f);
+
+            // Carry the hand down-lane first, then let the elbow bend as the arm rises.
+            if (upperArm && lowerArm && hand)
+            {
+                upperArm.rotation = Quaternion.AngleAxis(18 * finish - 7 * reach, right) * upperArm.rotation;
+                Vector3 forearm = hand.position - lowerArm.position;
+                Vector3 lift = (up + forward * .32f + right * .08f).normalized;
+                Aim(lowerArm, hand, Vector3.RotateTowards(forearm.normalized, lift, 27 * Mathf.Deg2Rad * finish, 0));
+            }
+
+            // Maintain the balance arm while the weight settles onto the slide foot.
+            if (leftUpper && leftLower)
+            {
+                Vector3 arm = leftLower.position - leftUpper.position;
+                Vector3 balance = (-right - forward * .25f).normalized;
+                Aim(leftUpper, leftLower, Vector3.RotateTowards(arm.normalized, balance, 14 * Mathf.Deg2Rad * finish, 0));
+            }
+
+            // Lengthen the counterbalance on the airborne trail leg, leaving the slide leg planted.
+            if (trailThigh && trailShin && trailFoot)
+            {
+                float airborne = Mathf.InverseLerp(.17f, .27f, trailFoot.position.y - transform.position.y);
+                Vector3 shin = trailFoot.position - trailShin.position;
+                Vector3 thigh = trailShin.position - trailThigh.position;
+                Aim(trailShin, trailFoot, Vector3.RotateTowards(shin.normalized, thigh.normalized, 13 * Mathf.Deg2Rad * finish * airborne, 0));
+            }
+        }
+
+        static float SwingWeight(float time, float start, float peak, float end) =>
+            Mathf.SmoothStep(0, 1, Mathf.InverseLerp(start, peak, time)) * Mathf.SmoothStep(0, 1, Mathf.InverseLerp(end, peak, time));
+
         /// The bowling layer on the hero's pose: the follow-through turned toward the ball's path, the ball in the hand (or carried in
         /// both), the scripted pendulum without clips, the empty hands' palms in. Runs inside HubHeroAnimator's pass (AfterPose).
         void PoseArms()
         {
             Vector3 up = transform.up, fwd = transform.forward, right = transform.right;
+            if (ApproachClipPlaying && ReachClip(clipId)) ReachThrough(ClipTime);
+            if (!Female && !Ball && ApproachClipPlaying && followFrom >= 0 &&
+                (clipId == BowlingClips.Straight || clipId == BowlingClips.Hook || clipId == BowlingClips.Backup ||
+                 clipId == BowlingClips.FollowL || clipId == BowlingClips.FollowR))
+                RefineFollowThrough(ClipTime - followFrom);
             if (ClipPlaying && followFrom >= 0 && upperArm && Mathf.Abs(followYaw) > .05f)
             {
                 float t = ClipTime - followFrom;

@@ -278,12 +278,17 @@ struct HubPartyBayPanel: View {
             }
             if bowling {
                 Text("One lane, 10 frames, taking turns. Every phone shows the game: no TV needed.").font(.footnote).foregroundStyle(.white.opacity(0.7))
+            } else if golf {
+                Text("\(MultiplayerService.onlineGolfHoles) holes. A tie for the lowest card: one random ball drop, one hit each, closest to the hole wins.").font(.footnote).foregroundStyle(.white.opacity(0.7))
             } else if !golf {
                 HStack {
                     Text("Sets"); Spacer()
-                    Picker("Sets", selection: Binding(get: { lobby.sets }, set: { hub.configureParty(sets: $0) })) {
-                        ForEach(1...3, id: \.self) { Text("\($0)").tag($0) }
-                    }.labelsHidden().accessibilityIdentifier("hub-party-sets")
+                    if hub.partyService.playsOnlineRules { Text("1 (online)").foregroundStyle(.white.opacity(0.7)).accessibilityIdentifier("hub-party-sets") }
+                    else {
+                        Picker("Sets", selection: Binding(get: { lobby.sets }, set: { hub.configureParty(sets: $0) })) {
+                            ForEach(1...3, id: \.self) { Text("\($0)").tag($0) }
+                        }.labelsHidden().accessibilityIdentifier("hub-party-sets")
+                    }
                 }
                 HStack {
                     Text("Games per set"); Spacer()

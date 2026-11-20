@@ -1,0 +1,95 @@
+/* Box Score keeps the venue-colored binding and widens the sheet for game detail. */
+[data-design="box-score"]:is([data-step="results"], [data-step="xp"]) .layout { padding-inline: 9cqw; }
+[data-design="box-score"] .frame-score th:first-child { width: 7.6%; }
+[data-design="box-score"] .frame-score th:nth-child(2) { width: 14.5%; }
+[data-design="box-score"] .frame-score th:last-child { width: 9%; }
+[data-design="box-score"] .frame-score :is(th, td):nth-child(n+3) { border-left: 1px solid var(--rule); }
+[data-design="box-score"] .results thead th { padding-block: .62cqw; }
+[data-design="box-score"] .results tbody th {
+  color: var(--panel-ink); font-size: 1.85cqw; text-align: left; font-weight: 800;
+}
+[data-design="box-score"] .results tbody .first th { background: var(--row-winner); color: var(--winner-ink); }
+[data-design="box-score"] .frame-score td { height: 4.38cqw; padding-inline: .35cqw; }
+[data-design="box-score"] .frame-score .num { font-size: 2.34cqw; }
+[data-design="box-score"] .frame-marks {
+  display: block; font-size: 1.19cqw; font-weight: 500; line-height: 1.28;
+  word-spacing: .12em;
+}
+[data-design="box-score"] .frame-total { display: block; font-size: 1.62cqw; line-height: 1.1; font-weight: 800; }
+[data-design="box-score"] .box-tennis th:first-child { width: 12%; }
+[data-design="box-score"] .box-tennis th:nth-child(2) { width: 29%; }
+[data-design="box-score"] .box-tennis td { height: 4.7cqw; }
+[data-design="box-score"] .box-tennis .num { font-size: 2.78cqw; }
+[data-design="box-score"] .xp-card .receipt {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 1.45cqw; align-items: start;
+}
+[data-design="box-score"] .xp-card .receipt div {
+  background: var(--row); margin-bottom: .42cqw; min-height: 2.75cqw; padding-inline: .65cqw;
+}
+[data-design="box-score"] .earned { font-size: 5.85cqw; }
+
+/* Open Book gives the result or XP total the left page and the detail the right page. */
+[data-design="open-book"] .layout { padding-inline: 10.4cqw; grid-template-rows: 9cqw auto; }
+[data-design="open-book"] .card { border-radius: .92cqw .92cqw .66cqw .66cqw; }
+[data-design="open-book"] .open-spread {
+  display: grid; grid-template-columns: 30% 70%; margin-top: 1.12cqw; min-width: 0;
+}
+[data-design="open-book"] .score-leaf {
+  display: grid; align-content: center; justify-items: start; gap: .55cqw; padding: 1.22cqw 1.45cqw;
+  background: linear-gradient(140deg, var(--surface), var(--bottom)); color: var(--cream);
+  border-radius: .65cqw 0 0 .65cqw; border-right: .3cqw solid var(--trim);
+  box-shadow: inset 0 0 0 1px #ffffff29, inset -.33cqw 0 .6cqw #0004;
+}
+[data-design="open-book"] .score-leaf strong { font-size: 2.18cqw; line-height: 1; font-style: italic; font-weight: 800; }
+[data-design="open-book"] .leaf-amount { color: var(--accent); font-size: 7cqw; font-weight: 800; line-height: .92; }
+[data-design="open-book"] .leaf-detail { font-size: 1.71cqw; }
+[data-design="open-book"] .open-spread .results {
+  margin: 0; border: solid var(--rule); border-width: 1px 1px 0 0;
+}
+[data-design="open-book"] .open-spread .results :is(th, td) { padding-inline: .75cqw; }
+[data-design="open-book"] .open-spread .results th { padding-block: .63cqw; }
+[data-design="open-book"] .open-spread .results td { height: 3.68cqw; }
+[data-design="open-book"][data-venue="tennis-resort"] .open-spread .results td { height: 4.58cqw; }
+[data-design="open-book"] .xp-card .earnings { grid-template-columns: 39% minmax(0, 1fr); gap: 1.3cqw; }
+[data-design="open-book"] .xp-card .award-total {
+  padding: 1cqw 1.2cqw 1.1cqw; color: var(--cream); border-right: .3cqw solid var(--trim);
+  background: linear-gradient(140deg, var(--surface), var(--bottom));
+  border-radius: .69cqw 0 0 .69cqw; box-shadow: inset 0 0 0 1px #ffffff29, inset -.33cqw 0 .6cqw #0004;
+}
+[data-design="open-book"] .xp-card .earned { color: var(--accent); }
+[data-design="open-book"] .xp-card .earned-copy { color: var(--cream); }
+[data-design="open-book"] .level {
+  background: var(--bottom); border: 1px solid #ffffff3d; color: var(--cream);
+}
+[data-design="open-book"] .level-track { background: color-mix(in srgb, var(--bottom) 65%, var(--cream)); }
+[data-design="open-book"] .level-track span { background: var(--accent); }
+[data-design="open-book"] .receipt div { min-height: 2.55cqw; }
+
+/* Score Slip uses a smaller receipt and leaves space for the venue and player. */
+[data-design="score-slip"] .shade {
+  background: linear-gradient(90deg, #0002 26%, color-mix(in srgb, var(--bottom) 57%, transparent));
+}
+[data-design="score-slip"] .layout {
+  grid-template-columns: 52% 48%; grid-template-rows: auto; align-items: center; gap: 0; padding: 0 5.15cqw;
+}
+[data-design="score-slip"] .venue { position: absolute; grid-area: auto; inset: 0 auto 0 5.15cqw; width: 19cqw; }
+[data-design="score-slip"] .venue img { inset: 4cqw auto auto 0; height: 10.4cqw; object-position: left top; }
+[data-design="score-slip"] .stack { grid-row: 1; grid-column: 2; gap: 1.45cqw; }
+[data-design="score-slip"] .card { border-radius: .42cqw; }
+[data-design="score-slip"] .stage-title {
+  align-items: flex-start; flex-direction: column; gap: .25cqw;
+  border-bottom: .24cqw dashed var(--accent); padding-block: 1.01cqw 1.11cqw;
+}
+[data-design="score-slip"] .stage-title span { font-size: 1.55cqw; }
+[data-design="score-slip"] .results th:nth-child(2) { width: 34%; }
+[data-design="score-slip"] .results td { height: 4.02cqw; }
+[data-design="score-slip"] .results td:nth-child(2) { font-weight: 800; }
+[data-design="score-slip"] .results td .badge { display: none; }
+[data-design="score-slip"] .xp-card .earnings { grid-template-columns: minmax(0, 1fr); gap: .78cqw; }
+[data-design="score-slip"] .xp-card .award-total {
+  display: flex; align-items: baseline; justify-content: space-between; gap: .85cqw;
+  border-right: 0; border-bottom: 1px dashed var(--muted); padding: .17cqw 0 .79cqw;
+}
+[data-design="score-slip"] .xp-card .earned { margin: 0; }
+[data-design="score-slip"] .xp-card .xp-people { margin-block: .85cqw .63cqw; }
+[data-design="score-slip"] .xp-card .receipt div { min-height: 2.15cqw; }

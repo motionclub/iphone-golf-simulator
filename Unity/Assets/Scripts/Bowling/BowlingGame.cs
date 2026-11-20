@@ -111,7 +111,10 @@ namespace GolfArcade.Bowling
         float holdT, approachT, playT, phaseT, releaseAt, followClipTime;
         bool foulSlide, released;
         Quaternion ballSpin = Quaternion.identity;
-        Vector3 releaseHand;
+        Vector3 releaseHand, handVel, lastBallPos; bool lastBallValid;
+        /// Seconds the ball takes from the hand to the lane's first sample (a smooth lead-in from the hand's own pace to the ball's), 0 for a drop.
+        float launchLead;
+        Vector3 launchP1, launchDir; float launchV0, launchV1s, launchDist;
         Vector3 camPos, camLook;
         int seed = 1;
 
@@ -349,6 +352,15 @@ namespace GolfArcade.Bowling
         /// A hold pressed while the bowler is still side-stepping this close to the spot is taken (metres; a whole lane is ~0.9).
         const float SideStepHold = .6f;
 
+        /// The ball's pace in the hand (frame to frame, lightly smoothed): the lead-in after the release starts at it.
+        void TrackHand(float dt)
+        {
+            if (!ballView) return;
+            var bp = ballView.transform.position;
+            if (lastBallValid && dt > 1e-4f) handVel = Vector3.Lerp(handVel, (bp - lastBallPos) / dt, .7f);
+            lastBallPos = bp; lastBallValid = true;
+        }
+
         void Release(float timingError)
         {
             if (SelfTimed && detector.Active)
@@ -373,7 +385,7 @@ namespace GolfArcade.Bowling
         /// The ball leaves the hand: this phone's own release, or another phone's throw played here (network).
         void Deliver(BowlingThrow th)
         {
-            released = true; releaseAt = approachT; heldThrow = null;
+            released = true; releaseAt = approachT; heldThrow = null; launchLead = 0; lastBallValid = false;
             netSendPending = Networked && IsLocal(Current);
             LastThrow = th;
             sound?.Release(th);
@@ -406,6 +418,18 @@ namespace GolfArcade.Bowling
             else
             {
                 var end = BowlingBall.Roll(th.Launch(), Oil, laneRecord);
+                // the ball leaves the hand where the hand is, at the hand's own pace, and picks up the lane's line over the next ~0.1 s:
+                // it used to jump from the hand to the foul line in one frame (13-18 m/s) while the hand slowed to a stop
+                if (laneRecord.Count > 1)
+                {
+                    // constant acceleration along the chord from the hand's pace to the ball's: no dip, no jump
+                    launchP1 = laneRecord[0].Position; var v1 = (laneRecord[1].Position - laneRecord[0].Position) * 60f;
+                    var chord = launchP1 - releaseHand; float dist = chord.magnitude;
+                    launchDir = dist > 1e-4f ? chord / dist : Vector3.forward;
+                    launchV0 = Mathf.Max(.8f, Vector3.Dot(handVel, launchDir)); launchV1s = Mathf.Max(launchV0, Vector3.Dot(v1, launchDir));
+                    launchLead = dist > .02f ? Mathf.Clamp(2 * dist / (launchV0 + launchV1s), .05f, .25f) : 0;
+                    launchDist = dist;
+                }
                 deck.Begin(end, standing, pinPositions, pinRotations);
             }
             // the follow-through goes the way the ball goes: the swinging arm is turned (about the vertical) toward the real path of the ball over its first ~3 m
@@ -441,12 +465,13 @@ namespace GolfArcade.Bowling
                 case Phase.Hold:
                     if (!Bowler || Bowler.Arrived) holdT += dt;
                     PoseBowler(0, false);
-                    if (holdT >= BowlingApproach.HoldToStart) { Flow = Phase.Approach; approachT = 0; Bowler?.PlayClip(BowlingClips.Shot, 0, false, true); }
+                    if (holdT >= BowlingApproach.HoldToStart) { Flow = Phase.Approach; approachT = 0; lastBallValid = false; handVel = Vector3.zero; Bowler?.PlayClip(BowlingClips.Shot, 0, false, true); }
                     break;
                 case Phase.Approach:
                     approachT += dt;   // one steady walk-up for everyone (the computer's cadence)
                     if (SelfTimed && detector.ForwardSwing && !cuedTop) { cuedTop = true; Cue?.Invoke("top"); }
                     if (SelfTimed && detector.PastBottom && !cuedBottom) { cuedBottom = true; Cue?.Invoke("bottom"); }
+                    TrackHand(dt);
                     PoseBowler(approachT, false, dt);
                     // the graded throw leaves the hand on the bowler's beat
                     if (heldThrow is BowlingThrow held)
@@ -586,6 +611,7 @@ namespace GolfArcade.Bowling
             {
                 // the authored shot clip carries the whole body (the hips run the approach inside it): the root stays at the stance until the clip ends
                 if (h.ApproachActive) h.Drive(StartSpot(Board), 0, 0);
+                h.SetApproachRate(BowlingApproach.Rate(t));
                 h.ArmDeg = float.NaN; h.Balance = 0;
                 h.Ball = released ? null : ballView.transform;
                 return;
@@ -626,15 +652,22 @@ namespace GolfArcade.Bowling
                 // network: this phone's ball goes to the others as soon as its pinfall is known (they score it with ours)
                 if (netSendPending && deck.Result != null) { netSendPending = false; SendThrow(LastThrow, deck.Result.StandingAfter); }
 
-                int i = Mathf.Min(laneRecord.Count - 1, Mathf.FloorToInt(playT * 60));
+                float laneT = playT - launchLead;   // the lane's own clock starts once the ball has left the hand and reached its line
+                int i = Mathf.Min(laneRecord.Count - 1, Mathf.FloorToInt(Mathf.Max(0, laneT) * 60));
                 var s = laneRecord[i];
                 Vector3 p = s.Position;
-                // Blend from the hand to the integrator over the first 0.12 s (the greybox arm does not reach the lane).
-                float blend = Mathf.Clamp01(playT / .12f);
-                ballView.transform.position = Vector3.Lerp(releaseHand, p, blend);
+                if (laneT < 0 && launchLead > 0)
+                {
+                    // the lead-in: along the chord from the hand to the first lane sample, speeding from the hand's pace to the ball's
+                    float u = Mathf.Clamp01(playT / launchLead), a = Mathf.Clamp01(launchV0 * launchLead / Mathf.Max(launchDist, 1e-4f));
+                    ballView.transform.position = releaseHand + launchDir * (launchDist * (a * u + (1 - a) * u * u));
+                }
+                else if (launchLead <= 0)
+                    ballView.transform.position = Vector3.Lerp(releaseHand, p, Mathf.Clamp01(playT / .12f));   // (a drop, or no pace to lead from: the old blend)
+                else ballView.transform.position = p;
                 if (s.Spin.sqrMagnitude > 1e-6f) ballSpin = Quaternion.AngleAxis(s.Spin.magnitude * dt * Mathf.Rad2Deg, s.Spin.normalized) * ballSpin;
                 ballView.transform.rotation = ballSpin;
-                sound?.Rolling(laneRecord, playT, deck.Result);
+                sound?.Rolling(laneRecord, Mathf.Max(0, laneT), deck.Result);
                 if (i >= laneRecord.Count - 1)
                 {
                     if (!deck.Advance(1 << 16)) return;
@@ -980,7 +1013,7 @@ namespace GolfArcade.Bowling
                     // after the ball from the moment it leaves the hand: behind the bowler (the approach shot) the camera turns down the
                     // lane with the ball and eases in; once the ball is well away it cuts to the low chase behind it (it never flies
                     // over the bowler: their head, the follow-through and each venue's ceiling stay clear)
-                    var b = laneRecord[Mathf.Min(laneRecord.Count - 1, Mathf.FloorToInt(playT * 60))].Position;
+                    var b = laneRecord[Mathf.Min(laneRecord.Count - 1, Mathf.FloorToInt(Mathf.Max(0, playT - launchLead) * 60))].Position;
                     if (b.z > 13.5f) { pos = new Vector3(0, .95f, 14.8f); look = new Vector3(0, .12f, BowlingLane.FoulToHeadPin + .4f); return; }
                     if (b.z < ChaseFrom)
                     {

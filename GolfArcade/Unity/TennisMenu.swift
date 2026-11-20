@@ -113,6 +113,12 @@ final class TennisMenu {
     /// Bowling pass the phone: how many bowlers, held while the venue is chosen.
     private var pendingBowlers: Int?
     func passThePhone(_ sport: Sport) { localPlayersSport = sport; openFromPlaza(.localPlayers) }
+    /// Local bowling straight into the game on the lane already picked (the TV's setup screen, MenuSetup).
+    func startBowlingPassThePhone(_ players: Int) {
+        guard !online.service.hasFriendsInLobby else { refuse(HubSession.soloLockMessage); return }
+        localPlayersSport = .golf
+        pendingBowlers = players; begin(MenuLaunch(sport: .bowling, mode: .round), skipMap: true)
+    }
     /// The bowlers' names for one lane: this phone's player first, then the other profiles on the phone, then "Player n".
     func bowlerNames(_ count: Int) -> [String] {
         let me = player?.name ?? "You"

@@ -36,18 +36,78 @@ namespace GolfArcade.Hub.Menu
             PaintDaily();
         }
 
-        // ---- the sports list's entry: DAILY CHALLENGES with a gold NEW tag after the word
-        void DailyEntry(RectTransform r, float y, List<MenuItem> group)
+        // ---- the sports list's entry: DAILY CHALLENGES, in two looks. Not played yet: gold, a TODAY tag and the time left to play it (the
+        // day ends at 12 midnight Eastern). Played: plain, a DONE tag and the time until the next one.
+        MenuItem dailyEntry; Image dailyTagFill; Text dailyTagText; int dailyTick = -1; bool dailyEntryDone;
+        float DailyEntry(RectTransform r, float y, List<MenuItem> group)
         {
-            WordItem(r, "sport-daily", "DAILY CHALLENGES", "Daily challenges", "Daily Hole in One", Left, y, WordSize, () => Go(Daily), group);
-            var item = group[group.Count - 1];
-            if (!(item.view is Word w)) return;
-            float x = w.label.preferredWidth + 34, h = 38;
-            var tag = BrandUi.Box(w.face, "New", x, 6 + (WordSize * 1.1f - h) / 2, 92, h);
-            BrandUi.Slant(tag, "Fill", BrandColors.Gold, 12);
-            var word = BrandUi.Word(tag, "Text", "NEW", BrandUi.ExtraBoldItalic, 24, BrandColors.NavyInk, TextAnchor.MiddleCenter);
-            foreach (var s in word.GetComponents<Shadow>()) s.enabled = false;
-            item.hit.sizeDelta = new Vector2(Mathf.Max(item.hit.sizeDelta.x, x + 92 + 40), item.hit.sizeDelta.y);
+            float h = WordItem(r, "sport-daily", "DAILY CHALLENGES", "Daily challenges", "Ends in 0h 00m 00s", Left, y, PlaySize, () => Go(Daily), group);
+            dailyEntry = group[group.Count - 1];
+            if (!(dailyEntry.view is Word w)) return h;
+            float x = w.label.preferredWidth + 34, th = 38;
+            var tag = BrandUi.Box(w.face, "Tag", x, 6 + (PlaySize * 1.1f - th) / 2, 120, th);
+            dailyTagFill = BrandUi.Slant(tag, "Fill", BrandColors.Gold, 12);
+            dailyTagText = BrandUi.Word(tag, "Text", "TODAY", BrandUi.ExtraBoldItalic, 24, BrandColors.NavyInk, TextAnchor.MiddleCenter);
+            foreach (var sh in dailyTagText.GetComponents<Shadow>()) sh.enabled = false;
+            dailyEntry.hit.sizeDelta = new Vector2(Mathf.Max(dailyEntry.hit.sizeDelta.x, x + 120 + 40), dailyEntry.hit.sizeDelta.y);
+            PaintDailyEntry();
+            return h;
+        }
+
+        // ---- the day's end: 12 midnight US Eastern (EST UTC-5, EDT UTC-4 from the second Sunday of March to the first of November)
+        static bool IsUsDst(System.DateTime utc)
+        {
+            static System.DateTime NthSunday(int year, int month, int n)
+            {
+                var d = new System.DateTime(year, month, 1, 0, 0, 0, System.DateTimeKind.Utc);
+                return d.AddDays(((int)System.DayOfWeek.Sunday - (int)d.DayOfWeek + 7) % 7 + 7 * (n - 1));
+            }
+            var start = NthSunday(utc.Year, 3, 2).AddHours(7);   // 2:00 am EST
+            var end = NthSunday(utc.Year, 11, 1).AddHours(6);    // 2:00 am EDT
+            return utc >= start && utc < end;
+        }
+        static System.TimeSpan UntilEasternMidnight(System.DateTime utcNow)
+        {
+            var et = utcNow.AddHours(IsUsDst(utcNow) ? -4 : -5);
+            return et.Date.AddDays(1) - et;
+        }
+        /// "5h 12m 09s" (under an hour "12m 09s").
+        static string Countdown(System.TimeSpan t)
+        {
+            int s = Mathf.Max(0, (int)t.TotalSeconds);
+            return s >= 3600 ? $"{s / 3600}h {s / 60 % 60:00}m {s % 60:00}s" : $"{s / 60}m {s % 60:00}s";
+        }
+        public static string EasternCountdownNow() => Countdown(UntilEasternMidnight(System.DateTime.UtcNow));
+
+        /// Once a second while a screen that shows the countdown is up.
+        void TickDaily()
+        {
+            if (Screen != Sport && Screen != Daily && Screen != DailyBoard) return;
+            int tick = (int)UntilEasternMidnight(System.DateTime.UtcNow).TotalSeconds;
+            if (tick == dailyTick) return;
+            dailyTick = tick;
+            PaintDailyEntry();
+            PaintDailyCountdown();
+        }
+        void PaintDailyEntry()
+        {
+            if (dailyEntry == null || !(dailyEntry.view is Word w)) return;
+            bool done = daily != null && daily.played;
+            string left = EasternCountdownNow();
+            if (w.sub) { string sub = done ? "Done · next one in " + left : "Ends in " + left; if (w.sub.text != sub) { w.sub.text = sub; FitWord(dailyEntry); } }
+            if (done != dailyEntryDone || w.picked == done)
+            {
+                dailyEntryDone = done;
+                w.picked = !done; w.subRest = done ? SubRest : BrandColors.Gold;
+                dailyTagFill.color = done ? BrandColors.Success : BrandColors.Gold; dailyTagText.text = done ? "DONE" : "TODAY";
+                w.Paint();
+            }
+        }
+        void PaintDailyCountdown()
+        {
+            if (daily == null && dailyCountdown) { dailyCountdown.text = ""; return; }
+            bool played = daily != null && daily.played;
+            if (dailyCountdown) dailyCountdown.text = played ? "Done for today · next challenge in " + EasternCountdownNow() : "Ends in " + EasternCountdownNow() + " · 12 midnight Eastern";
         }
 
         // ---- Daily Challenges: the day's challenges left, today's card right
@@ -58,7 +118,7 @@ namespace GolfArcade.Hub.Menu
             y += WordItem(r, "daily-holeinone", "DAILY HOLE IN ONE", "Daily Hole in One", "3 shots · 125–175 ft · out of 3,000", Left, y, WordSize, PressHoleInOne, group) + 6;
             dailyPlay = group[group.Count - 1];
             y += WordItem(r, "daily-board", "WORLD LEADERBOARD", "World leaderboard", "Today's top scores, worldwide", Left, y, WordSize, () => Go(DailyBoard), group) + 6;
-            dailyCountdown = BrandUi.Word(BrandUi.Box(r, "Countdown", Left + 10, y + 18, 720, 40), "Text", "", BrandUi.MediumItalic, 28, BrandUi.WhiteA(.78f));
+            dailyCountdown = BrandUi.Word(BrandUi.Box(r, "Countdown", Left + 10, y + 18, 760, 40), "Text", "", BrandUi.MediumItalic, 28, BrandColors.Gold);
 
             // today's card, right of the hero (the preview card's place and size): a course still, the rules, your score once played
             const float W = PreviewW, H = PreviewH + 40;
@@ -128,9 +188,14 @@ namespace GolfArcade.Hub.Menu
             bool played = b != null && b.played;
             string standing = b != null && b.Ranked ? $"Top {b.top}% in the world" : null;
             // Daily Challenges
-            SetSub(dailyPlay, played ? $"Played · {b.total.ToString("N0", inv)} pts{(standing != null ? " · Top " + b.top + "%" : "")}" : "3 shots · 125–175 ft · out of 3,000");
-            if (dailyCountdown) dailyCountdown.text = b == null ? "" : played ? $"Next challenge in {b.hours}h {b.minutes:00}m" : $"Today's shots change in {b.hours}h {b.minutes:00}m";
-            if (dailyCardStatus) dailyCardStatus.text = played ? $"YOUR SCORE  {b.total.ToString("N0", inv)} / 3,000" : "PLAY NOW  ·  ONE GO A DAY";
+            SetSub(dailyPlay, played ? $"Done · {b.total.ToString("N0", inv)} pts{(standing != null ? " · Top " + b.top + "%" : "")}" : "3 shots · 125–175 ft · out of 3,000");
+            PaintDailyCountdown(); PaintDailyEntry();
+            // two looks: not played yet, the card is gold ("PLAY NOW", time left); played, it says DONE with your score and the time to the next
+            if (dailyCardStatus)
+            {
+                dailyCardStatus.text = played ? $"DONE  ·  {b.total.ToString("N0", inv)} / 3,000  ·  NEXT IN {EasternCountdownNow()}" : $"PLAY NOW  ·  ENDS IN {EasternCountdownNow()}";
+                dailyCardStatus.color = played ? BrandColors.White : BrandColors.Gold;
+            }
             if (dailyCardKicker) dailyCardKicker.text = b != null && b.day > 0 ? "TODAY'S CHALLENGE  ·  " + DayWords(b.day) : "TODAY'S CHALLENGE";
             // the board
             if (!boardScoreBox) return;

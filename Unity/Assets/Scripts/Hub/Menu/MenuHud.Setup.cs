@@ -9,8 +9,8 @@ namespace GolfArcade.Hub.Menu
 {
     /// The TV menu's mode previews and match setup (Adnan 10-26: "after clicking a sport, show previews of game modes, maps, etc.
     /// instead of just the character in the lobby; map selection on the external display, not the phone"). The modes screen plays a
-    /// gameplay clip of the hovered mode on the right; Exhibition, Training and Golf Round set up on the TV (court / course strip,
-    /// option rows, START); Local golf asks how many players first. The phone keeps the options and starts the match (MenuSetup.swift):
+    /// gameplay clip of the hovered mode on the right; Exhibition, Training, Golf Round and Bowling set up on the TV (court / course / lane strip,
+    /// option rows, START); Local golf and bowling ask how many players first. The phone keeps the options and starts the match (MenuSetup.swift):
     /// the TV sends menuSetup (mode), menuSet (key|value) and menuSetupStart, the phone answers with menuSetupState (the JSON below).
     public sealed partial class MenuHud
     {
@@ -52,9 +52,9 @@ namespace GolfArcade.Hub.Menu
         void OpenMode(string id, string title)
         {
             if (!Leader) return;
-            setupSport = id.Contains("golf") ? "golf" : "tennis";
-            if (id == "bay-golf-pass") { setupMode = id; ResetSetup(); Go(Players); return; }
-            if (id == "bay-tennis-exhibition" || id == "bay-tennis-training" || id == "bay-golf-round")
+            setupSport = id.Contains("golf") ? "golf" : id.Contains("bowling") ? "bowling" : "tennis";
+            if (id == "bay-golf-pass" || id == "bay-bowling-pass") { setupMode = id; ResetSetup(); Go(Players); return; }
+            if (id == "bay-tennis-exhibition" || id == "bay-tennis-training" || id == "bay-golf-round" || id == "bay-bowling-play" || id == "bay-bowling-exhibition")
             {
                 setupMode = id; ResetSetup(); Send("menuSetup", id); Go(Setup); return;
             }
@@ -135,13 +135,16 @@ namespace GolfArcade.Hub.Menu
                 previewChips.Set(new[] { "HOLE IN ONE", "3 SHOTS", "WORLD RANKING" }); PlaceCaption(true);
                 return;
             }
-            if (previewRoot && sport == "tutorial")
+            if (previewRoot && (sport == "tutorial" || sport == "training"))
             {
                 // TUTORIAL: the three lessons, golf first
                 Clip("golf", "cliffside");
-                previewTitle.text = "Tutorial"; previewLine.text = "Three short lessons: golf, then tennis, then bowling. Finish them to unlock every game.";
+                bool training = sport == "training";
+                previewTitle.text = training ? "Training" : "Tutorial";
+                previewLine.text = training ? "Start with three short lessons, then rally with the coach until your swing is ready."
+                                            : "Three short lessons: golf, then tennis, then bowling. Finish them to unlock every game.";
                 previewTagBox.gameObject.SetActive(true); previewTag.text = "START HERE"; previewTagFill.color = BrandColors.Gold; previewTag.color = BrandColors.NavyInk;
-                previewChips.Set(new[] { "GOLF", "TENNIS", "BOWLING" }); PlaceCaption(true);
+                previewChips.Set(training ? new[] { "TUTORIAL", "COACH" } : new[] { "GOLF", "TENNIS", "BOWLING" }); PlaceCaption(true);
                 return;
             }
             if (previewTag) { previewTagFill.color = BrandColors.Royal; previewTag.color = BrandColors.White; }
@@ -154,7 +157,8 @@ namespace GolfArcade.Hub.Menu
         void HoverPreview(MenuItem it)
         {
             if (it == null || previewRoot == null || !previewRoot.gameObject.activeInHierarchy) return;
-            if (Screen == Sport && it.id.StartsWith("sport-")) PreviewSport(it.id.Substring(6));
+            if ((Screen == Sport || Screen == Training) && it.id.StartsWith("sport-")) PreviewSport(it.id.Substring(6));
+            else if (Screen == Training && it.id == "bay-tennis-training") PreviewFor("tennis", it.id);
             else if ((Screen == TennisModes || Screen == GolfModes || Screen == BowlingModes) && ModeInfo.ContainsKey(it.id))
                 PreviewFor(Screen == GolfModes ? "golf" : Screen == BowlingModes ? "bowling" : "tennis", it.id);
             else if (Screen == Setup && it.id.StartsWith("map-") && setup != null) ShowMap(it.id.Substring(4));
@@ -409,7 +413,7 @@ namespace GolfArcade.Hub.Menu
             Heading(r, "Local play", 760);
             // the tip as a quiet line (mock .note): a gold rule, two lines of words
             BrandUi.Layer(BrandUi.Box(r, "Rule", Left, ListTop + 4, 5, 84), "Gold", BrandColors.Gold);
-            BrandUi.Label(BrandUi.Box(r, "Note", Left + 26, ListTop, 600, 92), "Text", "Swing, then hand the phone on. The TV says whose turn it is.", BrandUi.Medium, 30,
+            BrandUi.Label(BrandUi.Box(r, "Note", Left + 26, ListTop, 600, 92), "Text", "Take your turn, then hand the phone on. The TV says whose turn it is.", BrandUi.Medium, 30,
                 new Color(.902f, .925f, .973f), TextAnchor.UpperLeft);
             const float W = 204, H = 296, Gap = 24;
             float x0 = RightEdge - 3 * W - 2 * Gap - 6;
@@ -439,10 +443,12 @@ namespace GolfArcade.Hub.Menu
         void PickPlayers(int players)
         {
             if (!Leader) return;
-            setupSport = "golf"; setupMode = "bay-golf-pass";
+            // (the players screen is golf's or bowling's: whichever local play was opened)
+            if (setupMode != "bay-bowling-pass") setupMode = "bay-golf-pass";
+            setupSport = setupMode == "bay-bowling-pass" ? "bowling" : "golf";
             ResetSetup();
             Send("menuSet", "players|" + players);
-            Send("menuSetup", "bay-golf-pass");
+            Send("menuSetup", setupMode);
             Go(Setup);
         }
     }

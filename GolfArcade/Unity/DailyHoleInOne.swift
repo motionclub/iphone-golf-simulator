@@ -4,7 +4,7 @@ import Observation
 
 // DAILY HOLE IN ONE (Adnan 2026-11-15): a daily challenge under PLAY → Daily Challenges. Three shots a day, each from a spot
 // 125–175 ft from the pin on one of the golf holes, with the pin moved on the green. Every player in the world gets the same three
-// shots that day (the UTC date is the seed: Unity's DailyHoleInOne builds them from it). A holed shot scores 1000; any other shot at
+// shots that day (the Eastern date is the seed: Unity's DailyHoleInOne builds them from it). A holed shot scores 1000; any other shot at
 // most 800, less the farther it stops from the cup (Unity scores it). The day's total, out of 3000, goes to a Game Center
 // leaderboard that starts over every day; its rank and player count say how you did against the world.
 
@@ -50,7 +50,7 @@ struct HoleInOneStanding: Equatable, Sendable {
 @MainActor @Observable
 final class DailyHoleInOne {
     static let shared = DailyHoleInOne()
-    /// The App Store Connect leaderboard: recurring, every day from 00:00 UTC, integer score, high to low (work/daily-hole-in-one/README.md).
+    /// The App Store Connect leaderboard: recurring, every day from 12 midnight Eastern, integer score, high to low (work/daily-hole-in-one/README.md).
     nonisolated static let leaderboardID = "motionsports.daily.holeinone"
     nonisolated static let shotCount = 3, maxShot = 1000, maxMissShot = 800
     nonisolated static var maxTotal: Int { shotCount * maxShot }
@@ -83,20 +83,22 @@ final class DailyHoleInOne {
 
     // MARK: the day
 
-    /// Today's challenge, yyyymmdd in UTC: one day for the whole world, the same as the leaderboard's.
+    /// Today's challenge, yyyymmdd in US Eastern time: one day for the whole world, changing at 12 midnight Eastern (11-19; it was 00:00 UTC).
+    /// The Game Center recurring leaderboard must start over at the same moment (App Store Connect: 12:00 AM Eastern).
     var today: Int { Self.day(of: now()) }
     nonisolated static func day(of date: Date) -> Int {
-        var utc = Calendar(identifier: .gregorian); utc.timeZone = TimeZone(identifier: "UTC")!
-        let c = utc.dateComponents([.year, .month, .day], from: date)
+        let c = eastern.dateComponents([.year, .month, .day], from: date)
         return (c.year ?? 2026) * 10000 + (c.month ?? 1) * 100 + (c.day ?? 1)
     }
     var todayResult: HoleInOneResult? { results[today] }
     var playedToday: Bool { todayResult != nil }
-    /// Time left until the next challenge (the next 00:00 UTC).
+    /// Time left until the next challenge (the next 12 midnight Eastern).
     var untilNext: TimeInterval {
-        var utc = Calendar(identifier: .gregorian); utc.timeZone = TimeZone(identifier: "UTC")!
-        let start = utc.startOfDay(for: now())
-        return (utc.date(byAdding: .day, value: 1, to: start) ?? start).timeIntervalSince(now())
+        let start = Self.eastern.startOfDay(for: now())
+        return (Self.eastern.date(byAdding: .day, value: 1, to: start) ?? start).timeIntervalSince(now())
+    }
+    nonisolated static var eastern: Calendar {
+        var c = Calendar(identifier: .gregorian); c.timeZone = TimeZone(identifier: "America/New_York")!; return c
     }
 
     // MARK: scoring (the same curve as Unity's DailyHoleInOne.Score, for the phone's words and the tests)
@@ -208,7 +210,7 @@ protocol HoleInOneLeaderboard: Sendable {
     func load(size: Int) async throws -> HoleInOnePage
 }
 
-/// Game Center's recurring leaderboard (today's occurrence: Game Center starts it over at 00:00 UTC).
+/// Game Center's recurring leaderboard (today's occurrence: Game Center starts it over at 12 midnight Eastern, set in App Store Connect).
 struct GameCenterHoleInOneLeaderboard: HoleInOneLeaderboard {
     func submit(_ score: Int, day: Int) async throws {
         guard GKLocalPlayer.local.isAuthenticated else { throw HoleInOneLeaderboardError.signedOut }

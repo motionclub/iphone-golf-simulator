@@ -93,7 +93,7 @@ final class HubPartyTests: XCTestCase {
         XCTAssertEqual(Set(a.lobby?.participants.filter { $0.seat >= 0 }.map(\.id) ?? []), ["a", "b"], "everyone connected is in")
         XCTAssertEqual(a.lobby?.phase, .lobby, "opening the party's game never starts it")
         ha.configureParty(venue: "volcano", sets: 3, games: 6)
-        XCTAssertEqual(b.lobby?.venue, "volcano"); XCTAssertEqual(b.lobby?.sets, 3); XCTAssertEqual(b.lobby?.games, 6)
+        XCTAssertEqual(b.lobby?.venue, "volcano"); XCTAssertEqual(b.lobby?.sets, 1, "an online game is always one set"); XCTAssertEqual(b.lobby?.games, 6)
         hb.forcePartyStart(); XCTAssertEqual(a.lobby?.phase, .lobby, "a guest cannot start"); XCTAssertFalse(b.partyReadyCheck)
         ha.forcePartyStart()
         XCTAssertEqual(a.lobby?.phase, .lobby, "Start asks everyone to get ready; it never starts by itself")

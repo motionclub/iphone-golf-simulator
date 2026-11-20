@@ -106,7 +106,7 @@ namespace GolfArcade.EditorTools
                 EditorUtility.audioMasterMute = false; AudioListener.volume = 1; AudioListener.pause = false;
                 tap = listener.gameObject.AddComponent<WavTap>();
             }
-            else Time.captureFramerate = 30;
+            else Time.captureFramerate = int.TryParse(Environment.GetEnvironmentVariable("BOWL_FILM_FPS"), out int fps) ? fps : 30;
             // BOWL_FILM_CPU=1: exhibition, you against the computer (Steady Sam bowls his own balls)
             bool cpu = Environment.GetEnvironmentVariable("BOWL_FILM_CPU") == "1";
             game.CpuSkill.Clear(); if (cpu) { game.CpuSkill.Add(-1); game.CpuSkill.Add(.5f); }
@@ -214,6 +214,8 @@ namespace GolfArcade.EditorTools
                 new BowlingGame.Shot(4, 7.2f, 200, -30, .05f),    // outside board with a backup → gutter
                 new BowlingGame.Shot(20, 7.0f, 150, 0, -.35f),    // slips out on the backswing
             };
+            if (int.TryParse(Environment.GetEnvironmentVariable("BOWL_FILM_SAME"), out int same))   // every delivery = shots[same], so the heroes are comparable
+                for (int i = 0; i < shots.Length; i++) shots[i] = shots[same];
             int limit = int.TryParse(Environment.GetEnvironmentVariable("BOWL_FILM_SHOTS"), out int l) ? l : shots.Length;   // a quick look: the first n shots
             var humanShots = new System.Collections.Generic.Queue<BowlingGame.Shot>();
             for (int i = 0; i < Mathf.Min(limit, shots.Length); i++) { if (cpu) humanShots.Enqueue(shots[i]); else game.Autoplay.Enqueue(shots[i]); }
@@ -235,18 +237,25 @@ namespace GolfArcade.EditorTools
                 csv.Append(string.Join(",", balls++, game.Players[game.Current], th.Grade, F(th.Board), F(th.Speed * 2.237f), F(th.RevRpm), F(th.AxisDeg),
                     F(th.LaunchDeg), F(th.LoftHeight), act.Knocked, BowlingLeave.Numbers(act.StandingAfter), F(act.SettleTime))).Append('\n');
             };
+            bool noFrames = Environment.GetEnvironmentVariable("BOWL_FILM_NOFRAMES") == "1";
+            var bones = new StringBuilder("frame,player,t,hipsX,hipsY,hipsZ,headX,headY,headZ,rhX,rhY,rhZ,lhX,lhY,lhZ,rfX,rfY,rfZ,lfX,lfY,lfZ,reX,reY,reZ,ballX,ballY,ballZ,flow\n");
+            BowlingHero hipsOf = null; Transform hips = null; Vector3 camFocus = Vector3.zero;
             int frame = 0; float idle = 0, start = Time.time; var lastLogged = BowlingGame.Phase.Setup;
             float filmLimit = float.TryParse(Environment.GetEnvironmentVariable("BOWL_FILM_SECONDS"), NumberStyles.Float, Inv, out float fl) ? fl : 120;
             while (Time.time - start < filmLimit)   // (game time: 30 fps captures, real time when recording audio)
             {
-                if (!audio) GameCapture.Save(Path.Combine(output, "frames", $"f_{frame:00000}.jpg"), 1280, 720);
+                if (!audio && !noFrames) GameCapture.Save(Path.Combine(output, "frames", $"f_{frame:00000}.jpg"), 1280, 720);
                 var heroes = (System.Collections.Generic.List<BowlingHero>)heroesField.GetValue(game);
                 var bowler = heroes.Count > game.Current ? heroes[game.Current] : null;
-                if (bowlerCam && !audio && bowler)
+                if (bowlerCam && !audio && !noFrames && bowler)
                 {
                     var cam = Camera.main; var (was, wasRot) = (cam.transform.position, cam.transform.rotation);
                     var hp = bowler.Position;
-                    var pos = hp + new Vector3(1.9f, 1.25f, 2.3f); var at = hp + Vector3.up * .85f;
+                    if (hipsOf != bowler) { hipsOf = bowler; hips = null; foreach (var t in bowler.GetComponentsInChildren<Transform>(true)) if (t.name.EndsWith("Hips", StringComparison.OrdinalIgnoreCase) || t.name.EndsWith("Pelvis", StringComparison.OrdinalIgnoreCase)) { hips = t; break; } camFocus = hp; }
+                    // side-on view from the ball-arm side that follows the hips down the approach (the root stays behind during the slide)
+                    var tgt = hips ? hips.position : hp + Vector3.up * .9f;
+                    camFocus = Vector3.Lerp(camFocus, tgt, .35f);
+                    var pos = new Vector3(camFocus.x + 3.1f, 1.05f, camFocus.z + .4f); var at = new Vector3(camFocus.x, .95f, camFocus.z + .1f);
                     // the pins' turn: a close look at the deck (pin action, replay, the sweep) from inside the kickbacks
                     var phase = game.Flow;
                     if (phase == BowlingGame.Phase.Pins || phase == BowlingGame.Phase.Replay || phase == BowlingGame.Phase.Sweep || (phase == BowlingGame.Phase.Result && !bowler.ClipPlaying))
@@ -261,6 +270,12 @@ namespace GolfArcade.EditorTools
                 }
                 timeline.Append(string.Join(",", frame, F(Time.time - start), game.Flow, game.Current, game.IsCpu(game.Current) ? 1 : 0, F((float)approachField.GetValue(game)),
                     F(bowler && bowler.Anim ? bowler.Anim.ActionRate : 1), F(bowler ? bowler.ClipTime : 0), bowler && bowler.Anim ? bowler.Anim.Playing : "", swing?.Kind ?? "", F(game.Board), humanShots.Count, F(idle))).Append('\n');
+                if (bowler && bowler.Look)
+                {
+                    string P(HumanBodyBones b) { var t = bowler.Look.Bone(b); var v = t ? t.position : Vector3.zero; return v.x.ToString("0.0000", Inv) + "," + v.y.ToString("0.0000", Inv) + "," + v.z.ToString("0.0000", Inv); }
+                    var bp = game.BallView ? game.BallView.transform.position : Vector3.zero;
+                    bones.Append(string.Join(",", frame, game.Current, (Time.time - start).ToString("0.0000", Inv), P(HumanBodyBones.Hips), P(HumanBodyBones.Head), P(HumanBodyBones.RightHand), P(HumanBodyBones.LeftHand), P(HumanBodyBones.RightFoot), P(HumanBodyBones.LeftFoot), P(HumanBodyBones.RightLowerArm), bp.x.ToString("0.0000", Inv) + "," + bp.y.ToString("0.0000", Inv) + "," + bp.z.ToString("0.0000", Inv), game.Flow)).Append('\n');
+                }
                 frame++;
                 // the heroes' renderers at each turn (skin problems: what changes between a clean turn and a bad one)
                 if (game.Flow == BowlingGame.Phase.Hold && lastLogged != BowlingGame.Phase.Hold)
@@ -319,6 +334,7 @@ namespace GolfArcade.EditorTools
             if (tap) tap.Save(Path.Combine(output, "audio.wav"));
             File.WriteAllText(Path.Combine(output, "balls.csv"), csv.ToString());
             File.WriteAllText(Path.Combine(output, "timeline.csv"), timeline.ToString());
+            File.WriteAllText(Path.Combine(output, "bones.csv"), bones.ToString());
             var sb = new StringBuilder();
             for (int p = 0; p < game.Players.Count; p++)
             {

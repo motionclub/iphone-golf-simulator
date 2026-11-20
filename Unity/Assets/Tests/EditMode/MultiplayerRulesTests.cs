@@ -323,5 +323,34 @@ namespace GolfArcade.Tests {
             Assert.False(c.Valid);c.participants[0].loadout.emotes=new[]{"wave","scuba","pushups"};Assert.True(c.Valid);
         }
 
+        static void EndRound(NetworkGolfRound m)=>typeof(NetworkGolfRound).GetMethod("EndRound",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance).Invoke(m,null);
+        [Test] public void GolfTieForTheLowestCardIsAOneShotClosestToTheHolePlayoff() {
+            var m=new NetworkGolfRound(new[]{0,1,2},20);
+            m.State.golfers[0].total=m.State.golfers[1].total=30;m.State.golfers[2].total=35;
+            EndRound(m);
+            Assert.True(m.State.playoff);Assert.False(m.State.complete);Assert.AreEqual(1,m.State.playoffRound);
+            Assert.AreEqual(new[]{0,1},m.State.golfers.Where(g=>!g.holed).Select(g=>g.seat).ToArray(),"only the tied golfers play it");
+            var a=m.State.golfers[0];var b=m.State.golfers[1];
+            Assert.AreEqual(a.x,b.x);Assert.AreEqual(a.d,b.d,"one drop for both");
+            Assert.AreEqual(0,m.State.turn);
+            Assert.True(m.Input(0,Golf(m,1),m.State.time));FinishFlight(m);
+            Assert.False(m.State.complete,"one hit each");Assert.AreEqual(1,m.State.turn);Assert.AreEqual(1,m.State.playoffRound);
+            Assert.True(m.Input(1,Golf(m,2),m.State.time));FinishFlight(m);
+            if(m.State.complete) {Assert.That(m.State.winner,Is.AnyOf(0,1));Assert.AreEqual(a.pd<b.pd?0:1,m.State.winner);}
+            else Assert.AreEqual(2,m.State.playoffRound,"level shots drop again");
+            Assert.AreEqual(30,a.total,"the card is never touched");
+        }
+        [Test] public void GolfLowestCardWinsWithoutAPlayoff() {
+            var m=new NetworkGolfRound(new[]{0,1},20);
+            m.State.golfers[0].total=31;m.State.golfers[1].total=30;
+            EndRound(m);
+            Assert.False(m.State.playoff);Assert.True(m.State.complete);Assert.AreEqual(1,m.State.winner);
+        }
+        [Test] public void GolfTieStaysADrawWhenThePlayoffIsOff() {
+            var m=new NetworkGolfRound(new[]{0,1},20){PlayoffOnTie=false};
+            m.State.golfers[0].total=m.State.golfers[1].total=30;
+            EndRound(m);
+            Assert.False(m.State.playoff);Assert.True(m.State.complete);Assert.AreEqual(-1,m.State.winner);
+        }
     }
 }

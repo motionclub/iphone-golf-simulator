@@ -1,0 +1,126 @@
+.victory-controls { margin-bottom: 12px; }
+.capture .victory-controls, .victory-controls[hidden] { display: none; }
+
+/* Score Strip */
+.tv[data-victory="score-strip"] .victory-badge {
+  bottom: 5.35cqw;
+  left: 4.6cqw;
+  min-width: 38cqw;
+  display: flex;
+  align-items: center;
+  padding: .85cqw 1.35cqw .96cqw 1.5cqw;
+  gap: 1.35cqw;
+  border-left: .45cqw solid var(--accent);
+  border-radius: .18cqw .5cqw .5cqw .18cqw;
+  background: linear-gradient(180deg, var(--top), var(--bottom));
+  box-shadow: inset 0 .1cqw color-mix(in srgb, var(--cream) 24%, transparent),
+    0 .24cqw 0 var(--frame-deep), 0 .48cqw 1.3cqw #080e2580;
+  transform-origin: left bottom;
+}
+.tv[data-victory="score-strip"] .victory-badge h2 { font-size: 4.35cqw; white-space: nowrap; }
+.tv[data-victory="score-strip"] .victory-score {
+  border-left: .1cqw solid color-mix(in srgb, var(--cream) 30%, transparent);
+  margin-left: auto;
+  padding-left: 1.35cqw;
+  font-size: 1.6cqw;
+}
+.tv[data-victory="score-strip"] .victory-score strong { color: var(--accent); font-size: 3.3cqw; }
+.tv[data-victory="score-strip"][data-venue="tennis-resort"] .victory-badge { min-width: 0; gap: 1.05cqw; }
+.tv[data-victory="score-strip"][data-venue="tennis-resort"] .victory-badge h2 { font-size: 3.7cqw; }
+.tv[data-victory="score-strip"][data-venue="tennis-resort"] .victory-score {
+  display: grid;
+  gap: .12cqw;
+  padding-left: 1.05cqw;
+}
+.tv[data-step="victory"][data-victory="score-strip"] .shade {
+  background: linear-gradient(180deg, transparent 68%, #090f2638);
+}
+
+/* Venue Plaque. The in-game plaque art has an authored type area for each venue. */
+.tv[data-victory="venue-plaque"] {
+  --plate-heading: 4.6cqw;
+  --plate-score: 3.05cqw;
+  --plate-detail: 1.95cqw;
+  --plate-ink: var(--cream);
+  --plate-win: var(--accent);
+  --plate-relief: #07152b;
+}
+.tv[data-victory="venue-plaque"][data-venue="golf-cliffside"] {
+  --plate-box: 40.8% 18.8% 25.9% 25.8%;
+  --plate-ink: var(--ink);
+  --plate-win: color-mix(in srgb, var(--ink) 55%, var(--accent-deep));
+  --plate-relief: #fff4df;
+}
+.tv[data-victory="venue-plaque"][data-venue="tennis-resort"] {
+  --plate-box: 44.4% 27% 31.2% 26%;
+  --plate-heading: 4.05cqw;
+  --plate-score: 2.55cqw;
+  --plate-detail: 1.8cqw;
+}
+.tv[data-victory="venue-plaque"][data-venue="bowling-club"] {
+  --plate-box: 46% 19.7% 22% 23.2%;
+}
+.tv[data-victory="venue-plaque"] .victory-badge {
+  width: 46.5cqw;
+  top: 15.1cqw;
+  right: 4.9cqw;
+  text-align: center;
+}
+.tv[data-victory="venue-plaque"] .victory-badge > img {
+  display: block; width: 100%; height: auto;
+  filter: drop-shadow(0 .75cqw .9cqw #05091661);
+}
+.victory-nameplate {
+  position: absolute;
+  inset: var(--plate-box);
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: .28cqw;
+  color: var(--plate-ink);
+  text-shadow: 0 .12cqw 0 var(--plate-relief);
+}
+.victory-nameplate h2 { font-size: var(--plate-heading); line-height: .87; white-space: nowrap; }
+.victory-nameplate h2 span {
+  color: var(--plate-win);
+  font-size: .88em;
+  text-transform: uppercase;
+}
+.victory-nameplate .victory-score { font-size: var(--plate-detail); gap: .62cqw; }
+.victory-nameplate .victory-score strong {
+  font-size: var(--plate-score);
+  line-height: .9;
+}
+.tv[data-step="victory"][data-victory="venue-plaque"] .shade {
+  background: radial-gradient(ellipse at 74% 53%, #0e18293b, transparent 66%);
+}
+
+/* Victory Type */
+.tv[data-victory="victory-type"] .victory-badge {
+  inset: 14.7cqw 5.2cqw auto;
+  display: grid;
+  justify-items: center;
+  gap: 1.25cqw;
+  text-align: center;
+  transform-origin: center top;
+}
+.tv[data-victory="victory-type"] .victory-badge h2 {
+  font-size: 10.1cqw;
+  line-height: .9;
+  text-transform: uppercase;
+  -webkit-text-stroke: .33cqw var(--bottom);
+  paint-order: stroke fill;
+  text-shadow: 0 .48cqw 0 var(--bottom);
+}
+.tv[data-victory="victory-type"] .victory-badge h2 span { color: var(--accent); }
+.tv[data-victory="victory-type"] .victory-score {
+  gap: .7cqw;
+  padding-top: .72cqw;
+  border-top: .22cqw solid var(--accent);
+  font-size: 2cqw;
+  text-shadow: 0 .1cqw .35cqw #070a17, 0 0 .46cqw #070a17;
+}
+.tv[data-victory="victory-type"] .victory-score strong { font-size: 3.1cqw; }
+.tv[data-step="victory"][data-victory="victory-type"] .shade {
+  background: radial-gradient(ellipse 55% 39% at 50% 42%, #09132b9c, transparent);
+}

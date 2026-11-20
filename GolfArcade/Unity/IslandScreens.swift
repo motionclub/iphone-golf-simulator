@@ -696,13 +696,17 @@ struct IslandOnlineScreen: View {
                     let round = MultiplayerLobby.golfRoundParts(lobby.venue)
                     choices(lobby.sport == .tennis ? "Court" : "Course",values:lobby.sport == .tennis ? ["resort","skyscraper","volcano"] : GolfCourseChoice.allCases.map(\.rawValue),selected:lobby.sport == .tennis ? lobby.venue : round.course,prefix:"net-venue-")
                     if lobby.sport == .tennis {
-                        choices("Sets",values:["1","2","3"],selected:String(lobby.sets),prefix:"net-sets-")
+                        if service.playsOnlineRules { Text("Online: 1 set").islandType(compact ? 15 : 19) }   // (the same rules for everyone online)
+                        else { choices("Sets",values:["1","2","3"],selected:String(lobby.sets),prefix:"net-sets-") }
                         choices("Games",values:["1","3","6"],selected:String(lobby.games),prefix:"net-games-")
                     } else {
-                        // the round's length: the course's own holes, 9 or 18, on into the next courses or round it again
-                        choices("Holes",values:SportsSession.golfRoundLengths.map(String.init),selected:String(max(0,round.holes)),prefix:"net-holes-",
-                                titles:SportsSession.golfRoundLengths.map { $0 > 0 ? "\($0)" : "\(GolfCourseChoice(rawValue:round.course)?.pars.count ?? 5)" })
-                        choices("Link courses",values:["on","off"],selected:(round.holes > 0 ? round.link : SportsSession.shared.golfLinkCourses) ? "on" : "off",prefix:"net-link-")
+                        if service.playsOnlineRules { Text("Online: \(MultiplayerService.onlineGolfHoles) holes · a tie is one shot, closest to the hole wins").islandType(compact ? 15 : 19) }
+                        else {
+                            // the round's length: the course's own holes, 9 or 18, on into the next courses or round it again
+                            choices("Holes",values:SportsSession.golfRoundLengths.map(String.init),selected:String(max(0,round.holes)),prefix:"net-holes-",
+                                    titles:SportsSession.golfRoundLengths.map { $0 > 0 ? "\($0)" : "\(GolfCourseChoice(rawValue:round.course)?.pars.count ?? 5)" })
+                            choices("Link courses",values:["on","off"],selected:(round.holes > 0 ? round.link : SportsSession.shared.golfLinkCourses) ? "on" : "off",prefix:"net-link-")
+                        }
                     }
                     action("net-settings-seats","Player Seats",icon:"person.2.fill")
                 }

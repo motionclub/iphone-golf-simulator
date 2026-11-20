@@ -43,6 +43,15 @@ namespace GolfArcade.Tennis
         /// Serve ritual times in the Serve clip (seconds): stance with the ball held, toss arm up at the release, trophy. Written by the
         /// prefab builder from the clip's own keys (match heroes); the old Serve clip's values are the defaults.
         public float serveStanceTime = .6f, serveReleaseTime = 1.45f, serveTrophyTime = 1.80f;
+        /// 11-19 (Adnan: "the off arm should stay straight launching the ball, it bends super weird multiple times"): from the wind-up
+        /// to the swing the tossing arm is the clip's own (a straight arm swinging up); the routine's straight-line ball path no longer
+        /// drags the hand off that arc with the toss IK (it folded the elbow ~100 deg twice). The ball rides the palm until released
+        /// (HeroTossHold). Set on the male match heroes, whose serve was rebuilt (work/serve-ref-1118); the bounce ritual keeps the IK.
+        public bool tossFollowsClip;
+        public bool TossFollowsClip => tossFollowsClip;
+        /// 11-19: the overhead clip's trophy (racket up, other arm at the ball; work/serve-ref-1118 spike.py LIFT 19 = 0.30 s);
+        /// a coming smash is prepared up to here.
+        public float overheadTrophyTime = .30f;
         [Tooltip("Planted-foot speed (m/s) of the run clips at 1x, measured from the baked clips (feet_report.json).")] public float runClipSpeed = 5.8f;
         [Tooltip("Planted-foot speed of Hero_Walk_v5 at 1x (2 x 0.26 m stride over 0.54 s stance).")] public float walkClipSpeed = .96f;
         [Tooltip("Match heroes: the forward run played backwards (backing away from the net) reads pivot - phase, so that its stance and swing line up with the sideways runs it is blended with. Written by ServeAndFeetWire from the clips' stance windows.")] public float runReversePivot = .2167f;
@@ -713,7 +722,7 @@ namespace GolfArcade.Tennis
             }
             else if (!chosenEmoteAtServe && (actor.PrepareAmount > .02f || (actor.PrepareServe && !WalkingIn())) && !BetweenPoints() && !(juiceActive && juice == Clip.MissWhiff))
             {
-                var c = actor.PrepareServe ? Clip.Serve : Playable(ClipFor(TennisActor.Stroke.Drive, actor.PrepareBackhand, false)); int i = (int)c;
+                var c = actor.PrepareServe ? Clip.Serve : actor.PrepareOverhead && valid[(int)Clip.Smash] ? Clip.Smash : Playable(ClipFor(TennisActor.Stroke.Drive, actor.PrepareBackhand, false)); int i = (int)c;
                 action = c; actionActive = true; juiceActive = false; followThrough = false;
                 if (c == Clip.Serve)
                 {
@@ -733,6 +742,7 @@ namespace GolfArcade.Tennis
                         actionTime = Mathf.Max((float)actionTime, contact[i] - remaining);
                     }
                 }
+                else if (c == Clip.Smash) actionTime = actor.PrepareAmount * Mathf.Min(overheadTrophyTime, contact[i]);
                 else actionTime = actor.PrepareAmount * Mathf.Max(0, contact[i] - (pathS[i] != null && ContactRetime ? retimeW[i] : lead));   // chat 4: prepared = the take-back fully loaded (racket back, waiting); the swing is the forward swing
                 State = c + " prepare " + actor.PrepareAmount.ToString("0.00");
                 actionVirtual = actionTime;
@@ -1254,6 +1264,7 @@ namespace GolfArcade.Tennis
         void TossArm()
         {
             float want = actor.PrepareServe || (actionActive && action == Clip.Serve && actor.Swinging) ? actor.TossReachWanted : 0;
+            if (tossFollowsClip && actor.PrepareAmount > .001f) want = 0;   // wind-up and toss: the clip's straight arm
             tossWeight = Mathf.MoveTowards(tossWeight, want, Time.deltaTime / .12f);
             if (tossWeight <= .001f) return;
             var a = Anim;

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Motion Sports TV · Results and calibration</title>
+<link rel="stylesheet" href="review.css">
+<link rel="stylesheet" href="variations.css">
+<link rel="stylesheet" href="scorebook-variations.css">
+<link rel="stylesheet" href="postgame.css">
+<link rel="stylesheet" href="victory-variations.css">
+<link rel="stylesheet" href="calibration.css">
+<script src="review.js" defer></script>
+</head>
+<body>
+<main class="review">
+  <header class="review-header">
+    <div>
+      <p class="product">Motion Sports</p>
+      <h1>TV results &amp; calibration</h1>
+    </div>
+    <nav class="switches" aria-label="Preview">
+      <button type="button" data-sport="golf">Golf</button>
+      <button type="button" data-sport="tennis">Tennis</button>
+      <button type="button" data-sport="bowling">Bowling</button>
+      <button type="button" data-sport="calibration">Calibration</button>
+    </nav>
+  </header>
+  <nav class="switches designs" aria-label="Design">
+    <button type="button" data-design="scorebook">Scorebook</button>
+    <button type="button" data-design="box-score" data-final-design>Box Score</button>
+    <button type="button" data-design="open-book" data-final-design>Open Book</button>
+    <button type="button" data-design="score-slip" data-final-design>Score Slip</button>
+    <button type="button" data-design="original" data-earlier-design>Original</button>
+    <button type="button" data-design="broadcast" data-earlier-design>Broadcast</button>
+    <button type="button" data-design="podium" data-earlier-design>Podium</button>
+  </nav>
+  <div class="motion-controls" id="motion-controls">
+    <nav class="switches" aria-label="Post-game motion style">
+      <button type="button" data-motion="snap">Snap In</button>
+      <button type="button" data-motion="turn">Page Turn</button>
+      <button type="button" data-motion="spotlight">Spotlight</button>
+    </nav>
+    <button type="button" class="fullscreen play-sequence" id="play-sequence">Play sequence</button>
+  </div>
+  <nav class="switches victory-controls" id="victory-controls" aria-label="Winner reveal">
+    <button type="button" data-victory="score-strip">Score Strip</button>
+    <button type="button" data-victory="venue-plaque">Venue Plaque</button>
+    <button type="button" data-victory="victory-type">Victory Type</button>
+  </nav>
+  <section class="tv" id="tv" aria-label="TV preview"></section>
+  <footer class="review-footer">
+    <nav class="switches" id="steps" aria-label="Screen"></nav>
+    <div class="switches">
+      <button class="fullscreen" type="button" id="simulate-scan" hidden>Simulate phone scan</button>
+      <button class="fullscreen" type="button" id="fullscreen">Full screen <span aria-hidden="true">⛶</span></button>
+    </div>
+  </footer>
+</main>
+</body>
+</html>

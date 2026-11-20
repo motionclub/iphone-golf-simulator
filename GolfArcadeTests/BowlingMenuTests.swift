@@ -42,6 +42,22 @@ import XCTest
         XCTAssertEqual(menu.bowlerNames(3).count, 3)
     }
 
+    /// Bowling sets up on the TV like tennis and golf (lane strip, options, START), not on the phone's map screen.
+    func testBowlingSetsUpOnTheTVLikeTheOtherGames() throws {
+        let session = SportsSession.shared, saved = (session.bowlingVenue, session.bowlingOpponent)
+        defer { session.bowlingVenue = saved.0; session.bowlingOpponent = saved.1 }
+        for mode in ["bay-bowling-play", "bay-bowling-exhibition", "bay-bowling-pass"] { XCTAssertTrue(MenuSetup.modes.contains(mode), mode) }
+        let play = try XCTUnwrap(MenuSetup.state("bay-bowling-play"))
+        XCTAssertEqual(play.sport, "bowling"); XCTAssertEqual(play.maps.map(\.id), ["club", "neon", "tiki", "magma"]); XCTAssertEqual(play.start, "START GAME")
+        MenuSetup.set("bay-bowling-play", "map|tiki")
+        XCTAssertEqual(session.bowlingVenue, "tiki"); XCTAssertEqual(MenuSetup.state("bay-bowling-play")?.map, "tiki")
+        MenuSetup.set("bay-bowling-play", "map|not-a-lane"); XCTAssertEqual(session.bowlingVenue, "tiki")
+        let exhibition = try XCTUnwrap(MenuSetup.state("bay-bowling-exhibition"))
+        XCTAssertEqual(exhibition.rows.map(\.key), ["opponent"]); XCTAssertEqual(exhibition.rows[0].choices.count, BowlingOpponent.allCases.count)
+        MenuSetup.set("bay-bowling-exhibition", "opponent|3"); XCTAssertEqual(session.bowlingOpponent, .pia)
+        XCTAssertTrue(try XCTUnwrap(MenuSetup.state("bay-bowling-pass")).title.contains("players"))
+    }
+
     func testAFinishedGameIsCountedAndPaid() {
         let stats = BowlingGameStats(line: "score=212;strikes=7;spares=2;opens=1;gutters=0;splits=1;streak=4;players=2;rank=1;venue=neon")
         XCTAssertEqual(stats.score, 212); XCTAssertEqual(stats.strikes, 7); XCTAssertEqual(stats.streak, 4)

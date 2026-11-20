@@ -93,7 +93,7 @@ struct OnbFrame<Content: View>: View {
             OnbActBar(act: act).frame(maxWidth: .infinity).padding(.top, 28)
             HStack(spacing: 8) {
                 Image(systemName: "iphone.gen3").font(.system(size: 14, weight: .bold))
-                Text("ARROWS MOVE  ·  A SELECTS  ·  B GOES BACK").font(Onb.font(12, 800)).tracking(1.2)
+                Text("HOVER OVER AN OPTION  ·  SELECT").font(Onb.font(12, 800)).tracking(1.2)
             }
             .foregroundStyle(Onb.soft.opacity(0.8)).frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             .padding(.trailing, 40).padding(.bottom, 20)

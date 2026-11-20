@@ -45,16 +45,15 @@ namespace GolfArcade.Hub.Menu
             coachBody = BrandUi.Label(BrandUi.Box(coachCard, "Body", CoachPad, 130, CoachW - 2 * CoachPad, 100), "Text", "", BrandUi.Medium, 28, new Color(.863f, .89f, .949f), TextAnchor.UpperLeft);
             foreach (var t in new[] { coachTitle, coachBody }) { t.horizontalOverflow = HorizontalWrapMode.Wrap; t.verticalOverflow = VerticalWrapMode.Overflow; }
             coachFooter = BrandUi.Box(coachCard, "Footer", CoachPad, 240, CoachW - 2 * CoachPad, 56);
-            // NEXT: Ⓐ and the word, a menu item of its own (the only one while a "next" tip is up)
+            // NEXT: the word, a menu item of its own (the only one while a "next" tip is up)
             coachNextBox = BrandUi.Box(coachFooter, "Next", 0, 0, 220, 56);
             var face = BrandUi.Fill(coachNextBox, "Face");
             var slash = BrandUi.Slant(face, "Gold", BrandColors.Gold, 14); slash.raycastTarget = false;
-            BrandUi.FaceButton(face, "A", 14, 10, 36, BrandColors.NavyInk, BrandColors.Gold);
-            coachNextLabel = BrandUi.Word(BrandUi.Box(face, "Label", 62, 0, 150, 56), "Text", "NEXT", BrandUi.ExtraBoldItalic, 30, BrandColors.NavyInk);
+            coachNextLabel = BrandUi.Word(BrandUi.Box(face, "Label", 36, 0, 150, 56), "Text", "NEXT", BrandUi.ExtraBoldItalic, 30, BrandColors.NavyInk);
             foreach (var s in coachNextLabel.GetComponents<Shadow>()) s.enabled = false;
             coachNext = Item(coachNextBox, face, "coach-next", "Next", CoachNextPressed, 0);
             coachNext.glow = k => face.anchoredPosition = new Vector2(Nudge * .6f * k, 0);
-            // "press": how to press the framed button (Ⓐ SELECT on the TV, tap it on the phone)
+            // "press": how to press the framed button (select it on the TV, tap it on the phone)
             coachPress = BrandUi.Word(BrandUi.Box(coachFooter, "Press", 0, 0, CoachW - 2 * CoachPad, 56), "Text", "", BrandUi.SemiBold, 26, BrandColors.Gold);
             coachRoot.gameObject.SetActive(false);
         }
@@ -78,7 +77,7 @@ namespace GolfArcade.Hub.Menu
             coachNextLabel.text = string.IsNullOrEmpty(tip.button) ? "NEXT" : tip.button.ToUpperInvariant();
             coachNextBox.sizeDelta = new Vector2(62 + coachNextLabel.preferredWidth + 34, 56);
             coachPress.gameObject.SetActive(press);
-            coachPress.text = HubWorld.PhoneOnly ? "Tap it to go on" : "Press  Ⓐ SELECT";
+            coachPress.text = HubWorld.PhoneOnly ? "Tap it to go on" : "Hover over it, then select";
             LayoutCoach();
             // a tip that holds nothing (the Locker's) lets go of the button the last tip held: the screen's own first item is lit
             if (!CoachFocus() && hovered != null && hovered.id == lastHeld) { SetHovered(null); FocusAfterShow(); }

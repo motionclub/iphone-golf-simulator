@@ -148,7 +148,7 @@ final class OnboardingFlow {
                          body: "Open the Locker. \(choose).", target: "tab-locker", action: "press")
         case .customize where screen == "locker":
             return Coach(id: "locker", kicker: "", title: "Pick your look",
-                         body: "Choose a slot, then a colour. \(tv ? "Press BACK" : "Tap BACK") when you're done.", action: "hint")
+                         body: "Choose a section, then a colour. \(tv ? "Press BACK" : "Tap BACK") when you're done.", action: "hint")
         case .how where screen == "home":
             switch howPage {
             case 0:

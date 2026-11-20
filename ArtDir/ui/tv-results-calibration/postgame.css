@@ -1,0 +1,145 @@
+.motion-controls {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 8px; margin-bottom: 12px;
+}
+.capture .motion-controls, .motion-controls[hidden] { display: none; }
+.play-sequence { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); min-width: 130px; }
+.stage { position: absolute; inset: 0; }
+.stage.leaving { z-index: 1; pointer-events: none; }
+.stage.leaving .venue img { visibility: hidden; }
+
+.winner-strip {
+  display: flex; align-items: center; gap: .91cqw; margin-top: 1.04cqw; padding: .56cqw .85cqw;
+  background: color-mix(in srgb, var(--accent) 19%, var(--surface)); color: var(--cream);
+  border: 1px solid color-mix(in srgb, var(--accent) 61%, var(--top)); border-radius: .46cqw;
+  box-shadow: 0 .17cqw 0 var(--frame-deep);
+}
+.winner-strip > strong { font-size: 2.53cqw; line-height: 1; font-weight: 800; font-style: italic; }
+.winner-rank {
+  padding: .24cqw .59cqw; border-radius: .22cqw; background: var(--accent); color: var(--accent-ink);
+  font-weight: 800; font-size: 1.56cqw; line-height: 1.06;
+}
+.winner-score {
+  margin-left: auto; display: flex; align-items: baseline; gap: .58cqw;
+  font-size: 1.31cqw; white-space: nowrap;
+}
+.winner-score strong { font-size: 2.35cqw; line-height: 1; font-weight: 800; }
+.tv[data-step="results"] .winner-strip + .results { margin-top: .71cqw; }
+
+.victory-layout { position: absolute; inset: 0; }
+.victory-layout .venue { display: contents; }
+.victory-layout .venue img {
+  inset: 3.65cqw auto auto 4.6cqw; width: 16.5cqw; height: 10cqw;
+  object-position: left top; pointer-events: none;
+}
+.victory-layout .action { position: absolute; bottom: 4.36cqw; right: 5.2cqw; }
+.victory-badge { position: absolute; color: var(--cream); }
+.victory-badge h2 {
+  margin: 0; line-height: .98; font-style: italic; font-weight: 800; letter-spacing: -.025em;
+}
+.victory-score { display: flex; align-items: baseline; gap: .65cqw; line-height: 1; white-space: nowrap; }
+.victory-score strong { font-weight: 800; letter-spacing: -.025em; }
+
+.stage.entering :is(.results tbody tr, .receipt > div, .next-card .action) { --item-delay: 0ms; }
+.stage.entering :is(.results tbody tr, .receipt > div, .next-card .action):nth-of-type(2) { --item-delay: 58ms; }
+.stage.entering :is(.results tbody tr, .receipt > div, .next-card .action):nth-of-type(3) { --item-delay: 116ms; }
+.stage.entering :is(.results tbody tr, .receipt > div, .next-card .action):nth-of-type(4) { --item-delay: 174ms; }
+.stage.entering .receipt > div:nth-of-type(5) { --item-delay: 232ms; }
+.stage.entering .level-track span { animation-delay: 470ms; animation-fill-mode: both; }
+.stage.entering .winner-strip { animation: winner-line 360ms ease-out 230ms both; }
+
+/* Snap In. The headline hits first, then standings click into place. */
+.tv[data-motion="snap"] .stage.entering .victory-badge { animation: win-snap 500ms cubic-bezier(.15,.8,.26,1.15) both; }
+.tv[data-motion="snap"] .stage.entering .stack { animation: card-snap 410ms cubic-bezier(.2,.85,.35,1.05) 105ms both; }
+.tv[data-motion="snap"] .stage.entering :is(.results tbody tr, .receipt > div, .next-card .action) {
+  animation: row-snap 300ms cubic-bezier(.2,.75,.3,1) calc(275ms + var(--item-delay)) both;
+}
+.tv[data-motion="snap"] .stage.leaving { animation: snap-out 210ms ease-in both; }
+
+@keyframes win-snap {
+  0% { transform: translateY(-2.1cqw) scale(1.22); opacity: 0; }
+  55% { transform: translateY(.4cqw) scale(.975); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes card-snap {
+  from { transform: translateY(5cqw) scale(.975); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes row-snap {
+  from { transform: translateX(-1.65cqw); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes snap-out {
+  to { transform: translateY(-1.8cqw); opacity: 0; }
+}
+
+/* Page Turn. Each screen pivots on the binding. */
+.tv[data-motion="turn"] .stage.entering .victory-badge {
+  transform-origin: 10% center; animation: page-open 710ms cubic-bezier(.18,.68,.22,1) both;
+}
+.tv[data-motion="turn"] .stage.entering .stack {
+  transform-origin: 7% center; animation: page-open 660ms cubic-bezier(.18,.68,.22,1) 100ms both;
+}
+.tv[data-motion="turn"] .stage.entering :is(.results tbody tr, .receipt > div, .next-card .action) {
+  animation: ink-reveal 300ms ease-out calc(330ms + var(--item-delay)) both;
+}
+.tv[data-motion="turn"] .stage.entering .level-track span { animation-delay: 600ms; }
+.tv[data-motion="turn"] .stage.leaving :is(.stack, .victory-badge) {
+  transform-origin: 7% center; animation: page-close 370ms cubic-bezier(.4,.1,.7,.9) both;
+}
+.tv[data-motion="turn"] .stage.leaving .victory-layout .action { animation: dissolve-out 190ms ease both; }
+
+@keyframes page-open {
+  0% { transform: perspective(85cqw) rotateY(-46deg) translateX(-2cqw); opacity: .03; filter: brightness(.76); }
+  62% { transform: perspective(85cqw) rotateY(3deg); opacity: 1; filter: brightness(1.015); }
+  100% { transform: perspective(85cqw) rotateY(0); opacity: 1; filter: brightness(1); }
+}
+@keyframes page-close {
+  to { transform: perspective(85cqw) rotateY(36deg) translateX(-6cqw); opacity: 0; filter: brightness(.75); }
+}
+@keyframes ink-reveal {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Spotlight. A soft pool of light holds on the winner, then the score settles over the game view. */
+.tv[data-motion="spotlight"][data-step="victory"] .shade {
+  background: radial-gradient(ellipse at 47% 46%, transparent 9%, color-mix(in srgb, var(--accent) 8%, transparent) 30%, color-mix(in srgb, var(--bottom) 80%, transparent) 85%);
+}
+.tv[data-motion="spotlight"] .stage.entering .victory-badge { animation: spotlight-focus 740ms cubic-bezier(.23,.66,.35,1) both; }
+.tv[data-motion="spotlight"] .stage.entering .victory-badge h2 { animation: focus-name 480ms ease-out 160ms both; }
+.tv[data-motion="spotlight"] .stage.entering .victory-score { animation: focus-name 450ms ease-out 325ms both; }
+.tv[data-motion="spotlight"] .stage.entering .stack { animation: spotlight-panel 570ms cubic-bezier(.23,.64,.28,1) 140ms both; }
+.tv[data-motion="spotlight"] .stage.entering :is(.results tbody tr, .receipt > div, .next-card .action) {
+  animation: focus-name 400ms ease-out calc(290ms + var(--item-delay)) both;
+}
+.tv[data-motion="spotlight"] .stage.entering .level-track span { animation-delay: 550ms; }
+.tv[data-motion="spotlight"] .stage.leaving { animation: dissolve-out 385ms ease-out both; }
+
+@keyframes spotlight-focus {
+  from { transform: translateY(.8cqw) scale(.91); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes focus-name {
+  from { transform: translateY(.72cqw); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes spotlight-panel {
+  from { transform: translateY(1.65cqw) scale(.975); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+@keyframes dissolve-out {
+  to { opacity: 0; }
+}
+@keyframes winner-line {
+  from { transform: translateX(-.7cqw); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tv .stage :is(.stack, .victory-badge, .victory-badge *, .results tbody tr, .receipt > div, .next-card .action, .level-track span, .winner-strip),
+  .tv .stage.leaving {
+    animation: none !important;
+  }
+  .tv .stage.leaving { visibility: hidden; }
+}

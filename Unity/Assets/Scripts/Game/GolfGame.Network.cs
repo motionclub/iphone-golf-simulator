@@ -184,6 +184,7 @@ namespace GolfArcade.Game {
             var shot=net.GolfShot!=null&&net.GolfShot.id==state.shotID?net.GolfShot:state.shot!=null&&state.shot.id==state.shotID?state.shot:null;
             if((state.phase=="flight"||state.phase=="result")&&shot!=null) NetworkShotFrame(net,state,shot);
             else NetworkAimFrame(net,state,active);
+            if(state.playoff&&!state.complete&&state.phase=="aim") hud.SetStatus($"Playoff · {NetworkName(state.turn)} · closest to the hole wins");
         }
 
         // ----- The shot -----
@@ -451,20 +452,21 @@ namespace GolfArcade.Game {
             cardShownFor=key;
             EndNetworkShot();if(shotResultPanel)shotResultPanel.gameObject.SetActive(false);holeOutCard?.Hide();aimLine.positionCount=0;
             var golfers=state.golfers.Where(g=>!g.dnf).ToArray();
-            var rows=new RoundCard.Row[golfers.Length];var standing=new List<(string name,int toPar,int played)>();
+            var rows=new RoundCard.Row[golfers.Length];var standing=new List<(string name,int toPar,int played,int seat)>();
             for(int i=0;i<golfers.Length;i++) {
                 var g=golfers[i];var strokes=new int?[course.Holes.Length];int toPar=0,played=0;
                 for(int h=0;h<strokes.Length&&h<g.card.Length;h++) if(g.card[h]>0){strokes[h]=g.card[h];toPar+=g.card[h]-course.Holes[h].Par;played++;}
                 rows[i]=new RoundCard.Row{Name=NetworkName(g.seat),Color=Lobby.PlayerColor(g.seat),Strokes=strokes};
-                standing.Add((NetworkName(g.seat),toPar,played));
+                standing.Add((NetworkName(g.seat),toPar,played,g.seat));
             }
-            standing.Sort((a,b)=>a.toPar.CompareTo(b.toPar));
+            // (a tie for the lowest card is the playoff's: its winner leads)
+            standing=standing.OrderBy(p=>p.toPar).ThenBy(p=>p.seat==state.winner?0:1).ToList();
             var tiles=standing.Select((p,i)=>new RoundCard.Highlight{Icon=i==0?"trophy":"ball",Title=$"{i+1}. {p.name}",Value=Scorecard.FormatToPar(p.toPar)}).ToArray();
             string headline;
             if(more) {
                 var onHole=golfers.Where(g=>state.hole<g.card.Length&&g.card[state.hole]>0).OrderBy(g=>g.card[state.hole]).ToArray();
                 headline=onHole.Length==0?"":onHole.Length>1&&onHole[0].card[state.hole]==onHole[1].card[state.hole]?"Hole halved":$"{NetworkName(onHole[0].seat)} wins the hole";
-            } else headline=standing.Count>1&&standing[0].toPar==standing[1].toPar?"All square":$"{standing[0].name} wins";
+            } else headline=state.playoff&&state.winner>=0?$"{NetworkName(state.winner)} wins the playoff":standing.Count>1&&standing[0].toPar==standing[1].toPar?"All square":$"{standing[0].name} wins";
             var mine=golfers.FirstOrDefault(g=>partyConfiguration.Controls(partyConfiguration.localID,g.seat))??golfers[0];
             var card=new Scorecard(course);for(int h=0;h<mine.card.Length;h++)if(mine.card[h]>0)card.Record(h,mine.card[h]);
             hud.ShowPlayHud(false);

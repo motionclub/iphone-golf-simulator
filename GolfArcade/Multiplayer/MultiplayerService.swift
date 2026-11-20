@@ -481,6 +481,23 @@ final class MultiplayerService {
         quickSport = item.sport == MultiplayerSport.tennis.rawValue ? .tennis : item.sport == MultiplayerSport.bowling.rawValue ? .bowling : nil
         do { try lan.join(item) } catch { leave(); throw error }
     }
+    /// Online games (a quick match, or a friends' party over Game Center or the hub) are played to fixed rules, the same for every
+    /// player: tennis is one set, golf is nine holes (a tie for the lowest card is settled by one random ball drop, one hit each,
+    /// closest to the hole wins: Unity's NetworkGolfRound), bowling is ten frames. Nearby and pass-the-phone games, like solo play,
+    /// keep every setting.
+    static let onlineSets = 1, onlineGolfHoles = 9
+    var playsOnlineRules: Bool { transport != nil && !isNearby }
+    /// Brings the lobby to the online rules (nothing changes for a nearby lobby). Called wherever the lobby is set up or started, so
+    /// the screens show the real rules and a settings change from an older phone cannot start a longer match.
+    private func applyOnlineRules() {
+        guard playsOnlineRules, let l = lobby else { return }
+        if l.sport == .tennis, l.sets != Self.onlineSets { lobby?.sets = Self.onlineSets; lobby?.revision += 1 }
+        if l.sport == .golf {
+            let course = MultiplayerLobby.currentGolfVenue(MultiplayerLobby.golfRoundParts(l.venue).course)
+            let fixed = MultiplayerLobby.golfRound(MultiplayerLobby.golfVenues.contains(course) ? course : "cliffside", holes: Self.onlineGolfHoles, link: true)
+            if fixed != l.venue { lobby?.venue = fixed; lobby?.revision += 1 }
+        }
+    }
     func configure(_ sport: MultiplayerSport, venue: String? = nil, sets: Int = 1, games: Int = 3) throws {
         try requireOwnerIdle()
         // golf: the course, played as long as this host last chose (its own holes, 9 or 18, linked on or round again)
@@ -495,12 +512,14 @@ final class MultiplayerService {
         lobby?.sets = sets; lobby?.games = games
         // golf has no round twists (10-27): said on the wire too, so a phone on an earlier build deals none either
         lobby?.twistsOff = sport == .golf ? true : nil
+        applyOnlineRules()
         publishLobby()
     }
     /// Golf's round length: the course's own holes (0), 9 or 18, and whether a longer round goes on into the next courses or
     /// round the same course again; remembered for the next round like the twists. The seats and who is ready stay as they are.
     func setGolfRound(holes: Int, link: Bool) throws {
         try requireOwnerIdle()
+        guard !playsOnlineRules else { throw MultiplayerError.invalidOperation("Online golf is always \(Self.onlineGolfHoles) holes.") }
         let session = SportsSession.shared
         session.golfHoles = holes; session.golfLinkCourses = link
         guard let l = lobby, l.sport == .golf else { return }
@@ -567,6 +586,7 @@ final class MultiplayerService {
         loadReports.removeAll()
         linkSteadySince.removeAll(); linkHeardAt.removeAll(); linkWaitingSince = nil; linkOverride = false; linkNeedsDecision = false
         assignViews()
+        applyOnlineRules()
         let id = UUID().uuidString
         self.lobby?.matchID = id; self.lobby?.phase = .loading; self.lobby?.readyCheck = nil; emotes.removeAll()
         loadingStarted = now; loadingNeedsDecision = false; winnerSeat = -1; quickSport = nil
@@ -724,6 +744,7 @@ final class MultiplayerService {
         lobby?.sharedScreen = isNearby
         for p in hello.values.sorted(by: { $0.id < $1.id }) { try? lobby?.add(p) }
         if let sport = quickSport { lobby?.configure(sport: sport, venue: sport == .golf ? "cliffside" : sport == .bowling ? SportsSession.shared.bowlingVenue : "resort") }
+        applyOnlineRules()
         publishLobby()
         if quickSport != nil { try? setReady(true) }
     }

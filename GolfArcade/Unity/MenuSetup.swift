@@ -5,9 +5,12 @@ import Foundation
 /// they always lived (TennisMenu, SportsSession) and launches the match the way its own screens did, so nothing else changes.
 @MainActor
 enum MenuSetup {
-    /// Bays that set up on the TV.
-    static let modes: Set<String> = ["bay-tennis-exhibition", "bay-tennis-training", "bay-golf-round", "bay-golf-pass"]
-    /// Local golf's player count, picked on the TV's players screen before its course setup.
+    /// Bays that set up on the TV (tennis, golf and bowling alike: the court / course / lane strip, the options, START).
+    static let modes: Set<String> = ["bay-tennis-exhibition", "bay-tennis-training", "bay-golf-round", "bay-golf-pass",
+                                  "bay-bowling-play", "bay-bowling-exhibition", "bay-bowling-pass"]
+    /// The bowling lanes' badge colours (BowlingVenueChoice.tint: Club.sky / violet / green / coral).
+    static let bowlingTagHex: [BowlingVenueChoice: String] = [.club: "3FA9F5", .neon: "8A4FFF", .tiki: "2FBF71", .magma: "FF6B4A"]
+    /// Local golf's and bowling's player count, picked on the TV's players screen before the course / lane setup.
     static var passPlayers = 2
     static let lengths = ["3 games", "1 set", "Best of 3"]
     /// The court badges' colours (TennisVenueChoice.tint: Club.sky / violet / coral).
@@ -21,6 +24,7 @@ enum MenuSetup {
         let menu = TennisMenu.shared, session = SportsSession.shared
         let tennisMaps = TennisVenueChoice.allCases.map { Map(id: $0.rawValue, title: $0.title, detail: $0.tagline + ".", tag: $0.badge, tagHex: tagHex[$0] ?? "3FA9F5") }
         let golfMaps = GolfCourseChoice.allCases.map { Map(id: $0.rawValue, title: $0.title, detail: $0.detail + " · " + $0.card.lowercased(), tag: $0.theme, tagHex: "3FA9F5") }
+        let bowlingMaps = BowlingVenueChoice.allCases.map { Map(id: $0.rawValue, title: $0.title, detail: $0.tagline + ".", tag: $0.badge, tagHex: bowlingTagHex[$0] ?? "3FA9F5") }
         let levels = TennisMenu.trainingLevels.map(\.name)
         let ownHoles = GolfCourseChoice(rawValue: session.golfCourse)?.pars.count ?? 5   // "This course" said as its own count: it fits the row
         let holes = SportsSession.golfRoundLengths.map { "\($0 == 0 ? ownHoles : $0) holes" }
@@ -39,6 +43,13 @@ enum MenuSetup {
             return State(mode: mode, sport: "golf", title: pass ? "Local play · \(passPlayers) players" : "Golf", line2: "Pick a course", start: "TEE OFF",
                          map: session.golfCourse, maps: golfMaps, rows: [
                 Row(key: "holes", label: "Holes", choices: holes, value: holeIndex)])
+        case "bay-bowling-play":
+            return State(mode: mode, sport: "bowling", title: "Bowling", line2: "Pick a lane", start: "START GAME", map: session.bowlingVenue, maps: bowlingMaps, rows: [])
+        case "bay-bowling-exhibition":
+            return State(mode: mode, sport: "bowling", title: "Exhibition", line2: "Pick a lane", start: "START GAME", map: session.bowlingVenue, maps: bowlingMaps, rows: [
+                Row(key: "opponent", label: "CPU opponent", choices: BowlingOpponent.allCases.map(\.name), value: session.bowlingOpponent.rawValue)])
+        case "bay-bowling-pass":
+            return State(mode: mode, sport: "bowling", title: "Local play · \(passPlayers) players", line2: "Pick a lane", start: "START GAME", map: session.bowlingVenue, maps: bowlingMaps, rows: [])
         default: return nil
         }
     }
@@ -58,8 +69,11 @@ enum MenuSetup {
         switch f[0] {
         case "map":
             if mode.contains("golf") { if GolfCourseChoice(rawValue: f[1]) != nil { session.golfCourse = f[1] } }
+            else if mode.contains("bowling") { if BowlingVenueChoice(rawValue: f[1]) != nil { session.bowlingVenue = f[1] } }
             else if TennisVenueChoice(rawValue: f[1]) != nil { session.tennisVenue = f[1] }
-        case "opponent": menu.quickOpponent = min(max(0, index), TennisCampaign.draw.count - 1)
+        case "opponent":
+            if mode.contains("bowling") { session.bowlingOpponent = BowlingOpponent(rawValue: min(max(0, index), BowlingOpponent.allCases.count - 1)) ?? .sam }
+            else { menu.quickOpponent = min(max(0, index), TennisCampaign.draw.count - 1) }
         case "difficulty": menu.quickDifficulty = min(max(0, index), TennisMenu.trainingLevels.count - 1)
         case "length": menu.quickLength = min(max(0, index), lengths.count - 1)
         case "level":
@@ -87,6 +101,12 @@ enum MenuSetup {
                 menu.openFromPlaza(.main); menu.begin(MenuLaunch(sport: .golf, mode: .round), skipMap: true)
             case "bay-golf-pass":
                 menu.openFromPlaza(.localPlayers); menu.startPassThePhone(passPlayers)
+            case "bay-bowling-play":
+                menu.openFromPlaza(.main); menu.begin(MenuLaunch(sport: .bowling, mode: .round), skipMap: true)
+            case "bay-bowling-exhibition":
+                menu.openFromPlaza(.main); menu.begin(MenuLaunch(sport: .bowling, mode: .exhibition), skipMap: true)
+            case "bay-bowling-pass":
+                menu.openFromPlaza(.localPlayers); menu.startBowlingPassThePhone(passPlayers)
             default: break
             }
         }

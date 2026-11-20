@@ -41,11 +41,21 @@ namespace GolfArcade.Hub.Menu
         }
 
         // ---- the sports list's entry (built first in BuildSport)
-        float TutorialEntry(RectTransform r, float y, List<MenuItem> group)
+        // PLAY → TRAINING (Adnan 11-19: "create a tab called training, and in there include the tutorial", under Bowling): the Tutorial lives in
+        // here, with the tennis coach (the old Tennis → Training). The list's entry, then its screen.
+        float TrainingEntry(RectTransform r, float y, List<MenuItem> group)
         {
-            float h = WordItem(r, "sport-tutorial", "TUTORIAL", "Tutorial", "Replay a lesson", Left, y, WordSize, () => Go(Tutorial), group);
-            tutorialEntry = group[group.Count - 1];
+            float h = WordItem(r, "sport-training", "TRAINING", "Training", "Lessons first, then a coach", Left, y, PlaySize, () => Go(Training), group);
             return h;
+        }
+        void BuildTraining(RectTransform r)
+        {
+            Heading(r, "Training", 720);
+            var group = new List<MenuItem>(); float y = ListTop;
+            y += WordItem(r, "sport-tutorial", "TUTORIAL", "Tutorial", "Replay a lesson", Left, y, WordSize, () => Go(Tutorial), group) + 6;
+            tutorialEntry = group[group.Count - 1];
+            y += WordItem(r, "bay-tennis-training", "TENNIS COACH", "Tennis coach", "Rally with no score, no pressure", Left, y, WordSize, () => OpenMode("bay-tennis-training", "Tennis coach"), group) + 6;
+            BuildPreview(r, "tennis");
         }
 
         // ---- the Tutorial screen: the three lessons left, the next one's picture right
@@ -103,7 +113,8 @@ namespace GolfArcade.Hub.Menu
                     FitWord(it); w.Paint();
                 }
             SetSub(tutorialEntry, "Replay a lesson");
-            if (locked) Primary[Sport] = "sport-tutorial"; else Primary.Remove(Sport);
+            if (locked) Primary[Sport] = "sport-training"; else Primary.Remove(Sport);
+            Primary[Training] = "sport-tutorial";
             Primary[Tutorial] = string.IsNullOrEmpty(LessonState.next) ? "bay-tutorial-golf" : "bay-tutorial-" + LessonState.next;
 
             for (int i = 0; i < lessonRows.Count; i++)
@@ -128,7 +139,7 @@ namespace GolfArcade.Hub.Menu
                 if (tex && tutorialCardPic.texture != tex) { tutorialCardPic.texture = tex; Cover(tutorialCardPic, PreviewW, PreviewH + 40); }
             }
             // a list on screen whose lit entry just locked: light the first one that can be used
-            if ((Screen == Sport || Screen == Tutorial) && hovered != null && !hovered.enabled) FocusAfterShow();
+            if ((Screen == Sport || Screen == Training || Screen == Tutorial) && hovered != null && !hovered.enabled) FocusAfterShow();
         }
         readonly Dictionary<string, string> lockedSubs = new Dictionary<string, string>();
         /// Tests: an item on any screen can be used (not locked).

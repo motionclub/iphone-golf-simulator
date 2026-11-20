@@ -306,6 +306,22 @@ namespace GolfArcade.Tennis
             }
         }
 
+        static void TailoredSportCloth(Material material, bool bowling, bool top)
+        {
+            // Let the baked shoulder, waist and knee folds shade through the woven finish.
+            material.SetFloat("_StyleSmooth", top ? (bowling ? .34f : .29f) : .22f);
+            material.SetFloat("_StyleSpec", top ? (bowling ? .21f : .17f) : .04f);
+            material.SetFloat("_StyleEnv", top ? .09f : .025f);
+            material.SetFloat("_StyleAOFloor", top ? .44f : .49f);
+            material.SetFloat("_StyleRamp", top ? .11f : .08f);
+            material.SetFloat("_StyleSheen", top ? .035f : .012f);
+            material.SetFloat("_StyleFill", top ? .16f : .13f);
+            material.SetFloat("_RimStrength", top ? .075f : .05f);
+            material.SetFloat("_FabricDetail", top ? .82f : .67f);
+            material.SetFloat("_FibreShine", top ? .32f : .17f);
+            material.SetFloat("_Mottle", bowling ? .145f : .12f);
+        }
+
         /// A copy of an authored flat material on `shader`, keeping its colour (a missing shader leaves the flat copy, never a pink one).
         static Material OnShader(Material source, Shader shader, string name)
         {
@@ -477,8 +493,9 @@ namespace GolfArcade.Tennis
                     // FN7 look (Adnan 10-30: "the best I've seen" -> "implement it to all sports"): every shirt of the tennis, golf and bowling
                     // heroes (male + female) gets the smooth glossy finish; the rebuilt polos (male tennis FN7, male golf G1) also get the deeper
                     // fold shadows their maps were baked for. Plus a garment fill + a counter to the warm venue grade (court lighting for clothes).
-                    bool styleKit = System.Environment.GetEnvironmentVariable("STYLE_PILOT") != "0" && tag == "Top";
-                    if (System.Environment.GetEnvironmentVariable("STYLE_PILOT") != "0" && tag == "Bottom")
+                    bool styleEnabled = System.Environment.GetEnvironmentVariable("STYLE_PILOT") != "0";
+                    bool styleKit = styleEnabled && tag == "Top";
+                    if (styleEnabled && tag == "Bottom")
                     {
                         // bottoms keep their own matte finish; they only get the court lighting for clothes (fill + counter to the warm grade)
                         m.SetFloat("_StylePass", 1); m.SetFloat("_StyleSmooth", .35f); m.SetFloat("_StyleSpec", 0); m.SetFloat("_StyleEnv", 0);
@@ -511,6 +528,8 @@ namespace GolfArcade.Tennis
                             cj.material = m;
                         }
                     }
+                    if (styleEnabled && (tag == "Top" || tag == "Bottom") && (golfKit || kitSport == "Bowling"))
+                        TailoredSportCloth(m, kitSport == "Bowling", tag == "Top");
                 }
             }
             else

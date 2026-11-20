@@ -1020,9 +1020,10 @@ MonoBehaviour:
   cosmetics: {fileID: 0}
   matchLook: {fileID: 3427155378975410329}
   isPlayer: 0
-  serveStanceTime: 0.2
-  serveReleaseTime: 0.7
-  serveTrophyTime: 1.3333334
+  serveStanceTime: 0.05
+  serveReleaseTime: 0.485
+  serveTrophyTime: 1.008
+  tossFollowsClip: 1
   closedHairV5: 1
   runClipSpeed: 3.250774
   walkClipSpeed: 1.25

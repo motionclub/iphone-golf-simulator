@@ -231,7 +231,9 @@ final class LoadingModel {
     func skip() { guard localReady, playersReady, !finished, phase != .failed else { return }; pace = .fixed(1); transitionFraction = 1; complete() }
     func cancel() { phase = .cancelled; started = nil; onFinish = nil }
 
-    func tick(now: Date) {
+    /// `holdFinish`: keep the bar and tips running but do not start lifting the cover yet (the return from a game waits for the
+    /// Plaza's reveal, SportsDisplays.beginExitCover). A lift already under way carries on.
+    func tick(now: Date, holdFinish: Bool = false) {
         guard let started, !finished, phase != .failed else { return }
         elapsed = max(0, now.timeIntervalSince(started))
         anchor = PaceAnchor(pace: now.timeIntervalSince1970, media: CACurrentMediaTime())
@@ -241,6 +243,7 @@ final class LoadingModel {
             if next != tipIndex { tipIndex = next; tipStarted = now }
         }
         guard localReady, playersReady, elapsed >= readMinimum, pace.isFull(at: now.timeIntervalSince1970 - Self.fullHold) else { return }
+        if holdFinish && finishStart == nil { return }
         if finishStart == nil { finishStart = now; phase = .transitioning; record("wipeStart", now) }
         transitionFraction = min(1, max(0, now.timeIntervalSince(finishStart!) / Self.finishDuration))
         if transitionFraction >= 1 { record("wipeEnd", now); complete() }

@@ -25,7 +25,7 @@ namespace GolfArcade.Hub.Menu
     public sealed partial class MenuHud : MonoBehaviour
     {
         public const string Home = "home", Sport = "sport", TennisModes = "modes:tennis", GolfModes = "modes:golf", BowlingModes = "modes:bowling", Locker = "locker", Clubhouse = "clubhouse", Loading = "loading",
-            Setup = "setup", Players = "players";
+            Setup = "setup", Players = "players", Training = "training", Feedback = "feedback";
         public const float WipeSeconds = .36f;
         /// Phone-bound events: (type, message) — the session emits them on the bridge.
         public event Action<string, string> Event;
@@ -82,7 +82,8 @@ namespace GolfArcade.Hub.Menu
             BuildScreen(GolfModes, r => BuildModes(r, "golf")); BuildScreen(BowlingModes, r => BuildModes(r, "bowling")); BuildScreen(Locker, BuildLocker); BuildScreen(Clubhouse, BuildClubhouse);
             BuildScreen(Loading, BuildLoading); BuildScreen(Setup, BuildSetup); BuildScreen(Players, BuildPlayers);
             BuildScreen(Daily, BuildDaily); BuildScreen(DailyBoard, BuildDailyBoard);   // PLAY → Daily Challenges (MenuHud.Daily.cs)
-            BuildScreen(Tutorial, BuildTutorial);   // PLAY → Tutorial (MenuHud.Tutorial.cs)
+            BuildScreen(Tutorial, BuildTutorial);   // PLAY → Training → Tutorial (MenuHud.Tutorial.cs)
+            BuildScreen(Training, BuildTraining); BuildScreen(Feedback, BuildFeedback);   // PLAY → Training; the FEEDBACK tab (MenuHud.Feedback.cs)
             BuildPhoneModal(); BuildCoach(); BuildPlates(); BuildCursor(); BuildWipe();   // BuildCoach: first-launch tips (MenuHud.Coach.cs)
             StyleModes();   // the mode cards exist before the first visit (building them on entry was a 27 ms frame)
             PrewarmGlyphs();
@@ -139,9 +140,9 @@ namespace GolfArcade.Hub.Menu
             // the player's name and settings as small skewed chips top right
             var mark = BrandUi.Wordmark(chrome, Left, 12, WordmarkSize);   // 11-13: "make the MotionSports logo bigger" (46 -> 72)
             tabBar = BrandUi.Box(chrome, "Tabs", 0, 0, 1920, 108);
-            string[] names = { "PLAZA", "LOCKER", "CLUBHOUSE" }; string[] go = { Home, Locker, Clubhouse };
+            string[] names = { "PLAZA", "LOCKER", "CLUBHOUSE", "FEEDBACK" }; string[] go = { Home, Locker, Clubhouse, Feedback };
             float x = Left + mark.preferredWidth + 50; tabsFrom = x;
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < names.Length; i++)
             {
                 var box = BrandUi.Box(tabBar, names[i], x, 26, 10, 64);
                 var face = BrandUi.Fill(box, "Face");
@@ -164,17 +165,15 @@ namespace GolfArcade.Hub.Menu
             nameChipText = BrandUi.Word(BrandUi.Box(nameChip, "Name", 22, 0, 10, 50), "Text", "", BrandUi.SemiBold, 24, BrandColors.White);
             SetChipName(localName);
 
-            // the hint (mock .hint) in place of the BACK pill: Ⓐ SELECT  Ⓑ BACK; the B half is still the pointer's back item
-            hint = BrandUi.Box(chrome, "Hint", Left, 990, 600, 64);
-            BrandUi.FaceButton(hint, "A", 0, 14, 36, BrandColors.White, BrandColors.NavyInk);
-            var select = BrandUi.Word(BrandUi.Box(hint, "Select", 46, 0, 10, 64), "Text", "SELECT", BrandUi.SemiBold, 24, BrandUi.WhiteA(.8f));
-            backButton = BrandUi.Box(hint, "Back", 46 + select.preferredWidth + 22, 0, 10, 64);
+            // bottom left: a BACK button (no controller letters) and the one line of how this menu works
+            hint = BrandUi.Box(chrome, "Hint", Left, 984, 900, 64);
+            backButton = BrandUi.Chip(hint, "Back", 0, 4, 10, 56);
             var backFace = BrandUi.Fill(backButton, "Face");
-            BrandUi.FaceButton(backFace, "B", 10, 14, 36, BrandColors.White, BrandColors.NavyInk);
-            var backLabel = BrandUi.Word(BrandUi.Box(backFace, "Label", 56, 0, 10, 64), "Text", "BACK", BrandUi.SemiBold, 24, BrandUi.WhiteA(.8f));
-            backButton.sizeDelta = new Vector2(56 + backLabel.preferredWidth + 14, 64);
+            var backLabel = BrandUi.Word(BrandUi.Box(backFace, "Label", 22, 0, 10, 56), "Text", "‹  BACK", BrandUi.BoldItalic, 28, BrandColors.White);
+            backButton.sizeDelta = new Vector2(backLabel.preferredWidth + 46, 56);
+            BrandUi.Word(BrandUi.Box(hint, "Select", backButton.sizeDelta.x + 36, 0, 10, 64), "Text", "HOVER OVER AN OPTION, THEN SELECT", BrandUi.SemiBold, 24, BrandUi.WhiteA(.8f));
             var backItem = Item(backButton, backFace, "back", "Back", () => Back(), 0);
-            backItem.glow = k => backLabel.color = Color.Lerp(BrandUi.WhiteA(.8f), BrandColors.Gold, k);
+            backItem.glow = k => { backLabel.color = Color.Lerp(BrandColors.White, BrandColors.Gold, k); backFace.anchoredPosition = new Vector2(-Nudge * .4f * k, 0); };
 
             // the empty spots (Adnan 11-13: "instead of the invite friends button just have the + signs in each spot"): a + on every spot of
             // the squad nobody stands on yet (a dark skewed tile, white edge; gold when lit), each one inviting
@@ -192,7 +191,7 @@ namespace GolfArcade.Hub.Menu
                 joinSeats.Add((seat, item));
             }
         }
-        bool Active(string tab) => tab == (Screen == Locker ? Locker : Screen == Clubhouse ? Clubhouse : Home);
+        bool Active(string tab) => tab == (Screen == Locker ? Locker : Screen == Clubhouse ? Clubhouse : Screen == Feedback ? Feedback : Home);
         void SetChipName(string name)
         {
             if (!nameChipText) return;
@@ -205,7 +204,7 @@ namespace GolfArcade.Hub.Menu
 
         // MENU SQUAD (Adnan 11-13: lobby-shooter line-up; "it's not simple to start a game"): the squad has the middle of the screen. PLAY is
         // one gold button bottom left ("we still need the play button on the left"), lit when Home opens, so one press of Select goes to the
-        // sports; inviting is the + on each empty spot in the squad. The A on PLAY says how to press it, so Home has no SELECT hint.
+        // sports; inviting is the + on each empty spot in the squad. Home has no hover hint: PLAY sits where it was.
         const float HomePlayY = 924, HomePlayH = 104;
         RectTransform homePlay;
         void BuildHome(RectTransform r)
@@ -221,19 +220,20 @@ namespace GolfArcade.Hub.Menu
         void BuildSport(RectTransform r)
         {
             Heading(r, "Play", 720);
-            // (five entries with TUTORIAL: the list starts a little higher and packs closer, clear of the A/B hint)
-            var group = new List<MenuItem>(); float y = ListTop - 36;
-            y += TutorialEntry(r, y, group) + 2;   // TUTORIAL (MenuHud.Tutorial.cs): first, and the only way on until its lessons are done
-            foreach (var (id, word, sub, screen) in new[] { ("sport-tennis", "TENNIS", "Resort · Sky Tower · Magma Crater", TennisModes),
-                                                            ("sport-golf", "GOLF", "Cliffside · Wild Isles · Magma Open", GolfModes),
-                                                            ("sport-bowling", "BOWLING", "Club · Neon · Tiki · Magma", BowlingModes) })
+            // five entries, Daily Challenges first; a clear gap under the title so the list does not read as part of a button
+            var group = new List<MenuItem>(); float y = ListTop;
+            y += DailyEntry(r, y, group) + 2;   // DAILY CHALLENGES (MenuHud.Daily.cs): its sub says today's state
+            foreach (var (id, word, sub, screen) in new[] { ("sport-tennis", "TENNIS", "Serve, rally, and take the set", TennisModes),
+                                                            ("sport-golf", "GOLF", "Chase par, chase your friends", GolfModes),
+                                                            ("sport-bowling", "BOWLING", "Ten frames, one perfect 300", BowlingModes) })
             {
                 string go = screen;
-                y += WordItem(r, id, word, Title(word), sub, Left, y, WordSize, () => Go(go), group) + 2;
+                y += WordItem(r, id, word, Title(word), sub, Left, y, PlaySize, () => Go(go), group) + 2;
             }
-            DailyEntry(r, y, group);   // DAILY CHALLENGES (new, 11-15): today's Daily Hole in One
+            y += TrainingEntry(r, y, group);   // TRAINING (MenuHud.Tutorial.cs): the tutorial and the coach
             BuildPreview(r, "tennis");
         }
+        const float PlaySize = 50;
 
         readonly Dictionary<string, (MenuItem item, string label, string sub, bool solo)> modeRows = new Dictionary<string, (MenuItem, string, string, bool)>();
         void BuildModes(RectTransform r, string sport)
@@ -241,10 +241,10 @@ namespace GolfArcade.Hub.Menu
             bool tennis = sport == "tennis", bowling = sport == "bowling";
             Heading(r, tennis ? "Tennis" : bowling ? "Bowling" : "Golf", 720);
             var rows = bowling
-                ? new[] { ("bay-bowling-play", "PLAY", "Four venues · 10 frames", true), ("bay-bowling-exhibition", "EXHIBITION", "Bowl against the computer", true), ("bay-bowling-pass", "LOCAL PLAY", "Same room · one phone, up to 4 players", true), ("bay-bowling-online", "ONLINE", "Play friends online", false) }
+                ? new[] { ("bay-bowling-play", "PLAY", "Four lanes, ten frames, you", true), ("bay-bowling-exhibition", "EXHIBITION", "Face a CPU, rookie to pro", true), ("bay-bowling-pass", "LOCAL PLAY", "Up to four bowlers, one phone", true), ("bay-bowling-online", "ONLINE", "Ten frames, up to four players", false) }
                 : tennis
-                ? new[] { ("bay-tennis-exhibition", "EXHIBITION", "Custom match vs the CPU", true), ("bay-tennis-training", "TRAINING", "Rally with the coach", true), ("bay-tennis-nearby", "LOCAL PLAY", "Same room · two phones, one TV", true), ("bay-tennis-online", "ONLINE", "Play friends online", false) }
-                : new[] { ("bay-golf-round", "ROUND", "Play a course, 9 or 18 holes", true), ("bay-golf-pass", "LOCAL PLAY", "Same room · one phone, passed around", true), ("bay-golf-online", "ONLINE", "Play friends online", false) };
+                ? new[] { ("bay-tennis-exhibition", "EXHIBITION", "Pick your rival, set the rules", true), ("bay-tennis-nearby", "LOCAL PLAY", "Two phones, one TV, one court", true), ("bay-tennis-online", "ONLINE", "One set against a friend", false) }
+                : new[] { ("bay-golf-round", "ROUND", "Your pace, nine holes or eighteen", true), ("bay-golf-pass", "LOCAL PLAY", "Pass the phone, take turns", true), ("bay-golf-online", "ONLINE", "Nine holes, then a closest-to-the-pin playoff", false) };
             var group = new List<MenuItem>(); float y = ListTop;
             for (int i = 0; i < rows.Length; i++)
             {
@@ -271,96 +271,11 @@ namespace GolfArcade.Hub.Menu
         }
         static string Title(string upper) => upper.Length == 0 ? upper : upper.Substring(0, 1) + upper.Substring(1).ToLowerInvariant();
 
-        // ---- Locker: the camera closes on your hero; colours on the TV (live), the rest on the phone
-        static readonly (string name, string hex)[] Palette =
-        {
-            ("Kit", ""), ("White", "F2F2F0"), ("Sky", "3FA9F5"), ("Navy", "1E2A6E"), ("Lime", "9EE63A"), ("Sun", "FFC233"), ("Coral", "FF6B4A"),
-            ("Crimson", "E0243C"), ("Violet", "8A4FFF"), ("Teal", "1FB5A8"), ("Pink", "FF5FA2"), ("Charcoal", "2E3138"), ("Sand", "E3CFA4"),
-        };   // = Outfit.palette (SportProgress.swift), plus the kit's own colour
-        static readonly (string id, string label, string slot, string route, string title)[] LockerRail =
-        {
-            ("lk-shirt", "SHIRT", "shirt", null, "Shirt colour"), ("lk-shorts", "SHORTS", "shorts", null, "Shorts colour"), ("lk-shoes", "SHOES", "accent", null, "Shoe colour"),
-            ("lk-racket", "RACKET", "racket", null, "Racket colour"), ("rack-club", "CLUBS", null, "rack-club", "Golf gear"), ("look-mirror", "MIRROR", null, "look-mirror", "Skin, body and hand"),
-            ("emote-mirror", "EMOTES", null, "emote-mirror", "Emotes"),
-        };
-        string lockerSlot = "shirt"; Text swatchKicker, swatchTitle; readonly Dictionary<string, string> look = new Dictionary<string, string> { { "shirt", "" }, { "shorts", "" }, { "accent", "" }, { "racket", "" } };
-        sealed class Swatch { public MenuItem item; public RectTransform art; public GameObject ring; public string hex; public bool on; public float k; public void Size() { float s = Mathf.Max(on ? 1.08f : 1, 1 + .1f * k); art.localScale = new Vector3(s, s, 1); } }
-        readonly List<Swatch> swatches = new List<Swatch>();
-        readonly List<(MenuItem item, Word word, string slot)> rail = new List<(MenuItem, Word, string)>();
-        void BuildLocker(RectTransform r)
-        {
-            Heading(r, "Locker", 720);
-            // the slots as a word rail (mock .rail, 2.3cqw); the ones that open on the phone say so
-            var group = new List<MenuItem>(); float y = ListTop;
-            for (int i = 0; i < LockerRail.Length; i++)
-            {
-                var (id, label, slot, route, title) = LockerRail[i];
-                string s = slot, rt = route, t = Title(label);
-                y += WordItem(r, id, label, t, null, Left, y, RailSize, () => { if (s != null) SelectSlot(s); else OpenPhone(rt, t); }, group, phone: route != null) + 4;
-                rail.Add((group[group.Count - 1], (Word)group[group.Count - 1].view, slot));
-            }
-            // big skewed swatches right of the hero (mock .swatches: 5 across, the picked one gold-ringed and up 8 %)
-            const float X = 1336, W = 520, Cell = 90, Gap = 17;
-            swatchKicker = BrandUi.Word(BrandUi.Box(r, "Kicker", X, 326, W, 30), "Text", "SHIRT", BrandUi.SemiBold, 24, BrandColors.Gold);
-            swatchTitle = BrandUi.Word(BrandUi.Box(r, "Title", X, 358, W, 64), "Text", "Shirt colour", BrandUi.ExtraBoldItalic, 54, BrandColors.White);
-            for (int i = 0; i < Palette.Length; i++)
-            {
-                var (name, hex) = Palette[i];
-                int col = i % 5, row = i / 5;
-                var box = BrandUi.Box(r, name, X + 6 + col * (Cell + Gap), 446 + row * (Cell + Gap), Cell, Cell);
-                var face = BrandUi.Fill(box, "Face");
-                var sw = new Swatch { hex = hex };
-                var ring = BrandUi.Fill(face, "Ring"); sw.ring = ring.gameObject;
-                BrandUi.Slant(ring, "Gold", BrandColors.Gold, 10, -10); BrandUi.Slant(ring, "Gap", BrandUi.Ink(.85f), 10, -5);
-                sw.art = BrandUi.Fill(face, "Art");
-                BrandUi.Skewed(BrandUi.DropShadow(sw.art, 0), 10).color = BrandUi.Ink(.35f);
-                BrandUi.Slant(sw.art, "Edge", BrandUi.WhiteA(.4f), 10);
-                BrandUi.Slant(sw.art, "Colour", hex.Length == 0 ? BrandUi.Ink(.75f) : BrandColors.FromHex("#" + hex), 10, 3);
-                if (hex.Length == 0) BrandUi.Word(sw.art, "Kit", "KIT", BrandUi.ExtraBold, 24, BrandColors.White, TextAnchor.MiddleCenter);
-                string h = hex;
-                sw.item = Item(box, face, "swatch-" + name.ToLowerInvariant(), name, () => PickColour(h), 0);
-                sw.item.glow = k => { sw.k = k; sw.Size(); };
-                swatches.Add(sw);
-            }
-            SelectSlot("shirt");
-        }
-        void SelectSlot(string slot)
-        {
-            lockerSlot = slot;
-            foreach (var (item, word, s) in rail) { bool on = s == slot && s != null; if (word.picked != on) { word.picked = on; word.Paint(); } }
-            foreach (var (id, label, s, _, title) in LockerRail) if (s == slot) { swatchKicker.text = label; swatchTitle.text = title; }
-            RefreshSwatches();
-        }
-        void RefreshSwatches()
-        {
-            look.TryGetValue(lockerSlot, out var cur); cur = (cur ?? "").TrimStart('#').ToUpperInvariant();
-            foreach (var sw in swatches) { sw.on = sw.hex == cur; sw.ring.SetActive(sw.on); sw.Size(); }
-        }
-        void PickColour(string hex)
-        {
-            if (!Leader) return;
-            look[lockerSlot] = hex; RefreshSwatches();
-            // live on the TV hero now; the phone saves it to the player and sends the look back (hubLook)
-            var p = world ? world.Player : null;
-            if (p && p.look)
-            {
-                if (lockerSlot == "racket") p.look.SetRacketColour(hex.Length > 0 ? GolfArcade.Tennis.HeroKit.Hex(hex) : new Color(0, 0, 0, 0));
-                else p.look.SetKit(look["shirt"], look["shorts"], look["accent"]);
-            }
-            Send("menuLook", lockerSlot + "|" + hex);
-        }
-        /// The player's look as the phone has it (start / hubLook): the swatches show what is on.
-        public void SetLook(string shirt, string shorts, string accent, string racket)
-        {
-            look["shirt"] = shirt ?? ""; look["shorts"] = shorts ?? ""; look["accent"] = accent ?? ""; look["racket"] = racket ?? "";
-            if (swatchTitle) RefreshSwatches();
-        }
-
         void BuildClubhouse(RectTransform r)
         {
             Heading(r, "Clubhouse", 720);
-            var rows = new[] { ("board-invite", "INVITE FRIENDS", "Game Center or a party code"), ("screen-howto", "HOW TO PLAY", "Tennis, golf and bowling basics"),
-                               ("shelf-trophies", "TROPHIES", "Your records and trophies"), ("mailbox-feedback", "FEEDBACK", "Send the team a note") };
+            var rows = new[] { ("board-invite", "INVITE FRIENDS", "Through Game Center or a party code"), ("screen-howto", "HOW TO PLAY", "Controls and rules for every game"),
+                               ("shelf-trophies", "TROPHIES", "Every record you've set") };
             var group = new List<MenuItem>(); float y = ListTop;
             foreach (var (id, label, sub) in rows)
             {
@@ -522,9 +437,10 @@ namespace GolfArcade.Hub.Menu
 
         // ================================================================== screens
         static string ShotOf(string screen) => screen == Home ? MenuShots.Low : screen == Locker ? MenuShots.Solo : screen == Loading ? MenuShots.Mid : MenuShots.Close;
-        string ParentOf(string screen) => screen == Sport ? Home : screen == TennisModes || screen == GolfModes || screen == BowlingModes || screen == Daily || screen == Tutorial ? Sport
+        string ParentOf(string screen) => screen == Sport ? Home : screen == TennisModes || screen == GolfModes || screen == BowlingModes || screen == Daily || screen == Training ? Sport
+            : screen == Tutorial ? Training
             : screen == DailyBoard ? Daily
-            : screen == Setup || screen == Players ? (setupSport == "golf" ? GolfModes : TennisModes) : screen == Loading ? null : Home;
+            : screen == Setup || screen == Players ? (setupMode == "bay-tennis-training" ? Training : setupSport == "golf" ? GolfModes : setupSport == "bowling" ? BowlingModes : TennisModes) : screen == Loading ? null : Home;
 
         /// Go to a screen (the pointer, the phone's menuGo, or the session).
         public void Go(string screen)
@@ -551,8 +467,11 @@ namespace GolfArcade.Hub.Menu
             bool modes = screen == TennisModes || screen == GolfModes || screen == BowlingModes;
             if (modes) { StyleModes(); PreviewFor(screen == GolfModes ? "golf" : screen == BowlingModes ? "bowling" : "tennis", null); }
             if (screen == Sport) PreviewSport("tennis");
-            ShowPreview(modes || screen == Setup || screen == Sport, screen == Setup);
-            if (screen == Locker) SelectSlot(lockerSlot);
+            ShowPreview(modes || screen == Setup || screen == Sport || screen == Training, screen == Setup);
+            if (screen == Locker) OpenLocker();
+            if (screen == Training) PreviewSport("tutorial");
+            if (screen == Sport) Send("menuDailyLoad", "");   // (today's done / not done, for the Daily Challenges entry)
+            if (screen == Feedback) ResetFeedback();
             if (screen == Daily || screen == DailyBoard) EnterDaily();
             if (stage) stage.GoTo(ShotOf(screen), snap);
             var r = screens[screen];
@@ -813,6 +732,11 @@ namespace GolfArcade.Hub.Menu
         void Wipe() { wipeAt = Time.unscaledTime; wipe.gameObject.SetActive(true); }
 
         void LateUpdate()
+        {
+            TickDaily();
+            LateUpdateMenu();
+        }
+        void LateUpdateMenu()
         {
             if (!canvas) return;
             if (world && world.Camera) canvas.targetDisplay = world.Camera.targetDisplay;   // the TV (Present retargets only canvases that existed then)

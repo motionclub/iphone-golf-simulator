@@ -151,6 +151,7 @@ namespace GolfArcade.Game
                 case "menuParty": hud.SetParty(m.leader, m.soloLocked); return true;
                 case "menuRows": hud.SetRows(m.mode); return true;
                 case "menuSetupState": hud.SetSetup(m.mode); return true;
+                case "menuLockerState": hud.SetLocker(m.mode); return true;   // the TV locker's picks, described by the phone (LockerTV.swift)
                 case "menuTutorialState": hud.SetTutorial(m.mode); return true;
                 case "menuCoach": hud.SetCoach(m.mode); return true;   // the first-launch tip over the menu (OnboardingFlow.coach), "" = none   // PLAY → Tutorial: the lock and the lessons' state (OnboardingFlow.menuState)
                 case "menuDailyState": hud.SetDaily(m.mode); return true;   // today's Daily Hole in One and the world board (DailyHoleInOne.swift)   // the TV's match setup, described by the phone (MenuSetup.swift)

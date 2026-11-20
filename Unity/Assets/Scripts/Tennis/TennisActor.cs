@@ -137,6 +137,9 @@ namespace GolfArcade.Tennis
         public float PrepareAmount => prepare;
         public bool PrepareBackhand => prepareBackhand;
         public bool PrepareServe => prepareServe;
+        /// 11-19: a smash is coming; preparation loads the overhead (trophy), never a ground-stroke backswing.
+        public bool PrepareOverhead => prepareOverhead;
+        bool prepareOverhead;
         public Transform Model => model;
         public event Action<bool, Moment> Reacted;
         /// When a visible character (a match hero) is attached: where ITS strings meet the ball in a stroke.
@@ -660,7 +663,7 @@ namespace GolfArcade.Tennis
             swingDuration = serving ? TennisRules.StrokeDuration : Mathf.Lerp(.58f, .40f, Power);
             // A swing out of a prepared backswing blends from it rather than cutting.
             swingFromPrepare = prepare > .05f;
-            prepare = prepareTarget = 0; prepareServe = false;
+            prepare = prepareTarget = 0; prepareServe = false; prepareOverhead = false;
             swingPace = 1; guiding = false; holdLeft = 0; HeldTotal = 0;
             if (oneShotIndex >= 0 && oneShotClip != "GroundRecovery") oneShotIndex = -1;
             strokeTrail.Clear();
@@ -680,8 +683,8 @@ namespace GolfArcade.Tennis
         }
 
         /// Take the racket back as the ball approaches, before any swing is detected.
-        public void Prepare(float amount, bool useBackhand, bool serve = false)
-        { prepareTarget = Mathf.Clamp01(amount); prepareBackhand = useBackhand; prepareServe = serve; }
+        public void Prepare(float amount, bool useBackhand, bool serve = false, bool overhead = false)
+        { prepareTarget = Mathf.Clamp01(amount); prepareBackhand = useBackhand && !overhead; prepareServe = serve; prepareOverhead = overhead && !serve; }
 
         public void LookAt(Vector3 target, float weight) { lookTarget = target; lookWeight = Mathf.Clamp01(weight); }
 
@@ -925,7 +928,7 @@ namespace GolfArcade.Tennis
                 // hanging head-down at the side while the other hand bounces the ball), held at
                 // full weight so the ready pose's raised racket never shows through it.
                 prepare = Mathf.MoveTowards(prepare, prepareTarget, dt / PrepareFade);
-                wanted = Resolve(prepareServe ? "Serve" : prepareBackhand ? "Backhand" : "Forehand");
+                wanted = Resolve(prepareServe ? "Serve" : prepareOverhead ? "Smash" : prepareBackhand ? "Backhand" : "Forehand");
                 TennisRules.ContactWindow(ContactOf(wanted), out float entry, out _);
                 phase = Mathf.Lerp(.02f, entry - .02f, prepare);
                 target = prepareServe ? 1 : prepare * .7f; fade = PrepareFade;

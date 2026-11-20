@@ -866,20 +866,47 @@ final class MultiplayerTests: XCTestCase {
         let p = try party(); defer { p.close() }
         for venue in MultiplayerLobby.golfVenues {
             try p.host.configure(.golf, venue: venue)
-            XCTAssertTrue(p.host.lobby!.valid()); XCTAssertEqual(p.services[1].lobby?.venue, venue)
+            XCTAssertTrue(p.host.lobby!.valid()); XCTAssertEqual(p.services[1].lobby?.venue, MultiplayerLobby.golfRound(venue, holes: 9, link: true))
         }
         XCTAssertEqual(MultiplayerLobby.golfVenues, ["cliffside", "wildisles", "magma"])
         XCTAssertEqual(GolfCourseChoice.allCases.map(\.rawValue), MultiplayerLobby.golfVenues)
         for venue in MultiplayerLobby.golfVenues { XCTAssertThrowsError(try p.host.configure(.tennis, venue: venue)) }
         XCTAssertThrowsError(try p.host.configure(.golf, venue: "../../invalid"))
     }
+    /// Online games (not Nearby or pass-the-phone) are played to fixed rules: tennis one set, golf nine holes, whatever the host asks.
+    func testOnlineGamesPlayFixedRules() throws {
+        let p = try party(); defer { p.close() }
+        XCTAssertTrue(p.host.playsOnlineRules)
+        try p.host.configure(.tennis, venue: "resort", sets: 3, games: 6)
+        XCTAssertEqual(p.host.lobby?.sets, 1); XCTAssertEqual(p.host.lobby?.games, 6, "games in the set stay the host's choice")
+        XCTAssertEqual(p.services[1].lobby?.sets, 1, "every phone sees the rule")
+        try p.host.configure(.golf, venue: "magma")
+        let round = MultiplayerLobby.golfRoundParts(try XCTUnwrap(p.host.lobby).venue)
+        XCTAssertEqual(round.course, "magma"); XCTAssertEqual(round.holes, MultiplayerService.onlineGolfHoles); XCTAssertEqual(round.holes, 9)
+        XCTAssertTrue(p.host.lobby!.valid())
+        XCTAssertThrowsError(try p.host.setGolfRound(holes: 18, link: false), "online golf has no other length")
+        XCTAssertEqual(MultiplayerLobby.golfRoundParts(try XCTUnwrap(p.host.lobby).venue).holes, 9)
+    }
+    /// Local play (pass the phone, Nearby) keeps every setting.
+    func testSharedPhoneGolfKeepsItsOwnRoundLength() throws {
+        let host = MultiplayerService(sendToRuntime:{_ in true},pollRuntime:{nil},clock:{Date().timeIntervalSince1970})
+        host.onMatchRequested = { _ in }; defer { host.leave() }
+        try host.host(using: SharedPhoneTransport(), sharedPhone: true)
+        XCTAssertFalse(host.playsOnlineRules)
+        let saved = (SportsSession.shared.golfHoles, SportsSession.shared.golfLinkCourses); defer { SportsSession.shared.golfHoles = saved.0; SportsSession.shared.golfLinkCourses = saved.1 }
+        try host.configure(.golf, venue: "cliffside")
+        try host.setGolfRound(holes: 18, link: false)
+        XCTAssertEqual(MultiplayerLobby.golfRoundParts(try XCTUnwrap(host.lobby).venue).holes, 18)
+        try host.configure(.tennis, venue: "resort", sets: 3, games: 6)
+        XCTAssertEqual(host.lobby?.sets, 3)
+    }
     func testRetiredPostcardsCourseBecomesCliffside() throws {
         let p = try party(2); defer { p.close() }
         XCTAssertEqual(MultiplayerLobby.currentGolfVenue("postcards"), "cliffside")
         XCTAssertEqual(MultiplayerLobby.currentGolfVenue("magma"), "magma")
         XCTAssertNil(GolfCourseChoice(rawValue: "postcards"))
-        try p.host.configure(.golf); XCTAssertEqual(p.host.lobby?.venue, "cliffside")
-        try p.host.configure(.golf, venue: "postcards"); XCTAssertEqual(p.host.lobby?.venue, "cliffside")
+        try p.host.configure(.golf); XCTAssertEqual(p.host.lobby?.venue, "cliffside+9")
+        try p.host.configure(.golf, venue: "postcards"); XCTAssertEqual(p.host.lobby?.venue, "cliffside+9")
         XCTAssertThrowsError(try p.host.configure(.tennis, venue: "postcards"))
         // A lobby from an older host still names the retired course: the guest keeps it as Cliffside instead of dropping it.
         var old = try XCTUnwrap(p.host.lobby); old.venue = "postcards"; old.revision += 10

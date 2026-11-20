@@ -193,32 +193,62 @@ final class SportsDisplays: NSObject {
 
     private var exitCover: UIWindow?
     private var exitGeneration = 0
+    private var exitModel: LoadingModel?
+    private var exitTimer: Timer?
+    /// The Plaza has revealed itself (HubSession.hubRevealing): the exit cover may lift now.
+    private var exitHubRevealed = false
+    /// Leaving a game shows the same loading screen as entering one (the venue's art, a tip card, the bar), on a model of its own,
+    /// until the Plaza is built again and fades in (2026-11-19, Adnan: "should be the same loading screens you get when entering a
+    /// game"; before it was a plain "Back to the clubhouse" card, then the Plaza's own boot screen).
     func beginExitCover() {
         guard let destination = external ?? preview ?? phone, let scene = destination.windowScene else { return }
         lingeringTip?.isHidden=true; lingeringTip=nil
+        endExitCover()
         exitGeneration += 1; let generation = exitGeneration
-        exitCover?.isHidden = true
+        let model = LoadingModel()
+        model.begin(now: LoadingModel.clockNow, key: "return")
+        model.onFinish = { [weak self] in
+            guard let self, generation == self.exitGeneration else { return }
+            self.external?.rootViewController?.view.layoutIfNeeded(); self.phone?.rootViewController?.view.layoutIfNeeded()
+            self.endExitCover()
+        }
+        exitModel = model; exitHubRevealed = false
         let cover = UIWindow(windowScene: scene); cover.windowLevel = .alert + 1
-        let host = UIHostingController(rootView: ZStack {
-            Club.lagoonDeep.ignoresSafeArea()
-            Text("Back to the clubhouse").font(IslandUI.font(28, bold: true)).foregroundStyle(.white)
-        })
+        let host = UIHostingController(rootView: PresentationLoadingCover(compact: scene.session.role == .windowApplication, model: model))
         cover.rootViewController = host; cover.backgroundColor = UIColor(Club.lagoonDeep)
         exitCover=cover; cover.isHidden=false; host.view.layoutIfNeeded()
+        model.cardAppeared()
         ClubSound.play("whoosh", volume: 0.35)
-        let duration = SportsSession.shared.presentationIntros == "full" ? 1.0 : 0.8
-        DispatchQueue.main.asyncAfter(deadline: .now()+duration) { [weak self] in
-            guard let self, generation==self.exitGeneration else { return }
-            self.external?.rootViewController?.view.layoutIfNeeded(); self.phone?.rootViewController?.view.layoutIfNeeded()
-            cover.isHidden=true; self.exitCover=nil
+        let timer = Timer(timeInterval: 0.1, repeats: true) { [weak self] _ in
+            MainActor.assumeIsolated { self?.tickExitCover(generation) }
         }
+        RunLoop.main.add(timer, forMode: .common); exitTimer = timer
+    }
+    /// The Plaza is up behind the cover (or will not come): the bar eases to full, and the cover lifts with the Plaza's own reveal.
+    private func tickExitCover(_ generation: Int) {
+        guard generation == exitGeneration, let model = exitModel else { return }
+        let hub = HubSession.shared, now = LoadingModel.clockNow
+        let waited = now.timeIntervalSince(model.started ?? now)
+        // a Plaza that is not coming (no Unity here, no plaza wanted), or one that failed, must not hold the cover
+        let notComing = !hub.wanted && waited >= LoadingModel.minimum
+        let gaveUp = hub.phase == .failed || waited >= LoadingPace.longestExpected + 4
+        if hub.loaded || notComing || gaveUp { model.markReady(now: now) }
+        // after "ready" the cover waits for the Plaza's reveal, so the fly-in is not played under it
+        model.tick(now: now, holdFinish: !(exitHubRevealed || notComing || gaveUp))
+    }
+    /// HubSession calls this as the Plaza reveals itself (the TV's boot screen fades / the phone's plaza shows).
+    func hubRevealing() { exitHubRevealed = true }
+    private func endExitCover() {
+        exitTimer?.invalidate(); exitTimer = nil
+        exitModel?.cancel(); exitModel = nil
+        exitCover?.isHidden = true; exitCover = nil
     }
     /// How many loading covers have been shown (NO_COVER: a launch from a Plaza bay shows none).
     private(set) var coversShown = 0
     func beginLoadingCover(in destination: UIWindow, startRuntime: @escaping @MainActor () -> Void) {
         coversShown += 1
         lingeringTip?.isHidden=true; lingeringTip=nil
-        exitGeneration += 1; exitCover?.isHidden=true; exitCover=nil
+        exitGeneration += 1; endExitCover()
         finishLoadingCover()
         guard let scene = destination.windowScene else { startRuntime(); return }
         let cover = UIWindow(windowScene: scene)
@@ -448,20 +478,22 @@ struct DisplayRegistration: UIViewControllerRepresentable {
 /// An independent native window covers Unity startup and fades only after the rendered-frame gate.
 private struct PresentationLoadingCover: View {
     let compact: Bool
-    private var loading: LoadingModel { SportsSession.shared.loading }
+    /// The return from a game runs the same screen on a model of its own (it never touches the Plaza's frame reveal).
+    var model: LoadingModel? = nil
+    private var loading: LoadingModel { model ?? SportsSession.shared.loading }
     var body: some View {
         GeometryReader { geometry in
             ZStack {
             Club.lagoonDeep
             // (online tennis sets up the racket after this: the court scan needs the court on the TV)
-            LoadingScreen(menu: .shared, compact: compact)
+            LoadingScreen(menu: .shared, compact: compact, model: model, returning: model != nil)
                 .frame(width: compact ? geometry.size.width : 1280, height: compact ? geometry.size.height : 720)
                 .scaleEffect(compact ? 1 : min(geometry.size.width / 1280, geometry.size.height / 720))
                 .frame(width: geometry.size.width, height: geometry.size.height)
             }.opacity(1 - loading.transitionFraction)
         }.ignoresSafeArea()
         .onChange(of: loading.phase) { _, phase in
-            if phase == .transitioning { ClubSound.play("pop", volume: 0.35); SportsDisplays.shared.revealLoadingFrame() }
+            if phase == .transitioning { ClubSound.play("pop", volume: 0.35); if model == nil { SportsDisplays.shared.revealLoadingFrame() } }
         }
     }
 }

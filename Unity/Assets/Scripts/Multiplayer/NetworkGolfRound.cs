@@ -6,7 +6,7 @@ using GolfArcade.Shot;
 using GolfArcade.Swing;
 namespace GolfArcade.Multiplayer {
     [Serializable] public sealed class NetworkGolfer {
-        public int seat,strokes,club,total,swings; public int emoteSlot=-1; /** The hole this golfer's phone has built (a new hole waits for every phone). */ public int ready=-1; /** The hole whose flyover this golfer's phone asked to skip. */ public int skipVote=-1; public long emoteID; public double emoteAt=-100; public double x,d,heading; public bool holed,dnf; public int[] card;
+        public int seat,strokes,club,total,swings; public int emoteSlot=-1; /** The hole this golfer's phone has built (a new hole waits for every phone). */ public int ready=-1; /** The hole whose flyover this golfer's phone asked to skip. */ public int skipVote=-1; public long emoteID; public double emoteAt=-100; public double x,d,heading; public bool holed,dnf; public int[] card; /** The playoff shot's distance to the cup (yards; -1 not yet hit, 1e6 forfeited or penalised). */ public double pd=-1;
     }
     [Serializable] public sealed class NetworkGolfState {
         public long revision,shotID;public int hole,turn;public double time,turnAt,windSpeed,windDirection,presentationUntil,resultUntil;
@@ -26,6 +26,11 @@ namespace GolfArcade.Multiplayer {
         /// The round's events as the host dealt them (RoundEvents.Code, "" none) from `eventSeed`, and the hole's weather now
         /// (Course.Weather): every phone plays the same twists, sky and things moving about the hole.
         public string events="";public int eventSeed,weather;
+        /// A tie for the lowest card goes to a playoff: one random ball drop for every tied golfer, one hit each, closest to the cup wins
+        /// (repeated with a new drop if they hold the same distance). It is played on the last hole, already built on every phone.
+        public bool playoff;public int playoffRound;
+        /// The seat that won the round (the lowest card, or the playoff), -1 until it is over or when nobody did.
+        public int winner=-1;
     }
     [Serializable] public sealed class NetworkGolfShot {
         public long id;public int seat,hole,club,strokes,penalty;public double start,duration,carry,roll,apex,restX,restD,nextX,nextD;
@@ -76,6 +81,13 @@ namespace GolfArcade.Multiplayer {
         /// (the round's card is for its end) and say golfHoleCardDone straight away, so this is only for a phone that never does.
         public const double HoleCardSeconds=4;
         public readonly NetworkGolfState State;
+        /// A tie for the lowest card is settled by the playoff (a tie otherwise stands as a draw).
+        public bool PlayoffOnTie=true;
+        /// The drop is this far from the cup, yards, and a playoff that cannot be separated stops at this many rounds as a draw.
+        public const double PlayoffMinYards=45,PlayoffMaxYards=110;
+        public const int PlayoffMaxRounds=10;
+        /// Two playoff shots this close (yards) are level.
+        public const double PlayoffLevel=.005;
         readonly bool intros; readonly Course.Course course;readonly Random random;readonly long[] lastEvent=new long[4];
         /// The round's events (twists, weather, gusts): what the host deals, every phone plays.
         readonly RoundEvents events; Wind holeWind; int swingsOnHole, weatherTurns;
@@ -240,10 +252,14 @@ namespace GolfArcade.Multiplayer {
                 State.phase="result";State.resultUntil=State.time+(State.shot.holed?HoledFallbackSeconds:ResultFallbackSeconds);State.revision++;
             } else if(State.phase=="result" && State.time>=State.resultUntil) {
                 var p=State.golfers.First(g=>g.seat==State.shot.seat);p.x=State.shot.nextX;p.d=State.shot.nextD;
-                if(State.shot.holed||p.strokes>=course.Holes[State.hole].Par+5)FinishGolfer(p);
+                if(State.playoff)FinishPlayoffGolfer(p,State.shot);
+                else if(State.shot.holed||p.strokes>=course.Holes[State.hole].Par+5)FinishGolfer(p);
                 NextTurn();
             } else if(State.phase=="aim"&&!sharedPhone&&(State.time-State.turnAt>=TurnLimitSeconds||(away.Contains(State.turn)&&State.time-State.turnAt>=AwayTurnPassSeconds))) {
-                var p=State.golfers.First(g=>g.seat==State.turn);p.strokes++;if(p.strokes>=course.Holes[State.hole].Par+5)FinishGolfer(p);NextTurn();
+                var p=State.golfers.First(g=>g.seat==State.turn);p.strokes++;
+                if(State.playoff){p.pd=1e6;p.holed=true;}   // (a playoff shot never taken forfeits it)
+                else if(p.strokes>=course.Holes[State.hole].Par+5)FinishGolfer(p);
+                NextTurn();
             }
         }
         /// The shot set up as single player sets it up: along the hole to its next landing (the cup on the green), with the shortest
@@ -269,14 +285,15 @@ namespace GolfArcade.Multiplayer {
         void NextTurn() {
             var eligible=State.golfers.Where(g=>!g.dnf&&!g.holed).ToArray();State.shot=null;State.revision++;
             if(eligible.Length==0) {
-                if(State.hole+1==course.Holes.Length){Complete("complete");return;}
+                if(State.playoff){ResolvePlayoff();return;}
+                if(State.hole+1==course.Holes.Length){EndRound();return;}
                 State.phase="holeDone";State.resultUntil=State.time+HoleCardSeconds;return;
             }
             // Everyone tees off before anyone's second shot. Rotate tee order by hole.
             var unplayed=eligible.Where(g=>g.strokes==0).OrderBy(g=>(g.seat-State.hole%4+4)%4).ToArray();
             State.turn=(unplayed.Length>0?unplayed[0]:eligible.OrderByDescending(g=>new CoursePoint(g.x,g.d).DistanceTo(course.Holes[State.hole].Pin)).ThenBy(g=>g.seat).First()).seat;
             State.windSpeed=holeWind.SpeedMPH;State.windDirection=holeWind.DirectionDegrees;
-            ShotEvents();
+            if(!State.playoff)ShotEvents();   // (the playoff's weather and wind hold still: every golfer hits into the same conditions)
             LineUp(eligible.First(p=>p.seat==State.turn),course.Holes[State.hole]);
             State.phase="aim";State.turnAt=State.time;State.look=0;State.load=0;
         }
@@ -284,6 +301,57 @@ namespace GolfArcade.Multiplayer {
             var p=State.golfers.FirstOrDefault(g=>g.seat==seat);if(p==null||p.dnf)return;p.dnf=true;State.revision++;
             if(State.golfers.Count(g=>!g.dnf)<2){Complete("interrupted");return;}
             if(State.phase=="aim"&&State.turn==seat)NextTurn();
+        }
+        /// The last hole is done: the lowest card wins, a tie for it goes to the playoff.
+        void EndRound() {
+            var live=State.golfers.Where(g=>!g.dnf).ToArray();
+            int best=live.Min(g=>g.total);var leaders=live.Where(g=>g.total==best).ToArray();
+            if(leaders.Length>1&&PlayoffOnTie){BeginPlayoff(leaders);return;}
+            State.winner=leaders.Length==1?leaders[0].seat:-1;Complete("complete");
+        }
+        /// One random drop on the last hole, the same spot for every tied golfer; everyone else is done. Strokes keep counting (the
+        /// phones tell a turn from the last by them) but the card is never touched.
+        void BeginPlayoff(NetworkGolfer[] tied) {
+            State.playoff=true;State.playoffRound++;
+            var drop=PlayoffDrop(course.Holes[State.hole]);
+            foreach(var g in State.golfers) {
+                bool in_=tied.Contains(g);g.pd=-1;g.holed=!in_;
+                if(in_){g.x=drop.X;g.d=drop.D;}
+            }
+            NextTurn();
+        }
+        /// Closest to the cup wins; a hole-out is distance 0 and a ball with a penalty (water, lava) loses to any without.
+        void FinishPlayoffGolfer(NetworkGolfer p,NetworkGolfShot shot) {
+            p.holed=true;
+            p.pd=shot.holed?0:new CoursePoint(p.x,p.d).DistanceTo(course.Holes[State.hole].Pin)+(shot.penalty>0?1000:0);
+        }
+        void ResolvePlayoff() {
+            var contenders=State.golfers.Where(g=>!g.dnf&&g.pd>=0).ToArray();
+            if(contenders.Length==0){State.winner=-1;Complete("complete");return;}
+            double best=contenders.Min(g=>g.pd);var closest=contenders.Where(g=>g.pd-best<=PlayoffLevel).ToArray();
+            if(closest.Length>1){
+                if(State.playoffRound<PlayoffMaxRounds){BeginPlayoff(closest);return;}
+                State.winner=-1;Complete("complete");return;
+            }
+            State.winner=closest[0].seat;Complete("complete");
+        }
+        /// A random spot on dry fairway or rough, PlayoffMinYards–PlayoffMaxYards from the cup.
+        CoursePoint PlayoffDrop(Hole hole) {
+            var pin=hole.Pin;
+            for(int i=0;i<60;i++) {
+                double r=PlayoffMinYards+random.NextDouble()*(PlayoffMaxYards-PlayoffMinYards),a=random.NextDouble()*Math.PI*2;
+                var p=new CoursePoint(pin.X+Math.Sin(a)*r,pin.D+Math.Cos(a)*r);
+                var lie=hole.LieAt(p);
+                if(lie==CourseLie.Fairway||(i>=30&&lie==CourseLie.Rough))return p;
+            }
+            // nowhere found at random: back along the hole's centre line
+            double left=60;
+            for(int i=hole.Centerline.Length-1;i>0;i--) {
+                var a=hole.Centerline[i];var b=hole.Centerline[i-1];double seg=a.DistanceTo(b);
+                if(seg>=left&&seg>0){double t=left/seg;return new CoursePoint(a.X+(b.X-a.X)*t,a.D+(b.D-a.D)*t);}
+                left-=seg;
+            }
+            return hole.Tee;
         }
         void Complete(string reason){if(State.complete)return;State.complete=true;State.phase=reason;State.revision++;Result?.Invoke(reason);}
     }
