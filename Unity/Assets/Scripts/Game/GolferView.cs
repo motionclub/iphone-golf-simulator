@@ -232,6 +232,9 @@ namespace GolfArcade.Game
         float performanceRate = 1;
         Vector3 leadToeAnchor;
         bool leadToeAnchored;
+        Quaternion leftSoleRest, rightSoleRest;
+        float leftAnkleRest, rightAnkleRest;
+        bool solesKnown;
         /// How the model is turned at rest so the golf clips face the ball (the Hero's export is not yawed as V4's was).
         Quaternion baseRot = Quaternion.identity;
 
@@ -334,7 +337,7 @@ namespace GolfArcade.Game
         {
             if (graph.IsValid()) graph.Destroy();
             heroFigure?.Dispose(); heroFigure = null; footwork = null;
-            swingClearance = null; poseSafety = null; poseTransition = null; leadToeAnchored = false;
+            swingClearance = null; poseSafety = null; poseTransition = null; leadToeAnchored = false; solesKnown = false;
             heroLook = null; headFaceKnown = false; EndWatch(true); waggleClock = 0; waggleWeight = 0;
             baseRot = Quaternion.identity;   // (the Hero sets its own; a rebuilt V4 figure must not keep the last Hero's quarter turn)
             if (modelGo) Destroy(modelGo);
@@ -562,8 +565,16 @@ namespace GolfArcade.Game
             if (heroFigure != null && !ClubShown()) GolfArcade.Tennis.HeroHands.Empty(heroFigure.Root.GetComponent<GolfArcade.Tennis.MatchHeroLook>(), 1f);
             if (phase != 4) swingClearance?.SeparateHands();
             poseSafety?.Apply(phase != 4);
+            // Grip separation and wrist safety can choose the swing's raised elbow plane.
+            // Finish with the relaxed post-shot plane, rate-limited to avoid a swivel pop.
+            if (phase != 4 && watchClock >= 0 && !MannerismsOff)
+            {
+                if (finishClock >= 0) swingClearance?.CapturePostShotStart();
+                swingClearance?.RelaxPostShotElbows(postShotDrop, Vector3.zero, true);
+            }
             if (phase == 4) FitMoveToClothes();
             PlantSwingLeadFoot();
+            PostShotFootsteps();
         }
 
         void PlantSwingLeadFoot()
@@ -573,7 +584,17 @@ namespace GolfArcade.Game
             var bones = heroFigure.Bones;
             if (!bones.TryGetValue("LeftToes", out var toe) || !bones.TryGetValue("LeftFoot", out var foot)) return;
             if (phase == 0 && time < .03f)
-            { leadToeAnchor = modelGo.transform.InverseTransformPoint(toe.position); leadToeAnchored = true; }
+            {
+                leadToeAnchor = modelGo.transform.InverseTransformPoint(toe.position); leadToeAnchored = true;
+                if (bones.TryGetValue("RightFoot", out var rear))
+                {
+                    leftSoleRest = Quaternion.Inverse(modelGo.transform.rotation) * foot.rotation;
+                    rightSoleRest = Quaternion.Inverse(modelGo.transform.rotation) * rear.rotation;
+                    leftAnkleRest = modelGo.transform.InverseTransformPoint(foot.position).y;
+                    rightAnkleRest = modelGo.transform.InverseTransformPoint(rear.position).y;
+                    solesKnown = true;
+                }
+            }
             if (!leadToeAnchored || clipName == "Putt" || phase != 2 && phase != 5 && phase != 3) return;
             // Pivot on the lead forefoot while the heel and foot orientation follow
             // the authored downswing. Do not pin the whole shoe flat to the ground.
@@ -599,6 +620,7 @@ namespace GolfArcade.Game
         System.Func<Vector3?> watchBall;
         float watchClock = -1, finishClock = -1, watchFade;   // seconds since contact (-1: not watching); since then to the finish; weight
         bool watchEnding;
+        float postShotStride, postShotDrop, dropHeld = -1;
         float waggleClock, waggleWeight;
         Vector3 standBall, standAim = Vector3.forward; bool hasStand;
         /// The face's direction in the Head bone's frame, measured on the clean address pose (the clip has the eyes on the ball).
@@ -606,12 +628,12 @@ namespace GolfArcade.Game
         /// Off: the clips alone (before/after films).
         public static bool MannerismsOff;
         /// The finish is held this long before the club comes down, which takes DropTime; the hands end this far below the shoulders.
-        const float HoldFinish = .3f, DropTime = .65f, DropBelow = 40f, MaxLook = 55f;
+        const float HoldFinish = .7f, DropTime = 2.1f, DropBelow = 40f, MaxLook = 55f;
         /// The address routine starts this long after the golfer is settled and repeats every WaggleEvery seconds while they wait.
         const float WaggleDelay = .45f, WaggleEvery = 7f, WaggleRelease = .08f;
 
         /// The golfer has hit a full shot: hold the finish, watch `ball` (world position, null when gone), then drop the club.
-        public void WatchShot(System.Func<Vector3?> ball) { watchBall = ball; watchClock = 0; finishClock = -1; watchEnding = false; watchFade = 1; }
+        public void WatchShot(System.Func<Vector3?> ball) { if (clipName == "Putt") return; swingClearance?.ResetPostShotElbows(); watchBall = ball; watchClock = 0; finishClock = -1; watchEnding = false; watchFade = 1; }
         /// True while the post-shot watch is on the golfer (from contact until the next address).
         public bool Watching => watchClock >= 0;
         /// The address routine's share on the pose now (0 = the clip alone), for the tests and films.
@@ -640,7 +662,8 @@ namespace GolfArcade.Game
             {
                 watchClock += dt;
                 if (finishClock < 0 && phase == 3) finishClock = watchClock;
-                if (watchEnding && (watchFade -= dt / .3f) <= 0) EndWatch(true);
+                // (outlasts the 0.3 s crossfade under it, so the raw finish that crossfade starts from never shows through)
+                if (watchEnding && (watchFade -= dt / .45f) <= 0) EndWatch(true);
             }
             bool atRest = phase == 0 && loadTarget < .001f && time < .02f && clipName != "Putt" && !spectator && hasStand && watchClock < 0;
             if (atRest) { waggleClock += dt; waggleWeight = 1; }
@@ -653,6 +676,7 @@ namespace GolfArcade.Game
 
         void Mannerisms()
         {
+            postShotDrop = 0;
             if (MannerismsOff || heroFigure == null || !heroLook) return;
             var head = heroLook.Bone(HumanBodyBones.Head);
             if (phase == 0 && time < .02f && hasStand && head && fade <= 0 && waggleClock <= WaggleDelay)
@@ -685,22 +709,16 @@ namespace GolfArcade.Game
         {
             float t = watchClock, w = watchFade;
             var club = ClubBone;
-            // 1. the club comes down: the arms and club turn together about the shoulder line (both shoulders are on it, so the
-            //    grip stays in the hands), from over the lead shoulder to the hands in front of the chest and the shaft upright
-            float drop = finishClock < 0 ? 0 : w * Ease((t - finishClock - HoldFinish) / DropTime);
-            Transform lu = Bone(HumanBodyBones.LeftUpperArm), ru = Bone(HumanBodyBones.RightUpperArm), lh = Bone(HumanBodyBones.LeftHand), rh = Bone(HumanBodyBones.RightHand);
-            if (drop > 0 && lu && ru && lh && rh && hasStand)
-            {
-                var axis = (ru.position - lu.position).normalized; var pivot = (lu.position + ru.position) * .5f;
-                var want = Vector3.ProjectOnPlane(standAim * Mathf.Cos(DropBelow * Mathf.Deg2Rad) - Vector3.up * Mathf.Sin(DropBelow * Mathf.Deg2Rad), axis);
-                var hands = Vector3.ProjectOnPlane((lh.position + rh.position) * .5f - pivot, axis);
-                if (want.sqrMagnitude > 1e-4f && hands.sqrMagnitude > 1e-4f)
-                {
-                    var r = Quaternion.AngleAxis(Mathf.Clamp(Vector3.SignedAngle(hands, want, axis), -150, 150) * drop, axis);
-                    if (club) { club.position = pivot + r * (club.position - pivot); club.rotation = r * club.rotation; }
-                    lu.rotation = r * lu.rotation; ru.rotation = r * ru.rotation;
-                }
-            }
+            float sinceFinish = finishClock < 0 ? -1 : t - finishClock;
+            // Release the held finish through the pelvis and spine, with the feet grounded.
+            // No extra yaw: the authored shot direction is retained as the body becomes upright.
+            if (sinceFinish > .8f && postShotStride > 0) RelaxFinishBody(MotionEase((sinceFinish - .8f) / 2.2f) * w * postShotStride);
+            // Progress along the lowering. Leaving the watch (next address) holds the club where it is
+            // and fades the whole overlay out, rather than running the lowering arc backwards.
+            float progress = sinceFinish < 0 ? 0 : MotionEase((sinceFinish - HoldFinish) / DropTime);
+            if (watchEnding) { if (dropHeld < 0) dropHeld = progress; progress = dropHeld; } else dropHeld = -1;
+            float drop = w * progress;
+            postShotDrop = drop;
             // 2. the head and chest follow the ball (the chest carries the arms and the club with it)
             float look = w * Ease((t - .3f) / .5f);
             var ball = watchBall?.Invoke();
@@ -715,6 +733,87 @@ namespace GolfArcade.Game
                     Turn(bone, Quaternion.Slerp(Quaternion.identity, q, share * look), bone == chest ? club : null);
                 }
             }
+            // (eased so the lowered club leaves late: under it the crossfade still starts from the raw finish)
+            if (drop > 0) swingClearance?.LowerPostShotGrip(progress, 1 - (1 - w) * (1 - w) * (1 - w));
+        }
+
+        static float MotionEase(float u)
+        {
+            u = Mathf.Clamp01(u);
+            return u * u * u * (u * (u * 6 - 15) + 10); // zero velocity and acceleration at both ends
+        }
+
+        void RelaxFinishBody(float weight)
+        {
+            var hips = Bone(HumanBodyBones.Hips); var chest = Bone(HumanBodyBones.Chest);
+            var lu = Bone(HumanBodyBones.LeftUpperArm); var ru = Bone(HumanBodyBones.RightUpperArm);
+            var lf = Bone(HumanBodyBones.LeftFoot); var rf = Bone(HumanBodyBones.RightFoot);
+            if (!hips || !lu || !ru || !lf || !rf) return;
+            Vector3 lp = lf.position, rp = rf.position;
+            Quaternion lr = lf.rotation, rr = rf.rotation;
+            var upright = Quaternion.FromToRotation(((lu.position + ru.position) * .5f - hips.position).normalized, Vector3.up);
+            upright = Quaternion.RotateTowards(Quaternion.identity, upright, 18f);
+            var club = ClubBone;
+            foreach (var (bone, share) in new[] { (hips, .60f), (Bone(HumanBodyBones.Spine), .25f), (chest, .15f) })
+            {
+                if (!bone) continue;
+                Turn(bone, Quaternion.Slerp(Quaternion.identity, upright, share * weight), club && !club.IsChildOf(bone) ? club : null);
+            }
+            GolfArcade.Tennis.HeroPoseSafety.Solve(Bone(HumanBodyBones.LeftUpperLeg), Bone(HumanBodyBones.LeftLowerLeg), lf, lp);
+            GolfArcade.Tennis.HeroPoseSafety.Solve(Bone(HumanBodyBones.RightUpperLeg), Bone(HumanBodyBones.RightLowerLeg), rf, rp);
+            lf.rotation = lr; rf.rotation = rr;
+        }
+
+        // Cosmetic only: the gameplay root and ball address never move. Apply after the lead-toe
+        // constraint and pose safety so neither pins the shoe that is taking a step. Evaluate starts
+        // from the authored clip each frame; these offsets cannot accumulate or change bone lengths.
+        void PostShotFootsteps()
+        {
+            if (MannerismsOff || !heroLook || !hasStand || finishClock < 0 || watchClock < 0 || postShotStride <= 0) return;
+            float t = watchClock - finishClock;
+            float rear = MotionEase((t - .9f) / .8f), lead = MotionEase((t - 1.85f) / .85f);
+            float weight = Mathf.Clamp01(watchFade) * postShotStride;
+            var hips = Bone(HumanBodyBones.Hips);
+            if (!hips || weight <= 0) return;
+            var lf = Bone(HumanBodyBones.LeftFoot); var rf = Bone(HumanBodyBones.RightFoot);
+            if (!lf || !rf) return;
+            var lp = lf.position; var rp = rf.position;
+            var lr = lf.rotation; var rr = rf.rotation;
+            // Two small, unhurried steps, with the body sharing the weight transfer. Both shoes
+            // stay still outside their own lift interval; the leading foot waits for the rear to land.
+            var shift = (standAim * (rear * .055f + lead * .065f) - Vector3.up * (.035f * (rear + lead) * .5f)) * weight;
+            hips.position += shift;
+            var club = ClubBone;
+            if (club && !club.IsChildOf(hips)) club.position += shift;
+            // The lead foot also steps a little away from the ball line, so the settled stance is open
+            // instead of knee against knee (11-19 review: the legs crossed behind the lead shin).
+            // (The rear leg is near full reach after its step; it cannot go wider and still land.)
+            var ballSide = Vector3.Cross(Vector3.up, standAim).normalized;
+            rp += (standAim * (.16f * rear) + Vector3.up * (.025f * Bump(t, .9f, 1.7f))) * weight;
+            lp += (standAim * (.13f * lead) - ballSide * (.035f * lead) + Vector3.up * (.022f * Bump(t, 1.85f, 2.7f))) * weight;
+            if (solesKnown)
+            {
+                lp.y = Mathf.Lerp(lp.y, modelGo.transform.TransformPoint(Vector3.up * leftAnkleRest).y + .022f * Bump(t, 1.85f, 2.7f), lead * weight);
+                rp.y = Mathf.Lerp(rp.y, modelGo.transform.TransformPoint(Vector3.up * rightAnkleRest).y + .025f * Bump(t, .9f, 1.7f), rear * weight);
+            }
+            GolfArcade.Tennis.HeroPoseSafety.Solve(Bone(HumanBodyBones.LeftUpperLeg), Bone(HumanBodyBones.LeftLowerLeg), lf, lp);
+            GolfArcade.Tennis.HeroPoseSafety.Solve(Bone(HumanBodyBones.RightUpperLeg), Bone(HumanBodyBones.RightLowerLeg), rf, rp);
+            if (solesKnown)
+            {
+                // The raised trailing heel unrolls as the foot lands. Retain the finish's yaw;
+                // use the address sole only as the ground pitch/roll reference, not its heading.
+                lr = Quaternion.Slerp(lr, FlatSole(lr, leftSoleRest), lead * weight);
+                rr = Quaternion.Slerp(rr, FlatSole(rr, rightSoleRest), rear * weight);
+            }
+            lf.rotation = lr; rf.rotation = rr;
+        }
+
+        Quaternion FlatSole(Quaternion current, Quaternion rest)
+        {
+            var grounded = modelGo.transform.rotation * rest;
+            var delta = current * Quaternion.Inverse(grounded);
+            var yaw = new Quaternion(0, delta.y, 0, delta.w);
+            return yaw.x * yaw.x + yaw.y * yaw.y + yaw.z * yaw.z + yaw.w * yaw.w < 1e-8f ? grounded : yaw.normalized * grounded;
         }
 
         void Waggle(Transform head)
@@ -1139,6 +1238,9 @@ namespace GolfArcade.Game
             float f = Mathf.Clamp01(time / Mathf.Max(0.01f, TopTime));
             if (phase == 0 && f >= .75f * loadTarget) f = Mathf.Max(f, Mathf.Clamp01(loadTarget));
             bool full = f >= 0.9f;
+            // Only a committed long shot gets the tiny walk-on. Chips, wedges and putts stay planted.
+            postShotStride = !shownShort && (shownClub.Family() == ClubFamily.Wood || shownClub.Family() == ClubFamily.Iron)
+                ? Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.65f, .95f, f)) : 0;
             swingU = full ? 0 : Mathf.Min(0.95f, Mathf.Pow(1 - f, 1 / Accel));   // (even a tap swings through a little)
             float seconds = Downswing * (full ? 1 : Mathf.Lerp(0.7f, 1f, f));
             swingRate = (1 - swingU) / seconds;

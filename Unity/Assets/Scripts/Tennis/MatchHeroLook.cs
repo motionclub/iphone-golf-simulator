@@ -529,6 +529,7 @@ namespace GolfArcade.Tennis
                 m.SetFloat("_WeaveThread", .035f); m.SetFloat("_SheenStrength", .22f);
                 m.SetFloat("_Wrap", .26f); m.SetFloat("_RimStrength", .035f);
             }
+            if (golfKit) HeroGolfSurfaceFinish.Cloth(m, tag);
             return m;
         }
 
@@ -658,6 +659,7 @@ namespace GolfArcade.Tennis
                 }
                 else if(originalSeam && (string.IsNullOrEmpty(System.Environment.GetEnvironmentVariable("VISUAL_CHARACTER_NORMALS")) || System.Environment.GetEnvironmentVariable("VISUAL_CHARACTER_NORMALS")=="continuous" || System.Environment.GetEnvironmentVariable("VISUAL_CHARACTER_NORMALS")=="soft"))
                     body.sharedMesh=HeroSkinNormals.Prepare(body,Bone(HumanBodyBones.Head),true);
+                if (golfKit) body.sharedMesh=HeroGolfSurfaceFinish.BodyNormals(body);
                 body.sharedMesh=HeroBlinkNormalField.Prepare(body.sharedMesh);
                 var bound = WithBindPose(body.sharedMesh); bool bump = bound != null;
                 if (bump) body.sharedMesh = bound;
@@ -681,13 +683,17 @@ namespace GolfArcade.Tennis
                         if(System.Environment.GetEnvironmentVariable("VISUAL_CHARACTER_SKIN_FINISH")=="1" ||
                            (originalSeam && System.Environment.GetEnvironmentVariable("VISUAL_CHARACTER_SKIN_FINISH")!="0"))
                             skinMaterials[i].SetFloat("_SkinFinish",female?2:1);
+                        if (golfKit) HeroGolfSurfaceFinish.Skin(skinMaterials[i]);
                         owned.Add(skinMaterials[i]);
                     }
                 }
                 body.sharedMaterials = skinMaterials;
                 ApplySkinSaturation(skinTone);
                 HeroForearmTwist.Build(this);
-                if(!golfKit || female)HeroArmSkinning.Build(body);
+                // Golf keeps its authored torso/shoulder bridge, while both golfers get
+                // the same volume-preserving elbow/wrist skinning as the other heroes.
+                if(!golfKit || female || System.Environment.GetEnvironmentVariable("GOLF_ARM_VOLUME")!="0")
+                    HeroArmSkinning.Build(body, limbOnly:golfKit);
                 BindKitV2();
                 HeroShoulderDeformation.Attach(this);
                 MaleFaceFinish.Attach(this);   // male face pass 2026-10-18: eye depth + painted form (no-op for the female)

@@ -12,19 +12,20 @@ using Object = UnityEngine.Object;
 namespace GolfArcade.PlayTests
 {
     // Observe the actual end-of-frame rig, without sampling clips or applying a
-    // corrective in the test. This catches a corrective evaluated before the driver.
+    // corrective in the test. Diagnostic feature recomputation never applies a pose.
+    // This catches current garment-pipeline inputs evaluated before the final driver pose.
     [DefaultExecutionOrder(2000)]
     public sealed class HeroGarmentFinalPoseObserver : MonoBehaviour
     {
-        static readonly FieldInfo AppliedDirections = typeof(HeroGarmentPoseCorrectives)
-            .GetField("directions", BindingFlags.Instance | BindingFlags.NonPublic);
+        static readonly FieldInfo AppliedDirections = typeof(GarmentPoseCorrectives)
+            .GetField("features", BindingFlags.Instance | BindingFlags.NonPublic);
         static readonly string[,] Segments = {
             {"Spine","Chest"}, {"Chest","Neck"},
             {"LeftShoulder","LeftUpperArm"}, {"LeftUpperArm","LeftLowerArm"}, {"LeftLowerArm","LeftHand"},
             {"RightShoulder","RightUpperArm"}, {"RightUpperArm","RightLowerArm"}, {"RightLowerArm","RightHand"}
         };
         HeroTennisDriver driver;
-        HeroGarmentPoseCorrectives corrective;
+        GarmentPoseCorrectives corrective;
         Transform[,] joints;
         readonly Vector3[] previous = new Vector3[8];
         public int Frames, MovingFrames, StaleFrames;
@@ -33,7 +34,7 @@ namespace GolfArcade.PlayTests
 
         public void Observe(HeroTennisDriver live)
         {
-            driver = live; corrective = live.matchLook.GetComponent<HeroGarmentPoseCorrectives>();
+            driver = live; corrective = live.matchLook.GetComponent<GarmentPoseCorrectives>();
             Assert.IsNotNull(corrective); Assert.IsNotNull(AppliedDirections);
             var byName = live.matchLook.GetComponentsInChildren<Transform>(true)
                 .GroupBy(t => t.name).ToDictionary(g => g.Key, g => g.First());
@@ -44,14 +45,19 @@ namespace GolfArcade.PlayTests
         void LateUpdate()
         {
             if (!driver || !driver.isActiveAndEnabled || joints == null) return;
-            var applied = (Vector3[])AppliedDirections.GetValue(corrective);
-            float error = 0, movement = 0;
-            for (int i = 0; i < 8; i++)
-            {
-                var final = (joints[i,1].position - joints[i,0].position).normalized;
-                error = Mathf.Max(error, Vector3.Distance(final, applied[i]));
-                if (Frames > 0) movement = Mathf.Max(movement, Vector3.Distance(final, previous[i]));
-                previous[i] = final;
+            var values=(float[])AppliedDirections.GetValue(corrective);
+            if(values==null)return;
+            var applied=(float[])values.Clone();
+            // Recompute only diagnostic pose features; never apply a corrective or move a bone.
+            typeof(GarmentPoseCorrectives).GetMethod("Features",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(corrective,null);
+            var expected=(float[])AppliedDirections.GetValue(corrective);
+            float error=0,movement=0;
+            for(int i=0;i<applied.Length;i++){Assert.IsTrue(float.IsFinite(applied[i]));error=Mathf.Max(error,Mathf.Abs(applied[i]-expected[i]));}
+            Array.Copy(applied,expected,applied.Length);
+            for(int i=0;i<8;i++){
+                var final=(joints[i,1].position-joints[i,0].position).normalized;
+                if(Frames>0)movement=Mathf.Max(movement,Vector3.Distance(final,previous[i]));
+                previous[i]=final;
             }
             Frames++; if (movement > .003f) MovingFrames++;
             if (error > .0001f) StaleFrames++;

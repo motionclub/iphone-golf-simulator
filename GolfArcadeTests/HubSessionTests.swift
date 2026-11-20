@@ -47,6 +47,26 @@ final class HubSessionTests: XCTestCase {
         runtime.setForeground(false); runtime.setForeground(true)
         XCTAssertEqual(Array(runtime.debugLifecycleEvents().dropFirst(before)), ["resign", "active"], "off a match, covering pauses as before")
     }
+    /// Coming back to the app (a call, the lock button, the home swipe): within the limits the player stays where they were, in the
+    /// match and in the party, with nothing to tap; only past them is a match (3 min) or a party (10 min) left, with a line saying why.
+    func testComingBackWithinTheLimitsKeepsTheGameAndTheParty() {
+        let away = AwayPolicy()
+        var t = Date(timeIntervalSince1970: 1_000)
+        away.now = { t }
+        XCTAssertEqual(away.returned(), 0, "covered only (a banner, Control Center): never away")
+        away.left(); t += 5; away.left(); t += 55
+        XCTAssertEqual(away.returned(), 60, accuracy: 0.001, "away since the first background, not the last")
+        let match = MultiplayerTuning.awayLimitSeconds, party = MultiplayerTuning.partyPatienceSeconds
+        for seconds in [1.0, 30, match - 1] {
+            XCTAssertEqual(AwayPolicy.outcome(away: seconds, inOnlineMatch: true, inParty: true, droppedFromMatch: false), .stay, "\(seconds) s in a party's match")
+            XCTAssertEqual(AwayPolicy.outcome(away: seconds, inOnlineMatch: true, inParty: false, droppedFromMatch: false), .stay, "\(seconds) s in a quick match")
+        }
+        XCTAssertEqual(AwayPolicy.outcome(away: party - 1, inOnlineMatch: false, inParty: true, droppedFromMatch: false), .stay)
+        XCTAssertEqual(AwayPolicy.outcome(away: match + 1, inOnlineMatch: true, inParty: true, droppedFromMatch: false), .leaveMatch)
+        XCTAssertEqual(AwayPolicy.outcome(away: 10, inOnlineMatch: true, inParty: true, droppedFromMatch: true), .leaveMatch, "the host already let them go")
+        XCTAssertEqual(AwayPolicy.outcome(away: party + 1, inOnlineMatch: false, inParty: true, droppedFromMatch: false), .leaveParty)
+        XCTAssertGreaterThan(party, match, "a party waits longer than a match")
+    }
     private var savedDisplay = false
     override func setUp() async throws {
         savedDisplay = SportsSession.shared.displayConnected

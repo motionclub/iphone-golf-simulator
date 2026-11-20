@@ -34,6 +34,10 @@ namespace GolfArcade.Tennis
                 int ui=Array.FindIndex(bones,b=>b&&b.name==prefix+"UpperArm"),li=Array.FindIndex(bones,b=>b&&b.name==prefix+"LowerArm");
                 Vector3 shoulder=bind[ui].inverse.GetColumn(3),elbow=bind[li].inverse.GetColumn(3);
                 down[side]=bind[ci].MultiplyVector(elbow-shoulder).normalized;
+                // A tuck is a small skin fold, not a replacement shoulder surface.
+                // The former 1.275-z displacement could lift low axilla vertices by
+                // over 15 cm and form a fin during serves/raised-arm reactions.
+                float maximumFold = Vector3.Distance(shoulder, elbow) * .12f;
                 float sign=Mathf.Sign(shoulder.x);
                 var delta=new Vector3[points.Length];
                 for(int i=0;i<points.Length;i++) {
@@ -41,7 +45,7 @@ namespace GolfArcade.Tennis
                     float field=Smooth(.085f,.125f,x)*(1-Smooth(.150f,.185f,x))
                         *Smooth(1.04f,1.16f,p.z)
                         *(1-Smooth(.040f,.100f,Mathf.Abs(p.y-.005f)));
-                    delta[i]=new Vector3(0,0,Mathf.Max(0,1.275f-p.z)*field);
+                    delta[i]=new Vector3(0,0,Mathf.Min(maximumFold,Mathf.Max(0,1.275f-p.z))*field);
                 }
                 string name="ShoulderFold_"+prefix;
                 mesh.AddBlendShapeFrame(name,100,delta,NormalDelta(mesh,delta),normal);shapes[side]=mesh.GetBlendShapeIndex(name);

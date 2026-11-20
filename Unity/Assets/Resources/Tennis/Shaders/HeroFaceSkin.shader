@@ -47,6 +47,7 @@ Shader "GolfArcade/HeroFaceSkin"
         _OcclusionStrength ("Character ambient occlusion strength", Range(0,1)) = 0.25
         // CLOTHING V2: soft contact shadow on the skin where a garment edge meets it (mesh UV3.x, written by MatchHeroLook.ApplyKitV2Cover). 0 = off.
         [HideInInspector] _KitContact ("Garment contact shadow", Range(0,1)) = 0
+        [HideInInspector] _AthleteSkin ("Golf body surface finish", Range(0,1)) = 0
         [HideInInspector] _SkinResponse ("Regional skin response pilot", Float) = 0
         [HideInInspector] _SkinFinish ("Skin finish pilot: 1 male, 2 female", Float) = 0
         [HideInInspector] _MaleForm ("Male face pass: nostril, nasolabial, unused, ear strengths", Vector) = (.85,.75,.55,.6)
@@ -99,7 +100,7 @@ Shader "GolfArcade/HeroFaceSkin"
                 float4 _HeadOrigin, _HeadRight, _HeadUp, _HeadForward, _HeadEye;
                 float4 _EyeMapL, _EyeMapR, _EyeMapUpL, _EyeMapUpR, _EyeMapRightL, _EyeMapRightR; half _EyeMapEnabled;
                 float4 _EyeL, _EyeR, _FaceUp, _FaceRight, _Gaze, _FaceSkin, _EyeNL, _EyeNR; half _PaintLift, _FaceRole, _Blink, _BrowLift, _CraftedPaint;
-                float4 _BumpMap_ST; half _Smoothness, _Wrap, _RimPower, _RimStrength, _BumpScale, _Saturation, _BumpTriplanar, _SpecularStrength, _EnvironmentStrength, _OcclusionStrength; float _BumpTile; half _SkinResponse, _SkinFinish, _SkinPigmentUV, _MaleFormPass; float4 _MaleForm, _MaleBeard;
+                float4 _BumpMap_ST; half _Smoothness, _Wrap, _RimPower, _RimStrength, _BumpScale, _Saturation, _BumpTriplanar, _SpecularStrength, _EnvironmentStrength, _OcclusionStrength; float _BumpTile; half _AthleteSkin; half _SkinResponse, _SkinFinish, _SkinPigmentUV, _MaleFormPass; float4 _MaleForm, _MaleBeard;
                 half _KitContact;
                 half _SkinTex, _SkinScatter, _SkinTransmission, _SkinAO, _SkinSpecular, _SkinLightChroma, _SkinCoolFill;
             CBUFFER_END
@@ -164,7 +165,7 @@ Shader "GolfArcade/HeroFaceSkin"
                 return lerp(lerp(lerp(SkinHash(i),SkinHash(i+float3(1,0,0)),f.x),lerp(SkinHash(i+float3(0,1,0)),SkinHash(i+float3(1,1,0)),f.x),f.y),
                             lerp(lerp(SkinHash(i+float3(0,0,1)),SkinHash(i+float3(1,0,1)),f.x),lerp(SkinHash(i+float3(0,1,1)),SkinHash(i+float3(1,1,1)),f.x),f.y),f.z);
             }
-            half3 FaceSkinShade(Light light, half3 n, half3 v, half3 albedo, half wrap, half smoothness, half3 subsurface, half specularStrength, half faceAmount, out half3 reflection)
+            half3 LegacyFaceSkinShade(Light light, half3 n, half3 v, half3 albedo, half wrap, half smoothness, half3 subsurface, half specularStrength, half faceAmount, out half3 reflection)
             {
                 reflection=0;
                 if (_SkinFinish > 1.5h || _MaleFormPass > .5h) return HeroFemaleSkinShade(light,n,v,albedo,smoothness,reflection);
@@ -185,6 +186,20 @@ Shader "GolfArcade/HeroFaceSkin"
                 half3 result=albedo*wrapped*.84h*light.color*attenuation+scatter+spec;
                 reflection=lerp(previousReflection,spec,faceAmount);
                 return lerp(previous,result,faceAmount);
+            }
+            half3 FaceSkinShade(Light light, half3 n, half3 v, half3 albedo, half wrap, half smoothness, half3 subsurface, half specularStrength, half faceAmount, out half3 reflection)
+            {
+                half3 result = LegacyFaceSkinShade(light,n,v,albedo,wrap,smoothness,subsurface,specularStrength,faceAmount,reflection);
+                half bodyWeight = _AthleteSkin * (1-faceAmount);
+                if (bodyWeight > .001h) {
+                    // A broad satin body response gives arms/legs a rounded light transition.
+                    // The registered face keeps its existing regional shading and paint.
+                    half3 bodyReflection;
+                    half3 body = HeroSkinShade(light,n,v,albedo,.22h,.38h,subsurface,.85h,bodyReflection);
+                    result = lerp(result,body,bodyWeight);
+                    reflection = lerp(reflection,bodyReflection,bodyWeight);
+                }
+                return result;
             }
             // CHARACTER QUALITY 10-24: textured stylised skin. Light wraps further in red than in blue where the skin is curved or thin
             // (cheap pre-integrated scattering, no LUT), the shadow edge bleeds warm, two GGX lobes (a broad sheen and a tighter oil
@@ -515,7 +530,7 @@ Shader "GolfArcade/HeroFaceSkin"
                 // Female pigment remains relative to the selected tone; no overall tan grade.
                 if (_SkinFinish > .5h && _SkinFinish < 1.5h && _FaceRole < .5h) {
                     // Skin pass (2026-10-12): golden tan, not pink or salmon. A relative grade, so every skin-tone pick keeps its own depth.
-                    c.rgb *= half3(1.0h, 1.035h, .92h);
+                    c.rgb *= lerp(half3(1.0h, 1.035h, .92h), half3(1,1,1), _AthleteSkin*(1-faceAmount));
                     // A very faint grain: ~3 mm and ~18 mm value noise in the bind pose, faded out before it can alias.
                     float footprint = max(length(ddx(i.bindPos)), length(ddy(i.bindPos)));
                     half fine = SkinNoise(i.bindPos * 330) - .5h, coarse = SkinNoise(i.bindPos * 55) - .5h;
@@ -526,6 +541,10 @@ Shader "GolfArcade/HeroFaceSkin"
                 // Female: the selected tone keeps its own richness (the shared .74 pull
                 // toward grey read chalky); still relative to whichever tone was picked.
                 c.rgb = lerp(dot(c.rgb, half3(0.2126, 0.7152, 0.0722)).xxx, c.rgb, _SkinFinish > 1.5h ? max(_Saturation, .95h) : _MaleFormPass > .5h ? max(_Saturation, .86h) : _Saturation);
+                // Golf body skin: smoother satin falloff without changing the registered face paint.
+                half athleteBody = _AthleteSkin * (1-faceAmount) * (1-saturate(_FaceRole));
+                surfaceSmoothness = lerp(surfaceSmoothness, clamp(surfaceSmoothness,.32h,.46h), athleteBody);
+                surfaceSpecular = lerp(surfaceSpecular, .55h, athleteBody);
                 Light main = HeroMain(GetMainLight(TransformWorldToShadowCoord(i.positionWS)));
                 half3 reflection;
                 half3 colour;
@@ -577,7 +596,7 @@ Shader "GolfArcade/HeroFaceSkin"
                     half up = saturate(n.y*.5h+.5h);
                     ambient = HeroAmbient(n) * lerp(c.rgb, HeroFemaleSkinTone(c.rgb), .45h) * lerp(.60h,.88h,up*up) * lerp(1,1.04h,faceAmount);
                 }
-                else if (_SkinFinish > .5h) ambient *= lerp(.82h,.97h,faceAmount)*half3(1.0h,.86h,.72h);
+                else if (_SkinFinish > .5h) ambient *= lerp(.82h,.97h,faceAmount)*lerp(half3(1.0h,.86h,.72h),half3(1,.97h,.94h),_AthleteSkin*(1-faceAmount));
                 if (skinV2) {
                     half3 ambientLight = SkinLight(ambient / max(c.rgb, .02h));   // the same colour cap on the ambient
                     // warm key / cool fill: the shade takes a sky hue at the same brightness, so the skin separates from a warm world

@@ -792,7 +792,9 @@ class Swing:
 FIN_HANDS = (-0.40, 0.30, 0.62)
 # the full swing's hand keys (right, forward, up of the mid-shoulder point in his reach, in the chest's frame) and the shaft's angle round the swing plane (plane_dir) at the
 # downswing keys: a straight lead arm at the top, P5 and P6, and the hinge held until P6
-FS = dict(k46=(0.30, 0.52, 0.40), top=(0.28, 0.48, 0.575), trans=(0.34, 0.54, 0.44), trans_th=250, p5=(0.52, 0.60, -0.19), p5_th=185, p6=(0.05, 0.63, -0.64), p6_th=100, hip_p6=-10.0, hip_imp=-36.0, sh_p6=30.0, zone_slope=0.6, p8=(-0.26, 0.68, -0.38), p9=(-0.24, 0.64, 0.14), p8_shaft=(0.2, -0.97, 0.12), hip_top=(45, 98), hip_top_iron=(42, 92), push_top=0.02, slide_imp=0.07, imp_side=12.0, imp_turn=-20.0, imp_lean=0.06)
+FS = dict(k46=(0.30, 0.52, 0.40), top=(0.28, 0.48, 0.575), trans=(0.34, 0.54, 0.44), trans_th=250, p5=(0.52, 0.60, -0.19), p5_th=185, p6=(0.05, 0.63, -0.64), p6_th=100, hip_p6=-10.0, hip_imp=-36.0, sh_p6=30.0, zone_slope=0.6, p8=(-0.26, 0.68, -0.38), p9=(-0.24, 0.64, 0.14), p8_shaft=(0.2, -0.97, 0.12), hip_top=(45, 98), hip_top_iron=(42, 92), push_top=0.02, slide_imp=0.10, imp_side=12.0, imp_turn=-20.0, imp_lean=0.06,
+          # 11/18 impact: the trail heel stays down to impact and rises later, less pelvis side tilt: the trail knee 55 -> 39 deg, the pelvis 1 cm higher
+          hip_side_imp=2.0, heel_imp=0.0, heel_p8=0.03, hip_side_p9=3.0)
 CHIP_TOP = (0.16, -0.02, 0.06)      # where the chip's hands go at the top, from address (chest frame, his reach): back toward the trail shoulder, a little up
 CHIP_LEAN = 0.16        # the chip's shaft lean at impact (hands ahead)
 HS = dict(top_th=185, trans_th=165, span=0.28)        # the half swing's shaft at the top (round the plane)
@@ -802,11 +804,14 @@ LEAD_STRAIGHT = 0.982        # the lead arm's stretch (of his reach) the "straig
 DEBUG_MISS = False          # (prints the address posture, the impact bend each search settles on and where the hands fall short of the grip)       # the finish: the hands high, beside the lead ear (right, forward, up of the mid-shoulder, in his reach, in the chest's frame)
 
 
+SWEEP = {}             # (sweep overrides of FS, set by the tuning scripts)
+
+
 def full_swing(golfer, club, top=54, impact=66, finish=86, end=100, imp_bend=None, imp_side=None, imp_turn=None, retime=True):
     """The full swing (a driver, an iron): address, takeaway, the top, the first move down, impact, follow-through, finish. Times are frames at 30 per second.
     `imp_bend` is how much further than at address he is bent forward at impact (a golfer stays in his posture and the club pulls the arms out): when not given, as little as lets both
     arms reach the grip."""
-    F = dict(FS, **FS_CLUB.get(club, {}))
+    F = {**FS, **FS_CLUB.get(club, {}), **SWEEP}
     if imp_side is None: imp_side = F["imp_side"]
     if imp_turn is None: imp_turn = F["imp_turn"]
     if imp_bend is None:
@@ -825,7 +830,7 @@ def full_swing(golfer, club, top=54, impact=66, finish=86, end=100, imp_bend=Non
         return sw.retime(2.2) if retime else sw
     TOP, IMP, FIN, END = top, impact, finish, end
     drv = club == "Driver"
-    F = dict(FS, **FS_CLUB.get(club, {}))
+    F = {**FS, **FS_CLUB.get(club, {}), **SWEEP}
     ball = Vector((-0.75, 0, CLUB_BALL_Z[club]))
     lie_d = LIE[club]; lie = math.radians(lie_d)
     size = golfer.size
@@ -844,14 +849,14 @@ def full_swing(golfer, club, top=54, impact=66, finish=86, end=100, imp_bend=Non
         "chest_bend":    K((0, c0["chest_bend"]), (TOP, c0["chest_bend"]), (IMP, c0["chest_bend"] + imp_bend), (IMP + 9, c0["chest_bend"] - 17), (FIN, c0["chest_bend"] - 25), (END, c0["chest_bend"] - 25)),
         "neck_bend":     K((0, c0["neck_bend"]), (IMP, c0["neck_bend"]), (FIN, c0["neck_bend"] - 22), (END, c0["neck_bend"] - 22)),
         "head_bend":     K((0, c0["head_bend"]), (IMP, c0["head_bend"]), (FIN, c0["head_bend"] - 30), (END, c0["head_bend"] - 30)),
-        "hip_side":      K((0, 3), (TOP, 6), (IMP, 8), (IMP + 9, 6), (FIN, 2), (END, 2)),
+        "hip_side":      K((0, 3), (TOP, 6), (IMP, F.get("hip_side_imp", 8.0)), (IMP + 9, F.get("hip_side_p9", 6.0)), (FIN, 2), (END, 2)),
         "spine_side":    K((0, c0["spine_side"]), (TOP, c0["spine_side"] + 3), (IMP, c0["spine_side"] + 7), (IMP + 9, c0["spine_side"] + 4), (FIN, c0["spine_side"] - 2), (END, c0["spine_side"] - 2)),
         "chest_side":    K((0, c0["chest_side"]), (TOP, c0["chest_side"] + 4), (IMP, c0["chest_side"] + imp_side), (IMP + 9, c0["chest_side"] + 4), (FIN, c0["chest_side"] - 2), (END, c0["chest_side"] - 2)),
         "slide":         K((0, 0), (19, -0.015 * size), (37, -0.03 * size), (TOP, -0.035 * size), (TOP + 4, -0.02 * size), (IMP - 4, 0.02 * size), (IMP, F["slide_imp"] * size), (IMP + 9, 0.12 * size), (FIN, 0.17 * size), (END, 0.18 * size)),
-        "push":          K((0, 0), (TOP, F["push_top"] * size), (IMP, 0.0), (FIN, -0.07 * size), (END, -0.08 * size)),
+        "push":          K((0, 0), (TOP, F["push_top"] * size), (IMP, F.get("push_imp", 0.0) * size), (FIN, -0.07 * size), (END, -0.08 * size)),
         "lift":          K((0, 0), (TOP, 0.0), (IMP - 4, 0.015 * size), (IMP, 0.035 * size), (IMP + 9, 0.06 * size), (FIN, 0.08 * size), (END, 0.08 * size)),
         "lead_flare":    K((0, 18), (IMP, 18), (FIN, 38), (END, 38)), "trail_flare": K((0, 8), (IMP, 8), (FIN, -26), (END, -26)), "lead_heel": K((0, 0), (END, 0)),
-        "trail_heel":    K((0, 0), (IMP - 4, 0), (IMP, 0.02), (IMP + 4, 0.06), (IMP + 9, 0.09), (FIN, 0.10), (END, 0.10)),
+        "trail_heel":    K((0, 0), (IMP - 4, 0), (IMP, F.get("heel_imp", 0.02)), (IMP + 4, F.get("heel_p8", 0.06)), (IMP + 9, 0.09), (FIN, 0.10), (END, 0.10)),
         "elbow_out":     K((0, 0.5), (END, 0.5)), "elbow_fwd": K((0, 0.0), (END, 0.0)),
         # the lead arm held long: in from the takeaway, through the top and the downswing to the delivery, off through the impact zone (the club at the ball decides the
         # hands there), on again for the release (both arms extended down the line), off as the arms fold into the finish
