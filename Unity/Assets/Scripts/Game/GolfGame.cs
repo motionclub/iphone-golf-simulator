@@ -1190,7 +1190,7 @@ namespace GolfArcade.Game
             UpdateAimVisuals();
             // L4 blends to the established address composition before input is released.
             rig.ResetZoom();
-            aimLook = 0;
+            aimLook = 0; NativeLookHeld = 0;
             FrameAim();
             // On the green the read goes down; the flag stays in on a long putt, so the hole can be
             // found from across the green, and comes out inside six yards.
@@ -1621,19 +1621,21 @@ namespace GolfArcade.Game
 
         readonly System.Collections.Generic.Dictionary<(double,double,double),CourseShot> previewShots=new();
         Hole previewHole;PlayRules previewRules;CoursePoint previewOrigin;GolfClub previewClub;
-        double previewHeading,previewEpoch=-1,previewWind,previewWindDirection;
+        double previewHeading,previewEpoch=-1;
         float nextTimedPreview;
         CourseShot PreviewShot(double power,double start=0,double curve=0)
         {
             double epoch=Math.Floor((hole.Movers?.Now??0)*2)/2;
-            if(previewHole!=hole||previewRules!=hole.Rules||previewOrigin.DistanceTo(ballAt)>.001||previewClub!=club||previewHeading!=heading||previewEpoch!=epoch||previewWind!=Wind.SpeedMPH||previewWindDirection!=Wind.DirectionDegrees||previewShots.Count>96){
-                previewShots.Clear();previewHole=hole;previewRules=hole.Rules;previewOrigin=ballAt;previewClub=club;previewHeading=heading;previewEpoch=epoch;previewWind=Wind.SpeedMPH;previewWindDirection=Wind.DirectionDegrees;
+            if(previewHole!=hole||previewRules!=hole.Rules||previewOrigin.DistanceTo(ballAt)>.001||previewClub!=club||previewHeading!=heading||previewEpoch!=epoch||previewShots.Count>96){
+                previewShots.Clear();previewHole=hole;previewRules=hole.Rules;previewOrigin=ballAt;previewClub=club;previewHeading=heading;previewEpoch=epoch;
             }
             var key=(Math.Clamp(power,0,1),start,curve);if(previewShots.TryGetValue(key,out var cached))return cached;
             double phase=hole.Movers?.PhaseAtLaunch??0;
             try{
                 if(hole.Movers!=null)hole.Movers.PhaseAtLaunch=epoch+GolfArcade.Multiplayer.NetworkGolfRound.StrikeLead;
-                var shot=new CourseShot(club,new SwingImpact{Power=key.Item1,StartLineDegrees=start,CurveDegrees=curve},heading,ballAt,hole,1,Wind);
+                // still air, as every aid that reads this says: the dots, ring, map and meter marks show the club, the wind is the
+                // player's read off the dial and the flag (11-19: they flew in the hole's wind, so the ring aimed off for you)
+                var shot=new CourseShot(club,new SwingImpact{Power=key.Item1,StartLineDegrees=start,CurveDegrees=curve},heading,ballAt,hole,1,Wind.Calm);
                 previewShots[key]=shot;return shot;
             }finally{if(hole.Movers!=null)hole.Movers.PhaseAtLaunch=phase;}
         }
@@ -1851,6 +1853,8 @@ namespace GolfArcade.Game
         float aimLook;
         /// A look held as if the joystick were pushed (the review tests).
         public float LookHeld;
+        /// The phone controller's look (a swipe up on its aim pad: 1, the aerial view; a swipe down: 0), held until the next shot.
+        public float NativeLookHeld { get; private set; }
 
         /// The aiming view: the putt's on the green (the green behind the ball, the cup ahead),
         /// the address view elsewhere, either one looked up or down.
@@ -2211,7 +2215,7 @@ namespace GolfArcade.Game
                     // a putt's line is a matter of a degree or two: the sweep is a fifth as fast
                     if (sweep != 0) Nudge(sweep * AimSweepDegreesPerSecond * (club == GolfClub.Putter ? 0.2f : 1f) * Time.deltaTime);
                     // up and down on the joystick (or W/S): look up the hole to the pin, or down at the ball
-                    float lookWanted = !SteersHere ? networkLook : Mathf.Clamp(hud.LookStick + LookHeld + (Input.GetKey(KeyCode.W) ? 1 : 0) - (Input.GetKey(KeyCode.S) ? 1 : 0), -1f, 1f);
+                    float lookWanted = !SteersHere ? networkLook : Mathf.Clamp(hud.LookStick + LookHeld + NativeLookHeld + (Input.GetKey(KeyCode.W) ? 1 : 0) - (Input.GetKey(KeyCode.S) ? 1 : 0), -1f, 1f);
                     float looked = Mathf.MoveTowards(aimLook, lookWanted, Time.deltaTime * 2.5f);
                     if (looked != aimLook) { aimLook = looked; FrameAim(); }
                     if (Input.GetKeyDown(KeyCode.UpArrow)) CycleClub(-1);

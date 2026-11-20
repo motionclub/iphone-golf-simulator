@@ -211,6 +211,7 @@ namespace GolfArcade.Game
                     case "aimFeed": if(tennis) tennis.FeedAimPractice(m.value,m.value2<0,m.aimSequence); break;
                     case "aim": if(tennis) tennis.AimInput=Mathf.Clamp(m.value,-1,1); if(golf && !paused && GolfArcade.UI.MenuFocus.Wants) { if(Mathf.Abs(m.value)>.01f) GolfArcade.UI.MenuFocus.Step(Mathf.Sign(m.value),0); } else if(golf && !paused) { golf.NativeAim(m.value); aimDirtyFrame=Time.frameCount; } break;
                     case "golfAimDirection": if(golf && !paused) { if(GolfArcade.UI.MenuFocus.Wants) GolfArcade.UI.MenuFocus.Move(m.value,m.value2); else { golf.NativeAimDirection(m.value,m.value2); aimDirtyFrame=Time.frameCount; } } break;
+                    case "golfLook": if(golf && !paused && !float.IsNaN(m.value) && !float.IsInfinity(m.value)) golf.NativeLook(m.value); break;
                     case "golfSelect": if(golf && !paused) GolfArcade.UI.MenuFocus.Select(); break;
                     case "golfEmote": if(golf && !paused && m.value == Mathf.Floor(m.value)) golf.PlayResultEmote((int)m.value); break;
                     case "presentationSkip": if(!paused) { if(tennis) tennis.RequestSwing(.1f); if(golf) golf.NativeContinue(); } break;

@@ -5,6 +5,7 @@ Shader "GolfArcade/TennisCloth"
     Properties
     {
         [MainColor] _BaseColor ("Color", Color) = (1,1,1,1)
+        _ClothAuditColor ("Audit ID colour (ClothAudit)", Color) = (1,0,0,1)
         _TrimColor ("Trim colour", Color) = (0.035,0.035,0.0401,1)
         _NormalMap ("Garment normal (kit UV)", 2D) = "bump" {}
         _MaskMap ("AO / cavity / trim / fabric ID", 2D) = "white" {}
@@ -37,6 +38,7 @@ Shader "GolfArcade/TennisCloth"
         _FibreShine ("V3 fibre shine", Range(0,3)) = 1
         _Mottle ("V3 tonal grain", Range(0,0.2)) = 0.08
         // STYLE PILOT (2026-10-30): 0 = off, every other garment unchanged
+        _MaterialMatte ("Woven textile response", Range(0,1)) = 0
         _StylePass ("Style pass", Float) = 0
         _StyleSmooth ("Style smoothness", Range(0,1)) = 0.55
         _StyleSpec ("Style highlight", Range(0,2)) = 0.6
@@ -60,6 +62,7 @@ Shader "GolfArcade/TennisCloth"
     HLSLINCLUDE
     #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             CBUFFER_START(UnityPerMaterial)
+                float4 _ClothAuditColor;
                 float4 _BaseColor, _TrimColor; half4 _RimColor; float4 _WeaveMap_ST; float4 _NormalMap_ST, _MaskMap_ST;
                 half _Smoothness, _Wrap, _RimPower, _RimStrength, _Exposure, _Knee;
                 float _WeaveTile, _WeaveAngle;
@@ -67,10 +70,12 @@ Shader "GolfArcade/TennisCloth"
                 half _UseGarmentMaps, _NormalStrength, _AOStrength;
                 half _FabricVersion, _EdgeLines, _FemaleSurface;
                 half _AtlasVersion, _KnitCell, _FabricDetail, _FibreShine, _Mottle;
+                half _MaterialMatte;
                 half _StylePass, _StyleSmooth, _StyleSpec, _StyleEnv, _StyleAOFloor, _StyleRamp, _StyleSheen, _StyleValueCap, _StyleSat, _StyleCool, _StyleFill, _StyleDewarm;
                 float4 _JigHem, _JigSleeveL, _JigSleeveR, _JigCollar; half _JigOn;
             CBUFFER_END
             TEXTURE2D(_JiggleMap); SAMPLER(sampler_JiggleMap);
+            float _ClothAuditMode;               // ClothAudit (editor films): 1 = flat ID colour, inside faces darker
             float _ClothJiggleGlobal;            // set by ClothJiggle (1 while any hero simulates); 0 = every garment static, as shipped
             // Inertia wobble: loose cloth moves by the springs' world offsets; never into the body (inward part along the normal dropped)
             float3 ClothJiggle(float3 pWS, float3 nWS, float2 uv)
@@ -80,6 +85,18 @@ Shader "GolfArcade/TennisCloth"
                 float3 off = w.r * _JigHem.xyz + w.g * _JigSleeveL.xyz + w.b * _JigSleeveR.xyz + w.a * _JigCollar.xyz;
                 off -= nWS * min(dot(off, nWS), 0) * .85;
                 return pWS + off;
+            }
+            // LIVE POLO (PoloCloth.cs): world offsets of up to 256 cloth particles, 4 per vertex (UV5 ids, UV6 weights).
+            float4 _Cage[256]; float _CageOn;
+            float _KitSatCut;
+            // POSE-DRIVEN WRINKLES (WrinkleBlend.cs): up to 6 baked wrinkle maps, two per texture (xy, xy), weighted per frame
+            TEXTURE2D(_Wr0); SAMPLER(sampler_Wr0); TEXTURE2D(_Wr1); TEXTURE2D(_Wr2);
+            float4 _WrW0, _WrW1; float _WrOn, _WrGain;
+            float _KnitShow;   // 1 = keep the piqué thread shade under the style pass (live polo)
+            float3 PoloCage(float3 pWS, float4 id, float4 w)
+            {
+                if (_CageOn < .5 || _ClothJiggleGlobal < .5) return pWS;
+                return pWS + w.x * _Cage[(uint)id.x].xyz + w.y * _Cage[(uint)id.y].xyz + w.z * _Cage[(uint)id.z].xyz + w.w * _Cage[(uint)id.w].xyz;
             }
             TEXTURE2D(_NormalMap); SAMPLER(sampler_NormalMap);
             TEXTURE2D(_MaskMap); SAMPLER(sampler_MaskMap);
@@ -109,22 +126,22 @@ Shader "GolfArcade/TennisCloth"
             #include "HeroLighting.hlsl"
             #include "HeroCloth.hlsl"
 
-            struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; float4 tangentOS : TANGENT; float2 uv : TEXCOORD0; float4 edge : TEXCOORD3; };
+            struct Attributes { float4 positionOS : POSITION; float3 normalOS : NORMAL; float4 tangentOS : TANGENT; float2 uv : TEXCOORD0; float4 edge : TEXCOORD3; float4 construction : TEXCOORD4; float4 cageId : TEXCOORD5; float4 cageW : TEXCOORD6; };
             struct Varyings
             {
                 float4 positionCS : SV_POSITION; float2 uv : TEXCOORD0; float3 positionWS : TEXCOORD1; float3 normalWS : TEXCOORD2;
-                float4 tangentWS : TEXCOORD3; half fog : TEXCOORD4; float4 edge : TEXCOORD5;
+                float4 tangentWS : TEXCOORD3; half fog : TEXCOORD4; float4 edge : TEXCOORD5; float4 construction : TEXCOORD6;
             };
 
             Varyings vert (Attributes i)
             {
                 Varyings o;
                 VertexNormalInputs nrm = GetVertexNormalInputs(i.normalOS, i.tangentOS);
-                o.positionWS = ClothJiggle(TransformObjectToWorld(i.positionOS.xyz), nrm.normalWS, i.uv);
+                o.positionWS = PoloCage(ClothJiggle(TransformObjectToWorld(i.positionOS.xyz), nrm.normalWS, i.uv), i.cageId, i.cageW);
                 o.positionCS = TransformWorldToHClip(o.positionWS);
                 o.normalWS = nrm.normalWS;
                 o.tangentWS = float4(nrm.tangentWS, i.tangentOS.w * GetOddNegativeScale());
-                o.uv = i.uv; o.edge = i.edge;
+                o.uv = i.uv; o.edge = i.edge; o.construction = i.construction;
                 o.fog = ComputeFogFactor(o.positionCS.z);
                 return o;
             }
@@ -210,6 +227,7 @@ Shader "GolfArcade/TennisCloth"
 
             half4 frag (Varyings i, FRONT_FACE_TYPE facing : FRONT_FACE_SEMANTIC) : SV_Target
             {
+                if (_ClothAuditMode > .5) return IS_FRONT_VFACE(facing, true, false) ? half4(_ClothAuditColor.rgb, 1) : half4(_ClothAuditColor.rgb * .5h, 1);
                 half3 n = normalize(i.normalWS);
                 half3 v = normalize(GetWorldSpaceViewDir(i.positionWS));
 
@@ -219,6 +237,21 @@ Shader "GolfArcade/TennisCloth"
                     mask = SAMPLE_TEXTURE2D(_MaskMap, sampler_MaskMap, i.uv);
                     garment = UnpackNormal(SAMPLE_TEXTURE2D(_NormalMap, sampler_NormalMap, i.uv));
                     garment.xy *= _NormalStrength;
+                    if (_WrOn > .5h) {
+                        half4 q0 = SAMPLE_TEXTURE2D(_Wr0, sampler_Wr0, i.uv) * 2 - 1, q1 = SAMPLE_TEXTURE2D(_Wr1, sampler_Wr0, i.uv) * 2 - 1, q2 = SAMPLE_TEXTURE2D(_Wr2, sampler_Wr0, i.uv) * 2 - 1;
+                        half2 wr = q0.xy * _WrW0.x + q0.zw * _WrW0.y + q1.xy * _WrW0.z + q1.zw * _WrW0.w + q2.xy * _WrW1.x + q2.zw * _WrW1.y;
+                        garment = normalize(half3(garment.xy + wr * _WrGain, garment.z));
+                    }
+                }
+                bool panel = i.construction.z > 3.5;
+                bool sewn = i.construction.z > .5 && !panel;
+                if (sewn || panel) {
+                    garment = half3(0, 0, 1);
+                    mask.rg = 1;
+                }
+                if (panel) {
+                    mask.b = 0;
+                    mask.a = 0;
                 }
                 half id = floor(mask.a * (_FabricVersion > 2.5h ? 15 : _FabricVersion > 1.5h ? 9 : 5) + .5h), smoothness, sheen, knit, frequency;
                 bool v3 = _AtlasVersion > 2.5h;
@@ -228,8 +261,12 @@ Shader "GolfArcade/TennisCloth"
                 if (_UseGarmentMaps < .5h) { smoothness = _Smoothness; sheen = _SheenStrength; }
                 else if (_FemaleSurface > .5h) { smoothness *= .65h; sheen *= .90h; }
                 if (_FemaleSurface>.5h && _EdgeLines>.5h && _EdgeLines<1.5h) { id=i.edge.x>=0?3:2; sheen=0; }
+                smoothness = lerp(smoothness, .12h, _MaterialMatte);
+                sheen *= lerp(1, .28h, _MaterialMatte);
                 float ang = radians(_WeaveAngle); float sn, cs; sincos(ang, sn, cs);
                 float2 wuv = float2(cs * i.uv.x - sn * i.uv.y, sn * i.uv.x + cs * i.uv.y) * _WeaveTile;
+                if (sewn) wuv = float2(i.construction.x * 64.0, i.construction.y * 0.42);
+                if (panel) wuv = i.construction.xy * 77.0;
                 // Fade individual threads before their Nyquist limit; UV derivatives are evaluated before frac.
                 float2 dx = ddx(wuv), dy = ddy(wuv);
                 float footprint = max(max(abs(dx.x), abs(dx.y)), max(abs(dy.x), abs(dy.y)));
@@ -270,8 +307,31 @@ Shader "GolfArcade/TennisCloth"
                     half f2 = 1 - smoothstep(.5h, 1.2h, max(length(ddx(m2)), length(ddy(m2))));
                     mottle = 1 + _Mottle * ((ClothMottle(m1) - .5h) * 1.4h + (ClothMottle(m2) - .5h) * .9h * f2) * (id > 2.5h && id < 4.5h ? .3h : 1);
                 }
-                if (_StylePass > .5h) { threadBreak = lerp(1, threadBreak, .25h); mottle = lerp(1, mottle, .3h); }   // smooth performance poly: little thread speckle
+                if (_StylePass > .5h && _KnitShow < .5h) { threadBreak = lerp(1, threadBreak, .25h); mottle = lerp(1, mottle, .3h); }   // smooth performance poly: little thread speckle
                 half3 albedo = lerp(_BaseColor.rgb, _TrimColor.rgb, mask.b) * threadBreak * mottle;
+                if (_MaterialMatte > .5 && v3) {
+                    // Bundles of knit loops and woven ribs remain readable in a close
+                    // gameplay view. Derivative filtering leaves the atlas average
+                    // when the pattern is below a screen pixel.
+                    float2 yarn = wuv * float2(4.1, 5.4);
+                    half visible = 1 - smoothstep(.31, .80, max(length(ddx(yarn)), length(ddy(yarn))));
+                    half warp = cos(6.2831853 * yarn.x);
+                    half weft = cos(6.2831853 * yarn.y);
+                    half knitBundle = warp * weft * .58h + weft * .27h;
+                    half wovenRib = sin(6.2831853 * (yarn.x + yarn.y * .53)) * .65h;
+                    half bundleKnit = (fv.cell > .5h && fv.cell < 1.5h) || (fv.cell > 3.5h && fv.cell < 4.5h);
+                    half tone = lerp(wovenRib, knitBundle, bundleKnit);
+                    albedo *= 1 + ((weave.b - .78h) * .40h + tone * .11h) * visible;
+                }
+                if (sewn) {
+                    float lengthAlong = i.construction.x / .0054;
+                    half stitches = 1 - smoothstep(.19, .39, abs(frac(lengthAlong) - .5));
+                    stitches *= 1 - smoothstep(.40, .87, fwidth(lengthAlong));
+                    half track = i.construction.z > 1.5 ? abs(abs(i.construction.y) - .52) : abs(i.construction.y);
+                    half thread = (1 - smoothstep(.13, .39, track)) * stitches;
+                    half dark = i.construction.z > 2.5 ? .81 : i.construction.z > 1.5 ? .91 : .87;
+                    albedo *= lerp(1, dark + thread * .21h, i.construction.w);
+                }
                 if (_FemaleSurface>.5h && !(id>2.5h&&id<4.5h)) {
                     // Larger knit clusters remain visible after individual atlas
                     // threads fade. Relative neutral detail preserves all palettes.
@@ -282,6 +342,7 @@ Shader "GolfArcade/TennisCloth"
                     smoothness*=1+grain*.25h*grainFade*fibreCoverage;
                 }
                 // Applied to the finished colour: the white kit's highlight shoulder would otherwise roll a darker albedo back to white.
+                if (panel) albedo *= lerp(1, .685h, i.construction.w);
                 half edgeShade = _EdgeLines > .5h ? KitEdgeLines(i.edge) : 1;
                 half aoVisibility = lerp(1, max(mask.r, .70h), _AOStrength);
                 half ao = lerp(1, aoVisibility, .5h);
@@ -368,11 +429,19 @@ Shader "GolfArcade/TennisCloth"
                     half clothGain = lerp(min(_HeroClothExposure,3),_HeroClothExposure,neutralWhite);
                     colour *= _HeroClothBalance * lerp(clothGain, 1, mask.b);
                     colour *= lerp(.68h, 1, aoVisibility) * lerp(_FemaleSurface>.5h?.95h:.75h, 1, mask.g);
-                    if (_HeroFilmResponse < .5h) colour = max(colour, albedo * lerp(.35h,4.0h,mask.b));
+                    if (_HeroFilmResponse < .5h) {
+                        half3 legacy = max(colour, albedo * lerp(.35h, 4.0h, mask.b));
+                        colour = lerp(legacy, colour, _MaterialMatte);
+                    }
                 } else {
                     colour = (_HeroFilmResponse>.5h ? colour*_Exposure : SoftShoulder(colour * _Exposure)) * lerp(.68h, 1, aoVisibility) * lerp(_FemaleSurface>.5h?.95h:.75h, 1, mask.g);
                 }
-                return half4(MixFog(HeroClothFinish(colour) * edgeShade, i.fog), 1);
+                { half mx = max(max(albedo.r, albedo.g), albedo.b), mn = min(min(albedo.r, albedo.g), albedo.b);
+                  colour *= 1 - _KitSatCut * saturate((mx - mn) / max(mx, 1e-3)); }   // KIT DETAIL: saturated picks stop clipping to a flat hue
+                half3 finish = HeroClothFinish(colour);
+                // Keep the folds visible on saturated colors without clipping the key-side highlight.
+                half3 wovenFinish = HeroHighlightRoll(colour, .38h, .72h);
+                return half4(MixFog(lerp(finish, wovenFinish, _MaterialMatte) * edgeShade, i.fog), 1);
             }
             ENDHLSL
         }
@@ -387,10 +456,10 @@ Shader "GolfArcade/TennisCloth"
             #pragma fragment shadowFrag
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Shadows.hlsl"
             float3 _LightDirection;
-            struct ShadowInput { float4 positionOS : POSITION; float3 normalOS : NORMAL; float2 uv : TEXCOORD0; };
+            struct ShadowInput { float4 positionOS : POSITION; float3 normalOS : NORMAL; float2 uv : TEXCOORD0; float4 cageId : TEXCOORD5; float4 cageW : TEXCOORD6; };
             float4 shadowVert(ShadowInput i) : SV_POSITION {
                 float3 p = TransformObjectToWorld(i.positionOS.xyz), n = TransformObjectToWorldNormal(i.normalOS);
-                p = ClothJiggle(p, n, i.uv);
+                p = PoloCage(ClothJiggle(p, n, i.uv), i.cageId, i.cageW);
                 float4 clip = TransformWorldToHClip(ApplyShadowBias(p,n,_LightDirection));
                 #if UNITY_REVERSED_Z
                 clip.z = min(clip.z, UNITY_NEAR_CLIP_VALUE * clip.w);
@@ -410,7 +479,7 @@ Shader "GolfArcade/TennisCloth"
             HLSLPROGRAM
             #pragma vertex depthVert
             #pragma fragment depthFrag
-            float4 depthVert(float4 p : POSITION, float3 nOS : NORMAL, float2 uv : TEXCOORD0) : SV_POSITION { return TransformWorldToHClip(ClothJiggle(TransformObjectToWorld(p.xyz), TransformObjectToWorldNormal(nOS), uv)); }
+            float4 depthVert(float4 p : POSITION, float3 nOS : NORMAL, float2 uv : TEXCOORD0, float4 cageId : TEXCOORD5, float4 cageW : TEXCOORD6) : SV_POSITION { return TransformWorldToHClip(PoloCage(ClothJiggle(TransformObjectToWorld(p.xyz), TransformObjectToWorldNormal(nOS), uv), cageId, cageW)); }
             half4 depthFrag() : SV_Target { return 0; }
             ENDHLSL
         }
@@ -422,11 +491,11 @@ Shader "GolfArcade/TennisCloth"
             HLSLPROGRAM
             #pragma vertex normalVert
             #pragma fragment normalFrag
-            struct NInput { float4 positionOS : POSITION; float3 normalOS : NORMAL; float4 tangentOS : TANGENT; float2 uv : TEXCOORD0; };
+            struct NInput { float4 positionOS : POSITION; float3 normalOS : NORMAL; float4 tangentOS : TANGENT; float2 uv : TEXCOORD0; float4 cageId : TEXCOORD5; float4 cageW : TEXCOORD6; };
             struct NOutput { float4 positionCS : SV_POSITION; float3 normalWS : TEXCOORD0; float4 tangentWS : TEXCOORD1; float2 uv : TEXCOORD2; };
             NOutput normalVert(NInput i) {
                 NOutput o; VertexNormalInputs n=GetVertexNormalInputs(i.normalOS,i.tangentOS);o.normalWS=n.normalWS;
-                o.positionCS=TransformWorldToHClip(ClothJiggle(TransformObjectToWorld(i.positionOS.xyz),n.normalWS,i.uv));
+                o.positionCS=TransformWorldToHClip(PoloCage(ClothJiggle(TransformObjectToWorld(i.positionOS.xyz),n.normalWS,i.uv),i.cageId,i.cageW));
                 o.tangentWS=float4(n.tangentWS,i.tangentOS.w*GetOddNegativeScale());o.uv=i.uv;return o;
             }
             half4 normalFrag(NOutput i, FRONT_FACE_TYPE facing : FRONT_FACE_SEMANTIC) : SV_Target {

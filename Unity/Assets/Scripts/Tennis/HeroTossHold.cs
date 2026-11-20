@@ -13,7 +13,7 @@ namespace GolfArcade.Tennis
     {
         public HeroTennisDriver driver;
         HeroBallGrip.Hand grip; bool found;
-        float hold, small;
+        float hold, small, palm;
         /// The drawn radius while the ball is in the server's hands. The game's ball is an arcade ball (TennisRules.BallRadius .10 m, a
         /// 20 cm sphere read from the TV) that no hand can close on; in the serve routine it is drawn hand-sized, and grows back to the
         /// game's size over ~0.2 s once tossed (physics never changes).
@@ -46,11 +46,17 @@ namespace GolfArcade.Tennis
             if (driver.TossFollowsClip && driver.actor.PrepareAmount > .001f && game.ServeBallHeld(driver.actor)) want = 1;
             hold = want;   // no easing: the fade is in the distance itself, and an eased weight would lag the ball off the palm
             if (small > .001f) ball.localScale *= r / TennisRules.BallRadius;   // (TennisGame sets the scale every frame, squash included)
-            if (hold <= .001f) return;
-            HeroBallGrip.FacePalm(grip, at, hold, 75);
-            var seat = HeroBallGrip.Seat(grip, r, skin);
-            ball.position = Vector3.Lerp(ball.position, seat, hold);
-            HeroBallGrip.Wrap(grip, ball.position, r, pad, hold, true, 80);
+            // 11-20: the palm turn and the finger wrap ease in and out (~0.12 s). Instant 0/1 steps at the wind-up and at the release turned the
+            // hand up to 75 deg in one frame (serve flips). The ball seating stays un-eased so the ball never lags off the palm.
+            palm = driver.TossFollowsClip ? Mathf.MoveTowards(palm, hold, Time.deltaTime / .12f) : hold;
+            if (hold <= .001f && palm <= .001f) return;
+            HeroBallGrip.FacePalm(grip, at, palm, 75);
+            if (hold > .001f)
+            {
+                var seat = HeroBallGrip.Seat(grip, r, skin);
+                ball.position = Vector3.Lerp(ball.position, seat, hold);
+            }
+            HeroBallGrip.Wrap(grip, ball.position, r, pad, palm, true, 80);
         }
     }
 }

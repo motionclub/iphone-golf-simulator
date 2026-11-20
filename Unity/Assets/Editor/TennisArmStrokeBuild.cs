@@ -111,9 +111,9 @@ namespace GolfArcade.EditorTools
         {
             Debug.Log("[TennisArmStrokeBuild] reference-shared-palm-v5");
             var report=new StringBuilder();string dir="Assets/Resources/Tennis/Performance";
-            // 11-19: female only. The male strokes were rebuilt in Blender (work/serve-ref-1118) and ship as the FBX clips; a male
-            // ArmCorrected override would replace the new forehand/backhand with the old ones again.
-            foreach(string sex in new[]{"Female"})foreach(bool bh in new[]{false,true})
+            // 11-19: no hero gets ArmCorrected overrides any more. The male strokes were rebuilt in Blender (work/serve-ref-1118) and the
+            // female strokes are copies of them (work/female-copy-male-1119); an override would replace the new forehand/backhand with the old ones.
+            foreach(string sex in new string[0])foreach(bool bh in new[]{false,true})
             {
                 if(!bh&&Environment.GetEnvironmentVariable("TENNIS_BUILD_BACKHAND_ONLY")=="1")continue;
                 var root=Object.Instantiate(Resources.Load<GameObject>("Tennis/Customization/Player"+sex));

@@ -78,6 +78,11 @@ namespace GolfArcade.Shot
         public const double SampleInterval = 1.0 / 60;
         public const double MaxDuration = 16.0;
         public const double MetersPerYard = 0.9144;
+        /// The game's wind (11-19), tuned to be a read on every full shot: the ball feels `AirWindShare` of the wind
+        /// through the air (drag and lift, so a lofted shot still balloons into it), plus a steady push of `WindPush` × the
+        /// wind's speed (m/s² per m/s) along it. Together they move a full shot about 1.2% of its distance per mph, the same
+        /// helping, into or across, and in proportion to the speed: 10 mph across a 150-yard 7-iron is ~18 yards.
+        public const double AirWindShare = 0.5, WindPush = 0.2;
 
         readonly List<FlightPoint> samples;
         public double Carry { get; }
@@ -214,6 +219,9 @@ namespace GolfArcade.Shot
             double windSpeed = (double.IsFinite(launch.WindMPH) ? Math.Max(0, launch.WindMPH) : 0) * 0.44704;
             double windAzimuth = (double.IsFinite(launch.WindDegrees) ? launch.WindDegrees : 0) * Math.PI / 180;
             double windX = Math.Sin(windAzimuth) * windSpeed, windZ = Math.Cos(windAzimuth) * windSpeed;
+            // (arcade wind, 11-19: half the real air plus a steady push, so a shot moves about 1.2% of its distance per mph
+            // whichever way it blows and whatever the club; real air alone hurt into the wind twice what it helped behind)
+            double airX = windX * AirWindShare, airZ = windZ * AirWindShare;
 
             var samples = new List<FlightPoint> { new(0, 0, 0) };
             double time = 0;
@@ -232,7 +240,7 @@ namespace GolfArcade.Shot
             {
                 if (airborne)
                 {
-                    double rx = vx - windX, ry = vy, rz = vz - windZ; // velocity through the air
+                    double rx = vx - airX, ry = vy, rz = vz - airZ; // velocity through the air
                     double v = Math.Sqrt(rx * rx + ry * ry + rz * rz);
                     double ax = 0, ay = -gravity, az = 0;
                     if (v > 0.01)
@@ -262,6 +270,7 @@ namespace GolfArcade.Shot
                         az += (-dz * drag + lz * lift) * k;
                         spin *= Math.Exp(-dt / 45);
                     }
+                    ax += windX * WindPush; az += windZ * WindPush;   // the steady push, along the wind
                     vx += ax * dt; vy += ay * dt; vz += az * dt;
                     px += vx * dt; py += vy * dt; pz += vz * dt;
                     apexMeters = Math.Max(apexMeters, py);

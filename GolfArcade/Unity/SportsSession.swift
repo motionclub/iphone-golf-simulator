@@ -926,6 +926,11 @@ final class SportsSession {
         sendJSON(["version":1,"session":sessionID,"action":"golfAimDirection",
                   "value":max(-1,min(1,across)),"value2":max(-1,min(1,forward))])
     }
+    /// The TV's aiming camera looking up the hole (1, the aerial view) or back at the golfer (0); the game drops it for each new shot.
+    func lookGolf(_ look: Double) {
+        guard active, sport == "golf", ready, !paused, golfPhase == "Aim", look.isFinite else { return }
+        sendJSON(["version":1,"session":sessionID,"action":"golfLook","value":max(-1,min(1,look))])
+    }
     func setShotAim(across:Double,depth:Double) {
         shotAim=max(-1,min(1,across)); shotDepth=max(0,min(1,depth)); aim=shotAim
         sendJSON(["version":1,"session":sessionID,"action":"rallyAim","value":shotAim,"value2":shotDepth])

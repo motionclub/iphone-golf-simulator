@@ -62,6 +62,66 @@ namespace GolfArcade.PlayTests {
                 Command("end"); Assert.IsFalse(NativeSportsSession.Active);
             } finally { Object.DestroyImmediate(host); Time.timeScale=1; }
         }
+        /// 11-20: the phone's swipe up on its aim pad sends golfLook 1 (the aerial view), a swipe down golfLook 0.
+        [UnityTest, Timeout(180000)] public IEnumerator PhoneSwipeUpGoesAerialAndSwipeDownComesBack() {
+            yield return UnityEngine.SceneManagement.SceneManager.LoadSceneAsync("Golf");
+            yield return null;
+            game=Object.FindFirstObjectByType<GolfGame>(); game.PrepareNativeAddress();
+            var host = new GameObject("NativeSportsSession");
+            var bridge = host.AddComponent<NativeSportsSession>();
+            bridge.enabled=false;
+            const string id = "golf-look-check";
+            var fields=System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic;
+            typeof(NativeSportsSession).GetField("session",fields).SetValue(bridge,id);
+            typeof(NativeSportsSession).GetField("golf",fields).SetValue(bridge,game);
+            typeof(NativeSportsSession).GetField("touch",fields).SetValue(bridge,true);
+            typeof(NativeSportsSession).GetProperty("Active").GetSetMethod(true).Invoke(null,new object[]{true});
+            typeof(GolfGame).GetField("pendingNativeIntro",fields).SetValue(game,false);
+            void Command(string action,float value=0,float value2=0) => bridge.Receive(JsonUtility.ToJson(
+                new NativeSportsSession.Message {version=1,session=id,action=action,value=value,value2=value2}));
+            IEnumerator Settle() { float until=Time.realtimeSinceStartup+2f; while(Time.realtimeSinceStartup<until) yield return null; }
+            try {
+                Command("recalibrate"); Command("resume");
+                for(int i=0;i<180 && game.Current!=GolfGame.State.Aim;i++) yield return null;
+                Assert.AreEqual(GolfGame.State.Aim,game.Current);
+                var cam=game.GameplayCamera.transform;
+                yield return Settle();
+                Assert.That(game.AimLook,Is.EqualTo(0).Within(.001));
+                float groundY=cam.position.y; double heading=game.AimHeading;
+
+                Command("golfLook",1); yield return Settle();
+                Assert.That(game.AimLook,Is.EqualTo(1).Within(.001),"Swipe up must push the look all the way up");
+                float aerialY=cam.position.y;
+                Debug.Log($"[golf-look] address camera y={groundY:F2}, aerial y={aerialY:F2}");
+                Assert.That(aerialY,Is.GreaterThan(groundY+5),"The aerial view must climb well above the address view");
+                Assert.That(game.AimHeading,Is.EqualTo(heading).Within(.001),"Looking must not turn the aim");
+
+                Command("golfLook",0); yield return Settle();
+                Assert.That(game.AimLook,Is.EqualTo(0).Within(.001),"Swipe down must bring the look back");
+                Assert.That(cam.position.y,Is.EqualTo(groundY).Within(.5f),"The camera must come back to the address view");
+
+                Command("pause"); Command("golfLook",1); Command("recalibrate"); Command("resume"); yield return Settle();
+                Assert.That(game.AimLook,Is.EqualTo(0).Within(.001),"A look sent while paused is ignored");
+
+                // the aerial look ends with the shot: the next address starts at the golfer
+                Command("golfLook",1); yield return Settle();
+                Assert.That(game.AimLook,Is.EqualTo(1).Within(.001));
+                game.NativeSwing(.65f);
+                Assert.AreEqual(GolfGame.State.Flight,game.Current);
+                Time.timeScale=4;
+                float deadline=Time.realtimeSinceStartup+45;
+                while(game.Current!=GolfGame.State.Aim && game.Current!=GolfGame.State.RoundDone && Time.realtimeSinceStartup<deadline) {
+                    if(game.Current==GolfGame.State.Result) game.NativeContinue();
+                    yield return null;
+                }
+                Time.timeScale=1;
+                Assert.AreEqual(GolfGame.State.Aim,game.Current);
+                yield return Settle();
+                Assert.That(game.NativeLookHeld,Is.EqualTo(0),"The phone's look is dropped for the next shot");
+                Assert.That(game.AimLook,Is.EqualTo(0).Within(.001),"The next shot starts at the address view");
+                Command("end");
+            } finally { Object.DestroyImmediate(host); Time.timeScale=1; }
+        }
         [UnityTest] public IEnumerator NativeRoundAcceptsAShotAndExitsWithoutOpeningTheLegacyMenu() {
             game = new GameObject("Native golf flow check").AddComponent<GolfGame>();
             yield return null;

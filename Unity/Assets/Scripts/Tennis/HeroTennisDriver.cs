@@ -1260,7 +1260,7 @@ namespace GolfArcade.Tennis
         {
             return tossPoints != null ? Quaternion.Euler(0, walkYaw, 0) * tossPoints[Mathf.Clamp(k, 0, 2)] : (Vector3?)null;   // read off the Serve clip's tossing hand (BuildServeRitualPoints)
         }
-        float tossWeight; Transform leftMiddle;
+        float tossWeight; Transform leftMiddle; Vector3 tossGoalLocal;
         void TossArm()
         {
             float want = actor.PrepareServe || (actionActive && action == Clip.Serve && actor.Swinging) ? actor.TossReachWanted : 0;
@@ -1277,6 +1277,9 @@ namespace GolfArcade.Tennis
             bool bouncing = actor.PrepareAmount <= .001f;
             Vector3 palm = leftMiddle ? Vector3.Lerp(hand.position, leftMiddle.position, .7f) : hand.position;
             Vector3 goal = ball + Vector3.up * (bouncing ? .045f : -.045f);
+            // 11-20: with tossFollowsClip the IK only fades out once the wind-up starts. Fade toward the last bounce goal (hero space): switching to
+            // the under-the-ball goal (9 cm lower) or the wind-up ball path while the weight is still ~1 yanked the arm (70 deg twist in one tick).
+            if (tossFollowsClip) { if (bouncing) tossGoalLocal = transform.InverseTransformPoint(goal); else goal = transform.TransformPoint(tossGoalLocal); }
             var hr = hand.rotation;
             TwoBone(up, lo, hand, Vector3.Lerp(hand.position, hand.position + (goal - palm), tossWeight));
             hand.rotation = hr;

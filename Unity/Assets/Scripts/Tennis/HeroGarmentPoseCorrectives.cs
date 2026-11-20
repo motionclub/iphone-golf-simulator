@@ -71,6 +71,7 @@ namespace GolfArcade.Tennis {
    if(previous!=top.sharedMesh){previous=top.sharedMesh;indices=profile.anchors.Select(a=>previous.GetBlendShapeIndex(Prefix+a.shape)).ToArray();}
    return true;
   }
+  public static float MaleCorrectiveGain=float.TryParse(Environment.GetEnvironmentVariable("GARMENT_CORRECTIVE_GAIN"),System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out var g)?g:0f;
   public void Apply(){
    if(!Init())return;
    for(int i=0;i<8;i++)directions[i]=(joints[i,1].position-joints[i,0].position).normalized;
@@ -84,7 +85,10 @@ namespace GolfArcade.Tennis {
    // Isolate the authored envelope from a proposed deformation repair in actual pose captures.
    applyEnvelope=Environment.GetEnvironmentVariable("VISUAL_SLEEVE_ANCHORS")!="0";
 #endif
-   for(int a=0;a<weights.Length;a++)if(indices[a]>=0)top.SetBlendShapeWeight(indices[a],applyEnvelope?(float)(100*confidence*weights[a]/sum):0);
+   // cloth-rip-1120: the male slim polo crumpled its placket under these envelopes (a lump on the chest); with the KitTuck skin
+   // tuck they no longer stop any poke-through (film audit: same rip counts on/off), so his envelope is off. GARMENT_CORRECTIVE_GAIN overrides.
+   float gain=look.female?1f:MaleCorrectiveGain;
+   for(int a=0;a<weights.Length;a++)if(indices[a]>=0)top.SetBlendShapeWeight(indices[a],applyEnvelope?(float)(100*gain*confidence*weights[a]/sum):0);
    HeroGarmentGusset.Apply(look.female,look.transform,top);
   }
   void LateUpdate(){

@@ -11,8 +11,8 @@ namespace GolfArcade.Course
         public readonly double DirectionDegrees;
 
         public const double MaxMPH = 20;
-        /// From here up the wind is strong (a 7-iron drifts 20 yards and more across it); from ModerateMPH it is worth
-        /// aiming off.
+        /// From ModerateMPH a 7-iron drifts 18 yards or more across it (BallFlight.WindPush); from StrongMPH 25 and more.
+        /// Every full shot moves about 1.2% of its distance per mph, so even a light wind is worth a little aim-off.
         public const double ModerateMPH = 10, StrongMPH = 15;
 
         public Wind(double speedMPH, double directionDegrees)
@@ -29,14 +29,14 @@ namespace GolfArcade.Course
         /// Calm, Light, Moderate or Strong, for the HUD.
         public string Strength => IsCalm ? "Calm" : SpeedMPH < ModerateMPH ? "Light" : IsStrong ? "Strong" : "Moderate";
 
-        /// A hole's wind, from any direction: a quarter of holes near calm (0–3 mph), most light (4–9), a quarter
-        /// moderate (10–14) and only one in ten strong (15–20), so a big blow is an event, not the weather.
+        /// A hole's wind, from any direction (11-19: wind is part of every hole, not an event): one hole in twenty near
+        /// calm (0–2 mph), a third light (5–9), the most moderate (10–14) and one in five strong (15–20).
         public static Wind Random(System.Random rng)
         {
             double band = rng.NextDouble(), within = rng.NextDouble();
-            double speed = band < 0.25 ? Math.Round(3 * within)
-                : band < 0.65 ? 4 + Math.Round(5 * within)
-                : band < 0.90 ? ModerateMPH + Math.Round(4 * within)
+            double speed = band < 0.05 ? Math.Round(2 * within)
+                : band < 0.40 ? 5 + Math.Round(4 * within)
+                : band < 0.80 ? ModerateMPH + Math.Round(4 * within)
                 : StrongMPH + Math.Round(5 * within);
             return new Wind(speed, Math.Round(rng.NextDouble() * 360 - 180));
         }

@@ -98,20 +98,20 @@ namespace GolfArcade.Tests
         }
 
         [Test]
-        public void StrongWindIsRareAndMostHolesAreLight()
+        public void EveryHoleHasAWindWorthReading()
         {
             var rng = new System.Random(11);
-            int n = 20000, strong = 0, light = 0, calm = 0;
+            int n = 20000, strong = 0, moderateUp = 0, calm = 0;
             for (int i = 0; i < n; i++)
             {
                 var w = Wind.Random(rng);
                 if (w.IsStrong) strong++;
-                if (w.SpeedMPH < Wind.ModerateMPH) light++;
-                if (w.SpeedMPH <= 3) calm++;
+                if (w.SpeedMPH >= Wind.ModerateMPH) moderateUp++;
+                if (w.SpeedMPH <= 2) calm++;
             }
-            Assert.That(strong / (double)n, Is.InRange(0.08, 0.12), "about one hole in ten blows 15 mph or more");
-            Assert.That(light / (double)n, Is.InRange(0.6, 0.7), "two holes in three are under 10 mph");
-            Assert.That(calm / (double)n, Is.InRange(0.2, 0.3), "a quarter are near calm");
+            Assert.That(strong / (double)n, Is.InRange(0.17, 0.23), "one hole in five blows 15 mph or more");
+            Assert.That(moderateUp / (double)n, Is.InRange(0.55, 0.65), "most holes are 10 mph or more");
+            Assert.That(calm / (double)n, Is.InRange(0.03, 0.07), "a still hole is the rare one");
             Assert.AreEqual("Strong", new Wind(18, 0).Strength);
             Assert.AreEqual("Moderate", new Wind(12, 0).Strength);
             Assert.AreEqual("Light", new Wind(5, 0).Strength);
@@ -131,6 +131,32 @@ namespace GolfArcade.Tests
             Assert.AreEqual(still.Rest.X, gale.Rest.X, 1e-9, "a putt rolls on the ground, out of the wind");
             Assert.AreEqual(still.Rest.D, gale.Rest.D, 1e-9);
             Assert.Less(iron.Landing.LateralYards, 0.5);
+        }
+
+        [Test]
+        public void WindMovesEveryClubTheSameShareOfItsDistance()
+        {
+            // the read is one rule: about 1.2% of the shot's distance per mph, helping, into or across, for every full club
+            foreach (var club in new[] { GolfClub.Driver, GolfClub.Iron5, GolfClub.Iron, GolfClub.Iron9, GolfClub.PitchingWedge, GolfClub.Wedge })
+            {
+                double reference = club.ReferenceDistanceYards(), calm = Fly(club, 0, 0).Carry;
+                double into = (calm - Fly(club, 10, 180).Carry) / reference;
+                double helping = (Fly(club, 10, 0).Carry - calm) / reference;
+                double across = Fly(club, 10, 90).Landing.LateralYards / reference;
+                foreach (var share in new[] { into, helping, across })
+                    Assert.That(share, Is.InRange(0.08, 0.16), $"{club}: 10 mph moves it 8–16% of its distance");
+                Assert.AreEqual(into, helping, 0.02, $"{club}: a wind behind helps about as much as one in the face hurts");
+                double across20 = Fly(club, 20, 90).Landing.LateralYards / reference;
+                Assert.AreEqual(2 * across, across20, 0.03, $"{club}: twice the wind, twice the drift");
+            }
+        }
+
+        [Test]
+        public void ModerateWindAcrossMissesTheGreen()
+        {
+            // 10 mph across a 150-yard 7-iron: well over a green's half-width, so a player who ignores it misses
+            Assert.Greater(Fly(GolfClub.Iron, Wind.ModerateMPH, 90).Landing.LateralYards, 15);
+            Assert.Greater(Fly(GolfClub.Iron, Wind.StrongMPH, 90).Landing.LateralYards, 24);
         }
     }
 }

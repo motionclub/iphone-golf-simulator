@@ -77,3 +77,27 @@ final class GolfTapSwingTests: XCTestCase {
         XCTAssertEqual(tap.tap(canArm: true, now: 0.3), .start, "a stale swing never blocks the next tap")
     }
 }
+
+/// 11-20: a quick swipe up on the aim pad goes to the aerial view, a swipe down comes back; slow or sideways drags stay aim.
+final class GolfLookFlickTests: XCTestCase {
+    private func flick(_ dx: CGFloat, _ dy: CGFloat, vy: CGFloat, distance: CGFloat = 45) -> Bool? {
+        GolfLookFlick.direction(translation: CGSize(width: dx, height: dy), velocity: CGSize(width: 0, height: vy), distance: distance)
+    }
+    func testAQuickSwipeUpIsAerial() {
+        XCTAssertEqual(flick(5, -80, vy: -900), true)
+        XCTAssertEqual(flick(0, -32, vy: -600, distance: 30), true, "the handheld pad's shorter swipe")
+    }
+    func testAQuickSwipeDownComesBack() {
+        XCTAssertEqual(flick(-8, 90, vy: 1100), false)
+    }
+    func testSlowDragsStayAim() {
+        XCTAssertNil(flick(0, -120, vy: -120), "a slow drag up is aiming, not a swipe")
+    }
+    func testSidewaysAndShortDragsStayAim() {
+        XCTAssertNil(flick(90, -60, vy: -900), "mostly sideways is aiming")
+        XCTAssertNil(flick(0, -20, vy: -900), "too short to be a swipe")
+    }
+    func testADragThatReversesAtTheEndIsNotAFlick() {
+        XCTAssertNil(flick(0, -80, vy: 500), "up then flicked back down is not a swipe up")
+    }
+}

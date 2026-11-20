@@ -38,12 +38,13 @@ namespace GolfArcade.PlayTests
                 {
                     var s = d.slots.First(x => x.id == slot);
                     Assert.IsNotNull(s.clip, $"{sex} {slot} has a clip");
-                    // 11-19: the male strokes are the rebuilt FBX clips themselves (work/serve-ref-1118); only the female keeps the ArmCorrected overrides
-                    Assert.AreEqual($"{sex}_{clip}"+(female&&(slot==HeroTennisDriver.Clip.Forehand||slot==HeroTennisDriver.Clip.Backhand)?"ArmCorrected":""), s.clip.name, $"{slot} plays the {sex} {clip} clip");
+                    // 11-19: the strokes are the rebuilt FBX clips themselves on both heroes (male: work/serve-ref-1118, female = copy of the male:
+                    // work/female-copy-male-1119); no ArmCorrected overrides
+                    Assert.AreEqual($"{sex}_{clip}", s.clip.name, $"{slot} plays the {sex} {clip} clip");
                     Assert.AreEqual(contact, s.contact, .001f, $"{sex}_{clip} contact time");
                 }
                 Assert.IsFalse(d.slots.Any(x => x.clip && x.clip.name.StartsWith("Hero_")), "no old Hero_* clip on the prefab");
-                Assert.AreEqual($"{sex}_ReadyIdle", d.slots.First(x => x.id == HeroTennisDriver.Clip.Ready).clip.name, "ready / idle is ReadyIdle");
+                Assert.AreEqual($"{sex}_ReadyIdle60", d.slots.First(x => x.id == HeroTennisDriver.Clip.Ready).clip.name, "ready / idle is the 60 Hz ReadyIdle (Resources/Tennis/Performance)");
                 // the stroke -> clip map (outside a returned serve; the game is at the serve hold)
                 void Expect(TennisActor.Stroke k, bool bh, bool overhead, HeroTennisDriver.Clip want) => Assert.AreEqual(want, d.ClipFor(k, bh, overhead), $"{sex}: {k} backhand={bh} overhead={overhead}");
                 foreach (var k in new[] { TennisActor.Stroke.Drive, TennisActor.Stroke.Topspin, TennisActor.Stroke.Slice, TennisActor.Stroke.Lob, TennisActor.Stroke.LowPickup, TennisActor.Stroke.Dive })

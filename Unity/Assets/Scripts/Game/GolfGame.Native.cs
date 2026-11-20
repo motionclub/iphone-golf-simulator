@@ -138,6 +138,11 @@ namespace GolfArcade.Game {
         public void NativeClub(int value) { if(Current==State.Aim) { NativeCancelSwing(); CycleClub(value); } }
         // The joystick uses the same axes as the phone's course map. Set the shot's
         // actual heading, so both the TV flight and the projected landing line agree.
+        /// The phone's swipe up / down on its aim pad: the aiming camera climbs and looks up the hole to the pin (1) or comes back (0).
+        public void NativeLook(float look) {
+            if(Current!=State.Aim || !SteersHere) return;
+            NativeLookHeld=Mathf.Clamp(look,-1f,1f);
+        }
         public void NativeAimDirection(float across,float forward) {
             if(Current!=State.Aim || !minimapCamera || float.IsNaN(across) || float.IsNaN(forward) ||
                float.IsInfinity(across) || float.IsInfinity(forward)) return;

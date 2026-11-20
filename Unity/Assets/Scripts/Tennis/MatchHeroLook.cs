@@ -114,6 +114,8 @@ namespace GolfArcade.Tennis
                         else if (!hide.Contains(CoverKey(t[i], t[i + 1], t[i + 2]))) { keep.Add(t[i]); keep.Add(t[i + 1]); keep.Add(t[i + 2]); }
                     mesh.SetTriangles(keep, sub, false);
                 }
+                // KIT TUCK (cloth-rip-1120): skin near the garments' openings sits a few mm inside the cloth, so it cannot poke through in a swing
+                KitTuck.Apply(mesh, KitTuck.Offsets(sport, sex, worn.Select(n => n.Substring(4).Replace("_", "")), src.vertexCount));
                 kitV2Covered[(src, key)] = mesh;
             }
             body.sharedMesh = mesh; kitV2CoverKey = key;
@@ -304,6 +306,40 @@ namespace GolfArcade.Tennis
                 case RoleGolfHead: return new ClothLook(.08f, .028f, .80f, .55f, .18f);
                 default: return ClothFor(role);
             }
+        }
+
+
+        static void GoalPreviewFinish(Material material, bool top, bool bowling, bool tennis, bool female)
+        {
+            // Broad textile highlights and a little headroom for saturated locker picks.
+            material.SetFloat("_StylePass", 1);
+            material.SetFloat("_StyleSmooth", top ? .20f : .14f);
+            material.SetFloat("_StyleSpec", top ? .08f : .022f);
+            material.SetFloat("_StyleEnv", top ? .035f : .018f);
+            material.SetFloat("_StyleAOFloor", .68f);
+            material.SetFloat("_StyleRamp", top ? .11f : .075f);
+            material.SetFloat("_StyleSheen", .022f);
+            material.SetFloat("_StyleValueCap", top ? (bowling ? .54f : .56f) : .68f);
+            material.SetFloat("_StyleSat", .79f);
+            material.SetFloat("_StyleCool", .27f);
+            material.SetFloat("_StyleFill", .105f);
+            material.SetFloat("_StyleDewarm", .84f);
+            material.SetFloat("_RimStrength", .035f);
+            material.SetFloat("_FabricDetail", top ? .72f : .58f);
+            material.SetFloat("_FibreShine", .10f);
+            material.SetFloat("_Mottle", .036f);
+            material.SetFloat("_Exposure", .90f);
+            material.SetFloat("_AOStrength", bowling && top ? .33f : .58f);
+            material.SetFloat("_NormalStrength", bowling && top ? .65f : .87f);
+            if (top && tennis)
+            {
+                // Keep the hot resort light off the pitch of the polo while
+                // letting the smoother performance tank reflect a little more.
+                material.SetFloat("_StyleValueCap", female ? .61f : .45f);
+                material.SetFloat("_StyleSat", female ? .78f : .67f);
+                material.SetFloat("_StyleFill", female ? .13f : .09f);
+            }
+            material.SetFloat("_MaterialMatte", 1);
         }
 
         static void TailoredSportCloth(Material material, bool bowling, bool top)
@@ -530,6 +566,8 @@ namespace GolfArcade.Tennis
                     }
                     if (styleEnabled && (tag == "Top" || tag == "Bottom") && (golfKit || kitSport == "Bowling"))
                         TailoredSportCloth(m, kitSport == "Bowling", tag == "Top");
+                    if (styleEnabled && (tag == "Top" || tag == "Bottom"))
+                        GoalPreviewFinish(m, tag == "Top", kitSport == "Bowling", !golfKit && string.IsNullOrEmpty(kitSport), female);
                 }
             }
             else
@@ -640,6 +678,10 @@ namespace GolfArcade.Tennis
             if (!golfKit && !GetComponent<HeroGarmentLOD>()) gameObject.AddComponent<HeroGarmentLOD>().look = this;
             KitV2PoseCorrectives.Attach(this);
             FemaleHeroAlive.Attach(this);
+            GarmentConstruction.Apply(this, owned);
+            PoloCloth.Attach(this, owned);
+            KitDetail.Apply(this);
+            WrinkleBlend.Attach(this);
         }
 
         /// This hero's own copies of the shared skin and frame materials, so a tint never reaches the prefab asset or another hero.
