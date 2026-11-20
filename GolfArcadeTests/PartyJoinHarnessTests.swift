@@ -468,6 +468,13 @@ final class PartyLinkHarnessTests: XCTestCase {
             let link = RoomLink(id, room, gc); room.links[id] = link
             return link
         }
+        /// A quick match Game Center paired from its public queue (not a party group): each phone gets its link.
+        func pairQuick(_ a: String, _ ga: GameCenterTransport, _ b: String, _ gb: GameCenterTransport) -> (RoomLink, RoomLink) {
+            let room = Room(); rooms.append(room)
+            let la = RoomLink(a, room, ga), lb = RoomLink(b, room, gb)
+            room.links = [a: la, b: lb]
+            return (la, lb)
+        }
         /// The app on this phone is closed: its matches drop it, its searches stop.
         func close(_ id: String) {
             offline.insert(id); cancel(id)
@@ -577,6 +584,9 @@ final class PartyLinkHarnessTests: XCTestCase {
         let lobby = h.service.lobby?.id
         var notices: [String] = []
         for p in [h, j] { p.gc.onLinkNotice = { notices.append($0) } }
+        // (a match Apple ends in its first seconds is not announced, 11-12; this one stands for a match that had been up a while)
+        let settling = GameCenterTransport.settlingSeconds; GameCenterTransport.settlingSeconds = 0
+        defer { GameCenterTransport.settlingSeconds = settling }
         for gc in server.end(server.rooms.last!) { gc.debugMatchFailed() }
         XCTAssertTrue(h.gc.peers.isEmpty && j.gc.peers.isEmpty)
         XCTAssertTrue(j.gc.waitingFor("H"), "the guest waits for its leader")
@@ -741,7 +751,6 @@ final class PartyLinkHarnessTests: XCTestCase {
     private func tennisMovesCross(_ h: Phone, _ hb: Bridge, _ j: Phone, _ jb: Bridge, file: StaticString = #filePath, line: UInt = #line) async {
         let hl = hb.launches.count, jl = jb.launches.count, hm = hb.received.count, jm = jb.received.count
         for p in [h, j] { p.service.setScreen(true) }
-        h.service.requiresStableLink = false
         await run([h, j], "both TVs in the lobby", file: file, line: line) { h.service.lobby?.participants.allSatisfy(\.hasScreen) == true }
         do { try h.service.configure(.tennis); try h.service.startPartyGame() } catch { XCTFail("start: \(error.localizedDescription)", file: file, line: line); return }
         await run([h, j], "the ready check", file: file, line: line) { j.service.partyReadyCheck }
@@ -772,7 +781,6 @@ final class PartyLinkHarnessTests: XCTestCase {
         let hb = Bridge(), jb = Bridge(), h = phone("H", "Ann", server, bridge: hb), j = phone("J", "Bea", server, bridge: jb)
         await together(server, h, j)
         for p in [h, j] { p.service.setScreen(true) }
-        h.service.requiresStableLink = false
         await run([h, j], "both TVs in the lobby") { h.service.lobby?.participants.allSatisfy(\.hasScreen) == true }
         if stage == .lobby { return (h, hb, j, jb) }
         try? h.service.configure(.tennis); try? h.service.startPartyGame()
@@ -864,4 +872,274 @@ final class PartyLinkHarnessTests: XCTestCase {
         XCTAssertEqual(server.rooms.count, 1, "brought back into the same match: the other two never dropped")
         XCTAssertEqual(h.service.debugLeaves + j.service.debugLeaves + k.service.debugLeaves, [])
     }
+
+    // MARK: leaving the app and coming back (2026-11-19): the same game, the same party, no taps
+
+    enum Who: String, CaseIterable { case host, guest }
+    /// The phone leaves the app (a call, the lock button, the home swipe): it stops looking for anyone and says it is away.
+    private func goAway(_ p: Phone) { p.gc.appActive = { false }; p.service.appActive = { false }; p.service.setForeground(false) }
+    /// The app is open again: nothing but what iOS itself does (no tap).
+    private func comeBack(_ p: Phone) {
+        p.gc.appActive = { true }; p.service.appActive = { true }; p.service.setForeground(true); p.gc.appBecameActive()
+    }
+    /// Seconds of the lobbies' time with one phone away (each phone's link still runs in real time meanwhile).
+    private func wait(_ ps: [Phone], seconds: Double) async {
+        for _ in 0..<Int(seconds / 0.25) { clock += 0.25; for p in ps { p.service.update() }; try? await Task.sleep(for: .milliseconds(5)) }
+    }
+    private func movesCross(_ h: Phone, _ hb: Bridge, _ j: Phone, _ jb: Bridge, _ match: String, _ what: String,
+                            file: StaticString = #filePath, line: UInt = #line) async {
+        let hm = hb.received.count, jm = jb.received.count
+        hb.send("peer", match: match, payload: "H move"); jb.send("peer", match: match, payload: "J move")
+        await run([h, j], "\(what): moves crossing", file: file, line: line) {
+            jb.received.dropFirst(jm).contains { $0.kind == "peer" && $0.payload == "H move" } && hb.received.dropFirst(hm).contains { $0.kind == "peer" && $0.payload == "J move" }
+        }
+    }
+    /// What this phone's game was last told about `id`: suspended (away, the CPU on their side) or not.
+    private func suspended(_ b: Bridge, _ id: String) -> Bool {
+        b.received.last { ($0.kind == "suspend" || $0.kind == "resumePeer") && $0.payload == id }?.kind == "suspend"
+    }
+    /// Two strangers Game Center paired for online tennis, playing.
+    private func quickTennis(_ server: Server) async -> (h: Phone, hb: Bridge, j: Phone, jb: Bridge) {
+        let hb = Bridge(), jb = Bridge(), h = phone("H", "Ann", server, bridge: hb), j = phone("J", "Bea", server, bridge: jb)
+        for p in [h, j] { p.service.setScreen(true); try? p.service.connect(using: p.gc, quick: .tennis) }
+        let (lh, lj) = server.pairQuick("H", h.gc, "J", j.gc)
+        h.gc.debugAttachQuick(lh); j.gc.debugAttachQuick(lj)
+        await run([h, j], "quick tennis loading on both") { hb.launches.count == 1 && jb.launches.count == 1 }
+        h.service.runtimeLoaded(); j.service.runtimeLoaded()
+        await run([h, j], "setting up") { [h, j].allSatisfy { $0.service.lobby?.phase == .calibrating || $0.service.lobby?.phase == .playing } }
+        h.service.runtimeCalibrated(); j.service.runtimeCalibrated()
+        await run([h, j], "playing") { h.service.lobby?.phase == .playing && j.service.lobby?.phase == .playing }
+        return (h, hb, j, jb)
+    }
+
+    /// One player of a quick match leaves the app mid-match and Apple ends the match under both phones (error 4). Before: the match was
+    /// over for both ("The online match lost its connection."), with nothing to go back to. Now the other phone plays on, the one away
+    /// does nothing, and when it opens again both meet in the owner's group, the same match goes on, and each player is "here".
+    private func quickAway(_ who: Who, file: StaticString = #filePath, line: UInt = #line) async {
+        let server = Server()
+        let (h, hb, j, jb) = await quickTennis(server)
+        let match = h.service.lobby?.matchID ?? "", lobby = h.service.lobby?.id
+        XCTAssertTrue(h.gc.quickLinked && j.gc.quickLinked, "\(who): the link keeps the quick match", file: file, line: line)
+        XCTAssertFalse(h.service.isParty || j.service.isParty, "\(who): a quick match is no friends' party", file: file, line: line)
+        let away = who == .host ? h : j, stays = who == .host ? j : h, awayID = who == .host ? "H" : "J"
+        goAway(away)
+        await run([h, j], "\(who) away: the other phone hears it", file: file, line: line) {
+            who == .host ? suspended(jb, "H") : h.service.lobby?.participants.first { $0.id == "J" }?.paused == true
+        }
+        for gc in server.end(server.rooms.last!) { gc.debugMatchFailed() }
+        await wait([h, j], seconds: 10)
+        XCTAssertEqual(stays.service.lobby?.phase, .playing, "\(who) away: the match goes on on the other phone", file: file, line: line)
+        XCTAssertEqual(stays.service.lobby?.matchID, match, file: file, line: line)
+        XCTAssertEqual(stays.service.lobby?.ownerID, "H", "\(who) away: nobody takes the match over", file: file, line: line)
+        if case .wait = away.gc.planLink() {} else { XCTFail("\(who) away: a phone in the background looks for nobody: \(away.gc.planLink())", file: file, line: line) }
+        comeBack(away)
+        await run([h, j], "\(who) back: the same quick match, together, here", file: file, line: line) {
+            lists(h) == ["H", "J"] && lists(j) == ["H", "J"] && h.service.lobby?.phase == .playing && j.service.lobby?.phase == .playing
+            && status(h, awayID) == .here && status(j, awayID) == .here && !suspended(who == .host ? jb : hb, awayID)
+        }
+        XCTAssertEqual(h.service.lobby?.matchID, match, file: file, line: line); XCTAssertEqual(j.service.lobby?.matchID, match, file: file, line: line)
+        XCTAssertEqual(h.service.lobby?.id, lobby, file: file, line: line)
+        XCTAssertEqual(hb.launches.count + jb.launches.count, 2, "\(who): nobody loaded a new match", file: file, line: line)
+        XCTAssertEqual(h.service.debugLeaves + j.service.debugLeaves, [], "\(who)", file: file, line: line)
+        XCTAssertFalse(h.service.isParty || j.service.isParty, "\(who): still a quick match, not a party", file: file, line: line)
+        await movesCross(h, hb, j, jb, match, "\(who) back", file: file, line: line)
+    }
+    func testAQuickMatchHostLeavingTheAppComesBackIntoTheSameMatch() async { await quickAway(.host) }
+    func testAQuickMatchGuestLeavingTheAppComesBackIntoTheSameMatch() async { await quickAway(.guest) }
+
+    /// Leaving a quick match on purpose is the end of it: the other phone is told (it never waits), nothing comes back by itself, and
+    /// nothing of it is kept for a relaunch.
+    func testLeavingAQuickMatchOnPurposeEndsItsLink() async {
+        let server = Server()
+        let (h, _, j, _) = await quickTennis(server)
+        XCTAssertNil(PartyMemory.load("J", now: Date().timeIntervalSince1970, patience: 600), "a quick match is never kept for a relaunch")
+        j.service.leave("test: Bea leaves the quick match")
+        XCTAssertFalse(j.gc.quickLinked); XCTAssertEqual(j.gc.planLink(), .idle)
+        await run([h], "the owner hears") { !h.gc.peers.contains("J") && !h.gc.waitingFor("J") }
+        XCTAssertEqual(h.gc.planLink(), .idle, "nobody to look for")
+    }
+
+    /// A friends' party, in the Plaza (`inGame` false) or in a running tennis match: one phone leaves the app, Apple ends the party's
+    /// match under both phones, and the phone comes back. The party, its lobby and the match are the same; nobody left; nobody tapped.
+    private func partyAway(_ who: Who, inGame: Bool, file: StaticString = #filePath, line: UInt = #line) async {
+        let server = Server()
+        let (h, hb, j, jb) = await drive(server, to: inGame ? .playing : .lobby)
+        let match = h.service.lobby?.matchID ?? "", lobby = h.service.lobby?.id
+        let away = who == .host ? h : j, stays = who == .host ? j : h, awayID = who == .host ? "H" : "J"
+        let what = "\(who) away \(inGame ? "in a game" : "in the Plaza")"
+        goAway(away)
+        if inGame {
+            await run([h, j], "\(what): the other phone hears it", file: file, line: line) {
+                who == .host ? suspended(jb, "H") : h.service.lobby?.participants.first { $0.id == "J" }?.paused == true
+            }
+        }
+        for gc in server.end(server.rooms.last!) { gc.debugMatchFailed() }
+        await wait([h, j], seconds: 10)
+        XCTAssertEqual(stays.service.lobby?.ownerID, "H", "\(what): the party keeps its leader", file: file, line: line)
+        XCTAssertEqual(stays.service.lobby?.phase, inGame ? .playing : .lobby, "\(what): the other phone carries on", file: file, line: line)
+        if case .wait = away.gc.planLink() {} else { XCTFail("\(what): a phone in the background looks for nobody: \(away.gc.planLink())", file: file, line: line) }
+        comeBack(away)
+        await run([h, j], "\(what): back, the same party", file: file, line: line) {
+            lists(h) == ["H", "J"] && lists(j) == ["H", "J"] && j.service.lobby?.id == lobby && h.service.lobby?.id == lobby
+            && h.service.lobby?.phase == (inGame ? .playing : .lobby) && j.service.lobby?.phase == (inGame ? .playing : .lobby)
+            && (!inGame || status(h, awayID) == .here && status(j, awayID) == .here && !suspended(who == .host ? jb : hb, awayID))
+        }
+        XCTAssertEqual(h.service.debugLeaves + j.service.debugLeaves, [], what, file: file, line: line)
+        XCTAssertTrue(h.service.isParty && j.service.isParty, what, file: file, line: line)
+        guard inGame else { return }
+        XCTAssertEqual(h.service.lobby?.matchID, match, file: file, line: line); XCTAssertEqual(j.service.lobby?.matchID, match, file: file, line: line)
+        XCTAssertEqual(hb.launches.count + jb.launches.count, 2, "\(what): nobody loaded a new match", file: file, line: line)
+        await movesCross(h, hb, j, jb, match, what, file: file, line: line)
+    }
+    func testAPartyHostLeavingTheAppInThePlazaIsBackInTheSameParty() async { await partyAway(.host, inGame: false) }
+    func testAPartyGuestLeavingTheAppInThePlazaIsBackInTheSameParty() async { await partyAway(.guest, inGame: false) }
+    func testAPartyHostLeavingTheAppMidGameIsBackInTheSameGame() async { await partyAway(.host, inGame: true) }
+    func testAPartyGuestLeavingTheAppMidGameIsBackInTheSameGame() async { await partyAway(.guest, inGame: true) }
+
+    // MARK: every sport, a party and a quick match, every way in and out (2026-11-19 mock online matrix)
+
+    enum Kind: String, CaseIterable { case party, quick }
+    enum Scenario: String, CaseIterable { case play, hostAway, guestAway, guestReopens, hostReopens, guestLeavesGame, resultThenLobby }
+    /// Two phones in a running match of `sport`: a friends' party (invite + Join, the leader starts, the guest taps Ready) or a quick match
+    /// Game Center paired (it readies and starts by itself). Both load (tennis: both set up) and play.
+    private func startMatch(_ sport: MultiplayerSport, _ kind: Kind, _ server: Server, file: StaticString = #filePath, line: UInt = #line) async -> (h: Phone, hb: Bridge, j: Phone, jb: Bridge)? {
+        let hb = Bridge(), jb = Bridge(), h = phone("H", "Ann", server, bridge: hb), j = phone("J", "Bea", server, bridge: jb)
+        for p in [h, j] { p.service.setScreen(true) }
+        if kind == .party {
+            await together(server, h, j, file: file, line: line)
+            await run([h, j], "\(sport) party: both TVs in the lobby", file: file, line: line) { h.service.lobby?.participants.allSatisfy(\.hasScreen) == true }
+            do { try h.service.configure(sport); try h.service.startPartyGame() } catch { XCTFail("\(sport) party start: \(error.localizedDescription)", file: file, line: line); return nil }
+            await run([h, j], "\(sport) party: the ready check", file: file, line: line) { j.service.partyReadyCheck }
+            try? j.service.setReady(true)
+        } else {
+            for p in [h, j] { try? p.service.connect(using: p.gc, quick: sport) }
+            let (lh, lj) = server.pairQuick("H", h.gc, "J", j.gc)
+            h.gc.debugAttachQuick(lh); j.gc.debugAttachQuick(lj)
+        }
+        await run([h, j], "\(sport) \(kind): loading on both", file: file, line: line) { hb.launches.count == 1 && jb.launches.count == 1 }
+        XCTAssertEqual(hb.launches.first?.sport, sport.rawValue, file: file, line: line)
+        h.service.runtimeLoaded(); j.service.runtimeLoaded()
+        if sport == .tennis {
+            await run([h, j], "\(sport) \(kind): setting up", file: file, line: line) { [h, j].allSatisfy { $0.service.lobby?.phase == .calibrating || $0.service.lobby?.phase == .playing } }
+            h.service.runtimeCalibrated(); j.service.runtimeCalibrated()
+        }
+        await run([h, j], "\(sport) \(kind): playing on both", file: file, line: line) { h.service.lobby?.phase == .playing && j.service.lobby?.phase == .playing }
+        return (h, hb, j, jb)
+    }
+    /// The running match's traffic, each way: the guest's input reaches the host's game, the host's snapshot the guest's game, and each
+    /// game's moves the other game.
+    private func traffic(_ h: Phone, _ hb: Bridge, _ j: Phone, _ jb: Bridge, _ match: String, _ what: String, file: StaticString = #filePath, line: UInt = #line) async {
+        let hm = hb.received.count, jm = jb.received.count, tag = UUID().uuidString.prefix(6)
+        jb.send("input", match: match, payload: "{\"J\":\"\(tag)\"}"); hb.send("snapshot", match: match, payload: "{\"H\":\"\(tag)\"}")
+        hb.send("peer", match: match, payload: "H \(tag)"); jb.send("peer", match: match, payload: "J \(tag)")
+        await run([h, j], "\(what): input, snapshot and moves crossing", file: file, line: line) {
+            hb.received.dropFirst(hm).contains { $0.kind == "input" && $0.payload == "{\"J\":\"\(tag)\"}" }
+            && jb.received.dropFirst(jm).contains { $0.kind == "snapshot" && $0.payload == "{\"H\":\"\(tag)\"}" }
+            && jb.received.dropFirst(jm).contains { $0.kind == "peer" && $0.payload == "H \(tag)" }
+            && hb.received.dropFirst(hm).contains { $0.kind == "peer" && $0.payload == "J \(tag)" }
+        }
+    }
+    /// One case of the matrix. Returns "n/a: why" when the case does not apply.
+    private func scenario(_ sport: MultiplayerSport, _ kind: Kind, _ sc: Scenario, file: StaticString = #filePath, line: UInt = #line) async -> String? {
+        let what = "\(sport) \(kind) \(sc)"
+        if kind == .quick, sc == .guestReopens || sc == .hostReopens { return "n/a: a quick match is not kept across a relaunch" }
+        let server = Server()
+        guard let (h, hb, j, jb) = await startMatch(sport, kind, server, file: file, line: line) else { return nil }
+        let match = h.service.lobby?.matchID ?? "", lobby = h.service.lobby?.id
+        switch sc {
+        case .play:
+            await traffic(h, hb, j, jb, match, what, file: file, line: line)
+        case .hostAway, .guestAway:
+            let away = sc == .hostAway ? h : j, stays = sc == .hostAway ? j : h, awayID = sc == .hostAway ? "H" : "J"
+            goAway(away)
+            await run([h, j], "\(what): the other phone hears it", file: file, line: line) {
+                sc == .hostAway ? suspended(jb, "H") : h.service.lobby?.participants.first { $0.id == "J" }?.paused == true
+            }
+            for gc in server.end(server.rooms.last!) { gc.debugMatchFailed() }
+            await wait([h, j], seconds: 10)
+            XCTAssertEqual(stays.service.lobby?.phase, .playing, "\(what): the match goes on on the other phone", file: file, line: line)
+            XCTAssertEqual(stays.service.lobby?.ownerID, "H", "\(what): nobody takes over", file: file, line: line)
+            comeBack(away)
+            await run([h, j], "\(what): back in the same match, here", file: file, line: line) {
+                lists(h) == ["H", "J"] && lists(j) == ["H", "J"] && h.service.lobby?.phase == .playing && j.service.lobby?.phase == .playing
+                && status(h, awayID) == .here && status(j, awayID) == .here && !suspended(sc == .hostAway ? jb : hb, awayID)
+            }
+            XCTAssertEqual(h.service.lobby?.matchID, match, what, file: file, line: line); XCTAssertEqual(j.service.lobby?.matchID, match, what, file: file, line: line)
+            XCTAssertEqual(hb.launches.count + jb.launches.count, 2, "\(what): nobody loaded a new match", file: file, line: line)
+            XCTAssertEqual(h.service.debugLeaves + j.service.debugLeaves, [], what, file: file, line: line)
+            await traffic(h, hb, j, jb, match, what, file: file, line: line)
+        case .guestReopens:
+            close(j, server); server.offline.remove("J")
+            let jb2 = Bridge(), j2 = phone("J", "Bea", server, bridge: jb2)
+            j2.service.setScreen(true); j2.gc.debugRestore()
+            await run([h, j2], "\(what): back in one party", file: file, line: line) { lists(h) == ["H", "J"] && lists(j2) == ["H", "J"] && j2.service.lobby?.id == lobby }
+            if sport == .bowling {
+                // (bowling cannot bring a game back to its frame yet: the reopened bowler sits this game out and plays the next)
+                await run([h, j2], "\(what): out of this game, still in the party", file: file, line: line) {
+                    h.service.lobby?.participants.first { $0.id == "J" }?.seat == -1 && status(h, "J") == .gone
+                }
+            } else {
+                await run([h, j2], "\(what): the match sent again", file: file, line: line) { jb2.launches.last?.matchID == match }
+                j2.service.runtimeLoaded()
+                if sport == .tennis {
+                    await run([h, j2], "\(what): loaded again", file: file, line: line) { h.service.lobby?.participants.first { $0.id == "J" }?.loaded == true }
+                    j2.service.runtimeCalibrated()
+                }
+                await run([h, j2], "\(what): playing on, the same match", file: file, line: line) {
+                    h.service.lobby?.phase == .playing && j2.service.lobby?.phase == .playing && h.service.lobby?.matchID == match
+                    && h.service.lobby?.competitors.allSatisfy { $0.loaded && (sport != .tennis || $0.calibrated) } == true && status(h, "J") == .here
+                }
+                await traffic(h, hb, j2, jb2, match, what, file: file, line: line)
+            }
+            XCTAssertEqual(h.service.debugLeaves, [], what, file: file, line: line)
+        case .hostReopens:
+            close(h, server); server.offline.remove("H")
+            await run([j], "\(what): the guest sees the leader go", file: file, line: line) { !j.gc.peers.contains("H") }
+            let hb2 = Bridge(), h2 = phone("H", "Ann", server, bridge: hb2)
+            h2.service.setScreen(true); h2.gc.debugRestore()
+            await run([h2, j], "\(what): the leader back, one party, in its lobby", file: file, line: line) {
+                lists(h2) == ["H", "J"] && lists(j) == ["H", "J"] && j.service.lobby?.id == h2.service.lobby?.id && j.service.lobby?.phase == .lobby
+            }
+            XCTAssertTrue(jb.received.contains { $0.kind == "stop" }, "\(what): the match the leader ran ended on the guest", file: file, line: line)
+            XCTAssertEqual(j.service.debugLeaves, [], what, file: file, line: line)
+        case .guestLeavesGame:
+            j.service.leaveGame()
+            if kind == .party {
+                await run([h, j], "\(what): both back in the party's lobby", file: file, line: line) {
+                    h.service.lobby?.phase == .lobby && j.service.lobby?.phase == .lobby && lists(h) == ["H", "J"] && lists(j) == ["H", "J"]
+                }
+                XCTAssertTrue(h.service.isParty && j.service.isParty, "\(what): still a party", file: file, line: line)
+                XCTAssertEqual(h.service.debugLeaves + j.service.debugLeaves, [], what, file: file, line: line)
+            } else {
+                XCTAssertNil(j.service.lobby, "\(what): the guest is out of the quick match", file: file, line: line)
+                await run([h], "\(what): the host is told, and waits for nobody", file: file, line: line) {
+                    !h.gc.peers.contains("J") && !h.gc.waitingFor("J") && h.gc.planLink() == .idle
+                }
+            }
+        case .resultThenLobby:
+            hb.send("result", match: match, payload: "{\"sport\":\"\(sport.rawValue)\",\"reason\":\"complete\",\"winner\":0}")
+            await run([h, j], "\(what): the result on both", file: file, line: line) { h.service.lobby?.phase == .results && j.service.lobby?.phase == .results }
+            try? j.service.requestReturnToLobby()
+            await run([h, j], "\(what): back in the lobby together", file: file, line: line) {
+                h.service.lobby?.phase == .lobby && j.service.lobby?.phase == .lobby && lists(h) == ["H", "J"] && lists(j) == ["H", "J"]
+            }
+            XCTAssertEqual(h.service.debugLeaves + j.service.debugLeaves, [], what, file: file, line: line)
+        }
+        return nil
+    }
+    private func matrix(_ sport: MultiplayerSport, file: StaticString = #filePath, line: UInt = #line) async {
+        var rows: [String] = []
+        for kind in Kind.allCases { for sc in Scenario.allCases {
+            let before = testRun?.totalFailureCount ?? 0
+            let note = await scenario(sport, kind, sc, file: file, line: line)
+            let failed = (testRun?.totalFailureCount ?? 0) > before
+            rows.append("MATRIX \(sport.rawValue) \(kind.rawValue) \(sc.rawValue): \(note ?? (failed ? "FAIL" : "PASS"))")
+            for p in phones { p.service.leave("next case"); p.gc.signedIn = { false }; (p.gc.matchmaker as? Maker)?.cancel() }
+            phones = []
+        } }
+        print(rows.joined(separator: "\n"))
+    }
+    func testMockOnlineMatrixTennis() async { await matrix(.tennis) }
+    func testMockOnlineMatrixGolf() async { await matrix(.golf) }
+    func testMockOnlineMatrixBowling() async { await matrix(.bowling) }
 }

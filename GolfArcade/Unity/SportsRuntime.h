@@ -42,6 +42,9 @@ enum { SportsSampleVersion = 3, SportsSampleValid = 1, SportsSampleDegraded = 2,
 - (double)clock;
 - (void)pause:(BOOL)paused;
 - (void)setForeground:(BOOL)foreground;
+/// YES during an online match: the app only covered (inactive: a banner, Control Center, the AirPlay picker) keeps Unity running,
+/// so the other phone never hears a connected player whose game has stopped. The background still pauses it.
+@property (nonatomic) BOOL keepPlayingWhenInactive;
 #if DEBUG
 /// Bounded trace for lifecycle regression tests (the same edges forwarded to Unity).
 - (NSArray<NSString*>*)debugLifecycleEvents;

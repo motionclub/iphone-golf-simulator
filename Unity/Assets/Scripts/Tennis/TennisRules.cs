@@ -932,7 +932,12 @@ namespace GolfArcade.Tennis
         /// is never out, so new players keep the ball in play and the challenge is beating the opponent with it.
         public const float SideLaneWidth = 3.95f;
         public static float SideLaneDepth => TennisFlight.SideLanding;
-        public static Vector3 SwingPlacement(float aim, float quality, float rollX, float rollZ)
+        /// 11-17 (Andrew: "swing sets depth ... still should be super simple"): pass the swing's `power` (0..1) and a hard swing
+        /// lands deep, a soft one short, before timing (`quality`) pulls a poor hit in as before. Without it (power < 0), every
+        /// clean hit lands at the lane's full depth, as before.
+        public const float SoftSwing = .3f, HardSwing = .9f;
+        public static float DepthFromSwing(float power) => Mathf.SmoothStep(0, 1, Mathf.InverseLerp(SoftSwing, HardSwing, power));
+        public static Vector3 SwingPlacement(float aim, float quality, float rollX, float rollZ, float power = -1)
         {
             float control = Mathf.SmoothStep(0, 1, Mathf.Clamp01(quality / .85f));
             float side = SideFromSwing(aim);
@@ -942,7 +947,10 @@ namespace GolfArcade.Tennis
             // A side lane is an angle: on a clean hit it lands short of the baseline right by the sideline and keeps
             // travelling wide, which is what pulls the rival off the court (a deep corner gave it time to get there:
             // 2026-10-26 tuning, a clean deep corner beat the standard rival 0% of the time). Straight goes deep.
-            float z = Mathf.Lerp(6.2f, Mathf.Lerp(TennisFlight.DeepLanding, TennisFlight.SideLanding, Mathf.Abs(side)), control) + Mathf.Clamp(rollZ, -1, 1) * spread;
+            float full = Mathf.Lerp(TennisFlight.DeepLanding, TennisFlight.SideLanding, Mathf.Abs(side));
+            // A soft swing drops it just past the service line (a touch shot; on a side lane, a sharper angle).
+            if (power >= 0) full = Mathf.Lerp(ServiceLine + .6f, full, DepthFromSwing(power));
+            float z = Mathf.Lerp(6.2f, full, control) + Mathf.Clamp(rollZ, -1, 1) * spread;
             return new Vector3(Mathf.Clamp(x, -CourtHalfWidth + .12f, CourtHalfWidth - .12f), BallRadius,
                 Mathf.Clamp(z, 2.8f, CourtHalfLength - .3f));
         }

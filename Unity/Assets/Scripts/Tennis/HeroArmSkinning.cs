@@ -12,10 +12,10 @@ namespace GolfArcade.Tennis
         SkinnedMeshRenderer skin; Mesh owned; Transform supportRoot;
         Transform[] source; Matrix4x4[] bind; readonly List<Pair> pairs=new List<Pair>();
         const int Steps=8;
-        public static void Build(SkinnedMeshRenderer body)
+        public static void Build(SkinnedMeshRenderer body, bool limbOnly = false)
         {
             if(Environment.GetEnvironmentVariable("TENNIS_ARM_REPAIR")=="0" || !body || body.GetComponent<HeroArmSkinning>())return;
-            body.gameObject.AddComponent<HeroArmSkinning>().Initialize(body);
+            body.gameObject.AddComponent<HeroArmSkinning>().Initialize(body, limbOnly);
         }
         static bool Arm(string n)=>n.EndsWith("UpperArm")||n.EndsWith("LowerArm")||n.EndsWith("Hand")||n.EndsWith("Shoulder");
         static bool Joint(string a,string b)
@@ -24,14 +24,14 @@ namespace GolfArcade.Tennis
             bool Allowed(string n)=>Arm(n)||n=="Chest"||n=="Spine"||n=="UpperChest";
             return Allowed(a)&&Allowed(b);
         }
-        void Initialize(SkinnedMeshRenderer body)
+        void Initialize(SkinnedMeshRenderer body, bool forceLimbOnly)
         {
             skin=body;source=body.bones;bind=body.sharedMesh.bindposes;
             owned=Instantiate(body.sharedMesh);owned.name=body.sharedMesh.name+" (arm volume)";
             supportRoot=new GameObject("ArmVolumePalette").transform;supportRoot.SetParent(body.transform,false);
             var palette=new List<Transform>(source);var binds=new List<Matrix4x4>(bind);var lookup=new Dictionary<long,int>();
             var weights=owned.boneWeights;
-            bool limbOnly=body.sharedMesh.name.Contains("(anatomical arm weights)");
+            bool limbOnly=forceLimbOnly || body.sharedMesh.name.Contains("(anatomical arm weights)");
             // 2026-11-15 (work/perf-1115): what each bone is, worked out once per bone. Asked per vertex it was Transform.name
             // (into the engine, a new string each time) and up to twenty culture-aware EndsWith calls for each of 52,000
             // vertices, with two small arrays allocated per vertex: 0.2–0.6 s of the main thread on every hero spawn, first

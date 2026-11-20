@@ -27,7 +27,7 @@ TV or Mac through AirPlay screen mirroring. Golf and bowling can also be played 
 | # | Feature | What it reads or creates | Leaves the phone? | Where it goes | Kept for | Code |
 |---|---|---|---|---|---|---|
 | 1 | Motion sensors | Gyroscope, accelerometer and attitude via `CMMotionManager` device motion | Raw samples: no. Swing results and game actions go to the TV picture and, in multiplayer, to the other phones in the match | On-device; other players' phones | Not stored (live only) | `GolfArcade/Unity/SportsMotion.swift`, `Mock/MotionSwing.swift` |
-| 2 | Camera / ARKit (tennis) | Rear-camera frames and ARKit world tracking for the court scan (screen flashes) and side-to-side steering | No. Processed live on the phone, not recorded or uploaded | — | Not stored | `SportsMotion.swift:189` (`AVCaptureDevice.requestAccess`), `Tracking/` |
+| 2 | Camera (tennis) | Rear-camera frames (AVFoundation, no ARKit since 2026-11-07) while the court direction is set (finding the TV) and the TV's delay is timed (screen flashes); the camera is off during play | No. Processed live on the phone, not recorded or uploaded | — | Not stored | `SportsMotion.swift` (`beginAxisCapture`: `AVCaptureDevice.requestAccess`; `runCamera`) |
 | 3 | Local network (nearby party) | Bonjour `_motionparty._tcp` + UDP on the same Wi-Fi | Yes, to phones on the same network only | Nearby phones in your lobby: display name, character look, game state, chat, voice | Not stored | `Multiplayer/LocalMultiplayerTransport.swift` |
 | 4 | AirPlay display | The game's picture and sound | Yes, to the TV/Mac you pick in Screen Mirroring | Your own TV or Mac via Apple AirPlay | Not stored by us | iOS screen mirroring, `SportsDisplays.swift` |
 | 5 | Game Center | Game Center sign-in; teamPlayerID, gamePlayerID, display name; parental flags (`isUnderage`, communication and multiplayer restrictions) | Yes | Apple Game Center (sign-in, invites, matchmaking, peer-to-peer match data) | Apple's policy | `Multiplayer/GameCenterTransport.swift`, `Party/PartySafety.swift:62` |
@@ -62,7 +62,7 @@ advertising identifier, purchase data (no in-app purchases; `UnityPurchasingSett
 |---|---|---|
 | Game Center sign-in (not a permission) | Onboarding "account" step: Sign in, or Later | Guests can play |
 | `NSLocalNetworkUsageDescription` | First nearby-party browse or host | |
-| `NSCameraUsageDescription` | First tennis match (court scan) | Denied → "Physical steering needs the rear camera". There is no touch fallback any more |
+| `NSCameraUsageDescription` | First tennis match (court scan) | Denied → "Finding your TV needs the rear camera"; the court direction can still be set by hand. There is no touch fallback any more |
 | `NSGKFriendListUsageDescription` | Opening Friends | |
 | Notifications | After your first invite | |
 | `NSMicrophoneUsageDescription` | First tap on the party mic | |

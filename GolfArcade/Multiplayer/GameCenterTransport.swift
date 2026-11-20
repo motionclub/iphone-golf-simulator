@@ -271,6 +271,10 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
     /// Apple's own real-time invitation is being joined (the link waits for it).
     private var realTimeJoining = false
     private var savedAt = Date.distantPast
+    /// When the party's current match came up. Apple often ends a match in its first seconds (error 4: both phones met in the
+    /// group at once and one session lost); the link meets again within seconds, so that is no lost connection to announce.
+    private var matchSince = Date.distantPast
+    static var settlingSeconds = 5.0
     private var lostNoticeShown = false
     /// The matchmaking the link uses: GKMatchmaker (tests: an in-memory server).
     var matchmaker: PartyMatchmaker = GameKitPartyMatchmaker()
@@ -293,6 +297,10 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
     private static let ping = linkMagic + Data("ping".utf8), bye = linkMagic + Data("bye".utf8)
 
     private var leading: Bool { goal == nil && (party == nil || party?.leader == localID) }
+    /// This phone is in a quick match that the link keeps (PartyMemory.quick): not a friends' party, but healed like one.
+    var quickLinked: Bool { party?.quick == true }
+    /// How long the link waits for a phone that dropped: a party's patience, or a match's away limit for a quick match.
+    private var linkPatience: Double { quickLinked ? MultiplayerTuning.awayLimitSeconds : Self.patience }
     /// Going into someone else's party now.
     var joining: Bool { goal != nil || realTimeJoining }
     /// The group this phone's own party meets in (CloudKit knocks find it there).
@@ -300,7 +308,7 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
     /// A party member this phone is waiting to see again (it dropped, it did not leave): the lobby keeps their place meanwhile.
     func waitingFor(_ id: String) -> Bool {
         guard let party, party.members.contains(id), !departed.contains(id), !peers.contains(id) else { return false }
-        return Date().timeIntervalSince1970 - (missingSince[id] ?? Date().timeIntervalSince1970) <= Self.patience
+        return Date().timeIntervalSince1970 - (missingSince[id] ?? Date().timeIntervalSince1970) <= linkPatience
     }
     /// The lobby's leader changed (handed over, or made leader): the party meets in the new leader's group from now on.
     func setLeader(_ id: String, name: String) {
@@ -312,7 +320,7 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
 
     private func planInput() -> PartyLinkPlan.Input {
         let nowS = Date().timeIntervalSince1970
-        var s = PartyLinkPlan.Input(local: localID, now: nowS, patience: Self.patience)
+        var s = PartyLinkPlan.Input(local: localID, now: nowS, patience: linkPatience)
         s.join = goal.map { (leader: $0.leader, players: $0.players) }
         s.party = party
         s.expected = Set(expected.keys)
@@ -332,9 +340,9 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
         let ms = Self.now, s = Date().timeIntervalSince1970
         expected = expected.filter { $0.value > ms && !barred.contains($0.key) }
         guard var p = party, p.leader == localID else { return }
-        let gone = p.members.filter { $0 != localID && s - (missingSince[$0] ?? s) > Self.patience }
+        let gone = p.members.filter { $0 != localID && s - (missingSince[$0] ?? s) > linkPatience }
         guard !gone.isEmpty else { return }
-        SportsDiagnostics.write("party link: \(gone.map { String($0.suffix(6)) }) gone longer than \(Int(Self.patience)) s, out of the party")
+        SportsDiagnostics.write("party link: \(gone.map { String($0.suffix(6)) }) gone longer than \(Int(linkPatience)) s, out of the party")
         p.members.removeAll { gone.contains($0) }
         for id in gone { missingSince[id] = nil }
         party = p.members.count > 1 ? p : nil
@@ -413,7 +421,7 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
     private var targetLeader: String { goal?.leader ?? party?.leader ?? localID }
     /// A leader lets in its members and whoever it invited; anyone else Game Center puts in its group is told to go.
     private func allowed(_ id: String) -> Bool {
-        guard leading else { return true }
+        guard leading, !quickLinked else { return true }   // (a quick match takes whoever Game Center pairs, find more too)
         return id == localID || !barred.contains(id) && (expected[id] != nil || (party?.members.contains(id) ?? false))
     }
 
@@ -461,13 +469,13 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
         let name = goal.map(\.name) ?? (party?.leader == leader ? party?.leaderName : nil) ?? (leader == localID ? GKLocalPlayer.local.displayName : "your friend")
         let healed = party?.leader == leader
         if let old = match, old !== found { drop(old, "replaced by the party's new match") }
-        match = found; matchIsParty = true; disconnected.removeAll(); strangers.removeAll()
+        match = found; matchIsParty = true; matchSince = Date(); disconnected.removeAll(); strangers.removeAll()
         let s = Date().timeIntervalSince1970
         for id in found.playerIDs { lastHeard[id] = Date(); missingSince[id] = nil; departed.remove(id) }
         var members = Set(found.playerIDs + [localID, leader])
         if healed, let p = party { members.formUnion(p.members) }
         for id in members where id != localID && !found.playerIDs.contains(id) { missingSince[id] = missingSince[id] ?? s }
-        party = PartyMemory(leader: leader, leaderName: name, members: members.sorted(), at: s)
+        party = PartyMemory(leader: leader, leaderName: name, members: members.sorted(), at: s, quick: healed && quickLinked ? true : nil)
         if goal?.leader == leader { goal = nil }
         for id in found.playerIDs { expected[id] = nil }
         saveParty(force: true)
@@ -496,7 +504,17 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
             let s = Date().timeIntervalSince1970
             for id in p.members where id != localID { missingSince[id] = missingSince[id] ?? s }
             p.at = s; party = p; saveParty(force: true)
-            if !lostNoticeShown { lostNoticeShown = true; onLinkNotice?(p.leader == localID ? "Lost the connection to your party. Reconnecting…" : "Lost the connection to \(p.leaderName)'s party. Reconnecting…") }
+            let settling = Date().timeIntervalSince(matchSince) < Self.settlingSeconds
+            if settling { SportsDiagnostics.write("party link: the match ended while settling (\(String(format: "%.1f", Date().timeIntervalSince(matchSince))) s old); meeting again") }
+            let notice = p.quick == true ? "Lost the connection to the match. Reconnecting…"
+                : p.leader == localID ? "Lost the connection to your party. Reconnecting…" : "Lost the connection to \(p.leaderName)'s party. Reconnecting…"
+            if !lostNoticeShown && !settling { lostNoticeShown = true; onLinkNotice?(notice) }
+            // (a settling match that does not come back in a few seconds is announced after all)
+            if settling { Task { @MainActor [weak self] in
+                try? await Task.sleep(for: .seconds(Self.settlingSeconds))
+                guard let self, self.match == nil, self.party != nil, !self.lostNoticeShown else { return }
+                self.lostNoticeShown = true; self.onLinkNotice?(notice)
+            } }
         } else if !matchIsParty {
             onError?(MultiplayerError.unavailable("The online match lost its connection."))
         }
@@ -506,7 +524,7 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
     /// A member whose leader never came back: the party is over here.
     private func partyLost() {
         let name = party?.leaderName ?? "your friend"
-        SportsDiagnostics.write("party link: the leader has been gone longer than \(Int(Self.patience)) s, the party is over here")
+        SportsDiagnostics.write("party link: the leader has been gone longer than \(Int(linkPatience)) s, the \(quickLinked ? "quick match" : "party") is over here")
         party = nil; saveParty(force: true); missingSince.removeAll(); lostNoticeShown = false
         if let m = match { drop(m, "the party is over"); match = nil }
         onPartyLost?(name)
@@ -935,7 +953,7 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
         attach(GameKitMatchLink(found))
     }
     func findMore(sport: MultiplayerSport) async throws {
-        guard let match = (match as? GameKitMatchLink)?.gk, party == nil, peers.count + 1 < capacity else { throw MultiplayerError.full }
+        guard let match = (match as? GameKitMatchLink)?.gk, party == nil || quickLinked, peers.count + 1 < capacity else { throw MultiplayerError.full }
         let request = try request(sport: sport, count: 4)
         tickets += 1; let token = tickets; quickToken = token
         defer { if quickToken == token { quickToken = 0 } }
@@ -951,9 +969,20 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
         activeController?.dismiss(animated: true); activeController = nil
         if searching { runLink() }
     }
-    private func attach(_ found: GameKitMatchLink) {
+    private func attach(_ found: PartyMatchLink) {
         if let previous = match, previous !== found { drop(previous, "replaced by a quick match") }
-        match = found; matchIsParty = false; disconnected.removeAll(); found.gk.delegate = self
+        match = found; matchIsParty = false; disconnected.removeAll(); (found as? GameKitMatchLink)?.gk.delegate = self
+        // The link keeps the quick match from now on (2026-11-19): when Apple ends it under a phone that left the app (a call, the lock
+        // button, a weak link), both phones meet again in the lobby owner's group, the same lobby and match go on, and nobody taps a
+        // thing. Before, the match was over for both ("The online match lost its connection.").
+        let ids = Set(found.playerIDs + [localID]), s = Date().timeIntervalSince1970
+        let leader = ids.sorted().first ?? localID   // (MultiplayerService elects the same owner; syncPartyLeader follows any change)
+        let leaderName = leader == localID ? GKLocalPlayer.local.displayName
+            : (found as? GameKitMatchLink)?.players.first { $0.gamePlayerID == leader }?.displayName ?? "the other player"
+        party = PartyMemory(leader: leader, leaderName: leaderName, members: ids.sorted(), at: s, quick: true)
+        missingSince.removeAll(); departed.removeAll(); lastHeard.removeAll(); matchSince = Date()
+        for id in found.playerIDs { lastHeard[id] = Date() }
+        SportsDiagnostics.write("party link: keeping the quick match (\(ids.count) players, owner \(leader.suffix(6)))")
         found.finish()
         onConnected?(); onPeersChanged?()
     }
@@ -978,8 +1007,11 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
             (m as? GameKitMatchLink)?.gk.delegate = nil
             Task { @MainActor in try? await Task.sleep(for: .milliseconds(400)); m.hangUp() }
         }
-        let leavingParty = party != nil || goal != nil || matchIsParty
+        let quick = quickLinked
+        let leavingParty = !quick && (party != nil || goal != nil || matchIsParty)
         match = nil; matchIsParty = false; pendingMatch = nil
+        // (a quick match left: its link goes, and invitations sent before it stay out)
+        if quick { SportsDiagnostics.write("party link: quick match off — \(why)"); party = nil; missingSince.removeAll(); departed.removeAll() }
         if leavingParty {
             SportsDiagnostics.write("party link: off — \(why)")
             // invitations still out are taken back: nobody comes into a party that is gone (a quick match left keeps them)
@@ -1077,6 +1109,8 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
     }
     /// Tests: Apple ended this phone's match (error 4), and the party remembered from before a relaunch.
     func debugMatchFailed() { matchDied("test: Apple ended the match (error 4)") }
+    /// Tests: a quick match Game Center paired (as quickMatch's findMatch hands it over).
+    func debugAttachQuick(_ link: PartyMatchLink) { attach(link) }
     func debugRestore() { restoreParty() }
     func debugTick() { linkTick() }
     #endif

@@ -45,19 +45,38 @@ struct RecordingEntry: Codable, Equatable, Identifiable, Sendable {
     /// Asks for add-only access (we never read the library); true when videos can be saved.
     func requestAccess() async -> Bool
     var hasAccess: Bool { get }
+    /// Denied (or restricted) once: iOS never shows its prompt again, only Settings can turn it on.
+    var blocked: Bool { get }
+    /// For the log: notDetermined / denied / restricted / authorized / limited.
+    var statusText: String { get }
     func save(_ url: URL) async throws
+}
+extension PhotoSaving {
+    var blocked: Bool { false }
+    var statusText: String { hasAccess ? "authorized" : "unknown" }
 }
 
 @MainActor final class PhotosLibrary: PhotoSaving {
     var hasAccess: Bool { let s = PHPhotoLibrary.authorizationStatus(for: .addOnly); return s == .authorized || s == .limited }
+    var blocked: Bool { let s = PHPhotoLibrary.authorizationStatus(for: .addOnly); return s == .denied || s == .restricted }
+    var statusText: String {
+        switch PHPhotoLibrary.authorizationStatus(for: .addOnly) {
+        case .notDetermined: "notDetermined"; case .denied: "denied"; case .restricted: "restricted"
+        case .authorized: "authorized"; case .limited: "limited"; @unknown default: "unknown"
+        }
+    }
     func requestAccess() async -> Bool {
         let s = await PHPhotoLibrary.requestAuthorization(for: .addOnly)
         return s == .authorized || s == .limited
     }
     func save(_ url: URL) async throws {
-        try await PHPhotoLibrary.shared().performChanges {
-            _ = PHAssetCreationRequest.creationRequestForAssetFromVideo(atFileURL: url)
-        }
+        try await PHPhotoLibrary.shared().performChanges(Self.addVideo(url))
+    }
+    /// Photos runs the change block on its own queue. Written inside this @MainActor class the block was main-actor isolated, and
+    /// Swift's isolation check crashed the app the moment Photos ran it (EXC_BREAKPOINT in dispatch_assert_queue on
+    /// com.apple.PHPhotoLibrary.changes, 2026-11-16 22:52, on the save and again on the relaunch's leftover save). Made here, it is not.
+    nonisolated private static func addVideo(_ url: URL) -> @Sendable () -> Void {
+        { _ = PHAssetCreationRequest.creationRequestForAssetFromVideo(atFileURL: url) }
     }
 }
 
@@ -151,10 +170,13 @@ final class RecordingService {
         else if state != .saving { Task { await start(from: source) } }
     }
 
-    func start(from source: String = "button") async {
+    func start(from source: String = "button", withoutPhotos: Bool = false) async {
         guard state == .idle || state == .saved || state == .failed else { return }
-        Self.log("record tapped (\(source)); tv=\(displayConnected()) unity=\(runtime.available) free=\(freeBytes() / 1_000_000) MB")
+        Self.log("record tapped (\(source)); tv=\(displayConnected()) unity=\(runtime.available) free=\(freeBytes() / 1_000_000) MB photos=\(photos.statusText)")
         if let why = unavailableReason { state = .failed; message = why; return }
+        // Photos was turned down once, so iOS will not ask again: ask here (Open Settings / Record without Photos) instead of
+        // silently keeping every recording in the app (11-16: both takes stayed in the app and no prompt ever showed).
+        if !withoutPhotos && photos.blocked { photosBlockedAsk = true; Self.log("Photos is off for MotionSports: asking to open Settings"); return }
         if freeBytes() < 1_200_000_000 { state = .failed; message = "Free up some storage first: recording needs about 1 GB free."; return }
         nativeRunning = false; rolling = false; rollingSince = nil; elapsed = 0; keptFile = nil
         state = .recording; message = "Recording starts when the game is on the TV."
@@ -184,6 +206,18 @@ final class RecordingService {
         guard runtime.start(configJSON()) else { return }   // the game's picture is not up yet
         nativeRunning = true
         Self.log("native recorder started; waiting for the first game frame")
+    }
+
+    /// Shown as a popup over the record button: Photos is off and iOS will not ask again.
+    var photosBlockedAsk = false
+    func openPhotosSettings() {
+        photosBlockedAsk = false
+        Self.log("opening Settings for Photos")
+        if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) }
+    }
+    func recordWithoutPhotos() {
+        photosBlockedAsk = false
+        Task { await start(from: "button, without Photos", withoutPhotos: true) }
     }
 
     func stop(from source: String = "button") {
@@ -391,7 +425,11 @@ final class RecordingService {
             Self.log("leftover recording found: \(url.lastPathComponent)")
             if photos.hasAccess, (try? await photos.save(url)) != nil {
                 try? FileManager.default.removeItem(at: url); remember(.photos, seconds: 0, note: "Recovered after the app closed")
-            } else if let kept = Self.keep(url) { keptFile = kept; remember(.kept, seconds: 0, note: "Recovered after the app closed", file: kept.lastPathComponent) }
+                Self.log("leftover saved to Photos: \(url.lastPathComponent)")
+            } else if let kept = Self.keep(url) {
+                keptFile = kept; remember(.kept, seconds: 0, note: "Recovered after the app closed", file: kept.lastPathComponent)
+                Self.log("leftover kept in the app: \(kept.lastPathComponent)")
+            }
         }
     }
 

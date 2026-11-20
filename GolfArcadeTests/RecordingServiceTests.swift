@@ -23,8 +23,9 @@ import XCTest
         }
     }
     @MainActor final class Photos: PhotoSaving {
-        var access = true, requests = 0, saved: [URL] = [], fail = false
+        var access = true, requests = 0, saved: [URL] = [], fail = false, isBlocked = false
         var hasAccess: Bool { access }
+        var blocked: Bool { isBlocked }
         func requestAccess() async -> Bool { requests += 1; return access }
         func save(_ url: URL) async throws { if fail { throw NSError(domain: "x", code: 1) }; saved.append(url) }
     }
@@ -114,6 +115,20 @@ import XCTest
         XCTAssertTrue(photos.saved.isEmpty); XCTAssertNotNil(svc.keptFile); XCTAssertTrue(FileManager.default.fileExists(atPath: svc.keptFile!.path))
         XCTAssertEqual(svc.history.first?.place, .kept)
         XCTAssertEqual(RecordingService.library().first, svc.keptFile); svc.deleteKept(svc.keptFile!); XCTAssertNil(svc.keptFile)
+    }
+    func testPhotosTurnedDownAsksBeforeRecordingAndCanRecordWithout() async {
+        let (svc, rt, photos) = recorder(); photos.access = false; photos.isBlocked = true
+        await svc.start()
+        XCTAssertTrue(svc.photosBlockedAsk, "iOS will not ask again, so the app asks (Open Settings / Record without Photos)")
+        XCTAssertEqual(svc.state, .idle); XCTAssertTrue(rt.started.isEmpty); XCTAssertEqual(photos.requests, 0)
+        svc.recordWithoutPhotos()
+        await settle("recording") { svc.state == .recording && !rt.started.isEmpty }
+        XCTAssertFalse(svc.photosBlockedAsk); XCTAssertTrue(svc.message.contains("kept in the app"), svc.message)
+    }
+    func testPhotosNotAskedYetGetsTheSystemPrompt() async {
+        let (svc, _, photos) = recorder(); photos.access = true; photos.isBlocked = false
+        await svc.start()
+        XCTAssertFalse(svc.photosBlockedAsk); XCTAssertEqual(photos.requests, 1, "the system prompt is requested on the first Record")
     }
     func testPhotosRefusingTheFileKeepsItInTheApp() async {
         let (svc, rt, photos) = recorder(); photos.fail = true

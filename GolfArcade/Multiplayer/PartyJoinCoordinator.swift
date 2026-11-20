@@ -36,6 +36,10 @@ struct PartyMemory: Codable, Equatable {
     var members: [String]
     /// Seconds since 1970 this phone last had someone from the party connected.
     var at: Double
+    /// A quick match's link (2026-11-19): the players Game Center paired meet again in the lobby owner's group when Apple ends their
+    /// match (the background, a call, a weak link), exactly as a party does. Never saved for a relaunch, never a friends' party, and it
+    /// waits only as long as a match keeps a player's place (MultiplayerTuning.awayLimitSeconds).
+    var quick: Bool? = nil
 
     nonisolated(unsafe) static var defaults = UserDefaults.standard
     private static func key(_ local: String) -> String { "party.link.v1." + local }
@@ -46,7 +50,7 @@ struct PartyMemory: Codable, Equatable {
         return m
     }
     static func save(_ m: PartyMemory?, _ local: String) {
-        guard !local.isEmpty else { return }
+        guard !local.isEmpty, m?.quick != true else { return }
         if let m, let data = try? JSONEncoder().encode(m) { defaults.set(data, forKey: key(local)) } else { defaults.removeObject(forKey: key(local)) }
     }
 }

@@ -229,6 +229,13 @@ struct CaptureDock: View {
             .padding(.top, golf ? 2 : session.active ? 0 : 62)
             .sheet(isPresented: $showSettings) { PartySettingsView(dismiss: { showSettings = false }).presentationDetents([.large]) }
             .sheet(isPresented: $showRecordings) { RecordingLibraryView(dismiss: { showRecordings = false }).presentationDetents([.large]) }
+            .alert("Save recordings to Photos?", isPresented: Binding(get: { recording.photosBlockedAsk }, set: { if !$0 { recording.photosBlockedAsk = false } })) {
+                Button("Open Settings") { recording.openPhotosSettings() }
+                Button("Record without Photos") { recording.recordWithoutPhotos() }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("Photos is off for MotionSports. In Settings, tap Photos and choose Add Photos Only, then come back and tap Record.")
+            }
             .accessibilityElement(children: .contain).accessibilityIdentifier("capture-dock")
         }
     }

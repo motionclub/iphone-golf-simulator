@@ -101,7 +101,10 @@ namespace GolfArcade.Tests {
     Assert.Less(left.land.x,-2.5f,$"seat {seat} a face turned left goes to the hitter's left");
     var mistimed=OnlineShot(seat,.03f,.65f,aim:0);   // about .15 s late: in, but slow and short
     Assert.Greater(straight.speed,mistimed.speed,$"seat {seat} on time is faster");
-    Assert.Greater(straight.land.y,mistimed.land.y+.75f,$"seat {seat} on time is deeper");   // a clean ball lands at 9.4 m since 2026-11-11 (10.4 before)
+    // Depth: timing pulls a poor hit short, and (11-17) the swing's power sets how deep a clean one goes, so compare full swings.
+    var hardOnTime=OnlineShot(seat,.18f,1f,aim:0); var hardLate=OnlineShot(seat,.03f,1f,aim:0); var softOnTime=OnlineShot(seat,.18f,.2f,aim:0);
+    Assert.Greater(hardOnTime.land.y,hardLate.land.y+.75f,$"seat {seat} on time is deeper");   // a clean ball lands at 9.4 m since 2026-11-11 (10.4 before)
+    Assert.Greater(hardOnTime.land.y,softOnTime.land.y+1.5f,$"seat {seat} a hard swing lands deeper than a soft one");
     foreach(var shot in new[]{straight,right,left,mistimed}) Assert.IsTrue(TennisRules.BounceIsIn(new Vector3(shot.land.x,TennisRules.BallRadius,shot.land.y)));
     // Past TennisRules.OutTiming it sails out (2026-10-26): long down the middle, wide on a side lane.
     var wayOff=OnlineShot(seat,-.03f,.65f,aim:0);

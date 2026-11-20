@@ -437,6 +437,26 @@ public class TennisMatchTests
                         $"aim {aim} quality {quality} roll {roll}");
     }
 
+    [Test] public void AHardSwingLandsDeepAndASoftOneShort()
+    {
+        foreach (float aim in new[] { -.8f, 0f, .8f })
+        {
+            var soft = TennisRules.SwingPlacement(aim, .9f, 0, 0, .2f);
+            var medium = TennisRules.SwingPlacement(aim, .9f, 0, 0, .6f);
+            var hard = TennisRules.SwingPlacement(aim, .9f, 0, 0, 1f);
+            float gap = aim == 0 ? .8f : .2f;   // straight spans the service line to the baseline; a side lane only about a metre
+            Assert.Less(soft.z, medium.z - gap, $"aim {aim}"); Assert.Less(medium.z, hard.z - gap, $"aim {aim}");
+            Assert.AreEqual(TennisRules.SwingPlacement(aim, .9f, 0, 0).z, hard.z, .01f, "a hard swing reaches the lane's full depth");
+            Assert.AreEqual(soft.x, hard.x, .01f, "power changes depth only, never the side");
+            Assert.Greater(soft.z, TennisRules.ServiceLine, "a soft clean swing still clears the service line");
+            // Same swing, same spot: nothing random once the scatter is zero.
+            Assert.AreEqual(medium, TennisRules.SwingPlacement(aim, .9f, 0, 0, .6f));
+            foreach (float power in new[] { 0f, .3f, .6f, .9f, 1f })
+                foreach (float quality in new[] { .02f, .5f, 1f })
+                    Assert.IsTrue(TennisRules.BounceIsIn(TennisRules.SwingPlacement(aim, quality, 0, 0, power)), $"aim {aim} q {quality} p {power}");
+        }
+    }
+
     [Test] public void AnEarlySwingWaitsForTheBallInsteadOfWhiffing()
     {
         Assert.AreEqual(0, TennisRules.SwingHold(-.1f), "a late swing is never held");

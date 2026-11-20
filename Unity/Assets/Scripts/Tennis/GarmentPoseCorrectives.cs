@@ -21,7 +21,7 @@ namespace GolfArcade.Tennis
             { "Hips", "LeftUpperLeg", "LeftLowerLeg" }, { "Hips", "RightUpperLeg", "RightLowerLeg" },
             { "LeftUpperLeg", "LeftLowerLeg", "LeftFoot" }, { "RightUpperLeg", "RightLowerLeg", "RightFoot" },
             { "Hips", "Spine", "Neck" }, { "UpperChest", "Neck", "Head" } };
-        sealed class Piece { public SkinnedMeshRenderer renderer; public Profile profile; public int[] shapeIndex; public float[] weights; }
+        sealed class Piece { public SkinnedMeshRenderer renderer; public Profile profile; public int[] shapeIndex; public float[] weights, requested; }
 
         public MatchHeroLook look;
         readonly List<Piece> pieces = new List<Piece>();
@@ -58,7 +58,7 @@ namespace GolfArcade.Tennis
                 if (!text) continue;
                 var p = JsonUtility.FromJson<Profile>(text.text);
                 if (p == null || p.featureMode != "gp-rbf" || p.shapes == null || p.anchors == null) continue;
-                var piece = new Piece { renderer = r, profile = p, shapeIndex = p.shapes.Select(s => r.sharedMesh.GetBlendShapeIndex(s)).ToArray(), weights = new float[p.shapes.Length] };
+                var piece = new Piece { renderer = r, profile = p, shapeIndex = p.shapes.Select(s => r.sharedMesh.GetBlendShapeIndex(s)).ToArray(), weights = new float[p.shapes.Length], requested = new float[p.shapes.Length] };
                 pieces.Add(piece);
             }
             if (pieces.Count == 0) { failed = true; return false; }
@@ -102,6 +102,7 @@ namespace GolfArcade.Tennis
         {
             if (!Init()) return;
             Features();
+            bool convex=Environment.GetEnvironmentVariable("GARMENT_CORRECTIVE_CONVEX")!="0";
             foreach (var p in pieces)
             {
                 var pr = p.profile; int k = pr.featureCount, A = pr.anchorCount, S = pr.shapes.Length;
@@ -112,11 +113,19 @@ namespace GolfArcade.Tennis
                     for (int j = 0; j < k; j++) { float e = features[j] - pr.anchors[o + j]; d += e * e; }
                     phi[a] = Mathf.Exp(-d * inv);
                 }
+                float total=0;
                 for (int s = 0; s < S; s++)
                 {
                     float w = 0;
                     for (int a = 0; a < A; a++) w += phi[a] * pr.coef[a * S + s];
-                    w = Mathf.Clamp01(w);
+                    p.requested[s]=Mathf.Clamp01(w);
+                    if(p.shapeIndex[s]>=0)total+=p.requested[s];
+                }
+                // Pose targets describe alternative fitted surfaces, not additive body inflation.
+                // Keep their blend within the authored envelope when RBF lobes overlap.
+                float normalization=convex?Mathf.Max(1,total):1;
+                for(int s=0;s<S;s++) {
+                    float w=p.requested[s]/normalization;
                     if (p.shapeIndex[s] >= 0 && Mathf.Abs(w - p.weights[s]) > 1e-4f) { p.renderer.SetBlendShapeWeight(p.shapeIndex[s], 100 * w); p.weights[s] = w; }
                 }
             }

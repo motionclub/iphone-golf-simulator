@@ -258,6 +258,10 @@ struct SportsHome: View {
     }
 
     private func scenePhaseChanged(_ phase: ScenePhase) {
+        if session.multiplayerMatchID != nil {
+            SportsDiagnostics.write("app \(phase) in an online match")
+            MultiplayerService.shared.shareDiagnostic("app \(phase)")
+        }
         // Leaving the app (AwayPolicy): only .background is leaving; .inactive is Control Center or a banner over the app.
         if phase == .active {
             let away = AwayPolicy.shared.returned()
@@ -267,7 +271,11 @@ struct SportsHome: View {
         } else if phase == .background { AwayPolicy.shared.left(); clubHub.background() }
         clubHub.updateBanner()
         // a local match pauses; in an online match only this player's controller rests (the match goes on): Ready takes it back
-        if phase != .active { session.pause(reason:"App inactive — return to the controller and tap Ready") }
+        // Online, only the background is leaving: a banner or Control Center over the app (inactive) left the player "away" and the
+        // CPU on their side until they tapped Ready (2026-11-11), while the game itself keeps running (SportsRuntime.keepPlayingWhenInactive).
+        if phase == .background || (phase == .inactive && session.multiplayerMatchID == nil) {
+            session.pause(reason:"App inactive — return to the controller and tap Ready")
+        }
         // UIKit notifications forward Unity's lifecycle once, at the actual boundary.
         hub.setForeground(phase == .active)
     }
@@ -283,9 +291,8 @@ struct AxisGatePanel:View {
             SportsCameraPreview(motion:session.motion)
                 .frame(height:180).clipShape(RoundedRectangle(cornerRadius:12))
                 .overlay(RoundedRectangle(cornerRadius:12).stroke(session.axisGate.progress>0 ? .green : .secondary,lineWidth:2))
-                .overlay { Image(systemName: "plus").font(.title2).foregroundStyle(.white).shadow(radius: 2) }
                 .accessibilityIdentifier("axisGatePreview")
-            Text("Point the rear camera at your TV or MacBook screen and hold still. Keep the screen under the crosshair, with some of the room visible. A laptop can sit below eye level. Leave enough room to swing.")
+            Text("Point the rear camera at your TV or MacBook screen so it shows in the window. The screen blinks twice and the phone finds it. A laptop can sit below eye level. Leave enough room to swing.")
                 .font(.subheadline).multilineTextAlignment(.center)
             ProgressView(value:session.axisGate.progress)
             Text(session.axisGate.message).font(.footnote).multilineTextAlignment(.center)

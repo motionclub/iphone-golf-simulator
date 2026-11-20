@@ -52,6 +52,10 @@ static void SportsCaptureTrampoline(const char *json) {
     BOOL _unityOnPhone;
     BOOL _applicationInactive;
     BOOL _applicationBackground;
+    /// The app was covered during an online match and Unity was left running (keepPlayingWhenInactive).
+    BOOL _resignDeferred;
+    /// ...and then it went to the background, where Unity was paused here (not by its own resign): resumed here on return.
+    BOOL _pausedAfterDeferred;
 #if DEBUG
     NSMutableArray<NSString*> *_lifecycleEvents;
 #endif
@@ -239,6 +243,8 @@ static void SportsCaptureTrampoline(const char *json) {
 - (void)willResignActive:(NSNotification*)note {
     if (_applicationInactive) return;
     _applicationInactive = YES;
+    // An online match plays on while the app is only covered: Unity's resign would freeze the game while the link stays up.
+    if (self.keepPlayingWhenInactive) { _resignDeferred = YES; [self traceLifecycle:@"resign-kept"]; return; }
     [self traceLifecycle:@"resign"];
 #if HAS_UNITY
     [_unity.appController applicationWillResignActive:UIApplication.sharedApplication];
@@ -249,6 +255,14 @@ static void SportsCaptureTrampoline(const char *json) {
     // Never synthesize willResignActive here: Unity may repaint in that callback,
     // and iOS forbids Metal command submission after entering the background.
     _applicationBackground = YES;
+    if (_resignDeferred) {
+        // Really leaving after all: pause Unity now with a plain pause (no resign callback, which may draw: Metal is gone here).
+        _resignDeferred = NO; _pausedAfterDeferred = YES;
+        [self traceLifecycle:@"pause"];
+#if HAS_UNITY
+        [_unity pause:YES];
+#endif
+    }
     [self traceLifecycle:@"background"];
 #if HAS_UNITY
     [_unity.appController applicationDidEnterBackground:UIApplication.sharedApplication];
@@ -266,10 +280,15 @@ static void SportsCaptureTrampoline(const char *json) {
     if (!_applicationInactive) return;
     [self willEnterForeground:nil];
     _applicationInactive = NO;
+    // Covered and uncovered without leaving: Unity never stopped, so it has nothing to resume.
+    if (_resignDeferred) { _resignDeferred = NO; [self traceLifecycle:@"active-kept"]; return; }
     [self traceLifecycle:@"active"];
 #if HAS_UNITY
     [_unity.appController applicationDidBecomeActive:UIApplication.sharedApplication];
+    // Unity's own resume skips a pause it did not make (its _wasPausedExternal can be stale): undo ours explicitly.
+    if (_pausedAfterDeferred) [_unity pause:NO];
 #endif
+    _pausedAfterDeferred = NO;
 }
 // The app delegate is ours, not Unity's, so UnityAppController never heard about memory warnings (Application.lowMemory never fired).
 - (void)didReceiveMemoryWarning:(NSNotification*)note {

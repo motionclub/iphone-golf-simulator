@@ -352,7 +352,7 @@ enum MultiplayerTuning {
     static let calibrationNoticeSeconds = 60.0
     // Connection check before a tennis match (tuned in the field): pings go out 10 times a second during setup, the last 20 answers
     // are graded, and a phone is "steady" once its grade has been Fair or better for 1.5 s in a row.
-    static let linkPingInterval = 0.1, linkReportInterval = 0.25, linkStableSeconds = 1.5, linkDecisionSeconds = 8.0
+    static let linkPingInterval = 0.1, linkReportInterval = 0.25, linkStableSeconds = 1.5
     static let linkGoodRTT = 0.08, linkGoodJitter = 0.03, linkGoodLossPercent = 2.0
     static let linkFairRTT = 0.15, linkFairJitter = 0.06, linkFairLossPercent = 5.0
 }

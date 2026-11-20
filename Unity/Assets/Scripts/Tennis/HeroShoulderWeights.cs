@@ -40,7 +40,10 @@ namespace GolfArcade.Tennis
                     // The narrow gap between the hanging arm and ribcage is the
                     // anatomical boundary. Heat weights crossed it onto both sides.
                     float boundary=Mathf.Lerp(.130f,.105f,Mathf.InverseLerp(1.18f,1.37f,p.z));
-                    float target=Smooth(boundary-.003f,boundary+.003f,p.x*sign);
+                    // A six-millimetre chest/arm switch created a hard skinning seam:
+                    // neighboring underarm vertices went to opposite bones and formed fins.
+                    // Blend over a small anatomical crease instead; arm/torso endpoints stay authored.
+                    float target=Smooth(boundary-.012f,boundary+.012f,p.x*sign);
                     float fade=Smooth(1.07f,1.11f,p.z)*(1-Smooth(1.37f,1.40f,p.z)); target=Mathf.Lerp(arm,target,fade);
                     for(int k=0;k<4;k++) values[k]*=(ids[k]==upper||ids[k]==lower) ? target/arm : (1-target)/Mathf.Max(1-arm,1e-6f);
                     if (arm>.999999f&&target<1) { ids[3]=chest; values[3]=1-target; }
