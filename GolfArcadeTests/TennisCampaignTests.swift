@@ -357,9 +357,12 @@ final class TennisCampaignTests: XCTestCase {
     }
 
     func testRematchForcesOneShortIntroAndPreservesOffPreference() {
-        let session = SportsSession.shared, saved = session.presentationIntros
-        defer { session.presentationIntros = saved; _ = session.consumePresentationIntroCut() }
-        session.presentationIntros = "full"; session.prepareRematchPresentation()
+        let session = SportsSession.shared, saved = (session.presentationIntros, session.sport)
+        defer { session.presentationIntros = saved.0; session.sport = saved.1; _ = session.consumePresentationIntroCut() }
+        // golf's rematch keeps its short cut; a tennis rematch goes straight into play (quick start T7)
+        session.sport = "tennis"; session.presentationIntros = "full"; session.prepareRematchPresentation()
+        XCTAssertEqual(session.consumePresentationIntroCut(), "off")
+        session.sport = "golf"; session.prepareRematchPresentation()
         XCTAssertEqual(session.consumePresentationIntroCut(), "short")
         XCTAssertEqual(session.consumePresentationIntroCut(), "full", "Only this rematch is forced short")
         session.presentationIntros = "off"; session.prepareRematchPresentation()
@@ -413,11 +416,11 @@ final class TennisCampaignTests: XCTestCase {
 
     func testTimingCheckIsKeptPerTV() {
         let defaults = UserDefaults(suiteName: "timing-test-\(UUID().uuidString)")!
-        XCTAssertNil(SportsTiming.stored(for: "Living Room", defaults: defaults))
-        SportsTiming.store(0.182, for: "Living Room", defaults: defaults)
-        SportsTiming.store(0.9, for: "Bedroom", defaults: defaults)
-        XCTAssertEqual(SportsTiming.stored(for: "Living Room", defaults: defaults) ?? 0, 0.182, accuracy: 1e-9)
-        XCTAssertEqual(SportsTiming.stored(for: "Bedroom", defaults: defaults), 0.9, "AirPlay delay is preserved")
+        XCTAssertNil(SportsTiming.storedChain(for: "Living Room", defaults: defaults))
+        SportsTiming.storeChain(0.182, for: "Living Room", defaults: defaults)
+        SportsTiming.storeChain(0.9, for: "Bedroom", defaults: defaults)
+        XCTAssertEqual(SportsTiming.storedChain(for: "Living Room", defaults: defaults) ?? 0, 0.182, accuracy: 1e-9)
+        XCTAssertEqual(SportsTiming.storedChain(for: "Bedroom", defaults: defaults), 0.9, "AirPlay delay is preserved")
     }
 
     func testUnityEventsParse() {

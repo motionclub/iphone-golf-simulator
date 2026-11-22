@@ -27,27 +27,36 @@ enum TennisVenueChoice: String, CaseIterable, Identifiable {
 
 
 
-/// The bowling centres (Unity's BowlingVenue: the `venue` field of the start message); the picture is
-/// MenuArt/map-bowling-<key>.jpg, an in-game shot of the lanes.
+/// The bowling alleys (Unity's BowlingVenue: the `venue` field of the start message); the picture is
+/// MenuArt/map-bowling-<key>.jpg, an in-game shot of the lanes. Since 2026-11-21 the three open-air alleys on the tennis
+/// worlds are the only ones (the indoor Club, Neon, Tiki and Magma centres were removed).
 enum BowlingVenueChoice: String, CaseIterable, Identifiable {
-    case club, neon, tiki, magma
+    case rooftop, beachcourt, crater
     var id: String { rawValue }
+    /// A venue key, including the removed indoor centres' (a saved pick, an older phone in the party): the nearest alley.
+    static func resolve(_ key: String?) -> BowlingVenueChoice? {
+        switch key ?? "" {
+        case "club", "neon": .rooftop
+        case "tiki": .beachcourt
+        case "magma": .crater
+        default: BowlingVenueChoice(rawValue: key ?? "")
+        }
+    }
     var title: String {
-        switch self { case .club: "Club Lanes"; case .neon: "Neon Nights"; case .tiki: "Tiki Shores"; case .magma: "Magma Lanes" }
+        switch self { case .rooftop: "Rooftop Lanes"; case .beachcourt: "Beach Court"; case .crater: "Crater Lanes" }
     }
     var tagline: String {
         switch self {
-        case .club: "A sky lounge at the top of the club tower, sunset through the glass"
-        case .neon: "Cosmic bowling at midnight: the room goes dark and everything glows"
-        case .tiki: "Open-air lanes on the beach, palms and the sea all round"
-        case .magma: "Lanes carved into a volcano. Gutter balls roll through lava"
+        case .rooftop: "Open-air lanes on the Sky Tower roof, above a sea of clouds"
+        case .beachcourt: "Lanes laid on the resort's tennis court, palms and the lagoon all round"
+        case .crater: "Open-air lanes on an obsidian slab over the lava lake"
         }
     }
     var badge: String {
-        switch self { case .club: "CLASSIC"; case .neon: "COSMIC"; case .tiki: "OPEN AIR"; case .magma: "LAVA GUTTERS" }
+        switch self { case .rooftop: "SKY HIGH"; case .beachcourt: "OPEN AIR"; case .crater: "ERUPTION" }
     }
     var tint: Color {
-        switch self { case .club: Club.sky; case .neon: Club.violet; case .tiki: Club.green; case .magma: Club.coral }
+        switch self { case .rooftop: Club.violet; case .beachcourt: Club.sky; case .crater: Club.coral }
     }
     var art: String { "map-bowling-\(rawValue)" }
 }
@@ -86,7 +95,7 @@ enum GolfCourseChoice: String, CaseIterable {
     }
     /// Each hole's par, in the order Unity's Course.All() deals them.
     var pars: [Int] {
-        switch self { case .cliffside: [4, 4, 5, 3, 3]; case .wildisles: [5, 4, 5, 3, 4, 4]; case .magma: [4, 4, 3, 4, 5] }
+        switch self { case .cliffside: [4, 5, 3, 3]; case .wildisles: [4, 5, 3, 4, 4]; case .magma: [4, 4, 3, 4, 5] }
     }
     /// Holes and par.
     var card: String { "\(pars.count) HOLES · PAR \(pars.reduce(0, +))" }

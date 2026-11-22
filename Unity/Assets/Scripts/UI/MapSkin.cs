@@ -11,7 +11,7 @@ namespace GolfArcade.UI
     /// has the same skins (GolfArcade/Unity/MapSkin.swift).
     public sealed class MapSkin
     {
-        /// "tennis-resort", "golf-cliffside", "bowling-neon" (the asset names' key).
+        /// "tennis-resort", "golf-cliffside", "bowling-crater" (the asset names' key).
         public readonly string Id;
         /// The map's name as it stands on its own ("SKY TOWER").
         public readonly string Title;
@@ -46,17 +46,25 @@ namespace GolfArcade.UI
                         B(.247f, .366f, .794f, .671f), None, B(.328f, .236f, .734f, .546f)),
             new MapSkin("golf-magma", "MAGMA OPEN", "3D7A2A", "275219", "3B3230", "1C1514", "FFF0D6", "2A1E14", "FF8B22", "FFF0D6", "1F3A12", "FFF0D6", "1F3A12",
                         B(.248f, .381f, .774f, .642f), None, B(.247f, .24f, .758f, .589f)),
-            new MapSkin("bowling-club", "CLUB LANES", "1E2756", "131A3E", "8A5A30", "4E2F16", "FFF1D8", "1B2148", "E9B949", "FFF1D8", "121838", "1B2148", "FFF6E6",
-                        B(.232f, .472f, .803f, .75f), None, B(.175f, .373f, .834f, .794f)),
-            new MapSkin("bowling-neon", "NEON NIGHTS", "3A1266", "1E0A3C", "8A4DFF", "4A1E9A", "FFF1F8", "2A0B4D", "2DE2F0", "FFF1F8", "D61F86", "FFFFFF", "2A0B4D",
-                        B(.208f, .107f, .87f, .644f), None, B(.146f, .189f, .873f, .784f)),
-            new MapSkin("bowling-tiki", "TIKI SHORES", "11535A", "0A3A40", "E2AE4C", "9A6A22", "FFF1D6", "123B40", "3FD8C8", "FFF1D6", "0C3A40", "123B40", "FFF6E6",
-                        B(.255f, .238f, .769f, .69f), None, B(.195f, .259f, .848f, .741f)),
-            new MapSkin("bowling-magma", "MAGMA LANES", "40231D", "241210", "5A3A2E", "2A1712", "FFEBD2", "3A1F18", "FF8B2B", "FFEBD2", "241210", "FFEBD2", "241210",
-                        B(.282f, .402f, .87f, .687f), None, B(.112f, .179f, .779f, .632f)),
         };
 
-        public static MapSkin Get(string id) { foreach (var s in All) if (s.Id == id) return s; return All[0]; }
+        /// The open-air bowling venues on the tennis worlds wear their tennis map's colours (no sculpted art of their own yet:
+        /// the HUD falls back to its plain plates and live titles).
+        static readonly MapSkin[] Borrowed =
+        {
+            Twin("bowling-rooftop", "ROOFTOP LANES", "tennis-skyscraper"),
+            Twin("bowling-beachcourt", "BEACH COURT", "tennis-resort"),
+            Twin("bowling-crater", "CRATER LANES", "tennis-volcano"),
+        };
+        static MapSkin Twin(string id, string title, string of)
+        {
+            MapSkin t = null; foreach (var s in All) if (s.Id == of) t = s;
+            string H(Color c) => ColorUtility.ToHtmlStringRGB(c);
+            return new MapSkin(id, title, H(t.Top), H(t.Bottom), H(t.Frame), H(t.FrameDeep), H(t.Cream), H(t.Ink), H(t.Glow),
+                               H(t.PlateText), H(t.PlateStroke), H(t.CardText), H(t.CardStroke), t.PlateBox, t.EventBox, None);
+        }
+
+        public static MapSkin Get(string id) { foreach (var s in All) if (s.Id == id) return s; foreach (var s in Borrowed) if (s.Id == id) return s; return All[0]; }
 
         /// The tennis court being played (TennisVenue.Current).
         public static MapSkin Tennis => Get(GolfArcade.Tennis.TennisVenue.Current switch
@@ -68,10 +76,9 @@ namespace GolfArcade.UI
         /// The bowling centre being played (BowlingVenue.Current).
         public static MapSkin Bowling => Get(GolfArcade.Bowling.BowlingVenue.Current switch
         {
-            GolfArcade.Bowling.BowlingVenueKind.NeonNights => "bowling-neon",
-            GolfArcade.Bowling.BowlingVenueKind.TikiShores => "bowling-tiki",
-            GolfArcade.Bowling.BowlingVenueKind.MagmaLanes => "bowling-magma",
-            _ => "bowling-club",
+            GolfArcade.Bowling.BowlingVenueKind.BeachCourtLanes => "bowling-beachcourt",
+            GolfArcade.Bowling.BowlingVenueKind.CraterLanes => "bowling-crater",
+            _ => "bowling-rooftop",
         });
         /// A golf course by its key ("cliffside", "wildisles", "magma"; round keys like "cliffside+9" too).
         public static MapSkin Golf(string courseKey)

@@ -127,7 +127,8 @@ namespace GolfArcade.Tennis
         public static Color LineColor => Current == TennisVenueKind.Volcano ? new Color(.97f, .96f, .92f) : new Color(.95f, .96f, .93f);
 
         /// How far the camera can see: the resort is a small island; the sky and the crater are not.
-        public static float FarClip => Current switch { TennisVenueKind.Skyscraper => 6000, TennisVenueKind.Volcano => 3500, _ => System.Environment.GetEnvironmentVariable("TENNIS_HORIZON2")!="0" ? 1000 : 600 };
+        public static float FarClip => FarClipFor(Current);
+        public static float FarClipFor(TennisVenueKind kind) => kind switch { TennisVenueKind.Skyscraper => 6000, TennisVenueKind.Volcano => 3500, _ => System.Environment.GetEnvironmentVariable("TENNIS_HORIZON2")!="0" ? 1000 : 600 };
 
         // ---- the drone shot
         /// The opening flyover, 0 to 1: where the camera is, what it looks at and its field of view.

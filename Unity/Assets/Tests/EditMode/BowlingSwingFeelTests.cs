@@ -11,6 +11,11 @@ namespace GolfArcade.Tests
     /// the backswing's line (+ = right) through its first 60 %, an optional wrist turn about the forearm over the last 0.18 s.
     public class BowlingSwingFeelTests
     {
+        // these pin the 10-27 feel pass's numbers: run them with the 11-21 skill pass off (BowlingSkillTests covers it on)
+        bool skillWas;
+        [SetUp] public void SkillOff() { skillWas = BowlingSkill.On; BowlingSkill.On = false; }
+        [TearDown] public void SkillBack() => BowlingSkill.On = skillWas;
+
         static double S(double x) { x = Math.Max(0, Math.Min(1, x)); return x * x * (3 - 2 * x); }
 
         static BowlingSwingDetector.Reading Swing(double back, double q, double aimDeg = 0, double twistDeg = 0, double noise = 0)

@@ -15,11 +15,11 @@ namespace GolfArcade.Tests
         static Hole Get(int n) => Catalogue.Hole(n);
 
         [Test]
-        public void TheRoundPlaysAllSixHoles()
+        public void TheRoundPlaysAllFiveHoles()
         {
             var course = Course.Course.WildIsles();
-            CollectionAssert.AreEqual(new[] { 13, 14, 17, 18, 19, 20 }, course.Holes.Select(h => h.Number).ToArray());
-            Assert.AreEqual(5 + 4 + 5 + 3 + 4 + 4, course.Par);
+            CollectionAssert.AreEqual(new[] { 14, 17, 18, 19, 20 }, course.Holes.Select(h => h.Number).ToArray());
+            Assert.AreEqual(4 + 5 + 3 + 4 + 4, course.Par);
             Assert.AreEqual("wildisles", course.Key);
             Assert.AreSame(null, Course.Course.WildIsles().Holes.FirstOrDefault(h => !string.IsNullOrEmpty(h.Theme)), "their colours come from the models' own materials");
         }

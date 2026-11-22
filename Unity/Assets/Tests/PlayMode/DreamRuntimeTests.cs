@@ -21,12 +21,12 @@ namespace GolfArcade.PlayTests
             try {
                 Environment.SetEnvironmentVariable("DREAM_WEATHER","Fog");Environment.SetEnvironmentVariable("DREAM_UTC","1792119600");
                 yield return SceneManager.LoadSceneAsync("Golf");
-                var game=Object.FindFirstObjectByType<GolfGame>();game.ChooseHoles(0);game.Play();game.JumpToHole(7);game.DropBall(game.CurrentHole.Tee);
+                var game=Object.FindFirstObjectByType<GolfGame>();game.ChooseHoles(0);game.Play();game.JumpToHole(8);game.DropBall(game.CurrentHole.Tee);
                 for(int i=0;i<20;i++)yield return null;
                 Assert.AreEqual(1,Object.FindObjectsByType<DreamEnvironment>(FindObjectsSortMode.None).Length);
                 Assert.AreEqual(Weather.Fog,DreamEnvironment.Current.Condition);Assert.IsTrue(DreamVisibility.Fog);
                 Assert.Greater(Object.FindObjectsByType<DreamMapFog>(FindObjectsSortMode.None).Length,0,"The live HUD must install its observation mask.");
-                var before=game.CurrentHole.Dream.Code;game.JumpToHole(7);for(int i=0;i<3;i++)yield return null;
+                var before=game.CurrentHole.Dream.Code;game.JumpToHole(8);for(int i=0;i<3;i++)yield return null;
                 Assert.AreEqual(before,game.CurrentHole.Dream.Code,"retry retains hazard selection and phase");
                 Environment.SetEnvironmentVariable("DREAM_WEATHER","Storm");TennisVenue.Selected=TennisVenueKind.Volcano;
                 yield return SceneManager.LoadSceneAsync("Tennis");

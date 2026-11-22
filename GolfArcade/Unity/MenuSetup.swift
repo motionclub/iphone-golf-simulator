@@ -8,8 +8,8 @@ enum MenuSetup {
     /// Bays that set up on the TV (tennis, golf and bowling alike: the court / course / lane strip, the options, START).
     static let modes: Set<String> = ["bay-tennis-exhibition", "bay-tennis-training", "bay-golf-round", "bay-golf-pass",
                                   "bay-bowling-play", "bay-bowling-exhibition", "bay-bowling-pass"]
-    /// The bowling lanes' badge colours (BowlingVenueChoice.tint: Club.sky / violet / green / coral).
-    static let bowlingTagHex: [BowlingVenueChoice: String] = [.club: "3FA9F5", .neon: "8A4FFF", .tiki: "2FBF71", .magma: "FF6B4A"]
+    /// The bowling alleys' badge colours (the tennis map each one stands on: Sky Tower lavender, resort teal, crater orange).
+    static let bowlingTagHex: [BowlingVenueChoice: String] = [.rooftop: "A592E0", .beachcourt: "35DCCB", .crater: "FF8B2B"]
     /// Local golf's and bowling's player count, picked on the TV's players screen before the course / lane setup.
     static var passPlayers = 2
     static let lengths = ["3 games", "1 set", "Best of 3"]
@@ -40,7 +40,7 @@ enum MenuSetup {
                 Row(key: "level", label: "Coach level", choices: levels, value: menu.trainingLevel)])
         case "bay-golf-round", "bay-golf-pass":
             let pass = mode == "bay-golf-pass"
-            return State(mode: mode, sport: "golf", title: pass ? "Local play · \(passPlayers) players" : "Golf", line2: "Pick a course", start: "TEE OFF",
+            return State(mode: mode, sport: "golf", title: pass ? localTitle : "Golf", line2: "Pick a course", start: "TEE OFF",
                          map: session.golfCourse, maps: golfMaps, rows: [
                 Row(key: "holes", label: "Holes", choices: holes, value: holeIndex)])
         case "bay-bowling-play":
@@ -49,9 +49,17 @@ enum MenuSetup {
             return State(mode: mode, sport: "bowling", title: "Exhibition", line2: "Pick a lane", start: "START GAME", map: session.bowlingVenue, maps: bowlingMaps, rows: [
                 Row(key: "opponent", label: "CPU opponent", choices: BowlingOpponent.allCases.map(\.name), value: session.bowlingOpponent.rawValue)])
         case "bay-bowling-pass":
-            return State(mode: mode, sport: "bowling", title: "Local play · \(passPlayers) players", line2: "Pick a lane", start: "START GAME", map: session.bowlingVenue, maps: bowlingMaps, rows: [])
+            return State(mode: mode, sport: "bowling", title: localTitle, line2: "Pick a lane", start: "START GAME", map: session.bowlingVenue, maps: bowlingMaps, rows: [])
         default: return nil
         }
+    }
+
+    /// LOCAL PLAY's heading: how many will pass this phone, or (friends' phones joined: HubSession.localPlayNames) who is playing.
+    static var localTitle: String {
+        let names = HubSession.shared.localPlayNames
+        guard !names.isEmpty else { return "Local play · \(passPlayers) players" }
+        let shown = names.prefix(4).map { String($0.prefix(12)) }
+        return "Local play · " + shown.joined(separator: " · ")
     }
 
     /// The JSON Unity reads (JsonUtility: plain fields, arrays of objects).
@@ -69,7 +77,7 @@ enum MenuSetup {
         switch f[0] {
         case "map":
             if mode.contains("golf") { if GolfCourseChoice(rawValue: f[1]) != nil { session.golfCourse = f[1] } }
-            else if mode.contains("bowling") { if BowlingVenueChoice(rawValue: f[1]) != nil { session.bowlingVenue = f[1] } }
+            else if mode.contains("bowling") { if let v = BowlingVenueChoice.resolve(f[1]) { session.bowlingVenue = v.rawValue } }
             else if TennisVenueChoice(rawValue: f[1]) != nil { session.tennisVenue = f[1] }
         case "opponent":
             if mode.contains("bowling") { session.bowlingOpponent = BowlingOpponent(rawValue: min(max(0, index), BowlingOpponent.allCases.count - 1)) ?? .sam }
@@ -100,12 +108,15 @@ enum MenuSetup {
             case "bay-golf-round":
                 menu.openFromPlaza(.main); menu.begin(MenuLaunch(sport: .golf, mode: .round), skipMap: true)
             case "bay-golf-pass":
+                // (friends' phones joined: their game, everyone on their own phone; nobody did: pass this one round)
+                if HubSession.shared.startLocalPlay(.golf, players: passPlayers) { return }
                 menu.openFromPlaza(.localPlayers); menu.startPassThePhone(passPlayers)
             case "bay-bowling-play":
                 menu.openFromPlaza(.main); menu.begin(MenuLaunch(sport: .bowling, mode: .round), skipMap: true)
             case "bay-bowling-exhibition":
                 menu.openFromPlaza(.main); menu.begin(MenuLaunch(sport: .bowling, mode: .exhibition), skipMap: true)
             case "bay-bowling-pass":
+                if HubSession.shared.startLocalPlay(.bowling, players: passPlayers) { return }
                 menu.openFromPlaza(.localPlayers); menu.startBowlingPassThePhone(passPlayers)
             default: break
             }

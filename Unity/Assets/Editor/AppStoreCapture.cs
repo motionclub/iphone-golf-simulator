@@ -98,7 +98,7 @@ namespace GolfArcade.EditorTools
             for (int i = 0; i < 28; i++) { game.TutorialHud.SetMeter(.85f, null, "204 yd"); yield return null; }
             Pin(); Shot(cam, "golf_hole1_swing");
             game.TutorialHud.SetMeter(0f);
-            game.JumpToHole(7); game.DropBall(game.CurrentHole.Tee); for (int i = 0; i < 20; i++) yield return null;
+            game.JumpToHole(8); game.DropBall(game.CurrentHole.Tee); for (int i = 0; i < 20; i++) yield return null;
             Bind(cam); Frame(); for (int i = 0; i < 8; i++) yield return null;
             Pin(); Shot(cam, "golf_hole7_tee");
         }

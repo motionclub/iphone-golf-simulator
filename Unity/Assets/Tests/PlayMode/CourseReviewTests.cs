@@ -97,7 +97,7 @@ namespace GolfArcade.PlayTests
             }
         }
 
-        /// Pushing the joystick up while aiming looks up the hole: on the Spiral's tee the summit
+        /// Pushing the joystick up while aiming looks up the hole: on a tee the far
         /// green is found, and down it comes in over the ball. Frames of each in Captures/course.
         [UnityTest]
         public IEnumerator LookingUpFindsThePin()
@@ -113,7 +113,7 @@ namespace GolfArcade.PlayTests
             yield return null;
             try
             {
-                foreach (int number in new[] { 13, 7 })
+                foreach (int number in new[] { 14, 8 })
                 {
                     game.JumpToHole(number);
                     yield return WaitFor(() => game.Current == GolfGame.State.Aim, 45, "the tee");

@@ -8,6 +8,7 @@ struct SportsHome: View {
     @State private var menu = TennisMenu.shared
     @State private var onboarding = OnboardingFlow.shared
     @State private var playSafe = PlaySafeGate.shared
+    @State private var permissions = PermissionGate.shared
     @State private var hub = HubSession.shared
     @State private var clubHub = ClubHub.shared
     @State private var partyUI = PartyUI.shared
@@ -18,15 +19,18 @@ struct SportsHome: View {
     @ViewBuilder private var screen: some View {
         // hosting tennis for a friend's phone nearby (the menu's "Tennis with a friend nearby"), over any menu
         if !session.active && hub.station == HubSession.nearbyBay { HubNearbyBenchPanel(hub: hub) }
+        // this phone is the screen for friends' phones (phone casting): its lobby, then the game fills it
+        else if !session.active, let sport = HubSession.castSport(hub.station) { HubCastScreenPanel(hub: hub, sport: sport) }
         // no match: the menu's controller, whatever else happens (invites, a party, a friend joining, the menu loading or failing)
         else if !session.active { if hub.runtimeMissing { TennisPhoneMenu() } else { MenuControllerView() } }
         // an online match is over: its result is on the TV, the phone takes everyone back to the Plaza
         else if session.multiplayerMatchID != nil && hub.matchOver != nil { HubMatchOverPanel(hub: hub) }
         else if session.showsOnlineTennisSetup { TennisRacketController(session: session) }
         else if session.active && (!session.loading.finished || (session.sport == "golf" && !session.ready)) { LoadingScreen(menu: menu, compact: true) }
-        else if session.active && session.finishedMatch != nil {
+        else if session.active && session.castScreen { CastScreenOverlay(session: session) }
+        // the end of the game, stepped from here while the TV shows it (tennis; golf and bowling with a TV)
+        else if session.active && (session.finishedMatch != nil || (session.postGameStage != nil && session.postGameBoard != nil)) {
             MatchFinishControls(session: session)
-                .background(Club.lagoonDeep.ignoresSafeArea())
         }
         // (paused: each controller stays, under the one pause menu every sport shares, GamePauseMenu)
         else if session.active && session.sport == "golf" {
@@ -56,6 +60,10 @@ struct SportsHome: View {
                 }.buttonStyle(.plain).padding(.bottom, 24).accessibilityIdentifier("lesson-skip")
             }
         }
+        // phone casting: the screen phone is away (out of the app, or its connection dropped): this phone has no picture, so it says so
+        .overlay(alignment: .top) {
+            if session.active && session.multiplayerCasting && !session.castScreen && hub.partyService.screenAway { CastScreenAwayBanner().padding(.horizontal, 14).padding(.top, 58) }
+        }
         // a friend's phone nearby is hosting tennis: "Join <name>'s tennis game?", one tap joins (over any menu; never in a match)
         .overlay(alignment: .top) { if !session.active { HubNearbyBanner(hub: hub).padding(.horizontal, 14).padding(.top, 58) } }
         .task { while !Task.isCancelled { hub.nearbyTick(); try? await Task.sleep(for: .milliseconds(250)) } }
@@ -63,7 +71,10 @@ struct SportsHome: View {
         .onOpenURL { clubHub.open(url: $0) }
         // how to play + play safe: before each lesson, and before the first game of each sport each time the app runs
         .overlay { if let request = playSafe.request { PlaySafeSheet(request: request).transition(.move(edge: .bottom)) } }
+        // Game Center / Local Network / camera, asked in context (11-21), over everything including the play-safe card
+        .overlay { if let request = permissions.request { PermissionSheet(request: request).transition(.move(edge: .bottom)) } }
         .animation(.spring(response: 0.42, dampingFraction: 0.9), value: playSafe.request?.id)
+        .animation(.spring(response: 0.42, dampingFraction: 0.9), value: permissions.request?.id)
     }
 
     private var withBars: some View {
@@ -170,6 +181,9 @@ struct SportsHome: View {
         .task { await launch() }
         .background(DisplayRegistration().frame(width:0,height:0))
         .onChange(of:scenePhase) { _,phase in scenePhaseChanged(phase) }
+        // putting the game on a TV: one sheet for every place that needs one, over everything, the play-safe card included (ConnectTV.swift)
+        .overlay { if let request = TVConnect.shared.request { ConnectTVSheet(request: request).transition(.move(edge: .bottom)) } }
+        .animation(.spring(response: 0.42, dampingFraction: 0.9), value: TVConnect.shared.request?.id)
     }
 
     private func launch() async {
@@ -196,6 +210,12 @@ struct SportsHome: View {
                 _ = session.golfTap.observe(phase: "Aim", shotReady: true, unityState: 2, now: now)
             }
             if args.contains("-golfControllerLoading") { session.loading.begin(now: Date()) }
+        }
+        // the TV sheet (simulator): -tvConnectCheck looking|connected [golf|tennis|bowling]
+        if let i = args.firstIndex(of: "-tvConnectCheck") {
+            OnboardingFlow.shared.exitToMenu()
+            let sport = args[safe: i + 2].flatMap(Sport.init(rawValue:))
+            TVConnect.shared.debugShow(sport: sport, connected: args[safe: i + 1] == "connected" ? "Living Room TV" : nil, phone: sport?.playsOnPhone ?? false)
         }
         // handheld play without Unity (simulator): a game frame from a file stands in for the round above the deck
         //   -handheldCheck golf|bowling <frame.jpg> [-handheldMap <map.png>] [-handheldMapOpen]
@@ -226,6 +246,7 @@ struct SportsHome: View {
             session.setupStage = .playing; session.paused = false; session.tennisPhase = phase
             session.emoteWindow = phase == "point" ? "point" : ""
             if phase == "timing" { session.offerTimingCalibration() }
+            if phase == "pointHold" { session.setupStage = .scan; session.paused = true; session.axisGate = SportsAxisGate(); session.axisGate.message = SportsMotion.pointPrompt }
             if phase == "ready" { session.setupStage = .ready; session.paused = true }
         }
         OnlineLobbyProofDriver.start(menu,args:args)
@@ -264,6 +285,7 @@ struct SportsHome: View {
         }
         // Leaving the app (AwayPolicy): only .background is leaving; .inactive is Control Center or a banner over the app.
         if phase == .active {
+            PermissionGate.shared.appBecameActive()   // back from Settings or Apple's prompt: what is now allowed goes on
             let away = AwayPolicy.shared.returned()
             hub.returned(after: away)
             clubHub.returned(after: away)
@@ -278,37 +300,6 @@ struct SportsHome: View {
         }
         // UIKit notifications forward Unity's lifecycle once, at the actual boundary.
         hub.setForeground(phase == .active)
-    }
-}
-
-/// Blocks play until the court direction is locked. A single Ready tap cannot reveal where
-/// the TV is when the phone's facing changes every stroke, so this is captured once up front.
-struct AxisGatePanel:View {
-    @Bindable var session:SportsSession
-    var body:some View {
-        VStack(spacing:14) {
-            Text("1 · TV scan").font(.headline)
-            SportsCameraPreview(motion:session.motion)
-                .frame(height:180).clipShape(RoundedRectangle(cornerRadius:12))
-                .overlay(RoundedRectangle(cornerRadius:12).stroke(session.axisGate.progress>0 ? .green : .secondary,lineWidth:2))
-                .accessibilityIdentifier("axisGatePreview")
-            Text("Point the rear camera at your TV or MacBook screen so it shows in the window. The screen blinks twice and the phone finds it. A laptop can sit below eye level. Leave enough room to swing.")
-                .font(.subheadline).multilineTextAlignment(.center)
-            ProgressView(value:session.axisGate.progress)
-            Text(session.axisGate.message).font(.footnote).multilineTextAlignment(.center)
-                .accessibilityIdentifier("axisGateMessage")
-            if !session.axisGate.detail.isEmpty {
-                Text(session.axisGate.detail).font(.caption2).foregroundStyle(.secondary)
-                    .accessibilityIdentifier("axisGateDetail")
-            }
-            Text("You only do this once per session. After it locks, any grip or angle works.")
-                .font(.caption).multilineTextAlignment(.center)
-            if !session.axisGate.locked {
-                Button("Use the direction I'm pointing now") { session.useCurrentDirection() }
-                    .accessibilityIdentifier("forceAxis")
-            }
-        }.padding(20).frame(maxWidth:.infinity)
-            .accessibilityIdentifier("axisGatePanel")
     }
 }
 

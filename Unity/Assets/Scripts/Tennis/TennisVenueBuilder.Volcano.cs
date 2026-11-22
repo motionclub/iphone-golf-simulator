@@ -101,6 +101,23 @@ namespace GolfArcade.Tennis
                 Embers(root);
             }
 
+            /// The bowling lanes' crater (TennisVenueBuilder.VolcanoForBowling): the same world round a slab sized to the alley.
+            /// The braziers keep their flames but not their point lights (the pins own their two light slots).
+            internal static void ForBowling(Transform root, float hx, float hz)
+            {
+                Textures();
+                Deck(root, hx, hz);
+                Keel(root, hx, hz);
+                Bowl(root);
+                LakeSurface(root);
+                Islands(root);
+                Braziers(root, hx, hz);
+                Pylons(root);
+                Plume(root);
+                Embers(root);
+                foreach (var l in root.GetComponentsInChildren<UnityEngine.Light>(true)) Object.Destroy(l.gameObject);
+            }
+
             // ----------------------------------------------------------------- the slab
 
             static void Deck(Transform root, float hx, float hz)

@@ -66,6 +66,34 @@ namespace GolfArcade.Bowling
         public float Board => boards[Current];
         public bool Holding { get; private set; }
         public BowlingThrow LastThrow { get; private set; }
+        /// The app draws the game's end on the TV itself (ArtDir/ui/tv-results-calibration's Box Score) in its own window over the
+        /// game: no WINNER! banner or score plate. The phone turns this on (command postGameTV) when that window is up; handheld
+        /// play (no TV) keeps them.
+        public static bool NativePostGame;
+        /// The finished game for the app's TV (Swift: PostGameBoard).
+        public event Action<string> CardReady;
+        /// Every bowler's sheet: "p=<1 this phone's player, else 0>|<name>|<the ten frames' marks, balls split by spaces, frames by
+        /// commas>|<running totals>|<total>|<strikes>;p=..."
+        public string Card()
+        {
+            var parts = new List<string>();
+            for (int i = 0; i < Players.Count; i++)
+            {
+                var s = Scores[i];
+                var marks = new string[BowlingScore.Frames]; var totals = new string[BowlingScore.Frames]; int strikes = 0;
+                for (int f = 0; f < BowlingScore.Frames; f++)
+                {
+                    var balls = new List<string>();
+                    for (int b = 0; b < (f == 9 ? 3 : 2); b++) { string m = s.Mark(f, b); if (!string.IsNullOrEmpty(m)) balls.Add(m); if (m == "X") strikes++; }
+                    marks[f] = string.Join(" ", balls);
+                    totals[f] = s.Cumulative(f)?.ToString() ?? "";
+                }
+                string name = (Players[i] ?? "").Replace(";", " ").Replace("|", " ");
+                parts.Add("p=" + (i == LocalPlayer ? "1" : "0") + "|" + name + "|" + string.Join(",", marks) + "|" + string.Join(",", totals) + "|" + s.Total + "|" + strikes);
+            }
+            return string.Join(";", parts);
+        }
+
         /// A player's game in "key=value;..." form: score, strikes, spares, open frames, gutters, splits converted, best strike run,
         /// how many bowled, where they finished, the venue.
         public string Summary(int player)
@@ -87,6 +115,8 @@ namespace GolfArcade.Bowling
         /// The pins standing for the ball about to be bowled (BowlingLeave mask).
         public int StandingPins => standing;
         public PinAction LastAction { get; private set; }
+        /// The last ball told back to the bowler (BowlingShotRead; the skill pass's readout under the speed card).
+        public BowlingShotRead LastRead { get; private set; }
 
         float[] boards, aims;
         Camera cam;
@@ -190,7 +220,8 @@ namespace GolfArcade.Bowling
         {
             if (!aimGuide) return;
             bool setup = Flow == Phase.Setup || Flow == Phase.Hold, swinging = Flow == Phase.Approach && !released;
-            bool show = (setup || swinging) && !IsCpu(Current) && IsLocal(Current) && Bowler && Bowler.Remaining < LongWalkMetres;
+            // (the screen phone shows each bowler's line too: theirs is mirrored from their phone)
+            bool show = (setup || swinging) && !IsCpu(Current) && (IsLocal(Current) || CastScreenHere) && Bowler && Bowler.Remaining < LongWalkMetres;
             if (aimGuide.activeSelf != show) aimGuide.SetActive(show);
             float want = AimDeg + (swinging && SelfTimed ? BowlingSwingDetector.AimFromSwing(detector.SwingAimDeg) : 0);
             guideDeg = !show || !swinging ? want : Mathf.Lerp(guideDeg, want, 1 - Mathf.Exp(-dt / .06f));
@@ -237,6 +268,7 @@ namespace GolfArcade.Bowling
             }
             hud?.Dispose();
             hud = new BowlingHud(cam, Players);
+            hud.ShowSheet();   // the opening look at who is bowling, then it folds to the mini card
             FreshRack();
             EnterSetup();
         }
@@ -299,7 +331,7 @@ namespace GolfArcade.Bowling
         {
             Flow = Phase.Setup; holdT = approachT = 0; released = false; heldThrow = null; foulSlide = false;
             walkedBack = false; reacted = false; reactShot = false;
-            hud.Speed(0);
+            hud.Speed(0); hud.Readout(null);
             for (int i = 0; i < Players.Count; i++) hud.Score(i, Scores[i], i == Current);
             if (Players.Count > 1) hud.Leader(Leader());
             var s = Scores[Current];
@@ -349,6 +381,8 @@ namespace GolfArcade.Bowling
         BowlingThrow? heldThrow;
         /// The slowest ball a self-timed swing gives (m/s, ~12 mph): an easy swing still gets the ball to the pins.
         const float SelfTimedMinSpeed = 6.9f;   // 10-27 (Adnan "way more sensitivity"): 5.4 → 6.3; feel pass ("easy to put a good amount of power"): 6.9, ~15.4 mph
+        /// 11-21 skill pass: the floor drops to ~11 mph, so a lazy swing is a slow ball (it hooks early and high), not a free 15.
+        static float SelfTimedMin => BowlingSkill.On ? 4.9f : SelfTimedMinSpeed;
         /// A hold pressed while the bowler is still side-stepping this close to the spot is taken (metres; a whole lane is ~0.9).
         const float SideStepHold = .6f;
 
@@ -367,7 +401,7 @@ namespace GolfArcade.Bowling
             {
                 var r = detector.Measure(Clock());
                 LastReading = r;
-                if (detector.ForwardSwing) { SwingSpeed = Mathf.Max(SelfTimedMinSpeed, r.BallSpeed); RevRpm = r.RevRpm; AxisDeg = r.AxisDeg; SwingAimDeg = r.AimDeg; }
+                if (detector.ForwardSwing) { SwingSpeed = Mathf.Max(SelfTimedMin, r.BallSpeed); RevRpm = r.RevRpm; AxisDeg = r.AxisDeg; SwingAimDeg = r.AimDeg; }
                 else { SwingSpeed = 7.4f; RevRpm = 150; AxisDeg = 10; SwingAimDeg = 0; }   // the phone did not read a swing: a plain ball
             }
             else SwingAimDeg = 0;
@@ -387,7 +421,10 @@ namespace GolfArcade.Bowling
         {
             released = true; releaseAt = approachT; heldThrow = null; launchLead = 0; lastBallValid = false;
             netSendPending = Networked && IsLocal(Current);
-            LastThrow = th;
+            LastThrow = th; LastRead = default;
+            // phone casting: the screen gets the ball as it leaves the hand (its pinfall follows once the pins here have settled)
+            if (netSendPending && CastMatch) SendThrow(th, -1);
+            remoteApproach = false;
             sound?.Release(th);
             // the release in the hand (2026-11-16): felt by its timing, this phone's own bowler only
             if (IsLocal(Current) && !IsCpu(Current)) GolfArcade.Game.Haptics.BowlingRelease((int)th.Grade);
@@ -418,6 +455,7 @@ namespace GolfArcade.Bowling
             else
             {
                 var end = BowlingBall.Roll(th.Launch(), Oil, laneRecord);
+                LastRead = BowlingShotRead.From(th, end);
                 // the ball leaves the hand where the hand is, at the hand's own pace, and picks up the lane's line over the next ~0.1 s:
                 // it used to jump from the hand to the foul line in one frame (13-18 m/s) while the hand slowed to a stop
                 if (laneRecord.Count > 1)
@@ -465,7 +503,7 @@ namespace GolfArcade.Bowling
                 case Phase.Hold:
                     if (!Bowler || Bowler.Arrived) holdT += dt;
                     PoseBowler(0, false);
-                    if (holdT >= BowlingApproach.HoldToStart) { Flow = Phase.Approach; approachT = 0; lastBallValid = false; handVel = Vector3.zero; Bowler?.PlayClip(BowlingClips.Shot, 0, false, true); }
+                    if (holdT >= BowlingApproach.HoldToStart) { Flow = Phase.Approach; approachT = 0; lastBallValid = false; handVel = Vector3.zero; hud.FoldSheet(); Bowler?.PlayClip(BowlingClips.Shot, 0, false, true); remoteApproach = Networked && !IsLocal(Current); }
                     break;
                 case Phase.Approach:
                     approachT += dt;   // one steady walk-up for everyone (the computer's cadence)
@@ -485,7 +523,7 @@ namespace GolfArcade.Bowling
                         if (approachT >= BowlingApproach.IdealRelease + BowlingRelease.MissWindow)
                             Release(detector.ForwardSwing ? SelfTimedError(Clock()) : BowlingRelease.PerfectWindow + .02f);
                     }
-                    else if (remoteBall == null && approachT - DisplayLatency > BowlingApproach.IdealRelease + BowlingRelease.MissWindow) Release(approachT - DisplayLatency - BowlingApproach.IdealRelease);   // (another phone's ball lets go on its own time)
+                    else if (remoteBall == null && !remoteApproach && approachT - DisplayLatency > BowlingApproach.IdealRelease + BowlingRelease.MissWindow) Release(approachT - DisplayLatency - BowlingApproach.IdealRelease);   // (another phone's ball lets go on its own time; a bowler the screen walks up waits for theirs)
                     break;
                 case Phase.Rolling:
                 case Phase.Pins:
@@ -650,7 +688,7 @@ namespace GolfArcade.Bowling
                 int budget = Mathf.CeilToInt(1100 * dt / Mathf.Max(.4f, laneTime * .8f));
                 deck.Advance(Mathf.Max(8, budget));
                 // network: this phone's ball goes to the others as soon as its pinfall is known (they score it with ours)
-                if (netSendPending && deck.Result != null) { netSendPending = false; SendThrow(LastThrow, deck.Result.StandingAfter); }
+                if (netSendPending && deck.Result != null) { netSendPending = false; if (CastMatch) SendPinfall(deck.Result.StandingAfter); else SendThrow(LastThrow, deck.Result.StandingAfter); }
 
                 float laneT = playT - launchLead;   // the lane's own clock starts once the ball has left the hand and reached its line
                 int i = Mathf.Min(laneRecord.Count - 1, Mathf.FloorToInt(Mathf.Max(0, laneT) * 60));
@@ -689,7 +727,7 @@ namespace GolfArcade.Bowling
             }
             ballView.SetActive(f.BallLive);
             if (f.BallLive) ballView.transform.SetPositionAndRotation(f.Ball, f.BallRotation * ballSpin);
-            if (k >= frames.Count - 1) Score();
+            if (k >= frames.Count - 1 && !WaitingForPinfall(dt)) Score();
         }
 
         void Score()
@@ -705,6 +743,7 @@ namespace GolfArcade.Bowling
             s.Roll(knocked, th.Foul);
             BallFinished?.Invoke(th, act);
             hud.Score(Current, s, true);
+            hud.ShowSheet();   // the sheet opens after every ball, then folds away for the next one (BowlingHud.MiniSheet)
 
             // Brand voice: one word and a bang for the big moments, a short "you" subline.
             string sub = th.Grade switch
@@ -713,6 +752,16 @@ namespace GolfArcade.Bowling
                 ReleaseGrade.Early => "A touch early.", ReleaseGrade.Late => "Late. You lofted it.",
                 ReleaseGrade.Drop => "It slipped on the backswing!", _ => "You held it too long.",
             };
+            // skill pass: what the ball did (speed, revs, entry, where it hit), and after a first ball that left pins, one adjustment
+            if (BowlingSkill.On && !th.Dropped)
+            {
+                bool fullRack = before == 10;
+                hud.Readout(LastRead.Line(fullRack));
+                // (an early or late release keeps its own line: the timing was the miss)
+                bool timed = th.Grade == ReleaseGrade.Perfect || th.Grade == ReleaseGrade.Good;
+                string hint = fullRack && timed && knocked < 10 ? LastRead.Hint(th.AxisDeg < -5) : null;
+                if (hint != null) sub = hint;
+            }
             const float Hold = 1.9f;
             var praise = BowlingHud.Praise.Good;
             void Show(string word, string line, BowlingHud.Praise tier) { praise = tier; hud.Banner(word, line, Hold, tier); }
@@ -890,7 +939,14 @@ namespace GolfArcade.Bowling
                     int c = (Current + k) % Players.Count;
                     if (!Scores[c].Complete) { next = c; break; }
                 }
-                if (Scores[next].Complete) { Flow = Phase.GameOver; hud.Banner("WINNER!", $"{Players[Leader()]} takes it with {Scores[Leader()].Total}.", 30, BowlingHud.Praise.Big); GameOver(); return; }
+                if (Scores[next].Complete)
+                {
+                    Flow = Phase.GameOver;
+                    // the app draws the end on the TV itself (its Box Score), so the lane is left clear for it
+                    if (NativePostGame && !BowlingLesson.Running) hud.Hide();
+                    else { hud.ShowSheet(0, pin: true); hud.Banner("WINNER!", $"{Players[Leader()]} takes it with {Scores[Leader()].Total}.", 30, BowlingHud.Praise.Big); }
+                    GameOver(); return;
+                }
                 if (next != Current) { FreshRack(); }
                 Current = next;
                 Send(Bowler, StartSpot(Board), 0);   // the next bowler walks up from the lounge

@@ -364,6 +364,8 @@ namespace GolfArcade.Game {
         /// This phone has built the hole: it says so for every golfer it holds, and the round starts the hole once every phone has.
         void SendHoleReady(SportsMultiplayer net,NetworkGolfState state) {
             var c=net.Configuration;
+            // (phone casting: the screen phone holds no golfer; its own build is what the hole waits for from it)
+            if(net.IsHost&&c.HasCastScreen) net.HostHoleReady(state.hole);
             foreach(var p in state.golfers) if(!p.dnf&&c.Controls(c.localID,p.seat)) net.Submit(new NetworkInput {action="golfHoleReady",value=state.hole,actorSeat=p.seat});
         }
 

@@ -3,21 +3,21 @@ using UnityEngine;
 
 namespace GolfArcade.Bowling
 {
-    public enum BowlingVenueKind { ClubLanes, NeonNights, TikiShores, MagmaLanes }
+    public enum BowlingVenueKind { RooftopLanes, BeachCourtLanes, CraterLanes }
 
-    /// Which bowling centre the game is played in (PLAN_BowlingVenues.md). Every venue builds the
-    /// same five regulation lanes from the shared lane kit (BowlingClubLanes.Lanes) at the same
-    /// coordinates, with the same cameras, light budget and probes; what changes is the room, the
-    /// light and the grade:
+    /// Which bowling centre the game is played in. Since 2026-11-21 (Adnan: "make these the only bowling alleys now, remove the
+    /// old ones") the three are open-air alleys on the tennis courts' worlds (BowlingOutdoorVenues); the four indoor centres
+    /// (Club Lanes, Neon Nights, Tiki Shores, Magma Lanes) were removed. Every venue builds the same regulation lanes from the
+    /// shared lane kit (BowlingAlleyKit + BowlingClubLanes.Lanes) at the same coordinates, with the same cameras, light budget
+    /// and probes; what changes is the world round them, the light and the grade:
     ///
-    ///   ClubLanes   a sky lounge at the top of the club tower, sunset through the glass
-    ///   NeonNights  cosmic bowling at midnight: a black room where everything glows
-    ///   TikiShores  open-air lanes under a thatched beach pavilion, late-afternoon sun off the sea
-    ///   MagmaLanes  lanes carved into a volcano: lava gutters, lavafalls, moonlight from the crater
+    ///   RooftopLanes     Sky Open's tower top above the cloud sea
+    ///   BeachCourtLanes  the Tropical Open resort, the lanes laid where the court was
+    ///   CraterLanes      Magma Open's obsidian slab over the lava lake
     public static class BowlingVenue
     {
-        /// What the menu picked (launch message "venue"). BOWL_VENUE=neon|tiki|magma|club forces one for tests.
-        public static BowlingVenueKind Selected = BowlingVenueKind.ClubLanes;
+        /// What the menu picked (launch message "venue"). BOWL_VENUE=rooftop|beachcourt|crater forces one for tests.
+        public static BowlingVenueKind Selected = BowlingVenueKind.RooftopLanes;
 
         public static BowlingVenueKind Current
         {
@@ -28,24 +28,29 @@ namespace GolfArcade.Bowling
             }
         }
 
-        public static BowlingVenueKind Parse(string key, BowlingVenueKind fallback = BowlingVenueKind.ClubLanes)
+        /// The old indoor centres' keys (an older phone in the party, a saved pick) land on the open-air venue nearest in spirit.
+        public static BowlingVenueKind Parse(string key, BowlingVenueKind fallback = BowlingVenueKind.RooftopLanes)
         {
             switch ((key ?? "").Trim().ToLowerInvariant().Replace(" ", "").Replace("_", ""))
             {
-                case "club": case "clublanes": case "sky": case "lounge": return BowlingVenueKind.ClubLanes;
-                case "neon": case "neonnights": case "cosmic": return BowlingVenueKind.NeonNights;
-                case "tiki": case "tikishores": case "beach": case "resort": case "tropical": return BowlingVenueKind.TikiShores;
-                case "magma": case "magmalanes": case "volcano": case "lava": return BowlingVenueKind.MagmaLanes;
+                case "rooftop": case "rooftoplanes": case "skytower": case "skyscraper":
+                case "club": case "clublanes": case "sky": case "lounge": case "neon": case "neonnights": case "cosmic":
+                    return BowlingVenueKind.RooftopLanes;
+                case "beachcourt": case "beachcourtlanes": case "court":
+                case "tiki": case "tikishores": case "beach": case "resort": case "tropical":
+                    return BowlingVenueKind.BeachCourtLanes;
+                case "crater": case "craterlanes":
+                case "magma": case "magmalanes": case "volcano": case "lava":
+                    return BowlingVenueKind.CraterLanes;
                 default: return fallback;
             }
         }
 
         public static string Title => Current switch
         {
-            BowlingVenueKind.NeonNights => "NEON NIGHTS",
-            BowlingVenueKind.TikiShores => "TIKI SHORES",
-            BowlingVenueKind.MagmaLanes => "MAGMA LANES",
-            _ => "CLUB LANES",
+            BowlingVenueKind.BeachCourtLanes => "BEACH COURT",
+            BowlingVenueKind.CraterLanes => "CRATER LANES",
+            _ => "ROOFTOP LANES",
         };
 
         /// Triangles per venue renderer, counted before static batching merged their meshes.
@@ -56,10 +61,9 @@ namespace GolfArcade.Bowling
             AlleyShadows();
             var venue = Current switch
             {
-                BowlingVenueKind.NeonNights => BowlingNeonNights.Build(parent, camera),
-                BowlingVenueKind.TikiShores => BowlingTikiShores.Build(parent, camera),
-                BowlingVenueKind.MagmaLanes => BowlingMagmaLanes.Build(parent, camera),
-                _ => BowlingClubLanes.Build(parent, camera),
+                BowlingVenueKind.BeachCourtLanes => BowlingOutdoorVenues.BeachCourt(parent, camera),
+                BowlingVenueKind.CraterLanes => BowlingOutdoorVenues.Crater(parent, camera),
+                _ => BowlingOutdoorVenues.Rooftop(parent, camera),
             };
             // what each renderer drew before batching (the proof film's triangle budget)
             Built.Clear();

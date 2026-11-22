@@ -275,6 +275,88 @@ namespace GolfArcade.Tests {
             // nobody swings: every turn times out (TurnLimitSeconds) until each golfer has picked up on every hole
             int steps=(int)(GolfArcade.Course.Course.ByKey("cliffside").Holes.Sum(h=>(h.Par+5)*4*(NetworkGolfRound.TurnLimitSeconds+1)+NetworkGolfRound.HoleCardSeconds+60)*10);
             for(int i=0;i<steps&& !m.State.complete;i++)m.Step(.1);Assert.True(m.State.complete);Assert.AreEqual("complete",m.State.phase);Assert.AreEqual(1,results);foreach(var p in m.State.golfers){Assert.True(p.card.All(score=>score>0));Assert.AreEqual(p.card.Sum(),p.total);}Assert.AreEqual(m.State.golfers[0].total,m.State.golfers[3].total);}
+        // Phone casting (PLAN_PhoneCasting_GolfBowling.md): the host phone is the screen, with no seat; one player and the screen is a game.
+        static NetworkConfiguration Cast(string sport)=>new() {lobbyID="party",matchID="contest",hostID="screen",localID="b",sport=sport,venue=sport=="golf"?"cliffside":"club",participants=new[] {new NetworkParticipant {id="screen",seat=-1,castScreen=true},new NetworkParticipant {id="b",seat=0}}};
+        [Test] public void ACastScreenAndOnePlayerAreAValidGolfOrBowlingMatch(){
+            foreach(var sport in new[]{"golf","bowling"}){var c=Cast(sport);Assert.True(c.HasCastScreen);Assert.True(c.Valid,sport);
+                Assert.True(UnityEngine.JsonUtility.FromJson<NetworkConfiguration>(UnityEngine.JsonUtility.ToJson(c)).Valid,"the screen flag survives Unity JSON");}
+            var t=Cast("tennis");t.venue="resort";Assert.False(t.Valid,"tennis is never cast to a phone");
+            var seated=Cast("golf");seated.participants[0].seat=1;Assert.False(seated.Valid,"the screen holds no seat");
+            var guest=Cast("golf");guest.hostID="b";Assert.False(guest.Valid,"only the host is the screen");
+            var lone=Config("golf");lone.venue="cliffside";lone.participants=new[]{lone.participants[0],lone.participants[2]};Assert.False(lone.Valid,"without a screen a match still needs two players");
+        }
+        /// Phone casting, golf: the screen phone hosts and plays no one, so one golfer is a round, played to its end.
+        [Test] public void WithAScreenOneGolferIsARoundPlayedToTheEnd(){
+            Assert.Throws<ArgumentException>(()=>new NetworkGolfRound(new[]{0},1),"without a screen a round still needs two golfers");
+            var m=new NetworkGolfRound(new[]{0},1,castScreen:true);int results=0;m.Result=_=>results++;
+            Assert.AreEqual("aim",m.State.phase);Assert.AreEqual(0,m.State.turn);
+            for(int i=0;i<2000000&&!m.State.complete;i++)m.Step(.1);
+            Assert.True(m.State.complete);Assert.AreEqual(1,results);Assert.AreEqual(0,m.State.winner,"the lone golfer's card wins");
+            Assert.True(m.State.golfers[0].card.All(score=>score>0));
+        }
+        /// The screen draws the round, so a later hole also waits for the screen phone to have built it (never only for the players).
+        [Test] public void WithAScreenALaterHoleAlsoWaitsForTheScreenToBuildIt(){
+            var m=new NetworkGolfRound(new[]{0,1},20,intro:true,waitForLoad:true,castScreen:true);
+            FinishHoleByTimeouts(m);Assert.AreEqual(1,m.State.hole);Assert.AreEqual("loading",m.State.phase);
+            Assert.True(m.Input(0,HoleReady(m,1),m.State.time));Assert.True(m.Input(1,HoleReady(m,1),m.State.time));
+            Step(m,.5);Assert.AreEqual("loading",m.State.phase,"both players have it, the screen does not yet");
+            m.HostHoleReady(0);Step(m,.2);Assert.AreEqual("loading",m.State.phase,"an old hole's word is not this one's");
+            m.HostHoleReady(1);Step(m,.2);Assert.AreEqual("intro",m.State.phase);
+            // (without a screen the host's own build is not waited for: it plays one of the golfers, who says so itself)
+            var plain=new NetworkGolfRound(new[]{0,1},20,waitForLoad:true);FinishHoleByTimeouts(plain);
+            plain.Input(0,HoleReady(plain,1),plain.State.time);plain.Input(1,HoleReady(plain,1),plain.State.time);Step(plain,.2);
+            Assert.AreEqual("aim",plain.State.phase);
+        }
+        /// One of two players leaving the screen's round: the other plays on (without a screen the round would end).
+        [Test] public void WithAScreenOnePlayerLeftPlaysOn(){
+            var m=new NetworkGolfRound(new[]{0,1},20,castScreen:true);m.Drop(1);
+            Assert.False(m.State.complete);Assert.AreEqual(0,m.State.turn);
+            var plain=new NetworkGolfRound(new[]{0,1},20);plain.Drop(1);Assert.True(plain.State.complete);
+        }
+        /// Phone casting over mobile data (Phase 5): what a golf round costs. The host sends its whole state 30 times a second
+        /// (SportsMultiplayer.SendSnapshot, the shot's path only with the shot); this measures those packets, as the bridge gets them, over
+        /// simulated holes with swings, for 1–3 golfers, and writes the numbers (work/phone-casting/data_use.txt when CAST_DATA_OUT is set).
+        [Test] public void GolfSnapshotDataPerMinuteIsMeasured(){
+            var lines=new System.Text.StringBuilder();
+            foreach(int golfers in new[]{1,2,3}){
+                var seats=Enumerable.Range(0,golfers).ToArray();
+                var m=new NetworkGolfRound(seats,5,castScreen:true);long id=1;double bytes=0,castBytes=0,seconds=0;int shots=0;
+                string phase=null;int turn=-1,hole=-1;long shot=-1;double nextCast=0;
+                for(int i=0;i<20*60*4&&!m.State.complete&&m.State.hole<3;i++){
+                    if(m.State.phase=="aim"&&m.State.time-m.State.turnAt>3){if(m.Input(m.State.turn,Golf(m,id++),m.State.time))shots++;}
+                    m.Step(.05);seconds+=.05;
+                    // 30 a second: the plain snapshot (path dropped), plus each new shot once with its path (the "golfShot" packet)
+                    var path=m.State.shot?.path;if(m.State.shot!=null)m.State.shot.path=null;
+                    string state=UnityEngine.JsonUtility.ToJson(m.State);if(m.State.shot!=null)m.State.shot.path=path;
+                    var packet=new NetworkPacket{lobbyID="0123456789abcdef0123456789abcdef0123",matchID="0123456789abcdef0123456789abcdef0123",sender="G:1234567890123456789",kind="snapshot",payload=state,sentAt=1e9};
+                    int size=System.Text.Encoding.UTF8.GetByteCount(UnityEngine.JsonUtility.ToJson(packet));
+                    bytes+=size*1.5;   // (20 steps a second here, 30 snapshots)
+                    // as a screen match sends them (SportsMultiplayer): NetworkTuning.CastSnapshotHz, and at once when the round moves on
+                    bool moved=m.State.phase!=phase||m.State.turn!=turn||m.State.shotID!=shot||m.State.hole!=hole;
+                    if(m.State.time>=nextCast||moved){castBytes+=size;nextCast=m.State.time+1/NetworkTuning.CastSnapshotHz;phase=m.State.phase;turn=m.State.turn;shot=m.State.shotID;hole=m.State.hole;}
+                }
+                double perMinute=bytes/seconds*60/1e6, castPerMinute=castBytes/seconds*60/1e6;
+                lines.AppendLine($"golf {golfers} golfer(s): at 30 a second {bytes/seconds/1000:0.0} KB/s ({perMinute:0.0} MB a minute) to each player phone; "
+                    +$"with a phone as the screen {castBytes/seconds/1000:0.0} KB/s ({castPerMinute:0.00} MB a minute) ({seconds/60:0.0} simulated minutes, {shots} shots)");
+                Assert.Greater(shots,0); Assert.Less(perMinute,10,"a sanity bound only");
+                Assert.Less(castPerMinute,perMinute/3,"a screen match sends the players' phones well under a third of the usual golf data");
+            }
+            var bowl=UnityEngine.JsonUtility.ToJson(new GolfArcade.Bowling.BowlingGame.NetBall{kind="throw",ball=12,seat=1,grade=0,after=-1,board=17.5f,speed=7.4f,rpm=250,axis=30,launch=1.2f,loft=.1f});
+            lines.AppendLine($"bowling: one throw packet payload {bowl.Length} bytes; setup words up to 10 a second while lining up; a 1 s heartbeat");
+            UnityEngine.Debug.Log("[CastData]\n"+lines);
+            var outPath=Environment.GetEnvironmentVariable("CAST_DATA_OUT");
+            if(!string.IsNullOrEmpty(outPath)) System.IO.File.WriteAllText(outPath,lines.ToString());
+        }
+        /// With a phone as the screen, a pass-the-phone guest plays on a player's phone (never the screen's): that phone controls its
+        /// seat, and the phone's seats are its own and its guests' (away and drop take them together). Without a screen, guests stay the host's.
+        [Test] public void WithAScreenAGuestPlaysOnAPlayersPhone(){
+            var c=Cast("golf");c.participants=new[]{c.participants[0],c.participants[1],new NetworkParticipant{id="g",seat=1,controllerID="b"}};
+            Assert.True(c.Valid);Assert.True(c.Controls("b",1));Assert.False(c.Controls("screen",1));Assert.AreEqual(new[]{0,1},c.SeatsOn("b"));
+            c.participants[2].controllerID="screen";Assert.False(c.Valid,"never on the screen phone");
+            var plain=Config("golf");plain.participants=new[]{plain.participants[0],plain.participants[1],new NetworkParticipant{id="g",seat=2,controllerID="b"}};
+            Assert.False(plain.Valid,"without a screen, guests are the host's");
+            plain.participants[2].controllerID="a";Assert.True(plain.Valid);Assert.True(plain.Controls("a",2));Assert.False(plain.Controls("b",2));
+        }
         [Test] public void ConfigurationAllowsWatchersButRejectsDuplicateSeatsAndFivePeople(){var c=Config();Assert.True(c.Valid);c.participants[2].seat=1;Assert.False(c.Valid);c=Config();c.participants=new[]{c.participants[0],c.participants[1],c.participants[2],new NetworkParticipant{id="d"},new NetworkParticipant{id="e"}};Assert.False(c.Valid);}
         [Test] public void EquippedEmoteRequiresWinningPointAndCannotExtendNextServe() {
             var m=new NetworkTennisMatch(emotes:new[]{new[]{"pushups","wave","scuba"},new[]{"thrust","spike","bringIt"}});

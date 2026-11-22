@@ -24,6 +24,7 @@ namespace GolfArcade.Game
             bowling.MotionInput = !m.touch;
             bowling.Cue -= BowlingCue; bowling.Cue += BowlingCue;
             bowling.GameFinished -= BowlingOver; bowling.GameFinished += BowlingOver;
+            bowling.CardReady -= BowlingCard; bowling.CardReady += BowlingCard;
             var players = string.IsNullOrEmpty(m.mode) ? new[] { string.IsNullOrEmpty(m.playerName) ? "You" : m.playerName } : m.mode.Split('|');
             // exhibition: a computer bowler is "cpu:<skill 0..1>:<name>"
             bowling.CpuSkill.Clear();
@@ -40,6 +41,8 @@ namespace GolfArcade.Game
         }
 
         void BowlingCue(string cue) => Emit("bowlCue", cue);
+        // every bowler's sheet at the end, for the app's post-game on the TV (BowlingGame.NativePostGame)
+        void BowlingCard(string card) { if (!GolfArcade.Bowling.BowlingLesson.Running) Emit("bowlingCard", card); }
         // (a lesson that outlasts ten frames racks up a new game instead of ending: BowlingLesson)
         void BowlingOver(string summary) { if (!GolfArcade.Bowling.BowlingLesson.Running) Emit("bowlingGame", summary); }
 

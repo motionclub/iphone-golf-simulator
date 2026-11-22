@@ -111,21 +111,14 @@ struct TennisRacketController: View {
             } else if session.showsOnlineTennisSetup {
                 OnlineTennisSetupPanel(session: session)
                     .padding(.top, CaptureDock.reservedWidth(session: session) > 0 ? 52 : 0)
+            } else if session.pointsWhileLoading {
+                // T4: point at the TV while the court loads (it is motion only), the loading bar under the card
+                PointWhileLoadingPanel(session: session)
             } else if !session.ready || !session.loading.finished {
                 // The same loading screen as the TV: tips, how-to cards, the flowing bar.
                 LoadingScreen(menu: .shared, compact: true).padding(-24)
-            } else if session.setupStage == .scan {
-                ScrollView { AxisGatePanel(session: session) }
-            } else if session.measuringDelay {
-                DelayProbePanel(session: session)
-            } else if session.timingPrompt {
-                TimingCheckPrompt(session: session)
-            } else if session.checkingTiming {
-                TimingCheckPanel(countdownEnds: session.timingCountdownEnds)
-            } else if session.setupStage == .ready {
-                ControllerReadyPanel(session: session)
-            } else if session.setupStage == .waiting {
-                WaitingForPlayersPanel()
+            } else if [.scan, .timing, .ready, .waiting].contains(session.setupStage) {
+                TennisSetupFlow(session: session)
             } else if session.calibrationMode && session.sport == "tennis" && session.setupStage == .playing {
                 CalibrationPanel(session: session)
             } else if !session.paused && (session.tennisPhase == "serve" || session.tennisPhase == "toss") {
@@ -401,20 +394,17 @@ private struct MoveButtons: View {
 // MARK: - Setup
 
 /// While the TV flashes: the camera is timing how far its picture lags the game (board 13 screen 1: Set your direction).
-private struct DelayProbePanel: View {
+struct DelayProbePanel: View {
     let session: SportsSession
     @State private var pulse = false
     private var skin: MapSkin { .current }
     var body: some View {
         ScrollView {
-            MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: "Measure screen delay") {
-                SportsCameraPreview(motion: session.motion).frame(height: 170)
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
-                    .overlay { Image(systemName: "plus").font(.title).foregroundStyle(.white) }
-                    .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(skin.frame, lineWidth: 3))
-                    .scaleEffect(pulse ? 1.02 : 0.98)
-                Text("Point the back of your phone at the TV. It will flash a few times while we time its picture, so your swings land when you see the ball.")
-                    .font(MapFont.semi(16)).multilineTextAlignment(.center)
+            MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: "Get ready for flashes", showsMap: false) {
+                PointAtTVMark(skin: skin).frame(height: 78).scaleEffect(pulse ? 1.03 : 0.97)
+                Text("Keep your phone pointed at the TV.").font(MapFont.bold(20)).multilineTextAlignment(.center)
+                Text("The TV flashes a few times so the game knows how late its picture is.")
+                    .font(MapFont.semi(15)).multilineTextAlignment(.center).opacity(0.85)
                 ProgressView().tint(skin.accentDeep)
             }
             .padding(.top, 8)
@@ -425,27 +415,19 @@ private struct DelayProbePanel: View {
 }
 
 /// Offered the first time on a TV: what the timing check is for, and a button to start it (board 13 screen 2: Timing check).
-private struct TimingCheckPrompt: View {
+struct TimingCheckPrompt: View {
     let session: SportsSession
     private var skin: MapSkin { .current }
     var body: some View {
         ScrollView {
-            MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: "Timing check") {
+            MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: "Timing check", showsMap: false) {
                 BounceMark(skin: skin).frame(height: 96)
                 Text("Swing on every bounce.").font(MapFont.bold(20)).multilineTextAlignment(.center)
-                Text("Every TV shows the picture a little late. This quick check measures that delay so your swings land exactly when you see the ball.")
+                Text(session.sharesTV ? "Watch the ball on the TV and swing each time it lands on the line. Everyone does it together."
+                     : "Watch the ball on the TV and swing each time it lands on the line.")
                     .font(MapFont.semi(15)).multilineTextAlignment(.center).opacity(0.85)
-                if !session.timingNote.isEmpty {
-                    Text(session.timingNote).font(MapFont.semi(14)).multilineTextAlignment(.center)
-                }
-                if !session.delayTip.isEmpty {
-                    Text(session.delayTip).font(MapFont.semi(13)).multilineTextAlignment(.center).opacity(0.8)
-                        .accessibilityIdentifier("timing-tv-delay")
-                }
                 ControllerButton(title: "Start timing check", icon: "play.fill", height: 60, size: 21) { session.startTimingCheck() }.accessibilityIdentifier("timing-start")
                 MapQuietButton(skin: skin, title: "Skip for now") { session.skipTimingCheck() }.accessibilityIdentifier("timing-skip")
-                Button("Retry screen flashes") { session.measureTVDelay() }.font(MapFont.semi(14)).tint(skin.ink.opacity(0.7))
-                    .accessibilityIdentifier("timing-flashes")
             }
             .padding(.top, 8)
         }
@@ -477,7 +459,7 @@ private struct BounceMark: View {
 }
 
 /// While the TV runs the timing check: a get-ready countdown, then swing with the ball.
-private struct TimingCheckPanel: View {
+struct TimingCheckPanel: View {
     let countdownEnds: Date?
     private var skin: MapSkin { .current }
     var body: some View {
@@ -485,7 +467,7 @@ private struct TimingCheckPanel: View {
             let left = countdownEnds.map { max(0, $0.timeIntervalSince(context.date)) } ?? 0
             VStack {
                 Spacer(minLength: 0)
-                MapSetupCard(skin: skin, name: MapSkin.playerName(.shared), title: left > 0 ? "Get ready" : "Swing on every bounce!") {
+                MapSetupCard(skin: skin, name: MapSkin.playerName(.shared), title: left > 0 ? "Get ready" : "Swing on every bounce!", showsMap: false) {
                     if left > 0 {
                         Text("\(Int(left.rounded(.up)))").font(MapFont.bold(110)).foregroundStyle(skin.accentDeep).monospacedDigit()
                         Text("Swing every time the ball drops onto the line.").font(MapFont.semi(16)).multilineTextAlignment(.center)
@@ -610,74 +592,81 @@ struct RacketRadar: View {
     }
 }
 
-/// Shared by the regular controller, classic controller and landscape Unity overlay.
-/// Never exposes an advance action before Unity confirms a completed match.
+/// Shared by the regular controller, classic controller and landscape Unity overlay: the post-game, stepped from here while the TV
+/// shows it (PostGameTV). Tennis once Unity confirms the match is over; golf and bowling once their final sheet is in.
+/// Never exposes an advance action before then.
 struct MatchFinishControls: View {
     @Bindable var session: SportsSession
     var compact = false
+    private var skin: MapSkin { .current }
+    private var won: Bool? {
+        if let result = session.finishedMatch { return result.won }
+        if session.postGameStage != nil, let board = session.postGameBoard { return board.mineWon }
+        return nil
+    }
     var body: some View {
-        if let result = session.finishedMatch {
-            VStack(alignment: .leading, spacing: 16) {
-                ScrollView {
-                    ClubVictorySummary(won: result.won, score: result.score, summary: TennisMenu.shared.postMatch, compact: true)
-                }.scrollBounceBehavior(.basedOnSize)
-                VStack(spacing: 8) {
-                    IslandAction(title: "Rematch", primary: true, compact: true, identifier: "postGameReplay") { session.advanceAfterMatch(.replay) }
-                    IslandAction(title: "Leave", compact: true, identifier: "postGameMenu") { session.advanceAfterMatch(.menu) }
+        if let won {
+            VStack {
+                Spacer(minLength: 0)
+                MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: title(won)) {
+                    content(won)
                 }
-            }.padding(compact ? 14 : 24)
-                .background(IslandUI.paper, in: RoundedRectangle(cornerRadius: 24))
+                Spacer(minLength: 0)
+            }
+            .padding(compact ? 12 : 20)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(MapControllerBackground(skin: skin).ignoresSafeArea())
+            .accessibilityIdentifier("post-game")
         }
     }
-}
-
-
-/// The TV repeats the action on the phone; the court stays paused beneath this native banner.
-struct OnlineTennisTVSetup: View {
-    let session: SportsSession
-    var service: MultiplayerService = .shared
-    var body: some View {
-        TimelineView(.periodic(from: .now, by: 0.1)) { _ in
-            HStack(spacing: 20) {
-                Image(systemName: session.setupStage == .scan ? "iphone.rear.camera" : "checkmark.circle.fill")
-                    .font(.system(size: 32)).foregroundStyle(IslandUI.lime)
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(title).font(IslandUI.font(26, bold: true))
-                    Text(instruction).font(IslandUI.font(18, bold: true))
-                }
-            }.foregroundStyle(.white).padding(20)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .background(IslandUI.navy, in: RoundedRectangle(cornerRadius: 20))
+    private var stage: SportsSession.PostGameStage { session.postGameStage ?? .again }
+    private var golf: Bool { session.sport == "golf" && session.postGameBoard != nil }
+    private var solo: Bool { session.postGameBoard?.solo ?? false }
+    private func title(_ won: Bool) -> String {
+        switch stage {
+        case .victory: return solo ? (session.sport == "golf" ? "Round complete" : "Game complete") : won ? "You win!" : "Good game"
+        case .results: return session.sport == "golf" ? "Round complete" : session.sport == "bowling" ? "Game complete" : "Match complete"
+        case .scorecard: return "Scorecard"
+        case .xp: return "XP earned"
+        case .again: return "Play again?"
         }
     }
-    /// One TV in the room, this phone is through its own steps: the other player setting up on this TV now.
-    private var partnerTurn: MultiplayerParticipant? {
-        guard session.setupTurnWaitingFor == nil, [.ready, .waiting].contains(session.setupStage), let lobby = service.lobby,
-              lobby.sharedScreen == true || lobby.competitors.contains(where: { $0.view == .split }) else { return nil }
-        return lobby.competitors.first { $0.id != service.localID && !$0.calibrated && ["direction", "timing"].contains($0.setupStep ?? "") }
-    }
-    private var title: String {
-        if let count = service.startCountdown { return "Starting in \(count)" }
-        if session.setupTurnWaitingFor != nil { return "You're up next" }
-        if let partner = partnerTurn { return "\(partner.name)'s turn" }
-        switch session.setupStage {
-        case .scan: return "Set your racket direction"
-        case .timing: return "Timing check"
-        case .ready: return "Direction set"
-        default: return "You're ready"
+    @ViewBuilder private func content(_ won: Bool) -> some View {
+        switch stage {
+        case .victory, .results, .scorecard:
+            Image(systemName: won ? "trophy.fill" : "flag.checkered").font(.system(size: 52, weight: .bold)).foregroundStyle(skin.accentDeep)
+            Text("Watch the TV.").font(MapFont.bold(19))
+            // a golf or bowling game with friends ends on the standings: the party's panel takes over from here
+            if !(session.multiplayerMatchID != nil && session.sport != "tennis" && stage != .victory) {
+                ControllerButton(title: stage == .victory ? "Results" : "Continue", icon: "chevron.right", height: 60, size: 21) { session.advancePostGame() }
+                    .accessibilityIdentifier("postGameContinue")
+            }
+            if golf && stage != .victory {
+                MapQuietButton(skin: skin, title: stage == .scorecard ? "Back" : "Scorecard") { session.togglePostGameScorecard() }
+                    .accessibilityIdentifier("postGameScorecard")
+            }
+            if session.multiplayerMatchID != nil, stage != .victory {
+                if session.sport == "tennis" { choices }
+                else { MapQuietButton(skin: skin, title: "Leave game") { session.exitGame() }.accessibilityIdentifier("postGameLeave") }
+            }
+        case .xp:
+            Text("+\(TennisMenu.shared.postMatch?.total ?? 0) XP").font(MapFont.bold(40)).foregroundStyle(skin.accentDeep)
+            ControllerButton(title: "Continue", icon: "chevron.right", height: 60, size: 21) { session.advancePostGame() }
+                .accessibilityIdentifier("postGameContinue")
+        case .again:
+            choices
         }
     }
-    private var instruction: String {
-        if let first = session.setupTurnWaitingFor { return "\(first) sets up first. Give them room to swing." }
-        if let partner = partnerTurn {
-            return partner.setupStep == "timing" ? "\(partner.name) is checking their timing. Give them room to swing."
-                : "\(partner.name): point the back of your phone at this TV. Hold still for one second."
-        }
-        switch session.setupStage {
-        case .scan: return "Point the back of your phone at this TV. It will blink twice."
-        case .timing: return "Start the timing check on your phone, then swing with the bouncing ball."
-        case .ready: return "Stand where you'll play. Tap Ready on your phone."
-        default: return service.startCountdown == nil ? "Each player finishes setup on their own phone." : "Stay at your spot and get ready to play."
+    @ViewBuilder private var choices: some View {
+        let list = session.postGameChoices
+        ForEach(list.indices, id: \.self) { i in
+            if i == 0 {
+                ControllerButton(title: list[i].title, icon: "play.fill", height: 60, size: 21) { session.choosePostGame(i) }
+                    .accessibilityIdentifier(list[i].after == .replay ? "postGameReplay" : "postGame-\(list[i].id)")
+            } else {
+                MapQuietButton(skin: skin, title: list[i].title) { session.choosePostGame(i) }
+                    .accessibilityIdentifier(list[i].after == .menu ? "postGameMenu" : "postGame-\(list[i].id)")
+            }
         }
     }
 }
@@ -686,146 +675,147 @@ struct OnlineTennisTVSetup: View {
 struct OnlineTennisSetupPanel: View {
     @Bindable var session: SportsSession
     var service: MultiplayerService = .shared
-    @State private var scanStarted = Date()
+    private var skin: MapSkin { .current }
 
     var body: some View {
         ScrollView {
-            VStack(spacing: 24) {
-                Text("SET UP YOUR RACKET").font(IslandUI.font(13, bold: true)).tracking(2).foregroundStyle(IslandUI.lime)
-                // Solo's own screens, in solo's order (2026-10-28): the court scan, the TV's delay, the timing check, Ready. Only a
-                // player coming back into a match already being played gets the quick scan and Ready below, then the countdown.
-                if let first = session.setupTurnWaitingFor {
-                    turnWait(first)
-                } else if session.setupStage == .scan && !session.onlineComeback {
-                    AxisGatePanel(session: session)
-                } else if session.setupStage == .scan {
-                    direction
-                } else if session.measuringDelay {
-                    DelayProbePanel(session: session)
-                } else if session.timingPrompt {
-                    TimingCheckPrompt(session: session)
-                } else if session.checkingTiming {
-                    TimingCheckPanel(countdownEnds: session.timingCountdownEnds)
-                } else if session.setupStage == .ready && !session.onlineComeback {
-                    ControllerReadyPanel(session: session)
-                } else if session.setupStage == .ready {
-                    Image(systemName: "checkmark.circle.fill").font(.system(size: 64)).foregroundStyle(IslandUI.lime)
-                    Text("Direction set").font(IslandUI.font(30, bold: true))
-                    Text("Stand where you'll play. Tap Ready, then watch the TV.").multilineTextAlignment(.center)
-                    ControllerButton(title: "Ready", icon: "play.fill") { session.readyToPlay() }
-                        .accessibilityIdentifier("controller-ready")
-                    if !session.setupProblem.isEmpty {
-                        Text(session.setupProblem).font(.subheadline).multilineTextAlignment(.center)
-                            .accessibilityIdentifier("controller-ready-status")
-                    }
-                    Button("Set direction again") { scanStarted = Date(); session.retryCourtDirection() }
-                        .frame(minHeight: 44).tint(IslandUI.lime)
-                } else {
-                    TimelineView(.periodic(from: .now, by: 0.1)) { _ in
-                        if let count = service.startCountdown {
-                            Text("\(count)").font(IslandUI.font(80, bold: true)).monospacedDigit().foregroundStyle(IslandUI.lime)
-                                .accessibilityIdentifier("online-start-countdown")
-                            Text("Watch your TV").font(IslandUI.font(28, bold: true))
-                        } else {
-                            Image(systemName: "checkmark.circle.fill").font(.system(size: 64)).foregroundStyle(IslandUI.lime)
-                            Text("You're ready").font(IslandUI.font(30, bold: true))
-                            Text("Stay at your spot. We'll count you in when both players are ready.").multilineTextAlignment(.center)
-                        }
-                    }
-                }
-                players
+            VStack(spacing: 14) {
+                TennisSetupFlow(session: session)
+                SetupPlayersStrip(session: session, service: service)
                 recovery
             }
-            .frame(maxWidth: .infinity).padding(.vertical, 24)
+            .frame(maxWidth: .infinity)
         }
+        .scrollIndicators(.hidden)
+        .scrollDisabled(session.setupStage == .scan)   // a hold must not turn into a scroll
         .accessibilityIdentifier("online-tennis-setup")
     }
 
-    /// One TV in the room: the other player sets up on it first. This phone's setup opens by itself when they are through.
-    private func turnWait(_ first: String) -> some View {
-        VStack(spacing: 20) {
-            Image(systemName: "hourglass").font(.system(size: 52)).foregroundStyle(IslandUI.lime).accessibilityHidden(true)
-            Text("You're next").font(IslandUI.font(30, bold: true))
-            Text("\(first) is setting up on the TV. Give them room to swing — your setup starts as soon as they're done.")
-                .multilineTextAlignment(.center)
-            Button("Set up now") { scanStarted = Date(); session.skipSetupTurn() }
-                .buttonStyle(.bordered).controlSize(.large).tint(IslandUI.lime)
-                .accessibilityIdentifier("setup-turn-skip")
-        }
-        .accessibilityIdentifier("setup-turn-wait")
-    }
-
-    private var direction: some View {
-        VStack(spacing: 20) {
-            HStack(spacing: 24) {
-                Image(systemName: "iphone.rear.camera").font(.system(size: 52))
-                Image(systemName: "arrow.right").font(.title2)
-                Image(systemName: "tv").font(.system(size: 52))
-            }.foregroundStyle(IslandUI.lime).accessibilityHidden(true)
-            Text("Set your direction").font(IslandUI.font(30, bold: true))
-            Text("Point the back of your phone at your TV. It will blink twice.")
-                .multilineTextAlignment(.center)
-            ZStack {
-                Circle().stroke(.white.opacity(0.15), lineWidth: 8)
-                Circle().trim(from: 0, to: max(0, min(1, session.axisGate.progress)))
-                    .stroke(IslandUI.lime, style: StrokeStyle(lineWidth: 8, lineCap: .round)).rotationEffect(.degrees(-90))
-                Image(systemName: "scope").font(.system(size: 32)).foregroundStyle(IslandUI.lime)
-            }.frame(width: 96, height: 96)
-                .accessibilityLabel("Direction hold progress").accessibilityValue("\(Int(session.axisGate.progress * 100)) percent")
-            Text(session.axisGate.message).font(.subheadline).multilineTextAlignment(.center)
-            Text("Leave enough space to swing. Keep your rear camera uncovered.")
-                .font(.footnote).foregroundStyle(.white.opacity(0.7)).multilineTextAlignment(.center)
-            TimelineView(.periodic(from: .now, by: 0.25)) { context in
-                if context.date.timeIntervalSince(scanStarted) >= 4 || session.axisGate.stalledFor >= 4 || !session.setupProblem.isEmpty {
-                    VStack(spacing: 16) {
-                        if !session.setupProblem.isEmpty { Text(session.setupProblem).font(.subheadline).multilineTextAlignment(.center) }
-                        Button("Use this direction") { session.useCurrentDirection() }
-                            .accessibilityIdentifier("forceAxis")
-                        Button("Try again") { scanStarted = Date(); session.retryCourtDirection() }
-                            .accessibilityIdentifier("retryAxis")
-                    }.tint(IslandUI.lime).buttonStyle(.bordered).controlSize(.large)
-                }
-            }
-        }
-    }
-
-    private var players: some View {
-        VStack(spacing: 12) {
-            ForEach(service.lobby?.participants.filter { $0.seat >= 0 } ?? [], id: \.id) { player in
-                let local = player.id == service.localID
-                let calibrated = local ? session.setupStage == .waiting : player.calibrated
-                HStack(spacing: 12) {
-                    Image(systemName: calibrated ? "checkmark.circle.fill" : "circle.dotted")
-                        .foregroundStyle(calibrated ? IslandUI.lime : .white.opacity(0.6))
-                    Text(local ? "You" : player.name).fontWeight(.semibold).lineLimit(2)
-                    Spacer(minLength: 8)
-                    Text(playerStatus(player, local: local, calibrated: calibrated))
-                        .font(.subheadline).foregroundStyle(.white.opacity(0.8)).multilineTextAlignment(.trailing)
-                }
-            }
-        }.padding(16).background(.white.opacity(0.08), in: RoundedRectangle(cornerRadius: 20))
-    }
-
-    private func playerStatus(_ player: MultiplayerParticipant, local: Bool, calibrated: Bool) -> String {
-        if !player.connected { return "Reconnecting" }
-        if calibrated { return player.loaded ? "Ready" : "Ready · Court loading" }
-        if local { return session.setupTurnWaitingFor != nil ? "Up next" : session.setupStage == .ready ? "Tap Ready" : session.setupStage == .timing ? "Checking timing" : "Setting direction" }
-        if player.setupStep == "ready" { return "About to tap Ready" }
-        if player.setupStep == "next" { return "Up next" }
-        if player.setupStep == "timing" { return "Checking timing" }
-        if player.setupStep == "direction" { return "Setting direction" }
-        return player.loaded ? "Setting up racket" : "Loading court"
-    }
-
     @ViewBuilder private var recovery: some View {
-        if let error = service.lastError { Text(error).font(.subheadline).multilineTextAlignment(.center) }
+        if let error = service.lastError { Text(error).font(MapFont.semi(14)).multilineTextAlignment(.center).foregroundStyle(skin.cream) }
         if service.loadingNeedsDecision || session.loading.isStalled {
-            Text("The court is taking longer to load. Your racket setup is saved.").font(.subheadline).multilineTextAlignment(.center)
-            Button("Keep waiting") { try? service.keepWaitingForLoad(); session.loading.keepWaiting() }
-                .buttonStyle(.bordered).controlSize(.large).tint(IslandUI.lime)
+            Text("The court is taking longer to load.").font(MapFont.semi(14)).multilineTextAlignment(.center).foregroundStyle(skin.cream)
+            MapQuietButton(skin: skin, title: "Keep waiting") { try? service.keepWaitingForLoad(); session.loading.keepWaiting() }
         }
-        Button("Leave game") { session.exitGame() }.font(.subheadline).tint(.white.opacity(0.75))
+        Button("Leave game") { session.exitGame() }.font(MapFont.semi(15)).foregroundStyle(skin.cream.opacity(0.8))
             .frame(minHeight: 44).accessibilityIdentifier("setup-leave")
+    }
+}
+
+/// The tennis setup on the phone, solo and online alike: point and hold → the TV's flashes → the timing check → Ready.
+/// Every step is one card (board 13) with one thing to do.
+struct TennisSetupFlow: View {
+    @Bindable var session: SportsSession
+    var service: MultiplayerService = .shared
+    var body: some View {
+        VStack {
+            Spacer(minLength: 0)
+            if session.multiplayerMatchID != nil, let count = service.startCountdown {
+                StartCountdownPanel(session: session, count: count)
+            } else if session.calibrationExplain {
+                CalibrationExplainPanel(session: session)
+            } else if session.setupStage == .scan {
+                PointHoldPanel(session: session)
+            } else if let step = session.calibrationStep {
+                switch step {
+                case .waitingToPoint, .waitingForTV: CalibrationWaitPanel(session: session)
+                case .flashes: DelayProbePanel(session: session)
+                case .prompt: TimingCheckPrompt(session: session)
+                case .startWaiting: TimingStartWaitPanel(session: session)
+                case .drill: TimingCheckPanel(countdownEnds: session.timingCountdownEnds)
+                }
+            } else if session.setupStage == .ready {
+                ControllerReadyPanel(session: session)
+            } else if session.setupStage == .waiting {
+                WaitingForPlayersPanel()
+            }
+            Spacer(minLength: 0)
+        }
+        .frame(maxWidth: .infinity)
+    }
+}
+
+/// Pointed at the TV; the TV is not calibrating yet (another player is still pointing) or is calibrating on the other phone.
+struct CalibrationWaitPanel: View {
+    let session: SportsSession
+    private var skin: MapSkin { .current }
+    private var line: String {
+        if let first = session.playersStillPointing.first, session.ownsTV { return "Waiting for \(first.name) to point at the TV." }
+        return "The TV is calibrating. Keep your phone pointed at it."
+    }
+    var body: some View {
+        MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: session.ownsTV ? "Pointed at the TV" : "Calibrating the TV", showsMap: false) {
+            Image(systemName: "checkmark.circle.fill").font(.system(size: 54, weight: .bold)).foregroundStyle(skin.accentDeep)
+            Text(line).font(MapFont.bold(19)).multilineTextAlignment(.center)
+            ProgressView().tint(skin.accentDeep)
+        }
+        .accessibilityIdentifier("calibration-wait")
+    }
+}
+
+/// Shared TV: this player tapped Start; the ball starts when everyone has.
+struct TimingStartWaitPanel: View {
+    let session: SportsSession
+    var service: MultiplayerService = .shared
+    private var skin: MapSkin { .current }
+    private var waitingFor: String {
+        let names = (service.lobby?.competitors ?? []).filter { p in
+            p.id != service.localID && p.connected && !p.calibrated && !(p.setupStep ?? "").hasPrefix("go:") && p.setupStep != "ready" && p.setupStep != "quick"
+        }.map(\.name)
+        return names.isEmpty ? "Starting…" : "Waiting for \(names.joined(separator: " and ")) to tap Start."
+    }
+    var body: some View {
+        MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: "Timing check", showsMap: false) {
+            ProgressView().controlSize(.large).tint(skin.accentDeep)
+            Text(waitingFor).font(MapFont.bold(19)).multilineTextAlignment(.center)
+            Text("Then watch the ball on the TV and swing each time it lands on the line.")
+                .font(MapFont.semi(15)).multilineTextAlignment(.center).opacity(0.85)
+            MapQuietButton(skin: skin, title: "Skip for now") { session.skipTimingCheck() }.accessibilityIdentifier("timing-skip")
+        }
+        .accessibilityIdentifier("timing-start-wait")
+    }
+}
+
+/// Everyone is set: the match starts on the TV.
+struct StartCountdownPanel: View {
+    let session: SportsSession
+    let count: Int
+    private var skin: MapSkin { .current }
+    var body: some View {
+        MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: "Get ready", showsMap: false) {
+            Text("\(count)").font(MapFont.bold(96)).foregroundStyle(skin.accentDeep).monospacedDigit()
+                .accessibilityIdentifier("online-start-countdown")
+            Text("Watch your TV.").font(MapFont.bold(19))
+        }
+    }
+}
+
+/// Online: where every player is in the setup, on the map's pills.
+struct SetupPlayersStrip: View {
+    let session: SportsSession
+    var service: MultiplayerService = .shared
+    private var skin: MapSkin { .current }
+    var body: some View {
+        let players = service.lobby?.competitors ?? []
+        if players.count > 1 {
+            HStack(spacing: 8) {
+                ForEach(players, id: \.id) { p in
+                    let chip = TennisSetupTVView(session: session, service: service).chipFor(p)
+                    HStack(spacing: 10) {
+                        Image(systemName: chip.done ? "checkmark.circle.fill" : "circle").foregroundStyle(chip.done ? skin.accentDeep : skin.ink.opacity(0.5))
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text(p.id == service.localID ? "You" : p.name).font(MapFont.bold(15)).lineLimit(1)
+                            Text(chip.text).font(MapFont.semi(12)).opacity(0.8).lineLimit(1)
+                        }
+                        Spacer(minLength: 0)
+                    }
+                    .foregroundStyle(skin.ink)
+                    .padding(.horizontal, 14).padding(.vertical, 7).frame(maxWidth: .infinity)
+                    .background(Capsule().fill(skin.cream)).overlay(Capsule().strokeBorder(skin.frame, lineWidth: 2))
+                }
+            }
+            .accessibilityIdentifier("setup-players")
+        }
     }
 }
 
@@ -835,7 +825,7 @@ struct ControllerReadyPanel: View {
     var body: some View {
         ScrollView {
             // (a player coming back into a match being played skips the timing check: Ready is their second step)
-            MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: "Ready to play") {
+            MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: "Ready to play", showsMap: false) {
                 Image(systemName: "checkmark.seal.fill").font(.system(size: 60, weight: .bold)).foregroundStyle(skin.accentDeep)
                     .accessibilityLabel("Step \(session.onlineComeback ? 2 : 3)")
                 if !session.timingNote.isEmpty { Text(session.timingNote).font(MapFont.semi(15)).multilineTextAlignment(.center) }
@@ -913,7 +903,7 @@ struct WaitingForPlayersPanel: View {
     var body: some View {
         VStack {
             Spacer(minLength: 0)
-            MapSetupCard(skin: .current, name: MapSkin.playerName(.shared), title: "You're ready") {
+            MapSetupCard(skin: .current, name: MapSkin.playerName(.shared), title: "You're ready", showsMap: false) {
                 ProgressView().controlSize(.large).tint(MapSkin.current.accentDeep)
                 Text("Waiting for \(waitingFor)…").font(MapFont.bold(18)).multilineTextAlignment(.center)
                 Text("Stay at your spot and watch the TV. The match starts as soon as everyone is set.")
@@ -922,5 +912,160 @@ struct WaitingForPlayersPanel: View {
             Spacer(minLength: 0)
         }.frame(maxWidth: .infinity, maxHeight: .infinity)
             .accessibilityElement(children: .combine).accessibilityIdentifier("controller-waiting")
+    }
+}
+
+// MARK: - Point and hold (11-20)
+
+/// The whole tennis setup, solo and online alike: point the back of the phone at the TV and hold the button until the ring is
+/// full. No camera window, no blinks to wait for, no timing drill, no turns: anyone can do it, and every player does it at once.
+struct PointHoldPanel: View {
+    @Bindable var session: SportsSession
+    private var skin: MapSkin { .current }
+    var body: some View {
+        MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: "Point at the TV", showsMap: false) {
+            PointAtTVMark(skin: skin).frame(height: 78)
+            Text("Point the back of your phone at the TV, then hold the button.")
+                .font(MapFont.bold(19)).multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
+            PointHoldButton(session: session, skin: skin).padding(.vertical, 4)
+            Text(session.pointMessage).font(MapFont.semi(15)).multilineTextAlignment(.center)
+                .frame(minHeight: 40).fixedSize(horizontal: false, vertical: true)
+                .accessibilityIdentifier("point-message")
+            if !session.setupProblem.isEmpty {
+                Text(session.setupProblem).font(MapFont.semi(14)).multilineTextAlignment(.center).opacity(0.8)
+            }
+        }
+        .accessibilityIdentifier("point-hold-panel")
+    }
+}
+
+/// The lesson's first setup card (quick start plan O5): why the setup times the TV, once. Continue, or it moves on by itself.
+struct CalibrationExplainPanel: View {
+    let session: SportsSession
+    private var skin: MapSkin { .current }
+    static let title = "Calibrate once"
+    static let message = "Your TV shows the picture a moment late. We time it once and remember it for this TV, so your swings land on time."
+    var body: some View {
+        MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: Self.title, showsMap: false) {
+            PointAtTVMark(skin: skin).frame(height: 70)
+            Text(Self.message).font(MapFont.bold(18)).multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
+            Text("Point at the TV, watch a few flashes, then swing along with a bouncing ball.")
+                .font(MapFont.semi(15)).multilineTextAlignment(.center).opacity(0.85).fixedSize(horizontal: false, vertical: true)
+            ControllerButton(title: "Continue", icon: "arrow.right") { session.continueCalibrationExplain() }
+                .accessibilityIdentifier("calibration-explain-continue")
+        }
+        .accessibilityIdentifier("calibration-explain")
+    }
+}
+
+/// Under the loading screen (T4): point at the TV now, so the match is ready to start as soon as the court is.
+struct PointWhileLoadingPanel: View {
+    @Bindable var session: SportsSession
+    private var skin: MapSkin { .current }
+    var body: some View {
+        VStack(spacing: 12) {
+            PointHoldPanel(session: session)
+            HStack(spacing: 10) {
+                ProgressView().tint(skin.cream)
+                Text(session.axisGate.locked ? "Pointed. Loading the court…" : "Loading the court…").font(MapFont.semi(15)).foregroundStyle(skin.cream)
+            }
+            .accessibilityIdentifier("point-while-loading-status")
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .accessibilityIdentifier("point-while-loading")
+    }
+}
+
+/// A TV with the phone's back aimed at it.
+struct PointAtTVMark: View {
+    let skin: MapSkin
+    var body: some View {
+        HStack(spacing: 14) {
+            Image(systemName: "tv").font(.system(size: 54, weight: .semibold))
+            Image(systemName: "ellipsis").font(.system(size: 22, weight: .heavy)).opacity(0.6)
+            Image(systemName: "iphone.gen3").font(.system(size: 50, weight: .semibold)).rotationEffect(.degrees(-12))
+        }
+        .foregroundStyle(skin.ink)
+        .accessibilityHidden(true)
+    }
+}
+
+/// The big round button: down starts the hold, up ends it. The ring fills while the phone is held still at the TV.
+struct PointHoldButton: View {
+    @Bindable var session: SportsSession
+    let skin: MapSkin
+    var size: CGFloat = 150
+    /// Down while a finger is on the button. A gesture state resets itself when the touch is taken away (a scroll, a system
+    /// gesture), so a hold can never stay down without a finger.
+    @GestureState private var pressed = false
+    var body: some View {
+        let done = session.axisGate.locked
+        ZStack {
+            Circle().fill(skin.ink.opacity(0.12))
+            Circle().trim(from: 0, to: session.pointProgress)
+                .stroke(skin.accent, style: StrokeStyle(lineWidth: 14, lineCap: .round)).rotationEffect(.degrees(-90))
+                .animation(.linear(duration: 0.08), value: session.pointProgress)
+            Circle().fill(done ? skin.accent : skin.accentDeep).padding(20)
+                .overlay {
+                    if done {
+                        Image(systemName: "checkmark").font(.system(size: 48, weight: .heavy)).foregroundStyle(skin.accentInk)
+                    } else {
+                        Text(session.holdingPoint ? "HOLD…" : "HOLD").font(MapFont.bold(30)).foregroundStyle(skin.accentInk)
+                    }
+                }
+                .scaleEffect(pressed ? 0.94 : 1).animation(.easeOut(duration: 0.12), value: pressed)
+        }
+        .frame(width: size, height: size)
+        .contentShape(Circle())
+        .gesture(DragGesture(minimumDistance: 0).updating($pressed) { _, down, _ in down = true })
+        .onChange(of: pressed) { _, down in if down { session.pressPoint() } else { session.releasePoint() } }
+        .onDisappear { session.releasePoint() }
+        .accessibilityElement()
+        .accessibilityLabel("Hold to point at the TV")
+        .accessibilityValue("\(Int(session.pointProgress * 100)) percent")
+        .accessibilityAddTraits(.isButton)
+        .accessibilityAction { session.pointNow() }
+        .accessibilityIdentifier("point-hold")
+    }
+}
+
+/// Phone casting (PLAN_PhoneCasting_GolfBowling.md): over the screen phone's game. The game fills the screen sideways under it, like a
+/// TV, so this is see-through and offers only Leave (the players play from their own phones; touch gameplay stays removed).
+struct CastScreenOverlay: View {
+    let session: SportsSession
+    @State private var leaving = false
+    var body: some View {
+        Color.clear.ignoresSafeArea()
+            .overlay(alignment: .topTrailing) {
+                Button { leaving = true } label: {
+                    Image(systemName: "xmark").font(.system(size: 15, weight: .bold)).foregroundStyle(.white)
+                        .frame(width: 40, height: 40).background(.black.opacity(0.35), in: Circle())
+                }
+                .buttonStyle(.plain).padding(12).accessibilityLabel("Leave game").accessibilityIdentifier("cast-screen-leave")
+            }
+            .confirmationDialog("End the game for everyone?", isPresented: $leaving, titleVisibility: .visible) {
+                Button("End game", role: .destructive) { session.exitGame() }
+                Button("Keep playing", role: .cancel) {}
+            } message: { Text("This phone is the screen: the game stops on every player's phone too.") }
+            .accessibilityIdentifier("cast-screen")
+    }
+}
+
+/// Phone casting, on a player's phone: the screen phone is away. The game waits for it (up to the away limit) and goes on when it is back.
+struct CastScreenAwayBanner: View {
+    var body: some View {
+        HStack(spacing: 10) {
+            ProgressView().tint(IslandUI.lime)
+            VStack(alignment: .leading, spacing: 2) {
+                Text("Waiting for the screen phone").font(IslandUI.font(16, bold: true))
+                Text("The game goes on as soon as it's back. Keep the screen phone in the app.").font(IslandUI.font(13)).foregroundStyle(.white.opacity(0.75))
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 0)
+        }
+        .foregroundStyle(.white).padding(14)
+        .background(IslandUI.dark.opacity(0.96), in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(IslandUI.lime.opacity(0.7), lineWidth: 2))
+        .accessibilityElement(children: .combine).accessibilityIdentifier("cast-screen-away")
     }
 }

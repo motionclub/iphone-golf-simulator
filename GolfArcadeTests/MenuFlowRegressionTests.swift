@@ -22,12 +22,10 @@ import UIKit
         XCTAssertFalse(session.paused, "Phone samples must flow during TV calibration")
         XCTAssertFalse(session.pointControlsVisible)
         session.receiveTimingResult("failed")
-        XCTAssertEqual(session.setupStage, .ready)
-        XCTAssertTrue(session.paused, "Calibration completion must wait for Ready")
-        XCTAssertFalse(session.checkingTiming)
-        session.readyToPlay()
-        XCTAssertEqual(session.setupStage, .playing)
+        // (quick start T5, 11-21: no Ready tap; the centre is taken as the setup ends)
+        XCTAssertEqual(session.setupStage, .playing, "the end of the timing check starts play")
         XCTAssertFalse(session.paused)
+        XCTAssertFalse(session.checkingTiming)
         session.tennisPhase = "serve"
         XCTAssertTrue(session.tossVisible)
     }
@@ -37,6 +35,7 @@ import UIKit
     /// straight to Ready, and re-aiming mid-match never pauses it.
     func testAnOnlineMatchSetsUpAsSoloDoes() throws {
         let session = SportsSession()
+        session.timingStore = UserDefaults(suiteName: "online-setup-\(UUID().uuidString)")!
         session.active = true; session.ready = true; session.displayConnected = true
         session.sport = "tennis"; session.motion.fixtureSensors = true; session.loading.cancel()
         session.debugSetOnlineMatch("match-1", seat: 0)
@@ -52,16 +51,13 @@ import UIKit
         session.startTimingCheck()
         XCTAssertTrue(session.checkingTiming)
         session.receiveTimingResult("120")
-        XCTAssertEqual(session.setupStage, .ready, "Ready comes after the timing check")
-        XCTAssertTrue(session.paused, "Ready is what starts play")
-        session.readyToPlay()
-        XCTAssertEqual(session.setupStage, .waiting, "set up (and reported) only once Ready is tapped")
+        XCTAssertEqual(session.setupStage, .waiting, "set up (and reported) as the timing check ends: no Ready tap (T5)")
 
-        // coming back into a match already being played: from the scan straight to Ready, no timing check
+        // coming back into a match already being played: the direction is still set, so straight back in (no timing check, no Ready)
         service.mockState(phase: .playing)
         session.setupStage = .scan; session.paused = true
         session.offerTimingCalibration()
-        XCTAssertEqual(session.setupStage, .ready)
+        XCTAssertEqual(session.setupStage, .waiting)
         XCTAssertFalse(session.timingPrompt); XCTAssertFalse(session.measuringDelay)
 
         // Re-aiming while the match is running leaves it running: a pause would start the owner's forfeit clock.
@@ -93,41 +89,69 @@ import UIKit
         session.active = false
     }
 
-    /// One TV for two phones: the controller phone waits while the TV phone sets up, then its own setup opens by itself.
-    func testSharingATVTheSecondPlayerSetsUpAfterTheFirst() throws {
+    /// One TV for two phones (11-20): nobody waits for a turn. Pointing at the TV needs neither the camera nor the TV, so the phone
+    /// without the TV sets up while the other player is still setting up.
+    func testSharingATVBothPlayersSetUpAtOnce() throws {
         let session = SportsSession(), service = MultiplayerService.shared
         try service.enableMock(count: 2, player: Player(name: "You", colorIndex: 0))
         defer { service.leave(); session.active = false }
         service.mockState(phase: .calibrating)
         service.mockOneTV(otherStep: "direction")
-        session.active = true; session.sport = "tennis"; session.motion.fixtureSensors = true
+        session.active = true; session.sport = "tennis"
         session.debugSetOnlineMatch("one-tv", seat: 0)
         session.loading.cancel(); session.setupStage = .scan
         session.debugBeginOnlineSetup()
-        XCTAssertEqual(session.setupTurnWaitingFor, "Sam", "the phone with the TV sets up first")
+        XCTAssertNil(session.setupTurnWaitingFor, "no turns: both phones point at the TV at the same time")
         XCTAssertEqual(session.setupStage, .scan); XCTAssertTrue(session.showsOnlineTennisSetup)
-        session.readyToPlay()
-        XCTAssertEqual(session.setupStage, .scan, "Ready cannot jump the queue")
-        service.mockOneTV(otherStep: "timing"); session.debugPollSetupTurn()
-        XCTAssertEqual(session.setupTurnWaitingFor, "Sam", "still their turn during the timing check")
-        service.mockOneTV(otherStep: "ready"); session.debugPollSetupTurn()
-        XCTAssertNil(session.setupTurnWaitingFor, "through the timing check: this phone's turn")
-        XCTAssertEqual(session.setupStage, .scan, "this phone's own court scan starts")
+        XCTAssertEqual(session.pointMessage, "Hold until the ring is full.")
     }
 
-    func testSetUpNowSkipsTheWaitForTheTVPhone() throws {
+    /// One TV, two phones (11-20, Adnan): both point and hold → the TV phone calibrates the TV → both get the timing check → it starts
+    /// for both at once. This is the phone without the TV.
+    func testSharedTVSetupPointsThenCalibratesThenTimesBothTogether() async throws {
         let session = SportsSession(), service = MultiplayerService.shared
         try service.enableMock(count: 2, player: Player(name: "You", colorIndex: 0))
         defer { service.leave(); session.active = false }
         service.mockState(phase: .calibrating)
-        service.mockOneTV(otherStep: nil)
-        session.active = true; session.sport = "tennis"; session.motion.fixtureSensors = true
-        session.debugSetOnlineMatch("one-tv-skip", seat: 0)
+        service.mockOneTV(otherStep: "direction")
+        session.active = true; session.ready = true; session.sport = "tennis"
+        session.debugSetOnlineMatch("one-tv-flow", seat: 0, controllerOnly: true)
         session.loading.cancel(); session.setupStage = .scan
         session.debugBeginOnlineSetup()
-        XCTAssertEqual(session.setupTurnWaitingFor, "Sam")
-        session.skipSetupTurn()
-        XCTAssertNil(session.setupTurnWaitingFor)
+        XCTAssertEqual(session.setupStage, .scan, "both phones point at the TV at the same time")
+        session.motion.fixtureSensors = true; session.axisGate.locked = true
+        session.debugFinishPoint()
+        XCTAssertEqual(session.calibrationStep, .waitingForTV, "pointed: the phone with the TV calibrates the TV first")
+        service.mockOneTV(otherStep: "pointed"); session.advanceCalibration()
+        XCTAssertEqual(session.calibrationStep, .waitingForTV, "the TV phone is still flashing")
+        service.mockOneTV(otherStep: "timing"); session.advanceCalibration()
+        XCTAssertEqual(session.calibrationStep, .prompt, "the TV is calibrated: this phone is offered the timing check")
+        session.startTimingCheck()
+        XCTAssertEqual(session.calibrationStep, .startWaiting, "one ball on one TV: wait for the other player's Start")
+        XCTAssertFalse(session.checkingTiming)
+        service.mockOneTV(otherStep: "go:\(service.networkTime + 0.2)")
+        session.debugStartTimingIfEveryoneAsked()
+        try await Task.sleep(for: .seconds(3))
+        XCTAssertEqual(session.calibrationStep, .drill, "both tapped Start: the drill starts together")
+        session.receiveTimingResult("130")
+        XCTAssertEqual(session.setupStage, .waiting, "after the timing check: set up, no Ready tap (T5)")
+    }
+
+    /// Skipping the timing check on one phone does not hold up the other's.
+    func testSkippingTheTimingCheckGoesStraightToReady() throws {
+        let session = SportsSession(), service = MultiplayerService.shared
+        try service.enableMock(count: 2, player: Player(name: "You", colorIndex: 0))
+        defer { service.leave(); session.active = false }
+        service.mockState(phase: .calibrating)
+        service.mockOneTV(otherStep: "timing")
+        session.active = true; session.ready = true; session.sport = "tennis"
+        session.debugSetOnlineMatch("one-tv-skip", seat: 0, controllerOnly: true)
+        session.loading.cancel(); session.setupStage = .scan
+        session.motion.fixtureSensors = true; session.axisGate.locked = true
+        session.debugFinishPoint()
+        XCTAssertEqual(session.calibrationStep, .prompt)
+        session.skipTimingCheck()
+        XCTAssertEqual(session.setupStage, .waiting, "skipped: set up at once (T5)")
     }
 
     func testRepeatedRendererReadyDoesNotClearCompletedOnlineCalibration() throws {
@@ -189,8 +213,8 @@ import UIKit
         session.receiveTimingResult("100")
         XCTAssertEqual(session.setupStage, .timing, "Ignore late results from a cancelled check")
         session.skipTimingCheck()
-        XCTAssertEqual(session.setupStage, .ready)
-        XCTAssertTrue(session.paused)
+        XCTAssertEqual(session.setupStage, .playing, "skipped: play starts (no Ready tap, T5)")
+        XCTAssertFalse(session.paused)
     }
     func testGolfHasOnePlayableRouteWithoutATutorialPrerequisite() {
         let menu = TennisMenu()

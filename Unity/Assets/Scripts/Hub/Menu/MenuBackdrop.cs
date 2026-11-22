@@ -18,7 +18,7 @@ namespace GolfArcade.Hub.Menu
         public static readonly string[] Venues =
         {
             "tennis-resort", "tennis-skyscraper", "tennis-volcano", "golf-cliffside", "golf-wildisles", "golf-magma",
-            "bowling-club", "bowling-neon", "bowling-tiki", "bowling-magma",
+            // (the bowling plates showed the four indoor centres removed 11-21; the open-air alleys have none baked yet)
         };
         /// The camera's clear colour when no plate could be loaded (brand navy).
         public static readonly Color FallbackColour = MotionSports.Brand.BrandColors.NavyDeep;

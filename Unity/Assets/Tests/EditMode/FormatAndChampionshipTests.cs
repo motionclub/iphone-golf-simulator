@@ -22,9 +22,9 @@ namespace GolfArcade.Tests
         [Test]
         public void ContestsArePlayedOnTheirOwnHoles()
         {
-            var cliffside = Course.Course.Cliffside(); // pars 4, 4, 5, 3, 3
+            var cliffside = Course.Course.Cliffside(); // pars 4, 5, 3, 3
             CollectionAssert.AreEqual(new[] { 12, 15 }, System.Array.ConvertAll(Match.HolesFor(cliffside, MatchFormat.ClosestToPin).Holes, h => h.Number));
-            CollectionAssert.AreEqual(new[] { 7, 8, 9 }, System.Array.ConvertAll(Match.HolesFor(cliffside, MatchFormat.LongestDrive).Holes, h => h.Number));
+            CollectionAssert.AreEqual(new[] { 8, 9 }, System.Array.ConvertAll(Match.HolesFor(cliffside, MatchFormat.LongestDrive).Holes, h => h.Number));
             Assert.AreSame(cliffside, Match.HolesFor(cliffside, MatchFormat.MatchPlay));
             var par4 = new Course.Course { Name = "x", Holes = new[] { cliffside.Holes[0] } };
             Assert.AreSame(par4, Match.HolesFor(par4, MatchFormat.ClosestToPin), "no par 3s: the holes there are");
@@ -79,13 +79,13 @@ namespace GolfArcade.Tests
         {
             var course = Match.HolesFor(Course.Course.Cliffside(), MatchFormat.LongestDrive);
             var match = new Match(course, new[] { Local("Alex"), Local("Sam") }, 1, MatchFormat.LongestDrive);
-            // Alex bombs one into the rough (0), then 250 and 270; Sam 240, 260, 230
-            var yards = new Dictionary<string, double[]> { ["Alex"] = new[] { 0.0, 250, 270 }, ["Sam"] = new[] { 240.0, 260, 230 } };
+            // Cliffside's two long holes (8, 9): Alex bombs one into the rough (0), then 250; Sam 240, 260
+            var yards = new Dictionary<string, double[]> { ["Alex"] = new[] { 0.0, 250 }, ["Sam"] = new[] { 240.0, 260 } };
             PlayOut(match, (who, h) => yards[who][h]);
             Assert.AreEqual("Sam", match.HoleWinner(0).Name, "a drive off the fairway doesn't count");
             Assert.AreEqual(2, match.HolesWon(match.Players[1]));
             Assert.AreEqual("Sam wins with 2 holes", match.Headline());
-            Assert.AreEqual("1 hole · 270 yd", match.Standing(match.Players[0]));
+            Assert.AreEqual("0 holes · 250 yd", match.Standing(match.Players[0]));
         }
 
         [Test]

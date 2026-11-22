@@ -320,7 +320,9 @@ namespace GolfArcade.Course
         public Hole[] Holes;
 
         /// Every course with modelled holes, in the order the course screen shows them: three courses of
-        /// five or six holes, dealt out of the sixteen modelled ones (hole numbers are unique across them).
+        /// four or five holes, dealt out of the modelled ones (hole numbers are unique across them).
+        /// 11-21 (Adnan's playtest): hole 7 "Cliffside" and hole 13 "The Spiral" are retired, dealt to no course.
+        /// Their data stays in the catalogue so they can come back by adding the number to a Deal below.
         public static Course[] All() => new[] { Cliffside(), WildIsles(), Magma() };
 
         /// The course a hole belongs to, by its number (hole numbers are unique across courses).
@@ -392,15 +394,14 @@ namespace GolfArcade.Course
         static CourseHazard Lava(double x, double d, double w, double l) => new(HazardKind.Lava, x, d, w, l);
         static CourseHazard Ice(double x, double d, double w, double l) => new(HazardKind.Ice, x, d, w, l);
 
-        /// Cliffside: ocean cliffs, sea stacks and island carries. Hole 7 (blender/hole_07.blend) is the
-        /// par-4 island with the ocean off the east cliffs; hole 8, Needle, and hole 9, Split, are the
+        /// Cliffside: ocean cliffs, sea stacks and island carries. Hole 8, Needle, and hole 9, Split, are the
         /// clifftop holes of the old Postcards course; hole 12 (blender/hole_12.blend) is the par-3 island
         /// carry and hole 15 the three-tier green across the water.
-        public static Course Cliffside() => Deal("Cliffside", "cliffside", 7, 8, 9, 12, 15);
+        public static Course Cliffside() => Deal("Cliffside", "cliffside", 8, 9, 12, 15);
 
-        /// Wild Isles: a tour of the islands that are each their own world: the pine hill and the witch's
+        /// Wild Isles: a tour of the islands that are each their own world: the witch's
         /// crater, a frozen fjord, two mesas over a canyon, a jungle temple and the windmill's tulip fields.
-        public static Course WildIsles() => Deal("Wild Isles", "wildisles", 13, 14, 17, 18, 19, 20);
+        public static Course WildIsles() => Deal("Wild Isles", "wildisles", 14, 17, 18, 19, 20);
 
         /// Magma Open: the fire holes: the clifftop Crater (10), the volcano's rim (16) and the three holes
         /// on the molten lake of a crater (21 to 23); a ball that leaves the rock burns.
@@ -823,15 +824,16 @@ namespace GolfArcade.Course
         };
 
         /// Meadow Run: the iOS app's easy course, hole for hole.
-        /// The golf lesson's Practice Tee (PLAN_Onboarding_GolfLesson.md): Meadow's short par 3 twice. The practice stations play
-        /// the first copy from its tee again and again; holing the putt there moves on to the second, played as a real hole.
+        /// The golf lesson's hole (PLAN_Onboarding_Tutorial_TennisQuickStart_1121.md): Meadow's straight par 4, twice. The stations drop the
+        /// ball where each one wants it (the tee for the drive, 100 yd out, then the green); a shot that holes out moves on to the
+        /// second copy, where the next station carries on.
         public static Course Lesson()
         {
-            Hole PracticeThree(int ordinal) => new Hole { Number = 3, Ordinal = ordinal, Par = 3, Centerline = new[] { P(0, 0), P(8, 115) }, FairwayWidth = 50,
-                GreenRadius = 20, Hazards = new[] { Bunker(-12, 108, 14, 18) } };
+            Hole PracticeFour(int ordinal) => new Hole { Number = 2, Ordinal = ordinal, Par = 4, Centerline = new[] { P(0, 0), P(0, 170), P(-18, 280) }, FairwayWidth = 52,
+                GreenRadius = 22, Hazards = new[] { Bunker(23, 172, 16, 22) } };
             // (named for the map it wears: an unthemed hole is Cliffside's look, so the screens say Cliffside, not a practice
             // name — 2026-11-16, Adnan: "for onboarding tutorial, just make it the normal map name")
-            return new Course { Name = "Cliffside", Key = "lesson", Holes = new[] { PracticeThree(1), PracticeThree(2) } };
+            return new Course { Name = "Cliffside", Key = "lesson", Holes = new[] { PracticeFour(1), PracticeFour(2) } };
         }
 
         public static Course Meadow() => new()

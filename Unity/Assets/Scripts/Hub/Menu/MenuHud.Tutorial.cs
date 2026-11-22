@@ -6,17 +6,16 @@ using UnityEngine.UI;
 
 namespace GolfArcade.Hub.Menu
 {
-    /// PLAY → TUTORIAL (PLAN_Onboarding_v3_IntroTutorial.md, Adnan 2026-11-15: "once they do, everything is locked except a section called
-    /// tutorial … golf first, then tennis, then bowling … once they are completely done they are free to play everything else").
-    /// The sports list gets a TUTORIAL entry on top. Until the phone says the lessons are done (menuTutorialState), Tennis, Golf, Bowling
-    /// and Daily Challenges are dimmed and say so, and TUTORIAL is lit first. The Tutorial screen lists the three lessons in order: done
-    /// ones are ticked and replayable, the next one is lit, later ones wait. Pressing one opens its how-to-play and safety card on the
-    /// phone (menuOpen bay-tutorial-<sport>); the phone also refuses locked bays, so the TV's styling is never the only lock.
+    /// PLAY → TRAINING → TUTORIAL, and the sport gate (PLAN_Onboarding_Tutorial_TennisQuickStart_1121.md). The first PLAY starts the whole
+    /// tutorial on the phone (golf, tennis, bowling). Until a sport's lesson is done or skipped (menuTutorialState `gate`), its row says
+    /// "Lesson first, or skip it", and opening it asks on the phone: play the lesson or skip it (menuOpen bay-gate-<sport>). The
+    /// Tutorial screen lists the three lessons in order: done ones are ticked and replayable, the next one is lit. The phone also
+    /// refuses gated bays, so the TV's styling is never the only lock.
     public sealed partial class MenuHud
     {
         public const string Tutorial = "tutorial";
         static readonly string[] Lessons = { "golf", "tennis", "bowling" };
-        static readonly string[] LessonWords = { "About 1 min", "About 2 min", "About 1 min" };
+        static readonly string[] LessonWords = { "About 2 min", "About 2 min", "About 1 min" };
         static readonly string[] Locked = { "sport-tennis", "sport-golf", "sport-bowling", "sport-daily" };
 
         /// The phone's state: {"locked":bool,"next":"golf","done":["golf"],"deferred":["tennis"],"gate":["tennis","bowling"]}.
@@ -84,12 +83,12 @@ namespace GolfArcade.Hub.Menu
         bool Done(string sport) => Array.IndexOf(LessonState.done ?? new string[0], sport) >= 0;
         /// This sport's own lesson comes first (LessonState.gate).
         public bool Gated(string sport) => Array.IndexOf(LessonState.gate ?? new string[0], sport) >= 0;
-        /// A sport's screen (its modes, golf's Daily Challenge) while its lesson comes first: the phone opens the lesson instead (true).
+        /// A sport's screen (its modes, golf's Daily Challenge) while its lesson comes first: the phone asks, lesson or skip (true).
         bool LessonFirst(string screen)
         {
             string sport = screen == GolfModes || screen == Daily ? "golf" : screen == TennisModes ? "tennis" : screen == BowlingModes ? "bowling" : null;
             if (sport == null || !Gated(sport)) return false;
-            OpenPhone("bay-tutorial-" + sport, Title(sport.ToUpperInvariant()) + " lesson");
+            OpenPhone("bay-gate-" + sport, Title(sport.ToUpperInvariant()) + " lesson");
             return true;
         }
         bool Deferred(string sport) => Array.IndexOf(LessonState.deferred ?? new string[0], sport) >= 0;
@@ -106,7 +105,7 @@ namespace GolfArcade.Hub.Menu
                     w.off = locked; it.enabled = !locked;
                     if (w.sub)
                     {
-                        const string lessonSub = "Starts with a short lesson";
+                        const string lessonSub = "Lesson first, or skip it";
                         if (first) { if (w.sub.text != lessonSub) { lockedSubs[it.id] = w.sub.text; w.sub.text = lessonSub; } }
                         else if (lockedSubs.TryGetValue(it.id, out var was)) { w.sub.text = was; lockedSubs.Remove(it.id); }
                     }
@@ -135,7 +134,7 @@ namespace GolfArcade.Hub.Menu
                 string next = string.IsNullOrEmpty(LessonState.next) ? "golf" : LessonState.next;
                 tutorialCardKicker.text = "";
                 tutorialCardTitle.text = Title(next.ToUpperInvariant());
-                var tex = Resources.Load<Texture2D>(next == "golf" ? "Menu/Maps/golf-cliffside" : next == "tennis" ? "Menu/Maps/tennis-resort" : "Menu/Maps/bowling-club");
+                var tex = Resources.Load<Texture2D>(next == "golf" ? "Menu/Maps/golf-cliffside" : next == "tennis" ? "Menu/Maps/tennis-resort" : "Menu/Maps/bowling-beachcourt");
                 if (tex && tutorialCardPic.texture != tex) { tutorialCardPic.texture = tex; Cover(tutorialCardPic, PreviewW, PreviewH + 40); }
             }
             // a list on screen whose lit entry just locked: light the first one that can be used

@@ -5,6 +5,10 @@ namespace GolfArcade.Multiplayer {
     /// A swing is judged as the player SAW it: the host rewinds the world by
     /// (network time + sensor age + the player's screen delay), up to the limits below.
     public static class NetworkTuning {
+        /// Phone casting (PLAN_PhoneCasting_GolfBowling.md): golf updates a second from the screen phone to the players' phones. They draw
+        /// no picture (the screen does), so they need the round's state, not its motion: a sixth of the usual 30, plus one at once whenever
+        /// the phase, the turn or the shot changes. Measured (MultiplayerRulesTests.GolfSnapshotDataPerMinuteIsMeasured): about a fifth of the data.
+        public const double CastSnapshotHz = 6;
         /// Most seconds the host rewinds to judge a swing. Covers network + sensor + screen delay.
         public const double MaxSwingRewind = .40;
         /// Same limit for the serve-toss press. Unchanged from before the screen-delay credit existed.

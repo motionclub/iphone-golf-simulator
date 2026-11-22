@@ -124,6 +124,8 @@ namespace GolfArcade.EditorTools
                     ("side", new Vector3(5.2f, 2.4f, -1f), new Vector3(-.5f, .4f, 12)),
                     ("pins", new Vector3(.4f, .55f, 15.6f), new Vector3(0, .2f, BowlingLane.FoulToHeadPin)),
                     ("lounge", new Vector3(2.5f, 1.8f, -3f), new Vector3(-1, 1.2f, -13)),
+                    // high behind the lounge: the whole alley and what surrounds it (open-air venues, 11-21)
+                    ("aerial", new Vector3(16, 15, -32), new Vector3(-1, 0, 6)),
                 };
                 var meta = new StringBuilder("{\n");
                 string V(Vector3 v) => $"[{F(v.x)},{F(v.y)},{F(v.z)}]";

@@ -64,6 +64,17 @@ namespace GolfArcade.Bowling
             public static float PinAngularDamping = .15f, PinLinearDamping = .02f;
             public static float BallMass = BowlingLane.BallMass;   // the deck may weigh the ball differently from the lane (carry tuning)
             public static int SolverIterations = 20, VelocityIterations = 10;
+            /// 11-21 skill pass: a fresh rack's pins stand up to this far (m) off their spots, like a real pinsetter. Racked dead on
+            /// the spots every time, the same ball always got the same pinfall: a repeatable straight ball found a "lucky" spot.
+            /// Seeded from the ball's arrival, so every phone that simulates the same ball racks the same pins.
+            public static float SpotJitter = .004f;
+            /// 11-21 skill pass: the 10-26 gate tuned the deck on balls reaching the pins at 6.0-6.8 m/s; the game's lane-rolled balls
+            /// arrive at ~6-8.8 (7.2-7.9 for a normal 19.5 mph release). Re-tuned there (BowlingCarryLaneHarness, 200 a bucket, all
+            /// 9 in range): softer pins and kickbacks → pocket 5.5-6.5° 81 % strikes, 4-5° 74 %, 2-3° 63 %, straight 38 %,
+            /// light 45 %, Brooklyn 22 %, head-on 16 %. Used instead of PinBounce / KickbackBounce while BowlingSkill.On.
+            public static float SkillPinBounce = .20f, SkillKickbackBounce = .25f;
+            public static float PinBounceInPlay => BowlingSkill.On ? SkillPinBounce : PinBounce;
+            public static float KickbackBounceInPlay => BowlingSkill.On ? SkillKickbackBounce : KickbackBounce;
         }
 
         static int decks;   // (two games in one editor, the network proof: each deck gets its own scene)
@@ -86,7 +97,7 @@ namespace GolfArcade.Bowling
             SceneManager.MoveGameObjectToScene(root, scene);
 
             var deckMat = Material(Tuning.DeckFriction, Tuning.DeckBounce);
-            var kickMat = Material(Tuning.KickbackFriction, Tuning.KickbackBounce, PhysicsMaterialCombine.Maximum);
+            var kickMat = Material(Tuning.KickbackFriction, Tuning.KickbackBounceInPlay, PhysicsMaterialCombine.Maximum);
             var cushionMat = Material(.9f, 0, PhysicsMaterialCombine.Minimum, PhysicsMaterialCombine.Maximum);
             float w = BowlingLane.HalfWidth, g = BowlingLane.GutterWidth, end = BowlingLane.LaneEnd;
             float start = BowlingLane.DeckStart - 4f;
@@ -107,7 +118,7 @@ namespace GolfArcade.Bowling
             // A masking roof over the deck so the odd flier comes back down.
             Box("Masking", new Vector3(0, 1.2f, (BowlingLane.FoulToHeadPin - .6f + end + 1.2f) / 2), new Vector3(2 * (BowlingLane.KickbackX + .1f), .2f, end + 1.2f - (BowlingLane.FoulToHeadPin - .6f)), kickMat);
 
-            var pinMat = Material(Tuning.PinFriction, Tuning.PinBounce, PhysicsMaterialCombine.Maximum);
+            var pinMat = Material(Tuning.PinFriction, Tuning.PinBounceInPlay, PhysicsMaterialCombine.Maximum);
             var hulls = BowlingArt.PinHulls();
             for (int i = 0; i < 10; i++)
             {
@@ -164,15 +175,22 @@ namespace GolfArcade.Bowling
         }
 
         /// Places the standing pins. `positions` (optional) keeps pins where the last ball left them.
-        public void Rack(int standing, Vector3[] positions = null, Quaternion[] rotations = null)
+        public void Rack(int standing, Vector3[] positions = null, Quaternion[] rotations = null, int jitterSeed = 0)
         {
+            var jitter = BowlingSkill.On && positions == null && jitterSeed != 0 && Tuning.SpotJitter > 0 ? new System.Random(jitterSeed) : null;
             for (int i = 0; i < 10; i++)
             {
                 var rb = pins[i];
                 bool up = BowlingLeave.Standing(standing, i + 1);
                 rb.gameObject.SetActive(up);
                 if (!up) continue;
-                rb.transform.SetPositionAndRotation(positions != null ? positions[i] : BowlingLane.PinSpot(i + 1),
+                var spot = BowlingLane.PinSpot(i + 1);
+                if (jitter != null)
+                {
+                    double a = jitter.NextDouble() * 2 * System.Math.PI, d = System.Math.Sqrt(jitter.NextDouble()) * Tuning.SpotJitter;
+                    spot += new Vector3((float)(System.Math.Cos(a) * d), 0, (float)(System.Math.Sin(a) * d));
+                }
+                rb.transform.SetPositionAndRotation(positions != null ? positions[i] : spot,
                     rotations != null ? Quaternion.Euler(0, rotations[i].eulerAngles.y, 0) : Quaternion.Euler(0, 37 * i, 0));
                 rb.linearVelocity = Vector3.zero; rb.angularVelocity = Vector3.zero;
             }
@@ -208,7 +226,7 @@ namespace GolfArcade.Bowling
         /// integrator's state at DeckStart; any other phase means no ball reaches the pins).
         public void Begin(BallState arrivalState, int standing, Vector3[] positions = null, Quaternion[] rotations = null)
         {
-            Rack(standing, positions, rotations);
+            Rack(standing, positions, rotations, JitterSeed(arrivalState));
             action = new PinAction { StandingBefore = standing };
             arrival = arrivalState;
             live = arrival.Phase == BallPhase.Deck;
@@ -307,6 +325,18 @@ namespace GolfArcade.Bowling
             action.SettleTime = t;
             action.StandingAfter = Standing(action.StandingBefore, out action.Escaped);
             done = true;
+        }
+
+        /// A seed for the rack's spot jitter from the ball itself (the same ball → the same rack on every phone). Never 0.
+        static int JitterSeed(in BallState a)
+        {
+            unchecked
+            {
+                int h = 17;
+                foreach (float f in new[] { a.Position.x, a.Position.z, a.Velocity.x, a.Velocity.z, a.Spin.x, a.Spin.z })
+                    h = h * 31 + System.BitConverter.SingleToInt32Bits(f);
+                return h == 0 ? 1 : h;
+            }
         }
 
         /// The whole pin action at once (tests, the carry gate, the host).

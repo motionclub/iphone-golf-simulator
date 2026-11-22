@@ -134,8 +134,13 @@ namespace GolfArcade.Tennis
                 $"Balls returned {hits}   ·   Longest rally {longestRally}\n" +
                 $"Perfect {GradeCounts[(int)Timing.Perfect]}   ·   Clean hits {clean}\n\n" +
                 (NativeSportsSession.Active ? "Your rewards are coming up…" : "Swing to play again");
+            // The app draws the post-game on the TV (2026-11-20, ArtDir/ui/tv-results-calibration): winner, standings, XP, play again.
+            if (NativeSportsSession.Active && NativePostGame) { card.gameObject.SetActive(false); if (skinGroup) skinGroup.SetActive(false); return; }
             card.gameObject.SetActive(true);
         }
+
+        /// The app shows the match's end itself (its TV window over the court); this card stays for the editor and old builds.
+        public static bool NativePostGame = true;
 
         // ---- map skin (UI OVERHAUL 11-15, board 14 "Match complete")
         GameObject skinGroup; Text skinScore, skinMe, skinRival;

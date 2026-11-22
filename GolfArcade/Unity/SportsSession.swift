@@ -15,6 +15,11 @@ final class SportsSession {
     var bowlingState = ""
     /// Bowling on this phone with no TV: the lane fills the screen under the controls (PLAN_PhonePlay_NoTV_GolfBowling.md).
     private(set) var phonePlay = false
+    /// Phone casting (PLAN_PhoneCasting_GolfBowling.md): this phone is the match's screen. The game fills it sideways, like a TV, under
+    /// a see-through app window that only offers Leave; it hosts the match and plays no one. The players' phones are their controllers.
+    private(set) var castScreen = false
+    /// A phone-casting match is on (this phone is its screen or a player's controller).
+    private(set) var multiplayerCasting = false
     /// Handheld play (golf and bowling with no TV of this phone's own): the game draws in the top of the screen and the
     /// controller's deck covers this share of it at the bottom (Unity's NativeSportsSession.HandheldDeck is the same).
     static let handheldDeck: CGFloat = 0.25
@@ -65,7 +70,8 @@ final class SportsSession {
     func prepareRematchPresentation() { rematchPresentation = true }
     func consumePresentationIntroCut() -> String {
         defer { rematchPresentation = false }
-        return rematchPresentation && presentationIntros != "off" ? "short" : presentationIntros
+        // a tennis rematch goes straight into play (quick start T7: the swoop only); golf's still shows its short cut
+        return rematchPresentation && presentationIntros != "off" ? (sport == "tennis" ? "off" : "short") : presentationIntros
     }
     var holeFlyover = (UserDefaults.standard.object(forKey: "sports.holeFlyover") as? Bool) ?? true {
         didSet { UserDefaults.standard.set(holeFlyover, forKey: "sports.holeFlyover") }
@@ -88,8 +94,8 @@ final class SportsSession {
     }
     /// The court for tennis matches: "resort", "skyscraper" or "volcano" (Unity's TennisVenue keys).
     /// Picked on the map screen before each match and remembered for the next.
-    /// The bowling centre last picked (BowlingVenueChoice: club, neon, tiki, magma).
-    var bowlingVenue = BowlingVenueChoice(rawValue: UserDefaults.standard.string(forKey: "sports.bowlingVenue") ?? "")?.rawValue ?? "club" {
+    /// The bowling centre last picked (BowlingVenueChoice: rooftop, beachcourt, crater; an old indoor pick maps onto them).
+    var bowlingVenue = BowlingVenueChoice.resolve(UserDefaults.standard.string(forKey: "sports.bowlingVenue"))?.rawValue ?? "rooftop" {
         didSet { UserDefaults.standard.set(bowlingVenue, forKey: "sports.bowlingVenue") }
     }
     /// Bowling exhibition's opponent (BowlingOpponent), the one last picked.
@@ -237,9 +243,34 @@ final class SportsSession {
     }
     #if DEBUG
     /// For tests: puts the session in (or takes it out of) an online match without a TV and a Unity runtime.
-    func debugSetOnlineMatch(_ id: String?, seat: Int = -1) { multiplayerMatchID = id; multiplayerSeat = seat }
+    func debugSetOnlineMatch(_ id: String?, seat: Int = -1, controllerOnly: Bool = false) {
+        multiplayerMatchID = id; multiplayerSeat = seat; multiplayerControllerOnly = id != nil && controllerOnly
+    }
     func debugBeginOnlineSetup() { beginMultiplayerCalibration() }
     func debugPollSetupTurn() { if let lobby = MultiplayerService.shared.lobby { advanceSetupTurn(lobby) } }
+    /// For tests: the hold is over (fixture sensors read as pointed at the TV).
+    func debugFinishPoint() { tryFinishPoint() }
+    func debugSetHolding(_ holding: Bool) { holdingPoint = holding }
+    /// For tests and screen proofs: put the calibration at a step without a TV, a camera or Unity.
+    func debugSetCalibration(prompt: Bool = false, flashes: Bool = false, flashing: Bool = false, goAt: Double? = nil, drill: Bool = false,
+                             latency: Double? = nil, swings: Set<Int> = [], drillStart: Double? = nil) {
+        setupStage = .timing; timingPrompt = prompt; measuringDelay = flashes; tvFlashing = flashing; timingGoAt = goAt
+        checkingTiming = drill; latencyReading = latency; timingSwings = swings; timingDrillStart = drillStart
+    }
+    func debugStartTimingIfEveryoneAsked() { startTimingIfEveryoneAsked() }
+    /// For tests: as the tennis lesson's launch sets it (startLesson), without starting Unity.
+    func debugForceFullCalibration(_ on: Bool) { forceFullCalibration = on }
+    func debugLearnedLag(_ lag: Double?) { learnedLag = lag }
+    /// For tests and screen proofs: the match is over (or not), as Unity's finish would make it.
+    func debugFinishMatch(_ result: (won: Bool, score: String)?) {
+        finishedMatch = result; postGameStage = result == nil || sport != "tennis" ? nil : .victory; postGameChoice = 0
+    }
+    /// For tests and screen proofs: a golf round's or bowling game's end as Unity's card makes it with the app's window on the TV.
+    func debugSetPostGameBoard(_ board: PostGameBoard?) {
+        postGameBoard = board; postGameStage = board == nil ? nil : .victory; postGameChoice = 0
+    }
+    /// For tests and screen proofs: a Daily Hole in One round (0: none), without starting Unity.
+    func debugSetHoleInOneDay(_ day: Int) { holeInOneDay = day }
     #endif
     private(set) var multiplayerControllerOnly = false
     /// The game's last bridge report (its frame number, paused, input age), for the logs.
@@ -255,6 +286,17 @@ final class SportsSession {
     private(set) var setupTurnWaitingFor: String?
     var retainCourtDirectionForRematch = false
     var setupProblem = ""
+    /// Point and hold (11-20): the whole tennis setup is "point your phone at the TV and hold the button", solo and online, every
+    /// player at once. The button is down.
+    private(set) var holdingPoint = false
+    /// What the hold ring shows (0...1).
+    var pointProgress: Double { axisGate.locked ? 1 : max(0, min(1, axisGate.progress)) }
+    /// The line under the hold button.
+    var pointMessage: String {
+        if holdingPoint { return axisGate.message }
+        // (the card already says what to do: under the button, only how long)
+        return [SportsMotion.pointPrompt, "Keep holding…", "Hold still…", ""].contains(axisGate.message) ? "Hold until the ring is full." : axisGate.message
+    }
     /// Setup belongs to this phone, independently of the opponent's renderer or connection. It starts once this phone's loading
     /// screen is gone, so the court is on the TV for the scan to find.
     var showsOnlineTennisSetup: Bool {
@@ -271,7 +313,7 @@ final class SportsSession {
     private var aim = 0.0
     /// How far the TV's picture lags the game (seconds), measured with the camera during
     /// setup and remembered for next time. 0 = never measured, so no compensation.
-    var tvDelay = UserDefaults.standard.double(forKey:"sports.tv.delay.v1")
+    var tvDelay = 0.0
     var measuringDelay = false
     /// The timing check is running on the TV (swing with the bouncing ball).
     var checkingTiming = false
@@ -281,13 +323,45 @@ final class SportsSession {
     var timingCountdownEnds: Date?
     /// What the last timing check found, for the controller.
     var timingNote = ""
+    /// Settings → Controls → timing: the next match runs the whole setup (flashes and timing check) even on a TV it knows.
     private var checkTimingOnResume = false
     /// The timing check's result for the TV in use (seconds of lag from what the player sees
-    /// to the swing registering): the whole chain, picture delay and swing detection alike.
-    /// Kept per AirPlay receiver, since each TV has its own delay.
-    var timingCalibration: Double? { SportsTiming.stored(for: SportsTiming.currentTV()) }
+    /// to the swing registering): the whole chain, picture delay and swing detection alike, refined
+    /// by play at the end of every match. Kept per output route (SportsTiming.currentTV).
+    var timingCalibration: Double? { SportsTiming.storedChain(for: SportsTiming.currentTV(), defaults: timingStore) }
+    /// Where the per-TV timing lives (tests use their own suite).
+    var timingStore: UserDefaults = .standard
     /// The lag Unity should start from: the timing check, else the camera's measurement.
     var startingLag: Double { timingCalibration ?? tvDelay }
+    /// The tennis lesson teaches the setup, so it always runs all of it (point, flashes, timing check), whatever this TV's saved
+    /// timing; it opens on the calibrate card (calibrationExplain). Set by startLesson, cleared by end().
+    private(set) var forceFullCalibration = false
+    /// The setup's opening card ("Calibrate once"): up until Continue, or a few seconds.
+    private(set) var calibrationExplain = false
+    static let calibrationExplainSeconds = 6.0
+    /// Quick start (11-21): this TV's whole chain is known, so after pointing the match starts at once, with no flashes, no timing
+    /// check and no Ready tap. Not in the lesson, nor after "check my timing" in Settings, nor for a player coming back mid-match.
+    var quickStartAvailable: Bool { timingCalibration != nil && !forceFullCalibration && !checkTimingOnResume && !calibrationMode }
+    /// The lag Unity learned in play this match (seconds, from its learnedLag event; nil until it has seen enough swings).
+    private(set) var learnedLag: Double?
+    /// The phone was pointed at the TV while the court loaded (T4): the setup carries on from there once it has.
+    private var pointedWhileLoading = false
+    /// Point and hold already works under the loading screen (it is motion only): solo, not in the lesson (it opens on its card).
+    var pointsWhileLoading: Bool {
+        active && sport == "tennis" && multiplayerMatchID == nil && !loading.finished && setupStage == .scan
+            && !forceFullCalibration && !calibrationMode && !Self.benchmark && displayConnected
+    }
+    /// The calibrate card is up (the lesson's setup); Continue, or calibrationExplainSeconds, takes it down.
+    func showCalibrationExplain() {
+        calibrationExplain = true
+        let launched = sessionID
+        Task { @MainActor [weak self] in
+            try? await Task.sleep(for: .seconds(SportsSession.calibrationExplainSeconds))
+            guard let self, self.active, self.sessionID == launched else { return }
+            self.continueCalibrationExplain()
+        }
+    }
+    func continueCalibrationExplain() { calibrationExplain = false }
     /// Shown only when the measured delay is high enough that the TV is probably processing
     /// the picture: the one setting outside the app that helps most.
     var delayTip = ""
@@ -298,6 +372,9 @@ final class SportsSession {
     /// Blinks a scan asks for at a time, until two agree.
     private static let scanFlashes = 2
     private static let flashes = 4, gameModeHint = 0.14
+    /// TennisBeatCalibration (Unity): a 3 s countdown, the ball drops in over 1.2 s, then 9 bounces 1.2 s apart; the first 2 are warm-up
+    /// (it ends early once 5 scored swings agree).
+    static let timingCountdown = 3.0, timingLeadIn = 1.2, timingInterval = 1.2, timingBeats = 9, timingWarmUp = 2
     private var nextDiagnostic=0.0
     let motion = SportsMotion()
     init() {
@@ -357,13 +434,18 @@ final class SportsSession {
     func measureTVDelay() {
         guard active, ready, displayConnected, sport == "tennis", setupStage == .timing,
               !measuringDelay, !checkingTiming else { return }
-        measuringDelay = true; timingPrompt = false; flashDelays = []; flashProbeID = UUID()
+        measuringDelay = true; timingPrompt = false; flashDelays = []; flashProbeID = UUID(); tvFlashing = false
         let probeID = flashProbeID, launched = sessionID
-        status = "Keep the rear camera aimed at the screen while it flashes."
-        motion.setDelayProbe(true)
+        status = "Keep your phone pointed at the TV."
         Task { @MainActor [weak self] in
-            try? await Task.sleep(for: .milliseconds(500))
+            // the camera reads the flashes: ask for it now if it was never asked (the TV says "Get ready for flashes" meanwhile)
+            if AVCaptureDevice.authorizationStatus(for: .video) == .notDetermined { _ = await AVCaptureDevice.requestAccess(for: .video) }
             guard let self, self.active, self.sessionID == launched, self.flashProbeID == probeID, self.measuringDelay else { return }
+            self.motion.setDelayProbe(true)
+            // "Get ready for flashes" (ArtDir/ui/tv-results-calibration): long enough for the camera's exposure to settle (11-21: 1.5 s → 1 s)
+            try? await Task.sleep(for: .milliseconds(1000))
+            guard self.active, self.sessionID == launched, self.flashProbeID == probeID, self.measuringDelay else { return }
+            self.tvFlashing = true
             self.command("flash", value: Double(Self.flashes))
             try? await Task.sleep(for: .seconds(Double(Self.flashes) * 1.7 + 1.5))
             guard self.active, self.sessionID == launched, self.flashProbeID == probeID else { return }
@@ -408,17 +490,21 @@ final class SportsSession {
     }
     private func finishTVDelay() {
         guard measuringDelay else { return }
-        measuringDelay = false; motion.setDelayProbe(false); timingPrompt = true
+        measuringDelay = false; tvFlashing = false; motion.setDelayProbe(false); timingPrompt = true
         if let delay = SportsDelayProbe.combine(flashDelays) {
-            tvDelay = delay; SportsTiming.store(delay, for: SportsTiming.currentTV())
+            tvDelay = delay; SportsTiming.storePicture(delay, for: SportsTiming.currentTV(), defaults: timingStore)
             timingNote = String(format: "Screen delay measured: %.0f ms. The swing check will verify your timing.", delay * 1000)
         } else {
-            tvDelay = timingCalibration ?? 0
+            tvDelay = SportsTiming.storedPicture(for: SportsTiming.currentTV(), defaults: timingStore) ?? timingCalibration ?? 0
             timingNote = tvDelay > 0 ? "Flashes were unclear. Using this screen's last measurement; you can retry."
                 : "Flashes were unclear. Point the rear camera at the screen and retry, or use the swing check."
         }
         command("latency", value: tvDelay)
-        status = "Screen measurement finished. Start the swing timing check."
+        latencyReading = tvDelay > 0 ? tvDelay : nil
+        // the other phones sharing this TV are judged against the same picture
+        if multiplayerSplit, tvDelay > 0 { MultiplayerService.shared.setScreenDelay(tvDelay) }
+        if setupStage == .timing { offerTimingCheck() }
+        status = "Start the timing check on your phone."
         delayTip = SportsTiming.advice(link: SportsTiming.currentLink(), delay: tvDelay, gameModeHint: Self.gameModeHint)
         SportsDiagnostics.write("tv link=\(SportsTiming.currentLink()) ports=\(AVAudioSession.sharedInstance().currentRoute.outputs.map { $0.portType.rawValue })")
         SportsDiagnostics.write("tv delay flashes=\(flashDelays.map { String(format: "%.3f", $0) }) chosen=\(tvDelay)")
@@ -456,6 +542,7 @@ final class SportsSession {
     /// for everyone), plays one shot on each and reports them ("holeInOne"); the world board goes back to it for the last card.
     func startHoleInOne(day: Int, preview: Bool) {
         sport = "golf"; opponentName = ""; lastGolfRound = nil; holeInOneDay = day
+        DailyShare.shared.begin(day: day)
         launchExtras = ["mode": "round", "course": "holeinone", "noTwists": true, "noChallenges": true, "daily": 0, "holeInOne": day]
         start(preview: preview)
         launchExtras = [:]
@@ -470,6 +557,8 @@ final class SportsSession {
     /// A lesson (PLAN_Onboarding_GolfLesson.md): Unity runs the sport's lesson from `station` and reports it ("lesson" events).
     func startLesson(_ sport: Sport, station: Int) {
         self.sport = sport.rawValue; opponentName = sport == .tennis ? "Ray" : ""; lastGolfRound = nil
+        // the tennis lesson teaches the setup: all of it, every time, opening on the calibrate card
+        forceFullCalibration = sport == .tennis
         LessonCenter.shared.begin(sport)
         if sport == .bowling {
             // the bowling lesson (BowlingLesson.cs): one bowler, this phone's player, on the venue last picked
@@ -485,6 +574,7 @@ final class SportsSession {
                "lesson": true, "lessonStation": station]
         start(preview: false)
         launchExtras = [:]
+        if !active { forceFullCalibration = false }
     }
     /// Start bowling (PLAN_Bowling.md): one lane, these players taking turns frame by frame (pass the phone).
     func startBowling(players names: [String], preview: Bool) {
@@ -500,6 +590,7 @@ final class SportsSession {
         guard !active, let data=try? JSONEncoder().encode(configuration), let json=String(data:data,encoding:.utf8) else { return }
         multiplayerMatchID=configuration.matchID
         multiplayerControllerOnly=configuration.controllerOnly
+        castScreen=configuration.castScreenLocal; multiplayerCasting=configuration.hasCastScreen
         multiplayerSplit=configuration.sport == "tennis" && configuration.localView == .split
         multiplayerSeat=configuration.participants.first { $0.id == configuration.localID }?.seat ?? -1
         sport=configuration.sport; tennisVenue=configuration.venue
@@ -507,7 +598,7 @@ final class SportsSession {
         launchExtras=["course":configuration.venue,"mode":"multiplayer", "network":json, "sets":configuration.sets, "games":configuration.games, "tips":false]
         start(preview: !displayConnected)
         launchExtras=[:]
-        if !active { multiplayerMatchID=nil; multiplayerControllerOnly=false; multiplayerSplit=false }
+        if !active { multiplayerMatchID=nil; multiplayerControllerOnly=false; multiplayerSplit=false; castScreen=false; multiplayerCasting=false }
         else {
             // (the court scan waits for the loading screen to finish: the camera has to see the court on the TV, see loadingFinished)
             // On a shared TV both players use the same display delay.
@@ -517,15 +608,35 @@ final class SportsSession {
     func start(preview: Bool = false) {
         guard !active else { return }
         guard multiplayerMatchID != nil || !MultiplayerService.shared.hasFriendsInLobby else { status = HubSession.soloLockMessage; return }
+        // 11-21: tennis finds the TV with the camera, so it is asked for right before tennis loads (never at launch), with our card
+        // first; refused, the card says how to turn it on and the launch goes on by itself once it is on. Every tennis launch
+        // passes here (menu, lesson, nearby, online), so the launch is kept whole and made again from the card.
+        if sport == "tennis", !Self.benchmark, displayConnected || multiplayerMatchID != nil, PermissionGate.shared.cameraNeedsCard {
+            let extras = launchExtras, match = (multiplayerMatchID, multiplayerControllerOnly, multiplayerSplit, multiplayerSeat)
+            let full = forceFullCalibration, venue = tennisVenue
+            PermissionGate.shared.requireCamera(then: { [weak self] in
+                guard let self, !self.active else { return }
+                self.sport = "tennis"; self.tennisVenue = venue; self.launchExtras = extras; self.forceFullCalibration = full
+                (self.multiplayerMatchID, self.multiplayerControllerOnly, self.multiplayerSplit, self.multiplayerSeat) = match
+                self.start(preview: preview)
+                self.launchExtras = [:]
+                if !self.active { self.multiplayerMatchID = nil; self.multiplayerControllerOnly = false; self.multiplayerSplit = false; self.forceFullCalibration = false }
+                else if self.multiplayerSplit, self.startingLag > 0 { MultiplayerService.shared.setScreenDelay(self.startingLag) }
+            })
+            status = "Tennis needs the camera to find your TV."
+            return
+        }
         SportsDisplays.shared.refresh()
         let preview = Self.benchmark && !displayConnected
         NSLog("[SportsSession] launch sport=%@ mode=%@",sport,preview ? "phone-preview" : "external-controller")
         // From the menu on the TV: what the launch is made from (a mode's station, or "menu"); nil for any other launch.
-        let bay = Self.benchmark || multiplayerControllerOnly ? nil : HubSession.shared.bayForLaunch()
+        let bay = Self.benchmark || multiplayerControllerOnly || (castScreen && !displayConnected) ? nil : HubSession.shared.bayForLaunch()
         // golf and bowling never need a TV: with none, they play on this phone, held upright (handheld play). A party guest
         // without a TV plays its own copy of the round there too, whoever else has one. Tennis still asks for one.
-        let phoneGame = (sport == "bowling" || sport == "golf") && !displayConnected && !Self.benchmark && bay == nil
-        guard let window = phoneGame ? SportsDisplays.shared.phonePlayWindow() : bay != nil ? SportsDisplays.shared.external : Self.benchmark ? SportsDisplays.shared.benchmarkWindow() : multiplayerControllerOnly ? SportsDisplays.shared.multiplayerControllerWindow() : SportsDisplays.shared.gameWindow(preview:preview) else {
+        // With a phone as the screen (phone casting), that phone shows the game full screen and every other phone is only a controller.
+        let castOnPhone = castScreen && !displayConnected && !Self.benchmark
+        let phoneGame = (sport == "bowling" || sport == "golf") && !displayConnected && !Self.benchmark && bay == nil && !castScreen && !multiplayerCasting
+        guard let window = castOnPhone || phoneGame ? SportsDisplays.shared.phonePlayWindow() : bay != nil ? SportsDisplays.shared.external : Self.benchmark ? SportsDisplays.shared.benchmarkWindow() : multiplayerControllerOnly ? SportsDisplays.shared.multiplayerControllerWindow() : SportsDisplays.shared.gameWindow(preview:preview) else {
             status="Connect a TV or Mac with AirPlay or a wired display to play. This phone is your controller."; return
         }
         phonePlay = phoneGame
@@ -536,10 +647,17 @@ final class SportsSession {
         savePlayers(); sessionID=UUID().uuidString; sessionToken=Int32.random(in:1...Int32.max); ready=false; paused=true; active=true; tennisControllerActive=false
         aimFeedTask?.cancel(); aimTimeoutTask?.cancel(); aimLesson=nil; aimChecked=false; aimWaiting=false; aimSwing=nil; shotAim=0; shotDepth=0.75
         resultPresentationReady = true; finishedMatch=nil; lastMatchStats=nil; swingSequence=0; target=0; power=0; aim=0; measuringDelay=false; delayTip=""; checkingTiming=false; timingPrompt=false; timingNote=""
-        tvDelay = timingCalibration ?? 0; appliedSharedDelay = nil
+        tvDelay = SportsTiming.storedPicture(for: SportsTiming.currentTV(), defaults: timingStore) ?? 0; appliedSharedDelay = nil; learnedLag = nil; calibrationExplain = false
         golfController = .waiting; golfControllerMap = nil
         setupStage = .scan; axisGate = SportsAxisGate(); phase="calibrating"; feedback=""; golfPhase=""; golfHasNextHole=false; golfShotReady=false; golfSwingState=0; golfTap=GolfTapSwing(); stamina=1
-        multiplayerSetupStarted = false; setupTurnWaitingFor = nil; setupProblem = ""
+        multiplayerSetupStarted = false; setupTurnWaitingFor = nil; setupProblem = ""; pointedWhileLoading = false
+        // T4: the phone can be pointed at the TV under the loading screen (a direction still held from the last match is kept)
+        if sport == "tennis", multiplayerMatchID == nil, !forceFullCalibration, !calibrationMode, !Self.benchmark, displayConnected,
+           !motion.hasUsableCourtDirection {
+            axisGate.message = SportsMotion.pointPrompt; motion.beginPointing(travel: travel)
+        }
+        holdingPoint = false; tvFlashing = false; timingGoAt = nil; timingSwings = []; timingDrillStart = nil; latencyReading = nil
+        timingStartTask?.cancel(); timingStartTask = nil
         let p=players[min(playerIndex,players.count-1)]
         UserDefaults.standard.set(sport, forKey: "sports.lastSport.\(p.id.uuidString)")
         matchEmotes = p.equippedEmotes; emoteWindow = ""; emoteNotice = ""; tennisPhase = ""; introSkip = nil
@@ -549,7 +667,7 @@ final class SportsSession {
             matchEmotes = EmoteCatalog.normalized(local.loadout?.emotes)
         }
         motion.setAimProfile(storedAimProfile())
-        pending=["holeFlyover":holeFlyover,"intros":consumePresentationIntroCut(),"bigMoments":presentationBigMoments,"presentationConstrained":reduceMotion || ProcessInfo.processInfo.thermalState == .serious || ProcessInfo.processInfo.thermalState == .critical,"version":1,"session":sessionID,"action":"start","sport":sport,"playerID":p.id.uuidString,"playerName":p.name,"female":p.standardFemale,"skin":p.standardSkin,"left":p.handedness == .left,"sound":sound && !(multiplayerControllerOnly && !phonePlay && (sport == "tennis" || !displayConnected)),"phonePlay":phonePlay,"haptics":haptics,"touch":preview,"token":Int(sessionToken),"fps":highFrameRate ? 120 : 60,"inputHz":inputHz,"bench":SportsSession.benchmark,"difficulty":tennisDifficulty,"venue":sport == "tennis" ? tennisVenue : sport == "bowling" ? bowlingVenue : "resort",
+        pending=["holeFlyover":holeFlyover,"intros":consumePresentationIntroCut(),"bigMoments":presentationBigMoments,"presentationConstrained":reduceMotion || ProcessInfo.processInfo.thermalState == .serious || ProcessInfo.processInfo.thermalState == .critical,"version":1,"session":sessionID,"action":"start","sport":sport,"playerID":p.id.uuidString,"playerName":p.name,"female":p.standardFemale,"skin":p.standardSkin,"left":p.handedness == .left,"sound":sound && !(multiplayerControllerOnly && !phonePlay && (sport == "tennis" || !displayConnected)),"phonePlay":phonePlay,"castScreen":castOnPhone,"castController":multiplayerCasting && !castScreen,"haptics":haptics,"touch":preview,"token":Int(sessionToken),"fps":highFrameRate ? 120 : 60,"inputHz":inputHz,"bench":SportsSession.benchmark,"difficulty":tennisDifficulty,"venue":sport == "tennis" ? tennisVenue : sport == "bowling" ? bowlingVenue : "resort",
                  "shirt":p.outfitHex("shirt") ?? "","shorts":p.outfitHex("shorts") ?? "","accent":p.outfitHex("accent") ?? "","racket":p.outfitHex("racket") ?? "",
                  "skinHex":p.skinHex,"hairHex":p.hairHex,
                  "tips":false,"overscan":overscan,"tennisCamera":tennisCamera,
@@ -600,7 +718,7 @@ final class SportsSession {
     }
     private func loadCoveredRuntime(in window: UIWindow) {
         // (the runtime lends its view to a window on this phone for a controller replica and for handheld play alike)
-        do { try SportsRuntime.shared().load(in:window,controllerReplica:multiplayerControllerOnly || phonePlay) }
+        do { try SportsRuntime.shared().load(in:window,controllerReplica:multiplayerControllerOnly || phonePlay || castScreen) }
         catch { failStartup(error.localizedDescription); return }
         RacketFeel.apply(self)
         SportsRuntime.shared().clearTennisResult()
@@ -636,6 +754,14 @@ final class SportsSession {
         guard let data=try? JSONSerialization.data(withJSONObject:object),let text=String(data:data,encoding:.utf8) else { return }
         SportsRuntime.shared().send(text)
     }
+    /// The app's window over the game on the TV (tennis setup, every sport's post-game). Golf and bowling: with it up Unity leaves
+    /// its end cards out (postGameTV 1); handheld play, a controller-only phone, or the TV gone keep Unity's own (postGameTV 0).
+    func showGameTVWindow() {
+        guard active else { return }
+        SportsDisplays.shared.showTennisSetupOnTV()
+        if sport != "tennis" { command("postGameTV", value: SportsDisplays.shared.showsTVOverlay ? 1 : 0) }
+    }
+
     func command(_ action:String, value:Double=0, value2:Double=0) {
         guard active else { return }
         NSLog("[SportsSession] command=%@ value=%.2f",action,value)
@@ -747,22 +873,46 @@ final class SportsSession {
         else { measureTVDelay() }
     }
     func skipTimingCheck() {
-        guard setupStage == .timing else { return }
+        guard setupStage == .timing, !measuringDelay else { return }
+        timingStartTask?.cancel(); timingStartTask = nil; timingGoAt = nil
         command("cancelTimingCheck")
         completeTimingCalibration(message: timingCalibration == nil ? "The game will refine your timing as you play." : "Using the saved timing for this screen.")
     }
     func completeTimingCalibration(message: String) {
         guard setupStage == .timing else { return }
-        timingPrompt = false; checkingTiming = false; timingCountdownEnds = nil
+        timingPrompt = false; checkingTiming = false; timingCountdownEnds = nil; timingGoAt = nil; timingDrillStart = nil
         timingNote = message; setupStage = .ready
         if multiplayerMatchID != nil { MultiplayerService.shared.runtimeSetupStep("ready") }
         pause(reason: "Timing calibration complete. Tap Ready to play.")
+        autoReady()
+    }
+    /// No Ready tap (quick start T5): the centre Ready took is taken as the setup ends. Only if the sensors cannot give one yet does the
+    /// Ready card stay up (its button, and the reason under it).
+    private func autoReady() {
+        guard setupStage == .ready else { return }
+        if multiplayerCalibrates { finishMultiplayerCalibration() } else { readyToPlay() }
+    }
+    /// Quick start (T3): a TV whose whole chain is known needs no flashes and no timing check, so pointing was the whole setup. The
+    /// phone without the TV (one TV for two phones) follows the TV phone: it plays against that same picture (the lobby's screenDelay).
+    @discardableResult private func quickStart() -> Bool {
+        guard active, sport == "tennis", setupStage == .timing, !(multiplayerMatchID != nil && onlineComeback) else { return false }
+        let quick = ownsTV ? quickStartAvailable
+            : !forceFullCalibration && !checkTimingOnResume && sharesTV && tvPhone?.setupStep == "quick"
+        guard quick else { return false }
+        if ownsTV { command("latency", value: startingLag) }
+        if multiplayerMatchID != nil { MultiplayerService.shared.runtimeSetupStep("quick") }
+        timingPrompt = false; checkingTiming = false; measuringDelay = false; tvFlashing = false; latencyReading = nil
+        timingNote = "Using this TV's saved timing."
+        setupStage = .ready
+        SportsDiagnostics.write(String(format: "quick start tv=%@ lag=%.3f", SportsTiming.currentTV(), startingLag))
+        autoReady()
+        return true
     }
     func receiveTimingResult(_ message: String) {
         guard checkingTiming, setupStage == .timing else { return }
         let note: String
         if let ms = Double(message), ms.isFinite, ms >= 0 {
-            SportsTiming.store(ms / 1000, for: SportsTiming.currentTV())
+            if ownsTV { SportsTiming.storeChain(ms / 1000, for: SportsTiming.currentTV(), defaults: timingStore); checkTimingOnResume = false }
             note = String(format: "Timing set — %.0f ms.", ms)
         } else {
             note = "The game will refine your timing as you play."
@@ -801,14 +951,16 @@ final class SportsSession {
         SportsDiagnostics.write("pause reason=\(reason) phase=\(phase)")
         if multiplayerMatchID != nil { MultiplayerService.shared.shareDiagnostic("pause reason=\(reason) setup=\(setupStage)") }
         sendJSON(["version":1,"session":sessionID,"action":"pause","reason":reason]); paused=true; status=reason
-        if reason == "Paused on phone — tap Ready to continue", ready, loading.finished, finishedMatch == nil {
+        // Bowling's controller has no Ready button: whatever paused it (Unity's own pause, the TV dropping), the pause menu comes up
+        // so Resume is one tap away. Before, such a pause left the bowler frozen with "Hold to start" still on the phone (11-21 playtest).
+        if reason == "Paused on phone — tap Ready to continue" || sport == "bowling", ready, loading.finished, finishedMatch == nil {
             menuPauseVisible = true
             if sport != "golf" { SportsDisplays.shared.showMenu(); if !displayConnected { SportsDisplays.shared.showMatchControls() } }
         }
     }
     func resume() {
-        guard displayConnected || multiplayerControllerOnly || phonePlay else { pause(reason: "Reconnect your TV or Mac to continue."); return }
-        guard sport != "tennis" || setupStage == .playing else { status = "Finish TV scan and timing calibration, then tap Ready."; return }
+        guard displayConnected || multiplayerControllerOnly || phonePlay || castScreen else { pause(reason: "Reconnect your TV or Mac to continue."); return }
+        guard sport != "tennis" || setupStage == .playing else { status = SportsMotion.pointPrompt; return }
         guard ready, phase == "steering" else { status="Tap Ready to set your center and play."; return }
         menuPauseVisible = false; SportsDisplays.shared.external?.isHidden = true
         if !displayConnected && !phonePlay { SportsDisplays.shared.restorePhoneControls() }
@@ -819,11 +971,11 @@ final class SportsSession {
     func readyToPlay() {
         if showsOnlineTennisSetup { finishMultiplayerCalibration(); return }
         // bowling with no TV plays on this phone (phonePlay): it is its own display
-        guard displayConnected || multiplayerControllerOnly || phonePlay, active, ready, loading.finished else { return }
+        guard displayConnected || multiplayerControllerOnly || phonePlay || castScreen, active, ready, loading.finished else { return }
         if multiplayerCalibrates { finishMultiplayerCalibration(); return }
         if sport == "tennis", setupStage == .scan || setupStage == .timing {
             menuPauseVisible = false; SportsDisplays.shared.external?.isHidden = true
-            status = setupStage == .scan ? "Scan your TV to continue." : "Start the timing calibration to continue."
+            status = setupStage == .scan ? SportsMotion.pointPrompt : "Start the timing calibration to continue."
             return
         }
         if sport == "golf" {
@@ -844,17 +996,31 @@ final class SportsSession {
     }
     /// Unity renders the timing ball on the TV; motion samples keep flowing from the phone.
     func startTimingCheck() {
-        guard active, ready, loading.finished, displayConnected, sport == "tennis",
-              setupStage == .timing, !checkingTiming, !measuringDelay else { return }
+        guard active, ready, loading.finished, displayConnected || multiplayerControllerOnly, sport == "tennis",
+              setupStage == .timing, !checkingTiming, !measuringDelay, timingGoAt == nil else { return }
         guard motion.axisLocked, motion.calibrate() else { return }
+        // one TV: the ball on it is everyone's, so it starts when every player has tapped Start (2.5 s after the last tap)
+        if sharesTV {
+            let at = MultiplayerService.shared.networkTime + 2.5
+            timingGoAt = at; MultiplayerService.shared.runtimeSetupStep("go:\(at)")
+            status = "Waiting for everyone to tap Start."
+            startTimingIfEveryoneAsked()
+            return
+        }
+        beginTimingDrill()
+    }
+    /// The drill itself: Unity bounces the ball (drawn on the TV by TennisSetupTVView) and grades the swings.
+    private func beginTimingDrill() {
+        guard active, sport == "tennis", setupStage == .timing, !checkingTiming else { return }
         phase = "steering"
         menuPauseVisible = false; SportsDisplays.shared.external?.isHidden = true
         command("controllerSetup", value: 1)
         command("resume"); paused = false
         timingPrompt = false; checkingTiming = true; timingNote = ""
-        timingCountdownEnds = Date().addingTimeInterval(5)
+        timingCountdownEnds = Date().addingTimeInterval(Self.timingCountdown); timingSwings = []; timingDrillStart = nil
         status = "Swing with the bouncing ball on your TV."
         command("timingCheck")
+        if multiplayerMatchID != nil { MultiplayerService.shared.runtimeSetupStep("check:0") }
     }
     func recheckTiming() {
         guard multiplayerMatchID == nil else { return }   // the timing check is solo only: its commands are not passed on in a match
@@ -868,13 +1034,144 @@ final class SportsSession {
             aimFeedTask?.cancel(); aimTimeoutTask?.cancel(); aimLesson=nil; aimWaiting=false; aimSwing=nil; aimChecked=false
         }
         setupStage = .scan; timingPrompt = false; checkingTiming = false
+        holdingPoint = false; tvFlashing = false; timingGoAt = nil
+        timingStartTask?.cancel(); timingStartTask = nil
         command("cancelTimingCheck"); command("controllerSetup", value: 1)
-        pause(reason: "Scan your TV to set the court direction.")
-        axisGate=SportsAxisGate()
-        status="Stand about 2.5 m back and point the back of your phone at the TV. It will blink twice."
-        motion.beginAxisCapture(travel:travel)
-        startScanFlashes()
+        pause(reason: "Point your phone at the TV and hold the button.")
+        axisGate=SportsAxisGate(); axisGate.message = SportsMotion.pointPrompt
+        status = SportsMotion.pointPrompt
+        motion.beginPointing(travel:travel)
     }
+    /// The hold button went down.
+    func pressPoint() {
+        guard active, loading.finished ? ready : pointsWhileLoading, sport == "tennis", setupStage == .scan, !holdingPoint,
+              !motion.axisLocked, !calibrationExplain else { return }
+        holdingPoint = true; setupProblem = ""
+        motion.beginPointHold(timeTV: false)
+        if haptics { UIImpactFeedbackGenerator(style: .light).impactOccurred() }
+        if multiplayerMatchID != nil { MultiplayerService.shared.runtimeSetupStep("hold") }
+        SportsDiagnostics.write("point hold down")
+    }
+    /// The hold button came up.
+    func releasePoint() {
+        guard holdingPoint else { return }
+        holdingPoint = false
+        if motion.axisLocked { tryFinishPoint(); return }
+        motion.endPointHold()
+        if haptics { UINotificationFeedbackGenerator().notificationOccurred(.warning) }
+        if multiplayerMatchID != nil { MultiplayerService.shared.runtimeSetupStep("direction") }
+    }
+    /// VoiceOver (a hold cannot be performed there): take the direction the phone points now.
+    func pointNow() {
+        guard setupStage == .scan else { return }
+        useCurrentDirection()
+    }
+    /// The phone is pointed at the TV. Next the TV is calibrated (its flashes), then the timing check (CalibrationStep).
+    private func tryFinishPoint() {
+        guard active, sport == "tennis", setupStage == .scan, motion.axisLocked else { return }
+        holdingPoint = false
+        if haptics { UINotificationFeedbackGenerator().notificationOccurred(.success) }
+        // pointed while the court loads (T4): the rest of the setup needs the court on the TV, so it carries on at loadingFinished
+        if !loading.finished { pointedWhileLoading = true; status = "Pointed at the TV. Loading the court…"; return }
+        // back into a match already being played: nothing more to set up, the others are waiting
+        if multiplayerMatchID != nil, onlineComeback {
+            setupStage = .ready; MultiplayerService.shared.runtimeSetupStep("ready"); finishMultiplayerCalibration(); return
+        }
+        setupStage = .timing; timingPrompt = false; checkingTiming = false; measuringDelay = false; tvFlashing = false
+        timingGoAt = nil; timingSwings = []; timingDrillEnds = nil; latencyReading = nil; timingNote = ""
+        if multiplayerMatchID != nil { MultiplayerService.shared.runtimeSetupStep("pointed") }
+        status = "Pointed at the TV."
+        advanceCalibration()
+    }
+
+    // MARK: Calibration after pointing (2026-11-20): flashes → TV latency → timing check, the same for every player
+
+    /// Where this player is between pointing at the TV and Ready (setupStage .timing), for the phone and the TV.
+    enum CalibrationStep: Equatable { case waitingToPoint, waitingForTV, flashes, prompt, startWaiting, drill }
+    var calibrationStep: CalibrationStep? {
+        guard setupStage == .timing else { return nil }
+        if checkingTiming { return .drill }
+        if timingGoAt != nil { return .startWaiting }
+        if timingPrompt { return .prompt }
+        if measuringDelay { return .flashes }
+        return ownsTV ? .waitingToPoint : .waitingForTV
+    }
+    /// This phone's game is the one on the TV (solo, the phone with the shared TV, or a TV of one's own).
+    var ownsTV: Bool { displayConnected && !multiplayerControllerOnly }
+    /// One TV for every player in the room (a split view).
+    var sharesTV: Bool {
+        multiplayerMatchID != nil && (MultiplayerService.shared.lobby?.competitors.contains { $0.view == .split } ?? false)
+    }
+    /// The TV is blinking for its delay: the setup screens on the TV step aside so the camera sees the whole picture turn.
+    private(set) var tvFlashing = false
+    /// The TV's delay, as the latency card shows it (seconds); nil when the flashes could not be read.
+    private(set) var latencyReading: Double?
+    /// Shared TV: when this phone asked for the timing check to begin (network clock), waiting for the other players to ask too.
+    private(set) var timingGoAt: Double?
+    /// The timing check's beats this player hit (from Unity's timingSwing), and when its countdown ends (this phone's clock).
+    private(set) var timingSwings: Set<Int> = []
+    private(set) var timingDrillStart: Double?
+    private var timingDrillEnds: Double?
+    private var timingStartTask: Task<Void, Never>?
+    /// The other players still pointing at the TV (connected, not set up, not yet pointed).
+    var playersStillPointing: [MultiplayerParticipant] {
+        guard multiplayerMatchID != nil, let lobby = MultiplayerService.shared.lobby else { return [] }
+        return lobby.competitors.filter { $0.id != MultiplayerService.shared.localID && $0.connected && !$0.calibrated
+            && ["direction", "hold", "", nil].contains($0.setupStep) }
+    }
+    /// The phone with the shared TV, when it is not this one.
+    private var tvPhone: MultiplayerParticipant? {
+        MultiplayerService.shared.lobby?.competitors.first { $0.view == .split && $0.id != MultiplayerService.shared.localID }
+    }
+    /// Moves this player on when what they wait for has happened. Called after pointing and from the lobby poll.
+    func advanceCalibration() {
+        guard active, sport == "tennis", setupStage == .timing, !timingPrompt, !checkingTiming, !measuringDelay else {
+            if setupStage == .timing, timingGoAt != nil { startTimingIfEveryoneAsked() }
+            return
+        }
+        if quickStart() { return }
+        if ownsTV {
+            // the TV blinks once everyone sharing it has pointed at it: the flashes would only startle a player still aiming
+            if sharesTV, let first = playersStillPointing.first { status = "Waiting for \(first.name) to point at the TV."; return }
+            measureTVDelay()
+        } else {
+            // no TV on this phone: the phone with the TV calibrates it, then everyone gets the timing check
+            let tv = tvPhone
+            let tvDone = tv == nil || !(tv!.connected) || tv!.calibrated
+                || ["timing", "ready", "quick"].contains(tv!.setupStep ?? "") || (tv!.setupStep ?? "").hasPrefix("go:") || (tv!.setupStep ?? "").hasPrefix("check:")
+            guard tvDone else { status = "The TV is calibrating."; return }
+            offerTimingCheck()
+        }
+    }
+    /// The timing check is offered: the phone asks for Start (the TV shows the latency card).
+    private func offerTimingCheck() {
+        setupStage = .timing; timingPrompt = true; checkingTiming = false; measuringDelay = false; tvFlashing = false
+        command("cancelTimingCheck"); command("controllerSetup", value: 1)
+        if multiplayerMatchID != nil { MultiplayerService.shared.runtimeSetupStep("timing") }
+        pause(reason: "Start the timing check on your phone.")
+        status = "Start the timing check on your phone."
+    }
+    /// Shared TV: every player taps Start; the one ball on the TV starts for everyone at the same moment.
+    private func startTimingIfEveryoneAsked() {
+        guard let mine = timingGoAt, timingStartTask == nil, setupStage == .timing, !checkingTiming else { return }
+        let service = MultiplayerService.shared
+        var at = mine
+        for p in service.lobby?.competitors ?? [] where p.id != service.localID && p.connected && !p.calibrated {
+            let step = p.setupStep ?? ""
+            if step.hasPrefix("go:"), let t = Double(step.dropFirst(3)) { at = max(at, t) }
+            else if step == "ready" || step == "quick" || step.hasPrefix("check:") { continue }   // skipped it, or already under way
+            else { return }   // still to tap Start
+        }
+        let wait = max(0, at - service.networkTime), launched = sessionID
+        SportsDiagnostics.write(String(format: "timing check starts together in %.2fs", wait))
+        timingStartTask = Task { @MainActor [weak self] in
+            if wait > 0 { try? await Task.sleep(for: .seconds(wait)) }
+            guard let self, self.active, self.sessionID == launched, self.setupStage == .timing else { return }
+            self.timingStartTask = nil; self.timingGoAt = nil
+            self.beginTimingDrill()
+        }
+    }
+
     /// Escape hatch when the gate will not settle, so motion tennis is never unreachable.
     func useCurrentDirection() {
         guard motion.forceAxisFromCurrentPose() else { return }
@@ -883,17 +1180,15 @@ final class SportsSession {
     }
     func retryCourtDirection() {
         guard active, sport == "tennis" else { return }
-        setupStage = .scan; axisGate = SportsAxisGate(); setupProblem = ""
-        status = "Point the back of your phone at the TV. It will blink twice."
-        MultiplayerService.shared.runtimeSetupStep("direction")
-        motion.beginAxisCapture(travel: travel)
-        startScanFlashes()
+        setupProblem = ""
+        beginAxisCapture()
+        if multiplayerMatchID != nil { MultiplayerService.shared.runtimeSetupStep("direction") }
     }
     /// The court direction is locked (by the scan, or by "use the direction I'm pointing now"): on to the timing check, solo and online
     /// alike (offerTimingCalibration sends a player coming back mid-match straight to Ready).
     private func scanFinished() {
         guard setupStage == .scan else { return }
-        offerTimingCalibration()
+        tryFinishPoint()
     }
     /// One tap to mirror steering, for when left and right come out swapped.
     func flipSteering() {
@@ -957,22 +1252,15 @@ final class SportsSession {
     private func beginMultiplayerCalibration() {
         guard !multiplayerSetupStarted else { return }
         multiplayerSetupStarted = true
-        if onlineComeback, motion.hasUsableCourtDirection {
+        // a player coming back mid-match, or a rematch: the phone still knows where the TV is, so there is nothing to set up
+        if motion.hasUsableCourtDirection {
             paused = true
+            command("controllerSetup", value: 1)
             motion.start(tennis: true, travel: travel)
             multiplayerScanComplete()
-            status = "Your direction is still set. Tap Ready to set your centre again."
             return
         }
-        let service = MultiplayerService.shared
-        if !onlineComeback, let first = service.lobby?.setupTurnAhead(of: service.localID) {
-            setupTurnWaitingFor = first.name
-            command("controllerSetup", value: 1)
-            pause(reason: "\(first.name) is setting up on the TV. You're next.")
-            service.runtimeSetupStep("next")
-            SportsDiagnostics.write("online setup waits for seat=\(first.seat) (one TV, one player at a time)")
-            return
-        }
+        // (no turns, 11-20: pointing at the TV needs neither the camera nor the TV, so every player sets up at the same time)
         beginOwnMultiplayerSetup()
     }
     private func beginOwnMultiplayerSetup() {
@@ -999,8 +1287,9 @@ final class SportsSession {
     /// A player coming back mid-match: the direction is locked, straight to Ready.
     private func multiplayerScanComplete() {
         setupStage = .ready; setupProblem = ""
-        status = "Direction set. Stand where you'll play, then tap Ready."
+        status = "Your phone still knows where the TV is."
         MultiplayerService.shared.runtimeSetupStep("ready")
+        finishMultiplayerCalibration()
     }
     /// Ready was tapped: take the centre, tell the owner, then wait for the others.
     /// When play is already running (the player came back mid-match, or re-aimed from the menu) it carries straight on.
@@ -1040,18 +1329,19 @@ final class SportsSession {
             try? data.write(to: directory.appendingPathComponent("L1_load_timing.json"), options: .atomic)
         }
         if displayConnected { SportsDisplays.shared.external?.isHidden=true }
-        else if phonePlay { SportsDisplays.shared.showPhonePlay() }
+        else if phonePlay || castScreen { SportsDisplays.shared.showPhonePlay(); if castScreen { SportsDisplays.shared.phoneOrientationChanged() } }
         else { SportsDisplays.shared.restorePhoneControls() }
         // Compensate from the first point with the last measurement of this TV; the
         // setup re-times it when the camera is aimed at it.
         if displayConnected && startingLag>0 { command("latency",value:startingLag) }
+        showGameTVWindow()
         if multiplayerMatchID != nil {
             guard SportsRuntime.shared().multiplayerAvailable() else {
                 MultiplayerService.shared.runtimeUnavailable("This Unity export does not contain multiplayer. Re-export and rebuild the integrated app.")
                 return
             }
             // Tennis players first point their phone at the TV and tap Ready; the owner starts the match when all have.
-            if multiplayerCalibrates { beginMultiplayerCalibration(); return }
+            if multiplayerCalibrates { SportsDisplays.shared.showTennisSetupOnTV(); beginMultiplayerCalibration(); return }
             setupStage = .playing; paused=false; status=multiplayerSeat<0 ? "Watching" : "Playing"
             if multiplayerSeat>=0 { motion.start(tennis:sport == "tennis",travel:travel) }
             command("controllerSetup", value: 0); command("resume"); return
@@ -1066,11 +1356,29 @@ final class SportsSession {
             return
         }
         if sport == "tennis" {
-            beginAxisCapture()
+            beginTennisSetup()
         } else {
             motion.start(tennis:false,travel:travel)
             readyToPlay()
         }
+    }
+    /// The tennis setup the player sees, once the court is on the TV (loadingFinished): point and hold, then, on a TV whose timing is
+    /// not known yet, the flashes and the timing check.
+    func beginTennisSetup() {
+        SportsDisplays.shared.showTennisSetupOnTV()
+        // the lesson: the calibrate card, then all of the setup from pointing
+        if forceFullCalibration { beginAxisCapture(); showCalibrationExplain(); return }
+        if pointedWhileLoading || motion.hasUsableCourtDirection {
+            // pointed while it loaded, or the phone still knows where the TV is (a rematch, the next match): on from pointing,
+            // which is the whole setup on a TV whose timing is known (quickStart)
+            pointedWhileLoading = false
+            command("cancelTimingCheck"); command("controllerSetup", value: 1)
+            pause(reason: "Pointed at the TV.")
+            motion.start(tennis: true, travel: travel)
+            tryFinishPoint()
+            if setupStage != .scan { return }
+        }
+        beginAxisCapture()
     }
     private func recordPresentationEvent(_ event: [String: Any]) {
         let directory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("presentation/\(sessionID)", isDirectory: true)
@@ -1090,8 +1398,12 @@ final class SportsSession {
     func receiveMatchFinish(won: Bool, score: String) {
         guard active, finishedMatch == nil else { return }
         finishedMatch = (won, score)
+        if sport == "tennis" { postGameStage = .victory; postGameChoice = 0 }
         SportsDiagnostics.write("match finished: phone Next enabled; external=\(displayConnected)")
-        motion.stop()
+        // Tennis keeps the court direction for the next match (quick start T1: stopping the sensors here is what made every rematch
+        // point and calibrate again); end() decides how long the sensors stay up.
+        if sport == "tennis" { motion.idle() } else { motion.stop() }
+        saveLearnedLag()
         TennisMenu.shared.matchFinished(won: won, score: score)
         // Keep explicit phone actions visible until the player chooses one.
         timingPrompt = false; checkingTiming = false; measuringDelay = false
@@ -1131,6 +1443,72 @@ final class SportsSession {
         else if TennisMenu.shared.postMatch?.golf != nil { TennisMenu.shared.beginPostMatch() }
         else { TennisMenu.shared.finishMatch(.replay) }
     }
+    // MARK: Post-game (ArtDir/ui/tv-results-calibration): winner plaque → standings (golf: and the hole-by-hole card) → XP →
+    // play again, on the TV (PostGameTV), stepped from the phone (MatchFinishControls). Tennis, and golf and bowling with a TV;
+    // golf and bowling in handheld play keep Unity's own end cards.
+
+    enum PostGameStage: Int, CaseIterable { case victory, results, scorecard, xp, again }
+    /// Which post-game screen the TV shows (nil before the end, or when the app does not draw it).
+    var postGameStage: PostGameStage?
+    /// A golf round's or bowling game's final sheet, everyone's (Unity's "golfCard" / "bowlingCard").
+    var postGameBoard: PostGameBoard?
+    /// Golf and bowling are over: with the app's window on the TV, its post-game starts (Unity has left the screen to it).
+    func receivePostGameBoard(_ board: PostGameBoard) {
+        guard active, sport != "tennis", !board.players.isEmpty else { return }
+        postGameBoard = board
+        guard postGameStage == nil, SportsDisplays.shared.showsTVOverlay else { return }
+        postGameStage = .victory; postGameChoice = 0
+        SportsDiagnostics.write("postGame \(sport): \(board.players.count) players, TV plaque up")
+    }
+    /// The highlighted "Play again?" choice.
+    var postGameChoice = 0
+    struct PostGameChoice: Identifiable, Equatable { let id: String; let title: String; let after: TennisMenu.AfterMatch }
+    /// What "Play again?" offers: the match's own choices (TennisMenu.postMatchChoices); a match with friends, rematch or leave.
+    var postGameChoices: [PostGameChoice] {
+        if multiplayerMatchID != nil { return [.init(id: "pm-replay", title: "Rematch", after: .replay), .init(id: "pm-menu", title: "Leave", after: .menu)] }
+        let menu = TennisMenu.shared
+        let campaign = menu.launch?.mode == .campaign
+        let place = sport == "golf" ? "Course" : sport == "bowling" ? "Lanes" : "Court"
+        return menu.postMatchChoices.map { id in
+            switch id {
+            // (outside the campaign "Play Again" is the same match again: TennisMenu.sessionEnded only goes on to a next round)
+            case "pm-next": return .init(id: id, title: campaign ? "Next Round" : "Play Again", after: campaign ? .next : .replay)
+            case "pm-replay": return .init(id: id, title: "Rematch", after: .replay)
+            case "pm-court": return .init(id: id, title: "Change \(place)", after: .court)
+            default: return .init(id: id, title: "Main Menu", after: .menu)
+            }
+        }
+    }
+    /// Continue on the phone: the next post-game screen (the XP one only when there is XP to show).
+    func advancePostGame() {
+        guard let stage = postGameStage else { return }
+        switch stage {
+        case .victory: postGameStage = .results
+        // (a match with friends ends on the standings: what comes next is the party's, on the phone)
+        case .results, .scorecard: postGameStage = multiplayerMatchID != nil ? stage : TennisMenu.shared.postMatch != nil ? .xp : .again
+        case .xp: postGameStage = .again
+        case .again: break
+        }
+        if haptics { UIImpactFeedbackGenerator(style: .light).impactOccurred() }
+    }
+    /// Golf: the standings ⇄ the hole-by-hole card.
+    func togglePostGameScorecard() {
+        guard sport == "golf", postGameBoard != nil, postGameStage == .results || postGameStage == .scorecard else { return }
+        postGameStage = postGameStage == .results ? .scorecard : .results
+        if haptics { UIImpactFeedbackGenerator(style: .light).impactOccurred() }
+    }
+    /// A "Play again?" choice, picked on the phone.
+    func choosePostGame(_ index: Int) {
+        let choices = postGameChoices
+        guard choices.indices.contains(index) else { return }
+        postGameChoice = index
+        if sport == "tennis" { advanceAfterMatch(choices[index].after) }
+        else if active, postGameBoard != nil {
+            SportsDiagnostics.write("postGame \(sport) chose \(choices[index].id)")
+            TennisMenu.shared.finishMatch(choices[index].after)
+        }
+    }
+
     /// The last golf round's tally, as Unity reported it.
     var lastGolfRound: GolfRoundStats?
 
@@ -1160,6 +1538,7 @@ final class SportsSession {
         runtimeExternalDisplay = true
         SportsRuntime.shared().attach(to: window)
         command("display")
+        if loading.finished { showGameTVWindow() }
         SportsDisplays.shared.endPreview()
         SportsDisplays.shared.restorePhoneControls()
         status = "Display connected. Waiting for a gameplay frame…"
@@ -1170,9 +1549,20 @@ final class SportsSession {
         else if OnboardingFlow.shared.lessonSport != nil || LessonCenter.shared.active { OnboardingFlow.shared.gameLeft() }
         else { TennisMenu.shared.goHome() }
     }
+    /// How long the motion sensors stay up after a tennis match, keeping the court direction for the next one.
+    static let directionKeepAlive: Double = 600
+    /// Play's learned lag becomes this TV's whole chain (quick start T6), once per match: at its finish, or when it is left.
+    func saveLearnedLag() {
+        guard sport == "tennis", ownsTV, !calibrationMode, !Self.benchmark, let lag = learnedLag else { return }
+        learnedLag = nil
+        let tv = SportsTiming.currentTV(), before = timingCalibration
+        let after = SportsTiming.learn(lag, for: tv, defaults: timingStore)
+        SportsDiagnostics.write(String(format: "timing learned tv=%@ lag=%.3f before=%@ stored=%@", tv, lag, before.map { String(format: "%.3f", $0) } ?? "-",
+                                       after.map { String(format: "%.3f", $0) } ?? "-"))
+    }
     func end() {
         PlaySafeGate.shared.sessionEnded()
-        if active { SportsDisplays.shared.beginExitCover() }
+        if active { saveLearnedLag(); SportsDisplays.shared.beginExitCover() }
         menuPauseVisible = false
         if active && ready {
             var history=UserDefaults.standard.array(forKey:"sports.sessions.v1") as? [[String:Any]] ?? []
@@ -1181,22 +1571,28 @@ final class SportsSession {
         }
         pointClips.reset()
         HubSession.shared.sessionEnded(finished: finishedMatch != nil || multiplayerMatchID != nil)   // a party comes back to its bay together
-        multiplayerMatchID=nil; multiplayerSeat = -1; multiplayerControllerOnly=false; multiplayerSplit=false
-        if phonePlay { phonePlay = false; SportsDisplays.shared.endPhonePlay() }
+        multiplayerMatchID=nil; multiplayerSeat = -1; multiplayerControllerOnly=false; multiplayerSplit=false; multiplayerCasting=false
+        if phonePlay || castScreen { phonePlay = false; castScreen = false; SportsDisplays.shared.endPhonePlay(); SportsDisplays.shared.phoneOrientationChanged() }
         if unityControllerShown { unityControllerShown = false; SportsRuntime.shared().showUnity(onPhone: false) }
         command("end")
-        if retainCourtDirectionForRematch, sport == "tennis" {
+        if sport == "tennis", retainCourtDirectionForRematch || motion.axisLocked {
             let ended = sessionID
-            // The immediate rematch keeps the live tracking origin. If it never arrives, release the sensors.
+            // The next tennis match keeps the live tracking origin (no pointing again): a rematch, a new match from the menu, the
+            // match after the lesson (quick start T1; 90 s and rematch-only before 11-21). If none comes, release the sensors.
+            motion.idle()
             Task { @MainActor [weak self] in
-                try? await Task.sleep(for: .seconds(10))
+                try? await Task.sleep(for: .seconds(SportsSession.directionKeepAlive))
                 guard let self, !self.active, self.sessionID == ended else { return }
                 self.motion.stop()
             }
         } else { motion.stop() }
         retainCourtDirectionForRematch = false; multiplayerSetupStarted = false; setupTurnWaitingFor = nil
+        forceFullCalibration = false; calibrationExplain = false
+        holdingPoint = false; tvFlashing = false; timingGoAt = nil
+        timingStartTask?.cancel(); timingStartTask = nil
+        SportsDisplays.shared.hideTennisSetupOnTV()
         timer?.invalidate(); timer=nil; pending=nil; measuringDelay=false; checkingTiming=false
-        loading.cancel(); tutorialStep=nil; finishedMatch=nil; timingPrompt=false; setupStage = .scan
+        loading.cancel(); tutorialStep=nil; finishedMatch=nil; postGameStage = nil; postGameBoard = nil; postGameChoice = 0; timingPrompt=false; setupStage = .scan
         SportsRuntime.shared().pause(true); active=false; ready=false; paused=true; tennisControllerActive=false; calibrationMode=false
         SportsDisplays.shared.endPreview(); status="Choose a sport."
         SportsDisplays.shared.showMenu()
@@ -1242,6 +1638,7 @@ final class SportsSession {
             loading.updatePlayers(waiting: sport == "tennis" ? [] : lobby.competitors.filter { !$0.loaded }.map(\.name), allReady: sport == "tennis" || lobby.phase == .calibrating || lobby.phase == .playing)
             if setupStage == .waiting, lobby.phase == .playing { beginMultiplayerPlay() }
             advanceSetupTurn(lobby)
+            advanceCalibration()
             // MultiplayerService retries loaded/calibrated reports until the lobby acknowledges them, including during loading.
             // A phone with no TV is judged against the shared TV's delay, which the phone with the TV reports to the lobby: at launch,
             // and again whenever its game's TV credit (learned from play) moves (Unity's screenLag). It becomes this phone's starting
@@ -1261,6 +1658,7 @@ final class SportsSession {
             // the pointer menu is still on the TV while this match loads behind it: its events are the menu's
             if let type = event["type"] as? String, type.hasPrefix("menu") { HubSession.shared.menuEvent(type, event["message"] as? String ?? ""); continue }
             if sport == "golf", let state = event["golfState"] as? String, !state.isEmpty {
+                if holeInOneDay != 0 { DailyShare.shared.unityEvent() }   // (Unity is loaded now: its shot filming can reach the share)
                 golfPhase = state
                 golfHasNextHole = event["golfHasNextHole"] as? Bool ?? false
                 golfShotReady = event["golfShotReady"] as? Bool ?? false
@@ -1289,6 +1687,8 @@ final class SportsSession {
             case "bowling": bowlingState = event["message"] as? String ?? ""
             case "bowlCue": BowlingHaptics.cue(event["message"] as? String ?? "")
             case "bowlingGame": TennisMenu.shared.bowlingFinished(BowlingGameStats(line: event["message"] as? String ?? ""))
+            case "bowlingCard": receivePostGameBoard(PostGameBoard(bowling: event["message"] as? String ?? ""))
+            case "golfCard": receivePostGameBoard(PostGameBoard(golf: event["message"] as? String ?? ""))
             case "lesson": LessonCenter.shared.receive(event["message"] as? String ?? "")
             case "feedback":
                 receiveMatchSnapshot(event)
@@ -1323,8 +1723,21 @@ final class SportsSession {
                 let skip = fields.count == 3 ? IntroSkip(voted: fields[0], needed: fields[1], mine: fields[2] == 1) : nil
                 if skip != introSkip { introSkip = skip }
             case "timing": receiveTimingResult(event["message"] as? String ?? "failed")
+            case "timingStart":
+                // when the drill's countdown ends, on the shared clock: the TV's drill card bounces its ball from this
+                if let end = Double(event["message"] as? String ?? ""), end.isFinite {
+                    timingDrillStart = end; timingCountdownEnds = Date().addingTimeInterval(end - SportsRuntime.shared().clock())
+                }
+            case "timingSwing":
+                if let beat = Int(event["message"] as? String ?? ""), checkingTiming {
+                    timingSwings.insert(beat)
+                    if multiplayerMatchID != nil { MultiplayerService.shared.runtimeSetupStep("check:\(timingSwings.filter { $0 >= Self.timingWarmUp }.count)") }
+                }
             case "aimLanding": receiveAimLanding(event["message"] as? String ?? "")
             case "aimMiss": break   // the aim drill's ball got past the player: the feed timeout asks for another
+            case "learnedLag":
+                // what play has learned of this player's lag on this TV (ms), kept for the end of the match (saveLearnedLag)
+                if let ms = Double(event["message"] as? String ?? ""), ms.isFinite, ms >= 0, ms <= 1000 { learnedLag = ms / 1000 }
             case "screenLag":
                 // one TV for two phones: the TV credit this phone's game gives its player, for the controller-only phone (same picture)
                 if multiplayerSplit, multiplayerMatchID != nil, let ms = Double(event["message"] as? String ?? ""), ms.isFinite {
@@ -1352,7 +1765,10 @@ final class SportsSession {
             case "rally": if let n=Int(event["message"] as? String ?? "") { SportProgress.shared.recordRally(n); SportsDiagnostics.write("rally persisted \(n)") }
             case "matchStats": lastMatchStats = MatchStats(line: event["message"] as? String ?? "")
             case "holeInOne":
-                if let result = HoleInOneResult(line: event["message"] as? String ?? "") { DailyHoleInOne.shared.finished(result) }
+                if let result = HoleInOneResult(line: event["message"] as? String ?? "") {
+                    DailyHoleInOne.shared.finished(result)
+                    DailyShare.shared.finished(result)   // the one-tap share: the clip of the three shots is made now
+                }
             case "golfRound":
                 let stats = GolfRoundStats(line: event["message"] as? String ?? "")
                 if lastGolfRound == nil { lastGolfRound = stats; TennisMenu.shared.golfRoundFinished(stats) }
@@ -1422,12 +1838,29 @@ struct TennisContact: Equatable, Identifiable {
     var gradeName: String { supercharged ? "SUPER SHOT" : Self.gradeNames[max(0, min(5, grade))] }
 }
 
-/// Per-TV timing check results, keyed by the AirPlay receiver's name.
+/// Per-TV timing, kept apart (quick start, 11-21): the picture delay the flashes measure, and the whole chain (picture + swing detection
+/// + the player's habit) the timing check measures and play keeps refining. Only the whole chain lets a match skip the setup's
+/// flashes and drill. Keyed by the output route (type, uid, name) plus the external screen's size, so two TVs whose sound is not on
+/// AirPlay no longer share the "Speaker" slot.
 enum SportsTiming {
-    private static let key = "sports.tv.timing.v2"
+    /// (11-20 and before: one slot per route name for both measurements; read only as a picture prior, see `storedPicture`)
+    private static let legacyKey = "sports.tv.timing.v2"
+    static let pictureKey = "sports.tv.picture.v3", chainKey = "sports.tv.chain.v3", pendingKey = "sports.tv.chainPending.v3"
     static func currentTV() -> String {
         let outputs = AVAudioSession.sharedInstance().currentRoute.outputs
-        return outputs.first(where: { $0.portType == .airPlay })?.portName ?? outputs.first?.portName ?? "screen"
+        let port = outputs.first(where: { $0.portType == .airPlay }) ?? outputs.first(where: { $0.portType == .HDMI }) ?? outputs.first
+        let screen = UIScreen.screens.dropFirst().first?.nativeBounds.size
+        return routeKey(type: port?.portType.rawValue, uid: port?.uid, name: port?.portName, screen: screen)
+    }
+    /// The key for one route: "type|uid|name|WxH" (pure, for tests).
+    static func routeKey(type: String?, uid: String?, name: String?, screen: CGSize?) -> String {
+        let size = screen.map { "\(Int($0.width))x\(Int($0.height))" } ?? "-"
+        return [type ?? "-", uid ?? "-", name ?? "screen", size].joined(separator: "|")
+    }
+    /// The route's name alone (the 11-20 key): what the old slot was filed under.
+    static func legacyName(of key: String) -> String {
+        let parts = key.split(separator: "|", omittingEmptySubsequences: false)
+        return parts.count == 4 ? String(parts[2]) : key
     }
     /// How the picture reaches the TV, read from the audio route (it follows the picture). A cable (USB-C or the Lightning
     /// AV adapter to HDMI) shows it about a frame late plus the TV's own processing; AirPlay streams it, adding ~100-250 ms
@@ -1454,14 +1887,36 @@ enum SportsTiming {
             return delay > 0 ? "Your TV: \(ms) ms." + (slow ? " Game Mode or a cable makes it faster." : "") : ""
         }
     }
-    static func stored(for tv: String, defaults: UserDefaults = .standard) -> Double? {
-        (defaults.dictionary(forKey: key) as? [String: Double])?[tv]
-    }
-    static func store(_ lag: Double, for tv: String, defaults: UserDefaults = .standard) {
+    private static func read(_ key: String, _ tv: String, _ defaults: UserDefaults) -> Double? { (defaults.dictionary(forKey: key) as? [String: Double])?[tv] }
+    private static func write(_ value: Double?, _ key: String, _ tv: String, _ defaults: UserDefaults) {
         var all = defaults.dictionary(forKey: key) as? [String: Double] ?? [:]
-        guard lag.isFinite else { return }
-        all[tv] = max(0, min(1.0, lag))
+        if let value { guard value.isFinite else { return }; all[tv] = max(0, min(1.0, value)) } else { all[tv] = nil }
         defaults.set(all, forKey: key)
+    }
+    /// The whole chain for this TV (the timing check, or what play learned); nil = this TV was never timed.
+    static func storedChain(for tv: String, defaults: UserDefaults = .standard) -> Double? { read(chainKey, tv, defaults) }
+    static func storeChain(_ lag: Double, for tv: String, defaults: UserDefaults = .standard) {
+        write(lag, chainKey, tv, defaults); write(nil, pendingKey, tv, defaults)
+    }
+    /// The picture delay the flashes measured (else the old shared slot, as a prior only: never as the whole chain).
+    static func storedPicture(for tv: String, defaults: UserDefaults = .standard) -> Double? {
+        read(pictureKey, tv, defaults) ?? read(legacyKey, legacyName(of: tv), defaults)
+    }
+    static func storePicture(_ delay: Double, for tv: String, defaults: UserDefaults = .standard) { write(delay, pictureKey, tv, defaults) }
+    /// How far play's learned lag may move the stored chain at once; further than this it has to say so twice (one bad match,
+    /// a TV switched out of Game Mode for an evening) before it replaces it.
+    static let learnedJump = 0.15
+    /// Play's learned lag at the end of a match (T6). Returns what is stored after.
+    @discardableResult static func learn(_ lag: Double, for tv: String, defaults: UserDefaults = .standard) -> Double? {
+        guard lag.isFinite, lag >= 0, lag <= 1 else { return storedChain(for: tv, defaults: defaults) }
+        guard let stored = storedChain(for: tv, defaults: defaults), abs(lag - stored) > learnedJump else {
+            storeChain(lag, for: tv, defaults: defaults); return lag
+        }
+        // an outlier: kept aside; a second one near it replaces the stored value, anything else replaces the one kept aside
+        if let pending = read(pendingKey, tv, defaults), abs(pending - lag) <= learnedJump {
+            storeChain((pending + lag) / 2, for: tv, defaults: defaults)
+        } else { write(lag, pendingKey, tv, defaults) }
+        return storedChain(for: tv, defaults: defaults)
     }
 }
 

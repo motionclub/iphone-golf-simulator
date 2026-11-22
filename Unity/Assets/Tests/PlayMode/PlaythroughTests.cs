@@ -88,11 +88,7 @@ namespace GolfArcade.PlayTests
         }
 
         [UnityTest, Timeout(1800000)]
-        public IEnumerator EveryHolePlaysOut() => Play(new[] { 7, 12, 13, 14, 15, 16, 17, 18, 19, 20 });
-
-        /// The Spiral on its own, with frames of every shot.
-        [UnityTest, Timeout(600000)]
-        public IEnumerator TheSpiralPlaysOut() => Play(new[] { 13 });
+        public IEnumerator EveryHolePlaysOut() => Play(new[] { 8, 12, 14, 15, 16, 17, 18, 19, 20 });
 
         /// The Magma Open's three holes on the crater's lava.
         [UnityTest, Timeout(900000)]

@@ -50,9 +50,9 @@ final class SportsDelayProbeTests: XCTestCase {
     func testTimingStorageKeepsLongAirPlayDelayAndIgnoresOldRhythmOnlyResults() {
         let defaults = UserDefaults(suiteName: "timing-\(UUID())")!
         defaults.set(["TV": 0.05], forKey: "sports.tv.timing.v1")
-        XCTAssertNil(SportsTiming.stored(for: "TV", defaults: defaults))
-        SportsTiming.store(0.72, for: "TV", defaults: defaults)
-        XCTAssertEqual(SportsTiming.stored(for: "TV", defaults: defaults), 0.72)
+        XCTAssertNil(SportsTiming.storedChain(for: "TV", defaults: defaults))
+        SportsTiming.storeChain(0.72, for: "TV", defaults: defaults)
+        XCTAssertEqual(SportsTiming.storedChain(for: "TV", defaults: defaults), 0.72)
     }
     @MainActor func testFlashesRunBeforeTheSwingCheck() {
         let session = SportsSession()

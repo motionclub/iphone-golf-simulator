@@ -51,11 +51,20 @@ namespace GolfArcade.Bowling
     public static class BowlingRelease
     {
         public const float PerfectWindow = .045f, GoodWindow = .100f, MissWindow = .250f;
-        public const float MaxSpeed = 9.5f, MinSpeed = 3f;
+        public const float MinSpeed = 3f;
+        /// Fastest ball (m/s): 21.25 mph, 23.5 with the skill pass (a hard swing can now overpower the hook, which is the risk).
+        public static float MaxSpeed => BowlingSkill.On ? 10.5f : 9.5f;
         /// Most side roll (rad/s) a release can put on the ball: about 300 rpm at 45° of axis
         /// rotation, a strong rec hook (~15 boards, ~5.5° entry). More than that could not be
         /// aimed from the approach with position only, so a bigger flick turns the axis less.
         public const float MaxSideRoll = 22.5f;
+        /// Skill pass: the side roll eases toward this ceiling (tanh) instead of stopping at MaxSideRoll, so every bit more flick
+        /// still hooks a bit more: ~25 rad/s (340 rpm at 45°) is barely touched, 41 (450 at 60°) gives ~28, entry ~6°. The swing's
+        /// aim (up to 3°) lets the bigger hooks be played from the approach.
+        public const float SideRollCeiling = 34f;
+
+        /// Side roll (rad/s) after the cap: hard stop at MaxSideRoll, or (skill pass) the soft ceiling.
+        public static float SideRoll(float side) => BowlingSkill.On ? SideRollCeiling * (float)System.Math.Tanh(side / SideRollCeiling) : Mathf.Min(side, MaxSideRoll);
 
         public static ReleaseGrade Grade(float timingError)
         {
@@ -74,6 +83,19 @@ namespace GolfArcade.Bowling
 
         static Effect For(ReleaseGrade g)
         {
+            // 11-21 skill pass: the grades are further apart in pace and revs, so the release is worth timing (a Perfect one gets
+            // a little extra of both; early/late cost real speed and hook). Scatter stays small: 1° is ~12 boards at the pins, so
+            // the first try (Good .6°, Early 1.5°) buried every hook bowler under ±5 boards from timing alone (harness, 11-21)
+            if (BowlingSkill.On)
+                switch (g)
+                {
+                    case ReleaseGrade.Perfect: return new Effect(1.03f, 1.03f, 0.0f, 0, .03f);
+                    case ReleaseGrade.Good:    return new Effect(1.00f, 0.97f, 0.25f, 0, .05f);
+                    case ReleaseGrade.Early:   return new Effect(0.89f, 0.85f, 1.2f, 0, .12f);
+                    case ReleaseGrade.Late:    return new Effect(0.94f, 0.72f, 1.0f, -.6f, .30f);
+                    case ReleaseGrade.Foul:    return new Effect(0.85f, 0.60f, 2.0f, -.8f, .45f);
+                    default:                   return new Effect(0.30f, 0.30f, 0.0f, 0, 0);
+                }
             switch (g)
             {
                 case ReleaseGrade.Perfect: return new Effect(1.02f, 1.00f, 0.0f, 0, .03f);
@@ -94,7 +116,8 @@ namespace GolfArcade.Bowling
             float scatter = e.scatter;
             float revs = Mathf.Max(0, s.RevRpm) * e.revs, axis = Mathf.Clamp(s.AxisDeg, -75, 75);
             float w = revs * 2 * Mathf.PI / 60, side = w * Mathf.Sin(Mathf.Abs(axis) * Mathf.Deg2Rad);
-            if (side > MaxSideRoll) axis = Mathf.Sign(axis) * Mathf.Asin(MaxSideRoll / w) * Mathf.Rad2Deg;
+            float capped = SideRoll(side);
+            if (side > 1e-4f && capped < side) axis = Mathf.Sign(axis) * Mathf.Asin(Mathf.Min(1, capped / w)) * Mathf.Rad2Deg;
             return new BowlingThrow
             {
                 Board = Mathf.Clamp(s.Board, 1, BowlingLane.Boards),

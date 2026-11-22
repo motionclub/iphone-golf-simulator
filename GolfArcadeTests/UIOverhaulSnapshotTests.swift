@@ -7,18 +7,20 @@ import XCTest
 @MainActor
 final class UIOverhaulSnapshotTests: XCTestCase {
     func testEveryMapHasItsSculptedPiecesAndLoadingArt() {
-        XCTAssertEqual(MapSkin.all.count, 10)
+        XCTAssertEqual(MapSkin.all.count, 9)   // 2026-11-21: three open-air bowling alleys replace the four indoor ones
         for skin in MapSkin.all {
-            XCTAssertNotNil(skin.titleImage, "\(skin.id) title")
-            XCTAssertNotNil(skin.plateImage, "\(skin.id) plate")
-            if skin.sport == .bowling { XCTAssertNotNil(skin.ballImage, "\(skin.id) ball"); XCTAssertNotNil(skin.cardImage, "\(skin.id) card") }
+            // the open-air bowling alleys (11-21) have no sculpted pieces yet: their HUD draws plain plates in the map's colours
+            if skin.sport != .bowling {
+                XCTAssertNotNil(skin.titleImage, "\(skin.id) title")
+                XCTAssertNotNil(skin.plateImage, "\(skin.id) plate")
+            }
             if skin.sport == .tennis { XCTAssertNotNil(skin.eventImage, "\(skin.id) point banner") }
             for art in skin.loadingArt { XCTAssertNotNil(MapSkin.image(art), art) }
             // map names stand alone: no sport words in a title
             for word in ["TENNIS", "GOLF", "BOWLING"] { XCTAssertFalse(skin.title.uppercased().contains(word)) }
         }
         XCTAssertEqual(MapSkin.of(sport: "golf", venue: "wildisles+9").id, "golf-wildisles")
-        XCTAssertEqual(MapSkin.of(sport: "bowling", venue: "magma").id, "bowling-magma")
+        XCTAssertEqual(MapSkin.of(sport: "bowling", venue: "magma").id, "bowling-crater")
         XCTAssertEqual(MapSkin.of(sport: "tennis", venue: "nowhere").id, "tennis-resort")
     }
 

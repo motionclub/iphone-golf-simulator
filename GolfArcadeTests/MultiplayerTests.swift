@@ -555,7 +555,7 @@ final class MultiplayerTests: XCTestCase {
     func testSetupThatDragsOnIsMentionedToEveryoneButNothingIsForced() throws {
         let p = try loadedTennisParty(); defer { p.close() }
         p.host.runtimeCalibrated()
-        advance(p, by: 30)
+        advance(p, by: 90)   // (pointing, the TV's flashes and the timing drill take most of a minute: 120 s before a word)
         XCTAssertNil(p.services[1].lastError)
         advance(p, by: 31)
         XCTAssertTrue(p.services[1].lastError?.hasPrefix("Still waiting for") == true, "everyone hears who is holding things up")
@@ -1311,12 +1311,15 @@ final class MultiplayerTests: XCTestCase {
         var browsing: [Bool] = []
         hub.nearbyBrowse = { _, on in browsing.append(on) }
         hub.nearbyHost = { hub in try hub.partyService.host(using: bus.link("me"), quick: .tennis) }
-        func lobby(_ name: String, players: Int = 1, sport: String = "tennis") -> LocalMultiplayerTransport.DiscoveredLobby {
-            .init(id: LocalMultiplayerTransport.advertisedName(name, token: UUID().uuidString), name: name, endpoint: .hostPort(host: "127.0.0.1", port: 9), sport: sport, players: players)
+        func lobby(_ name: String, players: Int = 1, sport: String = "tennis", open: Bool = true) -> LocalMultiplayerTransport.DiscoveredLobby {
+            .init(id: LocalMultiplayerTransport.advertisedName(name, token: UUID().uuidString), name: name, endpoint: .hostPort(host: "127.0.0.1", port: 9), sport: sport, players: players, open: open)
         }
         let sam = lobby("Sam")
-        service.debugSetDiscovered([lobby("Golfer", sport: "golf"), lobby("Full", players: 2), sam])
-        XCTAssertEqual(hub.nearbyOffer?.name, "Sam", "only a tennis game with room is offered")
+        service.debugSetDiscovered([lobby("Golfer", sport: "golf", open: false), lobby("Bowlers", players: 4, sport: "bowling"), lobby("Full", players: 2), sam])
+        XCTAssertEqual(hub.nearbyOffer?.name, "Sam", "only a game with room that has not started is offered")
+        service.debugSetDiscovered([lobby("Golfer", players: 3, sport: "golf"), sam])
+        XCTAssertEqual(hub.nearbyOffer?.name, "Golfer", "LOCAL PLAY golf (and bowling) take up to four phones")
+        service.debugSetDiscovered([lobby("Full", players: 2), sam])
         hub.dismissNearby()
         XCTAssertNil(hub.nearbyOffer)
         service.debugSetDiscovered([sam, lobby("Sam")])
@@ -1482,5 +1485,312 @@ final class MultiplayerTests: XCTestCase {
         clock.left(); t += 50; clock.left(); t += 10
         XCTAssertEqual(clock.returned(), 60, accuracy: 1e-9, "from the first time it left")
         XCTAssertEqual(clock.returned(), 0)
+    }
+}
+
+// MARK: Phone casting (PLAN_PhoneCasting_GolfBowling.md): one phone is the screen, the others are the players' controllers
+extension MultiplayerTests {
+    /// A screen phone "a" hosting `sport`, with `players` phones joined (b, c, …), over the in-memory bus.
+    @MainActor func castParty(_ sport: MultiplayerSport, players: Int) throws -> Party {
+        let bus = Bus(), runtime = Runtime(), host = runtime.service()
+        host.setScreen(false)
+        try host.host(using: bus.link("a"), screen: sport)
+        var services = [host], runtimes = [runtime]
+        for n in 1...players { let r = Runtime(), s = r.service(); s.setScreen(false); try s.connect(using: bus.link(String(UnicodeScalar(97+n)!))); services.append(s); runtimes.append(r) }
+        return Party(bus: bus, services: services, runtimes: runtimes)
+    }
+
+    @MainActor func testTheScreenPhoneHostsWithNoSeatAndEveryoneWhoJoinsPlays() throws {
+        let p = try castParty(.golf, players: 3); defer { p.close() }
+        let lobby = try XCTUnwrap(p.host.lobby)
+        XCTAssertEqual(lobby.sport, .golf)
+        XCTAssertEqual(lobby.castScreen?.id, "a")
+        XCTAssertEqual(p.host.localSeat, -1, "the screen plays no one")
+        XCTAssertEqual(lobby.competitors.map(\.id), ["b", "c", "d"])
+        XCTAssertEqual(lobby.competitors.map(\.seat), [0, 1, 2])
+        XCTAssertTrue(lobby.valid())
+        // a fifth phone is refused: the screen takes one of the lobby's four places
+        let r = Runtime(), extra = r.service(); try extra.connect(using: p.bus.link("e")); defer { extra.leave() }
+        XCTAssertNil(p.host.lobby?.participants.first { $0.id == "e" })
+    }
+
+    @MainActor func testOneControllerAndItsScreenIsAGame() throws {
+        let p = try castParty(.bowling, players: 1); defer { p.close() }
+        XCTAssertEqual(p.host.lobby?.minimumCompetitors, 1)
+        XCTAssertFalse(p.host.lobby!.canStart, "the player is not ready yet")
+        try p.services[1].setReady(true)
+        XCTAssertTrue(p.host.lobby!.canStart)
+        try p.host.startMatch()
+        let screen = try XCTUnwrap(p.runtimes[0].configurations.last), player = try XCTUnwrap(p.runtimes[1].configurations.last)
+        XCTAssertTrue(screen.valid() && player.valid())
+        XCTAssertTrue(screen.castScreenLocal); XCTAssertFalse(screen.controllerOnly, "the screen shows the game")
+        XCTAssertFalse(player.castScreenLocal); XCTAssertTrue(player.controllerOnly, "a player's phone is only their controller, in bowling too")
+        // play waits for the screen to load as well as the player
+        p.services[1].runtimeLoaded()
+        XCTAssertEqual(p.host.lobby?.phase, .loading)
+        p.host.runtimeLoaded()
+        XCTAssertEqual(p.host.lobby?.phase, .playing)
+    }
+
+    @MainActor func testTheScreenNeverTakesASeat() throws {
+        let p = try castParty(.golf, players: 2); defer { p.close() }
+        try p.host.configure(.bowling)
+        XCTAssertEqual(p.host.localSeat, -1, "a sport change seats the players, not the screen")
+        XCTAssertEqual(p.host.lobby?.competitors.map(\.id), ["b", "c"])
+        var copy = try XCTUnwrap(p.host.lobby); XCTAssertThrowsError(try copy.assign("a", seat: 2), "the screen cannot be given a seat")
+        XCTAssertThrowsError(try p.host.configure(.tennis), "tennis needs a bigger screen")
+        XCTAssertEqual(p.host.lobby?.sport, .bowling)
+    }
+
+    @MainActor func testTennisIsNeverCastToAPhone() throws {
+        let bus = Bus(), host = Runtime().service(); defer { host.leave() }
+        XCTAssertThrowsError(try host.host(using: bus.link("a"), screen: .tennis))
+        var lobby = MultiplayerLobby(ownerID: "a", sport: .tennis, participants: [
+            MultiplayerParticipant(id: "a", name: "Screen", seat: -1, castScreen: true), MultiplayerParticipant(id: "b", name: "B", seat: 0)])
+        XCTAssertFalse(lobby.valid())
+        lobby.sport = .golf; lobby.venue = "cliffside"
+        XCTAssertTrue(lobby.valid())
+    }
+
+    @MainActor func testOnlyTheOwnerCanBeTheScreenAndItNeverClaimsASeat() {
+        func lobby(_ people: [MultiplayerParticipant]) -> MultiplayerLobby { MultiplayerLobby(ownerID: "a", sport: .golf, venue: "cliffside", participants: people) }
+        XCTAssertFalse(lobby([MultiplayerParticipant(id: "a", name: "A", seat: 0), MultiplayerParticipant(id: "b", name: "B", seat: -1, castScreen: true)]).valid(), "a guest is not the screen")
+        XCTAssertFalse(lobby([MultiplayerParticipant(id: "a", name: "A", seat: 0, castScreen: true), MultiplayerParticipant(id: "b", name: "B", seat: 1)]).valid(), "the screen holds no seat")
+        XCTAssertFalse(lobby([MultiplayerParticipant(id: "a", name: "A", seat: -1, castScreen: true), MultiplayerParticipant(id: "g", name: "G", seat: 0, controllerID: "a")]).valid(),
+                       "pass-the-phone guests ride on a player's phone, not the screen")
+        let ok = lobby([MultiplayerParticipant(id: "a", name: "A", seat: -1, castScreen: true), MultiplayerParticipant(id: "b", name: "B", seat: 0)])
+        XCTAssertTrue(ok.valid())
+        XCTAssertEqual(ok.startReason, "Waiting for B to be ready")
+        XCTAssertEqual(lobby([MultiplayerParticipant(id: "a", name: "A", seat: -1, castScreen: true)]).startReason, "Join from a phone to play: this phone is the screen")
+    }
+
+    @MainActor func testAJoiningPhoneCannotClaimToBeTheScreen() throws {
+        let p = try castParty(.golf, players: 1); defer { p.close() }
+        let forged = MultiplayerParticipant(id: "x", name: "X", seat: -1, castScreen: true)
+        let hello = MultiplayerPacket(lobbyID: "", matchID: "", sender: "c", sequence: 1, kind: "hello", payload: String(decoding: try JSONEncoder().encode(forged), as: UTF8.self))
+        try p.bus.link("c").send(JSONEncoder().encode(hello), to: ["a"], reliable: true)
+        let joined = try XCTUnwrap(p.host.lobby?.participants.first { $0.id == "c" })
+        XCTAssertFalse(joined.isCastScreen); XCTAssertEqual(joined.seat, 1)
+        XCTAssertEqual(p.host.lobby?.castScreen?.id, "a")
+    }
+
+    @MainActor func testAPartyLeaderCanBecomeTheScreenAndBackForGolfAndBowlingOnly() throws {
+        let p = try party(3, screens: [false, false, false]); defer { p.close() }
+        try p.host.configure(.golf)
+        XCTAssertEqual(p.host.localSeat, 0)
+        try p.host.setCastScreen(true)
+        XCTAssertEqual(p.host.localSeat, -1)
+        XCTAssertEqual(p.host.lobby?.competitors.map(\.id), ["b", "c"])
+        XCTAssertTrue(p.host.lobby!.valid())
+        XCTAssertEqual(p.services[1].lobby?.castScreen?.id, "a", "every phone sees which phone is the screen")
+        try p.host.setCastScreen(false)
+        XCTAssertEqual(p.host.localSeat, 0); XCTAssertFalse(p.host.lobby!.hasCastScreen)
+        try p.host.configure(.tennis)
+        XCTAssertThrowsError(try p.host.setCastScreen(true))
+    }
+
+    @MainActor func testAGolfPlayerLeavingTheScreenWithOneLeftPlaysOn() throws {
+        let p = try castParty(.golf, players: 2); defer { p.close() }
+        for s in p.services.dropFirst() { try s.setReady(true) }
+        try p.host.startMatch()
+        for s in p.services { s.runtimeLoaded() }
+        XCTAssertEqual(p.host.lobby?.phase, .playing)
+        XCTAssertEqual(p.runtimes[1].configurations.last?.usesHostGolfDisplay, true)
+        p.services[2].leave("left the game")
+        XCTAssertNotEqual(p.host.lobby?.phase, .lobby, "one player and the screen still make a game")
+    }
+
+    /// LOCAL PLAY golf, like nearby tennis: while its players / setup screens are up this phone hosts, a friend's phone is offered
+    /// "Join Adnan's golf game?" and waits (ready) once in; TEE OFF then plays it the way online does, every phone its own player
+    /// (golf: the friend's phone is a controller watching this phone's TV), extra players picked on the TV as guests on this phone.
+    func testLocalPlayGolfOffersJoinThenTeeOffPlaysItLikeOnline() throws {
+        let saved = SportsSession.shared.displayConnected; SportsSession.shared.displayConnected = true
+        let savedContext = ClubHub.shared.context; ClubHub.shared.context = { ClubHubContext() }
+        TennisMenu.shared.debugShow(.main); OnboardingFlow.shared.exitToMenu()
+        // (a fresh simulator gates each sport behind its lesson: the gate is off here, as after the lessons)
+        let gate = OnboardingFlow.shared.store.sportGate; OnboardingFlow.shared.store.sportGate = false
+        defer { OnboardingFlow.shared.store.sportGate = gate }
+        XCTAssertTrue(OnboardingFlow.shared.allows("bay-golf-pass"))
+        let bus = Bus(), hostRuntime = Runtime(), guestRuntime = Runtime()
+        let hostService = hostRuntime.service(), guestService = guestRuntime.service()
+        let host = HubSession(), guest = HubSession()
+        host.partyService = hostService; guest.partyService = guestService
+        defer { hostService.leave(); guestService.leave(); ClubHub.shared.context = savedContext; HubTestState.restore(display: saved); withExtendedLifetime(bus) {} }
+        host.debugLive(session: "h"); guest.debugLive(session: "g")
+        host.nearbyBrowse = { _, _ in }; guest.nearbyBrowse = { _, _ in }
+        host.nearbyHost = { hub in try hub.partyService.host(using: bus.link("host"), quick: hub.localPlaySport ?? .tennis, nearby: true) }
+        guest.nearbyJoin = { hub, offer in try hub.partyService.connect(using: bus.link("guest"), quick: MultiplayerSport(rawValue: offer.sport), nearby: true) }
+
+        // Golf › LOCAL PLAY on the TV (MenuHud.OpenMode): menuLocal, then its players screen
+        host.receive(["type": "menuLocal", "session": "h", "message": "bay-golf-pass"])
+        host.receive(["type": "menuScreen", "session": "h", "message": "players"])
+        host.nearbyTick()
+        XCTAssertEqual(host.localPlaySport, .golf); XCTAssertTrue(host.nearbyHosting)
+        XCTAssertEqual(hostService.lobby?.sport, .golf)
+        XCTAssertEqual(hostService.lobby?.participants.first?.ready, true)
+        XCTAssertFalse(host.soloLocked, "this phone's own LOCAL PLAY game is not a party")
+
+        let offer = LocalMultiplayerTransport.DiscoveredLobby(id: LocalMultiplayerTransport.advertisedName("Adnan", token: UUID().uuidString), name: "Adnan",
+                                                             endpoint: .hostPort(host: "127.0.0.1", port: 9), sport: "golf", players: 1)
+        guestService.debugSetDiscovered([offer])
+        XCTAssertEqual(guest.nearbyOffer?.name, "Adnan", "the banner: Join Adnan's golf game?")
+        guest.joinNearby(); guest.nearbyTick()
+        XCTAssertEqual(hostService.lobby?.participants.count, 2)
+        XCTAssertEqual(hostService.lobby?.participants.last?.ready, true, "the friend is ready as soon as they are in")
+        XCTAssertTrue(hostRuntime.configurations.isEmpty, "golf waits for TEE OFF: more friends can still join")
+        XCTAssertEqual(guest.nearbyWaiting?.sport, .golf, "the friend's banner: In Adnan's golf game, with Leave")
+        XCTAssertFalse(host.soloLocked)
+        XCTAssertEqual(host.localPlayNames.count, 2, "the TV's setup names both players")
+
+        // the course screen (still hosting), then TEE OFF with three players picked: the third is a guest on this phone
+        host.receive(["type": "menuSetup", "session": "h", "message": "bay-golf-pass"])
+        host.receive(["type": "menuScreen", "session": "h", "message": "setup"])
+        host.nearbyTick()
+        XCTAssertEqual(host.localPlaySport, .golf)
+        XCTAssertTrue(host.startLocalPlay(.golf, players: 3))
+        host.nearbyTick()
+        let hosted = try XCTUnwrap(hostRuntime.configurations.last), joined = try XCTUnwrap(guestRuntime.configurations.last)
+        XCTAssertEqual(hosted.participants.filter { $0.seat >= 0 }.count, 3)
+        XCTAssertEqual(hosted.participants.filter(\.isGuest).count, 1)
+        XCTAssertFalse(hosted.controllerOnly, "this phone shows the round on its TV")
+        XCTAssertTrue(joined.controllerOnly, "the friend's phone is their controller, as in an online round")
+        XCTAssertEqual(hosted.venue.hasPrefix(MultiplayerLobby.golfRoundParts(hosted.venue).course), true)
+        XCTAssertNil(guest.nearbyWaiting)
+        host.nearbyTick()
+        XCTAssertNotNil(hostService.lobby, "the round keeps its lobby")
+    }
+
+    /// LOCAL PLAY bowling with nobody joining: START is pass the phone as before (the nearby game is closed first); leaving the
+    /// setup stops the offer.
+    func testLocalPlayWithNobodyJoiningPassesThePhoneAndLeavingStopsTheOffer() throws {
+        let saved = SportsSession.shared.displayConnected; SportsSession.shared.displayConnected = true
+        let savedContext = ClubHub.shared.context; ClubHub.shared.context = { ClubHubContext() }
+        TennisMenu.shared.debugShow(.main); OnboardingFlow.shared.exitToMenu()
+        // (a fresh simulator gates each sport behind its lesson: the gate is off here, as after the lessons)
+        let gate = OnboardingFlow.shared.store.sportGate; OnboardingFlow.shared.store.sportGate = false
+        defer { OnboardingFlow.shared.store.sportGate = gate }
+        XCTAssertTrue(OnboardingFlow.shared.allows("bay-bowling-pass"))
+        let bus = Bus(), runtime = Runtime(), service = runtime.service()
+        let hub = HubSession(); hub.partyService = service
+        defer { service.leave(); ClubHub.shared.context = savedContext; HubTestState.restore(display: saved); withExtendedLifetime(bus) {} }
+        hub.debugLive(session: "b"); hub.nearbyBrowse = { _, _ in }
+        var links = 0
+        hub.nearbyHost = { hub in links += 1; try hub.partyService.host(using: bus.link("me\(links)"), quick: hub.localPlaySport ?? .tennis, nearby: true) }
+
+        hub.receive(["type": "menuLocal", "session": "b", "message": "bay-bowling-pass"])
+        hub.receive(["type": "menuScreen", "session": "b", "message": "players"])
+        hub.nearbyTick()
+        XCTAssertEqual(hub.localPlaySport, .bowling); XCTAssertEqual(service.lobby?.sport, .bowling)
+        XCTAssertTrue(hub.localPlayNames.isEmpty)
+        XCTAssertFalse(hub.startLocalPlay(.bowling, players: 2), "nobody joined: pass the phone")
+        XCTAssertNil(service.lobby, "the nearby game is closed so this phone can host pass the phone")
+        XCTAssertFalse(hub.nearbyHosting)
+
+        hub.receive(["type": "menuSetup", "session": "b", "message": "bay-bowling-pass"])
+        hub.receive(["type": "menuScreen", "session": "b", "message": "setup"])
+        hub.nearbyTick(); XCTAssertEqual(hub.localPlaySport, .bowling, "back on the setup: offered again")
+        hub.receive(["type": "menuScreen", "session": "b", "message": "bowling"])   // Back to the modes
+        hub.nearbyTick()
+        XCTAssertNil(hub.localPlaySport); XCTAssertNil(service.lobby); XCTAssertFalse(hub.nearbyHosting)
+        hub.receive(["type": "menuSetup", "session": "b", "message": "bay-bowling-play"])
+        hub.receive(["type": "menuScreen", "session": "b", "message": "setup"])
+        hub.nearbyTick(); XCTAssertNil(hub.localPlaySport, "a solo game's setup offers nothing")
+        XCTAssertEqual(HubSession.localPlaySport("bay-golf-pass"), .golf); XCTAssertNil(HubSession.localPlaySport("bay-tennis-nearby"))
+    }
+
+    func testTheScreenMenuRowsNameGolfAndBowlingOnly() {
+        XCTAssertEqual(HubSession.castSport("bay-golf-cast"), .golf)
+        XCTAssertEqual(HubSession.castSport("bay-bowling-cast"), .bowling)
+        XCTAssertNil(HubSession.castSport("bay-tennis-nearby"))
+        XCTAssertNil(HubSession.castSport(nil))
+        XCTAssertFalse(HubSession.castBays.keys.contains(.tennis))
+    }
+}
+
+extension MultiplayerTests {
+    /// The menu's "Phone screen" row makes this phone the screen: friends' phones get "Join Adnan's screen · Golf?", one tap joins
+    /// (ready at once), and the screen's Start runs the game: the screen phone shows it, the player's phone is its controller.
+    /// Writes the screen's lobby and the friend's banner to work/phone-casting/proof.
+    @MainActor func testTheScreenRowHostsTheBannerJoinsAndTheScreenStarts() async throws {
+        let saved = SportsSession.shared.displayConnected; SportsSession.shared.displayConnected = false
+        let savedContext = ClubHub.shared.context; ClubHub.shared.context = { ClubHubContext() }
+        TennisMenu.shared.debugShow(.main); OnboardingFlow.shared.exitToMenu()
+        let bus = Bus(), screenRuntime = Runtime(), playerRuntime = Runtime()
+        let screenService = screenRuntime.service(), playerService = playerRuntime.service()
+        let screen = HubSession(), player = HubSession()
+        screen.partyService = screenService; player.partyService = playerService
+        defer { playerService.leave(); screenService.leave(); ClubHub.shared.context = savedContext; HubTestState.restore(display: saved); withExtendedLifetime(bus) {} }
+        screen.debugLive(session: "s", onPhone: true); player.debugLive(session: "p", onPhone: true)   // (no TV: the menu is on the phones)
+        screen.nearbyBrowse = { _, _ in }; player.nearbyBrowse = { _, _ in }
+        screen.nearbyHost = { hub in try hub.partyService.host(using: bus.link("screen"), screen: hub.castHosting) }
+        player.nearbyJoin = { hub, offer in try hub.partyService.connect(using: bus.link("player"), quick: offer.screen ? MultiplayerSport(rawValue: offer.sport) : .tennis) }
+        screenService.setIdentity(name: "Adnan"); playerService.setIdentity(name: "Sam")
+
+        screen.useStation("bay-golf-cast")   // the pointer menu's Golf › PHONE SCREEN (or the phone menu's row): one action
+        XCTAssertEqual(screen.station, "bay-golf-cast"); XCTAssertEqual(screen.castHosting, .golf); XCTAssertTrue(screen.nearbyHosting)
+        XCTAssertEqual(screenService.lobby?.castScreen?.id, "screen")
+        try await render(HubCastScreenPanel(hub: screen, sport: .golf), "screen_lobby_waiting")
+
+        let offer = LocalMultiplayerTransport.DiscoveredLobby(id: LocalMultiplayerTransport.advertisedName("Adnan", token: UUID().uuidString), name: "Adnan",
+                                                             endpoint: .hostPort(host: "127.0.0.1", port: 9), sport: "golf", players: 1, screen: true)
+        playerService.debugSetDiscovered([offer, .init(id: "full", name: "Full", endpoint: .hostPort(host: "127.0.0.1", port: 9), sport: "bowling", players: 4, screen: true)])
+        XCTAssertEqual(player.nearbyOffer?.name, "Adnan", "a screen with room is offered; a full one is not")
+        try await render(HubNearbyBanner(hub: player).padding(14).frame(maxHeight: .infinity, alignment: .top).background(Color.black), "player_banner")
+        player.joinNearby()
+        XCTAssertEqual(screenService.lobby?.competitors.map(\.id), ["player"])
+        XCTAssertEqual(screenService.lobby?.competitors.first?.ready, true, "joining a screen readies the player")
+        XCTAssertTrue(screenRuntime.configurations.isEmpty, "the screen waits for its Start: more friends can still join")
+        try await render(HubCastScreenPanel(hub: screen, sport: .golf), "screen_lobby_one_player")
+
+        screen.startCastGame()
+        let shown = try XCTUnwrap(screenRuntime.configurations.last), played = try XCTUnwrap(playerRuntime.configurations.last)
+        XCTAssertTrue(shown.castScreenLocal && !shown.controllerOnly)
+        XCTAssertTrue(played.controllerOnly && !played.castScreenLocal)
+        XCTAssertTrue(TennisMenu.shared.rows(.party).contains(["partyCastGolf"]) && TennisMenu.shared.rows(.party).contains(["partyCastBowling"]))
+    }
+    @MainActor private func render<V: View>(_ view: V, _ name: String) async throws {
+        let scene = try XCTUnwrap(UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }.first)
+        let window = UIWindow(windowScene: scene); window.frame = CGRect(x: 0, y: 0, width: 402, height: 874)
+        let host = UIHostingController(rootView: view); host.safeAreaRegions = []
+        window.rootViewController = host; window.isHidden = false; host.view.frame = window.bounds
+        defer { window.isHidden = true }
+        try await Task.sleep(for: .milliseconds(400)); host.view.layoutIfNeeded()
+        let out = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent("work/phone-casting/proof")
+        try FileManager.default.createDirectory(at: out, withIntermediateDirectories: true)
+        let format = UIGraphicsImageRendererFormat(); format.scale = 2
+        let image = UIGraphicsImageRenderer(size: window.bounds.size, format: format).image { _ in host.view.drawHierarchy(in: window.bounds, afterScreenUpdates: true) }
+        try XCTUnwrap(image.pngData()).write(to: out.appendingPathComponent("\(name).png"))
+    }
+}
+
+extension MultiplayerTests {
+    /// With a phone as the screen, a friend without the app plays golf on a player's phone (passed round), never on the screen's;
+    /// they leave with that phone.
+    @MainActor func testWithAScreenAGuestPlaysOnAPlayersPhone() throws {
+        let p = try castParty(.golf, players: 2); defer { p.close() }
+        XCTAssertThrowsError(try p.host.addLocalGuest(), "not on the screen phone")
+        try p.host.addLocalGuest(on: "b")
+        let guest = try XCTUnwrap(p.host.lobby?.participants.first(where: \.isGuest))
+        XCTAssertEqual(guest.controllerID, "b"); XCTAssertEqual(guest.seat, 2); XCTAssertTrue(guest.ready)
+        XCTAssertTrue(p.host.lobby!.valid())
+        XCTAssertEqual(p.services[1].lobby?.participants.filter(\.isGuest).count, 1, "every phone sees the guest")
+        try p.host.removeLocalGuest(on: "b"); XCTAssertFalse(p.host.lobby!.participants.contains(where: \.isGuest))
+        try p.host.addLocalGuest(on: "c")
+        p.services[2].leave("left")
+        XCTAssertFalse(p.host.lobby!.participants.contains(where: \.isGuest), "a guest leaves with the phone they play on")
+        XCTAssertEqual(p.host.lobby?.competitors.map(\.id), ["b"])
+    }
+    /// A player's phone has no picture of its own, so when the screen phone goes out of the app it says so, and stops when it is back.
+    @MainActor func testPlayersAreToldWhenTheScreenPhoneIsAway() throws {
+        let p = try castParty(.golf, players: 1); defer { p.close() }
+        try p.services[1].setReady(true); try p.host.startMatch()
+        for s in p.services { s.runtimeLoaded() }
+        XCTAssertEqual(p.host.lobby?.phase, .playing)
+        XCTAssertFalse(p.services[1].screenAway)
+        p.host.setForeground(false)
+        XCTAssertTrue(p.services[1].screenAway, "the player's phone says the screen is away")
+        XCTAssertFalse(p.host.screenAway, "(the screen itself is not told about itself)")
+        p.host.setForeground(true)
+        XCTAssertFalse(p.services[1].screenAway)
     }
 }

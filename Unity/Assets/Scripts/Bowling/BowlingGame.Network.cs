@@ -15,10 +15,30 @@ namespace GolfArcade.Bowling
     {
         [Serializable] public sealed class NetBall
         {
-            public string kind;        // "throw" | "hb" (heartbeat between turns)
+            public string kind;        // "throw" | "hb" (heartbeat between turns) | phone casting: "setup" (the bowler lining up), "pinfall"
             public int ball, seat, grade, after;
             public float board, speed, rpm, axis, launch, loft;
+            /// "setup": the aim, and where the bowler is (0 set up, 1 holding the ball, the approach follows on its own).
+            public float aim; public int phase;
+            /// "setup": its order (slides travel unreliably, holds reliably, so they can cross: an older word never undoes a newer).
+            public int seq;
         }
+
+        // ---------------------------------------------------------------- phone casting (PLAN_PhoneCasting_GolfBowling.md)
+        // One phone is the screen (it bowls for no one) and each player's phone is only their controller, with no picture of its own. So the
+        // bowler's phone tells the screen how it is lining up as it happens (board, aim, holding the ball), sends its throw the moment the
+        // ball leaves the hand (not once its pins have settled), and its pinfall after; the screen walks the bowler up live, lets go on the
+        // bowler's beat, and scores the ball with the bowler's pinfall as before, so every sheet still agrees.
+        /// A phone in this game is the screen.
+        bool CastMatch => net != null && net.HasCastScreen;
+        /// This phone is that screen (it bowls for no one).
+        bool CastScreenHere => CastMatch && localIndex < 0;
+        readonly Dictionary<int, int> remotePinfalls = new Dictionary<int, int>();
+        /// The screen walked another phone's bowler up as it happened; their ball has not arrived yet (never let go here on its own).
+        bool remoteApproach;
+        float pinfallWait, nextSetupSend; string sentSetup; int setupSeq, mirroredSeq = -1, mirroredBall = -1;
+        /// How long the screen holds a ball's score for its bowler's pinfall before it scores its own (the same ball, the same physics).
+        const float PinfallWaitSeconds = 3f;
 
         NetworkConfiguration net;
         int localIndex = -1;
@@ -45,6 +65,7 @@ namespace GolfArcade.Bowling
             seatOfPlayer = seated.Select(p => p.seat).ToArray();
             localIndex = seated.FindIndex(p => p.id == c.localID);
             remoteBalls.Clear(); hostBowls.Clear(); ballsBowled = 0; authAfter = -1; remoteBall = null; netSendPending = false;
+            remotePinfalls.Clear(); remoteApproach = false; pinfallWait = 0; sentSetup = null; setupSeq = 0; mirroredSeq = mirroredBall = -1;
             CpuSkill.Clear(); Autoplay.Clear();
             PlayerFemale.Clear(); PlayerFemale.AddRange(seated.Select(p => p.female));
             PlayerLook.Clear(); PlayerLook.AddRange(seated.Select(p => (p.loadout?.skinHex ?? "", p.loadout?.shirtHex ?? "", p.loadout?.shortsHex ?? "", p.loadout?.shoesHex ?? "")));
@@ -55,8 +76,10 @@ namespace GolfArcade.Bowling
         public void ReceiveNetwork(string payload)
         {
             NetBall m; try { m = JsonUtility.FromJson<NetBall>(payload); } catch { return; }
-            if (m == null || m.kind != "throw" || m.ball < ballsBowled) return;
-            remoteBalls[m.ball] = m;
+            if (m == null || m.ball < ballsBowled) return;
+            if (m.kind == "throw") remoteBalls[m.ball] = m;
+            else if (m.kind == "pinfall" && CastMatch) remotePinfalls[m.ball] = m.after;
+            else if (m.kind == "setup" && CastMatch) MirrorSetup(m);
         }
 
         /// A player left the game: the host bowls the rest of their frames as a computer bowler (the others see the balls arrive as usual).
@@ -75,14 +98,16 @@ namespace GolfArcade.Bowling
             if (!Networked) return;
             // between turns nothing else travels: a heartbeat keeps the link from looking dropped
             if (Time.unscaledTime >= nextBeat) { nextBeat = Time.unscaledTime + 1; SportsMultiplayer.Instance?.SendPeer("{\"kind\":\"hb\"}", false); }
-            // another phone's ball arrived and its bowler is set: bowl it here
-            if (Flow == Phase.Setup && !IsLocal(Current) && remoteBall == null && (!Bowler || Bowler.Arrived) && remoteBalls.TryGetValue(ballsBowled, out var m))
+            // another phone's ball arrived and its bowler is set: bowl it here (on the screen, into the approach it is already walking)
+            bool walkingIt = remoteApproach && Flow == Phase.Approach && !released;
+            if ((Flow == Phase.Setup || walkingIt) && !IsLocal(Current) && remoteBall == null && (walkingIt || !Bowler || Bowler.Arrived) && remoteBalls.TryGetValue(ballsBowled, out var m))
             {
                 remoteBalls.Remove(ballsBowled); remoteBall = m;
                 boards[Current] = m.board; authAfter = m.after;
-                Flow = Phase.Approach; approachT = 0; released = false;
-                Bowler?.PlayClip(BowlingClips.Shot, 0, false, true);
+                if (!walkingIt) { Flow = Phase.Approach; approachT = 0; released = false; hud?.FoldSheet(); Bowler?.PlayClip(BowlingClips.Shot, 0, false, true); }
             }
+            // (after the ball: a pinfall that came with it is not overwritten by the throw's own "not known yet")
+            if (CastMatch) CastUpdate();
             // the remote bowler lets go at the moment the bowler did (the grade carries the timing)
             if (Flow == Phase.Approach && remoteBall != null && approachT >= BowlingApproach.IdealRelease + GradeTiming((ReleaseGrade)remoteBall.grade))
             {
@@ -97,6 +122,50 @@ namespace GolfArcade.Bowling
             ReleaseGrade.Early => -.15f, ReleaseGrade.Late => .15f, ReleaseGrade.Foul => BowlingRelease.MissWindow + .05f,
             ReleaseGrade.Drop => -1f, _ => 0,
         };
+
+        /// Phone casting, each frame: the bowler's phone tells how it is lining up; the screen takes the bowler's pinfall as it arrives.
+        void CastUpdate()
+        {
+            if (!IsLocal(Current) && authAfter < 0 && remotePinfalls.TryGetValue(ballsBowled, out int after)) { remotePinfalls.Remove(ballsBowled); authAfter = after; }
+            if (!IsLocal(Current) || IsCpu(Current) || (Flow != Phase.Setup && Flow != Phase.Hold)) return;
+            int phase = Flow == Phase.Hold ? 1 : 0;
+            string key = $"{ballsBowled}|{Board:0.#}|{AimDeg:0.##}|{phase}";
+            if (key == sentSetup) return;
+            bool phaseChanged = sentSetup == null || !sentSetup.EndsWith("|" + phase);
+            if (!phaseChanged && Time.unscaledTime < nextSetupSend) return;
+            sentSetup = key; nextSetupSend = Time.unscaledTime + .1f;
+            var m = new NetBall { kind = "setup", ball = ballsBowled, seat = Current < seatOfPlayer.Length ? seatOfPlayer[Current] : -1, board = Board, aim = AimDeg, phase = phase, seq = ++setupSeq };
+            SportsMultiplayer.Instance?.SendPeer(JsonUtility.ToJson(m), phaseChanged);   // (a hold or its end for certain; the slide as it moves)
+        }
+        /// The screen: another phone's bowler lining up, shown as it happens (their board and aim, picking the ball up, putting it down).
+        /// The approach then starts by itself after the hold, as it does on the bowler's phone.
+        void MirrorSetup(NetBall m)
+        {
+            if (m.ball != ballsBowled || IsLocal(Current) || IsCpu(Current) || remoteBall != null || released) return;
+            if (Current >= seatOfPlayer.Length || seatOfPlayer[Current] != m.seat) return;
+            if (m.ball == mirroredBall && m.seq <= mirroredSeq) return;
+            mirroredBall = m.ball; mirroredSeq = m.seq;
+            // put down just as the walk-up began here (the word crossed with it): back to the set-up, the throw is not coming
+            if (m.phase == 0 && Flow == Phase.Approach && remoteApproach) { remoteApproach = false; Flow = Phase.Setup; holdT = approachT = 0; Bowler?.PlayClip(BowlingClips.Abort); }
+            if (Flow != Phase.Setup && Flow != Phase.Hold) return;
+            boards[Current] = Mathf.Clamp(m.board, 3, 37); aims[Current] = Mathf.Clamp(m.aim, -MaxAim, MaxAim);
+            if (m.phase == 1 && Flow == Phase.Setup) { Flow = Phase.Hold; holdT = 0; }
+            else if (m.phase == 0 && Flow == Phase.Hold) { Flow = Phase.Setup; Bowler?.PlayClip(BowlingClips.Abort); }
+        }
+        /// The screen holds a ball's score until its bowler's pinfall is here (or a few seconds have gone): every sheet the same.
+        bool WaitingForPinfall(float dt)
+        {
+            if (!CastMatch || IsLocal(Current) || authAfter >= 0) { pinfallWait = 0; return false; }
+            pinfallWait += dt;
+            if (pinfallWait < PinfallWaitSeconds) return true;
+            pinfallWait = 0; return false;
+        }
+        void SendPinfall(int after)
+        {
+            authAfter = after;
+            var m = new NetBall { kind = "pinfall", ball = ballsBowled, seat = Current < seatOfPlayer.Length ? seatOfPlayer[Current] : -1, after = after };
+            SportsMultiplayer.Instance?.SendPeer(JsonUtility.ToJson(m), true);
+        }
 
         void SendThrow(BowlingThrow th, int after)
         {
@@ -113,6 +182,7 @@ namespace GolfArcade.Bowling
         void GameOver()
         {
             int me = LocalPlayer;
+            CardReady?.Invoke(Card());
             if (me >= 0) GameFinished?.Invoke(Summary(me));
             if (Networked && HostPhone)
             {

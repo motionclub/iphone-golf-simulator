@@ -15,18 +15,18 @@ namespace GolfArcade.Tests
         {
             var round = Course.Course.ByKey("cliffside+9");
             Assert.IsNotNull(round);
-            CollectionAssert.AreEqual(new[] { 7, 8, 9, 12, 15, 13, 14, 17, 18 }, round.Holes.Select(h => h.Number).ToArray());
+            CollectionAssert.AreEqual(new[] { 8, 9, 12, 15, 14, 17, 18, 19, 20 }, round.Holes.Select(h => h.Number).ToArray());
             Assert.AreEqual("cliffside+9", round.Key, "the round keeps its key, so the host and every phone agree on it");
             Assert.AreEqual("Cliffside + Wild Isles", round.Name);
-            Assert.AreEqual(19 + 5 + 4 + 5 + 3, round.Par);
+            Assert.AreEqual(15 + 4 + 5 + 3 + 4 + 4, round.Par);
         }
 
         [Test]
         public void EighteenLinkedHolesTourEveryCourseAndComeRoundAgain()
         {
             var round = Course.Course.ByKey("wildisles+18");
-            CollectionAssert.AreEqual(new[] { 13, 14, 17, 18, 19, 20, 10, 16, 21, 22, 23, 7, 8, 9, 12, 15, 13, 14 },
-                round.Holes.Select(h => h.Number).ToArray(), "Wild Isles, the Magma Open, Cliffside, then Wild Isles' first two again");
+            CollectionAssert.AreEqual(new[] { 14, 17, 18, 19, 20, 10, 16, 21, 22, 23, 8, 9, 12, 15, 14, 17, 18, 19 },
+                round.Holes.Select(h => h.Number).ToArray(), "Wild Isles, the Magma Open, Cliffside, then Wild Isles' first four again");
             Assert.AreEqual("Grand Tour", round.Name);
         }
 
@@ -54,7 +54,7 @@ namespace GolfArcade.Tests
         public void TheRoundKeyIsTheCourseKeyForTheCourseOwnRound()
         {
             Assert.AreEqual("cliffside", Course.Course.RoundKey("cliffside", 0, true));
-            Assert.AreEqual("cliffside", Course.Course.RoundKey("cliffside", 5, false), "five holes round Cliffside is Cliffside");
+            Assert.AreEqual("cliffside", Course.Course.RoundKey("cliffside", 4, false), "four holes round Cliffside is Cliffside");
             Assert.AreEqual("cliffside+9", Course.Course.RoundKey("cliffside", 9, true));
             Assert.AreEqual("wildisles*18", Course.Course.RoundKey("wildisles", 18, false));
             Assert.AreEqual("cliffside+9", Course.Course.RoundKey("postcards", 9, true), "the retired Postcards key is Cliffside");
@@ -74,7 +74,7 @@ namespace GolfArcade.Tests
         public void TheGameSetupPlaysTheRoundItNames()
         {
             var course = GameSetup.CourseFor("magma+9");
-            CollectionAssert.AreEqual(new[] { 10, 16, 21, 22, 23, 7, 8, 9, 12 }, course.Holes.Select(h => h.Number).ToArray(), "after the Magma Open comes Cliffside");
+            CollectionAssert.AreEqual(new[] { 10, 16, 21, 22, 23, 8, 9, 12, 15 }, course.Holes.Select(h => h.Number).ToArray(), "after the Magma Open comes Cliffside");
             Assert.AreEqual(0, GameSetup.HolesFor("magma+9"), "a round, not one hole of a course");
             Assert.AreEqual(12, GameSetup.CourseFor("cliffside-12").Holes.Single().Number, "one hole of a course still works as before");
         }

@@ -178,8 +178,8 @@ namespace GolfArcade.PlayTests
                 game.Play();
                 yield return null;
                 GolfGame.ForcedWeather = Weather.Clear;
-                game.JumpToHole(7);
-                yield return WaitFor(() => game.Current == GolfGame.State.Aim, 60, "hole 7's tee");
+                game.JumpToHole(8);
+                yield return WaitFor(() => game.Current == GolfGame.State.Aim, 60, "hole 8's tee");
                 var hud = Object.FindFirstObjectByType<GolfArcade.UI.Hud>();
                 hud.HideTwists();
                 Assert.IsNotNull(game.HoleBounty, "a bounty on the hole");
@@ -279,8 +279,8 @@ namespace GolfArcade.PlayTests
                 game.Play();
                 yield return null;
                 GolfGame.ForcedWeather = Weather.Clear;
-                game.JumpToHole(7);
-                yield return WaitFor(() => game.Current == GolfGame.State.Aim, 60, "hole 7's tee");
+                game.JumpToHole(8);
+                yield return WaitFor(() => game.Current == GolfGame.State.Aim, 60, "hole 8's tee");
                 var movers = game.CurrentHole.Movers;
                 Assert.IsNotNull(movers);
                 double before = movers.Now;

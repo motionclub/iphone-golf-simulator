@@ -12,7 +12,7 @@ import UIKit
 /// One map's look.
 struct MapSkin: Equatable, Identifiable {
     enum Sport: String { case tennis, golf, bowling }
-    /// "tennis-resort", "golf-cliffside", "bowling-neon" (the asset names' key).
+    /// "tennis-resort", "golf-cliffside", "bowling-crater" (the asset names' key).
     let id: String
     let sport: Sport
     /// The map's name as it stands on its own ("Sky Tower").
@@ -57,10 +57,9 @@ struct MapSkin: Equatable, Identifiable {
         case "golf-cliffside": ["load-golf-cliffside-male", "load-golf-cliffside-female"]
         case "golf-wildisles": ["load-golf-wildisles-male"]
         case "golf-magma": ["load-golf-magma-male", "load-golf-magma-female"]
-        case "bowling-club": ["load-bowling-club-set"]
-        case "bowling-neon": ["load-bowling-neon-release", "load-bowling-neon-strike"]
-        case "bowling-tiki": ["load-bowling-tiki-approach"]
-        default: ["load-bowling-magma-spare"]
+        case "bowling-beachcourt": ["load-bowling-beachcourt"]
+        case "bowling-crater": ["load-bowling-crater"]
+        default: ["load-bowling-rooftop"]
         }
     }
 
@@ -70,7 +69,8 @@ struct MapSkin: Equatable, Identifiable {
     /// club/neon/tiki/magma). Unknown keys fall back to the sport's first map.
     static func of(sport: String, venue: String) -> MapSkin {
         let s = sport == "golf" ? "golf" : sport == "bowling" ? "bowling" : "tennis"
-        let key = s == "golf" ? MultiplayerLobby.currentGolfVenue(MultiplayerLobby.golfRoundParts(venue).course) : venue
+        let key = s == "golf" ? MultiplayerLobby.currentGolfVenue(MultiplayerLobby.golfRoundParts(venue).course)
+            : s == "bowling" ? (BowlingVenueChoice.resolve(venue)?.rawValue ?? venue) : venue
         return all.first { $0.id == "\(s)-\(key)" } ?? all.first { $0.sport.rawValue == s }!
     }
     /// The map being played (or loading) now.
@@ -139,34 +139,28 @@ extension MapSkin {
                 plateText: Color(hex: "FFF0D6"), plateStroke: Color(hex: "1F3A12"), cardText: Color(hex: "FFF0D6"), cardStroke: Color(hex: "1F3A12"),
                 symbols: ["flame.fill", "flag.fill", "sparkles"], symbolColor: Color(hex: "FF9A2A"),
                 plateBox: box(0.248, 0.381, 0.774, 0.642), eventBox: nil, cardBox: box(0.247, 0.24, 0.758, 0.589)),
-        MapSkin(id: "bowling-club", sport: .bowling, title: "Club Lanes",
-                top: Color(hex: "1E2756"), bottom: Color(hex: "131A3E"), frame: Color(hex: "8A5A30"), frameDeep: Color(hex: "4E2F16"),
-                surface: Color(hex: "26306A"), line: Color(hex: "D9B25A"), cream: Color(hex: "FFF1D8"), ink: Color(hex: "1B2148"),
-                accent: Color(hex: "FFF1D8"), accentDeep: Color(hex: "C9A464"), accentInk: Color(hex: "1B2148"), glow: Color(hex: "E9B949"),
-                plateText: Color(hex: "FFF1D8"), plateStroke: Color(hex: "121838"), cardText: Color(hex: "1B2148"), cardStroke: Color(hex: "FFF6E6"),
-                symbols: ["crown.fill", "star.fill", "sparkle"], symbolColor: Color(hex: "E9B949"),
-                plateBox: box(0.232, 0.472, 0.803, 0.75), eventBox: nil, cardBox: box(0.175, 0.373, 0.834, 0.794)),
-        MapSkin(id: "bowling-neon", sport: .bowling, title: "Neon Nights",
-                top: Color(hex: "3A1266"), bottom: Color(hex: "1E0A3C"), frame: Color(hex: "8A4DFF"), frameDeep: Color(hex: "4A1E9A"),
-                surface: Color(hex: "2C0E52"), line: Color(hex: "FF3EA5"), cream: Color(hex: "FFF1F8"), ink: Color(hex: "2A0B4D"),
-                accent: Color(hex: "FF3EA5"), accentDeep: Color(hex: "B81A73"), accentInk: Color(hex: "FFFFFF"), glow: Color(hex: "2DE2F0"),
-                plateText: Color(hex: "FFF1F8"), plateStroke: Color(hex: "D61F86"), cardText: Color(hex: "FFFFFF"), cardStroke: Color(hex: "2A0B4D"),
-                symbols: ["bolt.fill", "star.fill", "sparkles"], symbolColor: Color(hex: "2DE2F0"),
-                plateBox: box(0.208, 0.107, 0.87, 0.644), eventBox: nil, cardBox: box(0.146, 0.189, 0.873, 0.784)),
-        MapSkin(id: "bowling-tiki", sport: .bowling, title: "Tiki Shores",
-                top: Color(hex: "11535A"), bottom: Color(hex: "0A3A40"), frame: Color(hex: "E2AE4C"), frameDeep: Color(hex: "9A6A22"),
-                surface: Color(hex: "136169"), line: Color(hex: "F3D489"), cream: Color(hex: "FFF1D6"), ink: Color(hex: "123B40"),
-                accent: Color(hex: "FFF1D6"), accentDeep: Color(hex: "D7B57A"), accentInk: Color(hex: "123B40"), glow: Color(hex: "3FD8C8"),
-                plateText: Color(hex: "FFF1D6"), plateStroke: Color(hex: "0C3A40"), cardText: Color(hex: "123B40"), cardStroke: Color(hex: "FFF6E6"),
-                symbols: ["leaf.fill", "sun.max.fill", "camera.macro"], symbolColor: Color(hex: "F04848"),
-                plateBox: box(0.255, 0.238, 0.769, 0.69), eventBox: nil, cardBox: box(0.195, 0.259, 0.848, 0.741)),
-        MapSkin(id: "bowling-magma", sport: .bowling, title: "Magma Lanes",
-                top: Color(hex: "40231D"), bottom: Color(hex: "241210"), frame: Color(hex: "5A3A2E"), frameDeep: Color(hex: "2A1712"),
-                surface: Color(hex: "4A2B23"), line: Color(hex: "FF8B2B"), cream: Color(hex: "FFEBD2"), ink: Color(hex: "3A1F18"),
-                accent: Color(hex: "FFEBD2"), accentDeep: Color(hex: "D9A877"), accentInk: Color(hex: "3A1F18"), glow: Color(hex: "FF8B2B"),
-                plateText: Color(hex: "FFEBD2"), plateStroke: Color(hex: "241210"), cardText: Color(hex: "FFEBD2"), cardStroke: Color(hex: "241210"),
-                symbols: ["flame.fill", "sparkles", "flame"], symbolColor: Color(hex: "FF8B2B"),
-                plateBox: box(0.282, 0.402, 0.87, 0.687), eventBox: nil, cardBox: box(0.112, 0.179, 0.779, 0.632)),
+        // the bowling alleys stand on the tennis worlds and wear their tennis map's colours (no sculpted art of their own yet)
+        MapSkin(id: "bowling-rooftop", sport: .bowling, title: "Rooftop Lanes",
+                top: Color(hex: "2A2F72"), bottom: Color(hex: "1C2056"), frame: Color(hex: "A592E0"), frameDeep: Color(hex: "6A55B8"),
+                surface: Color(hex: "2B66D8"), line: Color(hex: "E9E2FF"), cream: Color(hex: "FFF3DF"), ink: Color(hex: "1D2157"),
+                accent: Color(hex: "4FE3EE"), accentDeep: Color(hex: "21A9BD"), accentInk: Color(hex: "16194B"), glow: Color(hex: "B9A6FF"),
+                plateText: Color(hex: "FFF3DF"), plateStroke: Color(hex: "151946"), cardText: Color(hex: "1D2157"), cardStroke: Color(hex: "FFF6E6"),
+                symbols: ["cloud.fill", "building.2.fill", "sparkle"], symbolColor: Color(hex: "E8E3FF"),
+                plateBox: box(0.275, 0.514, 0.749, 0.751), eventBox: box(0.182, 0.485, 0.812, 0.875), cardBox: nil),
+        MapSkin(id: "bowling-beachcourt", sport: .bowling, title: "Beach Court",
+                top: Color(hex: "1E3C73"), bottom: Color(hex: "142A55"), frame: Color(hex: "D49553"), frameDeep: Color(hex: "8A5426"),
+                surface: Color(hex: "1F4FA8"), line: Color(hex: "F4E3C3"), cream: Color(hex: "FFF1D8"), ink: Color(hex: "16264A"),
+                accent: Color(hex: "35DCCB"), accentDeep: Color(hex: "1A9C93"), accentInk: Color(hex: "112A4C"), glow: Color(hex: "35DCCB"),
+                plateText: Color(hex: "FFF1D8"), plateStroke: Color(hex: "0F2147"), cardText: Color(hex: "16264A"), cardStroke: Color(hex: "FFF6E6"),
+                symbols: ["leaf.fill", "sun.max.fill", "water.waves"], symbolColor: Color(hex: "57B947"),
+                plateBox: box(0.286, 0.473, 0.703, 0.665), eventBox: box(0.221, 0.448, 0.782, 0.714), cardBox: nil),
+        MapSkin(id: "bowling-crater", sport: .bowling, title: "Crater Lanes",
+                top: Color(hex: "2E2629"), bottom: Color(hex: "1D1719"), frame: Color(hex: "463A3D"), frameDeep: Color(hex: "1E1719"),
+                surface: Color(hex: "3A3236"), line: Color(hex: "FF8B2B"), cream: Color(hex: "FFEBD2"), ink: Color(hex: "2A1B16"),
+                accent: Color(hex: "FFA032"), accentDeep: Color(hex: "D2621A"), accentInk: Color(hex: "2A140A"), glow: Color(hex: "FF8B2B"),
+                plateText: Color(hex: "FFEBD2"), plateStroke: Color(hex: "1E1416"), cardText: Color(hex: "FFEBD2"), cardStroke: Color(hex: "1E1416"),
+                symbols: ["flame.fill", "mountain.2.fill", "sparkles"], symbolColor: Color(hex: "FF8B2B"),
+                plateBox: box(0.283, 0.293, 0.816, 0.591), eventBox: box(0.242, 0.429, 0.805, 0.742), cardBox: nil),
     ]
 }
 
@@ -415,10 +409,12 @@ struct MapSetupCard<Content: View>: View {
     let skin: MapSkin
     let name: String
     let title: String
+    /// The map's sculpted title above the card. Off for the tennis setup steps (2026-11-20, Adnan: the map name is redundant there).
+    var showsMap = true
     @ViewBuilder let content: () -> Content
     var body: some View {
         VStack(spacing: 0) {
-            MapTitleArt(skin: skin, height: 118).mapEntrance(delay: 0.1).mapBob(amount: 3).padding(.bottom, -10).zIndex(1)
+            if showsMap { MapTitleArt(skin: skin, height: 118).mapEntrance(delay: 0.1).mapBob(amount: 3).padding(.bottom, -10).zIndex(1) }
             Text(name.uppercased()).font(MapFont.bold(17)).foregroundStyle(skin.cream).lineLimit(1).minimumScaleFactor(0.6)
                 .padding(.horizontal, 22).padding(.vertical, 7)
                 .background(skin.ink, in: Capsule()).overlay(Capsule().strokeBorder(skin.frame, lineWidth: 2.5))

@@ -134,7 +134,7 @@ namespace GolfArcade.PlayTests
             {
                 game.ChooseHoles(0); game.Play();
                 yield return null;
-                game.JumpToHole(7);
+                game.JumpToHole(8);
                 yield return Until(() => game.Current == GolfGame.State.Aim, 45, "the tee");
                 yield return Until(() => game.Swing.Phase == GolfArcade.Swing.SwingPhase.Address, 5, "address");
                 foreach (var c in Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None)) c.enabled = false;      // the golfer and the course, nothing over them

@@ -78,8 +78,7 @@ enum LoadingShots {
         ("golf-magma-female", "MAGMA OPEN"), ("golf-wildisles-male", "WILD ISLES"),
         ("tennis-rooftop-serve", "SKY TOWER"), ("tennis-rooftop-stretch", "SKY TOWER"), ("tennis-resort-forehand", "TROPICAL RESORT"),
         ("tennis-resort-volley", "TROPICAL RESORT"), ("tennis-volcano-backhand", "MAGMA CRATER"),
-        ("bowling-neon-release", "NEON NIGHTS"), ("bowling-neon-strike", "NEON NIGHTS"), ("bowling-tiki-approach", "TIKI SHORES"),
-        ("bowling-magma-spare", "MAGMA LANES"), ("bowling-club-set", "CLUB LANES"),
+        ("bowling-rooftop", "ROOFTOP LANES"), ("bowling-beachcourt", "BEACH COURT"), ("bowling-crater", "CRATER LANES"),
         ("boxing-beachside-exchange", ""), ("boxing-ringside-slip", ""), ("boxing-corner-reset", ""), ("boxing-center-footwork", ""),
         ("boxing-final-bell", ""), ("baseball-infield-grounder", ""), ("baseball-plate-catch", ""), ("baseball-seaside-pitch", ""),
         ("baseball-warning-track", ""), ("baseball-first-base-lead", ""),
@@ -200,14 +199,14 @@ struct HubPartyBayPanel: View {
                 Text(headline).font(IslandUI.font(26, bold: true)).fixedSize(horizontal: false, vertical: true).accessibilityIdentifier("hub-party-waiting")
                 if leader && !checking, let lobby = party { settings(lobby) }
                 if !leader || checking, let lobby = party {
-                    Text(golf ? GolfCourseChoice.venueTitle(lobby.venue) : bowling ? (BowlingVenueChoice(rawValue: lobby.venue)?.title ?? lobby.venue.capitalized) + " · 10 frames" : "\(lobby.venue.capitalized) · \(lobby.sets) \(lobby.sets == 1 ? "set" : "sets") · \(lobby.games) games")
+                    Text(golf ? GolfCourseChoice.venueTitle(lobby.venue) : bowling ? (BowlingVenueChoice.resolve(lobby.venue)?.title ?? lobby.venue.capitalized) + " · 10 frames" : "\(lobby.venue.capitalized) · \(lobby.sets) \(lobby.sets == 1 ? "set" : "sets") · \(lobby.games) games")
                         .font(IslandUI.font(16, bold: true)).foregroundStyle(.white.opacity(0.75))
                 }
                 VStack(spacing: 8) {
                     ForEach(party?.participants.filter { !$0.isGuest } ?? [], id: \.id) { p in
                         HStack {
                             Circle().fill(p.ready && p.seat >= 0 ? IslandUI.lime : .white.opacity(0.25)).frame(width: 12, height: 12)
-                            Text(p.name + (p.id == party?.ownerID ? " · leader" : "") + (p.id == me ? " (you)" : "")).font(IslandUI.font(17, bold: true))
+                            Text(p.name + (p.id == party?.ownerID ? " · leader" : "") + (p.isCastScreen ? " · screen" : "") + (p.id == me ? " (you)" : "")).font(IslandUI.font(17, bold: true))
                             Spacer()
                             Text(status(p)).font(IslandUI.font(14, bold: true)).foregroundStyle(p.ready && p.seat >= 0 ? IslandUI.lime : .white.opacity(0.6))
                         }
@@ -276,8 +275,18 @@ struct HubPartyBayPanel: View {
                     }
                 }.labelsHidden().accessibilityIdentifier("hub-party-map")
             }
+            if golf || bowling {
+                // phone casting: this phone shows the game for everyone, like a TV, and plays no one (PLAN_PhoneCasting_GolfBowling.md)
+                Toggle("This phone is the screen", isOn: Binding(get: { lobby.castScreen?.id == hub.partyService.localID }, set: { hub.setPartyCastScreen($0) }))
+                    .tint(IslandUI.lime).accessibilityIdentifier("party-cast-screen")
+                if lobby.hasCastScreen {
+                    // (measured: MultiplayerRulesTests.GolfSnapshotDataPerMinuteIsMeasured, work/phone-casting/data_use.txt)
+                    Text("This phone shows the game sideways for everyone and plays no one; each friend plays on their own phone. Over mobile data, golf uses under 1 MB a minute per phone; bowling far less.")
+                        .font(.footnote).foregroundStyle(.white.opacity(0.7)).fixedSize(horizontal: false, vertical: true)
+                }
+            }
             if bowling {
-                Text("One lane, 10 frames, taking turns. Every phone shows the game: no TV needed.").font(.footnote).foregroundStyle(.white.opacity(0.7))
+                Text(lobby.hasCastScreen ? "One lane, 10 frames, taking turns." : "One lane, 10 frames, taking turns. Every phone shows the game: no TV needed.").font(.footnote).foregroundStyle(.white.opacity(0.7))
             } else if golf {
                 Text("\(MultiplayerService.onlineGolfHoles) holes. A tie for the lowest card: one random ball drop, one hit each, closest to the hole wins.").font(.footnote).foregroundStyle(.white.opacity(0.7))
             } else if !golf {
@@ -317,6 +326,7 @@ struct HubPartyBayPanel: View {
     }
     private func status(_ p: MultiplayerParticipant) -> String {
         if !p.connected { return "Reconnecting…" }
+        if p.isCastScreen { return checking ? "Screen" : "Choosing" }
         guard checking else { return p.id == party?.ownerID ? "Choosing" : "In the party" }
         if p.seat < 0 { return "Watching" }
         return p.ready ? "Ready" : "Not ready"
@@ -405,12 +415,107 @@ struct HubNearbyBenchPanel: View {
     }
 }
 
-/// "Join Adnan's tennis game?": a friend's phone in the same room is hosting (it sat on the Nearby bench). One tap joins and the match
-/// starts; ✕ hides that game. While joining it says so, with Cancel.
+/// Phone casting (PLAN_PhoneCasting_GolfBowling.md, HubSession.useCastScreen): this phone is the game's screen, like a TV. It plays
+/// no one; each friend's phone in the room offers "Play golf on <you>'s screen?" and is a player once it joins. Start runs the game here.
+struct HubCastScreenPanel: View {
+    let hub: HubSession
+    let sport: MultiplayerSport
+    var body: some View {
+        let service = hub.partyService
+        let lobby = service.lobby
+        let players = lobby?.competitors ?? []
+        let me = lobby?.castScreen?.name ?? "you"
+        let game = sport == .golf ? "golf" : "bowling"
+        VStack(alignment: .leading, spacing: 16) {
+            HStack {
+                Text("\(game.uppercased()) · PHONE SCREEN").font(IslandUI.font(13, bold: true)).tracking(1.4).foregroundStyle(IslandUI.lime)
+                Spacer()
+                Button { hub.leaveStation() } label: { Text("Cancel").font(IslandUI.font(15, bold: true)).foregroundStyle(.white).padding(.horizontal, 14).padding(.vertical, 8).background(.white.opacity(0.12), in: Capsule()) }
+                    .buttonStyle(.plain).accessibilityIdentifier("hub-cast-leave")
+            }
+            Text(players.isEmpty ? (hub.nearbyHosting ? "Waiting for players…" : "This phone is the screen") : "\(players.count) of 3 players in")
+                .font(IslandUI.font(26, bold: true)).accessibilityIdentifier("hub-cast-status")
+            if hub.nearbyHosting {
+                Text("On each player's phone, open MotionSports: \u{201C}Play \(game) on \(me)'s screen?\u{201D} pops up. One tap and that phone is their controller.")
+                    .font(IslandUI.font(16)).foregroundStyle(.white.opacity(0.85)).fixedSize(horizontal: false, vertical: true)
+                ForEach(players, id: \.id) { p in
+                    HStack(spacing: 10) {
+                        Image(systemName: p.isGuest ? "person.fill" : "iphone.gen3").foregroundStyle(IslandUI.lime)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(p.name).font(IslandUI.font(18, bold: true))
+                            if p.isGuest, let phone = players.first(where: { $0.id == p.controllerID }) {
+                                Text("on \(phone.name)'s phone").font(IslandUI.font(13)).foregroundStyle(.white.opacity(0.65))
+                            }
+                        }
+                        Spacer()
+                        if p.isGuest {
+                            // (golf: a friend without the app plays on this player's phone, passed round)
+                            Button { try? service.removeLocalGuest(on: p.controllerID); hub.haptic() } label: {
+                                Image(systemName: "minus.circle.fill").font(.system(size: 22)).foregroundStyle(.white.opacity(0.75))
+                            }.buttonStyle(.plain).accessibilityLabel("Remove \(p.name)").accessibilityIdentifier("hub-cast-remove-guest")
+                        } else {
+                            Text(p.ready ? "Ready" : "Joining…").font(IslandUI.font(14, bold: true)).foregroundStyle(.white.opacity(0.7))
+                            if sport == .golf, (lobby?.participants.count ?? 4) < 4 {
+                                Button { try? service.addLocalGuest(on: p.id); hub.haptic() } label: {
+                                    Label("Guest", systemImage: "plus").font(IslandUI.font(13, bold: true)).foregroundStyle(IslandUI.navy)
+                                        .padding(.horizontal, 10).frame(minHeight: 32).background(IslandUI.lime, in: Capsule())
+                                }.buttonStyle(.plain).accessibilityLabel("Add a guest on \(p.name)'s phone").accessibilityIdentifier("hub-cast-add-guest")
+                            }
+                        }
+                    }.accessibilityIdentifier("hub-cast-player")
+                }
+                if players.isEmpty { ProgressView().tint(IslandUI.lime).scaleEffect(1.4).frame(maxWidth: .infinity) }
+                Text("No shared Wi-Fi needed: keep the phones close, with Wi-Fi turned on. Plug this phone in for long games; it turns sideways when the game starts.")
+                    .font(.footnote).foregroundStyle(.white.opacity(0.6)).fixedSize(horizontal: false, vertical: true)
+            }
+            if service.localNetworkDenied {
+                Text(MultiplayerError.localNetworkDenied.localizedDescription).font(.subheadline).fixedSize(horizontal: false, vertical: true)
+                Button("Open Settings") { if let url = URL(string: UIApplication.openSettingsURLString) { UIApplication.shared.open(url) } }
+                    .tint(IslandUI.lime).accessibilityIdentifier("hub-cast-settings")
+            }
+            if !hub.notice.isEmpty { Text(hub.notice).font(IslandUI.font(14, bold: true)).foregroundStyle(IslandUI.lime) }
+            Spacer(minLength: 0)
+            if hub.nearbyHosting {
+                let canStart = lobby?.canStart == true
+                Button { hub.startCastGame() } label: {
+                    Text(canStart ? "Start \(game)" : (lobby?.startReason ?? "Waiting for players"))
+                        .font(IslandUI.font(canStart ? 20 : 16, bold: true)).multilineTextAlignment(.center).minimumScaleFactor(0.7)
+                        .foregroundStyle(canStart ? IslandUI.navy : .white.opacity(0.7)).frame(maxWidth: .infinity, minHeight: 58)
+                        .background(canStart ? IslandUI.lime : .white.opacity(0.12), in: Capsule())
+                }.buttonStyle(.plain).disabled(!canStart).accessibilityIdentifier("hub-cast-start")
+            } else {
+                Button { hub.useCastScreen(sport) } label: {
+                    Text("Use this phone as the screen").font(IslandUI.font(20, bold: true)).foregroundStyle(IslandUI.navy).frame(maxWidth: .infinity, minHeight: 58).background(IslandUI.lime, in: Capsule())
+                }.buttonStyle(.plain).accessibilityIdentifier("hub-cast-host")
+            }
+        }
+        .foregroundStyle(.white).padding(22)
+        .background(IslandBrandBackground().ignoresSafeArea())
+        .preferredColorScheme(.dark)
+        .accessibilityIdentifier("hub-cast-screen")
+    }
+}
+
+/// "Join Adnan's tennis game?": a friend's phone in the same room is hosting (nearby tennis, or LOCAL PLAY golf or bowling). One tap
+/// joins: tennis starts at once, golf and bowling when the host presses TEE OFF / START (the banner says so meanwhile, with Leave);
+/// ✕ hides that game. While joining it says so, with Cancel.
 struct HubNearbyBanner: View {
     let hub: HubSession
+    static func game(_ sport: String) -> String { sport == "golf" ? "golf" : sport == "bowling" ? "bowling" : "tennis" }
+    static func icon(_ sport: String) -> String { sport == "golf" ? "figure.golf" : sport == "bowling" ? "figure.bowling" : "tennis.racket" }
     var body: some View {
-        if let joining = hub.nearbyJoining {
+        if let waiting = hub.nearbyWaiting {
+            row {
+                Image(systemName: Self.icon(waiting.sport.rawValue)).font(.system(size: 20, weight: .bold)).foregroundStyle(IslandUI.lime)
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(waiting.screen ? "On \(waiting.host)'s screen" : "In \(waiting.host)'s \(Self.game(waiting.sport.rawValue)) game")
+                        .font(IslandUI.font(17, bold: true)).lineLimit(1).minimumScaleFactor(0.7).accessibilityIdentifier("hub-nearby-waiting")
+                    Text("\(waiting.host) starts it · you're ready").font(IslandUI.font(13)).foregroundStyle(.white.opacity(0.7)).lineLimit(1).minimumScaleFactor(0.7)
+                }
+                Spacer(minLength: 4)
+                Button("Leave") { hub.leaveNearbyGame() }.font(IslandUI.font(15, bold: true)).tint(.white).padding(.trailing, 8).accessibilityIdentifier("hub-nearby-leave-game")
+            }
+        } else if let joining = hub.nearbyJoining {
             row {
                 ProgressView().tint(IslandUI.lime)
                 Text("Joining \(joining.name)'s game…").font(IslandUI.font(16, bold: true)).lineLimit(1).minimumScaleFactor(0.7)
@@ -419,8 +524,8 @@ struct HubNearbyBanner: View {
             }
         } else if let offer = hub.nearbyOffer {
             row {
-                Image(systemName: "tennis.racket").font(.system(size: 20, weight: .bold)).foregroundStyle(IslandUI.lime)
-                Text("Join \(offer.name)'s tennis game?").font(IslandUI.font(17, bold: true)).lineLimit(2).minimumScaleFactor(0.7)
+                Image(systemName: offer.screen ? "iphone.gen3.radiowaves.left.and.right" : Self.icon(offer.sport)).font(.system(size: 20, weight: .bold)).foregroundStyle(IslandUI.lime)
+                Text(offer.screen ? "Play \(Self.game(offer.sport)) on \(offer.name)'s screen?" : "Join \(offer.name)'s \(Self.game(offer.sport)) game?").font(IslandUI.font(17, bold: true)).lineLimit(2).minimumScaleFactor(0.7)
                     .accessibilityIdentifier("hub-nearby-offer")
                 Spacer(minLength: 4)
                 Button { hub.joinNearby() } label: {
@@ -445,25 +550,30 @@ struct HubNearbyBanner: View {
 /// Plaza, on the same bench.
 struct HubMatchOverPanel: View {
     let hub: HubSession
+    var session: SportsSession = .shared
+    private var skin: MapSkin { .current }
     var body: some View {
-        VStack(spacing: 20) {
-            Spacer()
-            Text("MATCH OVER").font(IslandUI.font(14, bold: true)).tracking(2).foregroundStyle(IslandUI.lime)
-            Text(hub.matchOver ?? "").font(IslandUI.font(36, bold: true)).multilineTextAlignment(.center).accessibilityIdentifier("hub-match-over-line")
-            Text(hub.partyService.isParty ? "Everyone goes back to the party together. The leader picks the next game." : "Back to the menu.")
-                .font(IslandUI.font(15)).foregroundStyle(.white.opacity(0.7)).multilineTextAlignment(.center)
-            Spacer()
-            Button { hub.leaveOnlineMatch() } label: {
-                Text("Back to the Plaza").font(IslandUI.font(22, bold: true)).foregroundStyle(IslandUI.navy).frame(maxWidth: .infinity, minHeight: 62).background(IslandUI.lime, in: Capsule())
-            }.buttonStyle(.plain).accessibilityIdentifier("hub-match-over-back")
-            if hub.inParty {
-                Button { hub.leaveParty() } label: {
-                    Text("Leave party").font(IslandUI.font(17, bold: true)).foregroundStyle(.white.opacity(0.8)).frame(maxWidth: .infinity, minHeight: 48)
-                }.buttonStyle(.plain).accessibilityIdentifier("hub-match-over-leave-party")
+        VStack {
+            Spacer(minLength: 0)
+            MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: "Match over") {
+                Text(hub.matchOver ?? "").font(MapFont.bold(30)).multilineTextAlignment(.center).accessibilityIdentifier("hub-match-over-line")
+                // the TV's winner plaque → standings, stepped from here (PostGameTV)
+                if session.postGameStage == .victory {
+                    MapQuietButton(skin: skin, title: "Show results") { session.advancePostGame() }.accessibilityIdentifier("hub-match-over-results")
+                }
+                Text(hub.partyService.isParty ? "Everyone goes back to the party together. The leader picks the next game." : "Back to the menu.")
+                    .font(MapFont.semi(15)).multilineTextAlignment(.center).opacity(0.85)
+                Button { hub.leaveOnlineMatch() } label: {
+                    MapActionFace(skin: skin, title: "Back to the Plaza", height: 62)
+                }.buttonStyle(.plain).accessibilityIdentifier("hub-match-over-back")
+                if hub.inParty {
+                    MapQuietButton(skin: skin, title: "Leave party") { hub.leaveParty() }.accessibilityIdentifier("hub-match-over-leave-party")
+                }
             }
+            Spacer(minLength: 0)
         }
-        .foregroundStyle(.white).padding(24)
-        .background(IslandBrandBackground().ignoresSafeArea())
+        .padding(20)
+        .background(MapControllerBackground(skin: skin).ignoresSafeArea())
         .preferredColorScheme(.dark)
         .accessibilityIdentifier("hub-match-over")
     }

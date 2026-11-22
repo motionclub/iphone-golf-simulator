@@ -21,6 +21,8 @@ namespace GolfArcade.Tennis
         /// The most it will ever compensate, and how far from the current estimate a sample
         /// may be before it is written off as a fluke (a panicked swing, a missed ball).
         public const float Max = 1f, Outlier = .3f;
+        /// Samples before the estimate is worth keeping for the next match (the app's per-TV timing, quick start T6).
+        public const int Trusted = 5;
 
         readonly List<float> samples = new();
         readonly List<float> scratch = new();

@@ -38,7 +38,7 @@ namespace GolfArcade.Bowling
             go.transform.SetParent(game.transform, false);
             var a = go.AddComponent<BowlingAudio>();
             a.game = game;
-            a.room = venue switch { BowlingVenueKind.NeonNights => BowlingSynth.Room.Neon, BowlingVenueKind.TikiShores => BowlingSynth.Room.Beach, BowlingVenueKind.MagmaLanes => BowlingSynth.Room.Cave, _ => BowlingSynth.Room.Club };
+            a.room = BowlingSynth.Room.Beach;   // every alley is open air (11-21): no hall
             a.Build(venue);
             return a;
         }
@@ -59,6 +59,9 @@ namespace GolfArcade.Bowling
 
         void Build(BowlingVenueKind venue)
         {
+            // each open-air alley keeps the sound set recorded for the indoor centre it replaced (11-21): the rooftop Club Lanes',
+            // the beach court Tiki Shores', the crater Magma Lanes' (room bed, ambience, music, welcome line)
+            string sound = venue switch { BowlingVenueKind.BeachCourtLanes => "tiki", BowlingVenueKind.CraterLanes => "magma", _ => "club" };
             shot = Source(); crash = Source(priority: 0);   // the crash is the most important sound in the game
             roll = Source(true, 10); gutter = Source(true, 20); bed = Source(true); amb = Source(true); music = Source(true); neighbour = Source(); returnRoll = Source(true);
             kit = LoadKit(out pinHits, out machines, out wobbles);
@@ -83,7 +86,7 @@ namespace GolfArcade.Bowling
                 AudioClip c = null; GameAudio.Swap(ref c, file); if (c) crowd[key] = c;
             }
             // the room: a real alley recording per venue (chatter, balls, other lanes' crashes)
-            string roomKey = venue switch { BowlingVenueKind.NeonNights => "room_neon", BowlingVenueKind.TikiShores => "room_tiki", BowlingVenueKind.MagmaLanes => "room_magma", _ => "room_club" };
+            string roomKey = "room_" + sound;
             bed.clip = Resources.Load<AudioClip>(Kit + roomKey + "_1") ?? GameAudio.Load("sfx/crowd/tennis_murmur")?[0];
             if (!Resources.Load<AudioClip>(Kit + roomKey + "_1"))
             {
@@ -92,18 +95,12 @@ namespace GolfArcade.Bowling
             }
             nextNeighbour = Time.time + Random.Range(3f, 8f);
             // the venue: Tiki's surf and birds, Magma's rumbling cave; music in the lounges, the neon hall's own track when it exists
-            amb.clip = venue switch { BowlingVenueKind.TikiShores => GameAudio.Load("sfx/amb/golf_wildisles")?[0], BowlingVenueKind.MagmaLanes => GameAudio.Load("sfx/amb/golf_magma")?[0], _ => null };
-            ambVolume = venue == BowlingVenueKind.MagmaLanes ? .5f : .4f;
-            music.clip = venue switch
-            {
-                BowlingVenueKind.NeonNights => Resources.Load<AudioClip>("Audio/v2/music/bowl_neon") ?? Resources.Load<AudioClip>("Audio/v2/music/game_light"),
-                BowlingVenueKind.MagmaLanes => Resources.Load<AudioClip>("Audio/v2/music/bowl_magma"),
-                BowlingVenueKind.TikiShores => Resources.Load<AudioClip>("Audio/v2/music/bowl_tiki") ?? Resources.Load<AudioClip>("Audio/v2/music/game_light"),
-                _ => Resources.Load<AudioClip>("Audio/v2/music/bowl_club") ?? Resources.Load<AudioClip>("Audio/v2/music/game_light"),
-            };
-            musicVolume = venue == BowlingVenueKind.NeonNights ? .32f : .22f;
+            amb.clip = sound switch { "tiki" => GameAudio.Load("sfx/amb/golf_wildisles")?[0], "magma" => GameAudio.Load("sfx/amb/golf_magma")?[0], _ => null };
+            ambVolume = sound == "magma" ? .5f : .4f;
+            music.clip = Resources.Load<AudioClip>("Audio/v2/music/bowl_" + sound) ?? Resources.Load<AudioClip>("Audio/v2/music/game_light");
+            musicVolume = .22f;
             foreach (var s in new[] { bed, amb, music }) if (s.clip) s.Play();
-            GameVoice.Say("bowl_welcome_" + venue.ToString().ToLowerInvariant(), 1, true);
+            GameVoice.Say("bowl_welcome_" + (sound == "tiki" ? "tikishores" : sound == "magma" ? "magmalanes" : "clublanes"), 1, true);
         }
 
         const string Kit = "Audio/v2/sfx/bowling/";

@@ -348,16 +348,13 @@ struct IslandPauseScreen: View {
                                 PointRecordingSettings(session: session)
                                 Divider()
                             }
-                            Button("Re-aim at the TV") { session.menuPauseVisible = false; SportsDisplays.shared.external?.isHidden = true; session.beginAxisCapture(); dismiss() }
+                            Button("Point at the TV again") { session.menuPauseVisible = false; SportsDisplays.shared.external?.isHidden = true; session.beginAxisCapture(); dismiss() }
                             if session.sport == "tennis" {
                                 Button("Recenter racket") { session.recalibrateAiming(); dismiss() }
                                     .disabled(!session.motion.axisLocked || session.checkingTiming || session.measuringDelay)
                             }
                             Button("Flip left / right") { session.flipSteering() }
-                            // Not online: a network match has no timing check (Unity ignores it), so the screens would never finish.
-                            if session.displayConnected && session.sport == "tennis" && session.multiplayerMatchID == nil {
-                                Button("Re-check swing timing") { session.menuPauseVisible = false; SportsDisplays.shared.external?.isHidden = true; session.recheckTiming(); dismiss() }
-                            }
+
                         }.font(IslandUI.font(18)).padding(20).background(IslandUI.card.opacity(0.95),in:RoundedRectangle(cornerRadius:16))
                     }
                 }
@@ -405,13 +402,20 @@ struct GamePauseMenu: View {
     private var hub: HubSession { .shared }
     private var skin: MapSkin { .current }
     private var online: Bool { session.multiplayerMatchID != nil }
-    private var canResume: Bool { session.displayConnected || session.multiplayerControllerOnly || session.phonePlay }
+    private var canResume: Bool { session.displayConnected || session.multiplayerControllerOnly || session.phonePlay || session.castScreen }
     var body: some View {
         NavigationStack {
             Form {
                 Section {
                     Button("Resume game") { session.readyToPlay(); dismiss() }.disabled(!canResume).accessibilityIdentifier("pause-resume")
-                    if !canResume { Text("Reconnect your TV to continue.") }
+                    if !canResume {
+                        // the TV went away: the sheet, and the game resumes on its own once the TV is back
+                        Button("Connect TV") {
+                            session.menuPauseVisible = false; dismiss()
+                            TVConnect.shared.present(title: "Reconnect your TV", sport: Sport(rawValue: session.sport),
+                                                     onConnected: { session.readyToPlay() }, onCancel: { session.menuPauseVisible = true })
+                        }.accessibilityIdentifier("pause-connect-tv")
+                    }
                 }
                 Section {
                     Toggle("Sound", isOn: $session.sound)
@@ -424,14 +428,11 @@ struct GamePauseMenu: View {
                 }
                 if session.sport == "tennis" {
                     Section("Tennis") {
-                        Button("Re-aim at the TV") { session.menuPauseVisible = false; SportsDisplays.shared.external?.isHidden = true; session.beginAxisCapture(); dismiss() }
+                        Button("Point at the TV again") { session.menuPauseVisible = false; SportsDisplays.shared.external?.isHidden = true; session.beginAxisCapture(); dismiss() }
                         Button("Recenter racket") { session.recalibrateAiming(); dismiss() }
                             .disabled(!session.motion.axisLocked || session.checkingTiming || session.measuringDelay)
                         Button("Flip left / right") { session.flipSteering() }
-                        // (not online: a network match has no timing check, so its screens would never finish)
-                        if session.displayConnected && session.multiplayerMatchID == nil {
-                            Button("Re-check swing timing") { session.menuPauseVisible = false; SportsDisplays.shared.external?.isHidden = true; session.recheckTiming(); dismiss() }
-                        }
+
                         PointRecordingSettings(session: session)
                     }
                 }

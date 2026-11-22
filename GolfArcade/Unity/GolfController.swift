@@ -346,9 +346,13 @@ struct GolfPhoneController: View {
         } else if session.golfPhase == "Result" {
             GolfShotResultControls(session: session).padding(20).mapPanel(skin, radius: 22)
         } else if session.golfPhase == "RoundDone" {
-            Button { session.continueGolfRound() } label: {
-                MapActionFace(skin: skin, title: session.golfHasNextHole ? "Next Hole" : TennisMenu.shared.postMatch?.golf != nil ? "Finish Round" : "Rematch", height: 76)
-            }.buttonStyle(.plain).frame(width: 300).accessibilityIdentifier("golf-continue")
+            VStack(spacing: 14) {
+                // the Daily Hole in One: share the three shots first (mockups: ArtDir/ui/daily-challenge-ui-mockups)
+                if session.holeInOneDay != 0 { DailyShareButton(skin: skin, height: 84).frame(width: 320) }
+                Button { session.continueGolfRound() } label: {
+                    MapActionFace(skin: skin, title: session.golfHasNextHole ? "Next Hole" : TennisMenu.shared.postMatch?.golf != nil ? "Finish Round" : "Rematch", height: session.holeInOneDay != 0 ? 60 : 76)
+                }.buttonStyle(.plain).frame(width: 300).accessibilityIdentifier("golf-continue")
+            }
         } else if let party=reading.party, !party.myTurn && !session.paused {
             Text("\(party.player)’s turn").font(MapFont.bold(24)).foregroundStyle(skin.ink)
                 .padding(.horizontal, 24).padding(.vertical, 14).background(skin.cream, in: Capsule())
@@ -633,10 +637,13 @@ extension GolfPhoneController {
             GolfShotResultControls(session: session).padding(16)
                 .background(skin.ink.opacity(0.94), in: RoundedRectangle(cornerRadius: 20))
         } else if session.golfPhase == "RoundDone" {
-            Button(session.golfHasNextHole ? "NEXT HOLE" : TennisMenu.shared.postMatch?.golf != nil ? "FINISH ROUND" : "REMATCH") { session.continueGolfRound() }
-                .font(GolfControllerStyle.font(26)).padding(.horizontal, 26).padding(.vertical, 14).foregroundStyle(skin.ink)
-                .background(skin.accent, in: Capsule()).overlay(Capsule().stroke(.white, lineWidth: 3))
-                .accessibilityIdentifier("golf-continue")
+            HStack(spacing: 12) {
+                if session.holeInOneDay != 0 { DailyShareButton(skin: skin, height: 58).frame(width: 260) }
+                Button(session.golfHasNextHole ? "NEXT HOLE" : TennisMenu.shared.postMatch?.golf != nil ? "FINISH ROUND" : "REMATCH") { session.continueGolfRound() }
+                    .font(GolfControllerStyle.font(26)).padding(.horizontal, 26).padding(.vertical, 14).foregroundStyle(skin.ink)
+                    .background(skin.accent, in: Capsule()).overlay(Capsule().stroke(.white, lineWidth: 3))
+                    .accessibilityIdentifier("golf-continue")
+            }
         } else if let party = reading.party, !party.myTurn, !session.paused {
             Text("\(party.player)’s turn").font(Club.ui(20, 900)).foregroundStyle(.white)
                 .padding(.horizontal, 18).padding(.vertical, 12).background(skin.ink.opacity(0.94), in: Capsule())

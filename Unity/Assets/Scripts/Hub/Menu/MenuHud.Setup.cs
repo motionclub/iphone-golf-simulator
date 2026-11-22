@@ -31,21 +31,24 @@ namespace GolfArcade.Hub.Menu
             { "bay-tennis-nearby", ("Local play", "Friends in the same room: two phones, one TV.", new[] { "2 PLAYERS", "SAME ROOM" }, "volcano") },
             { "bay-tennis-online", ("Online", "Play your friends wherever they are.", new[] { "2 PLAYERS", "ONLINE" }, "resort") },
             { "bay-golf-round", ("Round", "Play a course on your own: its own holes, 9 or 18.", new[] { "1 PLAYER", "3 COURSES" }, null) },
-            { "bay-golf-pass", ("Local play", "One phone, passed around: swing, then hand it on.", new[] { "2-4 PLAYERS", "ONE PHONE" }, "wildisles") },
+            { "bay-golf-pass", ("Local play", "Friends nearby join from their phones, or pass yours around.", new[] { "2-4 PLAYERS", "SAME ROOM" }, "wildisles") },
             { "bay-golf-online", ("Online", "Play a round with friends online.", new[] { "2-4 PLAYERS", "ONLINE" }, "magma") },
-            { "bay-bowling-play", ("Play", "Ten frames on any of four lanes: Club, Neon, Tiki or Magma.", new[] { "1 PLAYER", "4 VENUES" }, null) },
-            { "bay-bowling-exhibition", ("Exhibition", "Bowl a full game against a CPU bowler.", new[] { "1 PLAYER", "VS CPU" }, "neon") },
-            { "bay-bowling-pass", ("Local play", "One phone, passed around between up to four bowlers.", new[] { "2-4 PLAYERS", "ONE PHONE" }, "tiki") },
-            { "bay-bowling-online", ("Online", "Bowl with friends wherever they are.", new[] { "2-4 PLAYERS", "ONLINE" }, "magma") },
+            // phone casting (PLAN_PhoneCasting_GolfBowling.md): the app hosts it (HubSession.useCastScreen)
+            { "bay-golf-cast", ("Phone screen", "This phone is the screen. Each friend's phone nearby joins and plays.", new[] { "1-3 PLAYERS", "NO TV" }, "cliffside") },
+            { "bay-bowling-play", ("Play", "Ten frames in the open air: Rooftop, Beach Court or Crater.", new[] { "1 PLAYER", "3 VENUES" }, null) },
+            { "bay-bowling-exhibition", ("Exhibition", "Bowl a full game against a CPU bowler.", new[] { "1 PLAYER", "VS CPU" }, "rooftop") },
+            { "bay-bowling-pass", ("Local play", "Up to four bowlers: friends nearby join from their phones, or pass yours.", new[] { "2-4 PLAYERS", "SAME ROOM" }, "beachcourt") },
+            { "bay-bowling-online", ("Online", "Bowl with friends wherever they are.", new[] { "2-4 PLAYERS", "ONLINE" }, "crater") },
+            { "bay-bowling-cast", ("Phone screen", "This phone is the screen. Each friend's phone nearby joins and bowls.", new[] { "1-3 PLAYERS", "NO TV" }, "rooftop") },
         };
-        static readonly Dictionary<string, string> LastMap = new Dictionary<string, string> { { "tennis", "resort" }, { "golf", "cliffside" }, { "bowling", "club" } };
+        static readonly Dictionary<string, string> LastMap = new Dictionary<string, string> { { "tennis", "resort" }, { "golf", "cliffside" }, { "bowling", "rooftop" } };
         static readonly Dictionary<string, (string title, string line)> Venues = new Dictionary<string, (string, string)>
         {
             { "tennis-resort", ("Tropical Resort", "A bright tropical bay, lush gardens and stands full of fans.") }, { "tennis-skyscraper", ("Sky Tower", "A rooftop above the clouds. Hit it wide and the ball falls forever.") },
             { "tennis-volcano", ("Magma Crater", "A court floating over a lava lake. Don't miss long.") }, { "golf-cliffside", ("Cliffside", "Cliffs, sea stacks and island carries.") },
             { "golf-wildisles", ("Wild Isles", "A world tour: pine, ice, mesa, jungle.") }, { "golf-magma", ("Magma Open", "Lava crater holes and volcanic greens.") },
-            { "bowling-club", ("Club Lanes", "The clubhouse alley: wood, brass and a full crowd.") }, { "bowling-neon", ("Neon", "Black-light lanes and a glowing pit.") },
-            { "bowling-tiki", ("Tiki", "Bamboo, torches and a lagoon behind the pins.") }, { "bowling-magma", ("Magma", "Lanes over a lava lake.") },
+            { "bowling-rooftop", ("Rooftop", "Open-air lanes on the Sky Tower roof, above the clouds.") }, { "bowling-beachcourt", ("Beach Court", "Lanes on the resort's tennis court, palms and the lagoon all round.") },
+            { "bowling-crater", ("Crater", "Open-air lanes on the obsidian slab over the lava lake.") },
         };
 
         /// A mode row pressed: the TV's own setup where there is one, the phone otherwise (local tennis hosting, online).
@@ -53,7 +56,8 @@ namespace GolfArcade.Hub.Menu
         {
             if (!Leader) return;
             setupSport = id.Contains("golf") ? "golf" : id.Contains("bowling") ? "bowling" : "tennis";
-            if (id == "bay-golf-pass" || id == "bay-bowling-pass") { setupMode = id; ResetSetup(); Go(Players); return; }
+            // (LOCAL PLAY: the phone hosts it for friends' phones nearby while its players and setup screens are up, HubSession.localPlayTick)
+            if (id == "bay-golf-pass" || id == "bay-bowling-pass") { setupMode = id; ResetSetup(); Send("menuLocal", id); Go(Players); return; }
             if (id == "bay-tennis-exhibition" || id == "bay-tennis-training" || id == "bay-golf-round" || id == "bay-bowling-play" || id == "bay-bowling-exhibition")
             {
                 setupMode = id; ResetSetup(); Send("menuSetup", id); Go(Setup); return;
@@ -246,7 +250,8 @@ namespace GolfArcade.Hub.Menu
             if (s == null || string.IsNullOrEmpty(s.mode)) return;
             setup = s; setupSport = string.IsNullOrEmpty(s.sport) ? setupSport : s.sport;
             if (!string.IsNullOrEmpty(s.map)) LastMap[setupSport] = s.map;
-            string shape = s.mode + "|" + (s.maps?.Length ?? 0) + "|" + (s.rows?.Length ?? 0);
+            // (the title too: LOCAL PLAY's names the friends whose phones joined, so it is redrawn as they come and go)
+            string shape = s.mode + "|" + (s.maps?.Length ?? 0) + "|" + (s.rows?.Length ?? 0) + "|" + s.title;
             bool fresh = shape != builtFor;
             if (fresh) { builtFor = shape; BuildSetupContent(s); }
             RefreshSetup();

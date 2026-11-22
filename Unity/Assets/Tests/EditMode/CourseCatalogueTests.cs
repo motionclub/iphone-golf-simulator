@@ -5,8 +5,8 @@ using NUnit.Framework;
 
 namespace GolfArcade.Tests
 {
-    /// The sixteen modelled holes dealt out as three courses: Cliffside (5 holes), Wild Isles (6) and the
-    /// Magma Open (5). The old Postcards course is gone; its holes are Cliffside's (8, 9) and the Magma Open's (10).
+    /// The fourteen played holes dealt out as three courses: Cliffside (4 holes), Wild Isles (5) and the
+    /// Magma Open (5); holes 7 and 13 are retired (11-21). The old Postcards course is gone; its holes are Cliffside's (8, 9) and the Magma Open's (10).
     public class CourseCatalogueTests
     {
         [Test]
@@ -15,20 +15,20 @@ namespace GolfArcade.Tests
             var courses = Course.Course.All();
             CollectionAssert.AreEqual(new[] { "cliffside", "wildisles", "magma" }, courses.Select(c => c.Key).ToArray());
             CollectionAssert.AreEqual(new[] { "Cliffside", "Wild Isles", "Magma Open" }, courses.Select(c => c.Name).ToArray());
-            CollectionAssert.AreEqual(new[] { 5, 6, 5 }, courses.Select(c => c.Holes.Length).ToArray());
+            CollectionAssert.AreEqual(new[] { 4, 5, 5 }, courses.Select(c => c.Holes.Length).ToArray());
             var numbers = courses.SelectMany(c => c.Holes).Select(h => h.Number).OrderBy(n => n).ToArray();
-            CollectionAssert.AreEqual(new[] { 7, 8, 9, 10, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 }, numbers, "sixteen holes, none twice, none left out");
+            CollectionAssert.AreEqual(new[] { 8, 9, 10, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 }, numbers, "fourteen holes, none twice, none left out");
         }
 
         [Test]
         public void EachCourseHasTheHolesAndParsItWasDealt()
         {
             var cliffside = Course.Course.Cliffside();
-            CollectionAssert.AreEqual(new[] { 7, 8, 9, 12, 15 }, cliffside.Holes.Select(h => h.Number).ToArray());
-            Assert.AreEqual(19, cliffside.Par);
+            CollectionAssert.AreEqual(new[] { 8, 9, 12, 15 }, cliffside.Holes.Select(h => h.Number).ToArray());
+            Assert.AreEqual(15, cliffside.Par);
             var wild = Course.Course.WildIsles();
-            CollectionAssert.AreEqual(new[] { 13, 14, 17, 18, 19, 20 }, wild.Holes.Select(h => h.Number).ToArray());
-            Assert.AreEqual(25, wild.Par);
+            CollectionAssert.AreEqual(new[] { 14, 17, 18, 19, 20 }, wild.Holes.Select(h => h.Number).ToArray());
+            Assert.AreEqual(20, wild.Par);
             var magma = Course.Course.Magma();
             CollectionAssert.AreEqual(new[] { 10, 16, 21, 22, 23 }, magma.Holes.Select(h => h.Number).ToArray());
             Assert.AreEqual(20, magma.Par);
@@ -43,8 +43,8 @@ namespace GolfArcade.Tests
                     Assert.AreEqual(i + 1, course.Holes[i].Ordinal, $"{course.Name}: place of hole {course.Holes[i].Number}");
                     Assert.AreEqual(i + 1, course.Holes[i].PlayNumber, $"{course.Name}: the number the player sees");
                 }
-            Assert.AreEqual(2, Catalogue.Hole(8).PlayNumber, "Needle is the second hole of Cliffside");
-            Assert.AreEqual(1, Catalogue.Hole(13).PlayNumber, "the Spiral opens Wild Isles");
+            Assert.AreEqual(1, Catalogue.Hole(8).PlayNumber, "Needle opens Cliffside");
+            Assert.AreEqual(1, Catalogue.Hole(14).PlayNumber, "the Witch's Lair opens Wild Isles");
             Assert.AreEqual(1, Catalogue.Hole(10).PlayNumber, "the Crater opens the Magma Open");
             Assert.AreEqual(2, Course.Course.Meadow().Holes[1].PlayNumber, "a hole outside the three courses shows its own number");
         }

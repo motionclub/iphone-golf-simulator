@@ -96,6 +96,10 @@ namespace GolfArcade.Multiplayer {
         readonly bool waitForLoad;
         /// Everyone is on one phone (pass the phone): turns just pass, with no time limit on a turn.
         readonly bool sharedPhone;
+        /// Phone casting (PLAN_PhoneCasting_GolfBowling.md): the host is the round's screen and plays no one. One golfer is then a round,
+        /// and a new hole also waits for the screen phone to have built it (HostHoleReady), so the picture never misses the hole's start.
+        readonly bool castScreen; readonly int minGolfers; int hostReady=-1;
+        public void HostHoleReady(int hole) { if(castScreen && hole==State.hole && hostReady!=hole) { hostReady=hole; State.revision++; } }
         double holeShownAt;
         public Action<NetworkGolfShot> Shot;public Action<string> Result;
         /// The host's game: whether a hole's intro is the full cut, and how long each part runs as single player plays it: the
@@ -126,8 +130,9 @@ namespace GolfArcade.Multiplayer {
         /// `playing`: the course as the game has it loaded, its holes' ground, greens, trees and windmill read off their models
         /// (Course.ByKey makes a bare copy without them: flat, slopeless greens, nothing to hit).
         /// `twists` and `world`: the match settings' round twists, and weather with things moving about the holes (off unless asked for).
-        public NetworkGolfRound(int[] seats,int seed,bool intro=false,string courseKey=null,Course.Course playing=null,bool waitForLoad=false,bool sharedPhone=false,bool twists=false,bool world=false) {
-            if(seats==null||seats.Length<2||seats.Length>4||seats.Distinct().Count()!=seats.Length||seats.Any(s=>s<0||s>3))throw new ArgumentException("Invalid golf seats.");
+        public NetworkGolfRound(int[] seats,int seed,bool intro=false,string courseKey=null,Course.Course playing=null,bool waitForLoad=false,bool sharedPhone=false,bool twists=false,bool world=false,bool castScreen=false) {
+            this.castScreen=castScreen; minGolfers=castScreen?1:2;
+            if(seats==null||seats.Length<minGolfers||seats.Length>4||seats.Distinct().Count()!=seats.Length||seats.Any(s=>s<0||s>3))throw new ArgumentException("Invalid golf seats.");
             intros=intro; random=new Random(seed); this.waitForLoad=waitForLoad; this.sharedPhone=sharedPhone;
             events=RoundEvents.Deal(seed,twists,world,challenges:false,frenzy:false);
             var listed=Course.Course.ByKey(courseKey??"cliffside")??Course.Course.Cliffside();
@@ -146,7 +151,7 @@ namespace GolfArcade.Multiplayer {
             foreach(var p in State.golfers) {p.x=hole.Tee.X;p.d=hole.Tee.D;p.strokes=0;p.swings=0;p.holed=false;LineUp(p,hole);}
             State.look=0;State.load=0;
             var eligible=State.golfers.Where(p=>!p.dnf).ToArray();
-            if(eligible.Length<2){Complete("interrupted");return;}
+            if(eligible.Length<minGolfers){Complete("interrupted");return;}
             State.turn=eligible[index%eligible.Length].seat;State.turnAt=State.time;
             // (the first hole was built while the match loaded: the match start already waited for every phone)
             if(waitForLoad&&index>0) { State.phase="loading";holeShownAt=State.time;return; }
@@ -240,7 +245,8 @@ namespace GolfArcade.Multiplayer {
         public void Step(double elapsed) {
             if(State.paused||State.complete)return;State.time+=Math.Max(0,Math.Min(.1,elapsed));
             if(State.phase=="loading") {
-                if(State.golfers.All(g=>g.dnf||g.ready==State.hole||away.Contains(g.seat))||State.time-holeShownAt>=HoleLoadTimeout) {
+                bool screenBuilt=!castScreen||hostReady==State.hole;
+                if(screenBuilt&&State.golfers.All(g=>g.dnf||g.ready==State.hole||away.Contains(g.seat))||State.time-holeShownAt>=HoleLoadTimeout) {
                     if(intros){State.introFull=fullIntro?.Invoke(State.hole)??false;BeginIntro();} else State.phase="aim";
                     State.turnAt=State.time;State.revision++;
                 }
@@ -299,7 +305,7 @@ namespace GolfArcade.Multiplayer {
         }
         public void Drop(int seat) {
             var p=State.golfers.FirstOrDefault(g=>g.seat==seat);if(p==null||p.dnf)return;p.dnf=true;State.revision++;
-            if(State.golfers.Count(g=>!g.dnf)<2){Complete("interrupted");return;}
+            if(State.golfers.Count(g=>!g.dnf)<minGolfers){Complete("interrupted");return;}
             if(State.phase=="aim"&&State.turn==seat)NextTurn();
         }
         /// The last hole is done: the lowest card wins, a tie for it goes to the playoff.

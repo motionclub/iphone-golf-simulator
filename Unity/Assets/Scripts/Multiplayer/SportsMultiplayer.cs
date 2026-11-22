@@ -42,6 +42,7 @@ namespace GolfArcade.Multiplayer {
             }
         }
         NetworkTennisMatch tennis;NetworkGolfRound golf;
+        string sentPhase; int sentTurn=-1,sentHole=-1; long sentShot=-1;
         TennisGame tennisView;GolfGame golfView;GolfArcade.Bowling.BowlingGame bowlingView;
         string pendingResult; double resultDue;
         double scheduledStart = double.PositiveInfinity; bool startScheduled;
@@ -91,7 +92,7 @@ namespace GolfArcade.Multiplayer {
                 else {
                     // pass the phone: every golfer is on this phone, so no hole intros and turns just pass
                     bool shared=c.participants.Where(p=>p.seat>=0).All(p=>c.Controls(c.localID,p.seat));
-                    golf=new(c.participants.Where(p=>p.seat>=0).Select(p=>p.seat).ToArray(),c.seed,intro:!shared,courseKey:c.venue,playing:golfView?golfView.PlayingCourse:null,waitForLoad:true,sharedPhone:shared,twists:!c.twistsOff,world:true);GolfState=golf.State;tennis=null;golf.Result=Result;golf.Shot=shot=>{GolfShot=shot;Send("golfShot",JsonUtility.ToJson(shot));};
+                    golf=new(c.participants.Where(p=>p.seat>=0).Select(p=>p.seat).ToArray(),c.seed,intro:!shared,courseKey:c.venue,playing:golfView?golfView.PlayingCourse:null,waitForLoad:true,sharedPhone:shared,twists:!c.twistsOff,world:true,castScreen:c.HasCastScreen);GolfState=golf.State;tennis=null;golf.Result=Result;golf.Shot=shot=>{GolfShot=shot;Send("golfShot",JsonUtility.ToJson(shot));};
                     golf.SamePhone=seat=>{var phone=PhoneOf(c,seat);return c.participants.Where(p=>p.seat>=0&&PhoneOf(c,p.seat)==phone).Select(p=>p.seat).ToArray();};
                     if(golfView&&!shared) golf.ConfigureIntro(golfView.NetworkIntroFull,golfView.NetworkVenueSeconds,golfView.NetworkStartSeconds,
                         0,0,golfView.NetworkEmoteSeconds);}   // (no golfer introduction any more, 2026-10-19: the flyover goes straight to the address)
@@ -99,6 +100,8 @@ namespace GolfArcade.Multiplayer {
             tennisView?.ConfigureNetwork(c);golfView?.ConfigureNetwork(c);
             Time.timeScale=1;
         }
+        /// Phone casting: the screen phone (the host, no golfer of its own) has built the round's current hole.
+        public void HostHoleReady(int hole) { if(IsHost) golf?.HostHoleReady(hole); }
         /// The phone a seat is played from: its player's own, or the host's for a pass-the-phone guest.
         static string PhoneOf(NetworkConfiguration c,int seat){var p=c.participants.FirstOrDefault(x=>x.seat==seat);return p==null?null:string.IsNullOrEmpty(p.controllerID)?p.id:p.controllerID;}
         void OnDestroy(){if(Instance==this)Instance=null;}
@@ -119,8 +122,12 @@ namespace GolfArcade.Multiplayer {
             if(IsHost) {
                 if(tennis!=null){tennis.State.paused=suspended.Count>0;tennis.Step(Time.unscaledDeltaTime);TennisState=tennis.State;}
                 // an away golfer no longer holds everyone up: their turns pass (NetworkGolfRound.AwayTurnPassSeconds) until they are back
-                if(golf!=null){golf.State.paused=false;golf.SetAway(suspended.Select(Configuration.Seat).Where(n=>n>=0));golf.Step(Time.unscaledDeltaTime);GolfState=golf.State;}
-                if(Clock>=nextSnapshot){nextSnapshot=Clock+1.0/30;SendSnapshot(false);}
+                if(golf!=null){golf.State.paused=false;golf.SetAway(suspended.SelectMany(Configuration.SeatsOn));golf.Step(Time.unscaledDeltaTime);GolfState=golf.State;}
+                // (phone casting: the players' phones draw nothing, so golf goes slower to them, and at once when the round moves on)
+                bool castGolf=golf!=null&&Configuration.HasCastScreen;
+                bool moved=castGolf&&(golf.State.phase!=sentPhase||golf.State.turn!=sentTurn||golf.State.shotID!=sentShot||golf.State.hole!=sentHole);
+                if(Clock>=nextSnapshot||moved){nextSnapshot=Clock+1.0/(castGolf?NetworkTuning.CastSnapshotHz:30);SendSnapshot(false);
+                    if(castGolf){sentPhase=golf.State.phase;sentTurn=golf.State.turn;sentShot=golf.State.shotID;sentHole=golf.State.hole;}}
             }
         }
         public void Receive(string json) {
@@ -137,7 +144,8 @@ namespace GolfArcade.Multiplayer {
                     if(!double.TryParse(p.payload,System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out scheduledStart) || double.IsNaN(scheduledStart) || double.IsInfinity(scheduledStart)) scheduledStart=SharedClock;
                     startScheduled=true; break;
                 case "peer":
-                    if(p.sender==Configuration.localID||Configuration.Seat(p.sender)<0)return;
+                    // (phone casting: the screen phone holds no seat but is the host, and bowls for a player who left)
+                    if(p.sender==Configuration.localID||Configuration.Seat(p.sender)<0&&!(p.sender==Configuration.hostID&&Configuration.HasCastScreen))return;
                     lastPeer=Clock;if(Bowling)bowlingView?.ReceiveNetwork(p.payload);else tennisView?.ReceiveVersus(p.payload);break;
                 case "clock":if(double.TryParse(p.payload,System.Globalization.NumberStyles.Float,System.Globalization.CultureInfo.InvariantCulture,out var offset))clockOffset=offset;break;
                 case "input":
@@ -162,7 +170,7 @@ namespace GolfArcade.Multiplayer {
                     if(shot!=null&&(GolfShot==null||shot.id>GolfShot.id))GolfShot=shot;break;
                 case "suspend":suspended.Add(p.payload);if(TennisState!=null)TennisState.paused=true;if(GolfState!=null)GolfState.paused=true;break;
                 case "resumePeer":suspended.Remove(p.payload);break;
-                case "drop":suspended.Remove(p.payload);if(Bowling){bowlingView?.NetworkDrop(Configuration.Seat(p.payload));break;}if(IsHost){tennis?.Drop(Configuration.Seat(p.payload));golf?.Drop(Configuration.Seat(p.payload));SendSnapshot(true);}break;
+                case "drop":suspended.Remove(p.payload);if(Bowling){bowlingView?.NetworkDrop(Configuration.Seat(p.payload));break;}if(IsHost){tennis?.Drop(Configuration.Seat(p.payload));foreach(var s in Configuration.SeatsOn(p.payload))golf?.Drop(s);SendSnapshot(true);}break;
                 case "snapshotRequest":if(IsHost)SendSnapshot(true);break;
                 case "result":Running=false;break;
                 case "stop":Shutdown();break;

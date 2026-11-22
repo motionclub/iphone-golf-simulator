@@ -170,10 +170,7 @@ namespace GolfArcade.Bowling
             }
             r.TwistDeg = twist * Mathf.Rad2Deg;
             r.TwistRate = peak;
-            // A still wrist rolls the ball end over end (~120 rpm); a sharp flick adds revs.
-            r.RevRpm = Mathf.Clamp(120 + Mathf.Abs(peak) * 24, 0, 450);
-            r.AxisDeg = Mathf.Clamp(r.TwistDeg, -75, 75);
-            if (Mathf.Abs(r.TwistDeg) < 8) { r.AxisDeg = 0; r.RevRpm = Mathf.Min(r.RevRpm, 160); } // dead zone: a straight ball
+            (r.RevRpm, r.AxisDeg) = Spin(r.TwistDeg, peak);
 
             r.SwingAimDeg = forwardPhase ? Heading(backAxis, forwardAxis) : 0;
             r.DriftDeg = Mathf.Abs(r.SwingAimDeg);
@@ -187,14 +184,37 @@ namespace GolfArcade.Bowling
         /// 10-27 (Adnan: "make it easier to get velocity, way more sensitivity"): was 4 + 5.5 (1 - e^(-v/3.5)) x 0.75-1 by load
         /// (a full phone swing ~16 mph, an easy one ~12), then 5.2 + 4.6 (1 - e^(-v/2.2)) x 0.9-1.
         /// 10-27 feel pass (Adnan: "make sure it's easy to put a good amount of power"): the curve rises sooner and flattens below
-        /// the top, so the speed is mostly made by any real swing, not by swinging harder. Peak rate at the bottom → mph:
+        /// the top, so the speed is mostly made by any real swing, not by swinging harder (BowlingSkill.On = false). Peak rate at the bottom → mph:
         /// a lazy 1.5 rad/s ~16.5, a gentle 2.5 ~18.3, a normal 4 ~19.8, a brisk 6 ~20.7, a hard 9 ~21.1 (the top is 21.25);
         /// a short backswing costs at most 5 %.
+        /// 11-21 skill pass (BowlingSkill.On; Adnan: "ball speed ... doesn't matter"): the curve above packs a normal-to-hard swing
+        /// into 19.8-21 mph, so how hard you swing barely moved the ball. Now it spreads over the whole human range, a normal swing
+        /// still gets a good pace: lazy 1.5 rad/s ~14 mph, gentle 2.5 ~16, normal 4 ~18.4, brisk 6 ~20.6, hard 9 ~22.5 (top 23.5),
+        /// and a short backswing costs up to 10 %. On the house pattern each mph moves a hook ball ~1.5 boards at the pins.
         public static float BallSpeed(float handSpeed, float load)
         {
+            if (BowlingSkill.On)
+            {
+                float k = 4.5f + 6.55f * (1 - Mathf.Exp(-handSpeed / 3.1f));
+                return Mathf.Clamp(k * Mathf.Lerp(.9f, 1f, Mathf.Clamp01(load / .5f)), BowlingRelease.MinSpeed, BowlingRelease.MaxSpeed);
+            }
             float s = 5.25f + 4.25f * (1 - Mathf.Exp(-handSpeed / 1.4f));
             return Mathf.Clamp(s * Mathf.Lerp(.95f, 1f, Mathf.Clamp01(load / .4f)), BowlingRelease.MinSpeed, BowlingRelease.MaxSpeed);
         }
+
+        /// The wrist turn before the lift → revs and axis rotation. A still wrist rolls the ball end over end (~120 rpm); a sharp
+        /// flick adds revs; the turn's angle tilts the axis (the hook). Below the dead zone the ball goes straight.
+        /// Skill pass: dead zone 8° → 4° (a still wrist is a choice: the spare ball), revs reach 500 instead of 450.
+        public static (float rpm, float axis) Spin(float twistDeg, float twistRate)
+        {
+            bool skill = BowlingSkill.On;
+            float rpm = Mathf.Clamp(120 + Mathf.Abs(twistRate) * 24, 0, skill ? 500 : 450);
+            float axis = Mathf.Clamp(twistDeg, -75, 75);
+            if (Mathf.Abs(twistDeg) < (skill ? StraightWristSkill : StraightWrist)) { axis = 0; rpm = Mathf.Min(rpm, 160); }
+            return (rpm, axis);
+        }
+
+        public const float StraightWrist = 8, StraightWristSkill = 4;
 
         /// Swing aim: degrees the forward swing turns off the backswing's line that change nothing (nobody swings a phone dead
         /// straight), the launch turn per degree past that, and the most it can turn the ball. 1° of launch is ~32 cm at the head

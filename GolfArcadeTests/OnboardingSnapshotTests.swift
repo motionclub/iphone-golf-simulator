@@ -87,35 +87,30 @@ import SwiftUI
             XCTAssertEqual(f.coach(tv: tv)?.action, "hint")
             try await add("locker", 4.5, hover: "Sky", caption: "The Locker: pick a colour, then BACK")
             f.menuScreenChanged("home")
-            XCTAssertEqual(f.step, .how)
-            for page in 0..<3 {
-                try await add("select", 4.5, hover: page == 2 ? "Got it" : "Next", caption: ["How it works: swing your phone", tv ? "On the big screen (AirPlay)" : "Just your phone: golf and bowling play here", "Play safe: 2 m (6 ft) back from the TV"][page])
-                f.coachNext("how-\(page)")
-            }
+            XCTAssertEqual(f.step, .goPlay, "four tips: no how-it-works pages")
             XCTAssertEqual(f.coach(tv: tv)?.target, "play")
-            try await add("select", 3.5, hover: "Play", caption: "Go to Play (\(press) PLAY)")
+            try await add("select", 3.5, hover: "Play", caption: "Learn to play (\(press) PLAY)")
             f.menuScreenChanged("sport")
-            XCTAssertEqual(f.step, .tutorial); XCTAssertEqual(f.coach(tv: tv)?.target, "sport-tutorial")
-            try await add("select", 4, hover: "Tutorial", caption: "Play is locked: only the Tutorial is open")
-            f.menuScreenChanged("tutorial")
-            XCTAssertEqual(f.coach(tv: tv)?.target, "bay-tutorial-golf")
-            try await add("select", 4, hover: "Golf lesson", caption: "The Tutorial: golf first, then tennis, then bowling")
-            f.startLesson(.golf)
+            XCTAssertEqual(f.step, .tutorial)
             let request = try XCTUnwrap(PlaySafeGate.shared.request)
+            XCTAssertEqual(request.kind, .tutorial)
             if tv { try await save(PlaySafeSheet(request: request), "film/phone-safe", CGSize(width: 402, height: 874), wait: 1) }
             else { try await save(PlaySafeSheet(request: request), "film/phone-safe-916", CGSize(width: 402, height: 715), wait: 1) }
-            try await add("safe", 6, hover: "", caption: "Before the lesson: the play-safe card, accepted with one tap", phone: tv ? "phone-safe" : "phone-safe-916")
+            try await add("safe", 6, hover: "", caption: "The first PLAY: the Tutorial's card (golf, tennis, bowling), one tap to start", phone: tv ? "phone-safe" : "phone-safe-916")
             PlaySafeGate.shared.accept()
             XCTAssertEqual(lessons, [.golf])
             hub.debugReset(); hub.debugLive(); hub.debugSent = { _ in }   // (accepting re-evaluates the menu, which has no Unity in the simulator)
-            try await add("lesson", 12, hover: "", caption: tv ? "In game: the lesson opens on the how-to GIF, then a slim coach line" : "In game on the phone: the how-to GIF, then a slim coach line (controls deck not shown)", phone: "none")
-            f.completed(.golf); f.menuScreenChanged("tutorial")
-            XCTAssertEqual(f.coach(tv: tv)?.target, "bay-tutorial-tennis")
-            try await add("wait", 5, hover: "Tennis lesson", caption: "Back from the lesson: golf ticked, tennis next")
-            f.completed(.tennis); f.completed(.bowling); f.menuScreenChanged("sport")
-            XCTAssertEqual(f.step, .done); XCTAssertEqual(f.coach(tv: tv)?.id, "unlocked")
-            try await add("select", 4.5, hover: "Let's play", caption: "All three lessons done (tennis and bowling skipped here)")
-            f.coachNext("unlocked")
+            try await add("lesson", 12, hover: "", caption: tv ? "In game: drive, approach, then putting (it opens on why putting is sensitive)" : "In game on the phone: drive, approach, then putting", phone: "none")
+            f.completed(.golf)
+            let next = try XCTUnwrap(PlaySafeGate.shared.request)
+            XCTAssertEqual(next.sport, .tennis)
+            try await save(PlaySafeSheet(request: next), "film/phone-next", CGSize(width: 402, height: 874), wait: 1)
+            try await add("safe", 5, hover: "", caption: "Golf done: tennis next (or skip it)", phone: "phone-next")
+            PlaySafeGate.shared.skipLesson()
+            PlaySafeGate.shared.skipLesson()
+            XCTAssertEqual(f.step, .done); XCTAssertEqual(f.coach(tv: tv)?.id, "unlocked-all")
+            try await add("select", 4.5, hover: "OK", caption: "The Tutorial is over (tennis and bowling skipped here)")
+            f.coachNext("unlocked-all")
             XCTAssertNil(f.coach(tv: tv))
             try await add("wait", 3, hover: "Tennis", caption: "Everything is unlocked: free to play")
             let data = try JSONSerialization.data(withJSONObject: entries, options: [.prettyPrinted])
@@ -143,10 +138,15 @@ import SwiftUI
         for sport in OnboardingFlow.lessons {
             var onDefer: (@MainActor () -> Void)? = nil
             if sport == .tennis { onDefer = {} }
-            let request = PlaySafeGate.Request(sport: sport, tutorial: true, holding: false, onAccept: {}, onDefer: onDefer)
+            let request = PlaySafeGate.Request(sport: sport, kind: .lesson, holding: false, onAccept: {}, onDefer: onDefer)
             try await save(PlaySafeSheet(request: request), "v3-06-playsafe-lesson-\(sport.rawValue)", CGSize(width: 402, height: 1200))
         }
-        try await save(PlaySafeSheet(request: .init(sport: .golf, tutorial: false, holding: true, onAccept: {}, onDefer: nil)), "v3-07-playsafe-game", phone)
+        try await save(PlaySafeSheet(request: .init(sport: .golf, kind: .game, holding: true, onAccept: {}, onDefer: nil)), "v3-07-playsafe-game", phone)
+        // 11-21: the whole Tutorial's card, a gated sport's lesson-or-skip, the next lesson in the Tutorial
+        try await save(PlaySafeSheet(request: .init(sport: .golf, kind: .tutorial, holding: false, onAccept: {}, onDefer: nil, onCancel: {})), "t21-01-tutorial-card", CGSize(width: 402, height: 1200))
+        try await save(PlaySafeSheet(request: .init(sport: .bowling, kind: .gate, holding: false, onAccept: {}, onDefer: nil, onSkip: {})), "t21-02-gate-bowling", CGSize(width: 402, height: 1200))
+        try await save(PlaySafeSheet(request: .init(sport: .tennis, kind: .lesson, holding: false, onAccept: {}, onDefer: nil, onSkip: {}, onCancel: {},
+                                                    note: "Golf done. Next up, tennis (2 of 3)")), "t21-03-next-tennis", CGSize(width: 402, height: 1200))
     }
 
     func testLessonCoachingOverTheGame() async throws {
@@ -186,6 +186,13 @@ import SwiftUI
         center.receive(#"{"kind":"station","sport":"bowling","index":2,"count":5,"key":"line","name":"Line up","title":"Pick your spot","ask":"Slide to a new spot on the lane with the arrows, then roll from there.","hint":"Tap the arrows before you hold the ball, then roll.","tips":[]}"#)
         center.receive(#"{"kind":"attempt","result":"miss","grade":"","text":"Move at least 3 boards left or right before you hold the ball.","misses":2,"read":[["Board","20",0]]}"#)
         try await save(OverMenu(content: LessonPhoneHUD(center: center, session: session)), "v3-10-bowling-lesson-phone", phone)
+        // 11-21: golf's putting station opens on why putting is sensitive (the explain card), on the TV and on the phone
+        center.end(); session.sport = "golf"
+        center.receive(#"{"kind":"station","sport":"golf","index":0,"count":4,"key":"drive","name":"Drive","title":"Tee off","ask":"Tap SWING, take the phone back high and swing through hard.","hint":"h","tips":[]}"#)
+        center.introDone()
+        center.receive(#"{"kind":"station","sport":"golf","index":2,"count":4,"key":"putt","name":"Putt","title":"Putting is sensitive","ask":"Rock the phone back only a few inches to roll it in.","hint":"h","explain":{"title":"Putting is sensitive","body":"The putter moves only a few inches. Rock the phone back just a little. A full swing would roll the ball off the green."},"tips":[]}"#)
+        try await shot("t21-04-putt-explain", LessonHUD(center: center, session: session))
+        try await save(OverMenu(content: LessonPhoneHUD(center: center, session: session)), "t21-05-putt-explain-phone", phone)
     }
 }
 

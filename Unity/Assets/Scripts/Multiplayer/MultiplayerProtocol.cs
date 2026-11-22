@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 namespace GolfArcade.Multiplayer {
     [Serializable] public sealed class NetworkEmoteLoadout { public string[] emotes; public string skinHex,shirtHex,shortsHex,hairHex,shoesHex; public int haircut=-1; }
-    [Serializable] public sealed class NetworkParticipant { public string id,name,controllerID,view; public int seat=-1; public bool ready,loaded,connected=true,female,left,invited=true; public NetworkEmoteLoadout loadout; }
+    [Serializable] public sealed class NetworkParticipant { public string id,name,controllerID,view; public int seat=-1; public bool ready,loaded,connected=true,female,left,invited=true; /** Phone casting: the match's screen (the host; no seat, plays no one). */ public bool castScreen; public NetworkEmoteLoadout loadout; }
     [Serializable] public sealed class NetworkConfiguration {
         public string lobbyID,matchID,hostID,localID,sport,venue; public int sets=1,games=3,seed;
         /// Optional round twists; automatic conditions use the versioned seed and UTC anchor.
@@ -10,8 +10,17 @@ namespace GolfArcade.Multiplayer {
         public int environmentVersion=GolfArcade.Course.DreamConditions.Version;
         public double environmentUtc=DateTimeOffset.UtcNow.ToUnixTimeSeconds();
         public NetworkParticipant[] participants;
-        public bool Controls(string device, int seat) => participants != null && participants.Any(p=>p.seat==seat && p.connected && (p.id==device || (sport=="golf" && device==hostID && p.controllerID==device)));
+        public bool Controls(string device, int seat) => participants != null && participants.Any(p=>p.seat==seat && p.connected && (p.id==device || (sport=="golf" && !string.IsNullOrEmpty(device) && p.controllerID==device && GuestPhone(device))));
+        /// The phone a pass-the-phone guest may play on (golf): the host's, or with a phone as the screen, a player's own phone (never the
+        /// screen, never another guest).
+        public bool GuestPhone(string device) { var phone=participants?.FirstOrDefault(p=>p.id==device); return phone!=null && string.IsNullOrEmpty(phone.controllerID) && !phone.castScreen && (HasCastScreen || device==hostID); }
+        /// The seats played on one phone: its own player's and the guests it holds.
+        public int[] SeatsOn(string device) => participants?.Where(p=>p.seat>=0 && (p.id==device || p.controllerID==device)).Select(p=>p.seat).ToArray() ?? new int[0];
         public int Seat(string id)=>participants?.FirstOrDefault(p=>p.id==id)?.seat ?? -1;
+        /// Phone casting (PLAN_PhoneCasting_GolfBowling.md): a phone in the match is its screen (the host, seat -1); one player is then a game.
+        public bool HasCastScreen=>participants!=null && participants.Any(p=>p.castScreen);
+        /// A screen is the host, holds no seat and is golf or bowling only.
+        bool CastScreenValid=>participants.Where(p=>p.castScreen).All(p=>p.id==hostID && p.seat==-1 && string.IsNullOrEmpty(p.controllerID)) && participants.Count(p=>p.castScreen)<=1 && (!HasCastScreen || sport=="golf" || sport=="bowling");
         /// How a phone shows a tennis match: "near" (its own TV, its player in front), "split" (the one TV in the room shows both players)
         /// or "none" (no screen: the phone is only a controller). Empty for golf and for spectators.
         public const string ViewNear="near", ViewSplit="split", ViewNone="none";
@@ -34,11 +43,11 @@ namespace GolfArcade.Multiplayer {
             && (sport=="tennis" || sport=="golf" || sport=="bowling") && participants!=null && participants.Length>=2 && participants.Length<=4
             && participants.Any(p=>p.id==hostID) && participants.Any(p=>p.id==localID)
             && participants.Select(p=>p.id).Distinct().Count()==participants.Length
-            && participants.All(p=>string.IsNullOrEmpty(p.controllerID) || (sport=="golf" && p.controllerID==hostID && p.id!=hostID))
+            && participants.All(p=>string.IsNullOrEmpty(p.controllerID) || (sport=="golf" && p.id!=p.controllerID && GuestPhone(p.controllerID)))
             && participants.All(p=>p.seat>=-1 && p.seat<(sport=="tennis"?2:4))
             && participants.All(p=>GolfArcade.Tennis.TennisEmotes.Valid(p.loadout?.emotes)) && ViewsValid
             && participants.Where(p=>p.seat>=0).Select(p=>p.seat).Distinct().Count()==participants.Count(p=>p.seat>=0)
-            && participants.Count(p=>p.seat>=0)>=2 && sets>=1 && sets<=3 && (games==1 || games==3 || games==6);
+            && CastScreenValid && participants.Count(p=>p.seat>=0)>=(HasCastScreen?1:2) && sets>=1 && sets<=3 && (games==1 || games==3 || games==6);
     }
     [Serializable] public sealed class NetworkPacket {
         public const int Version=5;

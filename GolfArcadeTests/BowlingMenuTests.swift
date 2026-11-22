@@ -8,13 +8,13 @@ import XCTest
         XCTAssertTrue(Sport.bowling.playable)
     }
 
-    func testPlayOpensTheFourVenues() {
+    func testPlayOpensTheThreeVenues() {
         let menu = TennisMenu.shared
         menu.debugShow(.main)
         HubSession.route("bay-bowling-play")?.action?()
         XCTAssertEqual(menu.screen, .map)
         XCTAssertEqual(menu.mapSport, .bowling)
-        XCTAssertEqual(menu.mapChoices.map(\.id), ["club", "neon", "tiki", "magma"])
+        XCTAssertEqual(menu.mapChoices.map(\.id), ["rooftop", "beachcourt", "crater"])
         XCTAssertFalse(menu.bowlingExhibition)
     }
 
@@ -48,10 +48,10 @@ import XCTest
         defer { session.bowlingVenue = saved.0; session.bowlingOpponent = saved.1 }
         for mode in ["bay-bowling-play", "bay-bowling-exhibition", "bay-bowling-pass"] { XCTAssertTrue(MenuSetup.modes.contains(mode), mode) }
         let play = try XCTUnwrap(MenuSetup.state("bay-bowling-play"))
-        XCTAssertEqual(play.sport, "bowling"); XCTAssertEqual(play.maps.map(\.id), ["club", "neon", "tiki", "magma"]); XCTAssertEqual(play.start, "START GAME")
-        MenuSetup.set("bay-bowling-play", "map|tiki")
-        XCTAssertEqual(session.bowlingVenue, "tiki"); XCTAssertEqual(MenuSetup.state("bay-bowling-play")?.map, "tiki")
-        MenuSetup.set("bay-bowling-play", "map|not-a-lane"); XCTAssertEqual(session.bowlingVenue, "tiki")
+        XCTAssertEqual(play.sport, "bowling"); XCTAssertEqual(play.maps.map(\.id), ["rooftop", "beachcourt", "crater"]); XCTAssertEqual(play.start, "START GAME")
+        MenuSetup.set("bay-bowling-play", "map|beachcourt")
+        XCTAssertEqual(session.bowlingVenue, "beachcourt"); XCTAssertEqual(MenuSetup.state("bay-bowling-play")?.map, "beachcourt")
+        MenuSetup.set("bay-bowling-play", "map|not-a-lane"); XCTAssertEqual(session.bowlingVenue, "beachcourt")
         let exhibition = try XCTUnwrap(MenuSetup.state("bay-bowling-exhibition"))
         XCTAssertEqual(exhibition.rows.map(\.key), ["opponent"]); XCTAssertEqual(exhibition.rows[0].choices.count, BowlingOpponent.allCases.count)
         MenuSetup.set("bay-bowling-exhibition", "opponent|3"); XCTAssertEqual(session.bowlingOpponent, .pia)
@@ -61,7 +61,7 @@ import XCTest
     func testAFinishedGameIsCountedAndPaid() {
         let stats = BowlingGameStats(line: "score=212;strikes=7;spares=2;opens=1;gutters=0;splits=1;streak=4;players=2;rank=1;venue=neon")
         XCTAssertEqual(stats.score, 212); XCTAssertEqual(stats.strikes, 7); XCTAssertEqual(stats.streak, 4)
-        XCTAssertTrue(stats.won); XCTAssertEqual(stats.venueTitle, "Neon Nights")
+        XCTAssertTrue(stats.won); XCTAssertEqual(stats.venueTitle, "Rooftop Lanes", "an old indoor pick maps onto its open-air alley")
         let lines = Progression.bowlingBreakdown(stats).map(\.title)
         XCTAssertTrue(lines.contains("200 club")); XCTAssertTrue(lines.contains("Hambone")); XCTAssertTrue(lines.contains("Top of the sheet"))
         XCTAssertTrue(lines.contains("Splits picked up")); XCTAssertFalse(lines.contains("Clean game"))

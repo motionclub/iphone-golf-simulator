@@ -4,7 +4,7 @@ using UnityEngine;
 namespace GolfArcade.Tennis
 {
     /// The tennis lesson's hook into the match (PLAN_Onboarding_GolfLesson.md): starting it. The phone runs the court setup
-    /// first (station 1); the lesson's own stations here are 2–3 (TutorialLesson.Steps).
+    /// first (station 1); the lesson's own stations here are 2–4 (TutorialLesson.Steps).
     public sealed partial class TennisGame
     {
         /// Start the lesson from a station (the phone's numbering: 0 is its court setup, 1 the first ball).

@@ -97,6 +97,8 @@ final class MultiplayerService {
     @ObservationIgnored private var searchGeneration = 0
     @ObservationIgnored private var matchConfiguration: MultiplayerMatchConfiguration?
     @ObservationIgnored private var quickSport: MultiplayerSport?
+    /// Phone casting: this phone hosts as the game's screen for this sport (golf or bowling); nil otherwise.
+    @ObservationIgnored private(set) var castScreenSport: MultiplayerSport?
     @ObservationIgnored private var clockOffset: Double = 0
     @ObservationIgnored private var clockFilter = ClockFilter()
     @ObservationIgnored private var nextPing: Double = 0
@@ -107,7 +109,12 @@ final class MultiplayerService {
     @ObservationIgnored private var nextHeartbeat: Double = 0
     @ObservationIgnored private var silenceArmedAt: Double = .infinity
     /// Guests: when the host's phone went missing mid-match (it may only be out of the app).
-    @ObservationIgnored private var ownerMissingSince: Double?
+    private var ownerMissingSince: Double?
+    /// Phone casting: the screen phone (the host) said it went out of the app, and has not said it is back.
+    private var screenSuspended = false
+    /// Phone casting, on a player's phone: the screen phone is away (out of the app, or its connection dropped). The game waits for it
+    /// for the usual away limit; the player's phone says so, as it has no picture of its own (SportsHome's CastScreenAwayBanner).
+    var screenAway: Bool { !isOwner && lobby?.hasCastScreen == true && lobby?.phase == .playing && (screenSuspended || ownerMissingSince != nil) }
     @ObservationIgnored private var stats = NetStats()
     // Connection grade during tennis setup: the guest grades its own pings and reports to the owner (see LinkWindow), which marks
     // `linkOK` for the logs. It never holds up the start (11-17: setup always said the connection was weak, then started anyway):
@@ -159,7 +166,8 @@ final class MultiplayerService {
         let listed = Set(lobby?.participants.map(\.id) ?? [])
         return transport.peers.filter { !listed.contains($0) }.count
     }
-    var isNearby: Bool { (local != nil || sharedPhoneHost) && transport != nil }
+    var isNearby: Bool { (local != nil || sharedPhoneHost || injectedNearby) && transport != nil }
+    @ObservationIgnored private var injectedNearby = false
     var localJoinCode: String? { isNearby && isOwner ? local?.joinCode : nil }
     func joinLocal(code: String) throws {
         let clean = code.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
@@ -169,9 +177,13 @@ final class MultiplayerService {
         }
         try joinLocal(item)
     }
-    func addLocalGuest() throws {
+    /// `phone`: phone casting (the owner is the screen, which plays no one): the guest plays on that player's phone, passed round there.
+    func addLocalGuest(on phone: String? = nil) throws {
         try requireOwnerIdle()
-        guard isNearby, lobby?.sport == .golf else { throw MultiplayerError.invalidOperation("Shared-phone guests are available in local golf.") }
+        // (with a phone as the screen everyone is in one room, watching it, whatever link the phones use)
+        guard isNearby || lobby?.hasCastScreen == true, lobby?.sport == .golf else { throw MultiplayerError.invalidOperation("Shared-phone guests are available in local golf.") }
+        let controller = phone ?? localID
+        guard lobby!.guestController(controller) else { throw MultiplayerError.invalidOperation(lobby!.hasCastScreen ? "Add the guest to a player's phone: this phone is the screen." : "Guests play on the host's phone.") }
         let number = (1...4).first { n in !lobby!.participants.contains { $0.name == "Guest \(n)" } } ?? 4
         let palette = ["F4A65A", "78C5E8", "C997DF", "8AD0AD", "F19DAB", "F5DD7C"]
         let used = Set(lobby!.participants.compactMap { $0.loadout?.colours["shirt"] })
@@ -179,12 +191,13 @@ final class MultiplayerService {
         let shorts = ["23344D", "F0E2CC", "425D4D"].randomElement()!
         let skin = ["F2D0AF", "D5A17C", "A8704E", "754B37"].randomElement()!
         let look = MultiplayerLoadout(skinHex: skin, colours: ["shirt":shirt,"shorts":shorts], emotes: EmoteCatalog.defaults, shirtHex:shirt, shortsHex:shorts)
-        try lobby?.add(MultiplayerParticipant(id: UUID().uuidString, name: "Guest \(number)", ready: true, female: Bool.random(), loadout:look, controllerID:localID))
+        try lobby?.add(MultiplayerParticipant(id: UUID().uuidString, name: "Guest \(number)", ready: true, female: Bool.random(), loadout:look, controllerID:controller))
         publishLobby()
     }
-    func removeLocalGuest() throws {
+    func removeLocalGuest(on phone: String? = nil) throws {
         try requireOwnerIdle()
-        guard let index = lobby?.participants.lastIndex(where: { $0.controllerID == localID }) else { return }
+        let controller = phone ?? localID
+        guard let index = lobby?.participants.lastIndex(where: { $0.controllerID == controller }) else { return }
         lobby?.participants.remove(at:index); lobby?.revision += 1; publishLobby()
     }
     var authenticated: Bool { GKLocalPlayer.local.isAuthenticated }
@@ -197,13 +210,16 @@ final class MultiplayerService {
         self.runtimeSend = sendToRuntime; self.runtimePoll = pollRuntime; self.runtimeClear = clearRuntime; self.clock = clock
     }
     /// Shared host path also permits an injected transport for protocol verification. `quick`: as hostLocal's.
-    func host(using connection: any MultiplayerTransport, sharedPhone: Bool = false, quick: MultiplayerSport? = nil) throws {
+    /// `screen`: this phone hosts as the game's screen for that sport (phone casting; golf or bowling), as `hostLocal(screen:)` does.
+    /// `nearby`: the injected link stands for the nearby (Bonjour) transport, so the lobby plays by nearby rules (tests).
+    func host(using connection: any MultiplayerTransport, sharedPhone: Bool = false, quick: MultiplayerSport? = nil, screen: MultiplayerSport? = nil, nearby: Bool = false) throws {
         guard transport == nil, !searching else { throw MultiplayerError.invalidOperation("Leave the current lobby first.") }
-        sharedPhoneHost = sharedPhone; quickSport = quick; bind(connection); createLobby(owner: localID)
+        if let screen, !MultiplayerLobby.castSports.contains(screen) { throw MultiplayerError.invalidOperation("Tennis needs a TV or Mac.") }
+        injectedNearby = nearby; sharedPhoneHost = sharedPhone; quickSport = screen == nil ? quick : nil; castScreenSport = screen; bind(connection); createLobby(owner: localID)
     }
-    func connect(using connection: any MultiplayerTransport, quick: MultiplayerSport? = nil) throws {
+    func connect(using connection: any MultiplayerTransport, quick: MultiplayerSport? = nil, nearby: Bool = false) throws {
         guard transport == nil, !searching else { throw MultiplayerError.invalidOperation("Leave the current lobby first.") }
-        quickSport = quick; bind(connection)
+        injectedNearby = nearby; quickSport = quick; bind(connection)
     }
     /// Register invitation/lifecycle listeners without presenting authentication or matchmaking UI.
     func prepare() {
@@ -235,6 +251,20 @@ final class MultiplayerService {
         hasScreen = connected
         if lobby != nil { try? sendControl("display", payload: connected ? "true" : "false") }
         else if transport != nil { try? broadcast("hello", payload: json(identity())) }
+    }
+    /// Phone casting over a party (local or Game Center, mobile data included): the leader's phone becomes the game's screen (no seat,
+    /// plays no one) or a player again. Golf and bowling only; between games.
+    func setCastScreen(_ on: Bool) throws {
+        try requireOwnerIdle()
+        guard var state = lobby, let i = state.participants.firstIndex(where: { $0.id == localID }) else { return }
+        if on, !MultiplayerLobby.castSports.contains(state.sport) { throw MultiplayerError.invalidOperation("Tennis needs a TV or Mac, not a phone screen.") }
+        guard state.participants[i].isCastScreen != on else { return }
+        if on { state.participants.removeAll { $0.controllerID == localID } }   // (pass-the-phone guests ride on a player's phone, not the screen)
+        state.participants[i].castScreen = on ? true : nil
+        state.configure(sport: state.sport, venue: state.venue)
+        state.readyCheck = nil
+        castScreenSport = on ? state.sport : nil
+        lobby = state; publishLobby()
     }
     /// The host explicitly confirms that both people can see the same TV.
     func setSharedScreen(_ shared: Bool) throws {
@@ -458,12 +488,16 @@ final class MultiplayerService {
         catch { if operation == searchGeneration { quickSport = nil; lastError = error.localizedDescription }; throw error }
     }
     func cancelSearch() { searchGeneration += 1; gameCenter?.cancelSearch(); searching = false; if transport == nil { quickSport = nil } }
-    /// `quick`: a lobby for that sport that readies itself and starts as soon as it can (two phones playing tennis in one room).
-    func hostLocal(name: String = "Friends", quick: MultiplayerSport? = nil) throws {
+    /// `quick`: a lobby for that sport that readies itself and starts as soon as it can (two phones playing tennis in one room). Golf and
+    /// bowling (LOCAL PLAY on the menu) ready themselves too, but wait for the host's START: more friends can still join.
+    /// `screen`: phone casting (PLAN_PhoneCasting_GolfBowling.md): this phone is the screen for that sport (golf or bowling). It
+    /// hosts with no seat; each phone that joins is a player, and the screen starts the game when its players are in.
+    func hostLocal(name: String = "Friends", quick: MultiplayerSport? = nil, screen: MultiplayerSport? = nil) throws {
         guard transport == nil, !searching else { throw MultiplayerError.invalidOperation("Leave the current lobby first.") }
+        if let screen, !MultiplayerLobby.castSports.contains(screen) { throw MultiplayerError.invalidOperation("Tennis needs a TV or Mac.") }
         local?.disconnect()
         let lan = LocalMultiplayerTransport(); local = lan; bind(lan)
-        quickSport = quick
+        quickSport = screen == nil ? quick : nil; castScreenSport = screen
         do { try lan.host(name: name); createLobby(owner: localID) }
         catch { leave(); throw error }
     }
@@ -481,6 +515,8 @@ final class MultiplayerService {
     }
     func stopBrowsing() { if transport == nil { local?.disconnect(); local = nil; discoveredLobbies = []; localNetworkDenied = false } }
     private func localTransportError(_ error: Error) { noteLocalNetwork(error); lastError = error.localizedDescription }
+    /// Back from Settings (PermissionGate): forget the refusal, so the next look for phones asks the system again.
+    func recheckLocalNetwork() { localNetworkDenied = false }
     private func noteLocalNetwork(_ error: Error) { if let e = error as? MultiplayerError, case .localNetworkDenied = e { localNetworkDenied = true } }
     func swapSeat(_ incoming: String, with outgoing: String) throws {
         try requireOwnerIdle()
@@ -496,7 +532,9 @@ final class MultiplayerService {
     func joinLocal(_ item: LocalMultiplayerTransport.DiscoveredLobby) throws {
         guard transport == nil, !searching else { throw MultiplayerError.invalidOperation("Leave the current lobby first.") }
         let lan = local ?? LocalMultiplayerTransport(); local = lan; bind(lan)
-        quickSport = item.sport == MultiplayerSport.tennis.rawValue ? .tennis : item.sport == MultiplayerSport.bowling.rawValue ? .bowling : nil
+        // (a phone that is the screen: its players are ready as soon as they are in, and the screen starts the game)
+        // (nearby golf and bowling too, LOCAL PLAY: the guest is ready as soon as it is in, and the host's TEE OFF / START begins)
+        quickSport = MultiplayerSport(rawValue: item.sport) ?? .tennis
         do { try lan.join(item) } catch { leave(); throw error }
     }
     /// Online games (a quick match, or a friends' party over Game Center or the hub) are played to fixed rules, the same for every
@@ -521,8 +559,9 @@ final class MultiplayerService {
         // golf: the course, played as long as this host last chose (its own holes, 9 or 18, linked on or round again)
         let session = SportsSession.shared
         let venue = sport == .golf ? MultiplayerLobby.golfRound(MultiplayerLobby.golfRoundParts(venue ?? "cliffside").course, holes: session.golfHoles, link: session.golfLinkCourses)
-            : sport == .bowling ? (venue.flatMap { BowlingVenueChoice(rawValue: $0)?.rawValue } ?? session.bowlingVenue) : (venue ?? "resort")
+            : sport == .bowling ? (venue.flatMap { BowlingVenueChoice.resolve($0)?.rawValue } ?? session.bowlingVenue) : (venue ?? "resort")
         guard MultiplayerLobby.validVenue(venue, sport: sport), (1...3).contains(sets), [1,3,6].contains(games) else { throw MultiplayerError.invalidOperation("Invalid match settings.") }
+        if lobby?.hasCastScreen == true, !MultiplayerLobby.castSports.contains(sport) { throw MultiplayerError.invalidOperation("Tennis needs a TV or Mac, not a phone screen.") }
         if sport != .golf { lobby?.participants.removeAll { $0.isGuest } }
         lobby?.configure(sport: sport, venue: venue)
         lobby?.readyCheck = nil   // (another game: the leader presses Start again)
@@ -565,9 +604,9 @@ final class MultiplayerService {
     /// asks them to tap Ready. The match starts when the last one does.
     func startPartyGame() throws {
         guard isParty, isOwner, var state = lobby, state.phase == .lobby else { throw MultiplayerError.invalidOperation("Only the party leader can start a game.") }
-        let players = state.participants.filter { !$0.isGuest && $0.connected }
-        guard players.count >= 2 else { throw MultiplayerError.invalidOperation("Invite a friend to play together.") }
-        let order = [localID] + players.map(\.id).filter { $0 != localID }
+        let players = state.participants.filter { !$0.isGuest && $0.connected && !$0.isCastScreen }
+        guard players.count >= state.minimumCompetitors else { throw MultiplayerError.invalidOperation("Invite a friend to play together.") }
+        let order = (state.participants.contains { $0.id == localID && $0.isCastScreen } ? [] : [localID]) + players.map(\.id).filter { $0 != localID }
         let seats = Array(order.prefix(state.capacity))
         for i in state.participants.indices where !state.participants[i].isGuest {
             let seat = seats.firstIndex(of: state.participants[i].id) ?? -1
@@ -616,7 +655,7 @@ final class MultiplayerService {
     }
     func rematch() throws {
         guard isOwner, lobby?.phase == .results,
-              (lobby?.competitors.filter(\.connected).count ?? 0) >= 2 else {
+              (lobby?.competitors.filter(\.connected).count ?? 0) >= (lobby?.minimumCompetitors ?? 2) else {
             throw MultiplayerError.invalidOperation("The host can rematch after the result with at least two connected competitors.")
         }
         try returnToLobby(rotateSeats: false, rematching: true)
@@ -665,7 +704,7 @@ final class MultiplayerService {
             throw MultiplayerError.invalidOperation("Only the party leader can do that, between games.")
         }
         // out of the list first: their phone's own "leave" can arrive while the kick is still being sent
-        lobby?.participants.removeAll { $0.id == id }; lobby?.queue.removeAll { $0 == id }
+        lobby?.participants.removeAll { $0.id == id || $0.controllerID == id }; lobby?.queue.removeAll { $0 == id }
         dropped[id] = nil
         gameCenter?.disallowPartyPlayer(id)
         lobby?.revision += 1; publishLobby()
@@ -701,7 +740,7 @@ final class MultiplayerService {
         guard isOwner, isParty, lobby?.phase == .lobby, let gc = gameCenter, transport === gc else { return }
         for (id, at) in dropped where now - at > GameCenterTransport.patience {
             dropped[id] = nil
-            lobby?.participants.removeAll { $0.id == id && !$0.connected }; lobby?.revision += 1; publishLobby()
+            lobby?.participants.removeAll { ($0.id == id || $0.controllerID == id) && !$0.connected }; lobby?.revision += 1; publishLobby()
         }
     }
 
@@ -714,7 +753,7 @@ final class MultiplayerService {
             #endif
             SportsDiagnostics.write("multiplayer leave (\(lobby.map { "\($0.participants.count) in lobby, \(isOwner ? "owner" : "guest")" } ?? "no lobby"), peers=\(transport?.peers.count ?? 0)) — \(why.isEmpty ? "from \(file):\(line)" : why)")
         }
-        sharedPhoneHost = false; nativeParty = false; expectingHost = nil; promotedTo = nil; dropped = [:]; leftMatch = nil; saidAvailable = nil
+        sharedPhoneHost = false; injectedNearby = false; nativeParty = false; expectingHost = nil; promotedTo = nil; dropped = [:]; leftMatch = nil; saidAvailable = nil
         if transport != nil { try? broadcast("leave") }
         epoch += 1; searchGeneration += 1; timer?.invalidate(); timer = nil; stopRuntime()
         // (a Nearby browse that never became the lobby's transport stops too, rather than running on unowned)
@@ -723,8 +762,8 @@ final class MultiplayerService {
         #if DEBUG
         proofPeers.removeAll();proofSnapshot=nil
         #endif
-        ownerMissingSince = nil
-        loadingNeedsDecision = false; lobby = nil; hello.removeAll(); dropNotes.removeAll(); seen.removeAll(); launchOf.removeAll(); ownerRestarted = false; loggedStatus.removeAll(); disconnected.removeAll(); rate.removeAll(); matchConfiguration = nil; quickSport = nil; searching = false
+        ownerMissingSince = nil; screenSuspended = false
+        loadingNeedsDecision = false; lobby = nil; hello.removeAll(); dropNotes.removeAll(); seen.removeAll(); launchOf.removeAll(); ownerRestarted = false; loggedStatus.removeAll(); disconnected.removeAll(); rate.removeAll(); matchConfiguration = nil; quickSport = nil; castScreenSport = nil; searching = false
         lastLook.removeAll(); lastEmote.removeAll(); emotes.removeAll(); localEmoteAt = -Double.infinity; clockOffset = 0; clockFilter = ClockFilter(); nextPing = 0; lastHeard.removeAll(); silent.removeAll(); nextHeartbeat = 0; silenceArmedAt = .infinity
         awaitingCalibration.removeAll(); calibrationNoticed = false; localNetworkDenied = false
         localLoadReport = nil; localCalibrationReported = false; loadReports.removeAll(); scheduledRunAt = 0
@@ -758,10 +797,13 @@ final class MultiplayerService {
         }
     }
     private func createLobby(owner: String) {
-        var me = identity(); me.seat = 0; lobby = MultiplayerLobby(ownerID: owner, participants: [me])
+        var me = identity(); me.seat = 0
+        // (phone casting: the host is the screen, with no seat: everyone who joins plays)
+        if castScreenSport != nil, owner == localID { me.seat = -1; me.castScreen = true }
+        lobby = MultiplayerLobby(ownerID: owner, participants: [me])
         lobby?.sharedScreen = isNearby
         for p in hello.values.sorted(by: { $0.id < $1.id }) { try? lobby?.add(p) }
-        if let sport = quickSport { lobby?.configure(sport: sport, venue: sport == .golf ? "cliffside" : sport == .bowling ? SportsSession.shared.bowlingVenue : "resort") }
+        if let sport = quickSport ?? castScreenSport { lobby?.configure(sport: sport, venue: sport == .golf ? "cliffside" : sport == .bowling ? SportsSession.shared.bowlingVenue : "resort") }
         applyOnlineRules()
         publishLobby()
         if quickSport != nil { try? setReady(true) }
@@ -793,6 +835,10 @@ final class MultiplayerService {
                     lobby!.participants[i].connected = true
                 }
             }
+            // (a player's pass-the-phone guests come and go with the phone they play on)
+            for g in lobby!.participants.indices where lobby!.participants[g].isGuest {
+                if let phone = lobby!.participants.first(where: { $0.id == lobby!.participants[g].controllerID }) { lobby!.participants[g].connected = phone.connected }
+            }
             lobby?.revision += 1; publishLobby()
             // The leader's own "back" (resumePeer, setForeground) went out while its link was still down after the background and was
             // lost: the other phones' games kept the leader suspended (the CPU on its side). Said again whenever phones come back to it
@@ -819,7 +865,7 @@ final class MultiplayerService {
     private func leaderLeftGame() {
         guard let state = lobby else { return }
         SportsDiagnostics.write("multiplayer: the leader left the party during the game (\(state.phase.rawValue))")
-        leftMatch = nil; ownerMissingSince = nil
+        leftMatch = nil; ownerMissingSince = nil; screenSuspended = false
         lobby?.phase = .lobby; lobby?.matchID = ""; lobby?.readyCheck = nil
         for i in lobby!.participants.indices { lobby!.participants[i].ready = lobby!.participants[i].isGuest; lobby!.participants[i].loaded = false; lobby!.participants[i].calibrated = false; lobby!.participants[i].linkOK = false; lobby!.participants[i].view = nil; lobby!.participants[i].screenDelay = nil }
         if matchConfiguration != nil { stopRuntime() }
@@ -920,12 +966,12 @@ final class MultiplayerService {
             guard var p = try? decoder.decode(MultiplayerParticipant.self, from: Data(packet.payload.utf8)) else { noteDrop("unreadable hello", peer); return }
             // a look this build cannot show is left out, never the player (it used to drop the whole hello: they never joined)
             if !(p.loadout?.valid() ?? true) { noteDrop("hello look not valid here", peer); p.loadout = nil }
-            p.controllerID = nil; p.id = peer; p.name = String(p.name.prefix(40)); p.seat = -1; p.ready = false; p.loaded = false; p.calibrated = false; p.view = nil; p.screenDelay = nil; p.connected = true; p.invited = !(lobby?.publicAdmission ?? false)
+            p.controllerID = nil; p.castScreen = nil; p.id = peer; p.name = String(p.name.prefix(40)); p.seat = -1; p.ready = false; p.loaded = false; p.calibrated = false; p.view = nil; p.screenDelay = nil; p.connected = true; p.invited = !(lobby?.publicAdmission ?? false)
             if hello[peer] == nil { SportsDiagnostics.write("multiplayer hello from \(peer.prefix(8)) (\(isOwner ? "added to the lobby" : "not the host"))") }
             hello[peer] = p
             if isOwner { do {
                 try lobby?.add(p); publishLobby()
-                if var config=matchConfiguration, [.loading,.calibrating,.playing,.results].contains(lobby!.phase), lobby!.competitors.count >= 2 {
+                if var config=matchConfiguration, [.loading,.calibrating,.playing,.results].contains(lobby!.phase), lobby!.competitors.count >= lobby!.minimumCompetitors {
                     config.localID=""; config.participants=lobby!.participants
                     try transmit("launch", payload: json(config), to: [peer])
                 }
@@ -1046,7 +1092,9 @@ final class MultiplayerService {
             // the guest watches the owner from the shared start (its clock is the owner's minus the offset)
             if silenceArmedAt == .infinity { silenceArmedAt = at - clockOffset + MultiplayerTuning.silenceGrace; lastHeard[state.ownerID] = now }
         case "snapshot", "golfShot": guard packet.matchID == state.matchID else { return }; pushRuntimePacket(packet)
-        case "suspend", "resumePeer", "drop": pushRuntimePacket(packet)
+        case "suspend", "resumePeer", "drop":
+            if packet.payload == state.ownerID, state.hasCastScreen { screenSuspended = packet.kind == "suspend" }
+            pushRuntimePacket(packet)
         case "result": guard packet.matchID == state.matchID else { return }; pushRuntimePacket(packet); rememberResult(packet.payload); onResult?(packet.payload)
         case "stop": stopRuntime(retainDirection: packet.payload == "rematch")
         case "pong":
@@ -1160,7 +1208,7 @@ final class MultiplayerService {
             }
         case "setupStep":
             guard p.matchID == lobby?.matchID, lobby!.sport == .tennis, lobby!.participants[i].seat >= 0,
-                  [.loading, .calibrating].contains(lobby!.phase), ["next", "direction", "timing", "ready"].contains(p.payload) else { return }
+                  [.loading, .calibrating].contains(lobby!.phase), MultiplayerLobby.isSetupStep(p.payload) else { return }
             lobby!.participants[i].setupStep = p.payload
         case "display": lobby!.participants[i].hasScreen = p.payload == "true"
         case "screenDelay":
@@ -1173,7 +1221,7 @@ final class MultiplayerService {
                 if lobby!.participants[i].seat >= 0 && lobby!.phase == .playing { lastError = "\(lobby!.participants[i].name) left the match." }
                 if lobby!.participants[i].seat >= 0 { try? broadcast("drop", payload: p.sender); pushRuntime("drop", payload: p.sender) }
             }
-            lobby!.participants.removeAll { $0.id == p.sender }; lobby!.queue.removeAll { $0 == p.sender }; awaitingCalibration.remove(p.sender)
+            lobby!.participants.removeAll { $0.id == p.sender || $0.controllerID == p.sender }; lobby!.queue.removeAll { $0 == p.sender }; awaitingCalibration.remove(p.sender)
             dropped[p.sender] = nil
         case "availability":
             lobby!.participants[i].paused = p.payload == "false"
@@ -1189,21 +1237,22 @@ final class MultiplayerService {
     }
     /// Moves the lobby along when what it was waiting for has happened: everyone loaded; for tennis, everyone set up and Ready.
     private func advancePhase() {
-        if lobby?.phase == .loading, lobby!.competitors.count >= 2, lobby!.competitors.allSatisfy(\.loaded) {
+        // (phone casting: the screen phone shows the game, so play waits for it to load too)
+        if lobby?.phase == .loading, lobby!.competitors.count >= lobby!.minimumCompetitors, lobby!.competitors.allSatisfy(\.loaded), lobby!.castScreen?.loaded ?? true {
             loadingNeedsDecision = false
             if lobby!.sport == .tennis { beginCalibration(); advancePhase() } else { beginPlay() }
         } else if lobby?.phase == .calibrating, lobby!.competitors.count >= 2, lobby!.competitors.allSatisfy({ $0.loaded && $0.calibrated }) {
             beginPlay()
         } else if abortSetupIfShort() {
             return
-        } else if quickSport != nil, lobby?.canStart == true { try? startMatch() }
+        } else if let quick = quickSport, quick == .tennis || !isNearby, lobby?.canStart == true { try? startMatch() }   // (nearby golf and bowling: the host's TEE OFF / START, HubSession.startLocalPlay)
         else if isOwner, isParty, lobby?.readyCheck == true, lobby?.phase == .lobby { partyReadyAdvance() }
     }
     /// The party's ready check: everyone seated tapped Ready, so the game starts; a player gone (or too few left) ends the check.
     private func partyReadyAdvance() {
         guard let state = lobby else { return }
         let seated = state.participants.filter { $0.seat >= 0 && !$0.isGuest }
-        if seated.filter(\.connected).count < 2 {
+        if seated.filter(\.connected).count < state.minimumCompetitors {
             cancelPartyGame(); lastError = "Not enough players for that game. Pick it again when your friends are back."
             try? broadcast("notice", payload: lastError ?? ""); return
         }
@@ -1248,7 +1297,7 @@ final class MultiplayerService {
     /// Schedule the shared start (after the slowest phone's loading cover has gone) and tell everyone.
     private func beginPlay() {
         clearSetupNotices()
-        scheduledRunAt = max(now, lobby!.competitors.map { presentationReadyAt[$0.id] ?? now }.max() ?? now) + max(lobby!.sport == .tennis ? 3 : 0.5, roundTrip * 2)
+        scheduledRunAt = max(now, (lobby!.competitors + [lobby!.castScreen].compactMap { $0 }).map { presentationReadyAt[$0.id] ?? now }.max() ?? now) + max(lobby!.sport == .tennis ? 3 : 0.5, roundTrip * 2)
         SportsDiagnostics.write("multiplayer shared start scheduled in \(String(format: "%.2f", scheduledRunAt - now)) s")
         lobby!.phase = .playing; lobby!.revision += 1; publishLobby()
         try? broadcast("run", payload: String(scheduledRunAt)); pushRuntime("run", payload: String(scheduledRunAt))
@@ -1264,8 +1313,9 @@ final class MultiplayerService {
         SportsDiagnostics.write("multiplayer: \(id.prefix(8)) \(what) (\(lobby!.phase.rawValue))")
         try? broadcast("drop", payload: id); pushRuntime("drop", payload: id)
         lobby!.participants[i].seat = -1; disconnected[id] = nil; silent[id] = nil; awaitingCalibration.remove(id); linkSteadySince[id] = nil
+        for g in lobby!.participants.indices where lobby!.participants[g].controllerID == id { lobby!.participants[g].seat = -1 }   // (and the guests on their phone)
         let others = lobby!.participants.filter { $0.id != id && $0.id != localID && !$0.isGuest }.map(\.id)
-        let ended = lobby!.competitors.count < 2
+        let ended = lobby!.competitors.count < lobby!.minimumCompetitors
         let text = ended ? "\(name) \(what), so the game ended." : "\(name) \(what). The game goes on."
         if ended { try? returnToLobby(rotateSeats: false) } else { lobby?.revision += 1; publishLobby(); advancePhase() }
         lastError = text; if !others.isEmpty { try? transmit("notice", payload: text, to: others) }
@@ -1337,7 +1387,7 @@ final class MultiplayerService {
     private func publishLobby() {
         if isOwner { stampStatus() }
         guard let lobby else { return }
-        if isOwner { local?.advertise(sport:lobby.sport.rawValue,players:lobby.participants.count) }
+        if isOwner { local?.advertise(sport:lobby.sport.rawValue,players:lobby.participants.count,screen:lobby.hasCastScreen,open:lobby.phase == .lobby) }
         syncPartyLeader()
         try? broadcast("lobby", payload: (try? json(lobby)) ?? "")
     }
@@ -1421,7 +1471,7 @@ final class MultiplayerService {
         guard onMatchRequested != nil || !SportsSession.shared.active else { lastError = "Finish the current sport session before joining this match."; return }
         // In a friends' party only the people on the bench play: everyone else stays where they are in the Plaza. A game this phone
         // left (Leave game) never takes it back.
-        if isParty, (config.participants.first { $0.id == localID }?.seat ?? -1) < 0 || config.matchID == leftMatch { return }
+        if isParty, (config.participants.first { $0.id == localID }.map { $0.seat >= 0 || $0.isCastScreen } ?? false) == false || config.matchID == leftMatch { return }
         // the last match's packets (and any overflow report) must not use up this match's room in the bridge
         runtimeClear()
         silent.removeAll(); silenceArmedAt = .infinity; local?.holdForReconnect = true
@@ -1631,7 +1681,7 @@ final class MultiplayerService {
         // A guest whose host has been gone from the match for the whole away limit: the match is over.
         if !isOwner, let since = ownerMissingSince, now - since >= MultiplayerTuning.awayLimitSeconds {
             ownerMissingSince = nil
-            if lobby?.phase == .playing { lobby?.phase = .interrupted; stopRuntime(); lastError = "The host was away too long, so the match ended." }
+            if lobby?.phase == .playing { let screen = lobby?.hasCastScreen == true; lobby?.phase = .interrupted; stopRuntime(); lastError = screen ? "The screen phone was away too long, so the game ended." : "The host was away too long, so the match ended." }
         }
         for _ in 0..<64 {
             guard let text = runtimePoll() else { break }
@@ -1725,17 +1775,19 @@ extension MultiplayerService {
         lobby?.revision += 1
     }
     /// Tests: one TV for two phones. The other player's phone has it (and is at `otherStep` of its setup); this one is a controller.
-    func mockOneTV(otherStep: String?) {
+    func mockOneTV(otherStep: String?, mineHasTV: Bool = false) {
         guard transport is LobbyMockTransport, lobby != nil else { return }
         for i in lobby!.participants.indices {
-            let mine = lobby!.participants[i].id == localID
-            lobby!.participants[i].view = mine ? .controllerOnly : .split; lobby!.participants[i].hasScreen = !mine
-            if !mine { lobby!.participants[i].setupStep = otherStep }
+            let local = lobby!.participants[i].id == localID, tv = local == mineHasTV
+            lobby!.participants[i].view = tv ? .split : .controllerOnly; lobby!.participants[i].hasScreen = tv
+            if !local { lobby!.participants[i].setupStep = otherStep }
         }
         lobby?.revision += 1
     }
     /// Tests: what a background Nearby browse found.
     func debugSetDiscovered(_ lobbies: [LocalMultiplayerTransport.DiscoveredLobby]) { discoveredLobbies = lobbies }
+    /// Tests: iOS refused Local Network (the browse or host saw the policy error).
+    func debugSetLocalNetworkDenied(_ on: Bool) { localNetworkDenied = on }
     func mockNearby() {
         discoveredLobbies = [LocalMultiplayerTransport.DiscoveredLobby(id:"proof-nearby",name:"Sam",endpoint:.service(name:"Sam",type:"_partysports._tcp",domain:"local.",interface:nil),sport:"golf",players:3)]
     }

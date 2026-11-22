@@ -1,8 +1,8 @@
 import Foundation
 
-/// First launch (PLAN_Onboarding_v3_IntroTutorial.md, 2026-11-15): the menu loads first (on the TV or, with none, on the phone) and
-/// an intro plays over it on the phone: welcome, make your player, how it works (motion control, TV or phone only, play safe), then
-/// go to Play. From there Play is locked to the Tutorial (golf, tennis, bowling) until all three are done.
+/// First launch (PLAN_Onboarding_Tutorial_TennisQuickStart_1121.md): the menu loads first (on the TV or, with none, on the phone) and
+/// short tips guide it: welcome, make your player, then PLAY, which starts the Tutorial (golf, tennis, bowling). Each sport stays
+/// gated until its lesson is done or skipped. (`how` is the retired "how it works" step: a phone saved there resumes at goPlay.)
 enum OnboardingStep: String, CaseIterable, Equatable {
     case welcome, customize, how, goPlay, tutorial, done
     var key: String { rawValue }
@@ -48,6 +48,9 @@ final class OnboardingStore {
         get { defaults.bool(forKey: "ftue.tennisDeferred.v1") }
         set { defaults.set(newValue, forKey: "ftue.tennisDeferred.v1") }
     }
+    /// The sport's lesson was skipped from its gate (Skip lesson): its games are open, no lesson reward.
+    func lessonSkipped(_ sport: Sport) -> Bool { defaults.bool(forKey: "ftue.lessonSkipped.\(sport.rawValue).v1") }
+    func setLessonSkipped(_ sport: Sport, _ on: Bool) { defaults.set(on, forKey: "ftue.lessonSkipped.\(sport.rawValue).v1") }
     var installedAt: TimeInterval {
         if let time = defaults.object(forKey: "ftue.installedAt.v1") as? Double { return time }
         let time = Date().timeIntervalSince1970

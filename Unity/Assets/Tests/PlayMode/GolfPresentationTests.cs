@@ -282,7 +282,7 @@ namespace GolfArcade.PlayTests
                     GolferStyle.Body = female ? GolferStyle.BodyKind.Female : GolferStyle.BodyKind.Male;
                     var golfer = game.GetComponentInChildren<GolferView>(true);
                     golfer.ApplyStyle();
-                    game.JumpToHole(7); game.DropBall(game.CurrentHole.Tee);
+                    game.JumpToHole(8); game.DropBall(game.CurrentHole.Tee);
                     var cam = game.GameplayCamera; cam.aspect = 16f / 9f;
                     yield return null; yield return null;
                     Assert.That(game.PlayResultEmote(0), Is.False, "emote during address");

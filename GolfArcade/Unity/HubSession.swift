@@ -151,9 +151,23 @@ final class HubSession {
     private func syncMenuPhone(force: Bool = false) {
         guard phase == .live else { return }
         // (a lesson's play-safe card is on the phone too: the TV says so; the first-launch tips are on the menu itself, MenuHud.Coach)
-        let safe = PlaySafeGate.shared.request
-        let open = panelOpen || onlineBench != nil || ClubHub.shared.hubOpen || (station.map { Self.partyBays.contains($0) } ?? false && party != nil) || safe != nil
-        let title = safe.map { $0.tutorial ? "\($0.sport.title.capitalized) lesson" : "Play safe" }
+        let safe = PlaySafeGate.shared.request, asking = permissions.request
+        let open = panelOpen || onlineBench != nil || ClubHub.shared.hubOpen || (station.map { Self.partyBays.contains($0) } ?? false && party != nil) || safe != nil || asking != nil
+        // (a permission card, 11-21: the TV says what the phone is asking about)
+        let title = asking.map { r -> String in
+            switch r.kind {
+            case .camera: "Camera for tennis"
+            case .localNetwork: "Phones nearby"
+            case .gameCenter: "Game Center"
+            }
+        } ?? safe.map { r -> String in
+            switch r.kind {
+            case .tutorial: "Tutorial"
+            case .gate: "\(r.sport.title.capitalized) lesson or skip"
+            case .lesson: "\(r.sport.title.capitalized) lesson"
+            case .game: "Play safe"
+            }
+        }
         guard open != menuPhoneSent || force || (open && title != nil && title != menuPhoneTitle) else { return }
         menuPhoneSent = open; menuPhoneTitle = title
         menuCommand("menuPhone", mode: open ? "on" : "off", extra: title.map { ["reason": $0] } ?? [:])
@@ -236,13 +250,15 @@ final class HubSession {
         case "menuStart": if session.haptics { UINotificationFeedbackGenerator().notificationOccurred(.success) }
         // the TV's match setup (MenuSetup): describe the screen, apply a change, start
         case "menuSetup":
-            menuSetupMode = message
+            menuSetupMode = message; menuLocalMode = Self.localPlaySport(message) != nil ? message : nil; localPlaySent = ""
             if let json = MenuSetup.json(message) { menuCommand("menuSetupState", mode: json) }
         case "menuSet":
             guard let mode = menuSetupMode else { return }
             if session.haptics { UISelectionFeedbackGenerator().selectionChanged() }
             MenuSetup.set(mode, message)
             if let json = MenuSetup.json(mode) { menuCommand("menuSetupState", mode: json) }
+        // LOCAL PLAY (golf or bowling) opened on the menu: its players screen comes first, and phones nearby are offered the game
+        case "menuLocal": menuLocalMode = Self.localPlaySport(message) != nil ? message : nil
         case "menuSetupStart":
             guard MenuSetup.modes.contains(message) else { return }
             if session.haptics { UINotificationFeedbackGenerator().notificationOccurred(.success) }
@@ -285,7 +301,7 @@ final class HubSession {
     func evaluate() {
         guard foreground else { return }
         // the panel's own Back / Done went past the station's screens (home, or an old menu screen): the station is finished
-        if let s = station, !Self.partyBays.contains(s), s != Self.nearbyBay, !Self.panelScreens(menu.screen) {
+        if let s = station, !Self.partyBays.contains(s), s != Self.nearbyBay, Self.castSport(s) == nil, !Self.panelScreens(menu.screen) {
             station = nil; returnBay = nil
             if menu.screen != .main && menu.screen != .title { menu.openFromPlaza(.main) }
         }
@@ -547,22 +563,40 @@ final class HubSession {
         case "bay-bowling-online": Route(action: { HubSession.shared.useOnlineBench(.bowling) })
         // two phones in one room, one TV (a menu entry, not a place to walk to): hosts a nearby tennis game; the friend's phone offers "Join …?"
         case "bay-tennis-nearby": Route(action: { HubSession.shared.useNearbyBench() })
+        // phone casting (PLAN_PhoneCasting_GolfBowling.md): this phone is the screen; friends' phones nearby join as the players
+        case "bay-golf-cast": Route(action: { HubSession.shared.useCastScreen(.golf) })
+        case "bay-bowling-cast": Route(action: { HubSession.shared.useCastScreen(.bowling) })
         // PLAY → TUTORIAL (MenuHud.Tutorial): a lesson's how-to-play + safety card on the phone, then the lesson
         case "bay-tutorial-golf": Route(action: { OnboardingFlow.shared.startLesson(.golf) })
         case "bay-tutorial-tennis": Route(action: { OnboardingFlow.shared.startLesson(.tennis) })
         case "bay-tutorial-bowling": Route(action: { OnboardingFlow.shared.startLesson(.bowling) })
+        // a sport picked before its lesson (MenuHud.Tutorial.LessonFirst, 11-21): play the lesson, or skip it and open the sport
+        case "bay-gate-golf": Route(action: { HubSession.shared.openGate(.golf) })
+        case "bay-gate-tennis": Route(action: { HubSession.shared.openGate(.tennis) })
+        case "bay-gate-bowling": Route(action: { HubSession.shared.openGate(.bowling) })
         default: nil
         }
     }
 
     /// The single-player stations: locked while friends are in your party.
     static let soloStations: Set<String> = ["bay-tennis-exhibition", "bay-tennis-campaign", "bay-tennis-training", "bay-tennis-calibration", "bay-golf-round", "bay-golf-pass", "bay-golf-daily", "shelf-trophies", "bay-tennis-nearby",
+                                             "bay-golf-cast", "bay-bowling-cast",
                                              "bay-bowling-play", "bay-bowling-exhibition", "bay-bowling-pass"]
-    var soloLocked: Bool { partyService.hasFriendsInLobby }
+    /// (friends who joined this phone's own LOCAL PLAY golf or bowling game are playing it with you: that is not a party)
+    var soloLocked: Bool { partyService.hasFriendsInLobby && localPlaySport == nil }
     static let soloLockMessage = "Single-player is locked while friends are in your party. Choose Party game to play together."
     static let friendJoiningMessage = "Your friend is still joining. One moment…"
     /// START on the TV's own match setup (MenuSetup): the bay is in use as if its panel had launched the match.
+    /// A gated sport's "lesson or skip" card; Skip opens the sport's modes on the TV.
+    func openGate(_ sport: Sport) {
+        OnboardingFlow.shared.gate(sport) { [weak self] in
+            guard let self else { return }
+            self.syncTutorial()   // the TV hears the gate is open before it is asked to go there
+            self.menuCommand("menuGo", mode: "modes:\(sport.rawValue)")
+        }
+    }
     func startFromMenu(_ id: String, _ go: () -> Void) {
+        // (a skip from here leaves the setup screen up: START again plays)
         if !OnboardingFlow.shared.allows(id) { OnboardingFlow.shared.lessonFirst(id); return }
         if soloLocked, Self.soloStations.contains(id) { notice = Self.soloLockMessage; toast(notice); return }
         station = id
@@ -570,14 +604,22 @@ final class HubSession {
         evaluate()
     }
     func useStation(_ id: String) {
-        // first launch (11-16): a sport's own lesson comes before its games
-        if !OnboardingFlow.shared.allows(id) { OnboardingFlow.shared.lessonFirst(id); return }
+        // first launch: a sport's own lesson comes before its games, unless skipped (11-21: the card asks)
+        if !OnboardingFlow.shared.allows(id) { OnboardingFlow.shared.lessonFirst(id) { HubSession.shared.useStation(id) }; return }
         if soloLocked, Self.soloStations.contains(id) {
             notice = Self.soloLockMessage; toast(notice); return
         }
         // a friend is still joining this phone's party (connected, their lobby on its way): an online game would leave them behind
         if Self.partyBays.contains(id), party == nil, partyService.isParty, partyService.joiningPeers > 0 {
             notice = Self.friendJoiningMessage; toast(notice); return
+        }
+        // 11-21: asked in context, never at launch. An online bench with no party is the first online game: Game Center's
+        // sign-in now. A tennis bench (online or nearby): the camera, before a friend or a match is waiting on this phone.
+        if Self.partyBays.contains(id), party == nil, !permissions.gameCenterSignedIn() {
+            permissions.requireGameCenter(then: { [weak self] in self?.useStation(id) }); return
+        }
+        if (Self.partyBays.contains(id) || id == Self.nearbyBay), Self.benchSport(id) == .tennis, permissions.cameraNeedsCard {
+            permissions.requireCamera(then: { [weak self] in self?.useStation(id) }); return
         }
         if Self.partyBays.contains(id), let party {
             // a party's game: the bench's sport becomes the party's (leader), the phone shows the party, the leader picks the map and
@@ -588,6 +630,7 @@ final class HubSession {
             haptic(); evaluate(); return
         }
         if id == Self.nearbyBay { station = id; useNearbyBench(); evaluate(); return }
+        if let sport = Self.castSport(id) { station = id; useCastScreen(sport); evaluate(); return }
         guard let route = Self.route(id) else { return }
         if let action = route.action {
             // a mode's action keeps its station open (its panel is the course picker / the search); a station's just happens
@@ -640,7 +683,8 @@ final class HubSession {
     func leaveStation() {
         guard station != nil || panelOpen else { return }
         if onlineBench != nil { stopSearching(); onlineBench = nil }
-        if station == Self.nearbyBay { stopHostingNearby() }
+        if station == Self.nearbyBay || Self.castSport(station) != nil { stopHostingNearby() }
+        if station == Self.nearbyBay, nearbyLookingSince != nil { nearbyLookingSince = nil; endNearbyBrowse(); notice = "" }
         if station != nil { station = nil; returnBay = nil }
         if menu.screen != .main && menu.screen != .title { menu.openFromPlaza(.main) }
         evaluate()
@@ -686,7 +730,7 @@ final class HubSession {
         sendJSON(message)
     }
 
-    private func haptic() { if session.haptics { UIImpactFeedbackGenerator(style: .light).impactOccurred() } }
+    func haptic() { if session.haptics { UIImpactFeedbackGenerator(style: .light).impactOccurred() } }
 
     private func lookFields(_ p: Player) -> [String: Any] {
         ["female": p.standardFemale, "skin": p.standardSkin, "skinHex": p.skinHex,
@@ -780,6 +824,8 @@ final class HubSession {
     static func benchSport(_ bay: String) -> MultiplayerSport { bay.contains("golf") ? .golf : bay.contains("bowling") ? .bowling : .tennis }
     /// The lobby the party lives in (tests inject their own service).
     @ObservationIgnored var partyService: MultiplayerService = .shared { didSet { installParty() } }
+    /// Game Center, Local Network and camera, asked in context (PermissionGate; tests give a hub its own).
+    @ObservationIgnored var permissions: PermissionGate = .shared
     /// The friends' party while it is idle (in the plaza) and someone has joined you; nil once a match is on, alone (an invite
     /// still on its way), or in a quick match's lobby.
     var party: MultiplayerLobby? {
@@ -857,9 +903,17 @@ final class HubSession {
     }
     /// Leader: back to choosing (nobody is ready any more).
     func cancelPartyGame() { partyService.cancelPartyGame(); haptic() }
+    /// Leader (golf, bowling): this phone is the party game's screen (it shows the game for everyone and plays no one), or a player again.
+    func setPartyCastScreen(_ on: Bool) {
+        guard partyService.isOwner, party != nil else { return }
+        do { try partyService.setCastScreen(on); notice = "" } catch { notice = error.localizedDescription }
+        haptic()
+    }
     /// Leader: the party's game is tennis, golf or bowling (on the same panel).
     func setPartySport(_ sport: MultiplayerSport) {
         guard partyService.isOwner, let lobby = party, lobby.sport != sport else { return }
+        // (tennis needs a bigger screen than a phone: this phone plays again)
+        if lobby.hasCastScreen, !MultiplayerLobby.castSports.contains(sport) { try? partyService.setCastScreen(false) }
         do { try partyService.configure(sport, venue: sport == .golf ? session.golfCourse : sport == .bowling ? session.bowlingVenue : session.tennisVenue) } catch { notice = error.localizedDescription }
         station = sport == .golf ? "bay-golf-online" : sport == .bowling ? "bay-bowling-online" : "bay-tennis-online"
         haptic()
@@ -926,7 +980,8 @@ final class HubSession {
     static let browseNearby: @MainActor (HubSession, Bool) -> Void = { hub, on in if on { hub.partyService.browseLocal(quiet: true) } else { hub.partyService.stopBrowsing() } }
     static let hostNearby: @MainActor (HubSession) throws -> Void = { hub in
         let p = hub.session.players.indices.contains(hub.session.playerIndex) ? hub.session.players[hub.session.playerIndex].name : "Friends"
-        try hub.partyService.hostLocal(name: p, quick: .tennis)
+        if let sport = hub.castHosting { try hub.partyService.hostLocal(name: p, screen: sport) }
+        else { try hub.partyService.hostLocal(name: p, quick: hub.localPlaySport ?? .tennis) }
     }
     static let joinNearby: @MainActor (HubSession, LocalMultiplayerTransport.DiscoveredLobby) throws -> Void = { hub, lobby in try hub.partyService.joinLocal(lobby) }
 
@@ -936,12 +991,47 @@ final class HubSession {
     var wantsNearbyBrowse: Bool {
         foreground && !session.active && !SportsSession.benchmark && ClubHub.shared.canJoinNow && onlineBench == nil
             && nearbyJoining == nil && !nearbyHosting && partyService.lobby == nil && !partyService.searching && !partyService.localNetworkDenied
+            && permissions.localPlayAsked   // 11-21: not before the player has picked a local match (iOS asks on the first look)
+            && nearbyLookingSince == nil
     }
     /// A nearby tennis game with room for this phone, shown as "Join <name>'s tennis game?" (one tap joins). Nil when there is none,
     /// the player dismissed it, or this phone is busy.
     var nearbyOffer: LocalMultiplayerTransport.DiscoveredLobby? {
         guard !session.active, ClubHub.shared.canJoinNow, nearbyJoining == nil, !nearbyHosting, partyService.lobby == nil else { return nil }
-        return partyService.discoveredLobbies.first { $0.sport == MultiplayerSport.tennis.rawValue && $0.players < 2 && !nearbyDismissed.contains($0.id) }
+        return partyService.discoveredLobbies.first {
+            guard $0.open, !nearbyDismissed.contains($0.id), let sport = MultiplayerSport(rawValue: $0.sport) else { return false }
+            return $0.players < (sport == .tennis && !$0.screen ? 2 : 4)
+        }
+    }
+
+    // MARK: Phone casting (PLAN_PhoneCasting_GolfBowling.md): this phone is the screen, friends' phones are the controllers
+
+    /// The menu rows that make this phone the screen, by sport (golf and bowling: tennis needs a bigger screen).
+    static let castBays: [MultiplayerSport: String] = [.golf: "bay-golf-cast", .bowling: "bay-bowling-cast"]
+    static func castSport(_ station: String?) -> MultiplayerSport? { castBays.first { $0.value == station }?.key }
+    /// The sport this phone is hosting as the screen (nil when it is not).
+    private(set) var castHosting: MultiplayerSport?
+    /// "Use this phone as the screen": host a nearby game for that sport with this phone as its screen. Phones in the room get
+    /// "Play golf on <name>'s screen?"; each that joins is a player, and this phone starts the game (HubCastScreenPanel).
+    func useCastScreen(_ sport: MultiplayerSport) {
+        guard MultiplayerLobby.castSports.contains(sport), let bay = Self.castBays[sport] else { return }
+        guard !soloLocked || castHosting == sport else {
+            notice = Self.soloLockMessage; if station == bay { station = nil }; return
+        }
+        station = bay
+        endNearbyBrowse(); stopLocalPlay()
+        if castHosting == sport, nearbyHosting, partyService.lobby != nil { return }
+        nearbyHosting = false; castHosting = sport
+        if partyService.isParty { ClubHub.shared.leaveParty() } else if partyService.lobby != nil { partyService.leave() }
+        nearbyIdentity()
+        do { try nearbyHost(self); nearbyHosting = true; notice = "" }
+        catch { notice = error.localizedDescription; castHosting = nil }
+        SportsDiagnostics.write("cast screen \(sport.rawValue): hosting=\(nearbyHosting)\(notice.isEmpty ? "" : " (\(notice))")")
+    }
+    /// The screen's Start: every phone that joined plays.
+    func startCastGame() {
+        haptic()
+        do { try partyService.startMatch(); notice = "" } catch { notice = error.localizedDescription }
     }
     /// The menu's "Tennis with a friend nearby": host a nearby tennis game (a quick lobby: it readies itself and starts when the
     /// friend's phone is in). Its panel (HubNearbyBenchPanel) shows while this station is open.
@@ -951,7 +1041,15 @@ final class HubSession {
             notice = Self.soloLockMessage; if station == Self.nearbyBay { station = nil }; return
         }
         station = Self.nearbyBay
-        endNearbyBrowse()
+        // 11-21: the first local match is when iOS asks for Local Network (our card first). That phone has never looked for
+        // games, so it looks for a moment before hosting: a friend who picked Local play too joins their game, not a second one.
+        if !permissions.localPlayAsked {
+            permissions.requireLocalNetwork(then: { [weak self] in self?.lookThenHostNearby() }, onCancel: { [weak self] in self?.leaveStation() })
+            return
+        }
+        if partyService.localNetworkDenied { nearbyRefused(); return }
+        if nearbyLookingSince != nil { return }
+        endNearbyBrowse(); stopLocalPlay()
         if nearbyHosting, partyService.lobby != nil { return }   // (already hosting; a hosted game that went is hosted again)
         nearbyHosting = false
         // a party of one waiting on an invite, or a stale lobby, gives way to the nearby game
@@ -961,8 +1059,40 @@ final class HubSession {
         catch { notice = error.localizedDescription }
         SportsDiagnostics.write("nearby bench: hosting=\(nearbyHosting)\(notice.isEmpty ? "" : " (\(notice))")")
     }
+    /// The first local match: looking for a friend's game (since when, in foreground seconds) before hosting one.
+    private(set) var nearbyLookingSince: Double?
+    @ObservationIgnored private var nearbyLookedFor = 0.0
+    /// How long the first local match looks for a friend's game before hosting its own (foreground time: not while iOS asks).
+    static var nearbyLookSeconds = 3.0
+    private func lookThenHostNearby() {
+        guard station == Self.nearbyBay || station == nil else { return }
+        station = Self.nearbyBay
+        nearbyLookingSince = ProcessInfo.processInfo.systemUptime; nearbyLookedFor = 0
+        notice = "Looking for a friend's game nearby…"
+        nearbyIdentity()
+        nearbyBrowsing = true; nearbyBrowse(self, true)
+        evaluate()
+    }
+    /// nearbyTick, while looking: a friend's game appears → join it; time's up → host one; Local Network refused → its card.
+    private func nearbyLookTick(_ dt: Double) {
+        guard nearbyLookingSince != nil else { return }
+        if station != Self.nearbyBay { nearbyLookingSince = nil; endNearbyBrowse(); return }
+        if partyService.localNetworkDenied { nearbyLookingSince = nil; endNearbyBrowse(); nearbyRefused(); return }
+        if foreground { nearbyLookedFor += dt }
+        if nearbyOffer != nil { nearbyLookingSince = nil; joinNearby(); return }
+        if nearbyLookedFor >= Self.nearbyLookSeconds { nearbyLookingSince = nil; notice = ""; useNearbyBench() }
+    }
+    /// Local Network is off: the card says how to turn it on, and the local match tries again once the player is back.
+    private func nearbyRefused() {
+        if nearbyHosting { stopHostingNearby() }
+        permissions.localNetworkRefused(retry: { [weak self] in
+            guard let self, self.station == Self.nearbyBay else { return }
+            self.nearbyLookingSince = nil; self.useNearbyBench()
+        }, onCancel: { [weak self] in self?.leaveStation() })
+    }
     /// Leaving the nearby panel before a match: the game is no longer offered.
     private func stopHostingNearby() {
+        castHosting = nil
         guard nearbyHosting else { return }
         nearbyHosting = false
         if partyService.lobby?.phase == .lobby || partyService.lobby == nil { partyService.leave() }
@@ -971,13 +1101,15 @@ final class HubSession {
     /// this phone and starts as soon as it is in).
     func joinNearby() {
         guard let offer = nearbyOffer else { return }
+        // (tennis: the camera before the match starts by itself on both phones)
+        if permissions.cameraNeedsCard { permissions.requireCamera(then: { [weak self] in self?.joinNearby() }); return }
         haptic()
         if station != nil || panelOpen { leaveStation() }
         nearbyIdentity()
         do {
             try nearbyJoin(self, offer)
             nearbyBrowsing = false   // (joining ends the browse itself)
-            nearbyJoining = (offer.id, offer.name, ProcessInfo.processInfo.systemUptime); notice = ""
+            nearbyJoining = (offer.id, offer.name, ProcessInfo.processInfo.systemUptime); nearbyJoinedID = offer.id; notice = ""
             SportsDiagnostics.write("nearby join \(offer.name)")
         } catch { notice = error.localizedDescription }
     }
@@ -998,12 +1130,17 @@ final class HubSession {
         nearbyBrowsing = false; nearbyBrowse(self, false)
     }
     /// Four times a second from SportsHome (whatever menu is up): starts and stops the background browse, and follows a join.
+    @ObservationIgnored private var lastNearbyTick: Double?
     func nearbyTick() {
+        let now = ProcessInfo.processInfo.systemUptime
+        let dt = lastNearbyTick.map { min(1, max(0, now - $0)) } ?? 0; lastNearbyTick = now
+        if nearbyLookingSince != nil { nearbyLookTick(dt); return }
+        if station == Self.nearbyBay, nearbyHosting, partyService.localNetworkDenied, permissions.request == nil { nearbyRefused() }
         let want = wantsNearbyBrowse
         if want != nearbyBrowsing { nearbyBrowsing = want; nearbyBrowse(self, want) }
         if let joining = nearbyJoining {
             if partyService.lobby != nil {
-                nearbyJoining = nil; notice = "Joined \(joining.name)'s game · the match starts on the TV"
+                nearbyJoining = nil; notice = partyService.lobby?.hasCastScreen == true ? "Joined \(joining.name)'s screen · the game starts there" : "Joined \(joining.name)'s game · the match starts on the TV"
                 if session.haptics { UINotificationFeedbackGenerator().notificationOccurred(.success) }
             } else if let error = partyService.lastError, !error.isEmpty {
                 nearbyJoining = nil; partyService.leave(); notice = error
@@ -1012,7 +1149,131 @@ final class HubSession {
             }
         }
         // the hosted game went (left, or its match ended and was left): nothing is hosted any more
-        if nearbyHosting, partyService.lobby == nil, station != Self.nearbyBay { nearbyHosting = false }
+        if nearbyHosting, partyService.lobby == nil, station != Self.nearbyBay, Self.castSport(station) == nil { nearbyHosting = false; castHosting = nil; localPlaySport = nil }
+        localPlayTick()
+    }
+
+    // MARK: LOCAL PLAY with friends' phones (golf and bowling): like nearby tennis, phones in the room are offered "Join …?"
+    //
+    // While the menu's LOCAL PLAY setup is open (its players screen, then the course / lane and TEE OFF / START), this phone hosts a
+    // nearby lobby for that sport. Each friend's phone that taps Join is a player in it, and the TV's setup lists them. START then
+    // plays the game the way online does: every phone is its own player, taking turns (golf guests watch this phone's TV; bowling
+    // phones each show the lane). Nobody joined: START is pass the phone, as before.
+
+    static let localPlayBays: [MultiplayerSport: String] = [.golf: "bay-golf-pass", .bowling: "bay-bowling-pass"]
+    static func localPlaySport(_ mode: String?) -> MultiplayerSport? { localPlayBays.first { $0.value == mode }?.key }
+    /// The LOCAL PLAY mode the menu has open (its players or setup screen), from Unity's menuLocal / menuSetup.
+    @ObservationIgnored private(set) var menuLocalMode: String?
+    /// The sport of the LOCAL PLAY game this phone is hosting for phones nearby (nil when it is not).
+    private(set) var localPlaySport: MultiplayerSport?
+    /// TEE OFF / START with friends in: the start waits (a few seconds at most) until every phone is ready on the picked course.
+    @ObservationIgnored private var localPlayStartAt: Double?
+    @ObservationIgnored private var localPlaySent = ""
+    /// Which nearby game this phone joined from the banner (its ✕ / Leave hides that game afterwards).
+    @ObservationIgnored private var nearbyJoinedID: String?
+    static let localPlayStartSeconds = 6.0
+    @ObservationIgnored private var localPlayRetryAt = 0.0
+
+    /// Should this phone be hosting LOCAL PLAY right now, and for which sport: the menu shows that mode's players or setup screen,
+    /// nothing else has the phone (no match, no other lobby, no friends' party, no lesson first).
+    var wantsLocalPlay: MultiplayerSport? {
+        guard foreground, phase == .live, wanted, !SportsSession.benchmark, menuScreen == "players" || menuScreen == "setup",
+              let mode = menuLocalMode, let sport = Self.localPlaySport(mode), OnboardingFlow.shared.allows(mode),
+              nearbyJoining == nil, castHosting == nil, station != Self.nearbyBay, !partyService.searching, !partyService.localNetworkDenied else { return nil }
+        if localPlaySport == sport { return sport }
+        if ProcessInfo.processInfo.systemUptime < localPlayRetryAt { return nil }   // (hosting just failed: try again in a moment)
+        // (a party of one waiting on an invite gives way, as for nearby tennis; friends in a party, or someone else's lobby, do not)
+        if partyService.lobby != nil, partyService.hasFriendsInLobby || !partyService.isParty { return nil }
+        return sport
+    }
+    /// The friends' phones in this phone's LOCAL PLAY game.
+    var localPlayFriends: [MultiplayerParticipant] {
+        guard localPlaySport != nil, let lobby = partyService.lobby else { return [] }
+        return lobby.participants.filter { !$0.isGuest && !$0.isCastScreen && $0.id != partyService.localID }
+    }
+    /// Who plays when START is pressed with friends in: this phone's player, then each phone that joined.
+    var localPlayNames: [String] {
+        let friends = localPlayFriends
+        guard !friends.isEmpty else { return [] }
+        let me = partyService.lobby?.participants.first { $0.id == partyService.localID }?.name ?? menuPlayerName ?? "You"
+        return [me] + friends.map(\.name)
+    }
+    private func hostLocalPlay(_ sport: MultiplayerSport) {
+        endNearbyBrowse()
+        if partyService.isParty { ClubHub.shared.leaveParty() } else if partyService.lobby != nil { partyService.leave() }
+        localPlaySport = sport; localPlayStartAt = nil
+        nearbyIdentity()
+        do { try nearbyHost(self); nearbyHosting = true }
+        catch { localPlaySport = nil; localPlayRetryAt = ProcessInfo.processInfo.systemUptime + 5; SportsDiagnostics.write("local play \(sport.rawValue): could not host (\(error.localizedDescription))"); return }
+        SportsDiagnostics.write("local play \(sport.rawValue): hosting for phones nearby")
+    }
+    /// The menu left LOCAL PLAY (or its match began): nothing is offered any more. A match under way keeps its lobby.
+    func stopLocalPlay() {
+        guard localPlaySport != nil else { return }
+        localPlaySport = nil; localPlayStartAt = nil
+        guard nearbyHosting else { return }
+        nearbyHosting = false
+        if partyService.lobby == nil || partyService.lobby?.phase == .lobby { partyService.leave("local play closed") }
+    }
+    private func localPlayTick() {
+        let want = wantsLocalPlay
+        if want != localPlaySport {
+            // (a START that is waiting on the friends keeps the game hosted until it begins)
+            if localPlayStartAt == nil || want != nil { stopLocalPlay(); if let want { hostLocalPlay(want) } }
+        }
+        guard localPlaySport != nil else { return }
+        // the TV's setup names the players as they join (and leave)
+        let names = localPlayNames.joined(separator: "|")
+        if names != localPlaySent, let mode = menuSetupMode, mode == menuLocalMode {
+            localPlaySent = names
+            if let json = MenuSetup.json(mode) { menuCommand("menuSetupState", mode: json) }
+        }
+        if let since = localPlayStartAt {
+            guard let lobby = partyService.lobby, lobby.phase == .lobby else { localPlayStartAt = nil; return }
+            if lobby.canStart {
+                localPlayStartAt = nil
+                do { try partyService.startMatch(); notice = "" } catch { notice = error.localizedDescription; toast(notice) }
+            } else if ProcessInfo.processInfo.systemUptime - since > Self.localPlayStartSeconds {
+                localPlayStartAt = nil; notice = lobby.startReason; toast(notice)
+            }
+        }
+    }
+    /// TEE OFF / START on LOCAL PLAY. Friends' phones joined: their game begins (true). Nobody joined: false, and the hosting stops
+    /// so this phone can be passed round instead.
+    func startLocalPlay(_ sport: MultiplayerSport, players: Int) -> Bool {
+        guard localPlaySport == sport, !localPlayFriends.isEmpty, let lobby = partyService.lobby, lobby.phase == .lobby else {
+            stopLocalPlay(); return false
+        }
+        haptic()
+        // the course / lane picked on the setup screen (a change un-readies everyone: their phones ready again by themselves)
+        let pick = sport == .golf ? session.golfCourse : session.bowlingVenue
+        let venue = sport == .golf
+            ? MultiplayerLobby.golfRound(MultiplayerLobby.golfRoundParts(pick).course, holes: session.golfHoles, link: session.golfLinkCourses)
+            : (BowlingVenueChoice.resolve(pick)?.rawValue ?? lobby.venue)
+        if lobby.sport != sport || lobby.venue != venue { try? partyService.configure(sport, venue: pick) }
+        // golf: more players picked than phones in, the rest take turns on this phone (guests)
+        if sport == .golf {
+            let seated = partyService.lobby?.participants.filter { $0.seat >= 0 }.count ?? 0
+            for _ in 0..<max(0, min(players, 4) - seated) { try? partyService.addLocalGuest() }
+        }
+        try? partyService.setReady(true)
+        localPlayStartAt = ProcessInfo.processInfo.systemUptime
+        localPlayTick()
+        return true
+    }
+    /// A phone waiting in someone else's nearby golf or bowling game (joined from the banner, the host still setting up).
+    var nearbyWaiting: (host: String, sport: MultiplayerSport, screen: Bool)? {
+        guard partyService.isNearby, !partyService.isOwner, let lobby = partyService.lobby, lobby.phase == .lobby, lobby.sport != .tennis || lobby.hasCastScreen
+        else { return nil }
+        let host = lobby.participants.first { $0.id == lobby.ownerID }?.name ?? "the host"
+        return (host, lobby.sport, lobby.hasCastScreen)
+    }
+    /// The waiting banner's Leave: out of that game, and it is not offered again.
+    func leaveNearbyGame() {
+        haptic()
+        if let id = nearbyJoinedID { nearbyDismissed.insert(id) }
+        nearbyJoinedID = nil
+        partyService.leave("left the nearby game")
     }
 
     /// One Unity event (also called directly by tests).

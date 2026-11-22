@@ -79,7 +79,7 @@ namespace GolfArcade.PlayTests
             for (int k = 0; k < 30; k++) yield return null;
             golf.PrepareNativeAddress(); golf.NativeReady(); golf.TryNativePresentation();
             yield return Frames("golf_intro", 6f, rows);
-            golf.PrepareNativeAddress(); golf.JumpToHole(7); golf.DropBall(golf.CurrentHole.Tee);
+            golf.PrepareNativeAddress(); golf.JumpToHole(8); golf.DropBall(golf.CurrentHole.Tee);
             for (int k = 0; k < 30; k++) yield return null;
             golf.NativeReady(); UnityEngine.Random.InitState(902); golf.NativeSwing(.78f);
             yield return Frames("golf_hole", 10f, rows);
@@ -234,7 +234,7 @@ namespace GolfArcade.PlayTests
             for (int k = 0; k < 30; k++) yield return null;
             golf.PrepareNativeAddress(); golf.NativeReady(); golf.TryNativePresentation();
             yield return Record("golf_intro", 420, Main, GolfProbe);
-            golf.PrepareNativeAddress(); golf.JumpToHole(7); golf.DropBall(golf.CurrentHole.Tee);
+            golf.PrepareNativeAddress(); golf.JumpToHole(8); golf.DropBall(golf.CurrentHole.Tee);
             for (int k = 0; k < 30; k++) yield return null;
             golf.NativeReady(); UnityEngine.Random.InitState(902); golf.NativeSwing(.78f);
             club = gHand = gHead = null;

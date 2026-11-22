@@ -66,7 +66,7 @@ namespace GolfArcade.PlayTests {
         }
 
         [UnityTest, Timeout(180000)] public IEnumerator AShortSwingIsAMissThatPutsTheBallBack() {
-            yield return Setup(1);   // Distance: 60 yards to the flag
+            yield return Setup(1);   // Approach: 100 yards to the flag
             Time.timeScale = 4;
             try {
                 yield return UntilStation(1);

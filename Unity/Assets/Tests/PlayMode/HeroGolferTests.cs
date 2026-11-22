@@ -53,7 +53,7 @@ namespace GolfArcade.PlayTests
                 yield return Start(g => game = g);
                 game.ChooseHoles(0); game.Play();
                 yield return null;
-                game.JumpToHole(7);
+                game.JumpToHole(8);
                 yield return WaitFor(() => game.Current == GolfGame.State.Aim, 45, "the tee");
                 yield return WaitFor(() => game.Swing.Phase == Swing.SwingPhase.Address, 5, "address");
                 var golfer = Golfer();
@@ -87,7 +87,7 @@ namespace GolfArcade.PlayTests
             Assert.IsTrue(GolferStyle.UseHero, "the Hero is in the build");
             game.ChooseHoles(0); game.Play();
             yield return null;
-            game.JumpToHole(7);
+            game.JumpToHole(8);
             yield return WaitFor(() => game.Current == GolfGame.State.Aim, 45, "the tee");
             yield return WaitFor(() => game.Swing.Phase == Swing.SwingPhase.Address, 5, "address");
             var golfer = Golfer();
@@ -139,7 +139,7 @@ namespace GolfArcade.PlayTests
                     GolferStyle.Body = female ? GolferStyle.BodyKind.Female : GolferStyle.BodyKind.Male;
                     game.ChooseHoles(0); game.Play();
                     yield return null;
-                    game.JumpToHole(7);
+                    game.JumpToHole(8);
                     yield return WaitFor(() => game.Current == GolfGame.State.Aim, 45, "the tee");
                     yield return WaitFor(() => game.Swing.Phase == Swing.SwingPhase.Address, 5, "address");
                     game.RestyleGolfer();
@@ -173,7 +173,7 @@ namespace GolfArcade.PlayTests
             yield return Start(g => game = g);
             game.ChooseHoles(0); game.Play();
             yield return null;
-            game.JumpToHole(7);
+            game.JumpToHole(8);
             yield return WaitFor(() => game.Current == GolfGame.State.Aim, 45, "the tee");
             yield return WaitFor(() => game.Swing.Phase == Swing.SwingPhase.Address, 5, "address");
             var golfer = Golfer();

@@ -125,6 +125,11 @@ struct MenuTouchPad: View {
                     ZStack { Club.ink; HubLoadingScreen(hub: hub).frame(width: 1280, height: 720).scaleEffect(min(g.size.width / 1280, g.size.height / 720)) }
                         .frame(width: g.size.width, height: g.size.height).clipped().allowsHitTesting(false)
                 }
+                // no TV yet: the menu plays on this phone, and one tap shows how to put it on a TV (bottom right, level with SELECT)
+                if hub.revealedOnPhone && !SportsSession.shared.displayConnected {
+                    ConnectTVChip().frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                        .padding(.trailing, 16).padding(.bottom, max(14, g.safeAreaInsets.bottom))
+                }
                 if !hub.notice.isEmpty {
                     Text(hub.notice).font(MotionBrand.font(.medium, 15)).multilineTextAlignment(.center)
                         .padding(.horizontal, 16).padding(.vertical, 10).background(MotionBrand.background.opacity(0.92), in: Capsule())

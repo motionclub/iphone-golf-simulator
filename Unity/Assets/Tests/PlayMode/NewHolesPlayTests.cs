@@ -74,7 +74,7 @@ namespace GolfArcade.PlayTests
             game.ChooseHoles(0);
             game.Play();
             yield return null;
-            game.JumpToHole(13);
+            game.JumpToHole(14);
             yield return new WaitForSecondsRealtime(0.5f);
             game.DropBall(game.CurrentHole.Tee);
             yield return WaitFor(() => game.Current == GolfGame.State.Aim, 5, "the tee shot to set up");

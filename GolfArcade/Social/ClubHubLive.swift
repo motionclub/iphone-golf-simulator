@@ -90,23 +90,42 @@ extension ClubHub {
     private(set) static var started = false
     /// Apple's sign-in controller while the account needs the player's attention.
     private(set) static var pendingController: UIViewController?
+    /// The player picked something online this run (PermissionGate, 11-21): Apple's sign-in sheet may show. Until then a sheet
+    /// Game Center offers at launch is held, so a first launch shows no Game Center screen (signed-in players see none anyway).
+    static var wanted = false
+    /// At launch: Game Center's handler is set at once (Apple: as early as possible), silently. A returning signed-in player is in
+    /// with no screen; a signed-out one is asked only when they first pick an online game (signInForPlay).
     static func start() {
         guard !started, !ProcessInfo.processInfo.arguments.contains("--lobby-mock") else { return }
         started = true
-        Task { @MainActor in
-            do { try await MultiplayerService.shared.authenticate { offer($0) } } catch { ClubHub.shared.say(error.localizedDescription) }
-            pendingController = nil
-            await ClubHub.shared.refresh()
-            askForFriendsOnce()
-            // a friend's invite should reach this phone with the game closed: asked once signed in (iOS asks only the first time; it
-            // used to wait for the Friends screen). First-run onboarding asks on its own account step instead.
-            if GKLocalPlayer.local.isAuthenticated, !OnboardingFlow.shared.active { ClubPush.requestPermission() }
-        }
+        Task { @MainActor in await authenticate() }
     }
-    static func authenticationFinished() { pendingController = nil }
-    static func offer(_ controller: UIViewController) { pendingController = controller; presentPending() }
+    /// PermissionGate: the player picked an online game. Show Apple's held sheet, or sign in again (a sheet closed earlier).
+    static func signInForPlay() {
+        wanted = true
+        if GKLocalPlayer.local.isAuthenticated { PermissionGate.shared.gameCenterChanged(); return }
+        if pendingController != nil { presentPending(); return }
+        Task { @MainActor in await authenticate() }
+    }
+    private static func authenticate() async {
+        do { try await MultiplayerService.shared.authenticate { offer($0) } }
+        catch { if wanted, PermissionGate.shared.request?.kind != .gameCenter { ClubHub.shared.say(error.localizedDescription) } }
+        pendingController = nil
+        await ClubHub.shared.refresh()
+        afterSignIn()
+        PermissionGate.shared.gameCenterChanged()
+    }
+    /// Signed in, and the player wants online play (this run or before): Apple's friends-list prompt and, once, notifications
+    /// (so a friend's invite reaches the phone with the game closed). Never at a first launch.
+    static func afterSignIn() {
+        guard GKLocalPlayer.local.isAuthenticated, wanted || PermissionGate.shared.onlineWanted else { return }
+        askForFriendsOnce()
+        if !OnboardingFlow.shared.active { ClubPush.requestPermission() }
+    }
+    static func authenticationFinished() { pendingController = nil; afterSignIn(); PermissionGate.shared.gameCenterChanged() }
+    static func offer(_ controller: UIViewController) { pendingController = controller; if wanted { presentPending() } }
     static func presentPending() {
-        guard let controller = pendingController, controller.presentingViewController == nil else { return }
+        guard wanted, let controller = pendingController, controller.presentingViewController == nil else { return }
         guard UIApplication.shared.applicationState == .active,
               let top = GameKitFriendsSource.topViewController(), top.viewIfLoaded?.window != nil,
               !top.isBeingDismissed, !top.isBeingPresented else {
@@ -115,18 +134,16 @@ extension ClubHub {
         top.present(controller, animated: true)
     }
     /// The Friends screen's Sign in: Apple's screen if Game Center offered one, else the normal flow.
+    /// The Friends list's Sign in: the same as picking an online game (a closed sheet gets the "Sign in to Game Center" card).
     static func signIn() {
-        if pendingController != nil { presentPending(); return }
-        Task { @MainActor in
-            try? await MultiplayerService.shared.authenticate { vc in GameKitFriendsSource.topViewController()?.present(vc, animated: true) }
-            await ClubHub.shared.refresh()
-        }
+        PermissionGate.shared.requireGameCenter(then: { Task { @MainActor in await ClubHub.shared.refresh() } })
     }
     /// Apple only lists friends who BOTH allowed this game to read their friends list, so ask once (a system prompt), the first
     /// time the player is signed in, instead of waiting for them to find the Friends screen.
     static func askForFriendsOnce() {
         let key = "clubhub.askedFriends"
-        guard GKLocalPlayer.local.isAuthenticated, !UserDefaults.standard.bool(forKey: key) else { return }
+        // (11-21: only once the player wants online play, never on a first launch's menu)
+        guard GKLocalPlayer.local.isAuthenticated, wanted || PermissionGate.shared.onlineWanted, !UserDefaults.standard.bool(forKey: key) else { return }
         Task { @MainActor in
             guard await ClubHub.shared.source.access() == .notDetermined else { return }
             UserDefaults.standard.set(true, forKey: key)

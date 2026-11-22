@@ -31,7 +31,7 @@ namespace GolfArcade.PlayTests
             foreach (var g in Object.FindObjectsByType<Canvas>(FindObjectsSortMode.None)) if (g) Object.Destroy(g.gameObject);
             if (camera) Object.Destroy(camera.gameObject);
             if (rt) rt.Release();
-            TennisVenue.Selected = TennisVenueKind.Resort; BowlingVenue.Selected = BowlingVenueKind.ClubLanes; MapSkin.LocalName = "";
+            TennisVenue.Selected = TennisVenueKind.Resort; BowlingVenue.Selected = BowlingVenueKind.RooftopLanes; MapSkin.LocalName = "";
         }
 
         Canvas NewCanvas(string name, float plane, Vector2 reference)
@@ -128,8 +128,7 @@ namespace GolfArcade.PlayTests
 
         [UnityTest] public IEnumerator BowlingScorecardSpeedAndStrike()
         {
-            foreach (var (kind, map) in new[] { (BowlingVenueKind.ClubLanes, "map-bowling-club"), (BowlingVenueKind.NeonNights, "map-bowling-neon"),
-                                               (BowlingVenueKind.TikiShores, "map-bowling-tiki"), (BowlingVenueKind.MagmaLanes, "map-bowling-magma") })
+            foreach (var (kind, map) in new[] { (BowlingVenueKind.RooftopLanes, "map-bowling-rooftop"), (BowlingVenueKind.BeachCourtLanes, "map-bowling-beachcourt"), (BowlingVenueKind.CraterLanes, "map-bowling-crater") })
             {
                 BowlingVenue.Selected = kind; Backdrop(map);
                 var hud = new BowlingHud(camera, new[] { "Adnan", "Milo" });

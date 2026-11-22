@@ -167,6 +167,10 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
     #if DEBUG
     /// Tests stand in for the camera and motion sensors: the court direction reads as locked and Ready always takes a centre.
     var fixtureSensors = false
+    /// With fixture sensors: the direction is still held from a match before (hasUsableCourtDirection), until a stop().
+    var fixtureCourtDirection = false
+    /// The last of idle() / stop() called (tests: was the court direction kept between matches?).
+    private(set) var lastLifecycle = ""
     #endif
     var axisLocked: Bool {
         #if DEBUG
@@ -327,7 +331,10 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
 
     /// Reuse only the still-running motion reference frame. Never restore a heading from preferences or across a restart of the sensors.
     var hasUsableCourtDirection: Bool {
-        queue.sync { gate.locked && tvHeading != nil && motion.isDeviceMotionActive && SportsRuntime.shared().clock() - sampleAt < 1 }
+        #if DEBUG
+        if fixtureSensors { return fixtureCourtDirection && lastLifecycle != "stop" }
+        #endif
+        return queue.sync { gate.locked && tvHeading != nil && motion.isDeviceMotionActive && SportsRuntime.shared().clock() - sampleAt < 1 }
     }
 
     /// Last resort when the gate will not settle (dark room, awkward pose). Takes the court
@@ -348,6 +355,76 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         }
         if let problem { report(problem); return false }
         return true
+    }
+
+    // MARK: - Point and hold (11-20)
+
+    /// The court direction from one gesture anyone understands: point the back of the phone at the TV and hold the button. The
+    /// direction is where the phone pointed, averaged over a steady second. No camera, no blinks, no turns, so every player in the
+    /// room can do it at once. (`timeTV`: the phone that has the TV also times it during the hold, see SportsSession.pressPoint.)
+    static let pointHoldSeconds = 1.0
+    /// Faster than this (rad/s) is not holding still: the second starts again.
+    static let pointStillRate = 0.9
+    static let pointPrompt = "Point the back of your phone at the TV, then hold the button."
+    private var pointHolding = false
+    private var pointSamples = [(time: Double, heading: Double)]()
+    private var nextPointNotice = 0.0
+
+    /// Ready for a hold: motion running, any old direction forgotten, the camera off.
+    func beginPointing(travel: Double) {
+        queue.async {
+            self.tennis=true; self.filter=SteeringFilter(); self.filter.travel=travel; self.filter.tennisStroke=true
+            self.capturingAxis=false; self.pointHolding=false; self.pointSamples.removeAll()
+            self.scanFrames.removeAll(); self.flashSightings.removeAll(); self.scanDelays.removeAll(); self.screenAt=SIMD2(0.5,0.5)
+            self.gate=SportsAxisGate(); self.gate.message=Self.pointPrompt; self.publish(self.gate)
+            self.runCamera(false)
+            self.startDeviceMotion()
+            SportsDiagnostics.write("point begin")
+        }
+    }
+    /// The button went down. With `timeTV` the camera also watches the middle of the picture (where the TV is when the phone points
+    /// at it) so the TV's one blink can be timed.
+    func beginPointHold(timeTV: Bool) {
+        queue.async {
+            guard !self.gate.locked else { return }
+            self.startDeviceMotion()
+            self.pointHolding=true; self.pointSamples.removeAll(); self.nextPointNotice=0
+            self.gate.progress=0; self.gate.message="Keep holding…"; self.publish(self.gate)
+            if timeTV { self.screenAt=SIMD2(0.5,0.5); self.probe=SportsDelayProbe.Samples(); self.probing=true; self.runCamera(true) }
+        }
+    }
+    /// The button came up. Before the second was over, the hold starts again next time.
+    func endPointHold() {
+        queue.async {
+            guard self.pointHolding else { return }
+            self.pointHolding=false; self.pointSamples.removeAll(); self.probing=false; self.runCamera(false)
+            guard !self.gate.locked else { return }
+            self.gate.progress=0; self.gate.message="Let go too soon. Point at the TV and hold until the ring is full."; self.publish(self.gate)
+        }
+    }
+    private func pointHoldStep(time: Double, speed: Double) {
+        func say(_ message: String, progress: Double) {
+            gate.progress=progress; gate.message=message
+            if time >= nextPointNotice || progress == 0 { nextPointNotice=time+0.05; publish(gate) }
+        }
+        guard let attitude, let heading=SportsMotionGeometry.heading(SportsMotionGeometry.rotate(SIMD3<Double>(0,0,-1),by:attitude)) else {
+            pointSamples.removeAll(); say("Point the back of your phone at the TV, not up or down.", progress: 0); return
+        }
+        guard speed <= Self.pointStillRate else {
+            if !pointSamples.isEmpty { pointSamples.removeAll(); say("Hold still…", progress: 0) }
+            return
+        }
+        pointSamples.append((time, heading))
+        let span=time-(pointSamples.first?.time ?? time)
+        guard span >= Self.pointHoldSeconds else { say("Keep holding…", progress: span/Self.pointHoldSeconds); return }
+        // the average direction over the steady second (on the circle, so headings either side of ±180° average properly)
+        let mean=atan2(pointSamples.map { sin($0.heading) }.reduce(0,+), pointSamples.map { cos($0.heading) }.reduce(0,+))
+        strokeFacing = -1
+        captureTVHeading(); tvHeading=mean
+        pointHolding=false; pointSamples.removeAll()
+        gate.locked=true; gate.progress=1; gate.message="Pointed at the TV."
+        SportsDiagnostics.write(String(format:"point locked tvHeading=%.1f° sign=%.0f",mean*180/Double.pi,sign))
+        publish(gate)
     }
 
     /// On each camera frame while the direction is captured: kept, shrunk, for the blink search, with the phone's attitude then.
@@ -452,6 +529,7 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         // up along gravity, gravity itself removed: how the phone is rising or dropping (Core Motion reads in g)
         let gravity=sqrt(g.x*g.x+g.y*g.y+g.z*g.z)
         if gravity > 0.5 { vertical.step(up:-(a.x*g.x+a.y*g.y+a.z*g.z)/gravity*9.81,time:time,still:speed < 0.3) }
+        if pointHolding { pointHoldStep(time:time,speed:speed); return }
         if capturingAxis {
             // the gate moves on camera frames; with none coming, say so instead of sitting on the last message
             if time-max(frameAt,captureStartedAt) > 1, time >= nextCameraNotice {
@@ -616,11 +694,26 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         queue.sync { attitude?.vector }
     }
 
+    /// Between tennis matches (quick start T1): nothing goes to Unity and the camera is off, but the sensors keep running so the court
+    /// direction stays valid (its frame's x reference is lost with a restart) and the next match needs no pointing.
+    func idle() {
+        #if DEBUG
+        lastLifecycle = "idle"
+        #endif
+        queue.async {
+            self.runCamera(false); self.live=false; self.probing=false; self.calibrated=false
+            self.capturingAxis=false; self.pointHolding=false; self.pointSamples.removeAll()
+        }
+    }
+
     func stop() {
+        #if DEBUG
+        lastLifecycle = "stop"
+        #endif
         queue.async {
             self.runCamera(false); self.stopDeviceMotion()
             self.calibrated=false; self.live=false; self.probing=false
-            self.capturingAxis=false; self.scanFrames.removeAll(); self.gate=SportsAxisGate(); self.tvHeading=nil
+            self.capturingAxis=false; self.pointHolding=false; self.pointSamples.removeAll(); self.scanFrames.removeAll(); self.gate=SportsAxisGate(); self.tvHeading=nil
             self.frameAt = -Double.infinity; self.sampleAt = -Double.infinity
             self.vertical.reset()
         }

@@ -34,7 +34,7 @@ final class TennisMenuSnapshotTests: XCTestCase {
         try await capture(SportsHome(), "online-setup-direction-phone", phone)
         session.axisGate.progress = 0.6; session.axisGate.message = "Hold it there…"
         try await capture(TennisRacketController(session: session), "online-setup-hold-phone", phone)
-        try await capture(OnlineTennisTVSetup(session: session).padding(32).frame(maxWidth: .infinity, maxHeight: .infinity).background(IslandUI.dark), "online-setup-direction-tv", CGSize(width: 1280, height: 720))
+        try await capture(TennisSetupTVView(session: session).frame(maxWidth: .infinity, maxHeight: .infinity).background(IslandUI.dark), "online-setup-direction-tv", CGSize(width: 1280, height: 720))
         session.axisGate.stalledFor = 5; session.axisGate.progress = 0
         session.setupProblem = "No camera frame yet. Keep the lens uncovered."
         try await capture(TennisRacketController(session: session), "online-setup-recovery-phone", phone)
@@ -50,6 +50,216 @@ final class TennisMenuSnapshotTests: XCTestCase {
         try await Task.sleep(for: .seconds(3))
         session.ready = true; session.loading.cancel(); session.setupStage = .playing; session.paused = false; session.tennisPhase = "receive"
         try await capture(TennisRacketController(session: session), "online-setup-receive-phone", phone)
+    }
+
+    /// Tennis setup (11-20): every step on the phone and the TV, solo and two phones on one TV. Output: work/local-setup-1120/proof/.
+    func testPointAndHoldSetupScreens() async throws {
+        let session = SportsSession.shared, service = MultiplayerService.shared
+        let active = session.active, ready = session.ready, paused = session.paused, players = session.players, index = session.playerIndex
+        let sport = session.sport, stage = session.setupStage, gate = session.axisGate, connected = session.displayConnected
+        defer {
+            session.displayConnected = connected
+            session.debugSetHolding(false); session.debugSetCalibration(); session.debugSetOnlineMatch(nil); service.leave()
+            session.active = active; session.ready = ready; session.paused = paused; session.motion.fixtureSensors = false
+            session.sport = sport; session.setupStage = stage; session.axisGate = gate; session.setupProblem = ""
+            session.players = players; session.playerIndex = index
+            session.loading.cancel()
+        }
+        let proof = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent("work/local-setup-1120/proof")
+        // (only this test's own images: the post-game tests keep theirs in subfolders)
+        for file in (try? FileManager.default.contentsOfDirectory(at: proof, includingPropertiesForKeys: nil)) ?? [] where file.pathExtension == "png" {
+            try? FileManager.default.removeItem(at: file)
+        }
+        try FileManager.default.createDirectory(at: proof, withIntermediateDirectories: true)
+        let phone = CGSize(width: 402, height: 874)
+        let court = Image(uiImage: UIImage(contentsOfFile: URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
+            .appendingPathComponent("ArtDir/ui/tv-results-calibration/scenes/tennis.jpg").path) ?? UIImage()).resizable().scaledToFill()
+        func tv(_ name: String) throws {
+            let view = TennisSetupTVView(session: session).frame(width: 1280, height: 720).background(court.frame(width: 1280, height: 720).clipped())
+            let renderer = ImageRenderer(content: view); renderer.scale = 1
+            try XCTUnwrap(renderer.uiImage?.pngData()).write(to: proof.appendingPathComponent("\(name)-tv.png"))
+        }
+        func phoneShot(_ name: String) async throws {
+            try await saveHosted(TennisRacketController(session: session), "\(name)-phone", phone, destination: proof)
+            try await Task.sleep(for: .seconds(1))   // (each capture's hold button lets go when its window closes)
+        }
+
+        session.players = [Player(name: "Adnan", colorIndex: 0)]; session.playerIndex = 0
+        session.active = true; session.ready = true; session.paused = true; session.sport = "tennis"; session.loading.cancel()
+        // solo, step by step
+        session.setupStage = .scan; session.axisGate = SportsAxisGate(); session.axisGate.message = SportsMotion.pointPrompt
+        try tv("s1-point"); try await phoneShot("s1-point")
+        session.debugSetHolding(true); session.axisGate.progress = 0.6; session.axisGate.message = "Keep holding…"
+        try await phoneShot("s2-holding"); session.debugSetHolding(false)
+        session.axisGate.locked = true
+        session.debugSetCalibration(flashes: true)
+        try tv("s3-flashes"); try await phoneShot("s3-flashes")
+        session.debugSetCalibration(prompt: true, latency: 0.128)
+        try tv("s4-latency"); try await phoneShot("s4-timing-prompt")
+        session.debugSetCalibration(drill: true, latency: 0.128, swings: [], drillStart: SportsRuntime.shared().clock() + 3.2)
+        try tv("s5-countdown")
+        session.debugSetCalibration(drill: true, latency: 0.128, swings: [2, 3, 4], drillStart: SportsRuntime.shared().clock() - 5.4)
+        try tv("s6-drill"); try await phoneShot("s6-drill")
+        session.debugSetCalibration(); session.setupStage = .ready
+        try tv("s7-ready"); try await phoneShot("s7-ready")
+
+        // two phones, one TV (this phone has the TV): Sam is behind by a step at each point
+        try service.enableMock(count: 2, player: Player(name: "Adnan", colorIndex: 0))
+        service.mockState(phase: .calibrating)
+        session.debugSetOnlineMatch("setup-proof", seat: 0); session.displayConnected = true
+        service.mockOneTV(otherStep: "hold", mineHasTV: true)
+        session.setupStage = .scan; session.axisGate = SportsAxisGate(); session.axisGate.message = SportsMotion.pointPrompt
+        session.debugSetHolding(true); session.axisGate.progress = 0.5
+        try tv("m1-both-pointing"); try await phoneShot("m1-pointing")
+        session.debugSetHolding(false); session.axisGate.locked = true
+        session.debugSetCalibration()
+        try tv("m2-waiting-for-sam"); try await phoneShot("m2-waiting-for-sam")
+        service.mockOneTV(otherStep: "pointed", mineHasTV: true)
+        session.debugSetCalibration(flashes: true)
+        try tv("m3-flashes")
+        service.mockOneTV(otherStep: "timing", mineHasTV: true)
+        session.debugSetCalibration(goAt: service.networkTime + 30, latency: 0.142)
+        try tv("m4-latency-one-started"); try await phoneShot("m4-waiting-for-start")
+        service.mockOneTV(otherStep: "check:2", mineHasTV: true)
+        session.debugSetCalibration(drill: true, latency: 0.142, swings: [2, 3, 4], drillStart: SportsRuntime.shared().clock() - 5.4)
+        try tv("m5-drill-both")
+        service.mockOneTV(otherStep: "ready", mineHasTV: true)
+        session.debugSetCalibration(); session.setupStage = .waiting
+        try tv("m6-ready"); try await phoneShot("m6-waiting")
+    }
+
+    /// Tennis post-game (ArtDir/ui/tv-results-calibration): winner plaque → box score → XP → play again, TV and phone, stepped by Continue.
+    func testTennisPostGameScreens() async throws {
+        let session = SportsSession.shared, menu = TennisMenu.shared
+        let active = session.active, ready = session.ready, players = session.players, index = session.playerIndex, sport = session.sport
+        let opponent = session.opponentName, post = menu.postMatch
+        defer {
+            session.debugFinishMatch(nil); session.lastMatchStats = nil
+            session.active = active; session.ready = ready; session.players = players; session.playerIndex = index; session.sport = sport
+            session.opponentName = opponent; menu.debugSetPostMatch(post); session.loading.cancel()
+        }
+        let proof = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent("work/local-setup-1120/proof/postgame")
+        try? FileManager.default.removeItem(at: proof)
+        try FileManager.default.createDirectory(at: proof, withIntermediateDirectories: true)
+        let court = Image(uiImage: UIImage(contentsOfFile: URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
+            .appendingPathComponent("ArtDir/ui/tv-results-calibration/scenes/tennis.jpg").path) ?? UIImage()).resizable().scaledToFill()
+        func tv(_ name: String) throws {
+            let view = TennisSetupTVView(session: session).frame(width: 1280, height: 720).background(court.frame(width: 1280, height: 720).clipped())
+            let renderer = ImageRenderer(content: view); renderer.scale = 1
+            try XCTUnwrap(renderer.uiImage?.pngData()).write(to: proof.appendingPathComponent("\(name)-tv.png"))
+        }
+        session.players = [Player(name: "Adnan", colorIndex: 0)]; session.playerIndex = 0
+        session.active = true; session.ready = true; session.sport = "tennis"; session.loading.cancel(); session.opponentName = "Milo"
+        var stats = MatchStats(won: true); stats.gamesWon = 6; stats.gamesLost = 3; stats.pointsWon = 25; stats.pointsLost = 16; stats.aces = 3
+        session.lastMatchStats = stats
+        menu.debugSetPostMatch(PostMatchSummary(won: true, score: "6-3", opponent: "Milo", stats: stats,
+            lines: [XPLine(id: 0, title: "Match played", detail: "", xp: 60), XPLine(id: 1, title: "Victory", detail: "", xp: 120),
+                    XPLine(id: 2, title: "Aces", detail: "", xp: 36), XPLine(id: 3, title: "Winners", detail: "", xp: 54), XPLine(id: 4, title: "Points won", detail: "", xp: 25)],
+            total: 295, startLevel: 1, startXP: 0, endLevel: 2, endXP: 95))
+        session.debugFinishMatch((true, "6-3"))
+        XCTAssertEqual(session.postGameStage, .victory)
+        try tv("1-victory"); try await saveHosted(MatchFinishControls(session: session), "1-victory-phone", CGSize(width: 402, height: 874), destination: proof)
+        session.advancePostGame(); XCTAssertEqual(session.postGameStage, .results)
+        try tv("2-results")
+        session.advancePostGame(); XCTAssertEqual(session.postGameStage, .xp)
+        try tv("3-xp"); try await saveHosted(MatchFinishControls(session: session), "3-xp-phone", CGSize(width: 402, height: 874), destination: proof)
+        session.advancePostGame(); XCTAssertEqual(session.postGameStage, .again)
+        try tv("4-again"); try await saveHosted(MatchFinishControls(session: session), "4-again-phone", CGSize(width: 402, height: 874), destination: proof)
+    }
+
+    /// Golf and bowling post-game (ArtDir/ui/tv-results-calibration: Venue Plaque → Scorebook / Box Score → XP → Play again), from
+    /// the sheets Unity sends at the end, TV and phone, over the design's own scenes.
+    func testGolfAndBowlingPostGameScreens() async throws {
+        let session = SportsSession.shared, menu = TennisMenu.shared
+        let active = session.active, ready = session.ready, players = session.players, index = session.playerIndex, sport = session.sport
+        let post = menu.postMatch, course = session.golfCourse, venue = session.bowlingVenue
+        defer {
+            session.debugSetPostGameBoard(nil)
+            session.active = active; session.ready = ready; session.players = players; session.playerIndex = index; session.sport = sport
+            session.golfCourse = course; session.bowlingVenue = venue; menu.debugSetPostMatch(post); session.loading.cancel()
+            menu.debugShow(.title)
+        }
+        let root = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent()
+        let proof = root.appendingPathComponent("work/local-setup-1120/proof/postgame-golf-bowling")
+        try? FileManager.default.removeItem(at: proof)
+        try FileManager.default.createDirectory(at: proof, withIntermediateDirectories: true)
+        func tv(_ name: String, scene: UIImage?) throws {
+            let back = Image(uiImage: scene ?? UIImage()).resizable().scaledToFill().frame(width: 1280, height: 720).clipped()
+            let view = TennisSetupTVView(session: session).frame(width: 1280, height: 720).background(back)
+            let renderer = ImageRenderer(content: view); renderer.scale = 1
+            try XCTUnwrap(renderer.uiImage?.pngData()).write(to: proof.appendingPathComponent("\(name)-tv.png"))
+        }
+        func phone(_ name: String) async throws {
+            try await saveHosted(MatchFinishControls(session: session), "\(name)-phone", CGSize(width: 402, height: 874), destination: proof)
+        }
+        session.players = [Player(name: "Adnan", colorIndex: 0)]; session.playerIndex = 0
+        session.active = true; session.ready = true; session.loading.cancel()
+
+        // golf, four players on Cliffside (the design's sample round), this phone's Adnan second
+        session.sport = "golf"; session.golfCourse = "cliffside"
+        menu.debugShow(.loading, launch: MenuLaunch(sport: .golf, mode: .round))
+        let golf = PostGameBoard(golf: "holes=1,2,3,4,5;pars=4,4,5,3,3;p=0|Nia|3,3,4,3,3;p=1|Adnan|3,4,5,3,3;p=0|Milo|3,4,6,3,3;p=0|Kai|4,5,5,4,3")
+        XCTAssertEqual(golf.players.map(\.name), ["Nia", "Adnan", "Milo", "Kai"])
+        XCTAssertEqual(golf.players.map { golf.scoreText($0) }, ["\u{2212}3", "\u{2212}1", "E", "+2"])
+        XCTAssertEqual(golf.players.map { golf.strokes($0) }, [16, 18, 19, 21])
+        XCTAssertEqual(golf.parTotal, 19)
+        XCTAssertFalse(golf.mineWon)
+        menu.debugSetPostMatch(PostMatchSummary(won: false, score: "-1", opponent: "", stats: MatchStats(won: false),
+            lines: [XPLine(id: 0, title: "Round played", detail: "", xp: 80), XPLine(id: 1, title: "Under par", detail: "", xp: 60),
+                    XPLine(id: 2, title: "Birdies", detail: "", xp: 30), XPLine(id: 3, title: "Pars", detail: "", xp: 15)],
+            total: 185, startLevel: 1, startXP: 0, endLevel: 2, endXP: 25))
+        session.debugSetPostGameBoard(golf)
+        let cliffside = UIImage(contentsOfFile: root.appendingPathComponent("ArtDir/ui/tv-results-calibration/scenes/golf.jpg").path)
+        try tv("g1-victory", scene: cliffside); try await phone("g1-victory")
+        session.advancePostGame(); XCTAssertEqual(session.postGameStage, .results)
+        try tv("g2-results", scene: cliffside); try await phone("g2-results")
+        session.togglePostGameScorecard(); XCTAssertEqual(session.postGameStage, .scorecard)
+        try tv("g3-scorecard", scene: cliffside); try await phone("g3-scorecard")
+        session.advancePostGame(); XCTAssertEqual(session.postGameStage, .xp)
+        try tv("g4-xp", scene: cliffside)
+        session.advancePostGame(); XCTAssertEqual(session.postGameStage, .again)
+        XCTAssertEqual(session.postGameChoices.map(\.title), ["Play Again", "Change Course", "Main Menu"])
+        XCTAssertEqual(session.postGameChoices.first?.after, .replay)
+        try tv("g5-again", scene: cliffside); try await phone("g5-again")
+
+        // golf on your own leads with the score against par; eighteen holes still fit the card
+        let back9 = (10...18).map(String.init).joined(separator: ",")
+        let solo = PostGameBoard(golf: "holes=1,2,3,4,5,6,7,8,9,\(back9);pars=4,4,5,3,4,4,3,5,4,4,4,3,5,4,4,3,5,4;p=1|Adnan|4,3,5,3,4,5,2,5,4,4,4,3,4,4,5,3,5,4")
+        XCTAssertTrue(solo.solo); XCTAssertTrue(solo.mineWon)
+        session.debugSetPostGameBoard(solo)
+        try tv("g6-solo-victory", scene: cliffside)
+        session.advancePostGame(); session.togglePostGameScorecard()
+        try tv("g7-solo-18-scorecard", scene: cliffside)
+
+        // bowling, four bowlers at Club Lanes (the design's sample game), Adnan third; a tie shares the place
+        session.sport = "bowling"; session.bowlingVenue = "club"
+        menu.debugShow(.loading, launch: MenuLaunch(sport: .bowling, mode: .exhibition))
+        let lanes = UIImage(contentsOfFile: root.appendingPathComponent("GolfArcade/Unity/MenuArt/map-bowling-club.jpg").path)
+        let bowling = PostGameBoard(bowling: [
+            "p=0|Nia|X,9 /,8 -,4 /,9 /,- 5,X,2 /,X,6 -|20,38,46,65,75,80,100,120,136,142|142|3",
+            "p=0|Kai|4 /,- -,X,9 -,X,X,X,2 /,X,8 1|10,10,29,38,68,90,110,130,149,158|158|5",
+            "p=1|Adnan|X,8 1,8 1,X,8 1,8 1,X,8 1,8 1,X 1 1|19,28,37,56,65,74,93,102,111,123|123|4",
+            "p=0|Milo|7 1,7 1,7 1,7 1,7 1,7 1,7 1,7 1,7 1,7 1|8,16,24,32,40,48,56,64,72,80|80|0"].joined(separator: ";"))
+        XCTAssertEqual(bowling.players.map(\.name), ["Kai", "Nia", "Adnan", "Milo"])
+        XCTAssertEqual(bowling.players.map(\.place), [1, 2, 3, 4])
+        XCTAssertEqual(bowling.players[0].marks[9], "8 1")
+        let tied = PostGameBoard(bowling: "p=1|Adnan|||150|3;p=0|Sam|||150|2;p=0|Kai|||90|0")
+        XCTAssertEqual(tied.players.map(\.place), [1, 1, 3]); XCTAssertEqual(PostGameBoard.ordinal(tied.players[2].place), "3rd")
+        XCTAssertTrue(tied.mineWon)
+        menu.debugSetPostMatch(PostMatchSummary(won: false, score: "123", opponent: "", stats: MatchStats(won: false),
+            lines: [XPLine(id: 0, title: "Game bowled", detail: "", xp: 60), XPLine(id: 1, title: "Triple digits", detail: "", xp: 30),
+                    XPLine(id: 2, title: "Strikes", detail: "", xp: 60)],
+            total: 150, startLevel: 1, startXP: 0, endLevel: 2, endXP: 40))
+        session.debugSetPostGameBoard(bowling)
+        try tv("b1-victory", scene: lanes); try await phone("b1-victory")
+        session.advancePostGame(); XCTAssertEqual(session.postGameStage, .results)
+        session.togglePostGameScorecard(); XCTAssertEqual(session.postGameStage, .results, "bowling has no hole-by-hole card")
+        try tv("b2-results", scene: lanes); try await phone("b2-results")
+        session.advancePostGame(); XCTAssertEqual(session.postGameStage, .xp)
+        try tv("b3-xp", scene: lanes)
+        session.advancePostGame()
+        XCTAssertEqual(session.postGameChoices.map(\.title), ["Play Again", "Change Lanes", "Main Menu"])
+        try tv("b4-again", scene: lanes); try await phone("b4-again")
     }
 
     func testOnlineDisplayRequirementsAndSharingChoice() async throws {

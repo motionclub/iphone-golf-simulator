@@ -139,7 +139,7 @@ struct BowlingGameStats: Equatable {
     }
     /// A win: first of several bowlers, or a solo game of 150 or more.
     var won: Bool { players > 1 ? rank == 1 : score >= 150 }
-    var venueTitle: String { BowlingVenueChoice(rawValue: venue)?.title ?? "the lanes" }
+    var venueTitle: String { BowlingVenueChoice.resolve(venue)?.title ?? "the lanes" }
     /// The streak's name: Double, Turkey, Hambone...
     static func streakName(_ n: Int) -> String? {
         switch n { case 2: "Double"; case 3: "Turkey"; case 4: "Hambone"; case 5..<6: "Five-bagger"; case 6..<9: "Six-pack"; case 9..<12: "Golden Turkey"; case 12...: "Perfect game"; default: nil }

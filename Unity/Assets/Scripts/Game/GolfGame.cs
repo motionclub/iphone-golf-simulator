@@ -1345,6 +1345,7 @@ namespace GolfArcade.Game
                 hud.ShowPlayHud(s is not (State.Menu or State.Golfer or State.RoundDone));   // (a hole-out's card hid it too)
             if (s != State.Result && holeOutCard && holeOutCard.Showing) { holeOutCard.Hide(); leavingResult = true; }
             Current = s; stateTime = 0;
+            FilmHoleInOne(s);
             if (s is not (State.Flight or State.Result)) RestoreGolferFade();   // a putt's fade lasts the roll and its result only
             ExperienceTrace.Mark("golf", "state-" + s);
             golfer?.SetBagCarried(s is State.Result or State.HoleDone or State.RoundDone);   // ACCESSORIES: the bag rides along between shots, never through a swing
@@ -2003,6 +2004,7 @@ namespace GolfArcade.Game
             Swing.Armed = false;
             Haptics.Release();
             sounds.Release();
+            if (HoleInOne) ShotClips.Contact();
             var lie = hole.LieAt(ballAt);
             // the club is on its way down: the ball leaves when it gets there, and the windmill's
             // sails will have turned on by then
@@ -2487,6 +2489,38 @@ namespace GolfArcade.Game
             }
         }
 
+        /// The app draws the round's end on the TV itself (ArtDir/ui/tv-results-calibration: winner plaque → standings and the
+        /// hole-by-hole card → XP → play again), in its own window over the game. The phone turns this on (command postGameTV)
+        /// when that window is up; handheld play (no TV) keeps the RoundCard.
+        public static bool NativePostGame;
+        /// The finished round for the app's TV: "holes=1,2,..;pars=4,4,..;p=<1 this phone's player, else 0>|<name>|<strokes per
+        /// hole, blank if not played>;p=..." (Swift: PostGameBoard).
+        public static event Action<string> RoundCardReady;
+
+        /// The round is over and the app draws it: send the card, take the RoundCard down. False (draw the RoundCard) for the
+        /// cards the app does not draw: a contest's, the Daily Hole in One's, a tournament round's.
+        bool NativeRoundCard()
+        {
+            if (!NativePostGame || HoleInOne || Match == null || Match.IsContest || setup?.Mode == PlayMode.Tournament) return false;
+            int n = course.Holes.Length;
+            var numbers = new string[n]; var pars = new string[n];
+            for (int h = 0; h < n; h++) { numbers[h] = course.Holes[h].PlayNumber.ToString(); pars[h] = course.Holes[h].Par.ToString(); }
+            var parts = new System.Collections.Generic.List<string> { "holes=" + string.Join(",", numbers), "pars=" + string.Join(",", pars) };
+            bool meFound = false;
+            foreach (var p in Match.Players)
+            {
+                var card = Match.IsSolo ? Card : p.Card;
+                var strokes = new string[n];
+                for (int h = 0; h < n; h++) strokes[h] = card?.StrokesOn(h)?.ToString() ?? "";
+                bool me = p.IsLocal && !meFound; meFound |= me;
+                string name = (p.Name ?? "").Replace(";", " ").Replace("|", " ");
+                parts.Add("p=" + (me ? "1" : "0") + "|" + name + "|" + string.Join(",", strokes));
+            }
+            hud.HideScorecard();
+            RoundCardReady?.Invoke(string.Join(";", parts));
+            return true;
+        }
+
         /// After each hole: the card with the round so far and its stats, and the way on — the
         /// next hole while there is one, the same holes again, or the main menu.
         void ShowRoundCard()
@@ -2500,6 +2534,7 @@ namespace GolfArcade.Game
             if (!Match.IsSolo || Match.IsContest) { ShowMatchCard(more, round); return; }
             if (!more) RecordRound();
             if (!more && setup?.Mode == PlayMode.Tournament) { ShowOpenCard(); return; }
+            if (!more && NativeRoundCard()) { sounds.PlayReady(); return; }
             hud.ShowScorecard(Card,
                 round ? "Round complete" : $"Hole {hole.PlayNumber} complete",
                 round ? null : strokes <= hole.Par ? holeScore + "!" : holeScore,
@@ -2529,6 +2564,7 @@ namespace GolfArcade.Game
             if (HoleInOne) { ShowHoleInOneCard(true); return; }
             bool online = setup.Mode == PlayMode.Online;
             bool waiting = online && !more && !Match.EveryoneFinished && !(onlineRoom?.Finished ?? false);
+            if (!more && !waiting && NativeRoundCard()) { RecordRound(); sounds.PlayReady(); return; }
             var rows = new RoundCard.Row[Match.Players.Count];
             for (int i = 0; i < rows.Length; i++)
             {

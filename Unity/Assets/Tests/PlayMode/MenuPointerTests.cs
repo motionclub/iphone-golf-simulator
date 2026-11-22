@@ -131,6 +131,25 @@ namespace GolfArcade.Tests
             Assert.IsFalse(events.Contains("menuOpen bay-tennis-exhibition"), "solo modes lock while the party is here");
         }
 
+        /// Phone casting (PLAN_PhoneCasting_GolfBowling.md): golf and bowling offer PHONE SCREEN (opened on the phone, where the app hosts
+        /// it); tennis never does. Bowling's five modes still fit above the foot of the screen, as the Play screen's five do.
+        [UnityTest] public IEnumerator PhoneScreenIsAModeForGolfAndBowlingOnly()
+        {
+            hud.Go(MenuHud.TennisModes); yield return Settle();
+            Assert.IsFalse(hud.TryCentre("bay-tennis-cast", out _), "tennis needs a bigger screen");
+            hud.Go(MenuHud.GolfModes); yield return Settle();
+            Assert.IsTrue(hud.TryCentre("bay-golf-cast", out var golf));
+            yield return Click("bay-golf-cast"); yield return Settle(.3f);
+            Assert.IsTrue(events.Contains("menuOpen bay-golf-cast"), "opened on the phone: " + string.Join(", ", events));
+            hud.SetPhonePanel(false);
+            hud.Go(MenuHud.BowlingModes); yield return Settle();
+            Assert.IsTrue(hud.TryCentre("bay-bowling-cast", out _));
+            Assert.IsTrue(hud.TryCentre("bay-bowling-online", out var last), "the fifth mode is on screen");
+            hud.Go(MenuHud.Sport); yield return Settle();
+            Assert.IsTrue(hud.TryCentre("sport-training", out var playLast));
+            Assert.AreEqual(playLast.y, last.y, 40f, "the five bowling modes end where the Play screen's five entries do");
+        }
+
         void Receive(string action, string mode = null, string remote = null, bool leader = true, bool soloLocked = false)
             => bridge.Receive(JsonUtility.ToJson(new NativeSportsSession.Message { version = 1, session = "menu-test", action = action, mode = mode, remote = remote, leader = leader, soloLocked = soloLocked }));
 
@@ -145,7 +164,7 @@ namespace GolfArcade.Tests
             yield return Shot("01_home");
             Assert.IsTrue(hud.TryCentre("play", out var play)); hud.PointAt(play, false, presses); yield return Settle(.3f);
             yield return Shot("02_home_hover_play");
-            foreach (var (screen, name) in new[] { (MenuHud.Sport, "03_sport"), (MenuHud.TennisModes, "04_tennis_modes"), (MenuHud.GolfModes, "05_golf_modes"), (MenuHud.Locker, "06_locker"), (MenuHud.Clubhouse, "07_clubhouse") })
+            foreach (var (screen, name) in new[] { (MenuHud.Sport, "03_sport"), (MenuHud.TennisModes, "04_tennis_modes"), (MenuHud.GolfModes, "05_golf_modes"), (MenuHud.BowlingModes, "05b_bowling_modes"), (MenuHud.Locker, "06_locker"), (MenuHud.Clubhouse, "07_clubhouse") })
             {
                 hud.Go(screen); hud.Pointer(-1, -1, false, false, presses); yield return Settle(1.0f);
                 yield return Shot(name);

@@ -12,10 +12,13 @@ final class MenuNavigationRegressionTests: XCTestCase {
             XCTAssertFalse(app.buttons["tutorial-skip-step"].exists)
             XCTAssertFalse(app.staticTexts["COACH RAY"].exists)
         }
-        launch("timing")
-        XCTAssertTrue(app.buttons["timing-start"].waitForExistence(timeout: 5))
+        // the whole setup (11-20): point at the TV and hold one button; no scan window, no timing check
+        launch("pointHold")
+        XCTAssertTrue(app.buttons["point-hold"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.buttons["timing-start"].exists)
+        XCTAssertFalse(app.buttons["forceAxis"].exists)
         XCTAssertFalse(app.buttons["controller-ready"].exists)
-        app.buttons["timing-skip"].tap()
+        launch("ready")
         XCTAssertTrue(app.buttons["controller-ready"].waitForExistence(timeout: 5))
         XCTAssertFalse(app.buttons["tennisToss"].exists)
         XCTAssertFalse(app.buttons["tennisDive"].exists)

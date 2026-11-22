@@ -690,6 +690,8 @@ extension TennisMenu {
         case "partyLocalGolf": return "Golf · Pass the Phone"
         case "partyLocalTennis": return "Tennis · Two Phones"
         case "partyNearbyTennis": return "Tennis with a friend nearby"
+        case "partyCastGolf": return "Golf · This Phone Is the Screen"
+        case "partyCastBowling": return "Bowling · This Phone Is the Screen"
         case "localPlayers2", "localPlayers3", "localPlayers4": return "\(id.dropFirst("localPlayers".count)) Players"
         case "onlineQuick": return "Quick Match"
         case "homeInvite": return "Play with Friends"

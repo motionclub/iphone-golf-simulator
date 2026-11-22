@@ -67,11 +67,11 @@ namespace GolfArcade.Tests
         }
 
         [Test]
-        public void TheRoundPlaysAllFiveHoles()
+        public void TheRoundPlaysAllFourHoles()
         {
             var course = Course.Course.Cliffside();
-            CollectionAssert.AreEqual(new[] { 7, 8, 9, 12, 15 }, System.Array.ConvertAll(course.Holes, h => h.Number));
-            Assert.AreEqual(4 + 4 + 5 + 3 + 3, course.Par);
+            CollectionAssert.AreEqual(new[] { 8, 9, 12, 15 }, System.Array.ConvertAll(course.Holes, h => h.Number));
+            Assert.AreEqual(4 + 5 + 3 + 3, course.Par);
         }
     }
 }

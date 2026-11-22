@@ -42,6 +42,18 @@ namespace GolfArcade.Tennis
                 Sky(root);
             }
 
+            /// The bowling lanes' rooftop (TennisVenueBuilder.SkyscraperForBowling): the same world round a slab sized to the alley.
+            /// No antenna mast: on the tennis deck it stands where the alley's pinsetters are.
+            internal static void ForBowling(Transform root, float hx, float hz)
+            {
+                Deck(root, hx, hz);
+                var fams = Families();
+                var seaH = CloudSea(root);
+                MainTower(root, hx, hz, fams);
+                Rooftop(root, hx, hz);
+                Skyline(root, fams, seaH);
+            }
+
             // ----------------------------------------------------------------- deck
 
             static void Deck(Transform root, float hx, float hz)

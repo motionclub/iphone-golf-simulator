@@ -1,0 +1,343 @@
+<title>Daily Hole in One Share</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@500;700;800;900&display=swap">
+<style>
+/* Layout: a design board. Each step of the share flow is one phone or one frame, left to right in the order a player meets it. */
+:root{
+  --bg:#eaf0fb; --surface:#ffffff; --ink:#14214d; --muted:#56628a; --line:#c9d3ec;
+  --gold:#f6c23e; --gold-ink:#3a2a00; --blue:#2f6fe4; --navy:#0f1b4a; --navy2:#1b2d75;
+  --green:#3fb24f; --yellow:#f2c230; --orange:#f08a2c; --red:#e2453b;
+  --display:"Lilita One","Arial Rounded MT Bold","Trebuchet MS",sans-serif;
+  --body:"Nunito",ui-rounded,system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0b1233;--surface:#131d4a;--ink:#eef2ff;--muted:#a3afd6;--line:#2a3a7a;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0b1233;--surface:#131d4a;--ink:#eef2ff;--muted:#a3afd6;--line:#2a3a7a;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 56px}
+.wrap{max-width:1240px;margin:0 auto;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,5vw,48px);line-height:1.05}
+h1 em{font-style:normal;color:var(--blue)}
+h2{font-size:24px}
+.eyebrow{font:800 12px/1 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.lead{max-width:68ch;color:var(--muted);margin:10px 0 0;font-size:16px}
+.flow{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start;justify-content:flex-start}
+.step{display:flex;flex-direction:column;gap:12px;width:300px;max-width:100%;min-width:0}
+.step-h{display:flex;gap:10px;align-items:baseline}
+.num{font-family:var(--display);font-size:20px;color:var(--blue)}
+.step p{margin:0;color:var(--muted);font-size:14px}
+.step h3{font-size:19px}
+
+/* phone */
+.phone{width:300px;max-width:100%;aspect-ratio:300/640;border-radius:44px;background:#05081a;padding:10px;box-shadow:0 18px 40px -18px rgba(10,20,60,.55);position:relative}
+.screen{position:relative;width:100%;height:100%;border-radius:35px;overflow:hidden;background:linear-gradient(180deg,#1d3285 0%,#0f1b4a 70%);color:#fff;display:flex;flex-direction:column}
+.notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:84px;height:24px;border-radius:14px;background:#05081a;z-index:5}
+.sbar{display:flex;justify-content:space-between;padding:14px 24px 0;font:800 12px var(--body);color:#fff}
+
+/* game-style text */
+.g{font-family:var(--display);color:#fff;-webkit-text-stroke:0;text-shadow:0 2px 0 #13286e,0 0 0 #13286e,2px 0 0 #13286e,-2px 0 0 #13286e,0 -2px 0 #13286e}
+.gy{color:var(--gold)}
+.tag{display:inline-block;font:900 10px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;background:var(--gold);color:var(--gold-ink);padding:5px 9px;border-radius:99px}
+
+/* screen 1 */
+.s1{padding:30px 18px 18px;display:flex;flex-direction:column;gap:14px;flex:1;text-align:center}
+.s1 .big{font-size:46px;line-height:1}
+.s1 .big small{font-size:24px}
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.chip{background:rgba(255,255,255,.1);border-radius:12px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.chip .sq{width:18px;height:18px;border-radius:4px}
+.chip b{font:900 11px/1.2 var(--body)}
+.chip span{font:700 11px/1 var(--body);opacity:.8;font-variant-numeric:tabular-nums}
+.rank{font:800 13px var(--body);background:rgba(255,255,255,.08);border-radius:10px;padding:8px}
+.btn-share{margin-top:auto;background:var(--gold);color:var(--gold-ink);border-radius:20px;padding:16px 10px 12px;box-shadow:0 6px 0 #b98a12;display:flex;flex-direction:column;align-items:center;gap:3px;outline:4px solid rgba(255,255,255,.9);outline-offset:3px}
+.btn-share .t{font-family:var(--display);font-size:24px;display:flex;align-items:center;gap:8px}
+.btn-share .s{font:800 11px var(--body);opacity:.75}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.btn2{background:var(--blue);border-radius:14px;padding:10px 4px;font:900 13px var(--body);box-shadow:0 4px 0 #1b47a6}
+
+/* screen 2: share sheet */
+.dim{position:absolute;inset:0;background:linear-gradient(180deg,#1d3285,#0f1b4a);filter:brightness(.45)}
+.sheet{position:absolute;left:0;right:0;bottom:0;top:58px;background:#f4f6fc;color:#14214d;border-radius:26px 26px 0 0;padding:10px 14px 14px;display:flex;flex-direction:column;gap:10px}
+.grab{width:38px;height:5px;border-radius:3px;background:#c4cbe0;margin:0 auto}
+.sheet h4{margin:0;font:900 15px var(--body);display:flex;justify-content:space-between;align-items:center}
+.sheet h4 span{font:800 12px var(--body);color:var(--blue)}
+.vid{position:relative;border-radius:12px;overflow:hidden;background:#000;margin:0 auto;transition:width .25s ease,aspect-ratio .25s ease}
+.vid.wide{width:100%;aspect-ratio:16/9}
+.vid.tall{width:46%;aspect-ratio:9/16}
+.vid img{position:absolute;width:100%;height:auto;top:50%;left:0;transform:translateY(-50%)}
+.vid .hdr,.vid .ftr{display:none}
+.vid.tall .hdr,.vid.tall .ftr{display:flex}
+.vid.tall{background:linear-gradient(180deg,#1d3285,#0f1b4a)}
+.vid .hdr{position:absolute;top:7%;left:0;right:0;flex-direction:column;align-items:center;font-size:9px;gap:2px}
+.vid .hdr .g{font-size:20px}
+.vid .ftr{position:absolute;bottom:8%;left:0;right:0;justify-content:center;font-size:11px}
+.play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.9);display:grid;place-items:center}
+.play::after{content:"";border-left:13px solid #14214d;border-top:8px solid transparent;border-bottom:8px solid transparent;margin-left:4px}
+.dur{position:absolute;right:6px;bottom:6px;font:800 10px var(--body);background:rgba(0,0,0,.6);color:#fff;padding:2px 6px;border-radius:6px}
+.badge{position:absolute;left:6px;top:6px;font-size:14px}
+.vid.tall .badge{display:none}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:#dfe4f2;border-radius:10px;padding:3px;gap:3px}
+.seg button{all:unset;cursor:pointer;text-align:center;font:900 12px var(--body);padding:6px;border-radius:8px;color:#56628a}
+.seg button[aria-pressed="true"]{background:#fff;color:#14214d;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.seg button:focus-visible{outline:2px solid var(--blue)}
+.msg{background:#fff;border:1px solid #d6dcee;border-radius:12px;padding:9px 11px;font:700 12px/1.45 var(--body);white-space:pre-line;color:#14214d}
+.dest{display:grid;grid-template-columns:repeat(3,1fr);gap:10px 6px;margin-top:auto}
+.d{display:flex;flex-direction:column;align-items:center;gap:4px;font:800 10.5px var(--body);color:#14214d}
+.d i{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font:900 18px var(--body);font-style:normal;color:#fff}
+.note{font:700 10.5px/1.35 var(--body);color:#56628a;text-align:center}
+
+/* screen 3: messages */
+.msgs{background:#fff;color:#111;flex:1;display:flex;flex-direction:column}
+.mhead{padding:38px 12px 10px;text-align:center;border-bottom:1px solid #eee;display:flex;flex-direction:column;align-items:center;gap:3px;font:700 11px var(--body);color:#333}
+.av{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#9aa6c6,#6b789e);display:grid;place-items:center;color:#fff;font:900 15px var(--body)}
+.thread{padding:10px;display:flex;flex-direction:column;gap:6px;flex:1}
+.me{align-self:flex-end;max-width:82%}
+.them{align-self:flex-start;max-width:78%;background:#e9e9eb;color:#111;border-radius:16px;padding:7px 11px;font:600 12.5px/1.35 var(--body)}
+.bub{background:#2f7bf6;color:#fff;border-radius:16px;padding:8px 11px;font:600 12px/1.4 var(--body);white-space:pre-line}
+.vbub{position:relative;border-radius:14px;overflow:hidden;width:200px;aspect-ratio:16/9;margin-left:auto}
+.vbub img{width:100%;height:100%;object-fit:cover;display:block}
+.vbub .badge{font-size:13px}
+.link{background:#e9e9eb;border-radius:14px;overflow:hidden;width:200px;margin-left:auto;color:#111}
+.link .lt{background:linear-gradient(135deg,#1d3285,#0f1b4a);height:56px;display:grid;place-items:center}
+.link .lt .g{font-size:15px}
+.link .lb{padding:6px 9px;font:800 11px/1.3 var(--body)}
+.link .lb small{display:block;font:600 10px var(--body);color:#666}
+.stamp{font:700 9.5px var(--body);color:#999;text-align:center}
+.mbar{margin:8px;border:1px solid #ddd;border-radius:18px;padding:7px 12px;font:600 12px var(--body);color:#aaa}
+
+/* storyboard */
+.board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media (max-width:900px){.board{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.board{grid-template-columns:1fr}}
+.frame{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fimg{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#0f1b4a;max-width:100%}
+.fimg img{width:100%;height:100%;object-fit:cover;display:block}
+.ov{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;padding:8px}
+.ov.tl{align-items:flex-start;justify-content:flex-start}
+.ov .g{font-size:clamp(16px,2.2vw,26px);line-height:1.05}
+.ov .sm{font-size:clamp(10px,1.1vw,13px)}
+.tc{font:800 12px var(--body);color:var(--muted);font-variant-numeric:tabular-nums}
+.frame p{margin:0;font-size:13.5px;color:var(--ink)}
+.wm{position:absolute;right:8px;bottom:6px;font-family:var(--display);font-size:12px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.6)}
+.wm b{color:var(--gold);font-weight:400}
+
+/* tall */
+.tallrow{display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start}
+.tall9{width:250px;max-width:100%;aspect-ratio:9/16;border-radius:18px;overflow:hidden;background:linear-gradient(180deg,#1d3285 0%,#0f1b4a 100%);position:relative;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:26px 12px 22px;color:#fff;box-shadow:0 18px 40px -18px rgba(10,20,60,.55)}
+.tall9 .mid{width:calc(100% + 24px);aspect-ratio:16/9;position:relative}
+.tall9 .mid img{width:100%;height:100%;object-fit:cover;display:block}
+.tall9 .top{display:flex;flex-direction:column;align-items:center;gap:6px}
+.tall9 .top .g{font-size:40px;line-height:1}
+.tall9 .bot{display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.tall9 .bot .g{font-size:22px;line-height:1.1}
+.sqs{display:flex;gap:5px}
+.sqs span{width:22px;height:22px;border-radius:5px;display:grid;place-items:center;font-size:12px}
+.side{flex:1;min-width:260px;display:flex;flex-direction:column;gap:18px}
+
+/* text card */
+.textcard{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px;max-width:440px}
+.textcard pre{margin:0;font:700 15px/1.55 var(--body);white-space:pre-wrap;color:var(--ink)}
+.copy{align-self:flex-start;font:900 13px var(--body);background:var(--blue);color:#fff;border:0;border-radius:10px;padding:8px 14px;cursor:pointer;box-shadow:0 3px 0 #1b47a6}
+.copy:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.key{display:grid;grid-template-columns:auto 1fr;gap:6px 10px;font-size:13.5px;align-items:center}
+.key .sq{width:18px;height:18px;border-radius:4px;display:grid;place-items:center;font-size:11px}
+
+/* decisions */
+.dec{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.q{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.q h3{font-size:17px}
+.q p{margin:0;font-size:14px;color:var(--muted)}
+.q .pick{font:800 13px var(--body);color:var(--ink)}
+.sec{display:flex;flex-direction:column;gap:18px}
+.sec-h{display:flex;flex-direction:column;gap:6px}
+.sec-h p{margin:0;color:var(--muted);max-width:70ch}
+hr{border:0;border-top:1px solid var(--line);margin:0}
+@media (prefers-reduced-motion:reduce){.vid{transition:none}}
+</style>
+
+<div class="wrap">
+
+<header>
+  <div class="eyebrow">MotionSports · Daily Hole in One · share mockups</div>
+  <h1 style="margin-top:8px">Play your 3 shots, tap <em>Share</em>, done.</h1>
+  <p class="lead">After shot 3 the phone shows one big Share button. One tap makes a short clip of your three shots plus a Wordle-style brag line, then you pick where it goes: camera roll, Messages, Instagram, TikTok, X or anything else on the phone. You don't need to press record first. Example day below: hole in one, 7.9 ft, 16.1 ft = 2,402.</p>
+</header>
+
+<section class="sec">
+  <div class="sec-h"><div class="eyebrow">The flow on the player's phone</div><h2>Three screens, one tap to share</h2></div>
+  <div class="flow">
+
+    <div class="step">
+      <div class="step-h"><span class="num">1</span><h3>Round done</h3></div>
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="sbar"><span>9:41</span><span>●●● 5G</span></div>
+        <div class="s1">
+          <div><span class="tag">Daily Hole in One · #7</span></div>
+          <div class="g big">2,402<small> / 3,000</small></div>
+          <div class="chips">
+            <div class="chip"><div class="sq" style="background:#fff;display:grid;place-items:center;font-size:12px">⛳</div><b>HOLE IN ONE</b><span>1,000</span></div>
+            <div class="chip"><div class="sq" style="background:var(--green)"></div><b>7.9 FT</b><span>734</span></div>
+            <div class="chip"><div class="sq" style="background:var(--yellow)"></div><b>16.1 FT</b><span>668</span></div>
+          </div>
+          <div class="rank">🌍 Top 8% today · #312 of 4,210</div>
+          <div class="btn-share"><div class="t">↗ SHARE MY SCORE</div><div class="s">Clip + message, ready in one tap</div></div>
+          <div class="row2"><div class="btn2">World board</div><div class="btn2">Main menu</div></div>
+        </div>
+      </div></div>
+      <p>Share is the first, highlighted button, the same place Play Again sits after a normal round. The TV's last card gets the same button.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-h"><span class="num">2</span><h3>Share sheet</h3></div>
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="dim"></div>
+        <div class="sheet">
+          <div class="grab"></div>
+          <h4>Share your round <span>Done</span></h4>
+          <div class="vid wide" id="vid">
+            <img src="{{IMG_HOLED}}" alt="Gameplay clip preview: the golfer celebrates after holing shot 1">
+            <div class="hdr"><span class="tag">Daily Hole in One #7</span><span class="g">2,402</span></div>
+            <div class="ftr"><span class="g">Can you beat it?</span></div>
+            <span class="g badge">2,402</span>
+            <div class="play"></div>
+            <span class="dur">0:18</span>
+          </div>
+          <div class="seg" role="group" aria-label="Clip shape">
+            <button type="button" id="b-wide" aria-pressed="true">Wide · as played</button>
+            <button type="button" id="b-tall" aria-pressed="false">Tall · TikTok/Reels</button>
+          </div>
+          <div class="msg">Daily Hole in One #7 ⛳
+2,402 / 3,000 · Top 8%
+⛳🟩🟨
+Can you beat my score? 👀</div>
+          <div class="dest">
+            <div class="d"><i style="background:#14214d">↓</i>Save video</div>
+            <div class="d"><i style="background:#34c759">💬</i>Messages</div>
+            <div class="d"><i style="background:linear-gradient(45deg,#f9a03f,#e1306c,#833ab4)">◎</i>Instagram</div>
+            <div class="d"><i style="background:#111">♪</i>TikTok</div>
+            <div class="d"><i style="background:#000">X</i>X</div>
+            <div class="d"><i style="background:#8e95ab">•••</i>More</div>
+          </div>
+          <div class="note">Instagram and TikTok don't take a caption from apps, so the message is copied for you. Just paste.</div>
+        </div>
+      </div></div>
+      <p>The clip and message are already made when the sheet opens. Try the Wide / Tall switch: the game picture is never cropped.</p>
+    </div>
+
+    <div class="step">
+      <div class="step-h"><span class="num">3</span><h3>What a friend gets</h3></div>
+      <div class="phone"><div class="screen">
+        <div class="notch"></div>
+        <div class="msgs">
+          <div class="mhead"><div class="av">S</div>Sam</div>
+          <div class="thread">
+            <div class="stamp">Today 9:41 PM</div>
+            <div class="vbub"><img src="{{IMG_HOLED}}" alt="Video message thumbnail of the clip"><div class="play"></div><span class="g badge">2,402</span><span class="dur">0:18</span></div>
+            <div class="me bub">Daily Hole in One #7 ⛳
+2,402 / 3,000 · Top 8%
+⛳🟩🟨
+Can you beat my score? 👀</div>
+            <div class="link"><div class="lt"><span class="g">Daily Hole in <span class="gy">One</span></span></div><div class="lb">Play today's 3 shots<small>MotionSports · free on the App Store</small></div></div>
+            <div class="them">no way the first one went in</div>
+            <div class="them">ok playing rn 😤</div>
+          </div>
+          <div class="mbar">iMessage</div>
+        </div>
+      </div></div>
+      <p>Video, brag line and a link that opens today's challenge (or the App Store if they don't have the game).</p>
+    </div>
+
+  </div>
+</section>
+
+<hr>
+
+<section class="sec">
+  <div class="sec-h"><div class="eyebrow">The clip</div><h2>18 seconds: your three shots, then the score</h2>
+  <p>Real game footage at 60 fps, as it looked on the TV. Each shot keeps only the swing and the ball landing. A score stamp pops in when the ball stops, then an end card asks the question.</p></div>
+  <div class="board">
+    <div class="frame">
+      <div class="fimg"><img src="{{IMG_LAVA}}" alt="Opening frame over the hole flyover"><div class="ov" style="background:rgba(10,20,60,.35)"><span class="tag">Nov 21 · #7</span><span class="g">Daily Hole in One</span><span class="g sm gy">3 shots · 3,000 up for grabs</span></div></div>
+      <div class="tc">0:00 – 0:02</div><p>Title plate over the day's first hole.</p>
+    </div>
+    <div class="frame">
+      <div class="fimg"><img src="{{IMG_HOLED}}" alt="Shot 1 holed, golfer celebrating"><div class="ov"><span class="g gy" style="font-size:clamp(20px,2.8vw,32px)">HOLE IN ONE!</span><span class="g sm">+1,000</span></div><span class="wm">Motion<b>Sports</b></span></div>
+      <div class="tc">0:02 – 0:07</div><p>Shot 1. The ball drops, the big stamp lands.</p>
+    </div>
+    <div class="frame">
+      <div class="fimg"><img src="{{IMG_NEAR}}" alt="Shot 2 resting 7.9 feet from the pin"><div class="ov tl"><span class="g" style="font-size:clamp(14px,1.8vw,22px)">SHOT 2 · 7.9 FT</span><span class="g sm gy">+734</span></div><span class="wm">Motion<b>Sports</b></span></div>
+      <div class="tc">0:07 – 0:14</div><p>Shots 2 and 3: distance and points in the corner.</p>
+    </div>
+    <div class="frame">
+      <div class="fimg"><div class="ov" style="background:linear-gradient(180deg,#1d3285,#0f1b4a)"><span class="g" style="font-size:clamp(26px,3.4vw,40px)">2,402</span><div class="sqs"><span style="background:#fff">⛳</span><span style="background:var(--green)"></span><span style="background:var(--yellow)"></span></div><span class="g sm gy">Can you beat it?</span><span class="sm" style="font:800 11px var(--body);opacity:.8">Daily Hole in One #7 · MotionSports</span></div></div>
+      <div class="tc">0:14 – 0:18</div><p>End card with the score and the challenge.</p>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<section class="sec">
+  <div class="sec-h"><div class="eyebrow">Tall version and the brag text</div><h2>Built for TikTok and Reels without cropping the game</h2></div>
+  <div class="tallrow">
+    <div class="tall9">
+      <div class="top"><span class="tag">Daily Hole in One #7</span><span class="g">2,402</span><span style="font:800 12px var(--body);opacity:.85">Top 8% in the world today</span></div>
+      <div class="mid"><img src="{{IMG_SWING}}" alt="Gameplay in the middle of the tall frame: golfer addressing the ball under a volcano"></div>
+      <div class="bot"><div class="sqs"><span style="background:#fff">⛳</span><span style="background:var(--green)"></span><span style="background:var(--yellow)"></span></div><span class="g">Can you beat<br>my score?</span><span style="font-family:var(--display);font-size:14px">Motion<span class="gy">Sports</span></span></div>
+    </div>
+    <div class="side">
+      <div class="textcard">
+        <div class="eyebrow">The message (copied with every share)</div>
+        <pre id="brag">Daily Hole in One #7 ⛳
+2,402 / 3,000 · Top 8%
+⛳🟩🟨
+Can you beat my score? 👀
+motionsports.app/d/7</pre>
+        <button class="copy" id="copy" type="button">Copy text</button>
+      </div>
+      <div class="textcard">
+        <div class="eyebrow">One square per shot, like Wordle's grid</div>
+        <div class="key">
+          <span class="sq" style="background:#fff;border:1px solid var(--line)">⛳</span><span>Holed</span>
+          <span class="sq" style="background:var(--green)"></span><span>Inside 10 ft</span>
+          <span class="sq" style="background:var(--yellow)"></span><span>10 to 30 ft</span>
+          <span class="sq" style="background:var(--orange)"></span><span>Over 30 ft</span>
+          <span class="sq" style="background:var(--red)"></span><span>Water, lava or out of bounds</span>
+        </div>
+        <p style="margin:0;font-size:13.5px;color:var(--muted)">The text never says which holes or where the pin is, so it doesn't spoil the day for friends.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr>
+
+<section class="sec">
+  <div class="sec-h"><div class="eyebrow">Your call before I build it</div><h2>Four choices</h2></div>
+  <div class="dec">
+    <div class="q"><h3>The clip shows today's line</h3><p>Everyone plays the same spots, so the video shows friends where the pin is and how you hit it. Wordle hid its answer; this would not.</p><p class="pick">My pick: share it anyway. Seeing it go in is the hook, and they still have to swing it.</p></div>
+    <div class="q"><h3>Default shape</h3><p>Wide matches the game on the TV. Tall fits TikTok, Reels and Stories, with the game uncropped in the middle.</p><p class="pick">My pick: Wide for Save and Messages, Tall picked automatically for TikTok and Instagram.</p></div>
+    <div class="q"><h3>Where the link goes</h3><p>A link that opens today's challenge in the app, and the App Store page if the game isn't installed. The address above is a placeholder.</p><p class="pick">Needs a domain or the App Store link from you.</p></div>
+    <div class="q"><h3>Your face in it</h3><p>The clip uses only game footage. Creators can still film themselves on a second phone and stack it, as you asked on 11-14.</p><p class="pick">My pick: game footage only for now.</p></div>
+  </div>
+</section>
+
+</div>
+
+<script>
+(function(){
+  var vid=document.getElementById('vid'),w=document.getElementById('b-wide'),t=document.getElementById('b-tall');
+  function set(tall){vid.className='vid '+(tall?'tall':'wide');w.setAttribute('aria-pressed',!tall);t.setAttribute('aria-pressed',tall);}
+  w.addEventListener('click',function(){set(false)});t.addEventListener('click',function(){set(true)});
+  var c=document.getElementById('copy'),b=document.getElementById('brag');
+  c.addEventListener('click',function(){
+    var txt=b.textContent;
+    function sel(){var r=document.createRange();r.selectNodeContents(b);var s=getSelection();s.removeAllRanges();s.addRange(r);c.textContent='Selected, press Copy';}
+    try{navigator.clipboard.writeText(txt).then(function(){c.textContent='Copied';setTimeout(function(){c.textContent='Copy text'},1600)},sel);}catch(e){sel();}
+  });
+})();
+</script>

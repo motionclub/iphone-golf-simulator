@@ -11,6 +11,8 @@ final class SportsDisplays: NSObject {
     private var loadingCover: UIWindow?
     private var previewOverlay: UIViewController?
     private var registration: AnyObject?
+    /// The controller the iOS 27 external display accessory is registered on (the phone window's root).
+    private weak var registrationOwner: UIViewController?
     private override init() {
         super.init()
         NotificationCenter.default.addObserver(self,selector:#selector(refreshNotification),name:UIApplication.didBecomeActiveNotification,object:nil)
@@ -39,14 +41,27 @@ final class SportsDisplays: NSObject {
     func register(from controller:UIViewController) {
         guard let window=controller.view.window else { return }
         phone=window
-        // The scene accessory needs the iOS 27 SDK (UIKit 9126 is iOS 26.2's): Xcode 26 builds leave it out.
-        #if canImport(UIKit, _version: 9500)
-        if #available(iOS 27.0, *), registration == nil {
-            let config=UISceneConfiguration(name:"Sports External",sessionRole:.windowExternalDisplayNonInteractive)
-            config.delegateClass=SportsExternalScene.self
-            var owner=controller
-            while let parent=owner.parent { owner=parent }
-            registration=owner.registerSceneAccessory(.externalNonInteractive(sceneConfiguration:config))
+        // The scene accessory needs the iOS 27 SDK: Xcode 26 builds leave it out. UIKit's module version is 9126.x in the iOS 26 SDKs
+        // and 9127.x in iOS 27's (27.2 SDK: 9127.1.13). The old gate asked for 9500, which no SDK has, so every build (0.1.6 (25),
+        // Xcode 27.2 included) left it out: on iOS 27 Screen Mirroring then only mirrored the phone's controller (11-21 playtest).
+        #if canImport(UIKit, _version: 9127)
+        if #available(iOS 27.0, *) {
+            // Owned by the phone window's root (it lives as long as the app). If that root is ever replaced, the accessory moves to
+            // the new one: a registration left on a controller that went away would leave the TV mirroring the phone again.
+            var top=controller
+            while let parent=top.parent { top=parent }
+            let owner=window.rootViewController ?? top
+            if registration == nil || registrationOwner !== owner {
+                if let old=registration as? UISceneAccessoryRegistration, let previous=registrationOwner { previous.unregisterSceneAccessory(old) }
+                let config=UISceneConfiguration(name:"Sports External",sessionRole:.windowExternalDisplayNonInteractive)
+                config.delegateClass=SportsExternalScene.self
+                let added=owner.registerSceneAccessory(.externalNonInteractive(sceneConfiguration:config))
+                added.isEnabled=true   // (said outright: the game's picture is what the TV should show whenever one is there)
+                registration=added; registrationOwner=owner
+                SportsDiagnostics.write("external display accessory registered available=\(added.isAvailable)")
+            } else if let current=registration as? UISceneAccessoryRegistration, !current.isEnabled {
+                current.isEnabled=true
+            }
         }
         #endif
         refresh()
@@ -127,11 +142,17 @@ final class SportsDisplays: NSObject {
     var phonePlazaShown: Bool { plazaPhone?.isHidden == false }
     /// The menu on a phone with no TV fills the screen and turns with the phone (Adnan 10-29); everything else on the phone stays upright.
     var phoneMenuRotates: Bool { external == nil && HubSession.shared.onPhone && !SportsSession.shared.active }
+    /// Phone casting: the screen phone shows the match sideways, like a TV, either way round (PLAN_PhoneCasting_GolfBowling.md).
+    var castScreenSideways: Bool { external == nil && SportsSession.shared.active && SportsSession.shared.castScreen }
     /// The phone's windows ask again which ways they may turn; leaving the menu sideways turns the phone's screen back upright.
     func phoneOrientationChanged() {
         guard let scene = phone?.windowScene else { return }
         for window in scene.windows { window.rootViewController?.setNeedsUpdateOfSupportedInterfaceOrientations() }
-        if !phoneMenuRotates, scene.interfaceOrientation.isLandscape {
+        if castScreenSideways {
+            if !scene.interfaceOrientation.isLandscape {
+                scene.requestGeometryUpdate(.iOS(interfaceOrientations: .landscape)) { error in NSLog("[SportsDisplay] sideways request failed: %@", error.localizedDescription) }
+            }
+        } else if !phoneMenuRotates, scene.interfaceOrientation.isLandscape {
             scene.requestGeometryUpdate(.iOS(interfaceOrientations: .portrait)) { error in NSLog("[SportsDisplay] upright request failed: %@", error.localizedDescription) }
         }
     }
@@ -286,6 +307,22 @@ final class SportsDisplays: NSObject {
         loadingCover?.isHidden = true; loadingCover = nil
     }
 
+    /// The tennis setup's rings on the TV (TennisSetupTVView), in a window of their own over the game's picture: the game draws the
+    /// court, this only the players' rings. It draws nothing outside setup, and nothing while the TV blinks for its delay.
+    private var tennisSetupTV: UIWindow?
+    func showTennisSetupOnTV() {
+        let session = SportsSession.shared
+        guard tennisSetupTV == nil, session.displayConnected, !session.multiplayerControllerOnly, !session.phonePlay,
+              let scene = external?.windowScene else { return }
+        let window = UIWindow(windowScene: scene); window.windowLevel = UIWindow.Level(rawValue: UIWindow.Level.normal.rawValue + 5)
+        let host = UIHostingController(rootView: TennisSetupTVView(session: session)); host.view.backgroundColor = .clear
+        window.backgroundColor = .clear; window.rootViewController = host; window.isUserInteractionEnabled = false; window.isHidden = false
+        tennisSetupTV = window
+    }
+    func hideTennisSetupOnTV() { tennisSetupTV?.isHidden = true; tennisSetupTV = nil }
+    /// The app's window is over the game on the TV (setup and post-game screens).
+    var showsTVOverlay: Bool { tennisSetupTV != nil }
+
     private var networkOverlay: UIHostingController<MultiplayerMatchOverlay>?
     func installMultiplayerOverlay(in root: UIViewController) {
         guard SportsSession.shared.multiplayerMatchID != nil else { return }
@@ -405,6 +442,7 @@ final class SportsAppDelegate: NSObject, UIApplicationDelegate {
         // a window left without a scene (its TV went away): any way up, so its controller always has an orientation in common
         if let window, window.windowScene == nil { return .all }
         // (the walkable Plaza on a phone with no TV stays upright too: it draws above the controls; the menu alone turns either way)
+        if SportsDisplays.shared.castScreenSideways { return .landscape }
         return SportsDisplays.shared.phoneMenuRotates ? .allButUpsideDown : .portrait
     }
     func application(_ application:UIApplication, configurationForConnecting session:UISceneSession, options:UIScene.ConnectionOptions) -> UISceneConfiguration {
@@ -431,6 +469,9 @@ final class SportsExternalScene: NSObject, UIWindowSceneDelegate {
         SportsSession.shared.pause(reason:"Display disconnected — reconnect and tap Ready"); SportsSession.shared.displayConnected=false
         SportsSession.shared.status="Display disconnected. Reconnect your TV or Mac to continue; this phone remains your controller."
         SportsDisplays.shared.external=nil; window=nil
+        // the app's TV window went with the TV: golf and bowling put Unity's own end cards back on (the phone game)
+        SportsDisplays.shared.hideTennisSetupOnTV()
+        if SportsSession.shared.sport != "tennis" { SportsSession.shared.command("postGameTV", value: 0) }
         RecordingService.shared.displayLost()   // what was recorded so far is finished and saved
         HubSession.shared.displayLost()
     }

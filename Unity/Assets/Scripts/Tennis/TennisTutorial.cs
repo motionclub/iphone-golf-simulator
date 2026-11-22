@@ -5,25 +5,29 @@ using UnityEngine;
 
 namespace GolfArcade.Tennis
 {
-    /// The tennis lesson on the Practice Court (PLAN_Onboarding_GolfLesson.md). The phone runs the court setup first (station 1:
-    /// point at the TV, sync); these are stations 2–3: hit two of Coach Ray's feeds back (a forehand, then a backhand: the
-    /// player picks the wing from the ball, so there is nothing new to learn for it), then land a serve. Misses retry; the phone
+    /// The tennis lesson on the Practice Court (PLAN_Onboarding_Tutorial_TennisQuickStart_1121.md, 11-21: "explain calibration, calibrate,
+    /// serve forehand backhand"). The phone explains and runs the court setup first (station 1: point at the TV, time it); these are
+    /// stations 2–4: land a serve, return two of Coach Ray's feeds to the forehand, then two to the backhand. Misses retry; the phone
     /// offers a skip. The phone shows the title and one line (ask, then the attempt text, then the hint after two misses); the
-    /// game's HUD already shows the timing grade, so the text never repeats it. (2026-11-16, Adnan: "tutorial length should be
-    /// 1-2 mins per sport max": Pace, Aim, Wide and the played point were cut.)
+    /// game's HUD already shows the timing grade, so the text never repeats it. (Adnan 11-16: "tutorial length should be 1-2 mins per
+    /// sport max".)
     public sealed class TutorialLesson
     {
-        public enum Kind { Hit, Serve }
+        public enum Kind { Serve, Forehand, Backhand }
         public struct Step { public Kind Kind; public string Key, Name, Title, Say, Hint; public string[] Tips; public int Goal; }
         public static readonly Step[] Steps =
         {
-            new Step { Kind = Kind.Hit, Goal = 2, Key = "hit", Name = "Hit", Title = "Hit it back",
-                Say = "Swing as the rings close on the ball.",
-                Hint = "Swing early rather than late.",
-                Tips = new string[0] },
             new Step { Kind = Kind.Serve, Goal = 1, Key = "serve", Name = "Serve", Title = "Serve",
                 Say = "Tap TOSS, then swing overhead at the top.",
                 Hint = "Tap TOSS on the green, then swing as the ball peaks.",
+                Tips = new string[0] },
+            new Step { Kind = Kind.Forehand, Goal = 2, Key = "forehand", Name = "Forehand", Title = "Forehand",
+                Say = "The ball comes to your racket side. Swing as the rings close on it.",
+                Hint = "Swing early rather than late.",
+                Tips = new string[0] },
+            new Step { Kind = Kind.Backhand, Goal = 2, Key = "backhand", Name = "Backhand", Title = "Backhand",
+                Say = "Now to your other side. Swing across your body as the rings close.",
+                Hint = "Turn the phone across your body, and swing a little early.",
                 Tips = new string[0] },
         };
         public const int HintAfter = 2;
@@ -119,9 +123,9 @@ namespace GolfArcade.Tennis
             if (pendingStep) { StartStep(); return; }
             if (feedAt >= 0 && Time.time >= feedAt)
             {
-                // the first ball to the forehand, the second to the backhand: the player picks the wing from the ball
+                // the forehand station feeds the racket side, the backhand station the other
                 feedAt = -1; resolved = false; watchdog = Time.time + 6f;
-                game.Feed(Lesson.Progress % 2 == 1);
+                game.Feed(Lesson.Current.Kind == TutorialLesson.Kind.Backhand);
             }
             if (serveAt >= 0 && Time.time >= serveAt) { serveAt = -1; resolved = false; game.StartPlayerServe(); }
             if (watchdog >= 0 && Time.time >= watchdog)
@@ -157,7 +161,7 @@ namespace GolfArcade.Tennis
         {
             int index = Lesson.Index, misses = Lesson.Misses;
             bool ended = Lesson.Success();
-            Report(LessonJson.Attempt(ended, grade, ended ? text : "Next one comes to your backhand.", misses, null));
+            Report(LessonJson.Attempt(ended, grade, ended ? text : "One more.", misses, null));
             if (ended) StepResolved?.Invoke(index, misses, false);
             Advance(ended);
         }

@@ -32,8 +32,12 @@ namespace GolfArcade.Tennis
         readonly bool[] taken = new bool[Beats];
 
         /// The get-ready countdown before the ball starts dropping, so the player knows what is
-        /// coming ("swing every time the ball lands on the line") before it begins.
-        public const float Countdown = 5f;
+        /// coming ("swing every time the ball lands on the line") before it begins. (11-21 quick
+        /// start: 5 s → 3 s; the phone has already said what to do on its Start card.)
+        public const float Countdown = 3f;
+        /// Scored swings that end the check early once they agree (TryResult): a steady player is
+        /// done in seven bounces instead of nine (quick start, 11-21).
+        public const int EarlyStop = 5;
 
         public TennisBeatCalibration(float now, float countdown = 0, float measuredDisplayDelay = 0) { start = now + countdown; displayDelay = Mathf.Clamp(measuredDisplayDelay, 0, TennisLagLearner.Max); }
 
@@ -42,7 +46,9 @@ namespace GolfArcade.Tennis
 
         public float BeatTime(int beat) => start + LeadIn + beat * Interval;
         public float End => BeatTime(Beats - 1) + displayDelay + Window;
-        public bool Finished(float now) => now >= End;
+        public bool Finished(float now) => now >= End || Settled;
+        /// Enough scored swings agree that the rest would not change the result.
+        public bool Settled => late.Count >= EarlyStop && TryResult(out _);
         public int Scored => late.Count;
 
         /// Where the bouncing ball is, 0 on the line .. 1 at the top, and the beat it is

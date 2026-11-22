@@ -488,6 +488,8 @@ namespace GolfArcade.Tennis
         /// Seconds (real) taken off every swing and toss press: the TV's delay as measured,
         /// corrected by how the player's timing actually runs (see TennisLagLearner).
         public float Lag => lag.Estimate;
+        /// Play has corrected the lag from enough of the player's own swings for the app to keep it (TennisLagLearner.Trusted).
+        public bool LagLearnedEnough => lag.Count >= TennisLagLearner.Trusted;
         /// Only a person on the phone teaches it: never self-play, the keyboard or tests. A camera measurement is the
         /// learner's prior (two votes), not a reason to stop learning: play refines it from toss presses and rally hits.
         void Learn(float rawLate) { if (NativeControlled && !AutoPlay && !NativeSportsSession.Touch) lag.Observe(rawLate); }
@@ -502,6 +504,10 @@ namespace GolfArcade.Tennis
         float timingOnsetAt = -1;
         /// The timing check finished: the lag it measured (seconds), or -1 if it could not.
         public static event System.Action<float> TimingChecked;
+        /// The timing check began: seconds until its countdown ends (the app draws the drill on the TV from this).
+        public static event System.Action<float> TimingCheckStarted;
+        /// A swing in the timing check counted for this beat.
+        public static event System.Action<int> TimingCheckCounted;
         public bool CheckingTiming => calibration != null;
 
         /// Run the timing check now: play holds while a ball bounces on the TV to a beat and
@@ -524,6 +530,7 @@ namespace GolfArcade.Tennis
             calibration = new TennisBeatCalibration(Time.unscaledTime, TennisBeatCalibration.Countdown, lagPriorSet ? lag.Prior : 0); calibrationBeat = -1;
             timingOnsetAt = -1;
             if (hud) hud.ShowTimingCheck(true);
+            TimingCheckStarted?.Invoke(TennisBeatCalibration.Countdown);
         }
 
         public void CancelTimingCheck()
@@ -561,6 +568,7 @@ namespace GolfArcade.Tennis
             timingOnsetAt = -1;
             int beat = calibration.Swing(at);
             if (beat >= 0 && hud) hud.TimingCheckSwing(beat);
+            if (beat >= 0) TimingCheckCounted?.Invoke(beat);
         }
 
         /// How far the current swing was put ahead for the delay (game seconds), as graded.

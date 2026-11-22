@@ -27,7 +27,7 @@ namespace GolfArcade.Game
             public string tennisCamera; public string shirt,shorts,accent,racket,skinHex,hairHex; public bool tips=true; public float overscan;
             public string back;   // MENU HERO: the locker's back pick (HeroAccessories golf_bag | racket_back; "" = the bag)
             // The tennis court: "" / "resort", "skyscraper" or "volcano"; and a court colour (hex, "" = the venue's own).
-            // Bowling reads the same key: "club", "neon", "tiki" or "magma" (BowlingVenue.Parse).
+            // Bowling reads the same key: "rooftop", "beachcourt" or "crater" (BowlingVenue.Parse; the old indoor keys map onto them).
             public string venue,course,courtHex,network; public int aimSequence;
             public string[] emotes; public string intros="full"; public bool presentationConstrained,bigMoments=true,holeFlyover=true;
             public bool hasReadyPose; public float qx,qy,qz,qw;
@@ -130,12 +130,17 @@ namespace GolfArcade.Game
             TennisGame.PhaseChanged+=phase=>Emit("phase",phase);
             // The timing check's result, milliseconds, or "failed".
             TennisGame.TimingChecked+=lag=>Emit("timing",lag<0 ? "failed" : (lag*1000).ToString("0",System.Globalization.CultureInfo.InvariantCulture));
+            // when the timing check's countdown ends, on the clock both sides share, and each swing it counted (the app draws the drill)
+            TennisGame.TimingCheckStarted+=countdown=>Emit("timingStart",(SportsClock()+countdown).ToString("R",System.Globalization.CultureInfo.InvariantCulture));
+            TennisGame.TimingCheckCounted+=beat=>Emit("timingSwing",beat.ToString(System.Globalization.CultureInfo.InvariantCulture));
             TennisGame.ContactMade+=(face,grade,super)=>Emit("contact",
                 string.Format(System.Globalization.CultureInfo.InvariantCulture,"{0:0.000},{1:0.000},{2},{3},{4:0}",face.x,face.y,(int)grade,super?1:0,TennisGame.LastLateness*1000));
             TennisGame.RallyEnded+=shots=>Emit("rally",shots.ToString());
             GolfGame.NativeExitRequested+=GolfExit;
             // a golf round's tally (score, coins, rings, bounties), for the app's XP
             GolfGame.RoundSummary+=line=>Emit("golfRound",line);
+            // the finished round's card, for the app's post-game on the TV (GolfGame.NativePostGame)
+            GolfGame.RoundCardReady+=line=>Emit("golfCard",line);
             // the Daily Hole in One's three shots (NativeSportsSession.HoleInOne.cs)
             GolfGame.HoleInOneDone+=line=>Emit("holeInOne",line);
             GolfGame.NativePauseRequested+=GolfPause;
@@ -213,6 +218,8 @@ namespace GolfArcade.Game
                     case "golfAimDirection": if(golf && !paused) { if(GolfArcade.UI.MenuFocus.Wants) GolfArcade.UI.MenuFocus.Move(m.value,m.value2); else { golf.NativeAimDirection(m.value,m.value2); aimDirtyFrame=Time.frameCount; } } break;
                     case "golfLook": if(golf && !paused && !float.IsNaN(m.value) && !float.IsInfinity(m.value)) golf.NativeLook(m.value); break;
                     case "golfSelect": if(golf && !paused) GolfArcade.UI.MenuFocus.Select(); break;
+                    // the app's TV window is up: it draws golf's and bowling's ends itself (0: handheld play, Unity's own cards)
+                    case "postGameTV": GolfGame.NativePostGame=m.value>0; GolfArcade.Bowling.BowlingGame.NativePostGame=m.value>0; break;
                     case "golfEmote": if(golf && !paused && m.value == Mathf.Floor(m.value)) golf.PlayResultEmote((int)m.value); break;
                     case "presentationSkip": if(!paused) { if(tennis) tennis.RequestSwing(.1f); if(golf) golf.NativeContinue(); } break;
                     case "golfOverview": if(golf && !paused) golf.Overview(); break;
@@ -257,7 +264,7 @@ namespace GolfArcade.Game
         int lastInputHz=60;
         IEnumerator Load(Message m) {
             lastInputHz=m.inputHz;
-            loading=true; Ready=false; Active=true; sharedLag=-1; multiplayerSession=!string.IsNullOrEmpty(m.network); session=m.session; token=m.token; Left=m.left;Touch=m.touch; lastSwing=0; lastSwingStart=0; lastSwingAbort=0; lastSample=-1; target=0; steeringTracked=false;
+            loading=true; Ready=false; Active=true; sharedLag=-1; learnedLagSent=-1; multiplayerSession=!string.IsNullOrEmpty(m.network); session=m.session; token=m.token; Left=m.left;Touch=m.touch; lastSwing=0; lastSwingStart=0; lastSwingAbort=0; lastSample=-1; target=0; steeringTracked=false;
             onsetStrength=default; provenOnset=0;
             touch=m.touch;
             GolferStyle.Body=m.female?GolferStyle.BodyKind.Female:GolferStyle.BodyKind.Male;
@@ -284,7 +291,8 @@ namespace GolfArcade.Game
             // (handheld golf: upright too, the game above the app's control deck)
             ConfigureHandheld(m);
             TennisQuality.FitScreen(m.external);   // (on the phone's own screen the 3D is drawn 1080 lines across, not the panel's 1179–1320)
-            Screen.orientation=m.external || m.sport=="bowling" || handheld || (m.sport=="golf" && !string.IsNullOrEmpty(m.network)) ? ScreenOrientation.Portrait : ScreenOrientation.LandscapeLeft;
+            if(castScreen) CastScreenOrientation();
+            else Screen.orientation=m.external || m.sport=="bowling" || handheld || (m.sport=="golf" && !string.IsNullOrEmpty(m.network)) ? ScreenOrientation.Portrait : ScreenOrientation.LandscapeLeft;
             // The phone's loading bar follows the scene load.
             TennisVenue.Selected=TennisVenue.Parse(m.venue);
             GolfArcade.UI.MapSkin.LocalName=m.playerName ?? "";   // (UI OVERHAUL 11-15: HUDs show usernames, never YOU)
@@ -408,10 +416,14 @@ namespace GolfArcade.Game
                && SportsMultiplayer.Instance.Configuration.LocalView==NetworkConfiguration.ViewNone) gameplayCamera.enabled=false;
             // A golf guest's phone shows the controller sheet only (the course is on the host's TV).
             if(GolfGuestController) gameplayCamera.enabled=false;
+            // Phone casting: a player's phone is only their controller (the game is on the screen phone): no picture here either.
+            if(CastController) gameplayCamera.enabled=false;
         }
         /// A multiplayer golf phone without the round's TV: the host's TV shows the course, this phone its controller.
         /// (in handheld play the guest's own phone shows the round: its camera stays on)
         bool GolfGuestController => golf && SportsMultiplayer.Active && !SportsMultiplayer.Instance.IsHost && outputDisplay==0 && !handheld;
+        /// Phone casting: a player's phone with no TV of its own. Its game runs (it bowls its own ball, sends its own swing) but draws nothing.
+        bool CastController => castController && SportsMultiplayer.Active && outputDisplay==0;
         bool ConfigureDisplay(bool external) {
             // The scene's UIScreen can appear after Unity's initial display cache was built.
             // Native code registers and activates that exact screen and returns its cache index.
@@ -445,7 +457,7 @@ namespace GolfArcade.Game
             foreach(var canvas in FindObjectsByType<Canvas>(FindObjectsSortMode.None))
                 if(!canvas.GetComponent<GolfArcade.UI.PhoneScreenOnly>()) canvas.targetDisplay=index;
             // (11-16: the standalone build's controller sheet is no longer drawn on the phone: the app's own controller plays golf)
-            if(GolfGuestController) foreach(var canvas in FindObjectsByType<Canvas>(FindObjectsSortMode.None))
+            if(GolfGuestController || CastController) foreach(var canvas in FindObjectsByType<Canvas>(FindObjectsSortMode.None))
                 if(!canvas.GetComponent<GolfArcade.UI.PhoneScreenOnly>()) canvas.enabled=false;
             Debug.Log($"[SportsDisplay] Gameplay cameras routed to display {index}, active={Display.displays[index].active}");
             return true;
@@ -485,7 +497,11 @@ namespace GolfArcade.Game
                 if(tennis && !paused && !touch && provenOnset==lastSwingStart && (!SportsMultiplayer.Active || VersusTennis)) tennis.SwingProven();
                 provenOnset=0;
             }
-            if(!SportsMultiplayer.Active && !paused && SportsClock()-Math.Max(lastSample,resumedAt)>.5) {
+            // 11-21 playtest (phone-only bowling lesson: "the character would not move, even holding the ball"): this pause froze the
+            // alley with no word on the game or the phone, whose deck still said "Hold to start". Bowling never needs it: the thumb
+            // starts and ends a throw, and the sensors only matter while the ball is held. The first sample after a resume gets 2 s
+            // (Core Motion can take longer than .5 s to start), so a slow sensor start no longer pauses golf or tennis either.
+            if(!SportsMultiplayer.Active && !paused && !bowling && SportsClock()-Math.Max(lastSample,resumedAt)>(lastSample<resumedAt ? 2 : .5)) {
                 SetPaused(true,"INPUT PAUSED — tap Ready on your phone"); Emit("error","Motion input stopped. Tap Ready on your phone.");
             }
             if((!SportsMultiplayer.Active || VersusTennis) && !paused && tennis && tennis.Player) {
@@ -513,6 +529,10 @@ namespace GolfArcade.Game
                 if(VersusTennis && SportsMultiplayer.Active && SportsMultiplayer.Instance.Configuration.LocalView==NetworkConfiguration.ViewSplit && Mathf.Abs(tennis.Lag-sharedLag)>=.01f) {
                     sharedLag=tennis.Lag; Emit("screenLag",(sharedLag*1000).ToString("0",System.Globalization.CultureInfo.InvariantCulture));
                 }
+                // What play has learned of the lag (quick start T6): the app keeps it as this TV's timing at the end of the match.
+                if(tennis && tennis.LagLearnedEnough && Mathf.Abs(tennis.Lag-learnedLagSent)>=.005f) {
+                    learnedLagSent=tennis.Lag; Emit("learnedLag",(learnedLagSent*1000).ToString("0",System.Globalization.CultureInfo.InvariantCulture));
+                }
                 Emit("emoteState", paused ? "" : tennis ? tennis.EmoteWindow : golf ? golf.IntroEmoteWindow : "");
                 // the intro's flyover can be skipped: who has asked ("voted|needed|1 when this phone has"; online, everyone must)
                 Emit("introSkip", paused ? "" : tennis ? tennis.IntroSkipState : golf ? golf.IntroSkipState : "");
@@ -535,7 +555,7 @@ namespace GolfArcade.Game
             }
         }
         const float AimEmitSeconds=1f/30;
-        float sharedLag=-1;
+        float sharedLag=-1, learnedLagSent=-1;
         TennisRules.OnsetStrength onsetStrength; int provenOnset;
         int aimDirtyFrame=-1; float nextAimEmit;
         /// Versus tennis plays the phone exactly as single player does (TennisGame.Versus).

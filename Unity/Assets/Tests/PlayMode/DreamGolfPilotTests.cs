@@ -38,7 +38,7 @@ namespace GolfArcade.PlayTests {
     // Native landscape retains the prior camera composition.
     rig.Camera.aspect=16f/9;rig.FrameAddress(ball,aim,false);rig.SnapNext();rig.ApplyFrame();var position=rig.transform.position;
     Environment.SetEnvironmentVariable("LUMINOUS_COAST","0");rig.FrameAddress(ball,aim,false);rig.SnapNext();rig.ApplyFrame();Assert.That(Vector3.Distance(position,rig.transform.position),Is.LessThan(.001f));
-    Environment.SetEnvironmentVariable("LUMINOUS_COAST","1");game.enabled=true;game.JumpToHole(7);
+    Environment.SetEnvironmentVariable("LUMINOUS_COAST","1");game.enabled=true;game.JumpToHole(8);
     yield return null;yield return null;yield return null;
     Assert.IsNull(Object.FindFirstObjectByType<DreamGolfGarden>());Assert.IsNull(Object.FindFirstObjectByType<LuminousCoastPilot>());
    } finally {Environment.SetEnvironmentVariable("LUMINOUS_COAST",old);}

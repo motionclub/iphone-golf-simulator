@@ -48,16 +48,14 @@ namespace GolfArcade.Tests
         }
 
         [Test]
-        public void CliffsideIsStillHoleSevenAndTheNumbersDoNotClash()
+        public void CliffsideOpensOnNeedleAndTheNumbersDoNotClash()
         {
             var cliffside = Course.Course.Cliffside();
-            Assert.AreEqual(5, cliffside.Holes.Length);
-            var seven = cliffside.Holes[0];
-            Assert.AreEqual(7, seven.Number);
-            Assert.AreEqual(4, seven.Par);
-            Assert.AreEqual(6, seven.Hazards.Length, "hole 7 keeps its six bunkers");
+            Assert.AreEqual(4, cliffside.Holes.Length);
+            Assert.AreEqual(8, cliffside.Holes[0].Number, "hole 7 is retired (11-21): Needle opens Cliffside");
+            Assert.AreEqual(4, cliffside.Holes[0].Par);
             var numbers = string.Join(",", Course.Course.All().SelectMany(c => c.Holes).Select(h => h.Number));
-            Assert.AreEqual("7,8,9,12,15,13,14,17,18,19,20,10,16,21,22,23", numbers, "the three courses deal the sixteen modelled holes out with distinct numbers");
+            Assert.AreEqual("8,9,12,15,14,17,18,19,20,10,16,21,22,23", numbers, "the three courses deal the fourteen played holes out with distinct numbers");
         }
 
         [TestCase(8)]

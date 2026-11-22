@@ -459,6 +459,8 @@ struct IslandPartyScreen: View {
                 default:
                     IslandLobbyRow(title: "Single Player", subtitle: "Golf or tennis on your TV", icon: "person.fill", id: "partySolo", menu: menu, compact: compact, tall: compact)
                     IslandLobbyRow(title: "Tennis with a Friend Nearby", subtitle: "One TV, two phones: Join pops up on their phone", icon: "antenna.radiowaves.left.and.right", id: "partyNearbyTennis", menu: menu, compact: compact, tall: compact)
+                    IslandLobbyRow(title: "Golf · Phone Screen", subtitle: "This phone is the screen, friends' phones play", icon: "iphone.gen3.radiowaves.left.and.right", id: "partyCastGolf", menu: menu, compact: compact, tall: compact)
+                    IslandLobbyRow(title: "Bowling · Phone Screen", subtitle: "This phone is the screen, friends' phones bowl", icon: "iphone.gen3.radiowaves.left.and.right", id: "partyCastBowling", menu: menu, compact: compact, tall: compact)
                     IslandLobbyRow(title: "Local", subtitle: "Pass a phone round, or two phones on one TV", icon: "person.2.fill", id: "partyLocal", menu: menu, compact: compact, tall: compact)
                     IslandLobbyRow(title: "Online", subtitle: "Quick match or invite friends", icon: "globe", id: "partyOnline", menu: menu, compact: compact, tall: compact)
                 }
@@ -755,10 +757,7 @@ struct MultiplayerMatchOverlay: View {
     var body: some View {
         if let lobby = service.lobby, [.loading,.calibrating,.playing,.interrupted].contains(lobby.phase) {
             VStack(alignment:.leading,spacing:8) {
-                // (off while the TV flashes for its delay and while the timing ball bounces: the whole picture is the measurement)
-                if lobby.sport == .tennis, SportsSession.shared.showsOnlineTennisSetup, !SportsSession.shared.measuringDelay, !SportsSession.shared.checkingTiming {
-                    OnlineTennisTVSetup(session: .shared, service: service)
-                }
+                // (tennis setup is drawn on the TV by TennisSetupTVView, in its own window: SportsDisplays.showTennisSetupOnTV)
                 HStack {
                     if service.localSeat < 0 { IslandNotice(text:"Watching",compact:compact) }
                     Spacer()

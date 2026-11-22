@@ -19,7 +19,7 @@ namespace GolfArcade.PlayTests
             {
                 yield return SceneManager.LoadSceneAsync("Golf"); yield return null;
                 var game = Object.FindFirstObjectByType<GolfGame>();
-                game.PrepareNativeAddress(); game.JumpToHole(7); game.DropBall(game.CurrentHole.Tee);
+                game.PrepareNativeAddress(); game.JumpToHole(8); game.DropBall(game.CurrentHole.Tee);
                 yield return null; yield return null;
                 game.NativeReady(); Random.InitState(902); game.NativeSwing(.78f);
                 for (int frame = 0; game.Current == GolfGame.State.Flight && frame < 2400; frame++) yield return null;

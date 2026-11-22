@@ -623,9 +623,14 @@ namespace GolfArcade.Tennis
             check.gameObject.SetActive(false);
         }
 
+        /// The app draws the timing check on the TV itself (2026-11-20, ArtDir/ui/tv-results-calibration): this panel stays hidden. The
+        /// drill, its bounce sound and its result still run here.
+        public static bool NativeTimingCheck = true;
+
         public void ShowTimingCheck(bool visible)
         {
             if (!check) return;
+            if (NativeTimingCheck) visible = false;
             check.gameObject.SetActive(visible); checkDone = false;
             if (!visible) return;
             // Over everything, the intro's title cards included.
@@ -667,7 +672,7 @@ namespace GolfArcade.Tennis
 
         public void TimingCheckDone(bool ok)
         {
-            if (!check) return;
+            if (!check || !check.gameObject.activeSelf) return;
             checkDone = true; checkDoneAt = HudClock.Now;
             checkBall.gameObject.SetActive(false);
             checkTitle.text = ok ? "TIMING SET!" : "NO STEADY RHYTHM";

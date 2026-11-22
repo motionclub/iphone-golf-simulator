@@ -11,7 +11,6 @@ namespace GolfArcade.Tests
     {
         static Hole Get(int n) => Catalogue.Hole(n);
 
-        [Test] public void TheSpiralIsPlayable() => Playable(13, 5);
         [Test] public void TheWitchsLairIsPlayable() => Playable(14, 4);
         [Test] public void TheStepsIsPlayable() => Playable(15, 3);
 
@@ -25,14 +24,6 @@ namespace GolfArcade.Tests
                 Assert.AreEqual(CourseLie.Fairway, h.LieAt(h.Centerline[i]), $"hole {number}: fairway station {i}");
             foreach (var b in h.Hazards) Assert.IsTrue(h.OnLand(new CoursePoint(b.X, b.Distance)), $"hole {number}: bunker at {b.X},{b.Distance} is on land");
             Assert.AreEqual(CourseLie.Water, h.LieAt(new CoursePoint(0, -60)), "behind the tee is the sea");
-        }
-
-        [Test]
-        public void TheSpiralIsAParFiveThatWindsRound()
-        {
-            var h = Get(13);
-            Assert.Greater(h.Length, 480, "the way round is a par 5's length");
-            Assert.Less(h.Tee.DistanceTo(h.Pin), 160, "though the pin is close as the crow flies");
         }
 
         [Test]

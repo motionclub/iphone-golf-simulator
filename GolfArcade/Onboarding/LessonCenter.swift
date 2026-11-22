@@ -12,6 +12,9 @@ final class LessonCenter {
         var index = 0, count = 8
         var key = "", name = "", title = "", ask = "", hint = ""
         var tips: [String] = []
+        /// A few words of why, shown first as a card (golf's "Putting is sensitive", 11-21).
+        var explainTitle = "", explainBody = ""
+        var explains: Bool { !explainTitle.isEmpty }
     }
     enum Shown: Equatable { case ask, miss, pass }
 
@@ -22,10 +25,15 @@ final class LessonCenter {
     private(set) var grade = ""
     private(set) var misses = 0
     private(set) var read: [Read] = []
-    /// The lesson's opening animation is up (its first station only, for a few seconds: LessonCenter.introSeconds).
+    /// The lesson's opening animation (its first reported station), or a station's explain card, is up (for a few seconds:
+    /// introSeconds / explainSeconds, or until the first swing).
     private(set) var explaining = false
     /// How long the opening animation stays (Adnan 11-16: "3-5 seconds max", not until the first swing).
     static let introSeconds = 4.0
+    /// How long an explain card stays (it has a sentence or two to read).
+    static let explainSeconds = 6.0
+    /// No station reported yet this lesson (tennis reports from station 1: its court setup is station 0's place).
+    private var firstStation = true
     /// Changes with every attempt, so the grade pops again.
     private(set) var attempt = 0
     private(set) var finished = false
@@ -34,7 +42,7 @@ final class LessonCenter {
     var skipOffered: Bool { shown == .miss && misses >= 3 }
 
     func begin(_ sport: Sport) {
-        self.sport = sport; finished = false; station = Station(); shown = .ask; text = ""; grade = ""; misses = 0; read = []; explaining = false
+        self.sport = sport; finished = false; station = Station(); shown = .ask; text = ""; grade = ""; misses = 0; read = []; explaining = false; firstStation = true
         LessonOverlay.shared.install()
     }
     func end() {
@@ -58,8 +66,12 @@ final class LessonCenter {
         case "station":
             station = Station(index: e["index"] as? Int ?? 0, count: e["count"] as? Int ?? 8, key: e["key"] as? String ?? "",
                               name: e["name"] as? String ?? "", title: e["title"] as? String ?? "", ask: e["ask"] as? String ?? "",
-                              hint: e["hint"] as? String ?? "", tips: e["tips"] as? [String] ?? [])
-            shown = .ask; text = station.ask; grade = ""; misses = 0; read = []; explaining = station.index == 0
+                              hint: e["hint"] as? String ?? "", tips: e["tips"] as? [String] ?? [],
+                              explainTitle: (e["explain"] as? [String: Any])?["title"] as? String ?? "",
+                              explainBody: (e["explain"] as? [String: Any])?["body"] as? String ?? "")
+            shown = .ask; text = station.ask; grade = ""; misses = 0; read = []
+            explaining = station.explains || (firstStation && HowToGIF.available(sport))
+            firstStation = false
             OnboardingFlow.shared.lessonStation(station.index, sport: sport)
             Analytics.track("tutorial_step_start", ["sport": sport.rawValue, "i": String(station.index)])
         case "attempt":
@@ -131,7 +143,9 @@ struct LessonHUD: View {
             && (session.sport != "tennis" || session.setupStage == .playing)
         ZStack {
             if live && !center.station.title.isEmpty {
-                if center.explaining, let sport = center.sport, HowToGIF.available(sport) {
+                if center.explaining, center.station.explains {
+                    LessonExplainCard(center: center).transition(.opacity)
+                } else if center.explaining, let sport = center.sport, HowToGIF.available(sport) {
                     LessonGIFIntro(center: center, sport: sport).transition(.opacity)
                 } else {
                     VStack(spacing: 6) {
@@ -172,6 +186,28 @@ private struct LessonGIFIntro: View {
         .shadow(color: Onb.deep.opacity(0.5), radius: 14, y: 10)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .task { try? await Task.sleep(for: .seconds(LessonCenter.introSeconds)); center.introDone() }
+    }
+}
+
+/// A station's few words of why (golf's "Putting is sensitive"), over the game on the TV for explainSeconds or until the first swing.
+private struct LessonExplainCard: View {
+    @Bindable var center: LessonCenter
+    var compact = false
+    var body: some View {
+        VStack(alignment: .leading, spacing: compact ? 4 : 8) {
+            Text(center.station.explainTitle).font(Onb.font(compact ? 18 : 34, 900)).italic().foregroundStyle(Onb.goldHi)
+            Text(center.station.explainBody).font(Onb.font(compact ? 13 : 21, 700)).foregroundStyle(.white).fixedSize(horizontal: false, vertical: true)
+            if !center.station.ask.isEmpty {
+                Text(center.station.ask).font(Onb.font(compact ? 12 : 17, 700)).foregroundStyle(Color(hex: "8CF5B8")).fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .padding(compact ? 12 : 26)
+        .frame(maxWidth: compact ? .infinity : 720, alignment: .leading)
+        .background(Onb.ink.opacity(0.86), in: RoundedRectangle(cornerRadius: compact ? 16 : 24, style: .continuous))
+        .overlay(RoundedRectangle(cornerRadius: compact ? 16 : 24, style: .continuous).strokeBorder(.white, lineWidth: compact ? 2 : 3))
+        .frame(maxWidth: .infinity, maxHeight: compact ? nil : .infinity)
+        .accessibilityIdentifier("lesson-explain")
+        .task(id: center.station.key) { try? await Task.sleep(for: .seconds(LessonCenter.explainSeconds)); center.introDone() }
     }
 }
 
@@ -223,7 +259,9 @@ struct LessonPhoneHUD: View {
         let live = center.active && session.active && session.ready && session.loading.finished && !session.menuPauseVisible && !center.station.title.isEmpty
         VStack {
             if live {
-                if center.explaining, let sport = center.sport, HowToGIF.available(sport) {
+                if center.explaining, center.station.explains {
+                    LessonExplainCard(center: center, compact: true).padding(.horizontal, 10).padding(.top, 54).transition(.opacity)
+                } else if center.explaining, let sport = center.sport, HowToGIF.available(sport) {
                     // (a clear 16:10 box sets the size: the animated image view and the gradient would take all the room offered)
                     Color.clear.aspectRatio(16 / 10, contentMode: .fit)
                         .overlay { HowToGIF(sport: sport) }

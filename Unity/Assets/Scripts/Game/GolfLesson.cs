@@ -7,34 +7,47 @@ using UnityEngine;
 
 namespace GolfArcade.Game
 {
-    /// The golf lesson on the Practice Tee (PLAN_Onboarding_GolfLesson.md, Course.Lesson): three stations, about a minute
-    /// and a half: swing, backswing = distance, hole a short putt. A station that passes moves on; a miss puts the ball back
-    /// and says the one fix; the phone offers Skip after three misses. Reports go to the phone through
-    /// NativeSportsSession.LessonReport. The phone shows the title and one line (ask, then the attempt text, then the hint
-    /// after two misses); the game's HUD already shows the grade, carry and distances, so the text never repeats them.
-    /// (2026-11-16, Adnan: "lessons are too long and redundant": Commit, Face, Tempo, Aim and the played hole were cut.)
+    /// The golf lesson (PLAN_Onboarding_Tutorial_TennisQuickStart_1121.md, 11-21: "driving, mid game, putting, emphasis on explaining
+    /// putting and how sensitive it is"): four stations on a par 4: drive from the tee, a 100-yd approach, a short putt that opens on a
+    /// card saying how little the putter moves, then a long putt that only has to finish close. A station that passes moves on; a miss
+    /// puts the ball back and says the one fix; the phone offers Skip after three misses. Reports go to the phone through
+    /// NativeSportsSession.LessonReport. The phone shows the title and one line (ask, then the attempt text, then the hint after two
+    /// misses); the game's HUD already shows the grade, carry and distances, so the text never repeats them.
     public sealed class GolfLesson : MonoBehaviour
     {
-        public enum Kind { Swing, Distance, Putt }
+        public enum Kind { Drive, Approach, Putt, LongPutt }
         public readonly struct Station
         {
             public readonly Kind Kind;
             public readonly string Key, Name, Title, Ask, Hint;
             public readonly string[] Tips;
-            public Station(Kind kind, string key, string name, string title, string ask, string hint, params string[] tips)
-            { Kind = kind; Key = key; Name = name; Title = title; Ask = ask; Hint = hint; Tips = tips; }
+            /// A card shown first (the phone's explain card), or null.
+            public readonly string ExplainTitle, ExplainBody;
+            public Station(Kind kind, string key, string name, string title, string ask, string hint, string explainTitle = null, string explainBody = null)
+            { Kind = kind; Key = key; Name = name; Title = title; Ask = ask; Hint = hint; Tips = new string[0]; ExplainTitle = explainTitle; ExplainBody = explainBody; }
         }
+        /// The drive must carry this far (a full backswing does it easily; a half swing does not).
+        public const double DriveCarry = 100;
+        /// The approach starts this far from the pin, and passes within ApproachSlack yards of carry (or ApproachRest of the pin).
+        public const double ApproachYards = 100, ApproachSlack = 12, ApproachRest = 10;
+        /// The short putt (6 ft) must drop; the long one (20 ft) has to stop within LongPuttRest (3 ft).
+        public const double PuttYards = 2, LongPuttYards = 20.0 / 3, LongPuttRest = 1;
         public static readonly Station[] Stations =
         {
-            new(Kind.Swing, "swing", "Swing", "Swing",
-                "Tap SWING, then swing the phone like a club.",
-                "Tap SWING first, then swing back and through."),
-            new(Kind.Distance, "distance", "Distance", "Backswing sets distance",
-                "Take the phone back shoulder-high to reach the flag.",
+            new(Kind.Drive, "drive", "Drive", "Tee off",
+                "Tap SWING, take the phone back high and swing through hard.",
+                "A full backswing gives a full drive. Swing back further, then through faster."),
+            new(Kind.Approach, "approach", "Approach", "Backswing sets distance",
+                "Take the phone back about shoulder-high to reach the flag.",
                 "Stop your backswing when the meter reaches the gold mark."),
-            new(Kind.Putt, "putt", "Putt", "Sink the putt",
-                "Rock the phone gently to roll it in.",
-                "Rock back only to the first mark on the map."),
+            new(Kind.Putt, "putt", "Putt", "Putting is sensitive",
+                "Rock the phone back only a few inches to roll it in.",
+                "Smaller still. Rock back only to the first mark on the map.",
+                "Putting is sensitive",
+                "The putter moves only a few inches. Rock the phone back just a little. A full swing would roll the ball off the green."),
+            new(Kind.LongPutt, "longputt", "Long putt", "Long putt",
+                "Three times as far needs only a slightly bigger rock. Stop it close.",
+                "Rock back a little more than the short putt, not a lot more."),
         };
 
         /// For tests: each judged attempt (station index, passed).
@@ -92,13 +105,14 @@ namespace GolfArcade.Game
             var hole = game.CurrentHole;
             start = Current.Kind switch
             {
-                Kind.Distance => Toward(hole.Pin, hole.Tee, 60),
-                Kind.Putt => Toward(hole.Pin, hole.Tee, 8.0 / 3),
+                Kind.Approach => Toward(hole.Pin, hole.Tee, ApproachYards),
+                Kind.Putt => Toward(hole.Pin, hole.Tee, PuttYards),
+                Kind.LongPutt => Toward(hole.Pin, hole.Tee, LongPuttYards),
                 _ => hole.Tee,
             };
             game.DropBall(start);
             var s = Current;
-            Report(LessonJson.Station("golf", index, Stations.Length, s.Key, s.Name, s.Title, s.Ask, s.Hint, s.Tips));
+            Report(LessonJson.Station("golf", index, Stations.Length, s.Key, s.Name, s.Title, s.Ask, s.Hint, s.Tips, s.ExplainTitle, s.ExplainBody));
         }
         static CoursePoint Toward(CoursePoint from, CoursePoint to, double yards)
         {
@@ -136,29 +150,17 @@ namespace GolfArcade.Game
             string grade = putt ? (holed ? "IN!" : "PUTT") : rep.GradeWord;
             bool pass;
             string text;
-            switch (Current.Kind)
+            double carry = shot != null ? Math.Round(shot.Carry) : 0;
+            double toPin = shot != null ? shot.Rest.DistanceTo(pin) : 0;
+            bool past = shot != null && shot.Rest.DistanceTo(start) > start.DistanceTo(pin);
+            pass = Passes(Current.Kind, holed, carry, start.DistanceTo(pin), toPin);
+            text = Current.Kind switch
             {
-                case Kind.Distance:
-                {
-                    double target = start.DistanceTo(pin);
-                    double carry = shot != null ? Math.Round(shot.Carry) : 0;
-                    double toPin = shot != null ? shot.Rest.DistanceTo(pin) : 0;
-                    pass = holed || Math.Abs(carry - target) <= 10 || toPin <= 8;
-                    text = pass ? "Right on it." : carry > target ? "Take the phone back less." : "Take the phone back further.";
-                    break;
-                }
-                case Kind.Putt:
-                {
-                    pass = holed;
-                    bool past = shot != null && shot.Rest.DistanceTo(start) > start.DistanceTo(pin);
-                    text = pass ? "In!" : past ? "Softer stroke." : "Firmer stroke.";
-                    break;
-                }
-                default:   // Kind.Swing: any swing
-                    pass = true;
-                    text = "Nice.";
-                    break;
-            }
+                Kind.Drive => pass ? "Great drive." : "Swing back further, then through faster.",
+                Kind.Approach => pass ? "Right on it." : carry > start.DistanceTo(pin) ? "Take the phone back less." : "Take the phone back further.",
+                Kind.Putt => pass ? "In." : past ? "Softer. Only a few inches back." : "A touch firmer.",
+                _ => pass ? (holed ? "In." : "Close enough. That's a good long putt.") : past ? "Too firm. Only a little more than the short putt." : "A little firmer.",
+            };
             if (!pass) misses++;
             Attempted?.Invoke(index, pass);
             Report(LessonJson.Attempt(pass, grade, text, misses, null));
@@ -166,6 +168,15 @@ namespace GolfArcade.Game
             if (pass) Next();
             else reset = true;
         }
+
+        /// The pass rule for each station (EditMode tests use it directly).
+        public static bool Passes(Kind kind, bool holed, double carry, double target, double toPin) => kind switch
+        {
+            Kind.Drive => carry >= DriveCarry,
+            Kind.Approach => holed || Math.Abs(carry - target) <= ApproachSlack || toPin <= ApproachRest,
+            Kind.Putt => holed,
+            _ => holed || toPin <= LongPuttRest,
+        };
 
         static void Report(string json) => NativeSportsSession.LessonReport?.Invoke(json);
     }

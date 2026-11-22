@@ -54,14 +54,35 @@ namespace GolfArcade.Game
         void ScoreHoleInOneShot(CourseShot shot)
         {
             int i = Math.Min(holeIndex, hioPoints.Length - 1);
-            bool lost = shot.Lie is CourseLie.Water or CourseLie.OutOfBounds;
-            double feet = shot.IsHoled ? 0 : lost ? -1 : shot.Rest.DistanceTo(hole.Pin) * 3;
+            double feet = HoleInOneFeet(shot, out bool lost);
             hioHoled[i] = shot.IsHoled; hioFeet[i] = feet; hioPoints[i] = DailyHoleInOne.Score(feet, shot.IsHoled);
             string points = $"+{hioPoints[i].ToString("N0", CultureInfo.InvariantCulture)} POINTS";
             string detail = $"Shot {i + 1} of {DailyHoleInOne.Shots}   ·   {HoleInOneTotal.ToString("N0", CultureInfo.InvariantCulture)} so far";
             if (shot.IsHoled) hud.ShowLanding(LandingBadge.Kind.Holed, "HOLE IN ONE!", detail, points, 3.5f);
             else if (lost) hud.ShowLanding(LandingBadge.Kind.Rough, "No score", detail, shot.Lie == CourseLie.Water ? "In the water" : "Out of bounds", 3f);
             else hud.ShowLanding(feet < 30 ? LandingBadge.Kind.Fairway : LandingBadge.Kind.Rough, $"{feet:F1} ft", detail, points, 3f);
+        }
+
+        /// Where a shot stopped, in feet from the cup: 0 holed, -1 in the water or out of bounds.
+        double HoleInOneFeet(CourseShot shot, out bool lost)
+        {
+            lost = shot.Lie is CourseLie.Water or CourseLie.OutOfBounds;
+            return shot.IsHoled ? 0 : lost ? -1 : shot.Rest.DistanceTo(hole.Pin) * 3;
+        }
+
+        /// DAILY SHARE (ShotClips.cs): each shot is filmed from address to a moment after the ball stops, for the phone's
+        /// one-tap share of the day's three shots. Called from Enter.
+        void FilmHoleInOne(State s)
+        {
+            if (!HoleInOne) return;
+            int i = Math.Min(holeIndex, DailyHoleInOne.Shots - 1);
+            if (s == State.Aim && ShotClips.Shot != i) ShotClips.Arm(GameplayCamera, i);
+            else if (s == State.Result && LastShot != null)
+            {
+                double feet = HoleInOneFeet(LastShot, out _);
+                ShotClips.Rest(i, feet, DailyHoleInOne.Score(feet, LastShot.IsHoled), LastShot.IsHoled);
+            }
+            else if (s is State.Menu or State.Golfer) ShotClips.Cancel();
         }
 
         /// The round's card: each shot, the total out of 3000 and, once the phone has it, where that stands in the world.

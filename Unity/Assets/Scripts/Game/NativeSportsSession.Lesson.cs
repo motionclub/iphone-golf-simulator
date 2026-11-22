@@ -39,11 +39,18 @@ namespace GolfArcade.Game
     /// The JSON a lesson sends (built by hand: the Shot Read rows mix strings and numbers, which JsonUtility cannot write).
     public static class LessonJson
     {
-        public static string Station(string sport, int index, int count, string key, string name, string title, string ask, string hint, IList<string> tips)
+        /// `explainTitle`/`explainBody` (11-21): a station that first needs a few words of why (golf's putting). The phone shows them as a
+        /// card over the game for a few seconds, or until the first swing.
+        public static string Station(string sport, int index, int count, string key, string name, string title, string ask, string hint, IList<string> tips,
+            string explainTitle = null, string explainBody = null)
         {
             var b = new StringBuilder("{\"kind\":\"station\"");
             Field(b, "sport", sport); Field(b, "index", index); Field(b, "count", count); Field(b, "key", key); Field(b, "name", name);
             Field(b, "title", title); Field(b, "ask", ask); Field(b, "hint", hint);
+            if (!string.IsNullOrEmpty(explainTitle))
+            {
+                b.Append(",\"explain\":{\"title\":"); Str(b, explainTitle); b.Append(",\"body\":"); Str(b, explainBody ?? ""); b.Append('}');
+            }
             b.Append(",\"tips\":[");
             for (int i = 0; i < (tips?.Count ?? 0); i++) { if (i > 0) b.Append(','); Str(b, tips[i]); }
             return b.Append("]}").ToString();

@@ -241,16 +241,18 @@ namespace GolfArcade.Hub.Menu
             bool tennis = sport == "tennis", bowling = sport == "bowling";
             Heading(r, tennis ? "Tennis" : bowling ? "Bowling" : "Golf", 720);
             var rows = bowling
-                ? new[] { ("bay-bowling-play", "PLAY", "Four lanes, ten frames, you", true), ("bay-bowling-exhibition", "EXHIBITION", "Face a CPU, rookie to pro", true), ("bay-bowling-pass", "LOCAL PLAY", "Up to four bowlers, one phone", true), ("bay-bowling-online", "ONLINE", "Ten frames, up to four players", false) }
+                ? new[] { ("bay-bowling-play", "PLAY", "Four lanes, ten frames, you", true), ("bay-bowling-exhibition", "EXHIBITION", "Face a CPU, rookie to pro", true), ("bay-bowling-pass", "LOCAL PLAY", "Friends nearby join, or pass yours", true), ("bay-bowling-cast", "PHONE SCREEN", "This phone is the screen, friends' phones bowl", true), ("bay-bowling-online", "ONLINE", "Ten frames, up to four players", false) }
                 : tennis
                 ? new[] { ("bay-tennis-exhibition", "EXHIBITION", "Pick your rival, set the rules", true), ("bay-tennis-nearby", "LOCAL PLAY", "Two phones, one TV, one court", true), ("bay-tennis-online", "ONLINE", "One set against a friend", false) }
-                : new[] { ("bay-golf-round", "ROUND", "Your pace, nine holes or eighteen", true), ("bay-golf-pass", "LOCAL PLAY", "Pass the phone, take turns", true), ("bay-golf-online", "ONLINE", "Nine holes, then a closest-to-the-pin playoff", false) };
+                : new[] { ("bay-golf-round", "ROUND", "Your pace, nine holes or eighteen", true), ("bay-golf-pass", "LOCAL PLAY", "Friends nearby join, or pass yours", true), ("bay-golf-cast", "PHONE SCREEN", "This phone is the screen, friends' phones play", true), ("bay-golf-online", "ONLINE", "Nine holes, then a closest-to-the-pin playoff", false) };
             var group = new List<MenuItem>(); float y = ListTop;
+            // (five modes, with PHONE SCREEN: the Play screen's size and spacing, so the list ends where that one does, clear of the foot)
+            float size = rows.Length > 4 ? PlaySize : WordSize, gap = rows.Length > 4 ? 2 : 6;
             for (int i = 0; i < rows.Length; i++)
             {
                 var (id, label, sub, solo) = rows[i];
                 string key = id, name = label;
-                y += WordItem(r, id, label, label, sub, Left, y, WordSize, () => OpenMode(key, Title(name)), group) + 6;
+                y += WordItem(r, id, label, label, sub, Left, y, size, () => OpenMode(key, Title(name)), group) + gap;
                 modeRows[id] = (group[group.Count - 1], label, sub, solo);
             }
             BuildPreview(r, sport);

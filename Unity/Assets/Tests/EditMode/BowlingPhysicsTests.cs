@@ -8,6 +8,11 @@ namespace GolfArcade.Tests
     /// Gates P1, P2 and a quick P4 (PLAN_Bowling.md §12): the lane integrator and the pin deck.
     public class BowlingPhysicsTests
     {
+        // these pin the 10-27 feel pass's numbers: run them with the 11-21 skill pass off (BowlingSkillTests covers it on)
+        bool skillWas;
+        [SetUp] public void SkillOff() { skillWas = BowlingSkill.On; BowlingSkill.On = false; }
+        [TearDown] public void SkillBack() => BowlingSkill.On = skillWas;
+
         static BallState Roll(float board, float speed, float rpm, float axis)
         {
             var t = new BowlingThrow { Board = board, Speed = speed, RevRpm = rpm, AxisDeg = axis };

@@ -26,7 +26,15 @@ namespace GolfArcade.Bowling
         /// sharply. With position-only aiming (no angle turn) a late hook keeps the hook boards in
         /// reach of the approach while the entry angle stays real (the hook boards are mostly
         /// entry angle × the distance the ball rolls after it finishes hooking).
-        public static readonly OilPattern House = new OilPattern("House", 13.5f, .006f, .03f, .28f, 8);
+        public static readonly OilPattern HouseEasy = new OilPattern("House", 13.5f, .006f, .03f, .28f, 8);
+
+        /// 11-21 skill pass: the outside boards keep less of their extra grip (.03 → .012). With the old wall a ball started on
+        /// boards 3 to 10 reached the pins within ~1.5 boards of the same spot (a 7-board miss erased); now the same starts spread
+        /// over ~5 boards, so where you stand and aim shows. Still a house shot: a little more friction outside than in the middle.
+        public static readonly OilPattern HouseSkill = new OilPattern("House", 13.5f, .006f, .012f, .28f, 8);
+
+        /// The house pattern in play (BowlingSkill: the skill lane, or the old forgiving one).
+        public static OilPattern House => BowlingSkill.On && !BowlingSkill.EasyLanes ? HouseSkill : HouseEasy;
 
         public float Friction(float x, float z)
         {

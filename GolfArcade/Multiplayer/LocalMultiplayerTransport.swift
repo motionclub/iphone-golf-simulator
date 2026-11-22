@@ -3,7 +3,9 @@ import Network
 
 @MainActor
 final class LocalMultiplayerTransport: MultiplayerTransport {
-    struct DiscoveredLobby: Identifiable { var id: String; var name: String; var endpoint: NWEndpoint; var sport: String = "tennis"; var players: Int = 1 }
+    /// `screen`: phone casting, the host is the game's screen (it plays no one, so `players` counts it too).
+    /// `open`: the lobby is still gathering players (no match under way); an older host that says nothing counts as open.
+    struct DiscoveredLobby: Identifiable { var id: String; var name: String; var endpoint: NWEndpoint; var sport: String = "tennis"; var players: Int = 1; var screen = false; var open = true }
     let localID = UUID().uuidString
     var peers: [String] { Array(connections.keys) }
     var onData: ((Data, String) -> Void)?
@@ -19,7 +21,7 @@ final class LocalMultiplayerTransport: MultiplayerTransport {
     private var advertisedHost = "Friends"
     private var advertisedMetadata = ""
     private var registered = false
-    private var pendingMetadata: (String,Int)?
+    private var pendingMetadata: (String,Int,Bool,Bool)?
     private var host = false
     private var generation = 0
     private var sending: Set<String> = []
@@ -89,7 +91,7 @@ final class LocalMultiplayerTransport: MultiplayerTransport {
         listener.serviceRegistrationUpdateHandler = { [weak self] change in
             Task { @MainActor in
                 guard let self else { return }
-                if case .add = change { self.registered = true; if let (sport,players) = self.pendingMetadata { self.pendingMetadata = nil; self.advertise(sport:sport,players:players) } }
+                if case .add = change { self.registered = true; if let (sport,players,screen,open) = self.pendingMetadata { self.pendingMetadata = nil; self.advertise(sport:sport,players:players,screen:screen,open:open) } }
                 #if DEBUG
                 OnlineLobbyProofDriver.event("advertisement",String(describing:change))
                 #endif
@@ -125,11 +127,15 @@ final class LocalMultiplayerTransport: MultiplayerTransport {
         }
         udpListener = udp; udp.start(queue: queue)
     }
-    func advertise(sport: String, players: Int) {
-        guard host, let listener else { return }; let key = "\(sport)-\(players)"
+    /// `open`: false once the match is under way, so phones nearby stop offering "Join …?" for it.
+    func advertise(sport: String, players: Int, screen: Bool = false, open: Bool = true) {
+        guard host, let listener else { return }; let key = "\(sport)-\(players)-\(screen)-\(open)"
         guard key != advertisedMetadata else { return }
-        guard registered else { pendingMetadata = (sport,players); return }; advertisedMetadata = key
-        listener.service = NWListener.Service(name: Self.advertisedName(advertisedHost, token: token), type: service, txtRecord: NWTXTRecord(["sport":sport,"players":String(players),"version":String(MultiplayerPacket.version)]).data)
+        guard registered else { pendingMetadata = (sport,players,screen,open); return }; advertisedMetadata = key
+        var txt = ["sport":sport,"players":String(players),"version":String(MultiplayerPacket.version)]
+        if screen { txt["screen"] = "1" }
+        if !open { txt["open"] = "0" }
+        listener.service = NWListener.Service(name: Self.advertisedName(advertisedHost, token: token), type: service, txtRecord: NWTXTRecord(txt).data)
     }
     func browse() {
         browser?.cancel()
@@ -138,7 +144,7 @@ final class LocalMultiplayerTransport: MultiplayerTransport {
             let lobbies = results.compactMap { result -> DiscoveredLobby? in
                 guard case .service(let name, _, _, _) = result.endpoint else { return nil }
                 let txt: NWTXTRecord? = { if case .bonjour(let txt) = result.metadata { return txt }; return nil }()
-                return DiscoveredLobby(id: name, name: name.components(separatedBy: "~").first ?? name, endpoint: result.endpoint, sport: txt?["sport"] ?? "tennis", players: max(1,min(4,Int(txt?["players"] ?? "1") ?? 1)))
+                return DiscoveredLobby(id: name, name: name.components(separatedBy: "~").first ?? name, endpoint: result.endpoint, sport: txt?["sport"] ?? "tennis", players: max(1,min(4,Int(txt?["players"] ?? "1") ?? 1)), screen: txt?["screen"] == "1", open: txt?["open"] != "0")
             }.sorted { $0.name < $1.name }
             Task { @MainActor in self?.onDiscovery?(lobbies) }
         }

@@ -10,6 +10,11 @@ namespace GolfArcade.Tests
     /// before the thumb lifts; the arm hangs vertical at the release.
     public class BowlingSwingTests
     {
+        // these pin the 10-27 feel pass's numbers: run them with the 11-21 skill pass off (BowlingSkillTests covers it on)
+        bool skillWas;
+        [SetUp] public void SkillOff() { skillWas = BowlingSkill.On; BowlingSkill.On = false; }
+        [TearDown] public void SkillBack() => BowlingSkill.On = skillWas;
+
         struct Q
         {
             public double x, y, z, w;

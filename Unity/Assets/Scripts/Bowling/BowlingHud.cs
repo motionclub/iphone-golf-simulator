@@ -24,6 +24,19 @@ namespace GolfArcade.Bowling
         const float RowHeight = 92, Left = 40, Top = 30, PlateWidth = 1840, CellWidth = 132, TenthWidth = 186;
         readonly RectTransform root;
         readonly List<Row> rows = new List<Row>();
+
+        /// 11-21 test (Adnan: "minimizing the scoreboard until after a point instead of having it stay there the whole time"):
+        /// while a ball is lined up and rolling, the sheet folds into a small card (frame, names, totals); after each ball it
+        /// opens for SheetHold seconds, then folds away again; at game over it stays open. BOWL_FULL_SHEET=1 keeps the old
+        /// always-open sheet (before/after captures).
+        public static bool MiniSheet = System.Environment.GetEnvironmentVariable("BOWL_FULL_SHEET") != "1";
+        public const float SheetHold = 3.6f;
+        readonly RectTransform sheet, mini;
+        readonly CanvasGroup sheetGroup, miniGroup;
+        readonly Text miniFrame;
+        readonly List<(Image dot, Text name, Text total)> miniRows = new List<(Image, Text, Text)>();
+        float sheetLeft, sheetOpen = 1;   // seconds the sheet stays open (counted in frames' time, a load hitch can't eat it)
+        bool sheetPinned;
         readonly RectTransform banner;
         readonly Text bannerText, sub, status, speedNumber;
         readonly Text[] chunk = new Text[5];
@@ -74,6 +87,8 @@ namespace GolfArcade.Bowling
         // card, and the centre's sculpted STRIKE! for strikes
         readonly MapSkin skin = MapSkin.Bowling;
         readonly Text speedCard; readonly Image strikeArt;
+        // 11-21 skill pass: what the last ball did ("18.4 MPH · 340 RPM · 5.2° · POCKET"), over the speed card
+        readonly Text readout;
 
         public BowlingHud(Camera camera, IList<string> players)
         {
@@ -84,14 +99,31 @@ namespace GolfArcade.Bowling
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize; scaler.referenceResolution = Reference; scaler.matchWidthOrHeight = .5f;
             root = (RectTransform)go.transform;
 
-            // --- the score plate
+            // --- the score plate (in its own group, so it can fold into the mini card)
+            sheet = Group("ScoreSheet", out sheetGroup);
             float plateHeight = 52 + players.Count * RowHeight + 14;
-            Plate(root, "ScorePlate", TopLeft, new Vector2(Left, -Top), new Vector2(PlateWidth, plateHeight), new Color(skin.Top.r, skin.Top.g, skin.Top.b, .94f), 7, skin.Frame);
+            Plate(sheet, "ScorePlate", TopLeft, new Vector2(Left, -Top), new Vector2(PlateWidth, plateHeight), new Color(skin.Top.r, skin.Top.g, skin.Top.b, .94f), 7, skin.Frame);
             // (no title tab: the live HUD carries no map or sport label, board 07)
             for (int f = 0; f < 10; f++)
-                Label(root, "FrameNo", HudLabel, BrandType.HudLabel, BrandColors.N300, TextAnchor.MiddleCenter, TopLeft, new Vector2(CellX(f), -Top - 16), new Vector2(f == 9 ? TenthWidth : CellWidth, 30), false).text = (f + 1).ToString();
-            Label(root, "TotalLabel", HudLabel, BrandType.HudLabel, BrandColors.N300, TextAnchor.MiddleRight, TopLeft, new Vector2(Left + PlateWidth - 180, -Top - 16), new Vector2(150, 30), false).text = "TOTAL";
+                Label(sheet, "FrameNo", HudLabel, BrandType.HudLabel, BrandColors.N300, TextAnchor.MiddleCenter, TopLeft, new Vector2(CellX(f), -Top - 16), new Vector2(f == 9 ? TenthWidth : CellWidth, 30), false).text = (f + 1).ToString();
+            Label(sheet, "TotalLabel", HudLabel, BrandType.HudLabel, BrandColors.N300, TextAnchor.MiddleRight, TopLeft, new Vector2(Left + PlateWidth - 180, -Top - 16), new Vector2(150, 30), false).text = "TOTAL";
             for (int p = 0; p < players.Count; p++) rows.Add(BuildRow(players[p], p));
+            // --- the mini card: the frame, then each player's name and total (the bowler's dot, the leader's total gold)
+            mini = Group("MiniSheet", out miniGroup);
+            const float MiniWidth = 430, MiniRow = 58;
+            Plate(mini, "MiniPlate", TopLeft, new Vector2(Left, -Top), new Vector2(MiniWidth, 50 + players.Count * MiniRow + 10), new Color(skin.Top.r, skin.Top.g, skin.Top.b, .94f), 6, skin.Frame);
+            miniFrame = Label(mini, "MiniFrame", HudLabel, BrandType.HudLabel, BrandColors.N300, TextAnchor.MiddleLeft, TopLeft, new Vector2(Left + 24, -Top - 10), new Vector2(MiniWidth - 40, 34), false);
+            for (int p = 0; p < players.Count; p++)
+            {
+                float top = -Top - 46 - p * MiniRow;
+                var dot = UiKit.Panel(mini, "MiniDot", BrandColors.Gold, TopLeft, TopLeft, new Vector2(Left + 20, top - 21), new Vector2(14, 14));
+                var name = Label(mini, "MiniName", Heading, 34, BrandColors.White, TextAnchor.MiddleLeft, TopLeft, new Vector2(Left + 44, top), new Vector2(250, MiniRow - 4));
+                name.text = players[p];
+                var total = Label(mini, "MiniTotal", HudNumber, 44, BrandColors.White, TextAnchor.MiddleRight, TopLeft, new Vector2(Left + MiniWidth - 150, top), new Vector2(126, MiniRow - 4));
+                total.text = "0";
+                miniRows.Add((dot, name, total));
+            }
+            if (!MiniSheet) { miniGroup.alpha = 0; mini.gameObject.SetActive(false); }
 
             // --- status line and the speed plate
             status = Label(root, "Status", Body, BrandType.Body, BrandColors.White, TextAnchor.LowerLeft, Vector2.zero, new Vector2(48, 40), new Vector2(1300, 50));
@@ -107,13 +139,15 @@ namespace GolfArcade.Bowling
             {
                 foreach (Transform c in group) c.gameObject.SetActive(false);
                 speedCard = skin.Plate("SpeedCard", group, MapSkin.Piece.Card, "", 150, speedAt, new Vector2(-230, 120));
-                if (skin.Id != "bowling-club")
-                {
-                    var words = MapSkin.Letters("LastThrow", group, "LAST THROW", MapSkin.Bold, 30, skin.Cream, BrandColors.NavyInk, 2);
-                    var rt = words.rectTransform; rt.anchorMin = rt.anchorMax = speedAt; rt.sizeDelta = new Vector2(300, 40); rt.anchoredPosition = new Vector2(-230, 214);
-                }
+                // (Club Lanes' card had LAST THROW painted on; it was removed 11-21, so every card gets the words)
+                var words = MapSkin.Letters("LastThrow", group, "LAST THROW", MapSkin.Bold, 30, skin.Cream, BrandColors.NavyInk, 2);
+                var rt = words.rectTransform; rt.anchorMin = rt.anchorMax = speedAt; rt.sizeDelta = new Vector2(300, 40); rt.anchoredPosition = new Vector2(-230, 214);
             }
             Speed(0);
+            // the shot readout sits on the speed group's right edge, above the card (or the plain plate), right-aligned
+            readout = Label(root, "ShotReadout", HudLabel, 34, BrandColors.White, TextAnchor.LowerRight, speedAt,
+                new Vector2(-40, skin.CardSprite ? 246 : 158), new Vector2(760, 44));
+            Readout(null);
 
             // --- the result banner: arc + chunk-shadowed gold word + sparkles, and a subline
             var center = new Vector2(.5f, .5f);
@@ -148,6 +182,25 @@ namespace GolfArcade.Bowling
             Banner(null, null, 0, Praise.Good);
         }
 
+        /// A full-screen group under the HUD root with its own fade.
+        RectTransform Group(string name, out CanvasGroup group)
+        {
+            var g = new GameObject(name, typeof(RectTransform), typeof(CanvasGroup)).GetComponent<RectTransform>();
+            g.SetParent(root, false); g.anchorMin = Vector2.zero; g.anchorMax = Vector2.one; g.offsetMin = g.offsetMax = Vector2.zero;
+            group = g.GetComponent<CanvasGroup>(); group.blocksRaycasts = false; group.interactable = false;
+            return g;
+        }
+
+        /// Opens the full sheet for `seconds` (after a ball), then it folds back into the mini card. `pin` keeps it open (game over).
+        public void ShowSheet(float seconds = SheetHold, bool pin = false)
+        {
+            sheetLeft = Mathf.Max(sheetLeft, seconds);
+            sheetPinned |= pin;
+        }
+
+        /// Folds the sheet now (a new ball is being lined up) unless it is pinned.
+        public void FoldSheet() { if (!sheetPinned) sheetLeft = 0; }
+
         static float CellX(int f) => Left + 300 + f * (CellWidth + 8);
 
         /// A 4-point white sparkle with a soft glow (brand guide §7: the head of the arc on contact).
@@ -173,19 +226,19 @@ namespace GolfArcade.Bowling
         {
             var r = new Row();
             float top = -Top - 40 - index * RowHeight;
-            r.dot = UiKit.Panel(root, "BowlerDot", BrandColors.Gold, TopLeft, TopLeft, new Vector2(Left + 26, top - 36), new Vector2(16, 16));
-            r.name = Label(root, "Name", Heading, 40, BrandColors.White, TextAnchor.MiddleLeft, TopLeft, new Vector2(Left + 52, top - 4), new Vector2(240, RowHeight - 8));
+            r.dot = UiKit.Panel(sheet, "BowlerDot", BrandColors.Gold, TopLeft, TopLeft, new Vector2(Left + 26, top - 36), new Vector2(16, 16));
+            r.name = Label(sheet, "Name", Heading, 40, BrandColors.White, TextAnchor.MiddleLeft, TopLeft, new Vector2(Left + 52, top - 4), new Vector2(240, RowHeight - 8));
             r.name.text = player;
             for (int f = 0; f < 10; f++)
             {
                 float x = CellX(f), w = f == 9 ? TenthWidth : CellWidth;
-                UiKit.Panel(root, "Well", skin.Cream, TopLeft, TopLeft, new Vector2(x, top - 4), new Vector2(w, RowHeight - 12));
+                UiKit.Panel(sheet, "Well", skin.Cream, TopLeft, TopLeft, new Vector2(x, top - 4), new Vector2(w, RowHeight - 12));
                 int balls = f == 9 ? 3 : 2;
                 for (int b = 0; b < balls; b++)
-                    r.marks[f, b] = Label(root, "Mark", HudNumber, 36, skin.Ink, TextAnchor.MiddleCenter, TopLeft, new Vector2(x + w - (balls - b) * 42 - 4, top - 6), new Vector2(40, 36), false);
-                r.cumulative[f] = Label(root, "Cum", HudNumber, 34, skin.Ink, TextAnchor.MiddleCenter, TopLeft, new Vector2(x, top - 40), new Vector2(w, 42), false);
+                    r.marks[f, b] = Label(sheet, "Mark", HudNumber, 36, skin.Ink, TextAnchor.MiddleCenter, TopLeft, new Vector2(x + w - (balls - b) * 42 - 4, top - 6), new Vector2(40, 36), false);
+                r.cumulative[f] = Label(sheet, "Cum", HudNumber, 34, skin.Ink, TextAnchor.MiddleCenter, TopLeft, new Vector2(x, top - 40), new Vector2(w, 42), false);
             }
-            r.total = Label(root, "Total", HudNumber, 56, BrandColors.White, TextAnchor.MiddleRight, TopLeft, new Vector2(Left + PlateWidth - 180, top - 2), new Vector2(150, RowHeight - 8));
+            r.total = Label(sheet, "Total", HudNumber, 56, BrandColors.White, TextAnchor.MiddleRight, TopLeft, new Vector2(Left + PlateWidth - 180, top - 2), new Vector2(150, RowHeight - 8));
             return r;
         }
 
@@ -205,12 +258,15 @@ namespace GolfArcade.Bowling
                 r.cumulative[f].text = c.HasValue ? c.Value.ToString() : "";
             }
             r.total.text = s.Total.ToString();
+            var card = miniRows[player];
+            card.dot.enabled = current; card.total.text = r.total.text;
+            if (current) miniFrame.text = s.Complete ? "FINAL" : "FRAME " + Mathf.Min(10, s.Frame + 1);
         }
 
         /// The leader's total is gold, the rest white (brand HUD score plate).
         public void Leader(int player)
         {
-            for (int i = 0; i < rows.Count; i++) rows[i].total.color = i == player ? BrandColors.Gold : BrandColors.White;
+            for (int i = 0; i < rows.Count; i++) rows[i].total.color = miniRows[i].total.color = i == player ? BrandColors.Gold : BrandColors.White;
         }
 
         /// A result banner. Big: STRIKE!-class (gold, arc, sparkles). Nice: SPARE! (gold, small arc).
@@ -236,6 +292,8 @@ namespace GolfArcade.Bowling
         }
 
         public void Dispose() { if (root) Object.Destroy(root.gameObject); }
+        /// The game is over and the app draws its end on the TV: the score plate, banners and speed come down.
+        public void Hide() { if (root) root.gameObject.SetActive(false); }
 
         public void Status(string text) => status.text = text;
 
@@ -247,11 +305,30 @@ namespace GolfArcade.Bowling
             if (speedCard) speedCard.text = speedNumber.text + " MPH";
         }
 
+        /// The last ball's readout (null or empty hides it).
+        public void Readout(string line)
+        {
+            readout.text = line ?? "";
+            readout.gameObject.SetActive(!string.IsNullOrEmpty(line));
+        }
+
         public void Tick()
         {
             // a phone held upright (bowling with no TV): fit the TV layout's width, so the score sheet spans the top of the screen
             if (hudCamera) scaler.matchWidthOrHeight = hudCamera.aspect < 1 ? 0 : .5f;
             float now = Time.unscaledTime;
+            if (MiniSheet)
+            {
+                // the sheet slides down out of the top edge as it opens and back up as it folds; the mini card cross-fades
+                float dt = Mathf.Min(Time.unscaledDeltaTime, .1f);
+                sheetLeft = Mathf.Max(0, sheetLeft - dt);
+                float want = sheetPinned || sheetLeft > 0 ? 1 : 0;
+                sheetOpen = Mathf.MoveTowards(sheetOpen, want, dt / .3f);
+                float k = BrandMotion.EaseOut(sheetOpen);
+                sheetGroup.alpha = k; sheet.anchoredPosition = new Vector2(0, (1 - k) * 90);
+                sheet.gameObject.SetActive(sheetOpen > 0);
+                miniGroup.alpha = 1 - k; mini.gameObject.SetActive(sheetOpen < 1);
+            }
             if (now > bannerUntil) { banner.gameObject.SetActive(false); sub.gameObject.SetActive(false); return; }
             // pop 0.6 → 1.12 → 1.0 in 0.45 s (overshoot); the arc draws on over the same time
             float t = (now - bannerAt) / BrandMotion.Banner;

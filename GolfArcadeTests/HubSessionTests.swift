@@ -204,12 +204,12 @@ final class HubSessionTests: XCTestCase {
     /// LOADING ACTION (2026-11-13): every shot is in the app, a boot plays each one once before any comes back, never the same shot
     /// twice in a row (across a reshuffle too), and a boot never opens on the shot the last one ended on.
     func testLoadingShotsShuffleThroughTheWholePool() {
-        XCTAssertEqual(LoadingShots.pool.count, 25, "the 25 painted loading pictures, nothing older")
+        XCTAssertEqual(LoadingShots.pool.count, 23, "the 23 loading pictures (11-21: 3 open-air bowling shots replace the 5 indoor ones), nothing older")
         for shot in LoadingShots.pool { XCTAssertTrue(shot.asset.hasPrefix("load-"), shot.asset) }
         for shot in LoadingShots.pool { XCTAssertNotNil(UIImage(named: shot.asset), shot.asset) }
         // UI OVERHAUL 11-15: map names stand alone (no sport labels), and every map of all three sports is in the reel
         for shot in LoadingShots.pool { for word in ["TENNIS", "GOLF", "BOWLING"] { XCTAssertFalse(shot.label.contains(word), shot.label) } }
-        XCTAssertEqual(Set(LoadingShots.pool.map(\.label).filter { !$0.isEmpty }).count, 10, "all ten maps")
+        XCTAssertEqual(Set(LoadingShots.pool.map(\.label).filter { !$0.isEmpty }).count, 9, "all nine maps")
         for last in 0..<LoadingShots.pool.count {
             var reel = LoadingShots.Reel(last: last)
             XCTAssertNotEqual(reel.index, last, "a boot does not open on the last boot's shot")

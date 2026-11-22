@@ -58,6 +58,10 @@ struct MultiplayerParticipant: Codable, Equatable, Sendable {
     /// Nil for a real device; guests are controlled only by the host that created them.
     var controllerID: String?
     var isGuest: Bool { controllerID != nil }
+    /// Phone casting (PLAN_PhoneCasting_GolfBowling.md): this phone is the game's screen, like a TV. It hosts the match, holds no
+    /// seat and plays no one; the other phones are the players' controllers. Golf and bowling only (nil from older builds).
+    var castScreen: Bool? = nil
+    var isCastScreen: Bool { castScreen == true }
 
 }
 /// Cosmetic data only. Never transmits a saved profile, calibration, mesh, or image.
@@ -125,8 +129,15 @@ struct MultiplayerLobby: Codable, Equatable, Sendable {
     var readyCheck: Bool? = nil
     var competitors: [MultiplayerParticipant] { participants.filter { $0.seat >= 0 && $0.connected }.sorted { $0.seat < $1.seat } }
     var capacity: Int { sport == .tennis ? 2 : 4 }
+    /// Phone casting: the phone that is the screen (it hosts, holds no seat and plays no one). Golf and bowling only.
+    var castScreen: MultiplayerParticipant? { participants.first(where: \.isCastScreen) }
+    var hasCastScreen: Bool { castScreen != nil }
+    /// The sports a phone can be the screen for: tennis needs a bigger screen (Adnan, 2026-11-20).
+    static let castSports: Set<MultiplayerSport> = [.golf, .bowling]
+    /// How many seated players a match needs: two, or one when a phone is the screen (one controller and its screen is a game).
+    var minimumCompetitors: Int { hasCastScreen ? 1 : 2 }
     var canStart: Bool {
-        phase == .lobby && competitors.count >= 2 && (sport != .tennis || competitors.count == 2)
+        phase == .lobby && competitors.count >= minimumCompetitors && (sport != .tennis || competitors.count == 2)
         && participants.filter { $0.seat >= 0 }.allSatisfy(\.connected)
         && competitors.allSatisfy(\.ready)
         && hasScreenForSport
@@ -142,18 +153,33 @@ struct MultiplayerLobby: Codable, Equatable, Sendable {
         guard sport == .tennis, sharedScreen == true || competitors.contains(where: { $0.view == .split }),
               let me = competitors.first(where: { $0.id == id }) else { return nil }
         func order(_ p: MultiplayerParticipant) -> (Int, Int) { (p.view == .split ? 0 : 1, p.seat) }
-        return competitors.first { $0.id != id && order($0) < order(me) && !$0.calibrated && $0.setupStep != "ready" }
+        return competitors.first { $0.id != id && order($0) < order(me) && !$0.calibrated && !["ready", "quick"].contains($0.setupStep ?? "") }
+    }
+    /// The tennis setup steps a phone reports (SportsSession.runtimeSetupStep). The 11-20 point-and-hold setup added hold, pointed,
+    /// go:<network time> and check:<swings>, and the 11-21 quick start "quick"; the host used to drop all of those, so the shared
+    /// TV's start barrier and the players strip never saw them.
+    static func isSetupStep(_ step: String) -> Bool {
+        if ["next", "direction", "hold", "pointed", "timing", "quick", "ready"].contains(step) { return true }
+        guard step.count <= 32 else { return false }
+        if step.hasPrefix("go:") { return Double(step.dropFirst(3)).map(\.isFinite) ?? false }
+        if step.hasPrefix("check:") { return Int(step.dropFirst(6)) != nil }
+        return false
     }
     mutating func configure(sport: MultiplayerSport, venue: String) {
         self.sport = sport; self.venue = venue
-        for i in participants.indices { participants[i].seat = i < capacity ? i : -1; participants[i].ready = false; participants[i].loaded = false; participants[i].calibrated = false }
+        // (the screen phone never takes a seat: the players are seated in order around it)
+        var next = 0
+        for i in participants.indices {
+            if participants[i].isCastScreen { participants[i].seat = -1 } else { participants[i].seat = next < capacity ? next : -1; next += 1 }
+            participants[i].ready = false; participants[i].loaded = false; participants[i].calibrated = false
+        }
         queue.removeAll(); revision += 1
     }
     mutating func add(_ player: MultiplayerParticipant) throws {
         guard !participants.contains(where: { $0.id == player.id }) else { return }
         guard participants.count < 4 else { throw MultiplayerError.full }
         var p = player
-        if phase == .lobby { p.seat = (0..<capacity).first { n in !participants.contains { $0.seat == n } } ?? -1 }
+        if phase == .lobby && !p.isCastScreen { p.seat = (0..<capacity).first { n in !participants.contains { $0.seat == n } } ?? -1 }
         else { p.seat = -1 }
         participants.append(p); revision += 1
     }
@@ -164,17 +190,31 @@ struct MultiplayerLobby: Codable, Equatable, Sendable {
         guard seat == -1 || !participants.contains(where: { $0.id != id && $0.seat == seat }) else {
             throw MultiplayerError.invalidOperation("That seat is occupied.")
         }
+        guard seat == -1 || !participants[i].isCastScreen else { throw MultiplayerError.invalidOperation("The screen phone doesn't play.") }
         participants[i].seat = seat; participants[i].ready = false; queue.removeAll { $0 == id }; revision += 1
     }
     func valid() -> Bool {
         let seats = participants.filter { $0.seat >= 0 }.map(\.seat)
         return participants.count <= 4 && !participants.isEmpty && participants.contains { $0.id == ownerID }
             && Set(participants.map(\.id)).count == participants.count && Set(seats).count == seats.count
-            && participants.allSatisfy { $0.controllerID == nil || (sport == .golf && $0.controllerID == ownerID && $0.id != ownerID) }
+            && participants.allSatisfy { $0.controllerID.map { sport == .golf && guestController($0) } ?? true }
             && participants.allSatisfy { !$0.id.isEmpty && (-1..<capacity).contains($0.seat) }
-            && viewsAreConsistent && screenDelaysAreSane
+            && viewsAreConsistent && screenDelaysAreSane && castScreenIsConsistent
             && participants.allSatisfy { $0.id.utf8.count <= 128 && $0.name.count <= 40 && ($0.loadout?.valid() ?? true) }
             && (1...3).contains(sets) && [1,3,6].contains(games) && Self.validVenue(venue, sport: sport)
+    }
+    /// The phone a pass-the-phone guest may play on (golf): the owner's, or with a phone as the screen, a player's own phone (never
+    /// the screen, never another guest).
+    func guestController(_ id: String) -> Bool {
+        guard let phone = participants.first(where: { $0.id == id }), !phone.isGuest, !phone.isCastScreen else { return false }
+        return hasCastScreen || id == ownerID
+    }
+    /// At most one screen phone: the owner (it hosts the match), with no seat and no pass-the-phone guests, in golf or bowling.
+    private var castScreenIsConsistent: Bool {
+        let screens = participants.filter(\.isCastScreen)
+        guard let screen = screens.first else { return true }
+        return screens.count == 1 && screen.id == ownerID && screen.seat == -1 && !screen.isGuest && Self.castSports.contains(sport)
+            && !participants.contains { $0.controllerID == screen.id }
     }
     private var screenDelaysAreSane: Bool { participants.allSatisfy { ($0.screenDelay ?? 0).isFinite && ($0.screenDelay ?? 0) >= 0 && ($0.screenDelay ?? 0) <= 1 } }
     /// Views exist only in tennis. At most one phone is `split`, and when one is, the other competitor is controller-only.
@@ -188,7 +228,7 @@ struct MultiplayerLobby: Codable, Equatable, Sendable {
     /// Still accepted for golf: the shared "resort" default and the old Meadow Run course of earlier lobbies.
     private static let legacyGolfVenues = ["resort", "meadow"]
     static func validVenue(_ venue: String, sport: MultiplayerSport) -> Bool {
-        if sport == .bowling { return BowlingVenueChoice(rawValue: venue) != nil }
+        if sport == .bowling { return BowlingVenueChoice.resolve(venue) != nil }
         guard sport == .golf else { return ["resort", "skyscraper", "volcano"].contains(venue) }
         let round = golfRoundParts(venue)
         return round.holes == 0 ? (golfVenues + legacyGolfVenues).contains(round.course) : golfVenues.contains(round.course) && (1...36).contains(round.holes)
@@ -212,7 +252,8 @@ struct MultiplayerLobby: Codable, Equatable, Sendable {
     var startReason: String {
         if phase != .lobby { return "Return to the lobby first" }
         if let p = participants.first(where: { $0.seat >= 0 && !$0.connected }) { return "Waiting for \(p.name) to reconnect" }
-        if competitors.count < 2 { return "Invite another player to play" }
+        if hasCastScreen && competitors.isEmpty { return "Join from a phone to play: this phone is the screen" }
+        if competitors.count < minimumCompetitors { return "Invite another player to play" }
         if !hasScreenForSport {
             if sharedScreen == true { return "Connect one phone to a TV (AirPlay) to play" }
             let names = competitors.filter { !$0.hasScreen }.map(\.name).joined(separator: " and ")
@@ -240,12 +281,20 @@ struct MultiplayerMatchConfiguration: Codable, Sendable {
     var usesHostGolfDisplay: Bool { sport == "golf" && localID != hostID }
     /// How this phone shows a tennis match (nil in golf and for spectators).
     var localView: MultiplayerView? { participants.first { $0.id == localID }?.view }
+    /// Phone casting: a phone in the match is the screen (it hosts and plays no one).
+    var hasCastScreen: Bool { participants.contains(where: \.isCastScreen) }
+    /// This phone is that screen: the game fills it, like a TV, and nobody controls it.
+    var castScreenLocal: Bool { participants.first { $0.id == localID }?.isCastScreen == true }
     /// This phone shows no picture of the match itself: golf guests watch the host's TV, and a tennis phone without a TV is only a controller.
+    /// With a phone as the screen, every other phone (golf or bowling) is only its player's controller.
     /// Its game still runs, hidden under the controller, to supply the match state.
-    var controllerOnly: Bool { sport == "golf" ? localID != hostID : localView == .controllerOnly }
+    var controllerOnly: Bool {
+        if hasCastScreen { return !castScreenLocal }
+        return sport == "golf" ? localID != hostID : localView == .controllerOnly
+    }
     func valid() -> Bool {
         guard let mode = MultiplayerSport(rawValue: sport), !lobbyID.isEmpty, !matchID.isEmpty,
-              participants.contains(where: { $0.id == localID }), participants.filter({ $0.seat >= 0 }).count >= 2 else { return false }
+              participants.contains(where: { $0.id == localID }), participants.filter({ $0.seat >= 0 }).count >= (hasCastScreen ? 1 : 2) else { return false }
         return MultiplayerLobby(id: lobbyID, ownerID: hostID, sport: mode, venue: venue, sets: sets, games: games, participants: participants).valid()
     }
 }
@@ -349,7 +398,7 @@ enum MultiplayerTuning {
     /// is over for it: the party link meets again in the leader's group meanwhile (2026-10-27).
     static let partyPatienceSeconds = 600.0
     /// An unfinished setup is mentioned to everyone after this long (nobody is forced to wait: Leave is always there).
-    static let calibrationNoticeSeconds = 60.0
+    static let calibrationNoticeSeconds = 120.0   // (11-20: point, flashes and the timing drill take most of a minute)
     // Connection check before a tennis match (tuned in the field): pings go out 10 times a second during setup, the last 20 answers
     // are graded, and a phone is "steady" once its grade has been Fair or better for 1.5 s in a row.
     static let linkPingInterval = 0.1, linkReportInterval = 0.25, linkStableSeconds = 1.5

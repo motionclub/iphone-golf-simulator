@@ -69,7 +69,7 @@ namespace GolfArcade.PlayTests
             yield return Start(g => game = g);
             game.ChooseHoles(0); game.Play();
             yield return null;
-            game.JumpToHole(7);
+            game.JumpToHole(8);
             yield return WaitFor(() => game.Current == GolfGame.State.Aim, 45, "the tee");
             game.StrikeToward(game.CurrentHole.RecommendedTarget(game.CurrentHole.Tee));
             yield return WaitFor(() => game.Current == GolfGame.State.Flight, 10, "the ball in the air");

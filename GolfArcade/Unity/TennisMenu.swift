@@ -129,6 +129,10 @@ final class TennisMenu {
     }
     /// The XP screen after a match. Its buttons only work once the show is over (or skipped).
     private(set) var postMatch: PostMatchSummary?
+    #if DEBUG
+    /// For tests and screen proofs.
+    func debugSetPostMatch(_ summary: PostMatchSummary?) { postMatch = summary }
+    #endif
     private(set) var postMatchDone = false
     private(set) var postMatchSkips = 0
     private var postMatchDoneAt = Date.distantPast
@@ -200,7 +204,7 @@ final class TennisMenu {
         case .title: return [["start"]]
         case .main: return [["play", "homeInvite"], ["character"], ["homeEmotes"], ["settings"], ["betaFeedback"]]
         // One list: play alone, pass one phone round, friends nearby, or online.
-        case .party: return [["partySolo"], ["partyNearbyTennis"], ["partyLocal"], ["partyOnline"], ["back"]]
+        case .party: return [["partySolo"], ["partyNearbyTennis"], ["partyCastGolf"], ["partyCastBowling"], ["partyLocal"], ["partyOnline"], ["back"]]
         case .multiplayer: return [["partyOnline"], ["partyLocal"], ["back"]]
         // Same room: pass one phone round (golf), or two phones and one TV (tennis), or join a friend's game.
         case .localChoice: return [["partyLocalGolf"], ["partyLocalTennis"], ["partyNearby"], ["back"]]
@@ -350,6 +354,9 @@ final class TennisMenu {
         case "partyLocalTennis": online.select(id, menu: self)
         // one tap: host a nearby tennis game; the friend's phone offers "Join …?" and the match starts when they tap it
         case "partyNearbyTennis": HubSession.shared.useNearbyBench()
+        // phone casting: this phone is the screen, friends' phones nearby join as the players
+        case "partyCastGolf": HubSession.shared.useCastScreen(.golf)
+        case "partyCastBowling": HubSession.shared.useCastScreen(.bowling)
         case let count where count.hasPrefix("localPlayers"): online.select(count, menu: self)
         case "partyMultiplayer": show(.multiplayer)
         case "partyLocal": show(.localChoice)
@@ -588,7 +595,11 @@ final class TennisMenu {
         launch = MenuLaunch(sport: sport, mode: .tutorial); launchOrigin = .main; result = nil; pendingPick = nil
         SportsDisplays.shared.refresh()
         // golf and bowling lessons play handheld on a phone with no TV; tennis needs one (PlaySafeGate offers to put it off)
-        guard session.displayConnected || sport.playsOnPhone else { show(.connect); return }
+        guard session.displayConnected || sport.playsOnPhone else {
+            // (the .connect screen is a TV screen: with no TV, nothing showed it) the sheet, and the lesson starts once the TV is there
+            TVConnect.shared.present(title: "Tennis plays on your TV", sport: sport) { [weak self] in self?.beginLesson(sport, station: station) }
+            return
+        }
         show(.loading)
         session.startLesson(sport, station: station)
         if !session.active, screen == .loading { launchFailed(session.status) }
@@ -661,7 +672,14 @@ final class TennisMenu {
         }
         SportsDisplays.shared.refresh()
         // golf and bowling never need a TV: with none, the phone plays them held upright (handheld play, PLAN_PhonePlay)
-        guard session.displayConnected || launch.sport.playsOnPhone else { show(.connect); return }
+        guard session.displayConnected || launch.sport.playsOnPhone else {
+            // (the .connect screen is a TV screen: with no TV, nothing showed it) the sheet, and the match starts once the TV is there
+            let picked = launch
+            TVConnect.shared.present(title: "\(picked.sport.rawValue.capitalized) plays on your TV", sport: picked.sport) { [weak self] in
+                self?.begin(picked, onPhone: requestedPhone, skipMap: true)
+            }
+            return
+        }
         show(.loading)
         if launch.sport == .bowling {
             let count = pendingBowlers ?? 1; pendingBowlers = nil
@@ -753,6 +771,8 @@ final class TennisMenu {
     /// The post-match panel on the phone: next match, replay, or back to the menus.
     func finishMatch(_ choice: AfterMatch) {
         if choice == .replay { session.prepareRematchPresentation() }
+        // another match straight after this one: the phone keeps knowing where the TV is, so nobody points at it again
+        if session.sport == "tennis", session.multiplayerMatchID == nil { session.retainCourtDirectionForRematch = choice != .menu }
         afterMatch = choice
         showPostMatchAfterEnd = false
         if choice == .menu { result = nil; postMatch = nil }
@@ -764,6 +784,7 @@ final class TennisMenu {
     /// or by itself a few seconds after the last point.
     func beginPostMatch() {
         showPostMatchAfterEnd = postMatch != nil
+        if session.sport == "tennis", session.multiplayerMatchID == nil { session.retainCourtDirectionForRematch = true }
         session.end()
     }
 
