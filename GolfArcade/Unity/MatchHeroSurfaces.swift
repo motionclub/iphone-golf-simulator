@@ -1188,7 +1188,8 @@ typealias HeroColor = NSColor
 
 @MainActor extension MatchHeroSurfaces {
     private static var garmentTextures: [String: MTLTexture] = [:]
-    private static func compressed(_ name: String) -> MTLTexture? {
+    private static func compressed(_ requested: String) -> MTLTexture? {
+        let name = MatchHeroData.ktxName(requested)   // (a duplicate ships once; the twins share one texture in memory too)
         if let cached = garmentTextures[name] { return cached }
         guard let url = MatchHeroData.locate(name, "ktx"), let device = MTLCreateSystemDefaultDevice() else { return nil }
         do {

@@ -177,8 +177,11 @@ public class TennisPolishTests
 
     [Test] public void GovernorStepsDownOnlyOnSustainedLateFrames()
     {
-        Assert.IsFalse(TennisFrameGovernor.ShouldStepDown(120, 3));
-        Assert.IsTrue(TennisFrameGovernor.ShouldStepDown(120, 20));
+        // (FramePace's policy; LuminousCoastFrameBudgetTests has the rest)
+        var p = new GolfArcade.Game.PacePolicy();
+        var late = new GolfArcade.Game.FrameWindowResult { DrawRate = 60, Frames = 120, Late = 20, Seconds = 2 };
+        Assert.AreEqual(GolfArcade.Game.PacePolicy.Decision.Hold, p.Observe(late, false));
+        Assert.AreEqual(GolfArcade.Game.PacePolicy.Decision.StepDown, p.Observe(late, false));
     }
 
     // --- Moments ------------------------------------------------------------------------

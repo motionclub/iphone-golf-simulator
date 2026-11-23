@@ -82,7 +82,9 @@ struct TennisSetupTVView: View {
     }
 
     var body: some View {
-        TimelineView(.animation(minimumInterval: 1.0 / 60)) { context in
+        // Only the timing drill draws from the clock. The window stays over the game for the whole match (it is where the post-game
+        // screens go), so a running 60 Hz timeline re-evaluated this view every frame of play on the main thread (11-22 smoothness audit).
+        TimelineView(.animation(minimumInterval: 1.0 / 60, paused: screen != .drill)) { context in
             GeometryReader { g in
                 let cq = g.size.width / 100, palette = TVCalibrationPalette(skin: .current)
                 ZStack {
@@ -111,21 +113,25 @@ struct TennisSetupTVView: View {
                     Text(CalibrationExplainPanel.title).font(MotionBrand.font(.extraBoldItalic, 4.7 * cq))
                     Text(CalibrationExplainPanel.message).font(MotionBrand.font(.medium, 2.1 * cq)).multilineTextAlignment(.center)
                         .fixedSize(horizontal: false, vertical: true)
-                    Text("Point at the TV, watch a few flashes, then swing along with a bouncing ball.")
+                    Text("Point your phone at the TV and hold it there while the circle fills.")
                         .font(MotionBrand.font(.medium, 1.7 * cq)).foregroundStyle(palette.muted).multilineTextAlignment(.center)
                 }
             }
         case .scan:
-            ZStack(alignment: .top) {
-                LinearGradient(colors: [Color(hex: "111B49").opacity(0.53), .clear], startPoint: .top, endPoint: .center)
-                Text("Point your phone at the TV")
-                    .font(MotionBrand.font(.extraBoldItalic, 3.2 * cq)).foregroundStyle(palette.skin.cream)
-                    .padding(.horizontal, 1.55 * cq).padding(.top, 0.62 * cq).padding(.bottom, 0.8 * cq)
-                    .background(RoundedRectangle(cornerRadius: 0.58 * cq).fill(palette.skin.bottom).shadow(color: palette.skin.frame, radius: 0, y: 0.16 * cq))
-                    .padding(.top, 6.2 * cq)
-                ScanReticle(cq: cq, color: palette.skin.cream).frame(width: 43 * cq, height: 24 * cq)
-                    .position(x: 50 * cq, y: 0.48 * 56.25 * cq)
-                if !chips.isEmpty { VStack { Spacer(); TVChipRow(chips: chips, cq: cq, palette: palette).padding(.bottom, 4 * cq) } }
+            // point and fill (11-22): the picture around the card glows to SportsGlow's wave, which the phones' cameras read
+            ZStack {
+                if session.glowActive { TVGlowVeil() }
+                VStack(spacing: 1.8 * cq) {
+                    TVSetupCard(cq: cq, palette: palette, width: 44, spacing: 0.8) {
+                        Text(chips.isEmpty ? "Point at the TV" : "Point at the TV together").font(MotionBrand.font(.extraBoldItalic, 4.1 * cq))
+                        Text(chips.isEmpty ? "Hold your phone on the screen until the circle fills." : "The circle fills while every phone is on the screen.")
+                            .font(MotionBrand.font(.medium, 1.8 * cq))
+                        TVFillRing(progress: session.glowProgress, done: !session.glowActive && session.glowProgress >= 1, cq: cq, palette: palette)
+                            .frame(width: 12.5 * cq, height: 12.5 * cq).padding(.vertical, 0.5 * cq)
+                        Text(glowFootLine).font(MotionBrand.font(.medium, 1.6 * cq)).foregroundStyle(palette.muted)
+                    }
+                    if !chips.isEmpty { TVChipRow(chips: chips, cq: cq, palette: palette) }
+                }
             }
         case .warning:
             ZStack {
@@ -174,6 +180,16 @@ struct TennisSetupTVView: View {
         }
     }
 
+    /// Under the circle on the TV.
+    private var glowFootLine: String {
+        if !session.glowActive, session.glowProgress >= 1 {
+            return session.latencyReading.map { "TV delay \(Int(($0 * 1000).rounded())) ms" } ?? "Set"
+        }
+        if let first = session.playersOffTheTV.first { return "Waiting for \(first.name)…" }
+        if !session.glowSeeing { return session.glowProgress > 0 ? "Point back at the screen…" : "Looking for your phone…" }
+        return "Hold steady…"
+    }
+
     private var readyLine: String {
         guard session.setupStage == .waiting else { return "Starting…" }
         let waiting = (service.lobby?.competitors ?? []).filter { $0.id != service.localID && !$0.calibrated }.map(\.name)
@@ -192,7 +208,7 @@ struct TennisSetupTVView: View {
     private func localChip(_ p: MultiplayerParticipant) -> TVSetupChip {
         let swings = session.timingSwings.filter { $0 >= SportsSession.timingWarmUp }.count
         switch session.setupStage {
-        case .scan: return .init(id: p.id, name: p.name, text: session.holdingPoint ? "Holding…" : "Point at the TV", done: false)
+        case .scan: return .init(id: p.id, name: p.name, text: session.glowSeeing ? "On the TV" : "Point at the TV", done: session.glowSeeing)
         case .timing:
             switch session.calibrationStep {
             case .prompt?: return .init(id: p.id, name: p.name, text: "Tap Start", done: false)
@@ -209,6 +225,8 @@ struct TennisSetupTVView: View {
         if !p.connected { return .init(id: p.id, name: p.name, text: "Reconnecting", done: false) }
         if p.calibrated { return .init(id: p.id, name: p.name, text: "Ready", done: true) }
         if step == "hold" { return .init(id: p.id, name: p.name, text: "Holding…", done: false) }
+        if let seeing = SportsGlowStep.seeing(step) { return .init(id: p.id, name: p.name, text: seeing ? "On the TV" : "Point at the TV", done: seeing) }
+        if step == SportsGlowStep.done { return .init(id: p.id, name: p.name, text: "Set", done: true) }
         if step == "pointed" { return .init(id: p.id, name: p.name, text: "Pointed", done: true) }
         if step == "timing" { return .init(id: p.id, name: p.name, text: "Tap Start", done: false) }
         if step.hasPrefix("go:") { return .init(id: p.id, name: p.name, text: "Ready to start", done: true) }
@@ -266,6 +284,58 @@ struct TVAction: View {
             }
             shape.strokeBorder(palette.trim, lineWidth: 0.18 * cq)
         }
+    }
+}
+
+/// The point-and-fill circle on the TV (SportsGlow): it fills while every phone sharing the TV sees it.
+struct TVFillRing: View {
+    let progress: Double
+    let done: Bool
+    let cq: CGFloat
+    let palette: TVCalibrationPalette
+    var body: some View {
+        ZStack {
+            Circle().stroke(palette.meterTrack, lineWidth: 1.5 * cq)
+            Circle().trim(from: 0, to: max(0, min(1, progress)))
+                .stroke(done ? palette.skin.accent : palette.skin.accentDeep, style: StrokeStyle(lineWidth: 1.5 * cq, lineCap: .round))
+                .opacity(progress > 0.005 ? 1 : 0)
+                .rotationEffect(.degrees(-90))
+                .animation(.linear(duration: 0.12), value: progress)
+            if done {
+                Image(systemName: "checkmark").font(.system(size: 4.6 * cq, weight: .heavy)).foregroundStyle(palette.skin.accentDeep)
+            } else {
+                Text("\(Int((progress * 100).rounded()))%").font(MotionBrand.font(.extraBold, 3.1 * cq)).monospacedDigit()
+            }
+        }
+    }
+}
+
+/// The glow behind the setup card (SportsGlow): a black veil whose opacity follows the wave, set for each frame the TV itself shows
+/// (the TV screen's own display link), so the frame on the TV at `targetTimestamp` carries the wave's value for that moment.
+struct TVGlowVeil: UIViewRepresentable {
+    func makeUIView(context: Context) -> TVGlowVeilView { TVGlowVeilView(frame: .zero) }
+    func updateUIView(_ view: TVGlowVeilView, context: Context) {}
+}
+
+final class TVGlowVeilView: UIView {
+    private var link: CADisplayLink?
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .black; isUserInteractionEnabled = false; layer.opacity = Float(SportsGlow.lightest)
+    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) is unused") }
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        link?.invalidate(); link = nil
+        guard let screen = window?.windowScene?.screen, let link = screen.displayLink(withTarget: self, selector: #selector(tick(_:))) else { return }
+        link.preferredFrameRateRange = CAFrameRateRange(minimum: 30, maximum: 60, preferred: 60)
+        link.add(to: .main, forMode: .common)
+        self.link = link
+    }
+    @objc private func tick(_ link: CADisplayLink) {
+        CATransaction.begin(); CATransaction.setDisableActions(true)
+        layer.opacity = Float(SportsGlow.veil(link.targetTimestamp + SportsGlow.clockOffset))
+        CATransaction.commit()
     }
 }
 

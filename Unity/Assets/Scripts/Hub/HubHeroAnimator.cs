@@ -47,7 +47,9 @@ namespace GolfArcade.Hub
         public float PlantedToeSpeed { get; private set; }
         public IEnumerable<string> Emotes => clips.Keys;
 
-        public static HubHeroAnimator Attach(GameObject hero)
+        /// `tennisRun` (bowling, Adnan 11-22: "the tennis running is really good ... super goofy and silly while looking correct"): the run
+        /// is the match hero's own tennis RunForward at its measured foot speed, not the plaza's standard Run. Off everywhere else.
+        public static HubHeroAnimator Attach(GameObject hero, bool tennisRun = false)
         {
             var look = hero.GetComponent<MatchHeroLook>();
             var driver = hero.GetComponent<HeroTennisDriver>();
@@ -58,7 +60,7 @@ namespace GolfArcade.Hub
             // female thumb-index pinch) and re-curled the left from the cupped bind pose (her hook), after this stand had relaxed them.
             var grip = hero.GetComponent<HeroGripPolish>(); if (grip) grip.enabled = false;
             a.CaptureRest();   // the prefab's bind pose, before any clip has posed it
-            AnimationClip idleClip = null, walkClip = null, runClip = null;
+            AnimationClip idleClip = null, walkClip = null, runClip = null, tennisRunClip = null; float tennisRunSpeed = 0;
             if (driver)
             {
                 driver.enabled = false;
@@ -72,7 +74,7 @@ namespace GolfArcade.Hub
                         case HeroTennisDriver.Clip.Idle: idleClip = s.clip; break;
                         case HeroTennisDriver.Clip.Ready: if (!idleClip) idleClip = s.clip; break;
                         case HeroTennisDriver.Clip.Walk: walkClip = s.clip; break;
-                        case HeroTennisDriver.Clip.RunForward: runClip = s.clip; break;
+                        case HeroTennisDriver.Clip.RunForward: runClip = s.clip; tennisRunClip = s.clip; tennisRunSpeed = driver.runClipSpeed; break;
                         default:
                             if (HeroTennisDriver.IsEmote(s.id) || s.id == HeroTennisDriver.Clip.CelebratePoint || s.id == HeroTennisDriver.Clip.MatchWin)
                                 a.clips[s.id.ToString()] = s.clip;
@@ -90,6 +92,7 @@ namespace GolfArcade.Hub
                 else if (c.name.StartsWith("Emote_")) a.clips[c.name.Replace("_", "")] = c;
                 else if (c.name.StartsWith("Bowl_")) a.clips[c.name.Replace("_", "")] = c;   // BOWLING ANIMATION: authored bowling set (BowlingClips)
             }
+            if (tennisRun && tennisRunClip) { runClip = tennisRunClip; a.runClipSpeed = tennisRunSpeed; }
             a.Build(idleClip, walkClip, runClip);
             return a;
         }

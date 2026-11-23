@@ -64,11 +64,16 @@ namespace GolfArcade.Tennis
         /// The steps taken from memory at this launch.
         public static int Remembered { get; private set; }
 
-        /// The phone's tier for `sport` ("tennis", "golf", "bowling"), then the steps down it needed there before.
-        public static void Apply(string sport)
+        /// Settings → Picture: Sharp (11-22). The tier's full effects and, on the phone's own screen, the panel's own resolution; nothing is
+        /// stepped down for time (a ProMotion phone at 120 may still drop to 60). Smooth (the default) holds the frame rate first.
+        public static bool Sharp;
+
+        /// The phone's tier for `sport` ("tennis", "golf", "bowling"), then the steps down it needed there before, remembered apart for a TV
+        /// and the phone's own screen (11-22: a phone that needed steps for one should not start the other below its level).
+        public static void Apply(string sport, bool external = false)
         {
             Apply();
-            memory = string.IsNullOrEmpty(sport) ? null : Memory + sport;
+            memory = string.IsNullOrEmpty(sport) || Sharp ? null : Memory + sport + (external ? ".tv" : ".phone");
             Remembered = 0;
             if (memory == null || Application.isEditor) return;
             int level = PlayerPrefs.GetInt(memory, 0), calm = PlayerPrefs.GetInt(memory + ".calm", 0);
@@ -92,7 +97,7 @@ namespace GolfArcade.Tennis
         {
             var urp = Pipeline; if (!urp) return;
             int lines = Mathf.Min(Screen.width, Screen.height);
-            urp.renderScale = !PhoneScreenCap || external || lines <= PhoneLines ? 1f : Mathf.Max(.75f, PhoneLines / (float)lines);
+            urp.renderScale = !PhoneScreenCap || Sharp || external || lines <= PhoneLines ? 1f : Mathf.Max(.75f, PhoneLines / (float)lines);
         }
         // what the steps have done to the shadows so far: golf sets its own long shadows when its scene wakes, after Apply
         static bool cascadesCut; static float shadowScale = 1;
@@ -121,7 +126,7 @@ namespace GolfArcade.Tennis
 
         public static void Apply(Tier tier)
         {
-            Current = tier; Reductions = 0; cascadesCut = false; shadowScale = 1;
+            Current = tier; Reductions = 0; cascadesCut = false; shadowScale = 1; GolfArcade.Bowling.BowlingLaneMirror.Divisor = 2;
             var s = For(tier);
             QualitySettings.antiAliasing = s.Msaa;
             QualitySettings.pixelLightCount = s.PixelLights;
@@ -186,7 +191,7 @@ namespace GolfArcade.Tennis
         /// and level of detail. The render scale stays at 1 (TennisQuality.Apply sets it).
         public static bool StepDown()
         {
-            if (!StepDown(Pipeline)) return false;
+            if (Sharp || !StepDown(Pipeline)) return false;
             // remembered for this phone's next launch of the sport (Apply(sport))
             if (memory != null && !replaying && !Application.isEditor)
             {
@@ -201,6 +206,7 @@ namespace GolfArcade.Tennis
             if (!urp) return false;
             if (urp.msaaSampleCount > 2) urp.msaaSampleCount = 2;
             else if (Current == Tier.High && !Application.isEditor) { SetAmbientOcclusion(false); Current = Tier.Standard; }
+            else if (GolfArcade.Bowling.BowlingLaneMirror.Running && GolfArcade.Bowling.BowlingLaneMirror.Divisor < 4) GolfArcade.Bowling.BowlingLaneMirror.Divisor = 4;   // (the lanes' mirror at a quarter)
             else if (urp.shadowCascadeCount > 1) { urp.shadowCascadeCount = 1; cascadesCut = true; }
             else if (urp.shadowDistance > MinShadowDistance + 1) { urp.shadowDistance = Mathf.Max(MinShadowDistance, urp.shadowDistance * .7f); QualitySettings.shadowDistance = urp.shadowDistance; shadowScale *= .7f; }
             else if (QualitySettings.lodBias > .75f) QualitySettings.lodBias = .7f;

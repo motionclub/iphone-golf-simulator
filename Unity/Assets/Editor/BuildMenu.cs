@@ -29,7 +29,10 @@ namespace GolfArcade.EditorTools
                 scenes = scenes,
                 locationPathName = OutputPath,
                 target = BuildTarget.iOS,
-                options = BuildOptions.None,
+                // 11-22 size audit: the player data compressed (LZ4HC, read back in chunks as it loads): resources.assets and its .resS came to
+                // 62-63 % of their size in a sample of build 25 (was BuildOptions.None: 1.5 GB stored raw). The App Store download was already
+                // zipped, so this is mostly installed size.
+                options = BuildOptions.CompressWithLz4HC,
             });
             var summary = report.summary;
             string verdict = $"{summary.result} {summary.totalTime.TotalSeconds:F0}s errors={summary.totalErrors} warnings={summary.totalWarnings} -> {summary.outputPath}";

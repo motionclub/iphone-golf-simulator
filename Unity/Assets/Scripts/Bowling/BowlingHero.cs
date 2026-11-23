@@ -54,7 +54,7 @@ namespace GolfArcade.Bowling
             hero.Look = go.GetComponent<MatchHeroLook>();
             // no racket in the alley (its grip transform stays, its renderers hide)
             if (hero.Look && hero.Look.racketGrip) foreach (var r in hero.Look.racketGrip.GetComponentsInChildren<Renderer>(true)) r.enabled = false;
-            hero.Anim = HubHeroAnimator.Attach(go);
+            hero.Anim = HubHeroAnimator.Attach(go, tennisRun: TennisRun);
             if (hero.Anim) { hero.Anim.GameTime = true; hero.Anim.AfterPose += hero.PoseArms; }
             if (hero.Look)
             {
@@ -194,6 +194,19 @@ namespace GolfArcade.Bowling
         }
 
         public const float WalkSpeed = 1.25f, SideStepSpeed = .8f;
+        /// Every hero in the alley (the walkers keep out of each other's way).
+        static readonly List<BowlingHero> Live = new List<BowlingHero>();
+        void OnEnable() { if (!Live.Contains(this)) Live.Add(this); }
+        void OnDisable() => Live.Remove(this);
+        const float PersonalSpace = .8f;
+        /// The last steps into the spot (the walker turns into place): no stepping round then.
+        static bool settling0(float remaining, bool lastLeg) => lastLeg && remaining < .45f;
+        /// Adnan 11-22: the trips between the lane, the ball return and the waiting spots are a jog on the tennis run ("super goofy and silly
+        /// while looking correct"), at the pace its feet stay planted (HeroTennisDriver.runClipSpeed 5.8 m/s at the animator's slowest .6x);
+        /// carrying the ball to the stance stays a walk. Off: the plaza's standard walk for everything (before/after films).
+        public static bool TennisRun = true;
+        public const float JogSpeed = 3.5f;
+        const float JogDecel = 3.2f;
         /// How far ahead along the route the walker steers (corners become arcs of about this radius), how long the heading takes to
         /// settle into a turn, and the fastest it turns (deg/s).
         const float LookAhead = .55f, TurnTime = .16f, MaxTurn = 300, StopDecel = 1.4f;
@@ -219,6 +232,25 @@ namespace GolfArcade.Bowling
         /// The bowler's body x for a ball on `board` (a right-hander holds the ball outside the right hip).
         public static float BodyX(float board) => BowlingLane.BoardX(board) - .2f;
 
+        /// The ball-return pickup (BowlingGame.PoseBallPickup): both palms reach to the sides of the ball at `LiftAt`, blended with the clip's arms by
+        /// `LiftW` (0 = the clip alone).
+        public Vector3 LiftAt; public float LiftW;
+        void ReachBall(Vector3 centre, float w)
+        {
+            if (!upperArm || !lowerArm || !hand || !leftUpper || !leftLower || !leftHand) return;
+            Vector3 up = transform.up, fwd = transform.forward, right = transform.right;
+            float r = BowlingLane.BallRadius + .02f;
+            var side = Vector3.ProjectOnPlane(right, up).normalized;
+            var along = (fwd * .55f - up * .8f).normalized;   // fingers down and forward round the ball
+            Reach(upperArm, lowerArm, hand, midProx, idxProx, litProx, false, centre, centre + side * r, along, w);
+            Reach(leftUpper, leftLower, leftHand, lMidProx, lIdxProx, lLitProx, true, centre, centre - side * r, along, w);
+        }
+
+        /// Clips that hold the ball between both palms (seated with the ball; lifting it off the ball return).
+        static bool TwoHandClip(string id) => id == BowlingClips.SitIdleBall || id == BowlingClips.Pickup || id == BowlingClips.PickupLow;
+        /// Proof tools: the midpoint between the palms (the ball centre in a two-hand hold), in world space.
+        public Vector3 HandsMid => hand && leftHand ? .5f * (hand.position + leftHand.position) : transform.position;
+
         void Update()
         {
             float dt = Time.deltaTime; if (dt <= 0) return;
@@ -234,14 +266,30 @@ namespace GolfArcade.Bowling
                 bool sidestep = last && d < .9f && Mathf.Abs(flatTo.z) < .05f;   // a few boards across: shuffle sideways, still facing the pins
                 var aim = last ? target : PathPoint(LookAhead);
                 var dir = Flat(aim - transform.position);
+                // Adnan 11-22 ("dont run through characters"): someone within reach ahead (a friend standing, a walker coming the other way) is
+                // stepped round: away from them, and to the right of the way (two walkers meeting both keep right and pass)
+                if (dir.sqrMagnitude > 1e-6f && !settling0(d, last))
+                {
+                    var fwdDir = dir.normalized; var push = Vector3.zero;
+                    foreach (var o in Live)
+                    {
+                        if (!o || o == this) continue;
+                        var away = Flat(transform.position - o.transform.position); float dd = away.magnitude;
+                        if (dd > PersonalSpace || dd < 1e-4f || Vector3.Dot(fwdDir, -away / dd) < -.2f) continue;   // (behind: no matter)
+                        float w = 1 - dd / PersonalSpace;
+                        push += (away / dd + Vector3.Cross(Vector3.up, fwdDir) * .8f) * w;
+                    }
+                    if (push.sqrMagnitude > 1e-6f) dir = (fwdDir + push * 1.4f) * dir.magnitude;
+                }
                 float wantYaw = sidestep || dir.sqrMagnitude < 1e-6f ? targetYaw : Mathf.Atan2(dir.x, dir.z) * Mathf.Rad2Deg;
                 // the last steps: turn toward the way they will stand (into the seat: side-stepping round to face the room)
                 bool settling = last && d < .6f;
                 if (settling) wantYaw = Mathf.LerpAngle(wantYaw, targetYaw, Mathf.InverseLerp(.6f, .15f, d));
                 yaw = Mathf.SmoothDampAngle(yaw, wantYaw, ref yawVel, TurnTime, MaxTurn, dt);
                 float off = Mathf.Abs(Mathf.DeltaAngle(yaw, wantYaw));
-                float pace = sidestep ? SideStepSpeed : WalkSpeed * Mathf.Lerp(.2f, 1, Mathf.InverseLerp(110, 25, off));   // facing away: turn first, a slow step or two
-                pace = Mathf.Min(pace, Mathf.Sqrt(2 * StopDecel * d) + .02f);      // brake to arrive at walking pace zero (not stop dead from 0.4 m/s)
+                bool jog = TennisRun && !Ball && !sidestep && Anim;
+                float pace = sidestep ? SideStepSpeed : (jog ? JogSpeed : WalkSpeed) * Mathf.Lerp(.2f, 1, Mathf.InverseLerp(110, 25, off));   // facing away: turn first, a slow step or two
+                pace = Mathf.Min(pace, Mathf.Sqrt(2 * (jog ? JogDecel : StopDecel) * d) + .02f);      // brake to arrive at walking pace zero (not stop dead from 0.4 m/s)
                 if (Anim && Anim.Seated) pace = 0;                                  // still getting up
                 speed = Mathf.SmoothDamp(speed, pace, ref speedVel, .12f, 6, dt);
                 float step = speed * dt; if (last) step = Mathf.Min(step, flatTo.magnitude);
@@ -441,17 +489,19 @@ namespace GolfArcade.Bowling
             // walking up with the ball (no clip yet, no scripted swing): both hands carry it in front of the belly, and the carry eases out as the stance clip takes over
             bool carrying = CarryBothHands && !LegacyHands && Ball && !ClipPlaying && float.IsNaN(ArmDeg);
             carryW = Mathf.MoveTowards(carryW, carrying ? 1 : 0, Time.deltaTime / .25f);
+            // the ball-return pickup: the arms reach on down to the ball on the tray (the clip's lowest hands are about a quarter metre above it)
+            if (ClipPlaying && LiftW > 1e-3f && TwoHandClip(clipId)) ReachBall(LiftAt, LiftW);
             if (ClipPlaying)
             {
                 // the authored clip owns both arms; the ball sits where the fitted grip puts it (middle and ring fingers and the thumb in its holes)
                 if (Ball && hand)
                 {
                     float ct = ClipTime;
-                    if (clipId == BowlingClips.SitIdleBall && leftHand) Ball.position = .5f * (hand.position + leftHand.position) + fwd * .045f + up * .035f;
+                    if (TwoHandClip(clipId) && leftHand) Ball.position = .5f * (hand.position + leftHand.position) + (clipId == BowlingClips.Pickup || clipId == BowlingClips.PickupLow ? Vector3.zero : fwd * .045f + up * .035f);
                     else if (midProx && idxProx && litProx) Ball.position = GripCentre();
                     else Ball.position = hand.position + -up * (BowlingLane.BallRadius * .75f) + right * .02f;
                     if (carryW > 0 && Carry(carryW, out var centre)) Ball.position = Vector3.Lerp(Ball.position, centre, carryW);
-                    Hold(clipId == BowlingClips.SitIdleBall || carryW > .5f);
+                    Hold(TwoHandClip(clipId) || carryW > .5f);
                 }
                 return;
             }

@@ -140,7 +140,7 @@ namespace GolfArcade.PlayTests
             var skin = MapSkin.Golf("cliffside");
             var intro = NewCanvas("Intro", 1, new Vector2(1920, 1080));
             var g = IntroGraphics.On((RectTransform)intro.transform);
-            g.ShowWordTitle(skin, "DAILY CHALLENGE", false, Time.time, 250, false, "SHOT 1 OF 3  ·  152 FT OUT  ·  7 MPH LEFT TO RIGHT");
+            g.ShowWordTitle(skin, "DAILY CHALLENGE", false, Time.time, 250, false, "SHOT 1 OF 3  ·  31 YD OUT  ·  7 MPH LEFT TO RIGHT");
             Assert.IsTrue(g.Portrait, "the handheld view is upright");
             g.ShowWordTitle(skin, "3,000 PTS", true, Time.time, 170, false, "UP FOR GRABS  ·  ACE 1,000", g.Portrait ? 440 : -1);
             for (int i = 0; i < 50; i++) { g.Tick(Time.time); yield return null; }
@@ -157,7 +157,7 @@ namespace GolfArcade.PlayTests
                 var skin = MapSkin.Golf(key);
                 var intro = NewCanvas("Intro", 1, new Vector2(1920, 1080));
                 var g = IntroGraphics.On((RectTransform)intro.transform);
-                var title = g.ShowWordTitle(skin, "DAILY CHALLENGE", false, Time.time, 250, false, "SHOT 2 OF 3  ·  148 FT OUT  ·  CALM");
+                var title = g.ShowWordTitle(skin, "DAILY CHALLENGE", false, Time.time, 250, false, "SHOT 2 OF 3  ·  104 YD OUT  ·  CALM");
                 g.ShowWordTitle(skin, "1,240 PTS", true, Time.time, 170, false, "YOUR SCORE SO FAR");
                 for (int i = 0; i < 50; i++) { g.Tick(Time.time); yield return null; }
                 var words = title.root.GetComponentsInChildren<Text>();

@@ -147,7 +147,8 @@ final class ClubCloud {
             }
             while !Task.isCancelled {
                 await self?.tick()
-                try? await Task.sleep(for: .seconds(5))
+                // (every 30 s in a solo match: presence still goes out inside its 45 s, knocks wait for the match to end)
+                try? await Task.sleep(for: .seconds(SportsSession.shared.soloMatchActive ? 30 : 5))
             }
         }
     }

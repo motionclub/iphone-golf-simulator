@@ -3,18 +3,36 @@ import SceneKit
 
 /// Real, baked-UV geometry. ImageGen source projections are authoring inputs only;
 /// no scene photograph, screen-facing billboard, or camera projection is used at runtime.
-struct ClubEnvironmentAsset: Decodable {
+struct ClubEnvironmentAsset {
     let positions: [Float], normals: [Float], uv: [Float]
     let triangles: [Int32]
     let texture: String
     let camera: [Float], target: [Float]
     let room: String
 
+    /// Club_<room>.json is a small header; the mesh is Club_<room>.lzfse: welded vertices (positions, normals, uv as float32), then
+    /// uint32 triangle indices (2026-11-22: it was the whole unindexed mesh as JSON text, 13.3 MB; now 0.7 MB, the same drawing;
+    /// work/perf-size-audit-1122/tools/pack_club_room.py).
+    private struct Header: Decodable { let texture: String; let camera: [Float]; let target: [Float]; let room: String; let vertexCount: Int; let indexCount: Int; let mesh: String }
+
     @MainActor private static var cache: [String: ClubEnvironmentAsset] = [:]
     @MainActor static func load(_ room: ClubRoom) -> ClubEnvironmentAsset? {
         if let asset = cache[room.rawValue] { return asset }
         guard let url = Bundle.main.url(forResource: "Club_\(room.rawValue)", withExtension: "json"),
-              let data = try? Data(contentsOf: url), let asset = try? JSONDecoder().decode(Self.self, from: data) else { return nil }
+              let data = try? Data(contentsOf: url), let header = try? JSONDecoder().decode(Header.self, from: data),
+              let meshURL = Bundle.main.url(forResource: header.mesh, withExtension: "lzfse"),
+              let packed = try? Data(contentsOf: meshURL), let blob = try? (packed as NSData).decompressed(using: .lzfse) as Data else { return nil }
+        let n = header.vertexCount, need = (n * 8 + header.indexCount) * 4
+        guard n > 0, blob.count == need else { return nil }
+        func floats(_ at: Int, _ count: Int) -> [Float] {
+            var out = [Float](repeating: 0, count: count)
+            out.withUnsafeMutableBytes { $0.copyBytes(from: blob[at ..< at + count * 4]) }
+            return out
+        }
+        var indices = [Int32](repeating: 0, count: header.indexCount)
+        indices.withUnsafeMutableBytes { $0.copyBytes(from: blob[n * 32 ..< need]) }
+        let asset = ClubEnvironmentAsset(positions: floats(0, n * 3), normals: floats(n * 12, n * 3), uv: floats(n * 24, n * 2), triangles: indices,
+                                         texture: header.texture, camera: header.camera, target: header.target, room: header.room)
         cache[room.rawValue] = asset
         return asset
     }

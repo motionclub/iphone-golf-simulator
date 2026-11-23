@@ -124,6 +124,17 @@ enum HeroAssets {
     /// Where the export files are found: the app bundle (the tests run inside the app). The command-line harness points this at CharacterAssets.
     static var locate: (_ name: String, _ ext: String) -> URL? = { name, ext in Bundle.main.url(forResource: name, withExtension: ext) }
 
+    /// Byte-identical KTX textures ship once (2026-11-22, 17 MB): KtxAliases.json maps a removed name to the file that carries it
+    /// (work/perf-size-audit-1122/tools/dedupe_ktx.py writes it; run it again after regenerating any .ktx).
+    static func ktxName(_ name: String) -> String {
+        if ktxAliases == nil {
+            ktxAliases = locate("KtxAliases", "json").flatMap { try? Data(contentsOf: $0) }
+                .flatMap { try? JSONDecoder().decode([String: String].self, from: $0) } ?? [:]
+        }
+        return ktxAliases?[name] ?? name
+    }
+    private static var ktxAliases: [String: String]?
+
     /// <name>.lzfse decompressed, or <name>.bin as is.
     static func data(_ name: String) -> Data? {
         if let u = locate(name, "lzfse"), let d = try? Data(contentsOf: u), let raw = try? (d as NSData).decompressed(using: .lzfse) { return raw as Data }

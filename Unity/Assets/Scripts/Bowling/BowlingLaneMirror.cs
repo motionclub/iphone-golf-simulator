@@ -11,6 +11,10 @@ namespace GolfArcade.Bowling
     public sealed class BowlingLaneMirror : MonoBehaviour
     {
         public static bool Enabled = true;
+        /// The mirror's size, as a fraction of the main camera's: 2 (half), or 4 once the frame governor needed the time (TennisQuality.StepDown;
+        /// it was drawn every frame at half size whatever the phone could hold).
+        public static int Divisor = 2;
+        public static bool Running => active && Enabled;
         static readonly int ReflectionId = Shader.PropertyToID("_BowlingLaneReflection");
         static BowlingLaneMirror active;
         Camera mirror;
@@ -39,7 +43,7 @@ namespace GolfArcade.Bowling
                 data.requiresColorOption = CameraOverrideOption.Off; data.requiresDepthOption = CameraOverrideOption.Off;
                 data.antialiasing = AntialiasingMode.None;
             }
-            int w = Mathf.Max(64, main.pixelWidth / 2), h = Mathf.Max(64, main.pixelHeight / 2);
+            int w = Mathf.Max(64, main.pixelWidth / Divisor), h = Mathf.Max(64, main.pixelHeight / Divisor);
             if (!rt || rt.width != w || rt.height != h)
             {
                 if (rt) { rt.Release(); Destroy(rt); }

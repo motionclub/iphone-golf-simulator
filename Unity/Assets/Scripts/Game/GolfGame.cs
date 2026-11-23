@@ -155,7 +155,9 @@ namespace GolfArcade.Game
         void Awake()
         {
             HookMannerisms();   // chat B: post-shot watch, waggle, hole-out clean-up (GolfGame.Mannerisms.cs)
-            Application.targetFrameRate = 60;
+            Application.targetFrameRate = 60;   // (NativeSportsSession puts the phone's own rate back once the scene is up)
+            // every golf course has a frame governor now, not only the Luminous Coast ones (FramePace: one acts at a time)
+            if (!GetComponent<GolfArcade.Tennis.TennisFrameGovernor>()) gameObject.AddComponent<GolfArcade.Tennis.TennisFrameGovernor>();
             Application.runInBackground = true; // the Mac keeps playing while the phone is the club
             Screen.sleepTimeout = SleepTimeout.NeverSleep;
             course = Course.Course.Cliffside();
@@ -1101,7 +1103,7 @@ namespace GolfArcade.Game
             if (holeView) DestroyImmediate(holeView.gameObject);
             var build = HoleView.BuildSteps(hole, transform, built => holeView = built);
             while (build.MoveNext()) yield return build.Current * 0.85f;
-            // (the Daily Hole in One plays from the day's spawn, 125–175 ft out, picked once the built hole's ground and trees are known)
+            // (the Daily Hole in One plays from the day's spawn, a chip, ~100 yd then 150–175 yd out, picked once the built hole's ground and trees are known)
             ballAt = HoleInOne ? DailyHoleInOne.StartFor(HoleInOneDay, index, hole, HoleView.GroundNameAt) : hole.Tee;
             // (the opening's address beat frames the camera from `heading` while the golfer stands on the tee line: a heading left
             // over from the last hole's final stroke turned the shot sideways to the golfer until the aim began)
@@ -2230,7 +2232,9 @@ namespace GolfArcade.Game
                     hud.SetFace(club != GolfClub.Putter && swinging && !Demo ? Swing.Detector.FaceNow : null);
                     if (Swing.Phase == SwingPhase.Address && lastPhase != SwingPhase.Address) { sounds.PlayReady(); Haptics.Tick(); }
                     if (NativeControlled) {
-                        if (!NativeShotReady) hud.SetStatus("Tap Ready on your phone to line up this shot");
+                        // (11-22: the motion watchdog's pause says why on the TV, as tennis does; it used to read like a plain pause)
+                        if (!NativeShotReady) hud.SetStatus(NativeSportsSession.PauseReason != null && NativeSportsSession.PauseReason.StartsWith("INPUT")
+                            ? "Motion input lost — tap Ready on your phone to carry on" : "Tap Ready on your phone to line up this shot");
                         else if (NativeSportsSession.Touch) { }
                         else if (!NativeSwingTracking) hud.SetStatus(NativeIdleStatus);
                         else if (Swing.Phase == SwingPhase.Address) hud.SetStatus("Swing back and through! Tap the button again to cancel");

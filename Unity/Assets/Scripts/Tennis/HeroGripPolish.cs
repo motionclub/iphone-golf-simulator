@@ -16,10 +16,14 @@ namespace GolfArcade.Tennis
             ApplyGrip(look);
             ApplyFreeHand(look,Time.deltaTime);
         }
+        // (11-22: the name → bone lookup is cached: a string join and Enum.TryParse ran about a dozen times a frame per hero)
+        static readonly System.Collections.Generic.Dictionary<(bool, string, string), int> boneIds = new System.Collections.Generic.Dictionary<(bool, string, string), int>();
         static Transform Bone(MatchHeroLook hero, bool left, string finger, string joint)
         {
-            string name=(left ? "Left":"Right")+finger+joint;
-            return System.Enum.TryParse<HumanBodyBones>(name,out var id) ? hero.Bone(id):null;
+            var key=(left,finger,joint);
+            if(!boneIds.TryGetValue(key,out int id))
+                boneIds[key]=id=System.Enum.TryParse<HumanBodyBones>((left ? "Left":"Right")+finger+joint,out var parsed) ? (int)parsed : -1;
+            return id>=0 ? hero.Bone((HumanBodyBones)id):null;
         }
         /// Shared by reaction authoring: true anatomical hinge axes, including differently
         /// rolled intermediate/distal joints. Strength zero preserves the sampled pose.

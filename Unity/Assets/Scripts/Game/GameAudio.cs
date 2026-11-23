@@ -160,6 +160,8 @@ namespace GolfArcade.Game
         static AudioSource src; static float lastAt = -99; static readonly System.Collections.Generic.Dictionary<string, AudioClip[]> bank = new System.Collections.Generic.Dictionary<string, AudioClip[]>();
         static readonly System.Collections.Generic.Queue<AudioClip> recent = new System.Collections.Generic.Queue<AudioClip>();
         static bool welcomed;
+        /// Under the loading cover (NativeSportsSession.Load): loading every take at the first line of a round stalled that shot's frame.
+        public static void Preload() => Load();
         static void Load()
         {
             if (bank.Count > 0) return;

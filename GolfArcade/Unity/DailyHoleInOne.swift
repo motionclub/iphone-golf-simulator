@@ -2,8 +2,8 @@ import Foundation
 import GameKit
 import Observation
 
-// DAILY HOLE IN ONE (Adnan 2026-11-15): a daily challenge under PLAY → Daily Challenges. Three shots a day, each from a spot
-// 125–175 ft from the pin on one of the golf holes, with the pin moved on the green. Every player in the world gets the same three
+// DAILY HOLE IN ONE (Adnan 2026-11-15): a daily challenge under PLAY → Daily Challenges. Three shots a day, each longer than the
+// last (11-22): a chip from just off the green, a ~100-yard pitch, then a 150–175-yard iron, to a wider cup with the pin moved on the green. Every player in the world gets the same three
 // shots that day (the Eastern date is the seed: Unity's DailyHoleInOne builds them from it). A holed shot scores 1000; any other shot at
 // most 800, less the farther it stops from the cup (Unity scores it). The day's total, out of 3000, goes to a Game Center
 // leaderboard that starts over every day; its rank and player count say how you did against the world.

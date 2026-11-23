@@ -104,7 +104,9 @@ __attribute__((visibility("default"))) int SportsPollSample(SportsSample* output
 }
 __attribute__((visibility("default"))) int SportsPollInput(char* output, int capacity) { return pop(inputs,output,capacity); }
 __attribute__((visibility("default"))) void SportsEmit(const char* json) {
-    if(!json || strlen(json)>4096) return;
+    // (11-22: was 4096 bytes, which dropped every golfController event that carried the hole map picture, 8-30 KB, whole; the app reads
+    // events with a 512 KB buffer, SportsRuntime.pollEvent)
+    if(!json || strlen(json)>=512*1024) return;
     std::lock_guard<std::mutex> lock(gate);
     if(events.size()>=64) events.pop_front(); events.emplace_back(json);
 }

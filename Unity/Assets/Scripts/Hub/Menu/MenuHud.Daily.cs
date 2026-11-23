@@ -115,7 +115,7 @@ namespace GolfArcade.Hub.Menu
         {
             Heading(r, "Daily Challenges", 760);
             var group = new List<MenuItem>(); float y = ListTop;
-            y += WordItem(r, "daily-holeinone", "DAILY HOLE IN ONE", "Daily Hole in One", "3 shots · 125–175 ft · out of 3,000", Left, y, WordSize, PressHoleInOne, group) + 6;
+            y += WordItem(r, "daily-holeinone", "DAILY HOLE IN ONE", "Daily Hole in One", "Chip · 100 yd · 175 yd · out of 3,000", Left, y, WordSize, PressHoleInOne, group) + 6;
             dailyPlay = group[group.Count - 1];
             y += WordItem(r, "daily-board", "WORLD LEADERBOARD", "World leaderboard", "Today's top scores, worldwide", Left, y, WordSize, () => Go(DailyBoard), group) + 6;
             dailyCountdown = BrandUi.Word(BrandUi.Box(r, "Countdown", Left + 10, y + 18, 760, 40), "Text", "", BrandUi.MediumItalic, 28, BrandColors.Gold);
@@ -131,7 +131,7 @@ namespace GolfArcade.Hub.Menu
             dailyCardKicker = BrandUi.Word(BrandUi.Box(mask, "Kicker", 50, 132, 560, 34), "Text", "TODAY'S CHALLENGE", BrandUi.SemiBold, 24, BrandColors.Gold);
             BrandUi.Word(BrandUi.Box(mask, "Title", 46, 166, 600, 66), "Text", "Daily Hole in One", BrandUi.ExtraBoldItalic, 56, BrandColors.White);
             BrandUi.Label(BrandUi.Box(mask, "Line", 50, 236, 570, 96), "Text",
-                "Three shots from 125–175 ft. Hole it for 1,000; a miss scores up to 800, more the closer it stops. Everyone in the world plays the same three shots today.",
+                "A chip, a 100-yard pitch, then a 150–175 yard iron, to a wider cup. Hole it for 1,000; a miss scores up to 800, more the closer it stops.",
                 BrandUi.Medium, 24, new Color(.863f, .89f, .949f), TextAnchor.UpperLeft);
             dailyCardStatus = BrandUi.Word(BrandUi.Box(mask, "Status", 50, H - 62, 570, 40), "Text", "", BrandUi.ExtraBoldItalic, 30, BrandColors.Gold);
         }
@@ -188,7 +188,7 @@ namespace GolfArcade.Hub.Menu
             bool played = b != null && b.played;
             string standing = b != null && b.Ranked ? $"Top {b.top}% in the world" : null;
             // Daily Challenges
-            SetSub(dailyPlay, played ? $"Done · {b.total.ToString("N0", inv)} pts{(standing != null ? " · Top " + b.top + "%" : "")}" : "3 shots · 125–175 ft · out of 3,000");
+            SetSub(dailyPlay, played ? $"Done · {b.total.ToString("N0", inv)} pts{(standing != null ? " · Top " + b.top + "%" : "")}" : "Chip · 100 yd · 175 yd · out of 3,000");
             PaintDailyCountdown(); PaintDailyEntry();
             // two looks: not played yet, the card is gold ("PLAY NOW", time left); played, it says DONE with your score and the time to the next
             if (dailyCardStatus)

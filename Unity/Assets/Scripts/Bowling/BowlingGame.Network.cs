@@ -22,6 +22,8 @@ namespace GolfArcade.Bowling
             public float aim; public int phase;
             /// "setup": its order (slides travel unreliably, holds reliably, so they can cross: an older word never undoes a newer).
             public int seq;
+            /// "emote": the TennisEmotes id a waiting player played (BowlingGame.Emotes).
+            public string emote;
         }
 
         // ---------------------------------------------------------------- phone casting (PLAN_PhoneCasting_GolfBowling.md)
@@ -69,6 +71,7 @@ namespace GolfArcade.Bowling
             CpuSkill.Clear(); Autoplay.Clear();
             PlayerFemale.Clear(); PlayerFemale.AddRange(seated.Select(p => p.female));
             PlayerLook.Clear(); PlayerLook.AddRange(seated.Select(p => (p.loadout?.skinHex ?? "", p.loadout?.shirtHex ?? "", p.loadout?.shortsHex ?? "", p.loadout?.shoesHex ?? "")));
+            EquipNetworkEmotes(seated.Select(p => p.loadout?.emotes));
             NewGame(seated.Select(p => string.IsNullOrEmpty(p.name) ? "Player" : p.name).ToList());
         }
 
@@ -76,6 +79,7 @@ namespace GolfArcade.Bowling
         public void ReceiveNetwork(string payload)
         {
             NetBall m; try { m = JsonUtility.FromJson<NetBall>(payload); } catch { return; }
+            if (m != null && m.kind == "emote") { ReceiveEmote(m); return; }   // (any time: not tied to a ball)
             if (m == null || m.ball < ballsBowled) return;
             if (m.kind == "throw") remoteBalls[m.ball] = m;
             else if (m.kind == "pinfall" && CastMatch) remotePinfalls[m.ball] = m.after;
@@ -100,7 +104,7 @@ namespace GolfArcade.Bowling
             if (Time.unscaledTime >= nextBeat) { nextBeat = Time.unscaledTime + 1; SportsMultiplayer.Instance?.SendPeer("{\"kind\":\"hb\"}", false); }
             // another phone's ball arrived and its bowler is set: bowl it here (on the screen, into the approach it is already walking)
             bool walkingIt = remoteApproach && Flow == Phase.Approach && !released;
-            if ((Flow == Phase.Setup || walkingIt) && !IsLocal(Current) && remoteBall == null && (walkingIt || !Bowler || Bowler.Arrived) && remoteBalls.TryGetValue(ballsBowled, out var m))
+            if ((Flow == Phase.Setup || walkingIt) && !IsLocal(Current) && remoteBall == null && (walkingIt || !Bowler || (ballInHand && Bowler.Arrived)) && remoteBalls.TryGetValue(ballsBowled, out var m))
             {
                 remoteBalls.Remove(ballsBowled); remoteBall = m;
                 boards[Current] = m.board; authAfter = m.after;

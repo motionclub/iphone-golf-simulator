@@ -46,14 +46,16 @@ static void SportsCapExternalMode(UIScreen *screen) {
     screen.currentMode = best;
 }
 
-// Latency plan P1 (B4). Unity's maxQueuedFrames setting only reaches the phone's layer; the TV layer kept CAMetalLayer's
-// default of three drawables, so a finished frame could wait two refreshes before it was shown. Two is the least Metal
-// allows. Launch with `-sportsTVQueuedFrames 3` to compare on a device.
+// The TV layer's queue. Latency plan P1 (B4, 10-24) cut it to two drawables, the least Metal allows, to save a refresh of picture
+// delay. But the game loop runs on the phone's clock while the TV shows frames on its own: with two drawables, whenever AirPlay takes
+// a frame late there is no free surface and the whole game waits for one, a stall the phone's own screen never has (11-22 smoothness
+// audit, "it cuts on the TV, phone-only is smooth"). Three, CAMetalLayer's default, absorbs that; the tennis timing check measures the
+// TV's delay with it included. Launch with `-sportsTVQueuedFrames 2` to compare on a device.
 static void SportsCapExternalQueue(UIView *view) {
     if (![view.layer isKindOfClass:CAMetalLayer.class]) return;
     NSInteger frames = [NSUserDefaults.standardUserDefaults integerForKey:@"sportsTVQueuedFrames"];
     CAMetalLayer *layer = (CAMetalLayer*)view.layer;
-    layer.maximumDrawableCount = frames == 3 ? 3 : 2;
+    layer.maximumDrawableCount = frames == 2 ? 2 : 3;
     NSLog(@"[SportsDisplay] external queued frames %lu", (unsigned long)layer.maximumDrawableCount);
 }
 
@@ -78,6 +80,8 @@ extern "C" __attribute__((visibility("default"))) int SportsPrepareExternalDispl
     }
     if (!externalScene) return -1;
     SportsCapExternalMode(externalScene.screen);
+    // (what the TV takes: a receiver at 50 or 30 would make the 60 fps loop wait every other frame; the device log says which)
+    NSLog(@"[SportsDisplay] external refresh max=%ld fps mode=%@", (long)externalScene.screen.maximumFramesPerSecond, NSStringFromCGSize(externalScene.screen.currentMode.size));
     UnityUpdateDisplayListCache(screens, count);
     UnityActivateScreenForRendering((__bridge void*)externalScene.screen);
     DisplayConnection *connection = manager[externalScene.screen];

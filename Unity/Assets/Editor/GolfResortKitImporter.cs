@@ -12,7 +12,7 @@ namespace GolfArcade.EditorTools
             importer.textureType=normal?TextureImporterType.NormalMap:TextureImporterType.Default;
             importer.sRGBTexture=!normal;importer.mipmapEnabled=true;importer.wrapMode=UnityEngine.TextureWrapMode.Repeat;
             importer.anisoLevel=8;importer.maxTextureSize=assetPath.Contains("/Sky")?2048:512;importer.alphaIsTransparency=false;
-            importer.textureCompression=TextureImporterCompression.CompressedHQ;
+            importer.textureCompression=TextureImporterCompression.Compressed;   // (11-22 size pass: ASTC 6x6, was HQ 4x4 at every import)
         }
         void OnPreprocessModel()
         {

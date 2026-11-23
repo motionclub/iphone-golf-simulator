@@ -120,7 +120,7 @@ import CryptoKit
             let root = MatchHeroData.buildHero(asset,picks:MatchHeroData.Picks(colour:{ _ in nil }))
             let live = try XCTUnwrap(HeroRig(root:root,asset:asset)); live.attach()
             defer { live.detach() }
-            XCTAssertEqual(live.data.boneCount,golf ? (female ? 96 : 61) : (female ? 89 : 152),name)   // + the Headwear socket of the cap (ACCESSORIES) + the golf bag's Back_Bag socket (MENU HERO) + the six forearm twist bones of 11-11; counts of the 11-12 exports
+            XCTAssertEqual(live.data.boneCount,golf ? 96 : (female ? 89 : 152),name)   // + the Headwear socket of the cap (ACCESSORIES) + the golf bag's Back_Bag socket (MENU HERO) + the six forearm twist bones of 11-11; counts of the 11-22 exports (the male golfer's file was a stale 61-bone export until then)
             let fixture = try XCTUnwrap(folder?.appendingPathComponent(name+"_golden.json")
                 ?? bundle.url(forResource:name+"_golden",withExtension:"lzfse")
                 ?? bundle.url(forResource:name+"_golden",withExtension:"json"),"Independent Unity fixture for "+name)

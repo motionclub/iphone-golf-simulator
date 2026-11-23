@@ -92,7 +92,7 @@ namespace GolfArcade.PlayTests
                         introSeen = true;
                         Assert.AreEqual(GolfGame.DailyIntroSeconds, game.PresentationDuration, .01f, "the Daily Challenge's opening has its own length");
                         StringAssert.StartsWith("SHOT 2 OF 3", game.DailyPlateDetail);
-                        StringAssert.Contains(" FT OUT", game.DailyPlateDetail);
+                        StringAssert.Contains(" YD OUT", game.DailyPlateDetail);
                         StringAssert.EndsWith("PTS", game.DailyScoreTitle);
                     }
                     yield return null;

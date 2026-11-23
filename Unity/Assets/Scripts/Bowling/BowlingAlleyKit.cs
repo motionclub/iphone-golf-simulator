@@ -20,7 +20,8 @@ namespace GolfArcade.Bowling
         /// The game lane's pair (kit.py PAIRS[3] = lanes 1 and 0): its two sofas and side table are left out, so the players walk
         /// between the lounge and the approach through that gap (BowlingGame.Route), not through the furniture and the crowd on it.
         public const string GamePair = "Pair3";
-        static bool AisleSlot(string group, string slot) => group == GamePair && (slot == "Upholstery" || slot == "SofaBase" || slot == "TableTop" || slot == "TableBase");
+        static bool AisleSlot(string group, string slot) => group == GamePair && (slot == "Upholstery" || slot == "SofaBase" || slot == "TableTop" || slot == "TableBase"
+            || slot == "Ball2");   // (11-22: the game pair's return keeps two house balls; the bowler's own ball rolls in beside them, BowlingGame.ReturnBall)
         /// outer edges of the bank (it is not symmetric: six lanes left of the game lane, five right)
         public const float BankLeft = (FirstLane - .5f) * BowlingAlley.LanePitch, BankRight = (LastLane + .5f) * BowlingAlley.LanePitch;
 

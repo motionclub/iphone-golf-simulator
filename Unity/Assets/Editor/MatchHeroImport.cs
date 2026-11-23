@@ -62,7 +62,7 @@ namespace GolfArcade.EditorTools
             m.skinWeights = ModelImporterSkinWeights.Custom; m.maxBonesPerVertex = 4; m.minBoneWeight = .001f;
             m.materialImportMode = isBase ? ModelImporterMaterialImportMode.ImportStandard : ModelImporterMaterialImportMode.None;
             m.animationType = Humanoid ? ModelImporterAnimationType.Human : ModelImporterAnimationType.Generic;
-            m.importAnimation = true; m.animationCompression = ModelImporterAnimationCompression.Off;
+            m.importAnimation = true; m.animationCompression = ModelImporterAnimationCompression.Optimal; m.animationRotationError = .1f; m.animationPositionError = .1f; m.animationScaleError = .1f;   // 11-22 size audit: compressed (was Off: 477 MB of clips in the app); 0.1 deg / 0.1 % error keeps grips and contact frames where they were
             if (!Humanoid)
             {
                 // Generic: every FBX keeps its own (identical) skeleton and its own baked curves; the prefab plays them straight on it.

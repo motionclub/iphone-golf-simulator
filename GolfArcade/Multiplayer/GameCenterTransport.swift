@@ -919,7 +919,9 @@ final class GameCenterTransport: NSObject, MultiplayerTransport, GKMatchDelegate
         }
         guard inboxTimer == nil else { return }
         let timer = Timer(timeInterval: 4, repeats: true) { [weak self] _ in
-            Task { @MainActor [weak self] in self?.linkTick(); await self?.refreshInvitations() }
+            // (no inbox reads while a solo match is on: an invite cannot be joined mid-match, and each read is several Game Center
+            // round trips; turn events and coming back to the app still read it)
+            Task { @MainActor [weak self] in self?.linkTick(); if !SportsSession.shared.soloMatchActive { await self?.refreshInvitations() } }
         }
         RunLoop.main.add(timer, forMode: .common); inboxTimer = timer
     }

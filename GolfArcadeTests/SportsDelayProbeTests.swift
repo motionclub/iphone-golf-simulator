@@ -54,17 +54,19 @@ final class SportsDelayProbeTests: XCTestCase {
         SportsTiming.storeChain(0.72, for: "TV", defaults: defaults)
         XCTAssertEqual(SportsTiming.storedChain(for: "TV", defaults: defaults), 0.72)
     }
-    @MainActor func testFlashesRunBeforeTheSwingCheck() {
+    /// Point and fill (11-22): the circle times the TV, so after pointing there are no flashes and no swing check.
+    @MainActor func testNoFlashesAndNoSwingCheckAfterPointing() {
         let session = SportsSession()
+        session.timingStore = UserDefaults(suiteName: "no-flashes-\(UUID())")!
         session.active = true; session.ready = true; session.displayConnected = true
         session.sport = "tennis"; session.loading.cancel()
         session.offerTimingCalibration()
-        XCTAssertTrue(session.measuringDelay)
-        XCTAssertFalse(session.timingPrompt)
+        XCTAssertFalse(session.measuringDelay, "no flashes")
+        XCTAssertFalse(session.timingPrompt, "no swing check offered")
         session.startTimingCheck()
         XCTAssertFalse(session.checkingTiming)
-        XCTAssertTrue(session.paused)
-        session.active = false; session.motion.setDelayProbe(false)
+        XCTAssertTrue(session.paused, "no direction yet (no sensors in this test): the match waits")
+        session.active = false
     }
     /// Latency plan P1 (C1-2): the setup tells a cable from AirPlay and shows the measured delay with the fix that helps.
     func testScreenLinkAndAdvice() {

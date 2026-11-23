@@ -715,7 +715,7 @@ struct TennisSetupFlow: View {
             } else if session.calibrationExplain {
                 CalibrationExplainPanel(session: session)
             } else if session.setupStage == .scan {
-                PointHoldPanel(session: session)
+                if session.glowActive { GlowRingPanel(session: session) } else { PointHoldPanel(session: session) }
             } else if let step = session.calibrationStep {
                 switch step {
                 case .waitingToPoint, .waitingForTV: CalibrationWaitPanel(session: session)
@@ -939,6 +939,82 @@ struct PointHoldPanel: View {
     }
 }
 
+// MARK: - Point and fill (11-22)
+
+/// The whole tennis setup (SportsGlow): point the back of the phone at the TV, see it inside the corners, and hold it there while the
+/// circle fills. With friends on one TV the circle is shared and fills only while every phone is on the TV.
+struct GlowRingPanel: View {
+    @Bindable var session: SportsSession
+    private var skin: MapSkin { .current }
+    var body: some View {
+        // twice a second, so the help line and the fallback appear after a while without the TV
+        TimelineView(.periodic(from: .now, by: 0.5)) { _ in
+            MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: session.sharesTV ? "Point at the TV together" : "Point at the TV", showsMap: false) {
+                ZStack(alignment: .bottom) {
+                    SportsCameraPreview(motion: session.motion)
+                    GlowCorners(color: session.glowSeeing ? skin.accent : .white.opacity(0.75)).padding(.horizontal, 30).padding(.vertical, 22)
+                    if session.glowSeeing {
+                        Text("TV found").font(MapFont.bold(13)).foregroundStyle(skin.accentInk)
+                            .padding(.horizontal, 10).padding(.vertical, 3).background(skin.accent, in: Capsule()).padding(.bottom, 8)
+                    }
+                }
+                .frame(height: 150).frame(maxWidth: .infinity)
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .accessibilityHidden(true)
+                GlowRing(progress: session.glowProgress, skin: skin).frame(width: 96, height: 96)
+                Text(session.glowMessage).font(MapFont.bold(18)).multilineTextAlignment(.center)
+                    .frame(minHeight: 46).fixedSize(horizontal: false, vertical: true)
+                    .accessibilityIdentifier("glow-message")
+                if session.glowNeedsHelp {
+                    MapQuietButton(skin: skin, title: "Use where I'm pointing") { session.useCurrentDirection() }
+                        .accessibilityIdentifier("glow-use-pointing")
+                }
+                if !session.setupProblem.isEmpty {
+                    Text(session.setupProblem).font(MapFont.semi(14)).multilineTextAlignment(.center).opacity(0.8)
+                }
+            }
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityAction(named: "Use where I'm pointing") { session.pointNow() }
+        .accessibilityIdentifier("glow-ring-panel")
+    }
+}
+
+/// The circle on the phone, the same one the TV shows.
+struct GlowRing: View {
+    let progress: Double
+    let skin: MapSkin
+    var body: some View {
+        ZStack {
+            Circle().stroke(skin.ink.opacity(0.12), lineWidth: 12)
+            Circle().trim(from: 0, to: max(0, min(1, progress)))
+                .stroke(skin.accentDeep, style: StrokeStyle(lineWidth: 12, lineCap: .round)).rotationEffect(.degrees(-90))
+                .opacity(progress > 0.005 ? 1 : 0)
+                .animation(.linear(duration: 0.12), value: progress)
+            Text("\(Int((progress * 100).rounded()))%").font(MapFont.bold(24)).monospacedDigit().foregroundStyle(skin.ink)
+        }
+        .accessibilityElement()
+        .accessibilityLabel("Calibration")
+        .accessibilityValue("\(Int((progress * 100).rounded())) percent")
+    }
+}
+
+/// The viewfinder's four corners: the TV goes inside them.
+private struct GlowCorners: View {
+    let color: Color
+    var body: some View {
+        GeometryReader { g in
+            let w = g.size.width, h = g.size.height, l = 20.0
+            Path { p in
+                for (x, y, dx, dy) in [(0.0, 0.0, 1.0, 1.0), (w, 0, -1, 1), (0, h, 1, -1), (w, h, -1, -1)] {
+                    p.move(to: CGPoint(x: x, y: y + dy * l)); p.addLine(to: CGPoint(x: x, y: y)); p.addLine(to: CGPoint(x: x + dx * l, y: y))
+                }
+            }
+            .stroke(color, style: StrokeStyle(lineWidth: 4, lineCap: .round, lineJoin: .round))
+        }
+    }
+}
+
 /// The lesson's first setup card (quick start plan O5): why the setup times the TV, once. Continue, or it moves on by itself.
 struct CalibrationExplainPanel: View {
     let session: SportsSession
@@ -949,7 +1025,7 @@ struct CalibrationExplainPanel: View {
         MapSetupCard(skin: skin, name: MapSkin.playerName(session), title: Self.title, showsMap: false) {
             PointAtTVMark(skin: skin).frame(height: 70)
             Text(Self.message).font(MapFont.bold(18)).multilineTextAlignment(.center).fixedSize(horizontal: false, vertical: true)
-            Text("Point at the TV, watch a few flashes, then swing along with a bouncing ball.")
+            Text("Point your phone at the TV and hold it there while the circle fills.")
                 .font(MapFont.semi(15)).multilineTextAlignment(.center).opacity(0.85).fixedSize(horizontal: false, vertical: true)
             ControllerButton(title: "Continue", icon: "arrow.right") { session.continueCalibrationExplain() }
                 .accessibilityIdentifier("calibration-explain-continue")

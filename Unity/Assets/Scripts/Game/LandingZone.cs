@@ -37,39 +37,61 @@ namespace GolfArcade.Game
             transform.rotation = Quaternion.Euler(0, heading, 0);
         }
 
+        // The ring is built once; each frame only its outer edge moves with the pulse (11-22: the whole mesh, its lists and 112 small
+        // arrays were rebuilt every frame while aiming, most of golf's garbage).
+        const int Segs = 56;
+        Vector3[] verts; int ringStart; Renderer view;
+
         void Build(float pulse)
         {
-            const int segs = 56;
-            var verts = new List<Vector3>(); var colors = new List<Color>(); var tris = new List<int>();
+            var colors = new List<Color>(); var tris = new List<int>(); var v = new List<Vector3>();
             // soft fill
             var fill = Amber; fill.a = 0.16f;
-            verts.Add(Vector3.zero); colors.Add(fill);
-            for (int i = 0; i <= segs; i++)
+            v.Add(Vector3.zero); colors.Add(fill);
+            for (int i = 0; i <= Segs; i++)
             {
-                float a = i * Mathf.PI * 2 / segs;
-                verts.Add(new Vector3(Mathf.Cos(a) * 0.86f, 0, Mathf.Sin(a) * 0.86f)); colors.Add(fill);
+                float a = i * Mathf.PI * 2 / Segs;
+                v.Add(new Vector3(Mathf.Cos(a) * 0.86f, 0, Mathf.Sin(a) * 0.86f)); colors.Add(fill);
             }
-            for (int i = 1; i <= segs; i++) tris.AddRange(new[] { 0, i, i + 1 });
+            for (int i = 1; i <= Segs; i++) tris.AddRange(new[] { 0, i, i + 1 });
             // the ring, a band whose width breathes
-            float inner = 0.86f, outer = 1f + 0.06f * pulse;
+            float inner = 0.86f;
             var ring = Amber; ring.a = 0.95f;
-            int start = verts.Count;
-            for (int i = 0; i <= segs; i++)
+            ringStart = v.Count;
+            for (int i = 0; i <= Segs; i++)
             {
-                float a = i * Mathf.PI * 2 / segs;
-                verts.Add(new Vector3(Mathf.Cos(a) * inner, 0, Mathf.Sin(a) * inner)); colors.Add(ring);
-                verts.Add(new Vector3(Mathf.Cos(a) * outer, 0, Mathf.Sin(a) * outer)); colors.Add(ring);
+                float a = i * Mathf.PI * 2 / Segs;
+                v.Add(new Vector3(Mathf.Cos(a) * inner, 0, Mathf.Sin(a) * inner)); colors.Add(ring);
+                v.Add(Vector3.zero); colors.Add(ring);   // (the outer edge: Pulse)
             }
-            for (int i = 0; i < segs; i++)
+            for (int i = 0; i < Segs; i++)
             {
-                int v = start + i * 2;
-                tris.AddRange(new[] { v, v + 2, v + 1, v + 1, v + 2, v + 3 });
+                int k = ringStart + i * 2;
+                tris.AddRange(new[] { k, k + 2, k + 1, k + 1, k + 2, k + 3 });
             }
+            verts = v.ToArray();
             mesh.Clear();
-            mesh.SetVertices(verts); mesh.SetColors(colors); mesh.SetTriangles(tris, 0);
+            mesh.vertices = verts; mesh.SetColors(colors); mesh.SetTriangles(tris, 0);
+            Pulse(pulse);
+        }
+
+        void Pulse(float pulse)
+        {
+            float outer = 1f + 0.06f * pulse;
+            for (int i = 0; i <= Segs; i++)
+            {
+                float a = i * Mathf.PI * 2 / Segs;
+                verts[ringStart + i * 2 + 1] = new Vector3(Mathf.Cos(a) * outer, 0, Mathf.Sin(a) * outer);
+            }
+            mesh.vertices = verts;
             mesh.RecalculateBounds();
         }
 
-        void Update() { GetComponent<Renderer>().enabled=GolfArcade.EnvironmentArt.DreamVisibility.Visible(transform.position); Build(0.5f + 0.5f * Mathf.Sin(Time.time * 2.2f)); }
+        void Update()
+        {
+            if (!view) view = GetComponent<Renderer>();
+            view.enabled = GolfArcade.EnvironmentArt.DreamVisibility.Visible(transform.position);
+            Pulse(0.5f + 0.5f * Mathf.Sin(Time.time * 2.2f));
+        }
     }
 }

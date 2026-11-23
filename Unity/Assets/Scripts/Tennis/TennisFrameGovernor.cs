@@ -2,45 +2,22 @@ using UnityEngine;
 
 namespace GolfArcade.Tennis
 {
-    /// Holds the frame rate when a phone cannot. If frames run consistently late -- a slower
-    /// phone, or one that has heated up and throttled -- it steps rendering quality down one
-    /// notch at a time. It never steps back up within a session: oscillating between two
-    /// quality levels would itself read as a hitch.
+    /// Holds the frame rate when a phone cannot (tennis and bowling; golf's Luminous Coast has its own, the same logic: FramePace). If
+    /// frames run late -- a slower phone, or one that has heated up -- a ProMotion phone at 120 drops to 60 first, then rendering quality
+    /// steps down one notch at a time. It never steps back up within a session: oscillating between two levels would itself read as a hitch.
     public sealed class TennisFrameGovernor : MonoBehaviour
     {
-        /// Seconds of frames judged at a time, and the grace period after loading and after
-        /// each change, when frame times are not representative.
-        public const float Window = 2f, Settle = 4f;
-        /// A window is "late" when this share of its frames missed their slot.
-        public const float LateShare = .1f;
-        float elapsed, settle = Settle, sinceDrawn, calm;
-        int frames, late, inputRate;
+        /// Seconds of grace after loading and after each change, when frame times are not representative.
+        public const float Settle = 4f;
+        readonly GolfArcade.Game.FrameWindow window = new GolfArcade.Game.FrameWindow(Settle);
+        readonly GolfArcade.Game.PacePolicy policy = new GolfArcade.Game.PacePolicy();
+        float calm; int inputRate = -1;
 
         void Update()
         {
-            if (Application.isEditor || Time.timeScale == 0 || GolfArcade.EnvironmentArt.LuminousCoastPilot.Active) return;
-            // With 120 Hz swing input (InputRate) only every other loop is drawn: judge the frames the TV gets, and start
-            // the window again whenever the loop rate changes.
-            if (inputRate != GolfArcade.Game.InputRate.Generation) { inputRate = GolfArcade.Game.InputRate.Generation; elapsed = 0; frames = late = 0; sinceDrawn = 0; settle = Mathf.Max(settle, 1); }
-            sinceDrawn += Time.unscaledDeltaTime;
-            if (!UnityEngine.Rendering.OnDemandRendering.willCurrentFrameRender) return;
-            float dt = sinceDrawn; sinceDrawn = 0;
-            if (settle > 0) { settle -= dt; return; }
-            float slot = UnityEngine.Rendering.OnDemandRendering.renderFrameInterval / (float)Mathf.Max(30, Application.targetFrameRate);
-            frames++; if (dt > slot * 1.25f) late++;
-            elapsed += dt;
-            if (elapsed < Window) return;
-            if (ShouldStepDown(frames, late) && TennisQuality.StepDown())
-            {
-                Debug.Log($"[TennisQuality] {late}/{frames} late frames — stepped down (reduction {TennisQuality.Reductions})");
-                settle = Settle; calm = 0;
-            }
-            // a minute at this level without a late window: the level is remembered as one this phone holds (TennisQuality.Apply)
-            else if (!ShouldStepDown(frames, late) && (calm += elapsed) >= 60) TennisQuality.MarkHeld();
-            elapsed = 0; frames = 0; late = 0;
+            if (Application.isEditor || GolfArcade.EnvironmentArt.LuminousCoastPilot.Active) return;
+            GolfArcade.Game.FramePace.Govern(this, window, policy, ref calm, ref inputRate, "governor");
         }
-
-        public static bool ShouldStepDown(int frames, int late) => frames > 0 && late >= frames * LateShare;
     }
 
     /// First use of a shader or particle material compiles its pipeline state, which on

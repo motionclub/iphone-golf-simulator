@@ -46,14 +46,12 @@ Unity/Assets/Scripts/Game/HeroGolfer.cs
 # CLOTHING V2 (work/clothing-v2): garments built as their own pieces; their meshes, maps, skin cover / contact data and pose correctives
 Unity/Assets/Scripts/Tennis/KitV2PoseCorrectives.cs
 Unity/Assets/Scripts/Tennis/HeroGarmentTailoring.cs
-Unity/Assets/Characters/KitsV2/GolfKitHero_Female/Kit_Belt.asset
 Unity/Assets/Characters/KitsV2/GolfKitHero_Female/Kit_Bottom.asset
 Unity/Assets/Characters/KitsV2/GolfKitHero_Female/Kit_Glove_L.asset
 Unity/Assets/Characters/KitsV2/GolfKitHero_Female/Kit_Glove_R.asset
 Unity/Assets/Characters/KitsV2/GolfKitHero_Female/Kit_Shoe_L.asset
 Unity/Assets/Characters/KitsV2/GolfKitHero_Female/Kit_Shoe_R.asset
 Unity/Assets/Characters/KitsV2/GolfKitHero_Female/Kit_Top.asset
-Unity/Assets/Characters/KitsV2/GolfKitHero_Male/Kit_Belt.asset
 Unity/Assets/Characters/KitsV2/GolfKitHero_Male/Kit_Bottom.asset
 Unity/Assets/Characters/KitsV2/GolfKitHero_Male/Kit_Glove_L.asset
 Unity/Assets/Characters/KitsV2/GolfKitHero_Male/Kit_Glove_R.asset
@@ -123,10 +121,6 @@ Unity/Assets/Resources/Tennis/KitsV2/Male/KitV2_Tennis_Male_Top_N.png
 Unity/Assets/Resources/Tennis/KitsV2/Male/KitV2_Tennis_Male_Top_contact.bytes
 Unity/Assets/Resources/Tennis/KitsV2/Male/KitV2_Tennis_Male_Top_correctives.json
 Unity/Assets/Resources/Tennis/KitsV2/Male/KitV2_Tennis_Male_Top_hide.bytes
-Unity/Assets/Resources/Golf/KitsV2/Female/KitV2_Golf_Female_Belt_M.png
-Unity/Assets/Resources/Golf/KitsV2/Female/KitV2_Golf_Female_Belt_N.png
-Unity/Assets/Resources/Golf/KitsV2/Female/KitV2_Golf_Female_Belt_contact.bytes
-Unity/Assets/Resources/Golf/KitsV2/Female/KitV2_Golf_Female_Belt_hide.bytes
 Unity/Assets/Resources/Golf/KitsV2/Female/KitV2_Golf_Female_Bottom_M.png
 Unity/Assets/Resources/Golf/KitsV2/Female/KitV2_Golf_Female_Bottom_N.png
 Unity/Assets/Resources/Golf/KitsV2/Female/KitV2_Golf_Female_Bottom_contact.bytes

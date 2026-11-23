@@ -199,8 +199,12 @@ namespace GolfArcade.Course
         /// The cup's mouth as drawn, yards: a ball whose centre crosses it slowly enough drops,
         /// so a putt that rolls over the dark of the hole goes in.
         public const double CupCaptureRadius = 0.054 * 1.0936 * CupScale;
+        /// The Daily Hole in One's wider cup (DailyHoleInOne.CupBoost, set when its holes are dealt): 1 in every other mode.
+        public double CupBoost = 1;
+        /// How many times a round's cup today's is: the round's rules (a Bucket Cup twist) times the Daily Hole in One's boost.
+        public double CupSize => (Rules?.Cup ?? 1) * CupBoost;
         /// Today's cup: the drawn one, or a bucket when the round's rules widen it.
-        public double CupRadius => CupCaptureRadius * (Rules?.Cup ?? 1);
+        public double CupRadius => CupCaptureRadius * CupSize;
 
         public CoursePoint Tee => Centerline[0];
         /// The middle of the green: the course model is placed by it (its MARKER_PIN) and the green and fringe are measured from it.

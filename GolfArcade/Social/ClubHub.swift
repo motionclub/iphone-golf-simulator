@@ -800,7 +800,7 @@ final class ClubHub {
         joinWhenReady()
         if link == .online { publishPresence() }
         cloudTicks += 1
-        if cloud.on, cloudTicks % 20 == 0 { Task { await refreshCloudFriends() } }
+        if cloud.on, cloudTicks % 20 == 0, !SportsSession.shared.soloMatchActive { Task { await refreshCloudFriends() } }
     }
 
     /// Tests: one tick without waiting a second.

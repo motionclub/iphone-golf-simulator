@@ -17,6 +17,8 @@ namespace GolfArcade.Game
         [Serializable] public partial class Message {
             public int version; public string session, action, sport, playerID, playerName,reason;
             public bool female,left,sound=true,haptics=true,touch,external,bench; public int skin=2,token,fps=60,inputHz=60; public float value,value2,difficulty=-1;
+            /// Settings → Picture: "smooth" (the default: the frame rate first) or "sharp" (TennisQuality.Sharp).
+            public string picture;
             // Tennis menu choice: "campaign" or "training", and the campaign round's opponent.
             public string mode,opponent,opponentName,round; public int ultimate;
             // The match format (sets to win, games per set) and the coach's changeover lines, "|"-separated.
@@ -67,6 +69,12 @@ namespace GolfArcade.Game
         public static bool Active { get; private set; }
         public static bool Left { get; private set; }
         public static string PauseReason { get; private set; }
+        /// The match is drawn on a TV (or Mac) over AirPlay or a cable, not on the phone's own screen: always 1080p at 60 (FramePace judges its
+        /// late frames apart: a late TV frame may be AirPlay's).
+        public static bool OnTV { get; private set; }
+        static NativeSportsSession live;
+        /// A sport's match is up and drawn (not loading, not the menu): the only time the frame governors judge (FramePace).
+        public static bool InMatch => live && live.Ready && Active && !live.hubMode && !live.loading;
         /// True while input comes from on-screen controls rather than phone motion. Serving
         /// cannot demand a raised-arm gesture from a player who is tapping a button.
         public static bool Touch { get; private set; }
@@ -119,6 +127,7 @@ namespace GolfArcade.Game
         }
         void Start()
         {
+            live=this;
             Emit("boot","");
             PresentationPolicy.Trace += PresentationTrace;
             TennisGame.RecordingPointStarted+=SportsRecorderBeginPoint;
@@ -151,8 +160,20 @@ namespace GolfArcade.Game
         /// iOS warned that memory is low (SportsRuntime forwards it): let go of every asset nothing uses any more, before iOS kills the app
         /// mid-load or mid-match (2026-10-28: 171 MB left as online tennis loaded). Nothing listened to the warning before. At most every 10 s,
         /// since unloading costs a frame.
-        float lastLowMemory = -100;
+        /// 11-22: an unload stalls the game for several frames, so in mid-play it waits for the next pause, load or match end; a second warning
+        /// within 10 s means it cannot wait.
+        float lastLowMemory = -100, lowMemoryAt = -100; bool lowMemoryPending;
         void LowMemory() {
+            bool playing = Active && !loading && !paused && !hubMode;
+            if (playing && !(lowMemoryPending && Time.realtimeSinceStartup - lowMemoryAt < 10)) {
+                lowMemoryPending = true; lowMemoryAt = Time.realtimeSinceStartup;
+                Debug.Log("[NativeSportsSession] low memory: unloading at the next pause");
+                return;
+            }
+            UnloadUnused();
+        }
+        void UnloadUnused() {
+            lowMemoryPending = false;
             if (Time.realtimeSinceStartup - lastLowMemory < 10) return;
             lastLowMemory = Time.realtimeSinceStartup;
             Debug.Log("[NativeSportsSession] low memory: unloading unused assets");
@@ -279,12 +300,18 @@ namespace GolfArcade.Game
             // 60 everywhere; 120 only when asked for and the panel can actually show it.
             // A TV runs at 60: rendering faster only adds frames AirPlay has to drop, and a
             // steady 60 is what keeps its delay steady.
-            InputRate.Stop();
-            Application.targetFrameRate=m.external ? 60 : FrameRate.Target(m.fps,Screen.currentResolution.refreshRateRatio.value);
+            InputRate.Stop(); InputRate.NewMatch(); OnTV=m.external;
+            if(lowMemoryPending) UnloadUnused();
+            // A TV is 1080p at 60, always (the plugin caps the screen mode; ConfigureDisplay the drawing size). The phone's own screen follows
+            // the phone (Settings → Phone frame rate: Auto is 120 on ProMotion phones with an A17 Pro or newer, else 60), and a sport this
+            // phone could not hold at 120 starts at 60 for a few launches (PhoneRate).
+            int rate=m.external ? 60 : PhoneRate.Choose(m.sport,m.fps,Screen.currentResolution.refreshRateRatio.value);
+            Application.targetFrameRate=rate;
             QualitySettings.vSyncCount=0;
             PresentationPolicy.HoleFlyover=m.holeFlyover;
             PresentationPolicy.Configure(m.intros,m.presentationConstrained,m.bigMoments,!string.IsNullOrEmpty(m.network));
-            TennisQuality.Apply(m.sport);   // (the tier, then the steps this phone needed in this sport before)
+            TennisQuality.Sharp=m.picture=="sharp";
+            TennisQuality.Apply(m.sport,m.external);   // (the tier, then the steps this phone needed in this sport and on this screen before)
             PresentationPolicy.Constrained |= TennisQuality.Current==TennisQuality.Tier.Low;
             // (a multiplayer golf phone without the TV draws only the upright controller sheet)
             // (bowling with no TV plays on the phone held upright: the lane runs up the screen under the controls)
@@ -312,6 +339,7 @@ namespace GolfArcade.Game
                 yield return null;
             }
             Emit("loadProgress","1"); Emit("sceneReady","Scene loaded");
+            Application.targetFrameRate=rate;   // (golf's Awake sets 60 for the stand-alone build: the phone's own rate wins here)
             tennis=FindFirstObjectByType<TennisGame>(); golf=FindFirstObjectByType<GolfGame>(); bowling=FindFirstObjectByType<GolfArcade.Bowling.BowlingGame>();
             float deadline=Time.realtimeSinceStartup+15;
             while(m.sport=="tennis" && tennis && !tennis.Initialized && Time.realtimeSinceStartup<deadline) yield return null;
@@ -358,6 +386,10 @@ namespace GolfArcade.Game
             }
             gameplayCamera=tennis ? tennis.GameplayCamera : golf ? golf.GameplayCamera : bowling.GameplayCamera;
             if(golf && m.touch) golf.Swing.Armed=false;
+            // First-use hitches, taken here under the loading cover: the announcer's takes (they loaded at the round's first line) and the
+            // weather's shader variant (it switches on mid-round: its first frame compiled a dozen world shaders).
+            if(golf) GameVoice.Preload();
+            if(GolfArcade.Majestic.MajesticWeather.Current) RenderWarmup.Keyword(gameplayCamera,"MAJESTIC_WEATHER_ON");
             SetPaused(true);
             yield return behindPlaza ? HandOff(m) : Present(m.external,"ready");
             loading=false;
@@ -443,7 +475,7 @@ namespace GolfArcade.Game
                 Debug.Log($"[SportsDisplay] external system {d.systemWidth}x{d.systemHeight} rendering {d.renderingWidth}x{d.renderingHeight}");
             }
             gameplayCamera.targetDisplay=index;
-            outputDisplay=index;
+            outputDisplay=index; OnTV=index>0;
             foreach(var listener in FindObjectsByType<AudioListener>(FindObjectsSortMode.None))
                 if(listener.enabled && !listener.GetComponent<PointClipAudioTap>()) listener.gameObject.AddComponent<PointClipAudioTap>();
             SportsRecorderConfigure(session,index);
@@ -463,7 +495,7 @@ namespace GolfArcade.Game
             return true;
         }
         void SetPaused(bool value,string reason=null) {
-            paused=value; SportsRecorderPause(value); PauseReason=value ? (string.IsNullOrEmpty(reason) ? "PAUSED — tap Ready on your phone" : reason) : null;
+            paused=value; SportsRecorderPause(value); if(value && lowMemoryPending) UnloadUnused(); PauseReason=value ? (string.IsNullOrEmpty(reason) ? "PAUSED — tap Ready on your phone" : reason) : null;
             if(value) steeringTracked=false;
             if(value) TrackingWarning="";
             if(!value) { resumedAt=SportsClock(); if(tennis) tennis.LockLoadout(); if(golf) golf.TryNativePresentation(); }

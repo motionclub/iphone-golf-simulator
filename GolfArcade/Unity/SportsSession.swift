@@ -42,9 +42,38 @@ final class SportsSession {
     }
     /// Render at 120fps on ProMotion phones. Off by default: 60 is the guaranteed target,
     /// 120 is smoother where the phone can hold it.
-    var highFrameRate = (UserDefaults.standard.object(forKey:"sports.highFrameRate") as? Bool) ?? false {
-        didSet { UserDefaults.standard.set(highFrameRate,forKey:"sports.highFrameRate") }
+    /// Settings → Display → Phone frame rate, for games drawn on the phone's own screen (a TV is always 1080p at 60): "auto" (the
+    /// default: 120 on a ProMotion phone with an A17 Pro or newer, 60 on the rest), "60" or "120". (11-22: replaces the old "120 fps on
+    /// the phone" switch, which was off by default; a phone that had it on keeps 120.)
+    var phoneFrameRate = (UserDefaults.standard.string(forKey:"sports.phoneFrameRate"))
+        ?? ((UserDefaults.standard.object(forKey:"sports.highFrameRate") as? Bool) == true ? "120" : "auto") {
+        didSet { UserDefaults.standard.set(phoneFrameRate,forKey:"sports.phoneFrameRate") }
     }
+    /// Settings → Display → Picture: "smooth" (the default: the frame rate comes first, effects step down to hold it) or "sharp" (every
+    /// effect and the panel's full resolution on the phone; older phones may drop frames). Unity TennisQuality.Sharp.
+    var picture = UserDefaults.standard.string(forKey:"sports.picture") ?? "smooth" {
+        didSet { UserDefaults.standard.set(picture,forKey:"sports.picture") }
+    }
+    /// The phone's own screen: 120 or 60 (Unity keeps it only if the panel reaches 120, and drops to 60 if the phone cannot hold it).
+    var phoneFps: Int {
+        let panel = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+            .first { $0.session.role == .windowApplication }?.screen.maximumFramesPerSecond ?? 60
+        if panel < 120 || ProcessInfo.processInfo.isLowPowerModeEnabled { return 60 }
+        switch phoneFrameRate {
+        case "60": return 60
+        case "120": return 120
+        default: return Self.chipGeneration >= 16 ? 120 : 60
+        }
+    }
+    /// The hardware model's generation ("iPhone16,1" → 16: A17 Pro and newer are 16+), as Unity's TennisQuality.ForModel reads it; 0 off a phone.
+    static let chipGeneration: Int = {
+        var info = utsname(); uname(&info)
+        let model = withUnsafeBytes(of: &info.machine) { String(decoding: $0.prefix { $0 != 0 }, as: UTF8.self) }
+        guard model.hasPrefix("iPhone"), let comma = model.firstIndex(of: ",") else { return 0 }
+        return Int(model[model.index(model.startIndex, offsetBy: 6)..<comma]) ?? 0
+    }()
+    /// A match is on with no other phone in it: the app's background checks (Game Center inbox, iCloud, friends) slow down or wait.
+    var soloMatchActive: Bool { active && multiplayerMatchID == nil }
     var tennisCamera = UserDefaults.standard.string(forKey: "sports.tennisCamera") ?? "chase" {
         didSet { UserDefaults.standard.set(tennisCamera, forKey: "sports.tennisCamera") }
     }
@@ -139,9 +168,10 @@ final class SportsSession {
     var swingPrediction = (UserDefaults.standard.object(forKey:"sports.swingPrediction") as? Bool) ?? true {
         didSet { UserDefaults.standard.set(swingPrediction,forKey:"sports.swingPrediction") }
     }
-    /// Settings → Controls → 120 Hz swing input (on unless turned off): on a TV the match loop reads the swing at 120 Hz
-    /// while the TV is still drawn at 60 (Unity InputRate).
-    var fastInput = (UserDefaults.standard.object(forKey:"sports.fastInput") as? Bool) ?? true {
+    /// Settings → Controls → 120 Hz swing input (off unless turned on, 11-22): on a TV the match loop reads the swing at 120 Hz while the
+    /// TV is still drawn at 60 (Unity InputRate). It runs the whole game twice per TV frame, and any pass over 8.3 ms gave the TV a late
+    /// frame: off by default so every TV gets a steady 60.
+    var fastInput = (UserDefaults.standard.object(forKey:"sports.fastInput") as? Bool) ?? false {
         didSet { UserDefaults.standard.set(fastInput,forKey:"sports.fastInput") }
     }
     /// 120 only when it is on, this phone's panel reaches 120 (ProMotion) and Low Power Mode (which caps it at 60) is off.
@@ -291,6 +321,137 @@ final class SportsSession {
     private(set) var holdingPoint = false
     /// What the hold ring shows (0...1).
     var pointProgress: Double { axisGate.locked ? 1 : max(0, min(1, axisGate.progress)) }
+
+    // MARK: Point and fill (SportsGlow, 11-22)
+
+    /// The circle is up: the TV glows behind its card and this phone's camera reads it (setupStage .scan).
+    private(set) var glowActive = false
+    /// The circle on the TV and on every phone (0...1): kept by the phone with the TV, mirrored by the others.
+    private(set) var glowProgress = 0.0
+    /// This phone's camera sees the TV's glow now.
+    private(set) var glowSeeing = false
+    /// When the circle went up, and when this phone last saw the TV (host clock): after a while without it, the phone offers to use
+    /// the direction it points instead (the camera may be covered, or the room too bright to read).
+    private(set) var glowStartedAt = 0.0
+    private(set) var glowLastSeenAt = 0.0
+    static let glowHelpAfter = 8.0
+    private var glowFill = SportsGlowFill()
+    private var glowLastTick: Double?
+    private var glowSharedStep = ""
+    /// The glow clock minus the host clock: the network clock when phones share the TV (every phone reads the wave the TV phone draws).
+    private var glowClockOffset: Double { sharesTV ? MultiplayerService.shared.networkTime - CACurrentMediaTime() : 0 }
+    /// The players sharing this TV who are not on it yet (their camera does not see the glow).
+    var playersOffTheTV: [MultiplayerParticipant] {
+        guard sharesTV, let lobby = MultiplayerService.shared.lobby else { return [] }
+        return lobby.competitors.filter { p in
+            p.id != MultiplayerService.shared.localID && p.connected && !p.calibrated && SportsGlowStep.seeing(p.setupStep) != true
+                && !["pointed", "ready", "quick", SportsGlowStep.done].contains(p.setupStep ?? "")
+        }
+    }
+    /// The line under the circle on the phone.
+    var glowMessage: String {
+        if !glowSeeing {
+            if CACurrentMediaTime() - max(glowStartedAt, glowLastSeenAt) > Self.glowHelpAfter {
+                return "Can't see the TV's glow. Get the whole TV inside the corners."
+            }
+            return glowProgress > 0 ? "Point back at the TV. The circle drains until you do." : "Get the TV inside the corners."
+        }
+        if let first = playersOffTheTV.first { return "Waiting for \(first.name) to point at the TV too." }
+        if !ownsTV, sharesTV, glowProgress <= 0 { return "Waiting for the TV…" }
+        return "Keep it there…"
+    }
+    /// The fallback is offered: the TV has not been in view for a while, or the camera is off.
+    var glowNeedsHelp: Bool {
+        glowActive && !glowSeeing && (CACurrentMediaTime() - max(glowStartedAt, glowLastSeenAt) > Self.glowHelpAfter || !setupProblem.isEmpty)
+    }
+
+    /// The circle goes up: the TV starts to glow (TennisSetupTVView) and the camera reads it.
+    private func beginGlow() {
+        glowFill = SportsGlowFill(); glowProgress = 0; glowSeeing = false; glowActive = true; glowLastTick = nil; glowSharedStep = ""
+        glowStartedAt = CACurrentMediaTime(); glowLastSeenAt = 0; latencyReading = nil; timingNote = ""
+        SportsGlow.clockOffset = glowClockOffset
+        shareGlowStep(seeing: false, progress: ownsTV && sharesTV ? 0 : nil)
+        #if DEBUG
+        if motion.fixtureSensors { return }   // tests have no camera: they hand receiveGlow its sightings
+        #endif
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized:
+            motion.beginGlowRead(clockOffset: SportsGlow.clockOffset, travel: travel)
+        case .notDetermined:
+            motion.beginPointing(travel: travel)   // motion runs meanwhile, for the fallback
+            let launched = sessionID
+            Task { @MainActor [weak self] in
+                let allowed = await AVCaptureDevice.requestAccess(for: .video)
+                guard let self, self.active, self.sessionID == launched, self.glowActive else { return }
+                if allowed { self.motion.beginGlowRead(clockOffset: SportsGlow.clockOffset, travel: self.travel) }
+                else { self.setupProblem = "Camera access is off, so the phone can't see your TV. Use where you're pointing instead." }
+            }
+        default:
+            motion.beginPointing(travel: travel)
+            setupProblem = "Camera access is off, so the phone can't see your TV. Turn it on in Settings, or use where you're pointing."
+        }
+        SportsDiagnostics.write("glow begin ownsTV=\(ownsTV) sharesTV=\(sharesTV) offset=\(SportsGlow.clockOffset)")
+    }
+    private func endGlow() {
+        guard glowActive else { return }
+        glowActive = false; glowSeeing = false
+        motion.endGlowRead()
+    }
+    private func shareGlowStep(seeing: Bool, progress: Int?) {
+        guard multiplayerMatchID != nil else { return }
+        let step = SportsGlowStep.encode(seeing: seeing, progress: progress)
+        guard step != glowSharedStep else { return }
+        glowSharedStep = step
+        MultiplayerService.shared.runtimeSetupStep(step)
+    }
+    /// A look from the camera (ten a second): this phone on or off the TV, and the circle's progress.
+    func receiveGlow(_ sighting: SportsGlowSighting) {
+        guard active, sport == "tennis", setupStage == .scan, glowActive else { return }
+        let dt = glowLastTick.map { max(0, min(0.25, sighting.time - $0)) } ?? 0
+        glowLastTick = sighting.time
+        glowSeeing = sighting.seeing
+        if sighting.seeing { glowLastSeenAt = sighting.time; glowFill.add(delay: sighting.delay, heading: sighting.heading) }
+        let offset = glowClockOffset
+        if abs(offset - SportsGlow.clockOffset) > 0.002 { SportsGlow.clockOffset = offset; motion.setGlowClockOffset(offset) }
+        if ownsTV || !sharesTV {
+            // the circle is this phone's: it fills only while every phone sharing the TV sees it
+            glowFill.step(dt, everyoneOn: sighting.seeing && playersOffTheTV.isEmpty)
+            glowProgress = glowFill.progress
+            shareGlowStep(seeing: sighting.seeing, progress: sharesTV ? Int(glowFill.progress * 10) * 10 : nil)
+            if glowFill.done { finishGlow() }
+        } else {
+            // the circle is the TV phone's: this phone says whether it sees the TV, and finishes when the circle is full
+            shareGlowStep(seeing: sighting.seeing, progress: nil)
+            let tv = tvPhone
+            let full = tv == nil || !(tv!.connected) || tv!.calibrated || SportsGlowStep.pastCircle(tv!.setupStep)
+            glowProgress = full ? 1 : SportsGlowStep.progress(tv?.setupStep) ?? 0
+            if full { finishGlow() }
+        }
+    }
+    /// The circle is full: the phone with the TV keeps the TV's delay; every phone takes its direction from where it pointed through the
+    /// TV while it filled.
+    private func finishGlow() {
+        guard glowActive else { return }
+        glowActive = false; glowProgress = 1
+        if ownsTV || !sharesTV, let raw = glowFill.delay {
+            let delay = raw + SportsGlow.gameFrameLead
+            tvDelay = delay; latencyReading = delay; checkTimingOnResume = false
+            SportsTiming.storePicture(delay, for: SportsTiming.currentTV(), defaults: timingStore)
+            // this TV's timing as play last left it, unless the picture has moved since (a new picture mode, another box)
+            let lag = timingCalibration.map { abs($0 - delay) < 0.06 ? $0 : delay } ?? delay
+            command("latency", value: lag)
+            if multiplayerSplit, lag > 0 { MultiplayerService.shared.setScreenDelay(lag) }
+            timingNote = String(format: "TV delay %.0f ms. Your first few swings fine-tune it.", delay * 1000)
+            delayTip = SportsTiming.advice(link: SportsTiming.currentLink(), delay: delay, gameModeHint: Self.gameModeHint)
+            SportsDiagnostics.write(String(format: "glow done delay=%.3f lag=%.3f readings=%d spread=%.3f link=%@", delay, lag, glowFill.delays.count,
+                                           (glowFill.delays.max() ?? 0) - (glowFill.delays.min() ?? 0), "\(SportsTiming.currentLink())"))
+            if multiplayerMatchID != nil { MultiplayerService.shared.runtimeSetupStep(SportsGlowStep.done) }
+        } else {
+            SportsDiagnostics.write("glow done (following the TV phone) headings=\(glowFill.headings.count)")
+        }
+        if haptics { UINotificationFeedbackGenerator().notificationOccurred(.success) }
+        motion.lockGlowDirection(heading: glowFill.heading)
+    }
     /// The line under the hold button.
     var pointMessage: String {
         if holdingPoint { return axisGate.message }
@@ -347,8 +508,11 @@ final class SportsSession {
     /// The phone was pointed at the TV while the court loaded (T4): the setup carries on from there once it has.
     private var pointedWhileLoading = false
     /// Point and hold already works under the loading screen (it is motion only): solo, not in the lesson (it opens on its card).
+    /// (11-22: off. The circle needs the court on the TV to glow behind it; pointing under the loading screen comes back if the circle is
+    /// ever drawn over the loading cover too.)
+    static let pointUnderLoading = false
     var pointsWhileLoading: Bool {
-        active && sport == "tennis" && multiplayerMatchID == nil && !loading.finished && setupStage == .scan
+        Self.pointUnderLoading && active && sport == "tennis" && multiplayerMatchID == nil && !loading.finished && setupStage == .scan
             && !forceFullCalibration && !calibrationMode && !Self.benchmark && displayConnected
     }
     /// The calibrate card is up (the lesson's setup); Continue, or calibrationExplainSeconds, takes it down.
@@ -392,6 +556,7 @@ final class SportsSession {
             if self.showsOnlineTennisSetup { self.setupProblem = message; self.status = message }
             else { self.pause(reason: message); self.status = message }
         }
+        motion.onGlow = { [weak self] sighting in self?.receiveGlow(sighting) }
         motion.onGate = { [weak self] gate in
             guard let self, self.active, self.sport == "tennis", self.setupStage == .scan else { return }
             self.axisGate=gate
@@ -667,7 +832,7 @@ final class SportsSession {
             matchEmotes = EmoteCatalog.normalized(local.loadout?.emotes)
         }
         motion.setAimProfile(storedAimProfile())
-        pending=["holeFlyover":holeFlyover,"intros":consumePresentationIntroCut(),"bigMoments":presentationBigMoments,"presentationConstrained":reduceMotion || ProcessInfo.processInfo.thermalState == .serious || ProcessInfo.processInfo.thermalState == .critical,"version":1,"session":sessionID,"action":"start","sport":sport,"playerID":p.id.uuidString,"playerName":p.name,"female":p.standardFemale,"skin":p.standardSkin,"left":p.handedness == .left,"sound":sound && !(multiplayerControllerOnly && !phonePlay && (sport == "tennis" || !displayConnected)),"phonePlay":phonePlay,"castScreen":castOnPhone,"castController":multiplayerCasting && !castScreen,"haptics":haptics,"touch":preview,"token":Int(sessionToken),"fps":highFrameRate ? 120 : 60,"inputHz":inputHz,"bench":SportsSession.benchmark,"difficulty":tennisDifficulty,"venue":sport == "tennis" ? tennisVenue : sport == "bowling" ? bowlingVenue : "resort",
+        pending=["holeFlyover":holeFlyover,"intros":consumePresentationIntroCut(),"bigMoments":presentationBigMoments,"presentationConstrained":reduceMotion || ProcessInfo.processInfo.thermalState == .serious || ProcessInfo.processInfo.thermalState == .critical,"version":1,"session":sessionID,"action":"start","sport":sport,"playerID":p.id.uuidString,"playerName":p.name,"female":p.standardFemale,"skin":p.standardSkin,"left":p.handedness == .left,"sound":sound && !(multiplayerControllerOnly && !phonePlay && (sport == "tennis" || !displayConnected)),"phonePlay":phonePlay,"castScreen":castOnPhone,"castController":multiplayerCasting && !castScreen,"haptics":haptics,"touch":preview,"token":Int(sessionToken),"fps":phoneFps,"picture":picture,"inputHz":inputHz,"bench":SportsSession.benchmark,"difficulty":tennisDifficulty,"venue":sport == "tennis" ? tennisVenue : sport == "bowling" ? bowlingVenue : "resort",
                  "shirt":p.outfitHex("shirt") ?? "","shorts":p.outfitHex("shorts") ?? "","accent":p.outfitHex("accent") ?? "","racket":p.outfitHex("racket") ?? "",
                  "skinHex":p.skinHex,"hairHex":p.hairHex,
                  "tips":false,"overscan":overscan,"tennisCamera":tennisCamera,
@@ -861,16 +1026,12 @@ final class SportsSession {
             if onlineComeback { if setupStage == .scan { multiplayerScanComplete() }; return }
             MultiplayerService.shared.runtimeSetupStep("timing")
         }
-        setupStage = .timing; timingPrompt = true; checkingTiming = false
+        // (11-22) no flashes and no timing drill any more: the direction is set, so on to Ready with this TV's timing
+        setupStage = .timing; timingPrompt = false; checkingTiming = false
         menuPauseVisible = false; measuringDelay = false
-        status = "TV scan complete. Calibrate your swing timing on the TV."
         command("cancelTimingCheck"); command("controllerSetup", value: 1)
-        pause(reason: status)
         SportsDisplays.shared.external?.isHidden = true
-        // the scan's own blinks timed the TV; only a direction set by hand still needs the flashes
-        let scanned = motion.scannedDelays
-        if SportsDelayProbe.combine(scanned) != nil { flashProbeID = UUID(); flashDelays = scanned; measuringDelay = true; finishTVDelay() }
-        else { measureTVDelay() }
+        advanceCalibration()
     }
     func skipTimingCheck() {
         guard setupStage == .timing, !measuringDelay else { return }
@@ -1024,8 +1185,8 @@ final class SportsSession {
     }
     func recheckTiming() {
         guard multiplayerMatchID == nil else { return }   // the timing check is solo only: its commands are not passed on in a match
-        guard motion.axisLocked else { beginAxisCapture(); return }
-        offerTimingCalibration()
+        // (11-22) the circle again: it re-times the TV and re-takes the direction
+        beginAxisCapture()
     }
     /// Locking the court direction is a separate, gated step. Once it is done the phone can
     /// be held at any angle — which is the whole point, since forehands and backhands flip it.
@@ -1037,10 +1198,11 @@ final class SportsSession {
         holdingPoint = false; tvFlashing = false; timingGoAt = nil
         timingStartTask?.cancel(); timingStartTask = nil
         command("cancelTimingCheck"); command("controllerSetup", value: 1)
-        pause(reason: "Point your phone at the TV and hold the button.")
-        axisGate=SportsAxisGate(); axisGate.message = SportsMotion.pointPrompt
-        status = SportsMotion.pointPrompt
-        motion.beginPointing(travel:travel)
+        pause(reason: "Point your phone at the TV.")
+        axisGate=SportsAxisGate(); axisGate.message = "Point the back of your phone at the TV."
+        status = axisGate.message
+        // point and fill (11-22): the circle on the TV, read by the camera, replaces the hold button, the flashes and the timing check
+        if sport == "tennis", displayConnected || sharesTV { endGlow(); beginGlow() } else { motion.beginPointing(travel:travel) }
     }
     /// The hold button went down.
     func pressPoint() {
@@ -1077,8 +1239,10 @@ final class SportsSession {
         if multiplayerMatchID != nil, onlineComeback {
             setupStage = .ready; MultiplayerService.shared.runtimeSetupStep("ready"); finishMultiplayerCalibration(); return
         }
+        // (latencyReading and timingNote are the circle's, set as it filled: beginGlow clears them)
         setupStage = .timing; timingPrompt = false; checkingTiming = false; measuringDelay = false; tvFlashing = false
-        timingGoAt = nil; timingSwings = []; timingDrillEnds = nil; latencyReading = nil; timingNote = ""
+        timingGoAt = nil; timingSwings = []; timingDrillEnds = nil
+        endGlow()
         if multiplayerMatchID != nil { MultiplayerService.shared.runtimeSetupStep("pointed") }
         status = "Pointed at the TV."
         advanceCalibration()
@@ -1129,18 +1293,24 @@ final class SportsSession {
             if setupStage == .timing, timingGoAt != nil { startTimingIfEveryoneAsked() }
             return
         }
-        if quickStart() { return }
+        // Point and fill (11-22): the circle timed the TV as it filled, so pointing is the whole setup. No flashes and no timing drill:
+        // the game refines the timing from the first few swings (TennisLagLearner), starting from the circle's reading.
         if ownsTV {
-            // the TV blinks once everyone sharing it has pointed at it: the flashes would only startle a player still aiming
-            if sharesTV, let first = playersStillPointing.first { status = "Waiting for \(first.name) to point at the TV."; return }
-            measureTVDelay()
+            if latencyReading == nil {
+                // the direction came another way (still held from the last match, or set by hand): this TV's saved timing, if any
+                tvDelay = SportsTiming.storedPicture(for: SportsTiming.currentTV(), defaults: timingStore) ?? timingCalibration ?? 0
+                command("latency", value: startingLag)
+                if multiplayerSplit, startingLag > 0 { MultiplayerService.shared.setScreenDelay(startingLag) }
+                timingNote = startingLag > 0 ? "Using this TV's saved timing." : "Your first few swings set the timing."
+                SportsDiagnostics.write(String(format: "setup without the circle's timing tv=%@ lag=%.3f", SportsTiming.currentTV(), startingLag))
+            }
+            completeTimingCalibration(message: timingNote)
         } else {
-            // no TV on this phone: the phone with the TV calibrates it, then everyone gets the timing check
+            // no TV on this phone: it plays against the TV phone's picture (the lobby's screenDelay), once that phone's circle is done
             let tv = tvPhone
-            let tvDone = tv == nil || !(tv!.connected) || tv!.calibrated
-                || ["timing", "ready", "quick"].contains(tv!.setupStep ?? "") || (tv!.setupStep ?? "").hasPrefix("go:") || (tv!.setupStep ?? "").hasPrefix("check:")
-            guard tvDone else { status = "The TV is calibrating."; return }
-            offerTimingCheck()
+            let tvDone = tv == nil || !(tv!.connected) || tv!.calibrated || SportsGlowStep.pastCircle(tv!.setupStep)
+            guard tvDone else { status = "Waiting for the TV."; return }
+            completeTimingCalibration(message: "Set. Your first few swings fine-tune the timing.")
         }
     }
     /// The timing check is offered: the phone asks for Start (the TV shows the latency card).
@@ -1368,7 +1538,8 @@ final class SportsSession {
         SportsDisplays.shared.showTennisSetupOnTV()
         // the lesson: the calibrate card, then all of the setup from pointing
         if forceFullCalibration { beginAxisCapture(); showCalibrationExplain(); return }
-        if pointedWhileLoading || motion.hasUsableCourtDirection {
+        // (Settings → TV timing check asks for the circle even when the direction is still held)
+        if pointedWhileLoading || (motion.hasUsableCourtDirection && !checkTimingOnResume) {
             // pointed while it loaded, or the phone still knows where the TV is (a rematch, the next match): on from pointing,
             // which is the whole setup on a TV whose timing is known (quickStart)
             pointedWhileLoading = false
@@ -1592,7 +1763,7 @@ final class SportsSession {
         timingStartTask?.cancel(); timingStartTask = nil
         SportsDisplays.shared.hideTennisSetupOnTV()
         timer?.invalidate(); timer=nil; pending=nil; measuringDelay=false; checkingTiming=false
-        loading.cancel(); tutorialStep=nil; finishedMatch=nil; postGameStage = nil; postGameBoard = nil; postGameChoice = 0; timingPrompt=false; setupStage = .scan
+        loading.cancel(); tutorialStep=nil; finishedMatch=nil; postGameStage = nil; postGameBoard = nil; postGameChoice = 0; timingPrompt=false; endGlow(); setupStage = .scan
         SportsRuntime.shared().pause(true); active=false; ready=false; paused=true; tennisControllerActive=false; calibrationMode=false
         SportsDisplays.shared.endPreview(); status="Choose a sport."
         SportsDisplays.shared.showMenu()

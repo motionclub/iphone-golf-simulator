@@ -151,12 +151,21 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
     // Delay probe: centre-of-frame brightness while the camera is aimed at the TV.
     private var probing = false
     private var probe = SportsDelayProbe.Samples()
+    // Point and fill (SportsGlow, 11-22): the camera's last two seconds on the glow clock, read ten times a second.
+    private var glowing = false
+    private var glowFrames = [SportsScreenFinder.Frame](), glowRows = 0
+    private var glowOffset = 0.0, nextGlowRead = 0.0
+    /// The rear camera, kept for its exposure: locked once the TV is in view, so it does not even out the glow it is reading.
+    private var cameraDevice: AVCaptureDevice?
+    private var exposureLocked = false
 
     /// The screens' callbacks, always called on the main thread.
     @MainActor var onProblem: ((String) -> Void)?
     @MainActor var onGate: ((SportsAxisGate) -> Void)?
     @MainActor var onStatus: ((SportsMotionStatus) -> Void)?
     @MainActor var onAimSwing: ((TennisAimSwing) -> Void)?
+    /// Each look for the TV's glow (ten a second while the circle is up).
+    @MainActor var onGlow: ((SportsGlowSighting) -> Void)?
     @MainActor weak var preview: SportsPreviewView?
 
     /// Flips left/right without recapturing the axis, for when the mapping comes out mirrored.
@@ -216,7 +225,10 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
             if on {
                 guard configureCamera() else { report("The rear camera is unavailable, so the TV can't be found. Set the court direction by hand."); return }
                 if !capture.isRunning { capture.startRunning() }
-            } else if capture.isRunning { capture.stopRunning() }
+            } else {
+                if capture.isRunning { capture.stopRunning() }
+                setExposureLocked(false)
+            }
             SportsDiagnostics.write("camera \(on ? "on" : "off")")
         }
     }
@@ -243,7 +255,7 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
             device.activeVideoMinFrameDuration = CMTime(value: 1, timescale: 60); device.activeVideoMaxFrameDuration = CMTime(value: 1, timescale: 60)
             device.unlockForConfiguration()
         }
-        cameraConfigured = true
+        cameraConfigured = true; cameraDevice = device
         let fov = Double(device.activeFormat.videoFieldOfView)   // degrees, across the image's width
         if fov > 10 && fov < 170 { queue.async { self.cameraTanHalfWidth = tan(fov / 2 * Double.pi / 180) } }
         SportsDiagnostics.write("camera configured format=\(device.activeFormat.formatDescription.dimensions.width)x\(device.activeFormat.formatDescription.dimensions.height) fov=\(fov)")
@@ -425,6 +437,82 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         gate.locked=true; gate.progress=1; gate.message="Pointed at the TV."
         SportsDiagnostics.write(String(format:"point locked tvHeading=%.1f° sign=%.0f",mean*180/Double.pi,sign))
         publish(gate)
+    }
+
+    // MARK: - Point and fill (SportsGlow, 11-22)
+
+    /// The circle is up: the camera runs and every frame is read for the TV's glow. `clockOffset`: the glow clock minus the host clock
+    /// (SportsGlow.clockOffset).
+    func beginGlowRead(clockOffset: Double, travel: Double) {
+        queue.async {
+            self.tennis=true; self.filter=SteeringFilter(); self.filter.travel=travel; self.filter.tennisStroke=true
+            self.capturingAxis=false; self.pointHolding=false; self.pointSamples.removeAll(); self.probing=false
+            self.glowFrames.removeAll(); self.glowRows=0; self.glowOffset=clockOffset; self.nextGlowRead=0; self.glowing=true
+            self.gate=SportsAxisGate(); self.gate.message="Point the back of your phone at the TV."; self.publish(self.gate)
+            self.runCamera(true)
+            self.startDeviceMotion()
+            SportsDiagnostics.write(String(format: "glow read begin offset=%.3f", clockOffset))
+        }
+    }
+    /// The glow clock moved against the host clock (the network clock is re-synced now and then).
+    func setGlowClockOffset(_ offset: Double) {
+        queue.async { guard self.glowing, abs(offset - self.glowOffset) > 0.001 else { return }; self.glowOffset = offset; self.glowFrames.removeAll() }
+    }
+    func endGlowRead() {
+        queue.async { guard self.glowing else { return }; self.glowing=false; self.glowFrames.removeAll(); self.runCamera(false) }
+    }
+    /// The circle is full: the court direction is where the phone pointed through the TV while it filled (`heading`, radians), or,
+    /// without one, where the phone points now.
+    func lockGlowDirection(heading: Double?) {
+        queue.async {
+            self.glowing=false; self.glowFrames.removeAll(); self.runCamera(false)
+            guard !self.gate.locked else { return }
+            self.strokeFacing = -1
+            self.captureTVHeading()
+            if let heading, heading.isFinite { self.tvHeading=heading }
+            guard self.tvHeading != nil else {
+                self.gate.message="Point the back of your phone at the TV, not up or down."; self.publish(self.gate); return
+            }
+            self.gate.locked=true; self.gate.progress=1; self.gate.message="Pointed at the TV."
+            SportsDiagnostics.write(String(format:"glow locked tvHeading=%.1f° sign=%.0f",(self.tvHeading ?? 0)*180/Double.pi,self.sign))
+            self.publish(self.gate)
+        }
+    }
+    /// One camera frame while the circle is up: kept, shrunk, on the glow clock; ten times a second the last two seconds are read.
+    private func glowFrame(_ buffer: CVPixelBuffer, taken: Double) {
+        guard let grid=SportsScreenFinder.grid(buffer) else { return }
+        if grid.rows != glowRows { glowRows=grid.rows; glowFrames.removeAll() }
+        let time=taken+glowOffset
+        glowFrames.append(.init(time:time,cells:grid.cells,attitude:attitude))
+        if let oldest=glowFrames.first?.time, time-oldest > SportsGlowReader.window+0.3 { glowFrames.removeFirst(min(glowFrames.count, 20)) }
+        screenImage=SIMD2(Double(CVPixelBufferGetWidth(buffer)),Double(CVPixelBufferGetHeight(buffer)))
+        guard time >= nextGlowRead else { return }
+        nextGlowRead=time+0.1
+        let reading=SportsGlowReader.read(glowFrames,rows:glowRows)
+        var heading: Double?
+        if let reading, reading.seeing, let pose=glowFrames.last?.attitude {
+            heading=SportsMotionGeometry.heading(SportsMotionGeometry.rotate(
+                SportsScreenFinder.ray(at:reading.at,image:screenImage,tanHalfWidth:cameraTanHalfWidth),by:pose))
+        }
+        if reading?.seeing == true, !exposureLocked {
+            exposureLocked=true
+            cameraQueue.async { self.setExposureLocked(true) }
+        }
+        let sighting=SportsGlowSighting(time:time-glowOffset,seeing:reading?.seeing ?? false,delay:reading?.delay,match:reading?.match ?? 0,heading:heading)
+        DispatchQueue.main.async { MainActor.assumeIsolated { self.onGlow?(sighting) } }
+    }
+    /// On `cameraQueue`: hold the exposure and white balance where they are (reading the glow), or let them follow the room again.
+    private func setExposureLocked(_ locked: Bool) {
+        guard let device=cameraDevice, (try? device.lockForConfiguration()) != nil else { return }
+        defer { device.unlockForConfiguration() }
+        if locked {
+            if device.isExposureModeSupported(.locked) { device.exposureMode = .locked }
+            if device.isWhiteBalanceModeSupported(.locked) { device.whiteBalanceMode = .locked }
+        } else {
+            if device.isExposureModeSupported(.continuousAutoExposure) { device.exposureMode = .continuousAutoExposure }
+            if device.isWhiteBalanceModeSupported(.continuousAutoWhiteBalance) { device.whiteBalanceMode = .continuousAutoWhiteBalance }
+            queue.async { self.exposureLocked=false }
+        }
     }
 
     /// On each camera frame while the direction is captured: kept, shrunk, for the blink search, with the phone's attitude then.
@@ -702,7 +790,7 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         #endif
         queue.async {
             self.runCamera(false); self.live=false; self.probing=false; self.calibrated=false
-            self.capturingAxis=false; self.pointHolding=false; self.pointSamples.removeAll()
+            self.capturingAxis=false; self.pointHolding=false; self.pointSamples.removeAll(); self.glowing=false; self.glowFrames.removeAll()
         }
     }
 
@@ -714,6 +802,7 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
             self.runCamera(false); self.stopDeviceMotion()
             self.calibrated=false; self.live=false; self.probing=false
             self.capturingAxis=false; self.pointHolding=false; self.pointSamples.removeAll(); self.scanFrames.removeAll(); self.gate=SportsAxisGate(); self.tvHeading=nil
+            self.glowing=false; self.glowFrames.removeAll()
             self.frameAt = -Double.infinity; self.sampleAt = -Double.infinity
             self.vertical.reset()
         }
@@ -730,7 +819,8 @@ final class SportsMotion: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate
         let taken=stamp.isNumeric ? stamp.seconds : frameAt
         if probing, let luma=Self.screenLuma(image,at:screenAt) { probe.add(time:taken,luma:luma) }
         if capturingAxis { scanFrame(image,taken:taken,time:frameAt) }
-        if capturingAxis || probing {
+        if glowing { glowFrame(image,taken:taken) }
+        if capturingAxis || probing || glowing {
             // The viewfinder only matters while aiming at the TV.
             if frameAt>=nextPreview {
                 nextPreview=frameAt+0.08

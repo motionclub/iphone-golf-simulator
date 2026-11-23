@@ -86,7 +86,7 @@ namespace GolfArcade.EditorTools
             m.importCameras = false; m.importLights = false; m.importVisibility = false; m.importBlendShapes = false; m.optimizeGameObjects = false;
             m.materialImportMode = ModelImporterMaterialImportMode.None;
             m.animationType = ModelImporterAnimationType.Generic; m.avatarSetup = ModelImporterAvatarSetup.CreateFromThisModel;
-            m.importAnimation = true; m.animationCompression = ModelImporterAnimationCompression.Off; m.resampleCurves = true;
+            m.importAnimation = true; m.resampleCurves = true; m.animationCompression = ModelImporterAnimationCompression.Optimal; m.animationRotationError = .1f; m.animationPositionError = .1f; m.animationScaleError = .1f;   // 11-22 size audit: compressed (was Off: 477 MB of clips in the app); 0.1 deg / 0.1 % error keeps grips and contact frames where they were
             var defs = m.defaultClipAnimations;
             if (defs == null || defs.Length == 0) { m.SaveAndReimport(); m = (ModelImporter)AssetImporter.GetAtPath(path); defs = m.defaultClipAnimations; }   // the takes appear once it imports as Generic with animation
             if (defs == null || defs.Length == 0) throw new InvalidOperationException("no take in " + path);

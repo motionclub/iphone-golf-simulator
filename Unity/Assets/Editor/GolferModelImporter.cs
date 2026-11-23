@@ -29,7 +29,7 @@ namespace GolfArcade.EditorTools
             importer.animationType = ModelImporterAnimationType.Generic;
             importer.avatarSetup = ModelImporterAvatarSetup.CreateFromThisModel;
             importer.importAnimation = !opponent;
-            importer.animationCompression = ModelImporterAnimationCompression.Off;
+            importer.animationCompression = ModelImporterAnimationCompression.Optimal; importer.animationRotationError = .1f; importer.animationPositionError = .1f; importer.animationScaleError = .1f;   // 11-22 size audit: compressed (was Off: 477 MB of clips in the app); 0.1 deg / 0.1 % error keeps grips and contact frames where they were
             importer.resampleCurves = true;
             importer.importCameras = false;
             importer.importLights = false;

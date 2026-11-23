@@ -221,7 +221,7 @@ namespace GolfArcade.Bowling
             if (!aimGuide) return;
             bool setup = Flow == Phase.Setup || Flow == Phase.Hold, swinging = Flow == Phase.Approach && !released;
             // (the screen phone shows each bowler's line too: theirs is mirrored from their phone)
-            bool show = (setup || swinging) && !IsCpu(Current) && (IsLocal(Current) || CastScreenHere) && Bowler && Bowler.Remaining < LongWalkMetres;
+            bool show = (setup || swinging) && !IsCpu(Current) && (IsLocal(Current) || CastScreenHere) && Bowler && ballInHand && Bowler.Remaining < LongWalkMetres;
             if (aimGuide.activeSelf != show) aimGuide.SetActive(show);
             float want = AimDeg + (swinging && SelfTimed ? BowlingSwingDetector.AimFromSwing(detector.SwingAimDeg) : 0);
             guideDeg = !show || !swinging ? want : Mathf.Lerp(guideDeg, want, 1 - Mathf.Exp(-dt / .06f));
@@ -249,6 +249,8 @@ namespace GolfArcade.Bowling
             for (int i = 0; i < Players.Count; i++) { Scores[i] = new BowlingScore(); boards[i] = 20; }
             gutters = new int[Players.Count]; splitsConverted = new int[Players.Count]; bestStreak = new int[Players.Count];
             Current = 0;
+            ballInHand = true; pickupT = -1; pickupSkipped = false;   // the first bowler starts at the stance with the ball
+            AssignWaitSlots();
             // one real hero per player: the bowler at the approach, the others waiting by the ball return
             foreach (var h in heroes) if (h) Destroy(h.gameObject);
             heroes.Clear();
@@ -256,7 +258,7 @@ namespace GolfArcade.Bowling
             {
                 bool female = i < PlayerFemale.Count ? PlayerFemale[i] : i % 2 == 1;
                 var at = i == 0 ? StartSpot(boards[i]) : WaitSpot(i);
-                var hero = BowlingHero.Spawn(transform, female, at, i == 0 ? 0 : WaitYaw);
+                var hero = BowlingHero.Spawn(transform, female, at, i == 0 ? 0 : WaitYaw(i));
                 if (hero && hero.Look && i < PlayerLook.Count)
                 {
                     var look = PlayerLook[i];
@@ -264,7 +266,7 @@ namespace GolfArcade.Bowling
                     hero.Look.SetKit(look.shirt, look.bottom, look.shoes);
                 }
                 heroes.Add(hero);
-                if (i > 0 && heroes[i]) Send(heroes[i], at, WaitYaw, sit: true);
+                if (i > 0 && heroes[i]) Send(heroes[i], at, WaitYaw(i), sit: WaitSeated);
             }
             hud?.Dispose();
             hud = new BowlingHud(cam, Players);
@@ -284,7 +286,7 @@ namespace GolfArcade.Bowling
         public void PlayerHold(bool down)
         {
             if (down && Flow == Phase.Replay) { EndReplay(); return; }   // a tap on the ball skips the replay
-            if (down && Flow != Phase.Approach && LongWalk && SkipWalks()) return;   // ... and a walk to or from the lounge
+            if (down && Flow != Phase.Approach && (LongWalk || PickingUp) && SkipWalks()) return;   // ... and a walk (or the ball pickup)
             if ((!IsCpu(Current) && IsLocal(Current)) || !down && Holding) SetHold(down);
         }
 
@@ -314,6 +316,7 @@ namespace GolfArcade.Bowling
             // still walking up to the approach (a side-step along it does not wait: the hold starts, the pushaway waits for the feet)
             if (down && Flow == Phase.Setup && Bowler && !Bowler.Arrived && Bowler.Remaining >= SideStepHold) return;
             if (down && Flow == Phase.Setup && LoungeWalker() != null) return;     // a friend still crossing behind the approach (under the camera)
+            if (down && Flow == Phase.Setup && !ballInHand) return;                // still fetching the ball from the return
             Holding = down;
             if (down && Flow == Phase.Setup) { Flow = Phase.Hold; holdT = 0; detector.Begin(Clock()); cuedTop = cuedBottom = false; }
             else if (!down && Flow == Phase.Hold) { Flow = Phase.Setup; detector.Cancel(); Bowler?.PlayClip(BowlingClips.Abort); }   // the authored abort: only before the approach
@@ -348,8 +351,8 @@ namespace GolfArcade.Bowling
         }
 
         /// What the phone's controller screen shows: phase|player|frame|ball|board|grade|mph|hook°|rpm|standing pins|mine (1: this
-        /// phone bowls now; 0: a friend's phone or the computer does)|walking (1: a walk to or from the lounge, a tap skips it)|aim° (the
-        /// last ball's, from the swing's direction).
+        /// phone bowls now; 0: a friend's phone or the computer does)|walking (1: a walk or the ball pickup, a tap skips it)|aim° (the
+        /// last ball's, from the swing's direction)|canEmote (1: this phone's player is not up and may emote: BowlingGame.Emotes).
         public string NativeState
         {
             get
@@ -359,7 +362,7 @@ namespace GolfArcade.Bowling
                     LastThrow.Grade, (LastThrow.Speed * 2.237f).ToString("0.0", System.Globalization.CultureInfo.InvariantCulture),
                     LastThrow.AxisDeg.ToString("0", System.Globalization.CultureInfo.InvariantCulture), LastThrow.RevRpm.ToString("0", System.Globalization.CultureInfo.InvariantCulture),
                     BowlingLeave.Numbers(standing), IsLocal(Current) && !IsCpu(Current) ? "1" : "0",
-                    LongWalk ? "1" : "0", LastAimDeg.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture));
+                    LongWalk || PickingUp ? "1" : "0", LastAimDeg.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture), CanEmote ? "1" : "0");
             }
         }
 
@@ -560,14 +563,167 @@ namespace GolfArcade.Bowling
 
         // ------------------------------------------------------------------ the bowler (real hero)
 
-        const float WaitYaw = 0;
         // the bowler's reaction, then the machine starts while they walk back (2.8 / 1.9 s until 2026-11-11: the walk back held the lane)
         float ResultHold => reactShot ? 2f : 1f;
 
         Vector3 StartSpot(float board) => new Vector3(BowlingHero.BodyX(board), 0, BowlingApproach.StartZ);
-        /// Where a waiting player sits: on the lounge settee behind the approach (out of the bowler's
-        /// shot, in the reaction shot), one place each.
-        Vector3 WaitSpot(int player) => new Vector3(-1.1f + .75f * player, 0, BowlingClubLanes.LoungeZ + .3f);
+
+        /// Where the waiting players are (Adnan 11-22: "next to/nearby" the bowler, as in golf, not on the lounge sofa).
+        /// Lounge = the old settee seats; the others stand on the approach level, one fixed spot per player.
+        public enum WaitLayouts { Lounge, Shoulder, LaneSide, BallReturn, BackRow }
+        public static WaitLayouts WaitLayout = WaitLayouts.LaneSide;   // Adnan 11-22: along the lane edge, on both sides
+        static bool WaitSeated => WaitLayout == WaitLayouts.Lounge;
+        /// Standing spots (x, z) per layout, player 0..3. Ball return: x .55..1.1, z -4.75..-6.3 (kit.py ball_return); the stance is
+        /// x ≈ -.2, z -4.35; the approach (floor 0) runs back to z -6.4.
+        static readonly Vector2[][] StandSpots =
+        {
+            null,
+            // golf-style: off the bowler's back-left shoulder, on the next lane's approach
+            // (clear of the next pair's ball return at x -2.48)
+            new[] { new Vector2(-1.35f, -4.0f), new Vector2(-1.9f, -4.4f), new Vector2(-1.4f, -4.95f), new Vector2(-1.95f, -5.3f) },
+            // along the edges of the approach, beside the run-up, by wait slot (Adnan 11-22: "scatter them on each side, never all on one side":
+            // left, right, left again; the right side stands in front of the ball return)
+            new[] { new Vector2(-1.3f, -3.3f), new Vector2(1.2f, -3.1f), new Vector2(-1.3f, -2.45f), new Vector2(1.2f, -2.3f) },
+            // gathered round the ball return and console, right of the stance
+            new[] { new Vector2(1.55f, -4.1f), new Vector2(2.2f, -4.45f), new Vector2(1.6f, -3.35f), new Vector2(2.3f, -3.7f) },
+            // a row across the back of the approach (the lane's entry), split round the camera's line to the bowler
+            new[] { new Vector2(-1.15f, -6.0f), new Vector2(1.55f, -6.05f), new Vector2(-1.7f, -5.85f), new Vector2(2.25f, -5.95f) },
+        };
+        /// What a standing player watches: the run-up, just ahead of the stance.
+        static readonly Vector3 WatchPoint = new Vector3(-.2f, 0, -3.2f);
+
+        /// Where a waiting player waits, one place each.
+        Vector3 WaitSpot(int player)
+        {
+            if (WaitSeated) return new Vector3(-1.1f + .75f * player, 0, BowlingClubLanes.LoungeZ + .3f);   // the lounge settee
+            int slot = player >= 0 && player < waitSlot.Length && waitSlot[player] >= 0 ? waitSlot[player] : player;
+            var s = StandSpots[(int)WaitLayout][Mathf.Clamp(slot, 0, 3)];
+            return new Vector3(s.x, 0, s.y);
+        }
+        /// Each player's standing spot while they wait (StandSpots index), -1 for the bowler. The waiting players fill the slots in order
+        /// (left, right, left): one on each side, or two and one. At a handover the bowler going to wait takes the slot the next bowler leaves,
+        /// so the sides stay balanced and nobody else moves.
+        int[] waitSlot = new int[0];
+        void AssignWaitSlots()
+        {
+            waitSlot = new int[Players.Count]; int k = 0;
+            for (int i = 0; i < Players.Count; i++) waitSlot[i] = i == Current ? -1 : k++;
+        }
+        void HandWaitSlot(int from, int to)
+        {
+            if (from == to || from < 0 || to < 0 || from >= waitSlot.Length || to >= waitSlot.Length) return;
+            waitSlot[from] = waitSlot[to]; waitSlot[to] = -1;
+        }
+        /// Who bowls after the current frame is over (the current player when nobody else has frames left; the game is over if they have none).
+        int NextBowler()
+        {
+            for (int k = 1; k <= Players.Count; k++)
+            {
+                int c = (Current + k) % Players.Count;
+                if (!Scores[c].Complete) return c;
+            }
+            return Current;
+        }
+        /// The way a waiting player faces: the lounge seats face the lanes; standing players turn to the bowler.
+        float WaitYaw(int player)
+        {
+            if (WaitSeated) return 0;
+            var d = WatchPoint - WaitSpot(player);
+            if (WaitLayout == WaitLayouts.BackRow) d = Vector3.Lerp(d.normalized, Vector3.forward, .6f);   // facing down the lane, turned in a little
+            return Mathf.Atan2(d.x, d.z) * Mathf.Rad2Deg;
+        }
+        /// Proof tools: the heroes, player order.
+        public IReadOnlyList<BowlingHero> Heroes => heroes;
+
+        // ------------------------------------------------------------------ the ball return (Adnan 11-22: "show the characters walking to get the ball from the ball machine")
+
+        /// The game pair's ball return (kit.py ball_return at x = .5 lane pitch): a hood over the lift (mouth at z -5.37, facing the settee) and a
+        /// tray whose rails slope down to an end bumper at -6.26, two house balls resting against it (-6.09, -5.865; the third is hidden,
+        /// BowlingAlleyKit.AisleSlot). Like a real machine, after each ball the bowler's ball comes back up under the lanes, rolls out of the
+        /// hood and down the rails, and knocks into the house balls: `ReturnBall` is where it comes to rest, clear of the hood so the hands
+        /// reach it from the open side.
+        public static readonly Vector3 ReturnBall = new Vector3(.5f * BowlingAlley.LanePitch, .39f, -5.865f + 2 * .1085f + .002f);
+        static readonly Vector3 ReturnMouth = new Vector3(.5f * BowlingAlley.LanePitch, .4f, -5.0f);
+        /// When the ball shows in the hood after the sweep starts (the return's rumble, BowlingAudio.Sweep, starts at 1.4 s and knocks at ~2.6 s), and
+        /// how long its roll down the rails takes.
+        const float ReturnDelay = 1.75f, ReturnRoll = .8f;
+        float ballBackAt = -1;
+        /// The bowler's ball on the return `t` seconds after it shows: out of the mouth, speeding up down the slope, a knock into the house
+        /// balls and a little bounce back. True once it is resting.
+        bool PlaceReturningBall()
+        {
+            float t = ballBackAt < 0 ? ReturnRoll : Time.time - ballBackAt;
+            ballView.SetActive(t >= 0);
+            if (t < 0) return false;
+            float u = Mathf.Clamp01(t / ReturnRoll);
+            float along = u * u * (1.25f - .25f * u);                                   // rolls out and gathers pace down the rails
+            float knock = u >= 1 ? 0 : Mathf.Max(0, Mathf.Sin(Mathf.InverseLerp(.86f, 1f, u) * Mathf.PI)) * .012f;   // bounces back off the house ball
+            float dist = (ReturnBall - ReturnMouth).magnitude;
+            var p = Vector3.Lerp(ReturnMouth, ReturnBall, Mathf.Min(1, along)) + (ReturnMouth - ReturnBall).normalized * knock;
+            ballView.transform.position = p;
+            // rolling, not sliding: turned about the axis across the rails by the distance travelled
+            ballView.transform.rotation = Quaternion.AngleAxis(-Mathf.Min(1, along) * dist / BowlingLane.BallRadius * Mathf.Rad2Deg, Vector3.right) * returnSpin;
+            return t >= ReturnRoll;
+        }
+        Quaternion returnSpin = Quaternion.identity;
+        /// The lift: a low two-hand pickup (the tray is at knee height; Bowl_Pickup lifts from the waist). `PickupHand` = where its palms meet,
+        /// hero space (x right, y forward, m), at clip time `PickupGrab`: measured from the films (BowlingFilm pickup.csv).
+        public static string PickupClip = BowlingClips.PickupLow;
+        public static Vector2 PickupHand = new Vector2(.32f, .37f);
+        public static float PickupGrab = .45f;
+        /// The bowler comes to the lane side of the tray and turns so the ball is where the palms meet: the ball straight across (+x) at the
+        /// reach's distance, the body turned by the reach's angle (a reach to the right faces them a little toward the lane).
+        static Vector3 PickupSpot => ReturnBall - new Vector3(PickupHand.magnitude, ReturnBall.y, 0);
+        static float PickupYaw => 90 - Mathf.Atan2(PickupHand.x, PickupHand.y) * Mathf.Rad2Deg;
+        static float PickupLength => BowlingClips.Frames.TryGetValue(PickupClip == BowlingClips.Pickup ? "Bowl_Pickup" : "Bowl_PickupLow", out int f) ? f / 60f : 1.2f;
+        /// The bowler up has their ball (false: walking to the return or lifting it).
+        bool ballInHand = true;
+        float pickupT = -1, pickupWait;
+        bool pickupSkipped;
+        /// The bowler is on the way to the ball return or lifting the ball (the phone shows "tap to skip"; bowling waits).
+        bool PickingUp => !ballInHand && (Flow == Phase.Setup || Flow == Phase.Sweep);
+        /// The next ball comes from the return: the bowler (or the next one) walks there first.
+        /// `thrown`: the ball was just bowled (it starts its way back now); false = the next bowler goes for the ball already coming back.
+        void NeedBall(bool thrown = true)
+        {
+            ballInHand = false; pickupT = -1; pickupWait = 0; pickupSkipped = false;
+            if (thrown) { ballBackAt = Time.time + ReturnDelay; if (ballView) returnSpin = ballView.transform.rotation; }
+        }
+
+        /// The pickup, while Setup has no ball in hand: walk to the return, lift the ball with Bowl_Pickup, then the usual carry to the stance.
+        /// Returns true while it is still going (PoseBowler poses nothing else).
+        bool PoseBallPickup(BowlingHero h)
+        {
+            if (ballInHand) return false;
+            if (pickupSkipped || !h.HasClips)
+            {
+                h.LiftW = 0; ballView.SetActive(true);
+                ballInHand = true; h.Ball = ballView.transform;
+                if (pickupSkipped) { h.WalkTo(StartSpot(Board), 0); h.Snap(); }
+                return false;
+            }
+            h.ArmDeg = float.NaN; h.Balance = 0;
+            if (pickupT < 0)
+            {
+                h.Ball = null;
+                bool resting = PlaceReturningBall();
+                Send(h, PickupSpot, PickupYaw);
+                if (h.Arrived) pickupWait += Time.deltaTime;
+                bool facing = Mathf.Abs(Mathf.DeltaAngle(h.transform.eulerAngles.y, PickupYaw)) < 10 || pickupWait > .5f;
+                if (h.Arrived && facing && resting && h.PlayClip(PickupClip)) pickupT = 0;   // (waits for the ball to come back)
+                return true;
+            }
+            pickupT += Time.deltaTime;
+            // the hands reach on down to the ball as the body bends (in by the grab), then let the clip lift it (out over 0.4 s)
+            h.LiftAt = ReturnBall;
+            h.LiftW = Mathf.Min(Mathf.SmoothStep(0, 1, Mathf.InverseLerp(.12f, PickupGrab, pickupT)), 1 - Mathf.SmoothStep(0, 1, Mathf.InverseLerp(PickupGrab + .05f, PickupGrab + .45f, pickupT)));
+            if (pickupT < PickupGrab) { h.Ball = null; PlaceReturningBall(); return true; }
+            h.Ball = ballView.transform;   // in both hands from here (BowlingHero.PoseArms)
+            if (pickupT < PickupLength && h.ClipPlaying) return true;
+            h.LiftW = 0;
+            ballInHand = true;             // the carry to the stance
+            return false;
+        }
 
         /// Where the walk between the lounge and the approach crosses the sofa row: the gap the game pair's own sofas and table
         /// leave (BowlingAlleyKit.Place hides them), left of the console and the ball return.
@@ -613,7 +769,56 @@ namespace GolfArcade.Bowling
         void Send(BowlingHero h, Vector3 to, float yaw, bool sit = false)
         {
             if (!h) return;
-            h.WalkTo(to, yaw, sit, (to - h.Target).sqrMagnitude > .0004f ? Route(h.Position, to) : null);
+            if ((to - h.Target).sqrMagnitude <= .0004f) { h.WalkTo(to, yaw, sit); return; }   // (same destination: the route is kept)
+            var via = Route(h.Position, to) ?? AroundReturn(h.Position, to);
+            h.WalkTo(to, yaw, sit, AroundPeople(h, h.Position, to, via));
+        }
+
+        /// Adnan 11-22: "dont run through characters". The planned way goes round anyone standing in it (or about to stand there): a waypoint
+        /// beside them, on the side the way already passes, a body and a half clear. (Two walkers meeting step round each other: BowlingHero.)
+        List<Vector3> AroundPeople(BowlingHero h, Vector3 from, Vector3 to, List<Vector3> via)
+        {
+            const float Clear = .62f;
+            var pts = new List<Vector3> { from };
+            if (via != null) pts.AddRange(via);
+            pts.Add(to);
+            for (int pass = 0; pass < 4; pass++)
+            {
+                bool added = false;
+                for (int i = 0; i < pts.Count - 1 && !added; i++)
+                {
+                    Vector3 a = pts[i], b = pts[i + 1];
+                    foreach (var o in heroes)
+                    {
+                        if (!o || o == h) continue;
+                        var p = o.Arrived ? o.Position : o.Target;
+                        if (Flat(p - a).magnitude < .35f || Flat(p - b).magnitude < .35f) continue;
+                        var ab = Flat(b - a); float len2 = ab.sqrMagnitude; if (len2 < 1e-6f) continue;
+                        var c = a + (b - a) * Mathf.Clamp01(Vector3.Dot(Flat(p - a), ab) / len2);
+                        var off = Flat(c - p); if (off.magnitude >= Clear) continue;
+                        if (off.sqrMagnitude < 1e-6f) off = new Vector3(-ab.z, 0, ab.x);
+                        var w = p + off.normalized * (Clear + .08f); w.y = Mathf.Lerp(a.y, b.y, .5f);
+                        pts.Insert(i + 1, w); added = true; break;
+                    }
+                }
+                if (!added) break;
+            }
+            pts.RemoveAt(pts.Count - 1); pts.RemoveAt(0);
+            return pts.Count > 0 ? pts : null;
+        }
+        static Vector3 Flat(Vector3 v) { v.y = 0; return v; }
+
+        /// A walk on the approach level that would go through the ball return (from its right side to its lane side, or back) goes round
+        /// its front end instead (the hood's back is at z -4.75).
+        static List<Vector3> AroundReturn(Vector3 from, Vector3 to)
+        {
+            float left = ReturnBall.x - .45f, right = ReturnBall.x + .5f, front = -4.45f;
+            bool fromRight = from.x > right - .15f, toRight = to.x > right - .15f;
+            if (fromRight == toRight || Mathf.Abs(to.x - from.x) < 1e-3f) return null;
+            float zAt = Mathf.Lerp(from.z, to.z, Mathf.InverseLerp(from.x, to.x, ReturnBall.x));
+            if (zAt > front) return null;
+            var r = new Vector3(right, 0, front); var l = new Vector3(left, 0, front);
+            return fromRight ? new List<Vector3> { r, l } : new List<Vector3> { l, r };
         }
 
         /// A hero is on a walk worth skipping (to or from the lounge; not a side-step along the approach).
@@ -627,7 +832,8 @@ namespace GolfArcade.Bowling
         /// Returns true when a long walk was cut short (that tap is used up; a side-step just finishes).
         public bool SkipWalks()
         {
-            bool skipped = LongWalk;
+            bool skipped = LongWalk || PickingUp;
+            if (PickingUp) pickupSkipped = true;   // the bowler is at the stance with the ball on the next Setup frame (PoseBallPickup)
             foreach (var h in heroes) if (h) h.Snap();
             return skipped;
         }
@@ -636,6 +842,7 @@ namespace GolfArcade.Bowling
         void PoseBowler(float t, bool foul, float dt = 0)
         {
             var h = Bowler; if (!h) return;
+            if (t <= 0 && PoseBallPickup(h)) return;
             if (t <= 0)
             {
                 Send(h, StartSpot(Board), 0);
@@ -678,6 +885,37 @@ namespace GolfArcade.Bowling
             reacted = true;
         }
 
+        /// The ball on the lane `laneT` seconds into its 60 Hz record, between the two samples around it (the camera follows this too).
+        Vector3 LanePosition(float laneT)
+        {
+            float x = Mathf.Max(0, laneT) * 60; int last = laneRecord.Count - 1;
+            int i = Mathf.Min(last, (int)x), j = Mathf.Min(last, i + 1);
+            return Vector3.Lerp(laneRecord[i].Position, laneRecord[j].Position, Mathf.Clamp01(x - i));
+        }
+
+        /// The pin action at `t` seconds into its 60 Hz frames, blended between the two frames around it, for the pins shown (the replay: the
+        /// pins that stood before the ball; play: the active ones).
+        /// Returns the frame index reached (the frames' end decides when scoring or the replay ends, as before).
+        int ShowDeckFrame(List<DeckFrame> frames, float t, bool standingBefore)
+        {
+            float x = Mathf.Max(0, t) * 60; int last = frames.Count - 1;
+            int k = Mathf.Min(last, (int)x), k2 = Mathf.Min(last, k + 1); float u = Mathf.Clamp01(x - k);
+            var f = frames[k]; var g = frames[k2];
+            for (int n = 0; n < 10; n++)
+            {
+                if (standingBefore ? !BowlingLeave.Standing(LastAction.StandingBefore, n + 1) : !pinViews[n].activeSelf) continue;
+                pinViews[n].transform.SetPositionAndRotation(Vector3.Lerp(f.Pins[n], g.Pins[n], u), Quaternion.Slerp(f.PinRotations[n], g.PinRotations[n], u));
+            }
+            ballView.SetActive(f.BallLive);
+            if (f.BallLive)
+            {
+                bool blend = g.BallLive;   // (the ball's last live frame is not blended toward the pit)
+                ballView.transform.SetPositionAndRotation(blend ? Vector3.Lerp(f.Ball, g.Ball, u) : f.Ball,
+                    (blend ? Quaternion.Slerp(f.BallRotation, g.BallRotation, u) : f.BallRotation) * ballSpin);
+            }
+            return k;
+        }
+
         void PlayBall(float dt)
         {
             playT += dt;
@@ -693,7 +931,7 @@ namespace GolfArcade.Bowling
                 float laneT = playT - launchLead;   // the lane's own clock starts once the ball has left the hand and reached its line
                 int i = Mathf.Min(laneRecord.Count - 1, Mathf.FloorToInt(Mathf.Max(0, laneT) * 60));
                 var s = laneRecord[i];
-                Vector3 p = s.Position;
+                Vector3 p = LanePosition(laneT);   // between the 60 Hz samples, not the nearest one: frame-time noise made it step 0, 1 or 2 samples a frame
                 if (laneT < 0 && launchLead > 0)
                 {
                     // the lead-in: along the chord from the hand to the first lane sample, speeding from the hand's pace to the ball's
@@ -718,15 +956,7 @@ namespace GolfArcade.Bowling
             }
 
             var frames = LastAction.Frames;
-            int k = Mathf.Min(frames.Count - 1, Mathf.FloorToInt(playT * 60));
-            var f = frames[k];
-            for (int n = 0; n < 10; n++)
-            {
-                if (!pinViews[n].activeSelf) continue;
-                pinViews[n].transform.SetPositionAndRotation(f.Pins[n], f.PinRotations[n]);
-            }
-            ballView.SetActive(f.BallLive);
-            if (f.BallLive) ballView.transform.SetPositionAndRotation(f.Ball, f.BallRotation * ballSpin);
+            int k = ShowDeckFrame(frames, playT, false);
             if (k >= frames.Count - 1 && !WaitingForPinfall(dt)) Score();
         }
 
@@ -811,7 +1041,17 @@ namespace GolfArcade.Bowling
             // the bowler turns and walks back up the approach (or, when the frame is over and a friend is up, to the ball return)
             walkedBack = true;
             bool handOver = (s.Complete || s.Ball == 0) && Players.Count > 1;
-            if (Bowler) { Bowler.ArmDeg = float.NaN; Bowler.Balance = 0; Bowler.Ball = null; Send(Bowler, handOver ? WaitSpot(Current) : StartSpot(Board), handOver ? WaitYaw : 0, sit: handOver); }
+            // (11-22: a bowler who stays up walks to the ball return for the next ball, not straight back to the stance)
+            NeedBall();
+            if (handOver)
+            {
+                // the next bowler gets up as the machine resets and heads for the return, and the outgoing one takes the spot they leave
+                // (both at once: the one going never walks into the one still standing there)
+                int next = NextBowler();
+                HandWaitSlot(Current, next);
+                if (next != Current && next < heroes.Count && heroes[next]) Send(heroes[next], PickupSpot, PickupYaw);
+            }
+            if (Bowler) { Bowler.ArmDeg = float.NaN; Bowler.Balance = 0; Bowler.Ball = null; Send(Bowler, handOver ? WaitSpot(Current) : PickupSpot, handOver ? WaitYaw(Current) : PickupYaw, sit: handOver && WaitSeated); }
             bool fresh = s.FreshRack || s.Complete || s.Ball == 0;
             // The pinsetter (real machine): the deck lifts the pins that are still standing, the sweep bar drops in front of the rest and pushes the fallen pins into the pit, then
             // the bar goes back up and the standing pins are set down on their spots again (or, when the frame is over, a fresh rack is lowered). Every pin keeps its own transform until then.
@@ -933,12 +1173,7 @@ namespace GolfArcade.Bowling
             bool frameOver = s.Complete || s.Ball == 0;
             if (frameOver)
             {
-                int next = Current;
-                for (int k = 1; k <= Players.Count; k++)
-                {
-                    int c = (Current + k) % Players.Count;
-                    if (!Scores[c].Complete) { next = c; break; }
-                }
+                int next = NextBowler();
                 if (Scores[next].Complete)
                 {
                     Flow = Phase.GameOver;
@@ -949,8 +1184,8 @@ namespace GolfArcade.Bowling
                 }
                 if (next != Current) { FreshRack(); }
                 Current = next;
-                Send(Bowler, StartSpot(Board), 0);   // the next bowler walks up from the lounge
-                for (int i = 0; i < heroes.Count; i++) if (i != Current && heroes[i]) Send(heroes[i], WaitSpot(i), WaitYaw, sit: true);
+                NeedBall(thrown: false); Send(Bowler, PickupSpot, PickupYaw);   // the next bowler walks over to the ball return for the ball
+                for (int i = 0; i < heroes.Count; i++) if (i != Current && heroes[i]) Send(heroes[i], WaitSpot(i), WaitYaw(i), sit: WaitSeated);
             }
             EnterSetup();
         }
@@ -1016,16 +1251,8 @@ namespace GolfArcade.Bowling
         {
             playT += dt * ReplaySpeed;
             var frames = LastAction.Frames;
-            int k = Mathf.Min(frames.Count - 1, Mathf.FloorToInt(playT * 60));
-            var f = frames[k];
-            for (int n = 0; n < 10; n++)
-            {
-                if (!BowlingLeave.Standing(LastAction.StandingBefore, n + 1)) continue;
-                pinViews[n].SetActive(true);
-                pinViews[n].transform.SetPositionAndRotation(f.Pins[n], f.PinRotations[n]);
-            }
-            ballView.SetActive(f.BallLive);
-            if (f.BallLive) ballView.transform.SetPositionAndRotation(f.Ball, f.BallRotation * ballSpin);
+            for (int n = 0; n < 10; n++) if (BowlingLeave.Standing(LastAction.StandingBefore, n + 1)) pinViews[n].SetActive(true);
+            int k = ShowDeckFrame(frames, playT, true);
             if (k >= frames.Count - 1 || playT > ReplayAction) EndReplay();
         }
 
@@ -1069,7 +1296,7 @@ namespace GolfArcade.Bowling
                     // after the ball from the moment it leaves the hand: behind the bowler (the approach shot) the camera turns down the
                     // lane with the ball and eases in; once the ball is well away it cuts to the low chase behind it (it never flies
                     // over the bowler: their head, the follow-through and each venue's ceiling stay clear)
-                    var b = laneRecord[Mathf.Min(laneRecord.Count - 1, Mathf.FloorToInt(Mathf.Max(0, playT - launchLead) * 60))].Position;
+                    var b = LanePosition(playT - launchLead);
                     if (b.z > 13.5f) { pos = new Vector3(0, .95f, 14.8f); look = new Vector3(0, .12f, BowlingLane.FoulToHeadPin + .4f); return; }
                     if (b.z < ChaseFrom)
                     {
@@ -1104,6 +1331,15 @@ namespace GolfArcade.Bowling
                     pos = new Vector3(x * .4f, 2.15f, z - 4.4f); look = new Vector3(x * .2f, .3f, z + 11); return;
                 }
                 default:
+                    // 11-22: the trip to the ball return, from the lane in front looking back at the return (the bowler lifting the ball, the
+                    // friends waiting beside the approach)
+                    if (Flow == Phase.Setup && Bowler && !ballInHand)
+                    {
+                        // side-on from across the lanes to the right, over the next pair's return: the tray is low enough to see the bowler bend
+                        // to it, and the whole body stays in the lower two thirds of the frame (the score sheet is open over the top third
+                        // for the 3.6 s after a ball, which is this walk)
+                        pos = new Vector3(4.7f, 2.0f, -6.2f); look = new Vector3(.4f, 1.35f, -5.45f); return;
+                    }
                     // someone walking between the lounge and the lane passes right under the camera: look back at the bowler from
                     // the lane instead (the lounge behind them) until they are clear
                     if (Flow == Phase.Setup && Bowler && LoungeWalker() != null)

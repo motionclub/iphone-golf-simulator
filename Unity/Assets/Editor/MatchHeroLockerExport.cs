@@ -42,6 +42,14 @@ namespace GolfArcade.EditorTools
 
         /// Bone tracks are sampled at this rate (the clips are authored at 30 fps; 60 Hz keeps the curves' own smoothness and the Swift side interpolates between samples).
         const float ClipRate = 60f;
+        /// Extra samples between two 60 Hz ones only where a straight blend of some track misses the clip by more than this: an authored cut
+        /// (a one-frame hand change, the racket switching hands), not ordinary fast motion. 11-22 (size audit): at 1 mm / 0.7° a fast hand failed
+        /// the test almost everywhere, so a 1.2 s Forehand carried 2,832 samples and the male tennis rig 50,001 for 70 s of animation (846 MB of
+        /// rig files across the six heroes). Smooth motion at 60 Hz misses by well under these; a cut misses by far more.
+        static readonly float CutMetres = Env("MH_LOCKER_CUT_MM", 8) / 1000f, CutDegrees = Env("MH_LOCKER_CUT_DEG", 2);
+        static float Env(string name, float fallback) => float.TryParse(Environment.GetEnvironmentVariable(name), System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var v) ? v : fallback;
+        /// How finely a cut is found: 2^-CutDepth of a 60 Hz frame.
+        const int CutDepth = 6;
         /// The clips the menus play, with the id the Swift side looks them up by.
         static readonly (HeroTennisDriver.Clip slot, string id, bool loop)[] RigClips = {
             (HeroTennisDriver.Clip.Ready, "ready", true), (HeroTennisDriver.Clip.Serve, "serve", false),
@@ -98,7 +106,9 @@ namespace GolfArcade.EditorTools
         [Serializable] class MorphTrack { public string part; public int offset, count; }
         class MotionSource { public AnimationClip clip; public string id, equipment; public bool loop; public float contact; public float rate; }
         [Serializable] class RigPart { public string part, kind; public int vertexCount, bindPositionOffset, bindNormalOffset, weightOffset, indexOffset, inverseBindOffset, track = -1; public int[] bones; public RigMorph[] morphs; }
-        [Serializable] class ClipInfo { public string id, name; public bool loop; public float length, fps, contact; public int frames, offset; public float[] boundsMin, boundsMax, times; public MorphTrack[] morphWeights; public string equipment; }
+        [Serializable] class ClipInfo { public string id, name; public bool loop; public float length, fps, contact; public int frames, offset; public float[] boundsMin, boundsMax, times; public MorphTrack[] morphWeights; public string equipment;
+            /// The same samples under another id (a JsonUtility round trip would turn a null `times` into an empty array).
+            public ClipInfo As(string other) { var c = (ClipInfo)MemberwiseClone(); c.id = other; return c; } }
         [Serializable] class Rig { public string file; public string[] bones, rigid; public int trackCount, floatsPerTrack = 10; public RigPart[] parts; public ClipInfo[] clips; }
         [Serializable]
         class Manifest
@@ -788,10 +798,21 @@ namespace GolfArcade.EditorTools
             SamplePose(root, ready, 0f);
             var rigidRef = rigid.Select(r => FlipZ * (inv * r.renderer.transform.localToWorldMatrix) * FlipZ).Select(m => m.inverse).ToArray();
             var clipInfos = new List<ClipInfo>(); var clipFrames = new Dictionary<string, float[]>();
+            // 11-22: several ids play the very same Unity clip (hitPerfect = fistPump, missWhiff = shock, matchWin = victory, golf's ready =
+            // idle...). The second id now points at the first one's samples (the app reads a clip by its offset), instead of a second copy:
+            // 22-24 % of each tennis and bowling rig file.
+            var exported = new Dictionary<(AnimationClip, bool, float, string), ClipInfo>();
             foreach (var motion in motions)
             {
                 var clip=motion.clip;var id=motion.id;var loop=motion.loop;
                 if(!clip)throw new InvalidOperationException("Missing lobby clip: "+id);
+                if (Environment.GetEnvironmentVariable("LOBBY_CLEARANCE") != "1" && exported.TryGetValue((clip, loop, motion.rate, motion.equipment ?? ""), out var same) && same.contact == motion.contact && id != "serve" && same.id != "serve")
+                {
+                    var alias = same.As(id);
+                    clipInfos.Add(alias); clipFrames[id] = clipFrames[same.id];
+                    sb.AppendLine($"  clip {id}: same clip as {same.id} ({clip.name}): shares its samples");
+                    continue;
+                }
                 // LOBBY_CLEARANCE=1: the lobby gets the hand/arm clearance the game applies from its baked tracks (HeroClearanceBake, same
                 // solver). Off by default (integration 10-18): the lobby-vs-game parity capture samples the raw clip, and the corrected
                 // ReadyIdle lifts the racket in front of the face in the locker (parity MAD 6 -> 16-25). Turn it on together with a parity capture
@@ -841,7 +862,7 @@ namespace GolfArcade.EditorTools
                         for (int tr = 0; tr < rig.trackCount; tr++) { int o=tr*10;
                             var ta=new Vector3(a[o],a[o+1],a[o+2]); var tb=new Vector3(b[o],b[o+1],b[o+2]); var t=new Vector3(actual[o],actual[o+1],actual[o+2]);
                             var qa=new Quaternion(a[o+3],a[o+4],a[o+5],a[o+6]); var qb=new Quaternion(b[o+3],b[o+4],b[o+5],b[o+6]); var q=new Quaternion(actual[o+3],actual[o+4],actual[o+5],actual[o+6]);
-                            if (Vector3.Distance(Vector3.Lerp(ta,tb,u),t)>.001f || Quaternion.Angle(Quaternion.Slerp(qa,qb,u),q)>.7f) return false;
+                            if (Vector3.Distance(Vector3.Lerp(ta,tb,u),t)>CutMetres || Quaternion.Angle(Quaternion.Slerp(qa,qb,u),q)>CutDegrees) return false;
                         }
                         return true;
                     }
@@ -849,13 +870,23 @@ namespace GolfArcade.EditorTools
                     void Refine(float aTime, float[] aPose, float bTime, float[] bPose, int depth) {
                         float mid=(aTime+bTime)*.5f; var m=Sample(mid);
                         bool accurate=Accurate(aPose,bPose,m,.5f) && Accurate(aPose,bPose,Sample(Mathf.Lerp(aTime,bTime,.25f)),.25f) && Accurate(aPose,bPose,Sample(Mathf.Lerp(aTime,bTime,.75f)),.75f);
-                        if (accurate || depth >= 8) { Append(bTime,bPose); return; }
+                        if (accurate || depth >= CutDepth) { Append(bTime,bPose); return; }
                         Refine(aTime,aPose,mid,m,depth+1); Refine(mid,m,bTime,bPose,depth+1);
                     }
                     var previous=Sample(0); Append(0,previous);
                     for(int k=1;k<frames;k++) { float at=k*clip.length/n; var next=Sample(at); Refine((k-1)*clip.length/n,previous,at,next,0); previous=next; }
                     sampleTimes=times.ToArray(); data=refined.ToArray(); frames=sampleTimes.Length; n=frames-1;
-                    sb.AppendLine($"  clip {id}: {frames} total samples including 60 Hz base + cut guards");
+                    // what the app's straight blend misses by, half-way between every pair of shipped samples (worst track), leaving out the
+                    // sub-frame intervals around an authored cut (shorter than 1/240 s: a jump there is the cut itself, shown within a frame)
+                    float missM = 0, missDeg = 0; int cuts = 0;
+                    for (int k = 0; k < n; k++) {
+                        if (sampleTimes[k + 1] - sampleTimes[k] < 1f / 240) { cuts++; continue; }
+                        var mid = Sample((sampleTimes[k] + sampleTimes[k + 1]) * .5f);
+                        for (int tr = 0; tr < rig.trackCount; tr++) { int a0 = (k * rig.trackCount + tr) * 10, b0 = a0 + rig.trackCount * 10, o = tr * 10;
+                            missM = Mathf.Max(missM, Vector3.Distance(Vector3.Lerp(new Vector3(data[a0],data[a0+1],data[a0+2]), new Vector3(data[b0],data[b0+1],data[b0+2]), .5f), new Vector3(mid[o],mid[o+1],mid[o+2])));
+                            missDeg = Mathf.Max(missDeg, Quaternion.Angle(Quaternion.Slerp(new Quaternion(data[a0+3],data[a0+4],data[a0+5],data[a0+6]), new Quaternion(data[b0+3],data[b0+4],data[b0+5],data[b0+6]), .5f), new Quaternion(mid[o+3],mid[o+4],mid[o+5],mid[o+6]))); }
+                    }
+                    sb.AppendLine($"  clip {id}: {frames} total samples including 60 Hz base + cut guards; worst miss half-way between samples {missM * 1000f:F1} mm / {missDeg:F2} deg ({cuts} sub-frame cut intervals left out)");
                 }
                 // loop seam: how far the last frame is from the first (positions in mm, rotation in degrees)
                 float seamPos = 0, seamRot = 0;
@@ -878,7 +909,7 @@ namespace GolfArcade.EditorTools
                     morphTracks.Add(mt);
                 }
                 ci.morphWeights=morphTracks.ToArray();
-                clipInfos.Add(ci); clipFrames[id] = data;
+                clipInfos.Add(ci); clipFrames[id] = data; exported[(clip, loop, motion.rate, motion.equipment ?? "")] = ci;
                 sb.AppendLine($"  clip {id}: {clip.name} length {clip.length:F3}s, {frames} frames at {ci.fps:F2} Hz, loop seam {seamPos * 1000f:F3} mm / {seamRot:F3} deg (last frame vs first), TRS recompose error {worstRecompose:E2}, bone scale error {worstScale:E2}; mesh bounds (file space) min={bmin:F3} max={bmax:F3}");
             }
             rig.clips = clipInfos.ToArray();

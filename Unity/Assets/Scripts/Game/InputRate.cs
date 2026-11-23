@@ -14,9 +14,14 @@ namespace GolfArcade.Game
         public const int FastLoop = 120, TvRate = 60;
         /// TV frames are judged over `Window` seconds after `Settle` seconds of grace (loading, the first hitches).
         public const float Window = 2f, Settle = 3f;
-        /// A TV frame is late past `LateFactor` of its 1/60 s slot; `LatePercent` of late frames in a window ends the fast loop.
+        /// A TV frame is late past `LateFactor` of its 1/60 s slot; `LatePercent` of late frames in two windows in a row ends the fast loop
+        /// for the rest of the match (11-22: was 10 % in one window, which let about six judders a second through, and every re-attach of the
+        /// display started the fast loop again).
         public const float LateFactor = 1.25f;
-        public const int LatePercent = 10;
+        public const int LatePercent = 2, WindowsToFallBack = 2;
+        /// The fast loop fell back in this match: it stays at 60 until the next match (NewMatch).
+        public static bool FellBack { get; private set; }
+        public static void NewMatch() => FellBack = false;
 
         /// True while swing input runs at 120 Hz. `Generation` changes whenever the loop rate changes, so frame-time
         /// watchers can start their window again instead of judging frames from the other rate.
@@ -24,14 +29,14 @@ namespace GolfArcade.Game
         public static int Generation { get; private set; }
         static InputRate running;
         float settle, elapsed, sinceDrawn;
-        int drawn, late;
+        int drawn, late, badWindows;
 
         /// Once the match is up (after the scene's own frame-rate settings): `requestedHz` is 120 when the player has it on
         /// and the phone can (decided by the app, which knows the phone's panel and power mode).
         public static void Begin(GameObject host, bool external, int requestedHz)
         {
             Stop();
-            if (!external || requestedHz < FastLoop) return;
+            if (!external || requestedHz < FastLoop || FellBack) return;
             Application.targetFrameRate = FastLoop;
             OnDemandRendering.renderFrameInterval = FastLoop / TvRate;
             running = host.AddComponent<InputRate>();
@@ -51,7 +56,7 @@ namespace GolfArcade.Game
             Application.targetFrameRate = TvRate;
         }
 
-        /// Whole numbers: 10 % of 120 frames is exactly 12 (`120 * .1f` is not).
+        /// Whole numbers: 2 % of 150 frames is exactly 3 (`150 * .02f` is not).
         public static bool ShouldFallBack(int drawn, int late) => drawn > 0 && late * 100 >= drawn * LatePercent;
 
         void Update()
@@ -63,9 +68,11 @@ namespace GolfArcade.Game
             drawn++; if (gap > LateFactor / TvRate) late++;
             elapsed += gap;
             if (elapsed < Window) return;
-            if (ShouldFallBack(drawn, late))
+            badWindows = ShouldFallBack(drawn, late) ? badWindows + 1 : 0;
+            if (badWindows >= WindowsToFallBack)
             {
-                Debug.Log($"[InputRate] {late}/{drawn} TV frames late with 120 Hz input: back to 60 Hz for this session");
+                Debug.Log($"[InputRate] {late}/{drawn} TV frames late with 120 Hz input: back to 60 Hz for this match");
+                FellBack = true;
                 Stop();
                 return;
             }

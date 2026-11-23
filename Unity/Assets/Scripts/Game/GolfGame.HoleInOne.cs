@@ -135,7 +135,7 @@ namespace GolfArcade.Game
 
         // ----- The Daily Challenge's own opening (2026-11-15, Adnan: "should be different than the regular intros, should mention
         // daily challenge, be focused towards daily challenge"). A hole's flyover glides from its tee down the whole hole under
-        // "HOLE n · PAR · YD"; the day's shot starts 125–175 ft from the cup, so its opening is the shot itself: from behind the
+        // "HOLE n · PAR · YD"; the day's shot starts from a chip to 175 yd out, so its opening is the shot itself: from behind the
         // day's spot toward the flag, then the green close, under a DAILY CHALLENGE plate (which shot, how far, the wind) and a
         // second one with the points (what is up for grabs, then the score so far).
 
@@ -207,7 +207,7 @@ namespace GolfArcade.Game
             var skin = GolfArcade.UI.MapSkin.Golf(Course.Course.Containing(hole.Number)?.Key ?? course?.Key);
             string wind = WeatherWords(Wind.IsCalm ? "Calm" : Wind.Describe(heading)).ToUpperInvariant();
             // (kept short: the two plates' tabs share the foot of the screen, and a storm's wind words are long)
-            DailyPlateDetail = $"SHOT {holeIndex + 1} OF {DailyHoleInOne.Shots}  ·  {(ballAt.DistanceTo(hole.Pin) * 3).ToString("F0", inv)} FT OUT  ·  {wind}";
+            DailyPlateDetail = $"SHOT {holeIndex + 1} OF {DailyHoleInOne.Shots}  ·  {ballAt.DistanceTo(hole.Pin).ToString("F0", inv)} YD OUT  ·  {wind}";
             introPlate = introGraphics.ShowWordTitle(skin, "DAILY CHALLENGE", false, introClock, 250, false, DailyPlateDetail);
             bool first = holeIndex == 0;
             DailyScoreTitle = (first ? DailyHoleInOne.MaxTotal : HoleInOneTotal).ToString("N0", inv) + " PTS";
@@ -224,9 +224,9 @@ namespace GolfArcade.Game
             info.Tab = $"DAILY CHALLENGE  ·  SHOT {index + 1} OF {DailyHoleInOne.Shots}";
             info.Title = "Daily Hole in One";
             info.Objective = index == 0
-                ? "Three shots, one each on three holes. Closest to the pin scores most: hole it for 1,000."
+                ? "Three shots, each longer: a chip, a 100-yard pitch, a long iron. Closest scores most: hole it for 1,000."
                 : $"{HoleInOneTotal.ToString("N0", inv)} points so far. Next: {info.Course}, {info.Name}.";
-            info.Chips = new[] { $"{HoleInOneTotal.ToString("N0", inv)} / {DailyHoleInOne.MaxTotal.ToString("N0", inv)} PTS", (info.Course ?? "").ToUpperInvariant(), "125–175 FT OUT" };
+            info.Chips = new[] { $"{HoleInOneTotal.ToString("N0", inv)} / {DailyHoleInOne.MaxTotal.ToString("N0", inv)} PTS", (info.Course ?? "").ToUpperInvariant(), DailyHoleInOne.BandWords(index) };
             info.TipTab = "DAILY TIP";
             info.Tips = DailyTips;
             return info;
@@ -237,8 +237,8 @@ namespace GolfArcade.Game
             ("Every foot counts", "A miss scores up to 800, and every foot closer to the cup is worth more. Hole it for the full 1,000."),
             ("Same shots for everyone", "The whole world plays these three shots today. Your first go is the one that counts."),
             ("Find the flag", "The cup is cut somewhere new every day. Check the shot map before you pick your line."),
-            ("Mind the wind", "From 150 feet the wind still moves the ball. Read the arrow, then aim off."),
-            ("Smooth and short", "These are wedge shots. A short, smooth backswing beats a hard one."),
+            ("Mind the wind", "On the long shot the wind moves the ball a lot. Read the arrow, then aim off."),
+            ("Club up as you go", "Each shot is longer: a soft chip, a wedge from 100, then a mid iron. Pick the club for the yards."),
             ("Stay dry", "Water, lava and out of bounds score nothing for that shot. A safe miss still scores."),
         };
 

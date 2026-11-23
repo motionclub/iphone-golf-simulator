@@ -62,7 +62,7 @@ namespace GolfArcade.Game
             Left = m.left; Touch = true; touch = true;
             AudioListener.volume = MuteWhenAutomated.Volume(m.sound); Haptics.Enabled = m.haptics; Haptics.Warm();
             Time.timeScale = 1;
-            InputRate.Stop();
+            InputRate.Stop(); OnTV = m.external;
             Application.targetFrameRate = m.external ? 60 : FrameRate.Target(m.fps, Screen.currentResolution.refreshRateRatio.value);
             QualitySettings.vSyncCount = 0;
             GolfArcade.Tennis.TennisQuality.FitScreen(m.external);

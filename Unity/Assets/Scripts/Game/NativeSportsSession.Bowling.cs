@@ -7,9 +7,9 @@ namespace GolfArcade.Game
     /// motion samples stream in on the binary channel and buttons arrive as commands.
     ///
     ///   phone -> Unity   start{sport:"bowling", mode: players "Ana|Sam" (one lane, turns; "cpu:<skill>:<name>" = a computer bowler)}  bowlMove{value: boards, + = left}
-    ///                    bowlBoard{value: the board to stand on, 3..37 (the lane slider)}  bowlHold{value: 1 ball held / 0 thumb lifted}  bowlAim{value: degrees, + = right; the phone aims with its swing since 10-27}  bowlSkip (a walk to/from the lounge)
+    ///                    bowlBoard{value: the board to stand on, 3..37 (the lane slider)}  bowlHold{value: 1 ball held / 0 thumb lifted}  bowlAim{value: degrees, + = right; the phone aims with its swing since 10-27}  bowlSkip (a walk, or the ball pickup)  bowlEmote{value: equipped slot 0..2, a player who is not up}
     ///                    latency{value: TV delay, s}  end
-    ///   Unity -> phone   bowling(phase|player|frame|ball|board|grade|mph|hook°|rpm|standing pins|mine|walking|aim° (the last ball's)), 4 a second
+    ///   Unity -> phone   bowling(phase|player|frame|ball|board|grade|mph|hook°|rpm|standing pins|mine|walking|aim° (the last ball's)|canEmote), 4 a second
     ///                    bowlCue(top | bottom | crash:<pins>): the self-timed swing's haptic confirmations and the pin crash, the moment they happen
     ///                    bowlingGame("score=..;strikes=..;..."): the game is over (the phone's player), for XP
     public sealed partial class NativeSportsSession
@@ -38,6 +38,7 @@ namespace GolfArcade.Game
             bowling.PlayerFemale.Clear(); bowling.PlayerFemale.Add(m.female);
             bowling.PlayerLook.Clear(); bowling.PlayerLook.Add((m.skinHex, m.shirt, m.shorts, m.accent));
             bowling.NewGame(players);
+            bowling.EquipEmotes(m.emotes);   // this phone's player's three (the others in a pass-the-phone game keep the defaults)
         }
 
         void BowlingCue(string cue) => Emit("bowlCue", cue);
@@ -56,6 +57,7 @@ namespace GolfArcade.Game
                 case "bowlHold": if (!paused) bowling.PlayerHold(m.value > 0); return true;
                 case "bowlAim": if (!paused && !float.IsNaN(m.value)) bowling.PlayerAim(Mathf.Clamp(m.value, -BowlingGame.MaxAim * 2, BowlingGame.MaxAim * 2)); return true;
                 case "bowlSkip": if (!paused) bowling.SkipWalks(); return true;
+                case "bowlEmote": if (!paused && m.value == Mathf.Floor(m.value)) bowling.PlayerEmote((int)m.value); return true;   // a player who is not up (11-22)
                 case "latency": bowling.DisplayLatency = Mathf.Clamp(m.value, 0, .5f); return true;
             }
             return false;

@@ -2,14 +2,16 @@ import SwiftUI
 import UIKit
 
 /// What Unity's BowlingGame reports 4 times a second (NativeSportsSession.Bowling.cs):
-/// phase|player|frame|ball|board|grade|mph|hook°|rpm|standing pins|mine|walking|aim°.
+/// phase|player|frame|ball|board|grade|mph|hook°|rpm|standing pins|mine|walking|aim°|canEmote.
 struct BowlingControllerState: Equatable {
     var phase = "Setup", player = "", frame = 1, ball = 1, board = 20.0
     var grade = "", mph = 0.0, hook = 0, rpm = 0, standing = ""
     /// This phone bowls now (false: a friend's phone or the computer bowler is up).
     var mine = true
-    /// Someone is walking to or from the lounge: a tap on the ball skips it.
+    /// Someone is walking (or the bowler is fetching the ball from the return): a tap on the ball skips it.
     var walking = false
+    /// This phone's player is not up and may play one of their emotes (11-22: whenever it's not their turn).
+    var canEmote = false
     /// The last ball's aim, degrees (+ = right of straight up the lane): the way the swing went through.
     var aim = 0.0
 
@@ -21,6 +23,7 @@ struct BowlingControllerState: Equatable {
         grade = p[5]; mph = Double(p[6]) ?? 0; hook = Int(p[7]) ?? 0; rpm = Int(p[8]) ?? 0; standing = p[9]
         if p.count > 10 { mine = p[10] != "0" }
         if p.count > 12 { walking = p[11] == "1"; aim = Double(p[12]) ?? 0 }
+        if p.count > 13 { canEmote = p[13] == "1" }
     }
 
     /// The ball can be picked up (setup) or is in the hand (hold, approach).
@@ -58,6 +61,18 @@ struct BowlingPhoneController: View {
     }
 
     private var gameOver: Bool { state.phase == "GameOver" }
+    /// Someone else is up: this player can react with their emotes (11-22).
+    private var waiting: Bool { !state.mine && !gameOver }
+
+    /// The player's three equipped emotes, whenever it's not their turn: their player does it beside the lane.
+    private var emotes: some View {
+        EquippedEmoteControls(title: "React", ids: session.matchEmotes, enabled: state.canEmote && !session.paused,
+            notice: state.player.isEmpty ? "Your player does it beside the lane." : "Your player does it while \(state.player) bowls.",
+            identifier: "bowling-emote") { slot in
+            session.command("bowlEmote", value: Double(slot))
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        }
+    }
 
     /// With a TV: the phone is the controller, full screen.
     /// Boards 07-10: the bowler's name on the centre's plate, Frame · Ball, ◀ Board ▶, the centre's ball, Hold to start, LAST THROW and pause.
@@ -68,7 +83,7 @@ struct BowlingPhoneController: View {
             Spacer(minLength: 0)
             if gameOver { finishButton } else { ball }
             Spacer(minLength: 0)
-            lastThrow
+            if waiting { emotes } else { lastThrow }
         }
         .padding(.horizontal, 22).padding(.vertical, 26)
         .background(MapControllerBackground(skin: skin))
@@ -98,8 +113,12 @@ struct BowlingPhoneController: View {
                 Text(ballCaption).font(MSBrand.font(.button, 15)).foregroundStyle(ballCaptionLive ? MSBrand.gold : MSBrand.n300)
                     .lineLimit(1).minimumScaleFactor(0.6).frame(width: 190).position(x: 232, y: 190)
             }
-            Text("WHERE TO STAND").font(MSBrand.font(.heading, 15)).foregroundStyle(MSBrand.n300).position(x: 96, y: 18)
-            moveStrip.frame(width: 300, height: 68).scaleEffect(0.6).frame(width: 180, height: 41).position(x: 96, y: 92)
+            if waiting {
+                emotes.frame(width: 300).scaleEffect(0.6).frame(width: 180, height: 120).position(x: 96, y: 92)
+            } else {
+                Text("WHERE TO STAND").font(MSBrand.font(.heading, 15)).foregroundStyle(MSBrand.n300).position(x: 96, y: 18)
+                moveStrip.frame(width: 300, height: 68).scaleEffect(0.6).frame(width: 180, height: 41).position(x: 96, y: 92)
+            }
             Text("LAST THROW").font(MSBrand.font(.heading, 15)).foregroundStyle(MSBrand.n300).position(x: 372, y: 18)
             VStack(spacing: 2) {
                 Text(state.mph > 0 ? String(format: "%.1f", state.mph) : "–").font(MSBrand.font(.hudNumber, 38)).foregroundStyle(MSBrand.white).monospacedDigit()

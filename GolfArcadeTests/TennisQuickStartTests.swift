@@ -28,14 +28,34 @@ import UIKit
         XCTAssertEqual(session.startingLag, 0.18, accuracy: 1e-9, "Unity starts from the saved whole chain")
     }
 
-    func testUnknownTVStillRunsTheFlashesAndTheTimingCheck() {
-        let session = soloTennis(freshStore())
+    /// Point and fill (11-22): a new TV is timed by the circle as it fills, so it needs no flashes and no timing drill either.
+    func testUnknownTVGoesFromTheCircleStraightToPlay() {
+        let store = freshStore()
+        let session = soloTennis(store)
         XCTAssertFalse(session.quickStartAvailable)
-        session.debugFinishPoint()
-        XCTAssertEqual(session.setupStage, .timing)
-        XCTAssertTrue(session.measuringDelay, "a new TV is timed: the flashes first")
-        session.debugFinishTVDelay()
-        XCTAssertEqual(session.calibrationStep, .prompt, "then the timing check is offered")
+        session.beginAxisCapture()
+        XCTAssertTrue(session.glowActive, "the circle is up")
+        var t = 10.0
+        for _ in 0..<40 { t += 0.1; session.receiveGlow(.init(time: t, seeing: true, delay: 0.2, match: 0.93, heading: 0.1)) }
+        XCTAssertFalse(session.glowActive, "full in a few seconds")
+        XCTAssertEqual(session.latencyReading ?? 0, 0.2 + SportsGlow.gameFrameLead, accuracy: 1e-9)
+        session.axisGate.locked = true; session.debugFinishPoint()
+        XCTAssertEqual(session.setupStage, .playing, "no flashes, no timing check, no Ready tap")
+        XCTAssertFalse(session.measuringDelay); XCTAssertFalse(session.timingPrompt)
+        XCTAssertEqual(session.startingLag, 0.2 + SportsGlow.gameFrameLead, accuracy: 1e-9, "Unity starts from the circle's reading")
+    }
+
+    /// A phone pointed away drains the circle; the direction comes from where it pointed through the TV.
+    func testTheCircleDrainsWhenThePhoneLeavesTheTV() {
+        let session = soloTennis(freshStore())
+        session.beginAxisCapture()
+        var t = 10.0
+        for _ in 0..<10 { t += 0.1; session.receiveGlow(.init(time: t, seeing: true, delay: 0.1, match: 0.9, heading: 0.1)) }
+        let filled = session.glowProgress
+        for _ in 0..<5 { t += 0.1; session.receiveGlow(.init(time: t, seeing: false, delay: nil, match: 0.2, heading: nil)) }
+        XCTAssertLessThan(session.glowProgress, filled)
+        XCTAssertFalse(session.glowSeeing)
+        XCTAssertTrue(session.glowActive)
     }
 
     func testTheLessonAlwaysRunsTheWholeSetupAndOpensOnTheCalibrateCard() {
@@ -49,23 +69,23 @@ import UIKit
         XCTAssertEqual(session.setupStage, .scan)
         session.continueCalibrationExplain()
         XCTAssertFalse(session.calibrationExplain)
-        session.debugFinishPoint()
-        XCTAssertTrue(session.measuringDelay, "flashes even on a TV whose timing is saved")
+        XCTAssertTrue(session.glowActive, "the circle, even on a TV whose timing is saved")
     }
 
-    func testSettingsTimingCheckRunsTheWholeSetupOnce() {
+    /// Settings → check my timing: the next match runs the circle again (it re-times the TV) and then plays.
+    func testSettingsTimingCheckRunsTheCircleOnce() {
         let store = freshStore()
         SportsTiming.storeChain(0.18, for: SportsTiming.currentTV(), defaults: store)
         let session = soloTennis(store)
         session.forceTimingCheckNextMatch()
         XCTAssertFalse(session.quickStartAvailable)
-        session.debugFinishPoint()
-        XCTAssertTrue(session.measuringDelay)
-        session.debugFinishTVDelay(); session.startTimingCheck()
-        session.receiveTimingResult("150")
+        session.beginAxisCapture()
+        XCTAssertTrue(session.glowActive)
+        var t = 10.0
+        for _ in 0..<40 { t += 0.1; session.receiveGlow(.init(time: t, seeing: true, delay: 0.15, match: 0.9, heading: 0)) }
+        session.axisGate.locked = true; session.debugFinishPoint()
         XCTAssertEqual(session.setupStage, .playing)
-        XCTAssertEqual(SportsTiming.storedChain(for: SportsTiming.currentTV(), defaults: store) ?? 0, 0.15, accuracy: 1e-9)
-        XCTAssertTrue(session.quickStartAvailable, "checked: the next match is quick again")
+        XCTAssertEqual(session.startingLag, 0.18, accuracy: 1e-9, "the saved whole chain stays the prior while play has not moved it")
     }
 
     /// One TV for two phones: the TV phone with a known TV goes quick, and the phone without the TV follows it (same picture).
@@ -75,7 +95,7 @@ import UIKit
         try service.enableMock(count: 2, player: Player(name: "You", colorIndex: 0))
         defer { service.leave(); session.active = false }
         service.mockState(phase: .calibrating)
-        service.mockOneTV(otherStep: "pointed")
+        service.mockOneTV(otherStep: "glow:on:30")
         session.active = true; session.ready = true; session.sport = "tennis"
         session.debugSetOnlineMatch("one-tv-quick", seat: 0, controllerOnly: true)
         session.loading.cancel(); session.setupStage = .scan

@@ -179,6 +179,7 @@ namespace GolfArcade.Game {
         Vector3 controllerMapPosition;
         float controllerMapSize;
         RenderTexture controllerMapTarget;
+        bool controllerMapReading; string controllerMapPending;
         // Metadata/marks are sent at 4 Hz. Reuse the already-rendered HUD map: no new camera
         // renders. Read back and JPEG-encode it only when the map's cached framing changes.
         public ControllerReading NativeControllerReading() {
@@ -199,21 +200,26 @@ namespace GolfArcade.Game {
             if(hud.Map.TargetLabels.Count>0){
                 reading.targets=ControllerPoints(hud.Map.Targets);reading.targetLabels=hud.Map.TargetLabels.ToArray();
             }
-            if(minimapTexture && renderedMapHole==hole.Number &&
+            // 11-22: read back without stalling (ReadPixels waited for the GPU on the main thread, mid-aim). The picture arrives with a later
+            // reading (4 Hz) of the same hole; a framing change while one is on its way asks again once it lands.
+            if(minimapTexture && renderedMapHole==hole.Number && !controllerMapReading &&
                (controllerMapHole!=hole.Number || controllerMapTarget!=minimapTexture ||
                 controllerMapPosition!=minimapCamera.transform.position || controllerMapSize!=minimapCamera.orthographicSize)) {
-                var previous=RenderTexture.active;
                 var rt=RenderTexture.GetTemporary(NativeMapWidth,Mathf.RoundToInt(NativeMapWidth/minimapCamera.aspect),0,RenderTextureFormat.ARGB32);
-                Texture2D cpu=null;
-                try {
-                    Graphics.Blit(minimapTexture,rt);RenderTexture.active=rt;
-                    cpu=new Texture2D(rt.width,rt.height,TextureFormat.RGB24,false);
-                    cpu.ReadPixels(new Rect(0,0,rt.width,rt.height),0,0);cpu.Apply();
-                    reading.mapImage=System.Convert.ToBase64String(cpu.EncodeToJPG(82));
-                    controllerMapHole=hole.Number;controllerMapTarget=minimapTexture;
-                    controllerMapPosition=minimapCamera.transform.position;controllerMapSize=minimapCamera.orthographicSize;
-                } finally { RenderTexture.active=previous;RenderTexture.ReleaseTemporary(rt);if(cpu) Destroy(cpu); }
+                Graphics.Blit(minimapTexture,rt);
+                int holeNumber=hole.Number,width=rt.width,height=rt.height; var target=minimapTexture;
+                var position=minimapCamera.transform.position; float size=minimapCamera.orthographicSize;
+                controllerMapReading=true;
+                UnityEngine.Rendering.AsyncGPUReadback.Request(rt,0,TextureFormat.RGBA32,request=>{
+                    controllerMapReading=false;
+                    RenderTexture.ReleaseTemporary(rt);
+                    if(!this || request.hasError || hole==null || hole.Number!=holeNumber) return;
+                    var jpg=ImageConversion.EncodeNativeArrayToJPG(request.GetData<byte>(),UnityEngine.Experimental.Rendering.GraphicsFormat.R8G8B8A8_UNorm,(uint)width,(uint)height,0,82);
+                    try { controllerMapPending=System.Convert.ToBase64String(jpg.ToArray()); } finally { jpg.Dispose(); }
+                    controllerMapHole=holeNumber;controllerMapTarget=target;controllerMapPosition=position;controllerMapSize=size;
+                });
             }
+            if(controllerMapPending!=null) { reading.mapImage=controllerMapPending; controllerMapPending=null; }
             if(networkConfigured)FillPartyReading(reading);
             return reading;
         }

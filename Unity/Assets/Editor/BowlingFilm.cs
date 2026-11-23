@@ -24,6 +24,7 @@ namespace GolfArcade.EditorTools
         const string Flag = "BowlingFilm";
         public const string ScenePath = "Assets/Scenes/Bowling.unity";
         static IEnumerator script;
+        static readonly string[] EmoteReel = { "wave", "fistPump", "jumpJoy", "scuba", "stomp", "bringIt", "victory", "spike" };
         static int lastFrame = -1;
         static string output;
         static readonly CultureInfo Inv = CultureInfo.InvariantCulture;
@@ -107,10 +108,49 @@ namespace GolfArcade.EditorTools
                 tap = listener.gameObject.AddComponent<WavTap>();
             }
             else Time.captureFramerate = int.TryParse(Environment.GetEnvironmentVariable("BOWL_FILM_FPS"), out int fps) ? fps : 30;
+            // BOWL_WAIT_LAYOUT=<BowlingGame.WaitLayouts name>: where the waiting players stand in this film
+            if (Enum.TryParse(Environment.GetEnvironmentVariable("BOWL_WAIT_LAYOUT") ?? "", out BowlingGame.WaitLayouts wl)) BowlingGame.WaitLayout = wl;
+            // BOWL_FILM_WAITSPOTS=1 (11-22): where the waiting players stand, each BowlingGame.WaitLayouts option in a four-player game:
+            // the setup shot (what the TV shows while the bowler aims), the reaction shot (looking back from the foul line) and a top view.
+            // Output: waitspots/<layout>_<shot>.jpg
+            if (Environment.GetEnvironmentVariable("BOWL_FILM_WAITSPOTS") == "1")
+            {
+                Directory.CreateDirectory(Path.Combine(output, "waitspots"));
+                var keep = BowlingGame.WaitLayout;
+                foreach (BowlingGame.WaitLayouts layout in Enum.GetValues(typeof(BowlingGame.WaitLayouts)))
+                {
+                    BowlingGame.WaitLayout = layout;
+                    game.NewGame(new[] { "Adnan", "Sam", "Maya", "Leo" });
+                    for (int i = 0; i < 4; i++) { game.SkipWalks(); yield return null; }
+                    // the opening score sheet stays open until an approach: fold it to the corner card for these pictures
+                    var hudField = typeof(BowlingGame).GetField("hud", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                    (hudField?.GetValue(game) as BowlingHud)?.FoldSheet();
+                    for (int i = 0; i < 60; i++) yield return null;   // the camera eases in, the sheet folds, the heroes settle into idle / seated
+                    var cam = Camera.main;
+                    void Shot(string shot, Vector3? pos = null, Vector3? look = null)
+                    {
+                        var (was, wasRot) = (cam.transform.position, cam.transform.rotation);
+                        if (pos.HasValue) cam.transform.SetPositionAndRotation(pos.Value, Quaternion.LookRotation(look.Value - pos.Value));
+                        BowlingLaneMirror.RenderNow();
+                        GameCapture.Save(Path.Combine(output, "waitspots", $"{layout}_{shot}.jpg"), 1280, 720);
+                        cam.transform.SetPositionAndRotation(was, wasRot);
+                    }
+                    Shot("setup");
+                    // the reaction shot as BowlingGame frames it, for a bowler at the end of the slide (the bowler is still drawn at the stance)
+                    var h = new Vector3(-.2f, 0, -.8f);
+                    Shot("reaction", new Vector3(h.x + .6f, 1.4f, h.z + 3.4f), new Vector3(h.x, 1.05f, h.z - 3));
+                    Shot("top", new Vector3(.2f, 10.5f, -5.6f), new Vector3(.2f, 0, -3.9f));
+                    Debug.Log($"[Bowling] waitspots {layout}: " + string.Join(" ", System.Linq.Enumerable.Select(game.Heroes, x => x ? $"({x.Position.x:F2},{x.Position.z:F2})" : "-")));
+                }
+                BowlingGame.WaitLayout = keep;
+                yield break;
+            }
             // BOWL_FILM_CPU=1: exhibition, you against the computer (Steady Sam bowls his own balls)
             bool cpu = Environment.GetEnvironmentVariable("BOWL_FILM_CPU") == "1";
             game.CpuSkill.Clear(); if (cpu) { game.CpuSkill.Add(-1); game.CpuSkill.Add(.5f); }
-            game.NewGame(cpu ? new[] { "Adnan", "Steady Sam" } : new[] { "Adnan", "Sam" });
+            // BOWL_FILM_PLAYERS="A|B|C": who bowls (default two)
+            var filmPlayers = Environment.GetEnvironmentVariable("BOWL_FILM_PLAYERS");
+            game.NewGame(cpu ? new[] { "Adnan", "Steady Sam" } : !string.IsNullOrEmpty(filmPlayers) ? filmPlayers.Split('|') : new[] { "Adnan", "Sam" });
             // BOWL_FILM_STILLS=1: the venue from four fixed angles first (stills/*.jpg; BOWL_VENUE picks the venue)
             if (Environment.GetEnvironmentVariable("BOWL_FILM_STILLS") == "1")
             {
@@ -232,6 +272,10 @@ namespace GolfArcade.EditorTools
             var heroesField = typeof(BowlingGame).GetField("heroes", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             var approachField = typeof(BowlingGame).GetField("approachT", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             var timeline = new StringBuilder("frame,t,flow,player,cpu,approachT,clipRate,clipTime,clip,swing,board,left,idle\n");
+            float closest = 99; int closestAt = -1, touching = 0;
+            bool filmEmotes = Environment.GetEnvironmentVariable("BOWL_FILM_EMOTES") == "1";
+            float nextEmote = Time.time + 3f; int emoteTurn = 0, emoteIndex = 0;
+            var pickupCsv = new StringBuilder("frame,clipTime,handsX,handsY,handsZ,ballX,ballY,ballZ,yaw\n");
             var csv = new StringBuilder("ball,player,grade,board,speed_mph,rpm,axis,launch_deg,loft,knocked,standing_after,settle_s\n");
             int balls = 0;
             game.BallFinished += (th, act) =>
@@ -269,6 +313,33 @@ namespace GolfArcade.EditorTools
                     GameCapture.Save(Path.Combine(output, "bowler", $"f_{frame:00000}.jpg"), 1280, 720);
                     foreach (var c in canvases) c.enabled = true;
                     cam.transform.SetPositionAndRotation(was, wasRot);
+                }
+                // BOWL_FILM_EMOTES=1 (11-22): the players who are not up emote now and then, round the waiting ones in turn
+                if (filmEmotes && Time.time >= nextEmote)
+                {
+                    nextEmote = Time.time + 2.3f;
+                    for (int k = 1; k < game.Players.Count; k++)
+                    {
+                        int p = (emoteTurn + k) % game.Players.Count;
+                        if (p == game.Current) continue;
+                        emoteTurn = p;
+                        if (game.EmoteAs(p, EmoteReel[emoteIndex % EmoteReel.Length])) emoteIndex++;
+                        break;
+                    }
+                }
+                // 11-22 "dont run through characters": the closest two heroes come (body centres on the floor), every frame
+                for (int a = 0; a < heroes.Count; a++) for (int b = a + 1; b < heroes.Count; b++)
+                {
+                    if (!heroes[a] || !heroes[b]) continue;
+                    var dv = heroes[a].Position - heroes[b].Position; dv.y = 0; float dd = dv.magnitude;
+                    if (dd < closest) { closest = dd; closestAt = frame; }
+                    if (dd < .45f) touching++;
+                }
+                // 11-22 ball-return pickup: where the palms meet the ball (hero space) against the ball waiting on the return
+                if (bowler && bowler.Anim && bowler.Anim.Playing == BowlingGame.PickupClip)
+                {
+                    var hl = bowler.transform.InverseTransformPoint(bowler.HandsMid); var bl = bowler.transform.InverseTransformPoint(BowlingGame.ReturnBall);
+                    pickupCsv.Append(string.Join(",", frame, F(bowler.ClipTime), F(hl.x), F(hl.y), F(hl.z), F(bl.x), F(bl.y), F(bl.z), F(bowler.transform.eulerAngles.y))).Append('\n');
                 }
                 timeline.Append(string.Join(",", frame, F(Time.time - start), game.Flow, game.Current, game.IsCpu(game.Current) ? 1 : 0, F((float)approachField.GetValue(game)),
                     F(bowler && bowler.Anim ? bowler.Anim.ActionRate : 1), F(bowler ? bowler.ClipTime : 0), bowler && bowler.Anim ? bowler.Anim.Playing : "", swing?.Kind ?? "", F(game.Board), humanShots.Count, F(idle))).Append('\n');
@@ -336,6 +407,9 @@ namespace GolfArcade.EditorTools
             if (tap) tap.Save(Path.Combine(output, "audio.wav"));
             File.WriteAllText(Path.Combine(output, "balls.csv"), csv.ToString());
             File.WriteAllText(Path.Combine(output, "timeline.csv"), timeline.ToString());
+            File.WriteAllText(Path.Combine(output, "pickup.csv"), pickupCsv.ToString());
+            File.WriteAllText(Path.Combine(output, "spacing.txt"), $"closest {closest:0.000} m at frame {closestAt}; frames (pairs) under 0.45 m: {touching}\n");
+            Debug.Log($"[BowlingFilm] spacing: closest {closest:0.000} m at frame {closestAt}; pair-frames under 0.45 m: {touching}");
             File.WriteAllText(Path.Combine(output, "bones.csv"), bones.ToString());
             var sb = new StringBuilder();
             for (int p = 0; p < game.Players.Count; p++)

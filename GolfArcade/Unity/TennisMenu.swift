@@ -190,7 +190,7 @@ final class TennisMenu {
         case .gameplay: ["level", "presentationIntros", "holeFlyover", "presentationBigMoments", "golfBounties", "replayOnboarding", "resetProgress"]
         case .controls: ["swingPrediction", "fastInput", "range", "hand", "relock", "timing"]
         case .guide: GuideDeck.allCases.map(\.rowID)
-        case .display: ["tennisCamera", "fps", "overscan"]
+        case .display: ["tennisCamera", "picture", "fps", "overscan"]
         case .audio: ["sound", "haptics", "hapticStrength", "racketSound", "feelTest"] + (PartyChat.enabled ? ["partyVoice"] : [])
         case .access: ["bigText", "reduceMotion"]
         case .developer: ["bench"]
@@ -422,7 +422,7 @@ final class TennisMenu {
             } else { confirmingReset = true; notice = "Press again to erase campaign progress" }
         case "replayOnboarding": OnboardingFlow.shared.replay(); goHome()
         case "relock": notice = "The court direction is set again at the start of your next match"; session.motion.clearAxis()
-        case "timing": session.forceTimingCheckNextMatch(); notice = "The timing check runs at the start of your next match"
+        case "timing": session.forceTimingCheckNextMatch(); notice = "Your next match starts by re-timing the TV"
         case let l where l.hasPrefix("lk-"): lockerSelect(l)
         case "prev": if screen == .howTo { howToPage = max(0, howToPage - 1) } else { lessonCard = max(0, lessonCard - 1) }
         case "nextPage": howToPage = min(guideDeck.cards.count - 1, howToPage + 1)
@@ -553,7 +553,10 @@ final class TennisMenu {
             feelTestLabel = RacketFeel.playDemo(i) ?? "Open the plaza or a match first: the feel test plays through the game."
         case "partyVoice": PartyUI.shared.settingsOpen = true
         case "tennisCamera": s.tennisCamera = s.tennisCamera == "elevated" ? "chase" : "elevated"
-        case "fps": s.highFrameRate.toggle()
+        case "fps":
+            let values = ["auto", "60", "120"]
+            s.phoneFrameRate = values[cycle(values.firstIndex(of: s.phoneFrameRate) ?? 0, values.count)]
+        case "picture": s.picture = s.picture == "sharp" ? "smooth" : "sharp"
         case "range": s.travel = min(1.2, max(0.3, s.travel + Double(step) * 0.1))
         case "overscan": s.overscan = min(0.1, max(0, s.overscan + Double(step) * 0.02))
         case "bigText": s.bigText.toggle()

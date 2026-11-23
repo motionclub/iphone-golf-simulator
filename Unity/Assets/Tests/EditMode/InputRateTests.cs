@@ -10,7 +10,7 @@ namespace GolfArcade.Tests
     public class InputRateTests
     {
         GameObject host;
-        [SetUp] public void Make() { host = new GameObject("InputRate host"); }
+        [SetUp] public void Make() { host = new GameObject("InputRate host"); InputRate.NewMatch(); }
         [TearDown] public void Clear() { InputRate.Stop(); Object.DestroyImmediate(host); }
 
         [Test]
@@ -45,11 +45,20 @@ namespace GolfArcade.Tests
         }
 
         [Test]
-        public void ATenthOfTvFramesLateEndsTheFastLoop()
+        public void TwoPercentOfTvFramesLateIsABadWindow()
         {
-            Assert.IsTrue(InputRate.ShouldFallBack(120, 12));
-            Assert.IsFalse(InputRate.ShouldFallBack(120, 11));
+            Assert.IsTrue(InputRate.ShouldFallBack(150, 3));
+            Assert.IsFalse(InputRate.ShouldFallBack(150, 2));
             Assert.IsFalse(InputRate.ShouldFallBack(0, 0));
+        }
+
+        [Test]
+        public void AFallBackHoldsForTheRestOfTheMatch()
+        {
+            InputRate.NewMatch();
+            Assert.IsFalse(InputRate.FellBack);
+            InputRate.Begin(host, true, 120);
+            Assert.IsTrue(InputRate.Fast, "a new match may try the fast loop again");
         }
     }
 }

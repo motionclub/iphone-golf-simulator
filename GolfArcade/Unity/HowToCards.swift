@@ -63,8 +63,8 @@ enum GameTips {
         t(.strategy, "Every foot counts", "A miss scores up to 800, and every foot closer to the cup is worth more. Hole it for the full 1,000."),
         t(.party, "Same shots for everyone", "The whole world plays these three shots today. Your first go is the one that counts."),
         t(.strategy, "Find the flag", "The cup is cut somewhere new every day. Check the shot map before you pick your line."),
-        t(.strategy, "Mind the wind", "From 150 feet the wind still moves the ball. Read the arrow, then aim off."),
-        t(.technique, "Smooth and short", "These are wedge shots. A short, smooth backswing beats a hard one."),
+        t(.strategy, "Mind the wind", "On the long shot the wind moves the ball a lot. Read the arrow, then aim off."),
+        t(.technique, "Club up as you go", "Each shot is longer: a soft chip, a wedge from 100, then a mid iron. Pick the club for the yards."),
         t(.strategy, "Stay dry", "Water, lava and out of bounds score nothing for that shot. A safe miss still scores."),
     ]
 
@@ -138,7 +138,7 @@ enum GameTips {
         t(.strategy, "Celebrate", "Win a point? Tap an emote on your phone to celebrate."),
         t(.setup, "Court scan", "For the court scan, stand about 2.5 m from the screen with the rear camera pointing at it."),
         t(.setup, "Keep tracking clear", "Blank walls or a covered lens can stop tracking. Keep the rear camera clear and the room lit."),
-        t(.setup, "Fix TV delay", "TV picture delayed? Turn on your TV's Game Mode, then run Settings → Controls → Swing timing check."),
+        t(.setup, "Fix TV delay", "TV picture delayed? Turn on your TV's Game Mode, then run Settings → Controls → TV timing check."),
         t(.setup, "Moved the TV?", "Moved the TV? Settings → Controls → Court direction → Set again."),
         t(.setup, "Lefty?", "Left-handed? Set Plays to Left in Settings → Controls."),
         t(.setup, "Fit the screen", "TV cropping the picture? Settings → Display → Screen edge margin pulls it back in."),
@@ -280,9 +280,9 @@ extension HowTo {
             "For each shot: aim, pick a club, tap the swing button, then swing. Tap it again to cancel.",
         ], art: .golfStance, icon: "figure.golf"),
         HowToCard(id: "sg-tennis", title: "Tennis setup", steps: [
-            "Stand about 2.5 m from the screen and point the phone's rear camera at it. Hold still until the court direction locks. After that, any grip or angle works.",
-            "Next comes a quick timing check that measures your screen's picture delay. Swing with the bouncing ball, or skip it.",
-            "Then tap Ready to play. Settings → Controls can redo the court direction or the timing check at your next match.",
+            "Stand about 2.5 m from the screen and point the phone's rear camera at it, with the whole TV inside the corners. Hold it there while the circle fills. With friends on one TV, everyone points at the same time.",
+            "The circle also times your TV's picture delay, and your first few swings fine-tune it. After that, any grip or angle works.",
+            "Settings → Controls can redo the court direction or the TV timing at your next match.",
         ], art: .stand, icon: "figure.tennis"),
         HowToCard(id: "sg-permissions", title: "Permissions", steps: [
             "Motion: lets the phone read your swings in both games.",
@@ -292,7 +292,7 @@ extension HowTo {
         HowToCard(id: "sg-fix", title: "Fixing common problems", steps: [
             "Golf swing not registering? Tap the swing button first, settle the phone in your stance, and don't touch the aim pad or club arrows after you tap.",
             "Tennis tracking dropping out? Keep the rear camera uncovered, point it at a room with some detail rather than a blank wall, and keep the lights on.",
-            "Swings always early or late? Turn on your TV's Game Mode and run Settings → Controls → Swing timing check.",
+            "Swings always early or late? Turn on your TV's Game Mode and run Settings → Controls → TV timing check.",
             "Moved the TV, or steering feels off? Settings → Controls → Court direction → Set again. Left-handed? Set Plays to Left.",
             "TV cropping the picture? Settings → Display → Screen edge margin.",
         ], art: .mirror, icon: "wrench.and.screwdriver.fill"),

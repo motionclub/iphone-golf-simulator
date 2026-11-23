@@ -6,7 +6,8 @@ using NUnit.Framework;
 namespace GolfArcade.Tests
 {
     /// The Daily Hole in One's generator (Game/DailyHoleInOne.cs): the same holes, cups and spawns for everyone on a day (the date is
-    /// the only input), new ones the next day, every spawn 125–175 ft from the cup on a fair lie, every cup on its green, the score
+    /// the only input), new ones the next day, every spawn on a fair lie and longer each shot (a chip from just off the green, 90–110 yd,
+    /// 150–175 yd), every cup on its green and 2.5× wide, the score
     /// curve the phone also uses, and ordinary rounds' pins untouched.
     public class DailyHoleInOneTests
     {
@@ -75,8 +76,21 @@ namespace GolfArcade.Tests
                     Assert.LessOrEqual(hole.Pin.DistanceTo(hole.GreenCenter), 9.0001);
                     Assert.AreEqual(CourseLie.Green, hole.LieAt(hole.GreenCenter));
                     var start = DailyHoleInOne.StartFor(day, i, hole);
-                    double feet = start.DistanceTo(hole.Pin) * 3;
-                    Assert.That(feet, Is.InRange(125 - 1e-6, 175 + 1e-6), $"{day} hole {hole.Number}: {feet:F1} ft");
+                    double yards = start.DistanceTo(hole.Pin);
+                    if (i == 0)
+                    {
+                        // the chip: off the green and its fringe, a few yards past them, never a long pitch
+                        Assert.That(yards, Is.InRange(DailyHoleInOne.ChipPast, DailyHoleInOne.ChipMax + 1e-6), $"{day} hole {hole.Number}: chip {yards:F1} yd");
+                        var band = DailyHoleInOne.BandFor(0, hole, hole.Pin, hole.Pin.HeadingTo(start) * System.Math.PI / 180);
+                        Assert.That(yards, Is.InRange(band.Min - 1e-6, band.Max + 1e-6), $"{day} hole {hole.Number}: chip {yards:F1} yd off its band");
+                    }
+                    else
+                    {
+                        var band = DailyHoleInOne.Bands[i];
+                        Assert.That(yards, Is.InRange(band.Min - 1e-6, band.Max + 1e-6), $"{day} hole {hole.Number}: shot {i + 1} {yards:F1} yd");
+                    }
+                    Assert.AreEqual(DailyHoleInOne.CupBoost, hole.CupBoost, $"{day} shot {i + 1}: the wider cup");
+                    Assert.AreEqual(Hole.CupCaptureRadius * 2.5, hole.CupRadius, 1e-9);
                     var lie = hole.LieAt(start);
                     Assert.IsTrue(lie == CourseLie.Fairway || lie == CourseLie.Rough || lie == CourseLie.Tee, $"{day} hole {hole.Number}: lie {lie}");
                     Assert.IsNull(hole.HazardAt(start));
@@ -93,6 +107,7 @@ namespace GolfArcade.Tests
                 foreach (var h in c.Holes)
                 {
                     Assert.AreEqual(0, h.CupOffset.X); Assert.AreEqual(0, h.CupOffset.D);
+                    Assert.AreEqual(1, h.CupBoost, "a round's cup is a round's size");
                     Assert.AreEqual(h.Centerline[h.Centerline.Length - 1].X, h.Pin.X); Assert.AreEqual(h.Centerline[h.Centerline.Length - 1].D, h.Pin.D);
                 }
         }
