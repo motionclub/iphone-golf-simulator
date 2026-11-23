@@ -90,8 +90,8 @@ final class GolfLookFlickTests: XCTestCase {
     func testAQuickSwipeDownComesBack() {
         XCTAssertEqual(flick(-8, 90, vy: 1100), false)
     }
-    func testSlowDragsStayAim() {
-        XCTAssertNil(flick(0, -120, vy: -120), "a slow drag up is aiming, not a swipe")
+    func testASlowSlideIsNotAFlick() {
+        XCTAssertNil(flick(0, -120, vy: -120), "a slow slide follows the finger (GolfLookSlide) rather than jumping to the top")
     }
     func testSidewaysAndShortDragsStayAim() {
         XCTAssertNil(flick(90, -60, vy: -900), "mostly sideways is aiming")
@@ -99,5 +99,26 @@ final class GolfLookFlickTests: XCTestCase {
     }
     func testADragThatReversesAtTheEndIsNotAFlick() {
         XCTAssertNil(flick(0, -80, vy: 500), "up then flicked back down is not a swipe up")
+    }
+}
+
+/// 11-23, Adnan: "it still doesnt let you slide up" — a slow slide up the aim pad is the aerial view, following the finger.
+final class GolfLookSlideTests: XCTestCase {
+    func testAMostlyVerticalDragIsALookSlide() {
+        XCTAssertEqual(GolfLookSlide.axis(translation: CGSize(width: 3, height: -20)), .look)
+        XCTAssertEqual(GolfLookSlide.axis(translation: CGSize(width: -4, height: 25)), .look, "down too, to come back")
+    }
+    func testSidewaysDragsAim() {
+        XCTAssertEqual(GolfLookSlide.axis(translation: CGSize(width: 20, height: -5)), .aim)
+        XCTAssertEqual(GolfLookSlide.axis(translation: CGSize(width: 14, height: -14)), .aim, "a diagonal is aim")
+    }
+    func testTooShortIsUndecided() {
+        XCTAssertNil(GolfLookSlide.axis(translation: CGSize(width: 0, height: -10)))
+    }
+    func testTheViewFollowsTheFinger() {
+        XCTAssertEqual(GolfLookSlide.value(start: 0, dy: -85, range: 170), 0.5, accuracy: 1e-9, "half the range, half the climb")
+        XCTAssertEqual(GolfLookSlide.value(start: 0, dy: -400, range: 170), 1, "stops at the full aerial view")
+        XCTAssertEqual(GolfLookSlide.value(start: 1, dy: 85, range: 170), 0.5, accuracy: 1e-9, "sliding down comes back")
+        XCTAssertEqual(GolfLookSlide.value(start: 0.2, dy: 300, range: 170), 0, "never below the golfer's view")
     }
 }

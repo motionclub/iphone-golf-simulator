@@ -92,13 +92,30 @@ private struct GolfControllerText: View {
     }
 }
 
-/// The aim pad's swipe for the aerial view (GolfPhoneController.lookFlick): a quick, mostly vertical flick. `distance` is the
-/// travel it needs in the pad's own points; slower or sideways drags are aim. Returns true for up, false for down, nil for no flick.
+/// The flick at the end of a look slide (GolfPhoneController.slideLook): quick and mostly vertical, it takes the aerial view all the
+/// way up or back down. `distance` is the travel it needs in the pad's own points. Returns true for up, false for down, nil for no flick.
 enum GolfLookFlick {
     static func direction(translation t: CGSize, velocity v: CGSize, distance: CGFloat) -> Bool? {
         guard abs(t.height) >= distance, abs(t.height) > abs(t.width) * 1.6, abs(v.height) >= 300,
               (v.height < 0) == (t.height < 0) else { return nil }
         return t.height < 0
+    }
+}
+
+/// Sliding up or down on the aim pad moves the aerial view with the finger (11-23, Adnan: "it still doesnt let you slide up"; only a
+/// quick flick used to count). Each drag is sorted once, when it has travelled `decideAfter` points: mostly vertical is a look slide,
+/// anything else is aim, for the rest of that drag.
+enum GolfLookSlide {
+    enum Axis { case aim, look }
+    static let decideAfter: CGFloat = 14
+    static func axis(translation t: CGSize) -> Axis? {
+        guard hypot(t.width, t.height) >= decideAfter else { return nil }
+        return abs(t.height) > abs(t.width) * 1.6 ? .look : .aim
+    }
+    /// The look (0 at the golfer, 1 the full aerial view) after sliding `dy` points (up is negative) from `start`; `range` points is a
+    /// whole climb.
+    static func value(start: Double, dy: CGFloat, range: CGFloat) -> Double {
+        max(0, min(1, start - Double(dy / range)))
     }
 }
 
@@ -119,9 +136,14 @@ struct GolfPhoneController: View {
     @State private var lastAimSent = -Double.infinity
     /// The aim when the drag began: a flick puts it back, so swiping for the aerial view doesn't also turn the aim.
     @State private var dragStartAim: CGVector?
-    /// Swiped up on the aim pad (11-20, Adnan: "swiping up on the controller doesnt let you go aerial mode"): the TV's aiming
-    /// camera climbs and looks up the hole to the pin (GolfGame's look, as the TV stick pushed up) until a swipe down or the shot.
-    @State private var aerial = false
+    /// Slid up on the aim pad (11-20, Adnan: "swiping up on the controller doesnt let you go aerial mode"; 11-23 a slide, not only a
+    /// flick): the aiming camera climbs and looks up the hole to the pin (GolfGame's look, as the TV stick pushed up), 0 at the
+    /// golfer to 1 the full aerial view. It stays where the slide leaves it until a slide down or the shot.
+    @State private var look: Double = 0
+    /// How the drag in progress is read (GolfLookSlide.axis); nil until it has moved far enough to tell.
+    @State private var dragAxis: GolfLookSlide.Axis?
+    @State private var lookAtDragStart: Double = 0
+    @State private var lastLookSent = -Double.infinity
     /// Handheld play: the hole map opened full screen from its corner of the game view.
     @State private var mapExpanded = Self.debugMapOpen
     private static var debugMapOpen: Bool {
@@ -177,9 +199,9 @@ struct GolfPhoneController: View {
             GamePauseMenu(session: session)
         }
         // (the game drops the aerial look for each new shot; the controller follows)
-        .onChange(of: session.golfPhase) { _, phase in if phase != "Aim" { aerial = false } }
+        .onChange(of: session.golfPhase) { _, phase in if phase != "Aim" { look = 0 } }
         .onChange(of: session.paused) { _, paused in
-            if paused { draggingAim = false; stickOffset = .zero; lastDrag = nil; pointer = nil; dragStartAim = nil }
+            if paused { draggingAim = false; stickOffset = .zero; lastDrag = nil; pointer = nil; dragStartAim = nil; dragAxis = nil }
         }
     }
 
@@ -312,7 +334,7 @@ struct GolfPhoneController: View {
                     .disabled(!canAim && !canMenu)
                     .accessibilityLabel(canMenu ? "Select" : "Ready for shot")
                     .accessibilityIdentifier("golf-aim-center")
-                Text(aerial && canAim ? "Aerial view · swipe down" : reading.aimLabel == "STRAIGHT" ? "Drag to aim · swipe up: aerial" : reading.aimLabel.capitalized).font(MapFont.bold(21)).foregroundStyle(skin.cream)
+                Text(look > 0.05 && canAim ? "Aerial view · slide down" : reading.aimLabel == "STRAIGHT" ? "Drag to aim · slide up: aerial" : reading.aimLabel.capitalized).font(MapFont.bold(21)).foregroundStyle(skin.cream)
                     .lineLimit(1).minimumScaleFactor(0.7).frame(maxWidth: size.width - 40)
                     .shadow(color: .black.opacity(0.45), radius: 2, y: 1)
                     .offset(y: size.height / 2 - 74)
@@ -321,14 +343,12 @@ struct GolfPhoneController: View {
             }
             .contentShape(Rectangle())
             .simultaneousGesture(DragGesture(minimumDistance: 8, coordinateSpace: .local)
-                .onChanged { drag in updateJoystick(drag.location, centre: CGPoint(x: size.width / 2, y: size.height / 2), reach: 110, final: false) }
+                .onChanged { drag in padDrag(drag, centre: CGPoint(x: size.width / 2, y: size.height / 2), reach: 110, lookRange: 170, final: false) }
                 .onEnded { drag in
-                    if !lookFlick(drag, distance: 45) {
-                        updateJoystick(drag.location, centre: CGPoint(x: size.width / 2, y: size.height / 2), reach: 110, final: true)
-                    }
+                    padDrag(drag, centre: CGPoint(x: size.width / 2, y: size.height / 2), reach: 110, lookRange: 170, final: true)
                     // (the TV's menu ring re-arms when the stick comes back to the middle)
                     if canMenu { session.aimGolf(across: 0, forward: 0) }
-                    draggingAim = false; stickOffset = .zero; lastDrag = nil; pointer = nil; dragStartAim = nil
+                    draggingAim = false; stickOffset = .zero; lastDrag = nil; pointer = nil; dragStartAim = nil; dragAxis = nil
                 })
         }
         .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
@@ -463,13 +483,11 @@ struct GolfPhoneController: View {
                 .accessibilityIdentifier("golf-aim-center")
         }.contentShape(Circle())
             .simultaneousGesture(DragGesture(minimumDistance: 8, coordinateSpace: .local)
-                .onChanged { drag in updateJoystick(drag.location, centre: CGPoint(x: 78, y: 78), reach: 48, final: false) }
+                .onChanged { drag in padDrag(drag, centre: CGPoint(x: 78, y: 78), reach: 48, lookRange: 110, final: false) }
                 .onEnded { drag in
-                    if !lookFlick(drag, distance: 30) {
-                        updateJoystick(drag.location, centre: CGPoint(x: 78, y: 78), reach: 48, final: true)
-                    }
+                    padDrag(drag, centre: CGPoint(x: 78, y: 78), reach: 48, lookRange: 110, final: true)
                     if canMenu { session.aimGolf(across: 0, forward: 0) }
-                    draggingAim = false; stickOffset = .zero; lastDrag = nil; pointer = nil; dragStartAim = nil
+                    draggingAim = false; stickOffset = .zero; lastDrag = nil; pointer = nil; dragStartAim = nil; dragAxis = nil
                 })
             .accessibilityIdentifier("golf-aim-joystick")
     }
@@ -540,17 +558,35 @@ struct GolfPhoneController: View {
         }
         if final { pointer = nil }
     }
-    /// A quick, mostly vertical flick on the aim pad while aiming: up climbs to the aerial view, down comes back to the golfer.
-    /// Slower drags stay aim. A flick puts back the aim it started from (the drag nudged it on the way), and returns true.
-    private func lookFlick(_ drag: DragGesture.Value, distance: CGFloat) -> Bool {
-        guard canAim && !canMenu,
-              let up = GolfLookFlick.direction(translation: drag.translation, velocity: drag.velocity, distance: distance) else { return false }
-        if let start = dragStartAim { session.aimGolf(across: Double(start.dx), forward: Double(start.dy)) }
-        guard up != aerial else { return true }
-        aerial = up
-        session.lookGolf(up ? 1 : 0)
-        if session.haptics { UIImpactFeedbackGenerator(style: .medium).impactOccurred() }
-        return true
+    /// One drag on an aim pad. While aiming, a mostly vertical drag is a look slide (GolfLookSlide): the aerial view follows the
+    /// finger, `lookRange` points for the whole climb, and a quick flick at the end goes all the way up or back down. Any other drag
+    /// (and every drag in the TV's menu ring) is the aim stick.
+    private func padDrag(_ drag: DragGesture.Value, centre: CGPoint, reach: CGFloat, lookRange: CGFloat, final: Bool) {
+        if dragAxis == nil, canAim && !canMenu, let axis = GolfLookSlide.axis(translation: drag.translation) {
+            dragAxis = axis
+            if axis == .look {
+                lookAtDragStart = look
+                // (the first few points went to the aim: put it back, so sliding for the view doesn't also turn the shot)
+                if let start = dragStartAim { session.aimGolf(across: Double(start.dx), forward: Double(start.dy)) }
+                draggingAim = false; stickOffset = .zero; lastDrag = nil; pointer = nil
+            }
+        }
+        if dragAxis == .look { slideLook(drag, range: lookRange, final: final); return }
+        updateJoystick(drag.location, centre: centre, reach: reach, final: final)
+    }
+    private func slideLook(_ drag: DragGesture.Value, range: CGFloat, final: Bool) {
+        guard canAim && !canMenu else { return }
+        var value = GolfLookSlide.value(start: lookAtDragStart, dy: drag.translation.height, range: range)
+        if final, let up = GolfLookFlick.direction(translation: drag.translation, velocity: drag.velocity, distance: GolfLookSlide.decideAfter) {
+            value = up ? 1 : 0
+        }
+        let now = ProcessInfo.processInfo.systemUptime
+        guard value != look || final, final || now - lastLookSent >= 1.0 / 30 else { return }
+        let before = look
+        look = value; lastLookSent = now
+        session.lookGolf(value)
+        // a tick at the top and at the bottom of the climb
+        if session.haptics, value != before, value == 1 || value == 0 { UIImpactFeedbackGenerator(style: .medium).impactOccurred() }
     }
     private func aimArrow(_ symbol: String, x: CGFloat, y: CGFloat, label: String, action: @escaping () -> Void) -> some View {
         Button(action: action) {
