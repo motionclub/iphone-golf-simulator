@@ -25,12 +25,12 @@ final class LockerTests: XCTestCase {
         for sport in LockerCatalog.sports {
             for slot in LockerCatalog.slots(for: sport) {
                 let items = LockerCatalog.items(sport: sport, slot: slot)
-                XCTAssertEqual(items.count, 1, "\(sport) \(slot): the shelf holds its existing starter item")
+                XCTAssertGreaterThanOrEqual(items.count, 1, "\(sport) \(slot): the shelf holds its existing starter item")
                 XCTAssertEqual(items[0].id, LockerCatalog.defaultID(sport: sport, slot: slot))
             }
         }
-        XCTAssertEqual(LockerCatalog.slots(for: .tennis), [.skin, .racket, .shoes])
-        XCTAssertEqual(LockerCatalog.slots(for: .golf), [.skin, .club, .shoes])
+        XCTAssertEqual(LockerCatalog.slots(for: .tennis), [.skin, .racket, .accessory, .shoes])
+        XCTAssertEqual(LockerCatalog.slots(for: .golf), [.skin, .club, .ball, .accessory, .shoes])
         XCTAssertEqual(LockerCatalog.slots(for: .bowling), [.skin, .shoes])
         XCTAssertEqual(Player(name: "B", colorIndex: 0).loadoutPayload(sport: .bowling), ["skin": "bowling-camp-kit", "shoes": "bowling-saddle"])
         XCTAssertNil(Player(name: "B", colorIndex: 0).multiplayerLoadout.gear["bowling"], "older peers reject unknown sports; bowling's colours travel without gear ids")
@@ -55,8 +55,8 @@ final class LockerTests: XCTestCase {
         XCTAssertEqual(again.loadout, p.loadout)
         // The game never sees an id the catalog does not have: it falls back to Standard.
         XCTAssertTrue(again.equipped(.racket, sport: .tennis).isStandard)
-        XCTAssertEqual(again.loadoutPayload(sport: .tennis), ["skin": "standard", "racket": "standard", "shoes": "standard"])
-        XCTAssertEqual(again.loadoutPayload(sport: .golf), ["skin": "golf-classic-kit", "club": "standard", "shoes": "golf-spikeless"])
+        XCTAssertEqual(again.loadoutPayload(sport: .tennis), ["skin": "standard", "racket": "standard", "accessory": "standard", "shoes": "standard"])
+        XCTAssertEqual(again.loadoutPayload(sport: .golf), ["skin": "golf-classic-kit", "club": "standard", "ball": "standard", "accessory": "standard", "shoes": "golf-spikeless"])
     }
 
     func testLegacyGolfDefaultsAndPerSportSelectionsSurviveRoundTrip() throws {
@@ -89,6 +89,41 @@ final class LockerTests: XCTestCase {
         XCTAssertEqual(suite.dictionaryRepresentation().filter { $0.key.hasPrefix(PlayerRosterStore.unreadablePrefix) }.count, 1)
     }
 
+
+    func testPartyGearRoundTripsWithoutChangingIdentityOrOtherSlots() throws {
+        var p = Player(name: "Party", colorIndex: 2)
+        p.standardFemale = true; p.setOutfitHex("shirt", "123456")
+        let identity = (p.skinHex, p.hairHex, p.handedness)
+        for (slot, id) in [(LockerSlot.club, "party.hockey"), (.ball, "ball.melon"), (.accessory, "extra.neon")] {
+            p.equip(LockerCatalog.item(id: id, sport: .golf, slot: slot), sport: .golf)
+        }
+        let saved = try JSONDecoder().decode(Player.self, from: JSONEncoder().encode(p))
+        XCTAssertEqual(saved.equipped(.club, sport: .golf).id, "party.hockey")
+        XCTAssertEqual(saved.equipped(.ball, sport: .golf).id, "ball.melon")
+        XCTAssertEqual(saved.equipped(.accessory, sport: .golf).id, "extra.neon")
+        XCTAssertEqual(saved.outfitHex("shirt"), "123456")
+        XCTAssertEqual(saved.skinHex, identity.0); XCTAssertEqual(saved.hairHex, identity.1)
+        XCTAssertEqual(saved.handedness, identity.2); XCTAssertTrue(saved.standardFemale)
+        XCTAssertTrue(saved.multiplayerLoadout.valid())
+        XCTAssertEqual(saved.equipped(.club, sport: .tennis).id, "standard")
+    }
+
+    func testPartyShelfRendersBundledMeshesAndPatterns() throws {
+        let output = URL(fileURLWithPath: #filePath).deletingLastPathComponent().deletingLastPathComponent().appendingPathComponent("work/clubhouse-cosmetics/proof")
+        try FileManager.default.createDirectory(at: output, withIntermediateDirectories: true)
+        let p = Player(name: "Shelf", colorIndex: 0)
+        for id in ["party.hockey", "party.slugger", "party.balloon", "party.candy"] {
+            let item = LockerCatalog.item(id: id, sport: .golf, slot: .club)
+            let image = try XCTUnwrap(LockerThumbs.image(p, slot: .club, item: item, sport: .golf))
+            try XCTUnwrap(image.pngData()).write(to: output.appendingPathComponent("native_" + id + ".png"))
+        }
+        for id in ["ball.orbit", "ball.melon", "ball.checker", "ball.sunset"] {
+            let item = LockerCatalog.item(id: id, sport: .golf, slot: .ball)
+            let image = try XCTUnwrap(LockerThumbs.image(p, slot: .ball, item: item, sport: .golf))
+            try XCTUnwrap(image.pngData()).write(to: output.appendingPathComponent("native_" + id + ".png"))
+        }
+    }
+
     // MARK: focus grid
 
     func testLockerOpensOnTheShelfAndTheGridFollowsTheTab() {
@@ -99,8 +134,8 @@ final class LockerTests: XCTestCase {
         let gear = menu.rows(.character)
         XCTAssertEqual(gear[0], ["lk-sport-tennis", "lk-sport-golf", "lk-sport-bowling"])
         XCTAssertEqual(gear[1], ["lk-tab-gear", "lk-tab-customize", "lk-tab-emotes"])
-        XCTAssertEqual(gear[2], ["lk-slot-skin", "lk-slot-racket", "lk-slot-shoes"])
-        XCTAssertEqual(gear[3], ["lk-item-standard"])
+        XCTAssertEqual(gear[2], ["lk-slot-skin", "lk-slot-racket", "lk-slot-accessory", "lk-slot-shoes"])
+        XCTAssertEqual(gear[3], ["lk-item-standard", "lk-item-skin.coastal", "lk-item-skin.arcade", "lk-item-skin.citrus"])
         XCTAssertFalse(gear.contains(["lk-colour"]), "the Standard skin has no colour row: colours live in Customize")
         menu.tap("lk-slot-racket")
         XCTAssertTrue(menu.rows(.character).contains(["lk-colour"]), "a racket has a colour row")
@@ -133,7 +168,7 @@ final class LockerTests: XCTestCase {
         menu.tap("lk-slot-racket"); XCTAssertEqual(menu.lockerSlot, .racket)
         menu.tap("lk-sport-golf"); XCTAssertEqual(menu.lockerSport, .golf)
         XCTAssertEqual(menu.lockerSlot, .club, "the racket slot becomes the club slot for golf")
-        XCTAssertEqual(menu.rows(.character)[2], ["lk-slot-skin", "lk-slot-club", "lk-slot-shoes"])
+        XCTAssertEqual(menu.rows(.character)[2], ["lk-slot-skin", "lk-slot-club", "lk-slot-ball", "lk-slot-accessory", "lk-slot-shoes"])
         menu.tap("lk-sport-tennis"); XCTAssertEqual(menu.lockerSlot, .racket)
     }
 
@@ -160,7 +195,7 @@ final class LockerTests: XCTestCase {
         menu.tap("lk-sport-bowling"); XCTAssertEqual(menu.lockerSport, .bowling)
         XCTAssertEqual(menu.lockerSlot, .skin, "bowling has no racket slot")
         XCTAssertEqual(menu.rows(.character)[2], ["lk-slot-skin", "lk-slot-shoes"])
-        XCTAssertEqual(menu.rows(.character)[3], ["lk-item-bowling-camp-kit"])
+        XCTAssertEqual(menu.rows(.character)[3], ["lk-item-bowling-camp-kit", "lk-item-skin.coastal", "lk-item-skin.arcade", "lk-item-skin.citrus"])
         XCTAssertTrue(menu.rows(.character).contains(["lk-colour"]), "the bowling shirt takes a colour")
         menu.tap("lk-slot-shoes"); XCTAssertEqual(menu.lockerShelf.map(\.id), ["bowling-saddle"])
         XCTAssertEqual(menu.lockerBottomName, "Pants")

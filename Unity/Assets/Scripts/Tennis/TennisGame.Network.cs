@@ -36,6 +36,7 @@ namespace GolfArcade.Tennis {
             if(!d||!d.matchLook||l==null)return;
             if(!string.IsNullOrEmpty(l.skinHex))d.matchLook.SetSkin(HeroKit.Hex(l.skinHex));
             d.matchLook.SetKit(l.shirtHex,l.shortsHex,null);
+            HeroAccessories.For(d.matchLook).SetFinish(l.tennisAccessorySkin ?? l.accessorySkin);
         }
         public void BeginSharedPresentation() { if(presentation) presentation.RestartShared(); }
         public void PredictNetworkSwing(float power) {

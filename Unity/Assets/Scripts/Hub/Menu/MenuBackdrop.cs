@@ -220,7 +220,8 @@ namespace GolfArcade.Hub.Menu
                 foreach (var root in gameObject.scene.GetRootGameObjects()) if (root.activeSelf && root.name == "Majestic dressing") root.SetActive(false);
             // the plate fills the frustum exactly at PlateDistance (the camera's fov and aspect can change: phone-only band, shots)
             float h = 2 * PlateDistance * Mathf.Tan(cam.fieldOfView * .5f * Mathf.Deg2Rad);
-            plate.localPosition = new Vector3(0, 0, PlateDistance); plate.localRotation = Quaternion.identity; plate.localScale = new Vector3(h * cam.aspect, h, 1);
+            // (an upright phone's lens shift, MenuStage.Frame, moves the view up or down: the plate follows it so it still fills the view)
+            plate.localPosition = new Vector3(0, cam.projectionMatrix[1, 2] * h * .5f, PlateDistance); plate.localRotation = Quaternion.identity; plate.localScale = new Vector3(h * cam.aspect, h, 1);
             // the picture keeps its own shape: a wider view (a phone held sideways; MenuStage narrows the lens to the plate's width) shows
             // its middle band, a narrower one (upright) its middle strip
             var tex = plateMat.GetTexture("_BaseMap"); float plateAspect = tex && tex.height > 0 ? (float)tex.width / tex.height : 16f / 9f, a = cam.aspect;

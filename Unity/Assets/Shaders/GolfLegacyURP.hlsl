@@ -18,6 +18,7 @@ float4 _KitColor, _ShirtColor, _HairSway, _HatHold;
 float _UseAtlas, _MatCapStrength, _Wrap, _SkinShading, _UseFlex, _UseScalp, _HairAmount, _Clear, _Fill;
 float _MatCapGain, _KnitTile, _Fabric, _KitOn, _ShirtOn;
 float _SurfaceSmoothness, _SurfaceSpecular, _SurfaceSheen; float4 _SurfaceWarmth;
+float4 _Dimples_ST;
 float4 _GlowColor; float _GlowAmount, _BumpScale;
 float _Tile, _Strength, _Gain, _Cutoff, _Sheen, _SheenPower, _Depth, _Glossiness;
 CBUFFER_END
@@ -69,7 +70,7 @@ half3 GolfLegacyAlbedo(GolfVaryings i, half3 normal)
     half farDetail = SAMPLE_TEXTURE2D(_Detail, sampler_Detail, uv * .131 + .37).r - .5;
     return colour * (1 + _Strength * (nearDetail * 1.5 + farDetail * .5));
     #elif defined(GOLF_BALL)
-    return colour;
+    return colour * SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv).rgb;
     #elif defined(GOLF_CRATER)
     return colour * SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, i.uv).rgb;
     #else
@@ -126,7 +127,7 @@ half4 GolfLegacyFragment(GolfVaryings i, FRONT_FACE_TYPE front : FRONT_FACE_SEMA
     n *= IS_FRONT_VFACE(front, 1, -1);
     #endif
     #if defined(GOLF_BALL)
-    half3 detail = SAMPLE_TEXTURE2D(_Dimples, sampler_Dimples, i.uv).xyz * 2 - 1;
+    half3 detail = SAMPLE_TEXTURE2D(_Dimples, sampler_Dimples, i.uv * _Dimples_ST.xy + _Dimples_ST.zw).xyz * 2 - 1;
     detail.xy *= _Depth;
     half3 tangent = normalize(i.tangentWS.xyz);
     n = normalize(TransformTangentToWorld(normalize(detail), half3x3(tangent, cross(n, tangent) * i.tangentWS.w, n)));

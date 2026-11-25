@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="3" result="Passed" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-24 20:20:06Z" end-time="2026-11-24 20:20:12Z" duration="5.2987552">
+  <test-suite type="TestSuite" id="1000" name="Golf Arcade" fullname="Golf Arcade" runstate="Runnable" testcasecount="783" result="Passed" start-time="2026-11-24 20:20:06Z" end-time="2026-11-24 20:20:12Z" duration="5.298755" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1918" name="GolfArcade.Tests.dll" fullname="/private/tmp/party-cosmetics-Unity/Library/ScriptAssemblies/GolfArcade.Tests.dll" runstate="Runnable" testcasecount="783" result="Passed" start-time="2026-11-24 20:20:06Z" end-time="2026-11-24 20:20:12Z" duration="5.189244" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="20005" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1919" name="GolfArcade" fullname="GolfArcade" runstate="Runnable" testcasecount="691" result="Passed" start-time="2026-11-24 20:20:06Z" end-time="2026-11-24 20:20:12Z" duration="5.177335" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1920" name="Tests" fullname="GolfArcade.Tests" runstate="Runnable" testcasecount="691" result="Passed" start-time="2026-11-24 20:20:06Z" end-time="2026-11-24 20:20:12Z" duration="5.160506" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1631" name="PartyCosmeticsTests" fullname="GolfArcade.Tests.PartyCosmeticsTests" classname="GolfArcade.Tests.PartyCosmeticsTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-11-24 20:20:06Z" end-time="2026-11-24 20:20:12Z" duration="5.111339" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1634" name="BallPatternsAndSourceDetailsExistOffline" fullname="GolfArcade.Tests.PartyCosmeticsTests.BallPatternsAndSourceDetailsExistOffline" methodname="BallPatternsAndSourceDetailsExistOffline" classname="GolfArcade.Tests.PartyCosmeticsTests" runstate="Runnable" seed="1042005218" result="Passed" start-time="2026-11-24 20:20:07Z" end-time="2026-11-24 20:20:07Z" duration="0.081818" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1633" name="EveryStyleHasFourClubsOnBothExactRigs" fullname="GolfArcade.Tests.PartyCosmeticsTests.EveryStyleHasFourClubsOnBothExactRigs" methodname="EveryStyleHasFourClubsOnBothExactRigs" classname="GolfArcade.Tests.PartyCosmeticsTests" runstate="Runnable" seed="1054544938" result="Passed" start-time="2026-11-24 20:20:07Z" end-time="2026-11-24 20:20:12Z" duration="5.005961" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1632" name="UnknownIdsCannotBecomeResourcePaths" fullname="GolfArcade.Tests.PartyCosmeticsTests.UnknownIdsCannotBecomeResourcePaths" methodname="UnknownIdsCannotBecomeResourcePaths" classname="GolfArcade.Tests.PartyCosmeticsTests" runstate="Runnable" seed="224669753" result="Passed" start-time="2026-11-24 20:20:12Z" end-time="2026-11-24 20:20:12Z" duration="0.000579" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[DONE EditMode: 3 passed, 0 failed, 0 skipped
+<b><color=#2EA3FF>MCP-FOR-UNITY</color></b>: [TestRunnerNoThrottle] Restored Interaction Mode after test run.
+Saving results to: /Users/andrewloniewski/Library/Application Support/aloniewski/Golf Arcade/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

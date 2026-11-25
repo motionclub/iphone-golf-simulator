@@ -53,6 +53,24 @@ namespace GolfArcade.Hub.Menu
             return new Rect(0, 1 - share, 1, share);
         }
 
+        /// POLISH 11-24 (Andrew: the Locker's and Clubhouse's hero had his head in the tabs and the Clubhouse tag over his face; Home's squad
+        /// stood mid-screen over an empty floor): where your hero stands in the upright camera's view, as viewport heights (0 bottom, 1 top).
+        /// `head` is the top of the cap, under the tab bar (NaN on Home, whose lens width is set by the squad, MenuStage); `feet` is just
+        /// above the panel's fade. False when the phone is not upright with no TV.
+        public static bool UprightHeroBand(bool home, out float feet, out float head)
+        {
+            feet = head = float.NaN;
+            if (!HubWorld.PhoneOnly || UnityEngine.Screen.width <= 0) return false;
+            var f = PhoneLayout(); if (!f.upright) return false;
+            float camBottom = (home ? f.homeTop : f.panelTop) + 80;   // the camera draws the frame's top down to here (PhoneCameraRect)
+            float V(float y) => 1 - y / camBottom;
+            if (home) { feet = V(f.homeTop - 150); return true; }
+            head = V(f.top + TabsBottom + 40); feet = V(f.panelTop - 40);
+            return true;
+        }
+        /// The tab bar's foot under the frame's top (ArrangeChrome puts it at top + 116, ~56 tall).
+        const float TabsBottom = 172;
+
         /// Every frame with no TV: the canvas to the screen, and the layout again whenever the phone turned (or its safe area changed).
         void FitPhone()
         {
@@ -140,6 +158,20 @@ namespace GolfArcade.Hub.Menu
             Put(tabBar, new Vector2(Left - 12 - tabsFrom, f.top + 116));
             Put(chrome.Find("Settings"), new Vector2(f.w - Left - 66, f.top + 22));
             if (nameChip) nameChip.anchoredPosition = new Vector2(ChipRight - 66 - 18 - nameChip.sizeDelta.x, -ChipTop);
+            // Home's PLAY (POLISH 11-24): upright, one wide gold bar across the panel, its word in the middle, for the thumb; sideways it keeps
+            // its TV size bottom left (the deck moves it to the panel's top, ArrangeDeck)
+            if (homePlay)
+            {
+                Put(homePlay, new Vector2(Left, HomePlayY), new Vector2(f.w - 2 * Left, HomePlayH + 16));
+                if (homePlayLabel)
+                {
+                    homePlayLabel.alignment = f.upright ? TextAnchor.MiddleCenter : TextAnchor.MiddleLeft;
+                    var lr = homePlayLabel.rectTransform;
+                    if (!homePlayPad.HasValue) homePlayPad = lr.offsetMin.x;
+                    lr.offsetMin = new Vector2(f.upright ? 0 : homePlayPad.Value, lr.offsetMin.y);
+                }
+                var a = homePlay.Find("Face/Button A"); if (a) a.gameObject.SetActive(!f.upright);
+            }
             Put(hint, new Vector2(Left, f.h - f.bottom - 84));
             // the phone modal in the middle of the tall frame
             float y = f.h * .3f;

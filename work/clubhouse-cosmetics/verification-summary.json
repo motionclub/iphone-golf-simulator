@@ -1,0 +1,23 @@
+{
+  "native_tests": {
+    "passed": 18,
+    "failed": 0,
+    "log": "ios-locker-tests-verified.log"
+  },
+  "unity_tests": {
+    "passed": 3,
+    "failed": 0,
+    "log": "unity-tests-final.log"
+  },
+  "club_rig_family_combinations": 32,
+  "native_variants": 16,
+  "source_length_tolerance_mm": 0.01,
+  "imported_envelope_tolerance_mm": 1,
+  "imported_grip_tolerance_mm": 0.2,
+  "original_animations_edited": false,
+  "device_installation": false,
+  "proof_renderer": "Unity URP, actual game GolferView and imported meshes",
+  "subjective_user_acceptance": "unreviewed final revision",
+  "source_textures_use_authored_uvs": true,
+  "capture_saved_look_unchanged": true
+}

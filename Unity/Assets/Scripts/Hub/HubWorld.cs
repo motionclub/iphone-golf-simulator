@@ -91,7 +91,7 @@ namespace GolfArcade.Hub
 
         // ------------------------------------------------------------------ look and body
         /// The locker's look on the menu hero (changes show live). Hex strings without '#', "" = the kit's own colour.
-        public void ApplyLook(bool female, string skinHex, int skinIndex, string shirt, string shorts, string shoes, string racket, string back = null)
+        public void ApplyLook(bool female, string skinHex, int skinIndex, string shirt, string shorts, string shoes, string racket, string back = null, string accessorySkin = null)
         {
             if (!Player) return;
             Player.SetHero(female);
@@ -101,6 +101,7 @@ namespace GolfArcade.Hub
             look.SetSkin(skin);
             look.SetKit(shirt, shorts, shoes);
             look.SetRacketColour(!string.IsNullOrEmpty(racket) ? HeroKit.Hex(racket) : new Color(0, 0, 0, 0));
+            HeroAccessories.For(look).SetFinish(accessorySkin);
         }
 
         // ------------------------------------------------------------------ per frame

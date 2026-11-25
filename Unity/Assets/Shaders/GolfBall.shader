@@ -7,6 +7,7 @@ Shader "GolfArcade/GolfBall"
     Properties
     {
         _Color ("Colour", Color) = (1, 1, 1, 1)
+        _MainTex ("Cosmetic pattern", 2D) = "white" {}
         _Dimples ("Dimples (normal map)", 2D) = "bump" {}
         _Depth ("Dimple depth", Range(0, 2)) = 1
         _Glossiness ("Smoothness", Range(0, 1)) = 0.62
@@ -55,16 +56,16 @@ Shader "GolfArcade/GolfBall"
         CGPROGRAM
         #pragma surface surf Standard fullforwardshadows
         #pragma target 3.0
-        sampler2D _Dimples;
+        sampler2D _Dimples, _MainTex;
         fixed4 _Color;
         half _Depth, _Glossiness;
-        struct Input { float2 uv_Dimples; };
+        struct Input { float2 uv_Dimples; float2 uv_MainTex; };
         void surf(Input IN, inout SurfaceOutputStandard o)
         {
             half3 n = tex2D(_Dimples, IN.uv_Dimples).rgb * 2 - 1;
             n.xy *= _Depth;
             o.Normal = normalize(n);
-            o.Albedo = _Color.rgb;
+            o.Albedo = _Color.rgb * tex2D(_MainTex, IN.uv_MainTex).rgb;
             o.Metallic = 0;
             o.Smoothness = _Glossiness;
         }

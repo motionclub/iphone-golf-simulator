@@ -25,6 +25,7 @@ namespace GolfArcade.Game
             public int hairStyle=1,hairColor=1,faceShape,heightChoice=2,buildChoice=2,haircut=-1;
             public float bodySize=-1;
             public string tennisCamera; public string shirt,shorts,accent,racket,skinHex,hairHex; public bool tips=true; public float overscan;
+            public string clubSkin, ballSkin, accessorySkin;
             public string back;   // MENU HERO: the locker's back pick (HeroAccessories golf_bag | racket_back; "" = the bag)
             // The tennis court: "" / "resort", "skyscraper" or "volcano"; and a court colour (hex, "" = the venue's own).
             // Bowling reads the same key: "club", "neon", "tiki" or "magma" (BowlingVenue.Parse).
@@ -259,6 +260,9 @@ namespace GolfArcade.Game
             loading=true; Ready=false; Active=true; sharedLag=-1; multiplayerSession=!string.IsNullOrEmpty(m.network); session=m.session; token=m.token; Left=m.left;Touch=m.touch; lastSwing=0; lastSwingStart=0; lastSwingAbort=0; lastSample=-1; target=0; steeringTracked=false;
             onsetStrength=default; provenOnset=0;
             touch=m.touch;
+            PartyCosmetics.ClubSkin = PartyCosmetics.ValidClub(m.clubSkin);
+            PartyCosmetics.BallSkin = PartyCosmetics.ValidBall(m.ballSkin);
+            PartyCosmetics.AccessorySkin = PartyCosmetics.ValidExtra(m.accessorySkin);
             GolferStyle.Body=m.female?GolferStyle.BodyKind.Female:GolferStyle.BodyKind.Male;
             GolferStyle.SkinTone=m.skin;
             GolferStyle.Edit(look => {
@@ -320,7 +324,7 @@ namespace GolfArcade.Game
                   if(!string.IsNullOrEmpty(m.skinHex)) look.SkinTint=HeroKit.Hex(m.skinHex);
                   if(!string.IsNullOrEmpty(m.hairHex)) look.HairTint=HeroKit.Hex(m.hairHex);
                   look.BodySize=Mathf.Clamp01(m.bodySize<0?m.buildChoice/4f:m.bodySize);
-                  tennis.SetPlayerLook(look); }   // kept and re-applied on every rebuild
+                  look.AccessoryFinish=m.accessorySkin; tennis.SetPlayerLook(look); }   // kept and re-applied on every rebuild
                 var mode=m.mode=="campaign" ? TennisGame.Mode.Campaign : m.mode=="training" ? TennisGame.Mode.Training : m.mode=="lesson" ? TennisGame.Mode.Tutorial
                     : TennisGame.Mode.Exhibition;
                 tennis.ConfigureMatch(mode,m.opponent,m.opponentName,m.round,m.sets,m.games,

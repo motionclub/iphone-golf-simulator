@@ -674,7 +674,7 @@ final class HubSession {
     private func lookFields(_ p: Player) -> [String: Any] {
         ["female": p.standardFemale, "skin": p.standardSkin, "skinHex": p.skinHex,
          "shirt": p.outfitHex("shirt") ?? "", "shorts": p.outfitHex("shorts") ?? "", "accent": p.outfitHex("accent") ?? "", "racket": p.outfitHex("racket") ?? "",
-         "back": p.backCarry.accessoryID]   // MENU HERO: the locker's back pick (HeroAccessories golf_bag | racket_back)
+         "back": p.backCarry.accessoryID, "accessorySkin": p.equipped(.accessory, sport: .tennis).id]   // MENU HERO: the locker's back pick (HeroAccessories golf_bag | racket_back)
     }
 
     private func sendStart() {

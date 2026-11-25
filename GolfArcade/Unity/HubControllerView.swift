@@ -13,10 +13,78 @@ struct HubLoadingScreen: View {
     let hub: HubSession
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var reel = LoadingShots.Reel()
+    /// The screen it fills: the TV's 1280×720 canvas, or an upright phone's own screen (POLISH 11-24: the 16:9 card used to sit in the
+    /// middle of an upright phone between two empty navy bands).
+    var upright: CGSize? = nil
+    private var failed: Bool { hub.phase == .failed }
     var body: some View {
-        let failed = hub.phase == .failed
+        Group { if let upright { phone(upright) } else { tv } }
+        .accessibilityIdentifier("hub-loading")
+        .task {
+            // a new shot every 3 s (Reduce Motion: the one random still)
+            reel.remember()
+            guard !reduceMotion, LoadingShots.pinned == nil else { return }
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(LoadingShots.seconds))
+                if Task.isCancelled { break }
+                withAnimation(.easeInOut(duration: 0.7)) { reel.advance() }
+            }
+        }
+    }
+
+    private func status(_ size: CGFloat) -> some View {
+        Text(failed ? "The Plaza didn't open · tap Try again on your phone" : "LOADING…")
+            .font(MSLoadingFont.display(failed ? size * 0.86 : size)).foregroundStyle(.white)
+            .shadow(color: MSBrand.textShadow.opacity(0.55), radius: 3, y: 1)
+            .accessibilityLabel(failed ? "The Plaza didn't open" : hub.loadStage).accessibilityIdentifier("hub-loading-stage")
+    }
+
+    /// Upright phone: the picture blurred to the screen's edges behind, the whole picture sharp across the middle, the wordmark above it
+    /// and the bar below it, all inside the safe area.
+    private func phone(_ size: CGSize) -> some View {
         let shot = reel.current
-        ZStack(alignment: .topLeading) {
+        let cardH = size.width * 9 / 16
+        let scale = size.width / 1280
+        return ZStack {
+            MSBrand.backdrop(spotlight: UnitPoint(x: 0.5, y: 0.45), radius: size.height * 0.7)
+            ZStack { LoadingShotImage(shot: shot, settle: false, size: size).id(reel.step).transition(.opacity) }
+                .frame(width: size.width, height: size.height).blur(radius: 28).opacity(0.55).clipped()
+            LinearGradient(colors: [LoadingShots.ink.opacity(0.55), LoadingShots.ink.opacity(0.2), LoadingShots.ink.opacity(0.85)], startPoint: .top, endPoint: .bottom)
+            VStack(spacing: 0) {
+                Spacer(minLength: 0)
+                VStack(spacing: 14) {
+                    MSWordmark(size: min(60, size.width * 0.15))
+                    if !shot.label.isEmpty {
+                        Text(shot.label).font(MSLoadingFont.display(18)).tracking(3).foregroundStyle(MSBrand.goldWordmark)
+                            .shadow(color: MSBrand.textShadow.opacity(0.8), radius: 4, y: 1)
+                            .id(reel.step).transition(.opacity).accessibilityIdentifier("hub-loading-shot")
+                    }
+                }
+                .padding(.bottom, 28)
+                ZStack { LoadingShotImage(shot: shot, settle: !reduceMotion).id(reel.step).transition(.opacity) }
+                    .frame(width: 1280, height: 720).scaleEffect(scale).frame(width: size.width, height: cardH).clipped()
+                    .mask(LinearGradient(stops: [.init(color: .clear, location: 0), .init(color: .black, location: 0.1),
+                                                 .init(color: .black, location: 0.9), .init(color: .clear, location: 1)], startPoint: .top, endPoint: .bottom))
+                Spacer(minLength: 0)
+                VStack(spacing: 10) {
+                    HStack(alignment: .center) {
+                        status(20).lineLimit(2).minimumScaleFactor(0.7)
+                        Spacer()
+                        if !failed { MSLoadingPercent(pace: hub.pace, font: MSLoadingFont.uiDisplay(20), color: UIColor(MSBrand.gold)).fixedSize() }
+                    }
+                    MSLoadingBar(pace: hub.pace, fill: MSBrand.gold, height: 16)
+                }
+                .padding(.horizontal, 28).padding(.bottom, 64)
+            }
+            .padding(.top, 60)
+        }
+        .frame(width: size.width, height: size.height)
+        .clipped()
+    }
+
+    private var tv: some View {
+        let shot = reel.current
+        return ZStack(alignment: .topLeading) {
             MSBrand.backdrop(spotlight: UnitPoint(x: 0.3, y: 0.47), radius: 820)
             ZStack { LoadingShotImage(shot: shot, settle: !reduceMotion).id(reel.step).transition(.opacity) }
                 .frame(width: 1280, height: 720).clipped()
@@ -36,10 +104,7 @@ struct HubLoadingScreen: View {
             .position(x: 128 + 255, y: 318)
             VStack(spacing: 12) {
                 HStack(alignment: .center) {
-                    Text(failed ? "The Plaza didn't open · tap Try again on your phone" : "LOADING…")
-                        .font(MSLoadingFont.display(failed ? 24 : 28)).foregroundStyle(.white)
-                        .shadow(color: MSBrand.textShadow.opacity(0.55), radius: 3, y: 1)
-                        .accessibilityLabel(failed ? "The Plaza didn't open" : hub.loadStage).accessibilityIdentifier("hub-loading-stage")
+                    status(28)
                     Spacer()
                     if !failed { MSLoadingPercent(pace: hub.pace, font: MSLoadingFont.uiDisplay(28), color: UIColor(MSBrand.gold)) }
                 }
@@ -50,17 +115,6 @@ struct HubLoadingScreen: View {
         .frame(width: 1280, height: 720)
         .clipped()
         .ignoresSafeArea()
-        .accessibilityIdentifier("hub-loading")
-        .task {
-            // a new shot every 3 s (Reduce Motion: the one random still)
-            reel.remember()
-            guard !reduceMotion, LoadingShots.pinned == nil else { return }
-            while !Task.isCancelled {
-                try? await Task.sleep(for: .seconds(LoadingShots.seconds))
-                if Task.isCancelled { break }
-                withAnimation(.easeInOut(duration: 0.7)) { reel.advance() }
-            }
-        }
     }
 }
 
@@ -120,10 +174,11 @@ enum LoadingShots {
 struct LoadingShotImage: View {
     let shot: LoadingShot
     var settle = true
+    /// The frame it fills (the TV canvas; an upright phone's screen for the blurred fill behind the upright loading screen).
+    var size = CGSize(width: 1280, height: 720)
     @State private var settled = false
     var body: some View {
         let image = UIImage(named: shot.asset)
-        let size = CGSize(width: 1280, height: 720)
         let aspect = image.map { $0.size.width / max(1, $0.size.height) } ?? size.width / size.height
         let w = max(size.width, size.height * aspect), h = max(size.height, size.width / aspect)
         ZStack(alignment: .topLeading) {

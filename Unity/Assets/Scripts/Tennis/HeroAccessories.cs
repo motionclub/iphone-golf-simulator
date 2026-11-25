@@ -53,6 +53,11 @@ namespace GolfArcade.Tennis
         }
 
         public MatchHeroLook look;
+        public string FinishID { get; private set; } = "standard";
+        public void SetFinish(string id) {
+            FinishID = GolfArcade.Game.PartyCosmetics.ValidExtra(id);
+            foreach (var e in worn.Values) Apply(e);
+        }
         readonly Dictionary<AccessorySlot, Equipped> worn = new Dictionary<AccessorySlot, Equipped>();
         Dictionary<string, Transform> byName;
         bool leftHandedGolfer, carry;
@@ -306,7 +311,9 @@ namespace GolfArcade.Tennis
 
         void Apply(Equipped e)
         {
-            Color b = e.baseColour ?? HeroKit.Hex(e.def.baseHex), t = e.trimColour ?? HeroKit.Hex(e.def.trimHex);
+            var finish = GolfArcade.Game.PartyCosmetics.ExtraColours(FinishID);
+            Color b = e.baseColour ?? (finish.HasValue ? finish.Value.Item1 : HeroKit.Hex(e.def.baseHex)),
+                  t = e.trimColour ?? (finish.HasValue ? finish.Value.Item2 : HeroKit.Hex(e.def.trimHex));
             foreach (var (m, metal) in e.materials)
             {
                 if (!m) continue;

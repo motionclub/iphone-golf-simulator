@@ -99,7 +99,7 @@ namespace GolfArcade.Game
                 for (var steps = hub.BuildSteps(m.female); steps.MoveNext();)
                 { Emit("buildProgress", steps.Current.ToString("0.00", CultureInfo.InvariantCulture)); yield return null; }
             if (!hub || !hub.Initialized || !hub.Camera) { loading = false; Emit("error", "The plaza did not load."); yield break; }
-            hub.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket, m.back);
+            hub.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket, m.back, m.accessorySkin);
             WireMenu(hub, m);
             if (hub.Hud && !string.IsNullOrEmpty(m.screen)) hub.Hud.Go(m.screen);   // back from a match: straight onto the menu
             else hub.PrepareArrival();   // a fresh boot: the first frame is the arrival's opening shot, held until the phone says go
@@ -188,7 +188,7 @@ namespace GolfArcade.Game
             if (world.gameObject.scene.IsValid()) SceneManager.SetActiveScene(world.gameObject.scene);
             menuSession = m.session; menuToken = m.token; lastMenuSample = -1;
             world.MatchLoading(-1);
-            world.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket, m.back);
+            world.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket, m.back, m.accessorySkin);
             WireMenu(world, m);
             // a cancelled load: back on the list it was started from
             if (world.Hud) world.Hud.Go(!string.IsNullOrEmpty(m.screen) ? m.screen : menuReturn ?? MenuHud.Home);
@@ -309,7 +309,7 @@ namespace GolfArcade.Game
                         Emit("emoteResult", hub.Player.PlayEmote(clip.ToString()) ? TennisEmotes.Name(m.mode) : "Stand still to emote");
                     return true;
                 case "hubLook":
-                    if (hub) hub.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket, m.back);
+                    if (hub) hub.ApplyLook(m.female, m.skinHex, m.skin, m.shirt, m.shorts, m.accent, m.racket, m.back, m.accessorySkin);
                     if (hub && hub.Hud) hub.Hud.SetLook(m.shirt, m.shorts, m.accent, m.racket);
                     return true;
                 // party: a friend's state, the member list, chat

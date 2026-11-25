@@ -122,7 +122,12 @@ struct MenuTouchPad: View {
                         .onEnded { v in touch(v.location, in: g.size, down: false) })
                 if !hub.revealedOnPhone {
                     // (the 1280×720 loading card, fitted into whichever way the phone is held)
-                    ZStack { Club.ink; HubLoadingScreen(hub: hub).frame(width: 1280, height: 720).scaleEffect(min(g.size.width / 1280, g.size.height / 720)) }
+                    // (upright: its own layout at the screen's size, edge to edge; sideways: the 1280×720 card fitted)
+                    ZStack {
+                        Club.ink
+                        if g.size.height > g.size.width { HubLoadingScreen(hub: hub, upright: g.size) }
+                        else { HubLoadingScreen(hub: hub).frame(width: 1280, height: 720).scaleEffect(min(g.size.width / 1280, g.size.height / 720)) }
+                    }
                         .frame(width: g.size.width, height: g.size.height).clipped().allowsHitTesting(false)
                 }
                 if !hub.notice.isEmpty {

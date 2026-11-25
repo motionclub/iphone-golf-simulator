@@ -1022,9 +1022,12 @@ namespace GolfArcade.Game
         void WearGear(PlayerProfile p)
         {
             var cover = DimpledBall();
-            if (cover) cover.color = Gear.BallColor(Unlocks.Chosen(p, RewardKind.Ball));
+            if (cover) {
+                cover.color = PartyCosmetics.BallSkin == "standard" ? Gear.BallColor(Unlocks.Chosen(p, RewardKind.Ball)) : Color.white;
+                cover.SetTexture("_MainTex", PartyCosmetics.BallTexture(PartyCosmetics.BallSkin));
+            }
             effects.SetTrail(Gear.Trail(Unlocks.Chosen(p, RewardKind.Trail)));
-            golfer.ClubFinish = Gear.ClubFinish(Unlocks.Chosen(p, RewardKind.Club));
+            golfer.ClubFinish = golfer.Hero != null && golfer.Hero.EquipmentSkin != "standard" ? null : Gear.ClubFinish(Unlocks.Chosen(p, RewardKind.Club));
         }
 
         // ----- Alternate shots: two or more golfers on this phone -----
@@ -2307,7 +2310,8 @@ namespace GolfArcade.Game
                 double level = launchGround + (landingGround - launchGround) * (flightTime / land);
                 y = Math.Max(level + p.h, under);
             }
-            else y = under + p.h;
+            // (a hop over a ledge is read between its samples' world heights, not spiked up the drop: CourseShot.GroundedHeightAt)
+            else y = LastShot.GroundedHeightAt(Math.Min(flightTime, end), HoleView.GroundHeight, under);
             float dt = Mathf.Max(Time.deltaTime, 1e-4f);
             double lowest = drawnY + (drawnVy - CourseShot.GravityYards * dt) * dt;
             if (y < lowest) y = lowest;

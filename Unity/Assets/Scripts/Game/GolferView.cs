@@ -20,7 +20,7 @@ namespace GolfArcade.Game
         /// Who a figure looks like: the player's comes from GolferStyle; a spectator has its own.
         public struct Look
         {
-            public string ModelPath, HairMesh;
+            public string ModelPath, HairMesh, ClubSkin, AccessorySkin;
             public Color Skin, Hair;
             /// The polo and the trousers, where they differ from the studio's golf kit (teal and
             /// sand); null keeps the kit.
@@ -29,7 +29,7 @@ namespace GolfArcade.Game
             public HeroLook? Hero;
             public static Look Player => new()
             {
-                ModelPath = GolferStyle.ModelPath, HairMesh = GolferStyle.HairMesh,
+                ModelPath = GolferStyle.ModelPath, HairMesh = GolferStyle.HairMesh, ClubSkin = PartyCosmetics.ClubSkin, AccessorySkin = PartyCosmetics.AccessorySkin,
                 Skin = GolferStyle.SkinColor, Hair = GolferStyle.HairColor,
                 Shirt = GolferStyle.ShirtColor, Trousers = GolferStyle.TrousersColor,
                 Hero = GolferStyle.UseHero ? GolferStyle.Hero : null,
@@ -374,9 +374,10 @@ namespace GolfArcade.Game
             var json = Resources.Load<TextAsset>(path + "_clips");
             if (json)
                 foreach (var info in JsonUtility.FromJson<ClipSet>(json.text).clips) landmarks[info.name] = info;
-            heroFigure = HeroGolfer.Build(transform, look.Hero.Value);
+            heroFigure = HeroGolfer.Build(transform, look.Hero.Value, look.ClubSkin);
             if (heroFigure == null) { Debug.LogWarning($"{path} is not in the build"); return false; }
             var model = modelGo = heroFigure.Root;
+            GolfArcade.Tennis.HeroAccessories.For(model.GetComponent<GolfArcade.Tennis.MatchHeroLook>())?.SetFinish(look.AccessorySkin);
             model.transform.localPosition = Vector3.zero;
             baseRot = Quaternion.Euler(0, HeroYaw, 0);
             model.transform.localRotation = baseRot;
@@ -1004,7 +1005,17 @@ namespace GolfArcade.Game
                 if (!smr) continue;
                 var grip = System.Array.Find(modelGo.GetComponentsInChildren<Transform>(true), t => t.name == "Club");
                 var baked = new Mesh();
-                smr.BakeMesh(baked, false);
+                // Contact/clearance follows the original club even when a balloon or bat is drawn.
+                // The cosmetic silhouette must never retune the authored swing arc or grip target.
+                var visualMesh = smr.sharedMesh; var visualBones = smr.bones;
+                var reference = heroFigure != null && heroFigure.EquipmentSkin != "standard" ? PartyCosmetics.ContactReference(heroFemale, smr.name) : null;
+                try {
+                    if (reference) {
+                        smr.sharedMesh = reference.sharedMesh;
+                        smr.bones = System.Array.ConvertAll(reference.bones, bone => heroFigure.Bones[bone.name]);
+                    }
+                    smr.BakeMesh(baked, false);
+                } finally { smr.sharedMesh = visualMesh; smr.bones = visualBones; }
                 var origin = grip ? smr.transform.InverseTransformPoint(grip.position) : Vector3.zero;
                 Vector3 far = Vector3.zero; float best = -1;
                 foreach (var v in baked.vertices) { float d = (v - origin).sqrMagnitude; if (d > best) { best = d; far = v; } }

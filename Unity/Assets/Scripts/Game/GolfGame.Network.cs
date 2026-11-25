@@ -74,7 +74,7 @@ namespace GolfArcade.Game {
                 // the whole locker look, as the golfer looks alone (skin, kit, hair colour and cut, shoes)
                 var look=new CharacterLook {Body=p.female?1:0,Skin=p.loadout?.skinHex??"",Shirt=p.loadout?.shirtHex??"",Shorts=p.loadout?.shortsHex??"",
                     Hair=p.loadout?.hairHex??"",Haircut=p.loadout!=null&&p.loadout.haircut>=0?p.loadout.haircut:-1,Shoes=p.loadout?.shoesHex??""};
-                var style=GolferView.Look.Player;style.Hero=GolferStyle.HeroOf(look);
+                var style=GolferView.Look.Player;style.Hero=GolferStyle.HeroOf(look);style.ClubSkin=PartyCosmetics.ValidClub(p.loadout?.clubSkin);style.AccessorySkin=PartyCosmetics.ValidExtra(p.loadout?.accessorySkin);
                 var model=GolferView.CreatePlayer(transform,style);model.name="Party golfer · "+p.name;
                 partyGolfers[p.seat]=model;partyEmotes[p.seat]=0;model.Perform("Idle");
             }
@@ -316,6 +316,9 @@ namespace GolfArcade.Game {
             networkLineUp=key;
             EndNetworkShot();
             if(partyGolfers.TryGetValue(state.turn,out var up))golfer=up;
+            var participant = partyConfiguration.participants.FirstOrDefault(p=>p.seat==state.turn);
+            var cover = DimpledBall();
+            if (cover) { cover.color=PartyCosmetics.ValidBall(participant?.loadout?.ballSkin)=="standard" ? Gear.BallColor(Unlocks.Chosen(ProfileStore.Active,RewardKind.Ball)) : Color.white;cover.SetTexture("_MainTex",PartyCosmetics.BallTexture(participant?.loadout?.ballSkin)); }
             ballAt=new CoursePoint(active.x,active.d);holeStrokes=active.strokes;
             PlaceBall(ballAt,0);ball.gameObject.SetActive(!active.holed);
             // Stand before Settle: a golfer who has been waiting in an Idle move leaves it with her pose captured in world space (HeroPoseTransition),

@@ -85,7 +85,42 @@ namespace GolfArcade.Course
                 double g0 = ground(Origin), gL = ground(Landing);
                 return (p.x, Math.Max(g0 + (gL - g0) * time / LandingTime + p.h, under), p.d);
             }
-            return (p.x, under + p.h, p.d);
+            return (p.x, GroundedHeightAt(time, ground, under), p.d);
+        }
+
+        /// The ball's world height `time` into the shot, once it has come down, with `under` the ground beneath where it is
+        /// drawn. On the ground (and dipping into the cup) it is that ground's height and the path's; in a hop it is read
+        /// between the world heights of the two samples either side, never under the turf. (The path keeps a hop's height
+        /// over the ground under each sample: taken between two samples either side of a ledge and added to the ground under
+        /// the point between, it drew the ball spiking up the whole drop for a frame — and the game lets a drawn ball fall no
+        /// faster than gravity, so it hung up there and came down slowly, like a ball launched straight up. 11-24.)
+        public double GroundedHeightAt(double time, Func<CoursePoint, double> ground, double under)
+        {
+            if (time <= 0 || path.Count < 2) return under + path[0].h;
+            double index = time / SampleInterval;
+            int lower = (int)index;
+            if (lower >= path.Count - 1) return under + path[path.Count - 1].h;
+            var a = path[lower]; var b = path[lower + 1];
+            double t = index - lower;
+            // (rolling, it may dip into the cup; landing and hopping, it is never drawn in the turf — the sample where a
+            // flight meets a rise is a little under it)
+            if (a.h <= 0 && b.h <= 0) return time > CarryTime ? under + a.h + (b.h - a.h) * t : under;
+            double ya = SampleHeight(lower, a, ground), yb = SampleHeight(lower + 1, b, ground);
+            return Math.Max(under, ya + (yb - ya) * t);
+        }
+
+        /// A path sample's world height: over the line the flight is drawn on while it is still in the air (the last one
+        /// before the touchdown is that, and read over the ground it dipped the ball under a steep landing for a frame),
+        /// over the ground under it after.
+        double SampleHeight(int index, (double x, double h, double d) s, Func<CoursePoint, double> ground)
+        {
+            double at = index * SampleInterval;
+            if (at < LandingTime && LandingTime > 0)
+            {
+                double g0 = ground(Origin), gL = ground(Landing);
+                return g0 + (gL - g0) * at / LandingTime + s.h;
+            }
+            return ground(new CoursePoint(s.x, s.d)) + s.h;
         }
 
         /// When and where the ball met something standing on the course — for the picture and the
@@ -411,6 +446,79 @@ namespace GolfArcade.Course
             return new Fall(new CoursePoint(x, d), t, vx, vy, vd, samples, knocked);
         }
 
+        /// The slope of the ground under the ball, for its bounces and its roll (11-24). The green's sampled grid where it
+        /// covers the ball (the putting read is drawn from the same numbers), elsewhere on a modelled hole the meshes
+        /// themselves, read across a yard and kept per half-yard cell, and a hand-drawn surface where the hole has no meshes.
+        /// Until 11-24 everything off the green's grid read as dead flat: a ball hopping or rolling into a fairway bank or a
+        /// terrace's riser rode straight up its face (the drawn ball shot up into the air) and no bank slowed or turned it.
+        internal sealed class Slopes
+        {
+            // (read across half a yard, the meshes' faces being bigger than that, and kept per half-yard cell for the roll)
+            const double Cell = 0.5, Reach = 0.25;
+            readonly ISurface surface;
+            readonly HeightGrid grid;
+            readonly Func<CoursePoint, double> ground;
+            readonly Dictionary<(long, long), (double, double)> memo;
+
+            public Slopes(Hole hole)
+            {
+                surface = hole.Surface ?? FlatSurface.Instance;
+                grid = surface as HeightGrid;
+                // (a hole whose surface is drawn by hand, contours, has its whole ground in it)
+                if (hole.Ground != null && (grid != null || surface is FlatSurface)) { ground = hole.Ground; memo = new(); }
+            }
+
+            /// The rolling ball asks every step, so it is kept per cell; `exact` reads it right where a bounce lands (so the lip of a
+            /// bank is not taken for its side).
+            public (double dx, double dd) At(CoursePoint p, bool exact = false)
+            {
+                if (ground == null || (grid != null && grid.Covers(p))) return surface.Gradient(p);
+                if (exact) return Read(p.X, p.D);
+                var key = ((long)Math.Floor(p.X / Cell), (long)Math.Floor(p.D / Cell));
+                if (memo.TryGetValue(key, out var g)) return g;
+                return memo[key] = Read((key.Item1 + 0.5) * Cell, (key.Item2 + 0.5) * Cell);
+            }
+
+            (double, double) Read(double x, double d)
+            {
+                double gx = (ground(new CoursePoint(x + Reach, d)) - ground(new CoursePoint(x - Reach, d))) / (2 * Reach),
+                       gd = (ground(new CoursePoint(x, d + Reach)) - ground(new CoursePoint(x, d - Reach))) / (2 * Reach);
+                return double.IsFinite(gx) && double.IsFinite(gd) ? (gx, gd) : (0, 0);
+            }
+        }
+
+        /// Ground that rises more than this (yards) between two reads of a moving ball, and more steeply than `FaceSlope`, is a
+        /// face — a terrace's riser, a cliff, a bank too steep to run up — and the ball comes off it rather than over it.
+        public const double FaceStep = 0.25, FaceSlope = 1.2;
+        /// The same for a hop, read step by step (1/240 s): the least rise in one step that can be a face.
+        public const double HopFaceStep = 0.05;
+        /// The steepest slope a bounce is taken off as ground; anything steeper meets it as a face. And how much of its fall a
+        /// bounce can ever give back upward: a bank never throws a ball higher than it came down from.
+        public const double MaxBounceSlope = 1.0, MaxHopReturn = 0.85;
+
+        /// The pull of a slope on a rolling ball, yards/s² across the ground: g · sin of its angle, pointing downhill (the same
+        /// as g · gradient on a green, but it never passes g on a bank or at a mesh's crease).
+        public static (double ax, double ad) Pull((double dx, double dd) slope)
+        {
+            double k = GravityYards / Math.Sqrt(1 + slope.dx * slope.dx + slope.dd * slope.dd);
+            return (-k * slope.dx, -k * slope.dd);
+        }
+
+        /// Off a face the ball met going across the ground: the part of its pace into the face is turned back with a little
+        /// life, the part along it is kept for the most part. `slope` is the ground's gradient at the face (it points up it).
+        static void OffTheFace((double dx, double dd) slope, ref double vx, ref double vd)
+        {
+            double sl = Math.Sqrt(slope.dx * slope.dx + slope.dd * slope.dd), speed = Math.Sqrt(vx * vx + vd * vd);
+            double nx, nd;   // out of the face, across the ground
+            if (sl > 1e-6) { nx = -slope.dx / sl; nd = -slope.dd / sl; }
+            else if (speed > 1e-9) { nx = -vx / speed; nd = -vd / speed; }
+            else return;
+            double vn = vx * nx + vd * nd;
+            if (vn >= 0) { vx = -vx * 0.3; vd = -vd * 0.3; return; }   // the face is read edge on: just back off it
+            double tx = vx - vn * nx, td = vd - vn * nd;
+            vx = 0.7 * tx - 0.3 * vn * nx; vd = 0.7 * td - 0.3 * vn * nd;
+        }
+
         /// From a touchdown to the start of the roll, on the course itself: every bounce is taken by the ground the ball
         /// actually comes down on (its grass, sand or ice) and off the slope it lands on, with the spin it still has
         /// (BallFlight.BounceOff), so a wedge checks on the green it pitched on, a drive skips down a fairway, a ball that
@@ -426,9 +534,10 @@ namespace GolfArcade.Course
             var surface = hole.Surface ?? FlatSurface.Instance;
             // (a hole with contours but no terrain under them still has heights: the contours')
             Func<CoursePoint, double> ground = hole.Ground ?? surface.Height;
+            var slopes = new Slopes(hole);
             var solids = hole.Solids;
             double g = rules.GravityYards, hop = BallFlight.HopSpeed / yd * Math.Sqrt(Math.Max(0.05, rules.Gravity));
-            double x = from.X, d = from.D, y = ground(from);
+            double x = from.X, d = from.D, y = ground(from), underWas = y;
             double time = (path.Count - 1) * SampleInterval, next = path.Count * SampleInterval;
             const double dt = 1.0 / 240;
             for (int bounce = 0; bounce < 12; bounce++)
@@ -436,11 +545,24 @@ namespace GolfArcade.Course
                 var here = new CoursePoint(x, d);
                 var lie = hole.LieAt(here);
                 if (lie == CourseLie.Water) { vh = 0; break; }   // the roll finds it wet where it lies
-                var slope = surface.Gradient(here);
+                // The ground it comes down on, no steeper than a bank a ball can land on (a steeper one is met as a face, below).
+                var slope = slopes.At(here, exact: true);
+                double steep = Math.Sqrt(slope.dx * slope.dx + slope.dd * slope.dd);
+                if (steep > MaxBounceSlope) slope = (slope.dx * MaxBounceSlope / steep, slope.dd * MaxBounceSlope / steep);
+                double fell = Math.Max(0, -vh);
+                var turf = TurfOn(lie, rules);
+                double luckHere = bounce == 0 ? luck : 0;   // (only the first landing carries the strike's luck: after that the ball has told the ground what it is)
+                // the hop the same ball would take off this turf were it level
+                double fx = vx * yd, fy = vh * yd, fd = vd * yd, fSpin = spin;
+                BallFlight.BounceOff(ref fx, ref fy, ref fd, ref fSpin, turf, 0, 0, rules.Bounce, luckHere);
                 double mx = vx * yd, my = vh * yd, md = vd * yd;
-                // (only the first landing carries the strike's luck: after that the ball has told the ground what it is)
-                BallFlight.BounceOff(ref mx, ref my, ref md, ref spin, TurfOn(lie, rules), slope.dx, slope.dd, rules.Bounce, bounce == 0 ? luck : 0);
+                BallFlight.BounceOff(ref mx, ref my, ref md, ref spin, turf, slope.dx, slope.dd, rules.Bounce, luckHere);
                 vx = mx / yd; vh = my / yd; vd = md / yd;
+                // A ball slamming into a bank is turned along it, not thrown up off it: it leaves no quicker upward than it
+                // would hop off level turf, plus what following the slope it now runs along lifts it (and never quicker than
+                // it fell). Off a bank's face a drive used to pop up 25 yd/s and climb the face.
+                double alongTheRise = Math.Max(0, vx * slope.dx + vd * slope.dd);
+                vh = Math.Min(vh, Math.Min(MaxHopReturn * fell, Math.Max(0, fy / yd) + alongTheRise));
                 // Off a face it can leave with pace away from the ground and no real hop: it stays down unless it clears the slope ahead.
                 double climb = vh - (vx * slope.dx + vd * slope.dd);
                 if (climb < hop) { vh = 0; break; }
@@ -461,10 +583,24 @@ namespace GolfArcade.Course
                     double under = ground(over);
                     if (y <= under)
                     {
-                        var rise = surface.Gradient(over);
-                        y = under;   // (still climbing faster than the ground rises: it rides the rise until it comes down on it)
-                        down = vh - (vx * rise.dx + vd * rise.dd) < 0;
+                        double run = Math.Sqrt((x - x0) * (x - x0) + (d - d0) * (d - d0));
+                        // (a hop reads the ground every 240th of a second, so a face shows as a little rise each step)
+                        if (under - Math.Max(y0, underWas) > Math.Max(HopFaceStep, FaceSlope * run))
+                        {
+                            // Into a face — a terrace's riser, a cliff, a wall of the bank — not onto a top: back off it and on
+                            // down, rather than up it in one step (it used to ride up the face as if it were a gentle rise).
+                            OffTheFace(slopes.At(over), ref vx, ref vd);
+                            x = x0; d = d0; y = Math.Max(y0, underWas); vh = Math.Min(vh, 0);
+                            over = new CoursePoint(x, d); under = underWas;
+                        }
+                        else
+                        {
+                            var rise = slopes.At(over);
+                            y = under;   // (still climbing faster than the ground rises: it rides the rise until it comes down on it)
+                            down = vh - (vx * rise.dx + vd * rise.dd) < 0;
+                        }
                     }
+                    underWas = under;
                     if (time >= next) { path.Add((x, Math.Max(0, y - under), d)); next += SampleInterval; }
                 }
                 if (!down) { vh = 0; break; }
@@ -895,9 +1031,11 @@ namespace GolfArcade.Course
             // accelerates down any slope it is on and is slowed by the grass it is on, so uphill
             // comes up short, downhill runs on and a side slope breaks the line; the cup has its
             // say, and a lip-out keeps some pace.
-            var surface = hole.Surface ?? FlatSurface.Instance;
+            var slopes = new Slopes(hole);
             var last = path[path.Count - 1];
             double x = last.x, d = last.d;
+            // where the ground was last read under the rolling ball, to meet a face it runs into (FaceStep)
+            double readX = x, readD = d, readG = hole.Ground?.Invoke(new CoursePoint(x, d)) ?? 0, probeX = x, probeD = d;
             // what it could run into on the way: trunks, bushes, rocks, walls it can reach at the
             // pace it has (as far as it would run on a green, and a little over)
             var inReach = new List<int>();
@@ -924,8 +1062,9 @@ namespace GolfArcade.Course
                 var lieNow = hole.LieAt(here);
                 if (lieNow == CourseLie.Water) { wet = true; break; }
                 double decel = RollingDeceleration(lieNow, rules);
-                var slope = surface.Gradient(here);
-                double downhill = Math.Sqrt(slope.dx * slope.dx + slope.dd * slope.dd) * GravityYards;
+                var slope = slopes.At(here);
+                var (ax, ad) = Pull(slope);
+                double downhill = Math.Sqrt(ax * ax + ad * ad);
                 double toCup = here.DistanceTo(hole.Pin);
                 // on the soft edge of the cup, dying: it is drawn over the rim (see CupEdgeReach)
                 double edge = toCup > cup && toCup < cup + CupEdgeReach && speed < CupEdgeSpeed
@@ -970,7 +1109,6 @@ namespace GolfArcade.Course
                     continue;
                 }
 
-                double ax = -GravityYards * slope.dx, ad = -GravityYards * slope.dd;
                 if (lieNow == CourseLie.Ice && speed > 0.3)
                 {
                     // skidding: the sidespin still has its say, and the line keeps bending
@@ -1019,6 +1157,24 @@ namespace GolfArcade.Course
                 {
                     knocks.Add(new Knock(elapsed, x, double.NaN, d, ObstacleKind.Cart, true));
                     lastBump = elapsed;
+                }
+                // A face in its way — a terrace's riser, the foot of a cliff: off it, rather than straight up it (the roll is
+                // drawn on the ground under it, so running on into a riser lifted the ball up the whole face in a frame).
+                // Read once everything has had its say about where the ball is (a trunk or a prop may have nudged it), each
+                // twentieth of a yard it moves and wherever it is drawn, against where it was a quarter of a yard back, so a
+                // riser is met at its foot and a steep bank as well as a sheer one.
+                if (hole.Ground != null && ((x - probeX) * (x - probeX) + (d - probeD) * (d - probeD) >= 0.05 * 0.05 || elapsed + dt + 1e-9 >= nextSample))
+                {
+                    probeX = x; probeD = d;
+                    double mx = x - readX, md = d - readD, run = Math.Sqrt(mx * mx + md * md);
+                    double gNow = hole.Ground(new CoursePoint(x, d));
+                    if (gNow - readG > Math.Max(FaceStep, FaceSlope * run))
+                    {
+                        OffTheFace(slopes.At(new CoursePoint(x, d)), ref vx, ref vd);
+                        if (speed > 2 && elapsed - lastBump > 0.25) { knocks.Add(new Knock(elapsed, readX, double.NaN, readD, ObstacleKind.Rock, true)); lastBump = elapsed; }
+                        x = readX; d = readD; probeX = x; probeD = d;
+                    }
+                    else if (run >= 0.25 || gNow < readG) { readX = x; readD = d; readG = gNow; }
                 }
                 elapsed += dt;
                 if (elapsed + 1e-9 >= nextSample) { path.Add((x, 0, d)); nextSample += SampleInterval; }

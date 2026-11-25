@@ -1,0 +1,275 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project GolfArcade.xcodeproj -scheme GolfArcade -destination "platform=iOS Simulator,id=458AA8D6-B342-4EBF-94AC-1F360134D5D8" -derivedDataPath /tmp/party-cosmetics-ios -jobs 2 -parallel-testing-enabled NO ONLY_ACTIVE_ARCH=YES ARCHS=arm64 CODE_SIGNING_ALLOWED=NO "-only-testing:GolfArcadeTests/LockerTests" test
+
+Build settings from command line:
+    ARCHS = arm64
+    CODE_SIGNING_ALLOWED = NO
+    ONLY_ACTIVE_ARCH = YES
+
+Build Preparation
+Build task concurrency set to 2 via user default IDEBuildOperationMaxNumberOfConcurrentCompileTasks
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (3 targets)
+    Target 'GolfArcadeUITests' in project 'GolfArcade'
+        ➜ Explicit dependency on target 'GolfArcade' in project 'GolfArcade'
+    Target 'GolfArcadeTests' in project 'GolfArcade'
+        ➜ Explicit dependency on target 'GolfArcade' in project 'GolfArcade'
+    Target 'GolfArcade' in project 'GolfArcade' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -x objective-c++ -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+Build description signature: 72a24e00257a03bf5cdd3c24fb2a054e
+Build description path: /tmp/party-cosmetics-ios/Build/Intermediates.noindex/XCBuildData/72a24e00257a03bf5cdd3c24fb2a054e.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk /tmp/party-cosmetics-ios/SDKStatCaches.noindex/iphonesimulator26.2-23C53-7d00a8b37fbd7999ea79df8ebc024bf0.sdkstatcache
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.2.sdk -o /tmp/party-cosmetics-ios/SDKStatCaches.noindex/iphonesimulator26.2-23C53-7d00a8b37fbd7999ea79df8ebc024bf0.sdkstatcache
+
+CpResource /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/NativeGolfEquipment_slugger_Wedge.json /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_slugger_Wedge.json (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_slugger_Wedge.json /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app
+
+CpResource /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/NativeGolfEquipment_candy_Driver.json /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_candy_Driver.json (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_candy_Driver.json /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app
+
+CpResource /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/NativeGolfEquipment_slugger_Putter.json /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_slugger_Putter.json (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_slugger_Putter.json /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app
+
+CpResource /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/NativeGolfEquipment_slugger_Iron.json /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_slugger_Iron.json (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_slugger_Iron.json /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app
+
+CpResource /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/NativeGolfEquipment_slugger_Driver.json /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_slugger_Driver.json (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_slugger_Driver.json /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app
+
+CpResource /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/NativeGolfEquipment_hockey_Wedge.json /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_hockey_Wedge.json (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_hockey_Wedge.json /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app
+
+CpResource /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/NativeGolfEquipment_hockey_Putter.json /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_hockey_Putter.json (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_hockey_Putter.json /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app
+
+CpResource /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/NativeGolfEquipment_hockey_Iron.json /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_hockey_Iron.json (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_hockey_Iron.json /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app
+
+CpResource /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/NativeGolfEquipment_hockey_Driver.json /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_hockey_Driver.json (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_hockey_Driver.json /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app
+
+CpResource /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/NativeGolfEquipment_candy_Wedge.json /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_candy_Wedge.json (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_candy_Wedge.json /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app
+
+CpResource /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/NativeGolfEquipment_candy_Putter.json /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_candy_Putter.json (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_candy_Putter.json /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app
+
+CpResource /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/NativeGolfEquipment_candy_Iron.json /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_candy_Iron.json (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_candy_Iron.json /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app
+
+CpResource /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/NativeGolfEquipment_balloon_Wedge.json /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_balloon_Wedge.json (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_balloon_Wedge.json /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app
+
+CpResource /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/NativeGolfEquipment_balloon_Putter.json /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_balloon_Putter.json (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_balloon_Putter.json /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app
+
+CpResource /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/NativeGolfEquipment_balloon_Iron.json /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_balloon_Iron.json (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_balloon_Iron.json /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app
+
+CpResource /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/NativeGolfEquipment_balloon_Driver.json /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_balloon_Driver.json (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -resolve-src-symlinks /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/CharacterAssets/NativeGolfEquipment_balloon_Driver.json /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app
+
+CopySwiftLibs /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/GolfArcade.debug.dylib --scan-folder /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/Frameworks --scan-folder /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/PlugIns --scan-folder /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/SystemExtensions --scan-folder /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/Extensions --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/party-cosmetics-ios/Build/Intermediates.noindex/GolfArcade.build/Debug-iphonesimulator/GolfArcade.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+Ignoring --strip-bitcode because --sign was not passed
+
+ProcessInfoPlistFile /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/Info.plist /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/SportsInfo.plist (in target 'GolfArcade' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-infoPlistUtility /Users/andrewloniewski/iPhoneGolfSimulator-1116/GolfArcade/Unity/SportsInfo.plist -producttype com.apple.product-type.application -genpkginfo /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/PkgInfo -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /tmp/party-cosmetics-ios/Build/Intermediates.noindex/GolfArcade.build/Debug-iphonesimulator/GolfArcade.build/assetcatalog_generated_info.plist -o /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/Info.plist
+
+ProcessInfoPlistFile /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/PlugIns/GolfArcadeTests.xctest/Info.plist /tmp/party-cosmetics-ios/Build/Intermediates.noindex/GolfArcade.build/Debug-iphonesimulator/GolfArcadeTests.build/empty-GolfArcadeTests.plist (in target 'GolfArcadeTests' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-infoPlistUtility /tmp/party-cosmetics-ios/Build/Intermediates.noindex/GolfArcade.build/Debug-iphonesimulator/GolfArcadeTests.build/empty-GolfArcadeTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -format binary -platform iphonesimulator -o /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/PlugIns/GolfArcadeTests.xctest/Info.plist
+
+CopySwiftLibs /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/PlugIns/GolfArcadeTests.xctest (in target 'GolfArcadeTests' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/PlugIns/GolfArcadeTests.xctest/GolfArcadeTests --scan-folder /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/PlugIns/GolfArcadeTests.xctest/Frameworks --scan-folder /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/PlugIns/GolfArcadeTests.xctest/PlugIns --scan-folder /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/PlugIns/GolfArcadeTests.xctest/SystemExtensions --scan-folder /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/PlugIns/GolfArcadeTests.xctest/Extensions --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcade.app/PlugIns/GolfArcadeTests.xctest/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/party-cosmetics-ios/Build/Intermediates.noindex/GolfArcade.build/Debug-iphonesimulator/GolfArcadeTests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+Ignoring --strip-bitcode because --sign was not passed
+
+ProcessInfoPlistFile /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcadeUITests-Runner.app/PlugIns/GolfArcadeUITests.xctest/Info.plist /tmp/party-cosmetics-ios/Build/Intermediates.noindex/GolfArcade.build/Debug-iphonesimulator/GolfArcadeUITests.build/empty-GolfArcadeUITests.plist (in target 'GolfArcadeUITests' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-infoPlistUtility /tmp/party-cosmetics-ios/Build/Intermediates.noindex/GolfArcade.build/Debug-iphonesimulator/GolfArcadeUITests.build/empty-GolfArcadeUITests.plist -producttype com.apple.product-type.bundle.ui-testing -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /tmp/party-cosmetics-ios/Build/Intermediates.noindex/GolfArcade.build/Debug-iphonesimulator/GolfArcadeUITests.build/ProductTypeInfoPlistAdditions.plist -o /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcadeUITests-Runner.app/PlugIns/GolfArcadeUITests.xctest/Info.plist
+
+CopySwiftLibs /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcadeUITests-Runner.app/PlugIns/GolfArcadeUITests.xctest (in target 'GolfArcadeUITests' from project 'GolfArcade')
+    cd /Users/andrewloniewski/iPhoneGolfSimulator-1116
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcadeUITests-Runner.app/PlugIns/GolfArcadeUITests.xctest/GolfArcadeUITests --scan-folder /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcadeUITests-Runner.app/PlugIns/GolfArcadeUITests.xctest/Frameworks --scan-folder /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcadeUITests-Runner.app/PlugIns/GolfArcadeUITests.xctest/PlugIns --scan-folder /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcadeUITests-Runner.app/PlugIns/GolfArcadeUITests.xctest/SystemExtensions --scan-folder /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcadeUITests-Runner.app/PlugIns/GolfArcadeUITests.xctest/Extensions --platform iphonesimulator --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/party-cosmetics-ios/Build/Products/Debug-iphonesimulator/GolfArcadeUITests-Runner.app/PlugIns/GolfArcadeUITests.xctest/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/party-cosmetics-ios/Build/Intermediates.noindex/GolfArcade.build/Debug-iphonesimulator/GolfArcadeUITests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os
+Ignoring --strip-bitcode because --sign was not passed
+
+2026-11-24 15:01:20.433382-0500 GolfArcade[13976:29457280] [plugin] AddInstanceForFactory: No factory registered for id <CFUUID 0x60000021aee0> F8BB1C28-BAE8-11D6-9C31-00039315CD46
+2026-11-24 15:01:20.666230-0500 GolfArcade[13976:29457280] [AQ]        LoudnessManager.mm:1755  ReadPListFile: unable to open stream for LoudnessManager plist
+2026-11-24 15:01:20.666593-0500 GolfArcade[13976:29457280] [AQ]        LoudnessManager.mm:1261  GetHardwarePlatformKey: cannot get acoustic ID
+2026-11-24 15:01:20.666989-0500 GolfArcade[13976:29457280] [AQ]        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
+2026-11-24 15:01:20.667398-0500 GolfArcade[13976:29457280] [AQ]        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
+2026-11-24 15:01:20.679331-0500 GolfArcade[13976:29457280] [AQ]        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
+2026-11-24 15:01:20.679659-0500 GolfArcade[13976:29457280] [AQ]        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
+2026-11-24 15:01:20.688843-0500 GolfArcade[13976:29457280] [AQ]        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
+2026-11-24 15:01:20.689245-0500 GolfArcade[13976:29457280] [AQ]        LoudnessManager.mm:1215  IsHardwareSupported: no plist loaded, returning false
+2026-11-24 15:01:20.721382-0500 GolfArcade[13976:29457592] [AMCP]          HALC_ProxyIOContext.cpp:1623  HALC_ProxyIOContext::IOWorkLoop: skipping cycle due to overload
+2026-11-24 15:01:21.409700-0500 GolfArcade[13976:29457744] [Generic_deprecated] could not read user kCFPreferencesCurrentUser uid/gid
+2026-11-24 15:01:21.414232-0500 GolfArcade[13976:29457744] [Core] {"msg":"file does not exist... clearing", "file":/Library/Developer/CoreSimulator/Volumes/iOS_23B86/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.1.simruntime/Contents/Resources/RuntimeRoot/private/var/Managed Preferences/kCFPreferencesCurrentUser/com.apple.CoreMotion.plist, "error":Error Domain=NSCocoaErrorDomain Code=260 "The file “com.apple.CoreMotion.plist” couldn’t be opened because there is no such file." UserInfo={NSFilePath=/Library/Developer/CoreSimulator/Volumes/iOS_23B86/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 26.1.simruntime/Contents/Resources/RuntimeRoot/private/var/Managed Preferences/kCFPreferencesCurrentUser/com.apple.CoreMotion.plist, NSURL=file:///Library/Developer/CoreSimulator/Volumes/iOS_23B86/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS%2026.1.simruntime/Contents/Resources/RuntimeRoot/private/var/Managed%20Preferences/kCFPreferencesCurrentUser/com.apple.CoreMotion.plist, NSUnderlyingError=0x600000c1aeb0 {Error Domain=NSPOSIXErrorDomain Code=2 "No such file or directory"}}}
+2026-11-24 15:01:21.432844-0500 GolfArcade[13976:29457280] [SportsDiagnostic] analytics session_start t=2771340.395 n=49
+2026-11-24 15:01:21.433488-0500 GolfArcade[13976:29457280] [SportsDiagnostic] analytics onboarding_step_view t=2771340.397 page=0 step=done
+2026-11-24 15:01:21.887797-0500 GolfArcade[13976:29457663] [General] Failed to send CA Event for app launch measurements for ca_event_type: 0 event_name: com.apple.app_launch_measurement.FirstFramePresentationMetric
+2026-11-24 15:01:21.901386-0500 GolfArcade[13976:29457280] [SportsDisplay] refresh scenes=UIWindowSceneSessionRoleApplication external=0
+2026-11-24 15:01:22.072694-0500 GolfArcade[13976:29457280] [SportsDisplay] refresh scenes=UIWindowSceneSessionRoleApplication external=0
+2026-11-24 15:01:22.074907-0500 GolfArcade[13976:29457280] [SportsDiagnostic] hub boot session=58AD3757-48FE-42E5-A563-B16CE457E4C1 on phone
+2026-11-24 15:01:22.242321-0500 GolfArcade[13976:29457280] [framework] CoreUI: CUIThemeStore: No theme registered with id=0
+2026-11-24 15:01:22.243990-0500 GolfArcade[13976:29457280] [framework] CoreUI: CUIThemeStore: No theme registered with id=0
+2026-11-24 15:01:22.281671-0500 GolfArcade[13976:29457280] [SportsDisplay] refresh scenes=UIWindowSceneSessionRoleApplication external=0
+2026-11-24 15:01:22.284332-0500 GolfArcade[13976:29457280] [SportsDisplay] refresh scenes=UIWindowSceneSessionRoleApplication external=0
+IOSurfaceClientSetSurfaceNotify failed e00002c7
+2026-11-24 15:01:22.404372-0500 GolfArcade[13976:29457280] [SportsDisplay] refresh scenes=UIWindowSceneSessionRoleApplication external=0
+2026-11-24 15:01:22.449804-0500 GolfArcade[13976:29457280] [Developer] ERROR: The Game Center entitlement is required to use GameKit. To avoid failing App Store Review, follow these instructions:
+https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_game-center
+2026-11-24 15:01:22.480925-0500 GolfArcade[13976:29457280] [SportsDiagnostic] hub failed: Unity requires the integrated physical-device build. Simulator can preview native menus only.
+2026-11-24 15:01:22.542806-0500 GolfArcade[13976:29457782] [Error] Could not load services for GameKit. This likely means your game is missing the com.apple.developer.game-center entitlement. For more info see:
+ https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_game-center
+
+ERROR: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.gamed was invalidated from this process." UserInfo={NSDebugDescription=The connection to service named com.apple.gamed was invalidated from this process.}
+2026-11-24 15:01:22.652124-0500 GolfArcade[13976:29457782] [Error] No gamed service found for selector authenticatePlayerWithExistingCredentialsWithHandler:
+2026-11-24 15:01:22.653878-0500 GolfArcade[13976:29457782] [Error] Could not load services for GameKit. This likely means your game is missing the com.apple.developer.game-center entitlement. For more info see:
+ https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_game-center
+
+ERROR: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.gamed was invalidated from this process." UserInfo={NSDebugDescription=The connection to service named com.apple.gamed was invalidated from this process.}
+2026-11-24 15:01:22.654288-0500 GolfArcade[13976:29457782] [Error] No gamed service found for selector getOcelotStateForCurrentAppWithHandler:
+2026-11-24 15:01:22.830814-0500 GolfArcade[13976:29457280] [UIFocus] GolfArcade.LivingClubView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-11-24 15:01:22.933827-0500 GolfArcade[13976:29457280] [UIFocus] SCNView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-11-24 15:01:32.153903-0500 GolfArcade[13976:29457280] [Error] _authenticateUsingAlert:Failed to authenticate player with existing credentials.Error: Error Domain=GKErrorDomain Code=3 "The requested operation could not be completed due to an error communicating with the server." UserInfo={NSLocalizedDescription=The requested operation could not be completed due to an error communicating with the server.}
+2026-11-24 15:01:32.158770-0500 GolfArcade[13976:29457784] [Error] Could not load services for GameKit. This likely means your game is missing the com.apple.developer.game-center entitlement. For more info see:
+ https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_game-center
+
+ERROR: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.gamed was invalidated from this process." UserInfo={NSDebugDescription=The connection to service named com.apple.gamed was invalidated from this process.}
+2026-11-24 15:01:32.159600-0500 GolfArcade[13976:29457784] [Error] No gamed service found for selector getStoreBagValuesForKeys:handler:
+2026-11-24 15:01:32.173532-0500 GolfArcade[13976:29457784] [Error] Could not load services for GameKit. This likely means your game is missing the com.apple.developer.game-center entitlement. For more info see:
+ https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_game-center
+
+ERROR: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.gamed was invalidated from this process." UserInfo={NSDebugDescription=The connection to service named com.apple.gamed was invalidated from this process.}
+2026-11-24 15:01:32.174338-0500 GolfArcade[13976:29457784] [Error] No gamed service found for selector getStoreBagValuesForKeys:handler:
+2026-11-24 15:01:32.497136-0500 GolfArcade[13976:29457656] [Error] Could not load services for GameKit. This likely means your game is missing the com.apple.developer.game-center entitlement. For more info see:
+ https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_game-center
+
+ERROR: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.gamed was invalidated from this process." UserInfo={NSDebugDescription=The connection to service named com.apple.gamed was invalidated from this process.}
+2026-11-24 15:01:32.509963-0500 GolfArcade[13976:29457656] [Error] No gamed service found for selector getStoreBagValuesForKeys:handler:
+2026-11-24 15:01:32.512625-0500 GolfArcade[13976:29457280] [Account] startAuthenticationForExistingPrimaryPlayer:Failed to Authenticate player.Error: Error Domain=GKErrorDomain Code=3 "The requested operation could not be completed due to an error communicating with the server." UserInfo={NSLocalizedDescription=The requested operation could not be completed due to an error communicating with the server.}
+2026-11-24 15:01:32.521640-0500 GolfArcade[13976:29457280] [Account] authenticationDidCompleteWithError: Authentication failed for player with error: Error Domain=GKErrorDomain Code=3 "The requested operation could not be completed due to an error communicating with the server." UserInfo={NSLocalizedDescription=The requested operation could not be completed due to an error communicating with the server.}
+2026-11-24 15:01:32.522957-0500 GolfArcade[13976:29457280] [Error] reportAuthenticationFailedForPlayer: Authentication failed for player in 10.0856 seconds
+2026-11-24 15:01:32.545765-0500 GolfArcade[13976:29457280] [Match] Matchmaker getStoreBagValuesForKeys encountered error: Error Domain=GKErrorDomain Code=3 "The requested operation could not be completed due to an error communicating with the server." UserInfo={NSLocalizedDescription=The requested operation could not be completed due to an error communicating with the server.}
+2026-11-24 15:01:32.547081-0500 GolfArcade[13976:29457656] [Error] Could not load services for GameKit. This likely means your game is missing the com.apple.developer.game-center entitlement. For more info see:
+ https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_game-center
+
+ERROR: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.gamed was invalidated from this process." UserInfo={NSDebugDescription=The connection to service named com.apple.gamed was invalidated from this process.}
+2026-11-24 15:01:32.555604-0500 GolfArcade[13976:29457656] [Error] No gamed service found for selector isAppDistributorThirdParty:
+Test Suite 'Selected tests' started at 2026-11-24 15:01:32.562.
+Test Suite 'GolfArcadeTests.xctest' started at 2026-11-24 15:01:32.577.
+Test Suite 'LockerTests' started at 2026-11-24 15:01:32.580.
+Test Case '-[GolfArcadeTests.LockerTests testAnUnreadableRosterIsKeptNotOverwritten]' started.
+2026-11-24 15:01:32.631769-0500 GolfArcade[13976:29457280] [PlayerRosterStore] players.v1 was unreadable; 14 bytes kept under players.v1.unreadable.1795550492
+Test Case '-[GolfArcadeTests.LockerTests testAnUnreadableRosterIsKeptNotOverwritten]' passed (0.101 seconds).
+Test Case '-[GolfArcadeTests.LockerTests testBackPickTogglesAndIsSaved]' started.
+Test Case '-[GolfArcadeTests.LockerTests testBackPickTogglesAndIsSaved]' passed (0.080 seconds).
+Test Case '-[GolfArcadeTests.LockerTests testBowlingKitInTheLocker]' started.
+Test Case '-[GolfArcadeTests.LockerTests testBowlingKitInTheLocker]' passed (0.192 seconds).
+Test Case '-[GolfArcadeTests.LockerTests testBowlingPreviewWearsTheBowlingKit]' started.
+2026-11-24 15:01:34.364613-0500 GolfArcade[13976:29457280] [UIFocus] SCNView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+2026-11-24 15:01:37.547529-0500 GolfArcade[13976:29457280] [UIFocus] SCNView implements focusItemsInRect: - caching for linear focus movement is limited as long as this view is on screen.
+Test Case '-[GolfArcadeTests.LockerTests testBowlingPreviewWearsTheBowlingKit]' passed (4.595 seconds).
+Test Case '-[GolfArcadeTests.LockerTests testClickingAlongSwatchesChangesColourAndRevertRestores]' started.
+Test Case '-[GolfArcadeTests.LockerTests testClickingAlongSwatchesChangesColourAndRevertRestores]' passed (0.012 seconds).
+Test Case '-[GolfArcadeTests.LockerTests testCustomRangeOpensClosesAndBackLeavesItBeforeTheLocker]' started.
+Test Case '-[GolfArcadeTests.LockerTests testCustomRangeOpensClosesAndBackLeavesItBeforeTheLocker]' passed (0.017 seconds).
+Test Case '-[GolfArcadeTests.LockerTests testEachSportShipsItsOwnDefaultItems]' started.
+Test Case '-[GolfArcadeTests.LockerTests testEachSportShipsItsOwnDefaultItems]' passed (0.004 seconds).
+Test Case '-[GolfArcadeTests.LockerTests testEquippedEmotesSwapWithoutDuplicatesAndRejectInvalidChoices]' started.
+Test Case '-[GolfArcadeTests.LockerTests testEquippedEmotesSwapWithoutDuplicatesAndRejectInvalidChoices]' passed (0.001 seconds).
+Test Case '-[GolfArcadeTests.LockerTests testHomePlayInviteEmotesAndFeedbackHaveFocusTargets]' started.
+Test Case '-[GolfArcadeTests.LockerTests testHomePlayInviteEmotesAndFeedbackHaveFocusTargets]' passed (0.001 seconds).
+Test Case '-[GolfArcadeTests.LockerTests testLegacyGolfDefaultsAndPerSportSelectionsSurviveRoundTrip]' started.
+Test Case '-[GolfArcadeTests.LockerTests testLegacyGolfDefaultsAndPerSportSelectionsSurviveRoundTrip]' passed (0.009 seconds).
+Test Case '-[GolfArcadeTests.LockerTests testLoadoutSurvivesSavingAndOldProfilesStillDecode]' started.
+Test Case '-[GolfArcadeTests.LockerTests testLoadoutSurvivesSavingAndOldProfilesStillDecode]' passed (0.002 seconds).
+Test Case '-[GolfArcadeTests.LockerTests testLockerEmoteTabSupportsRemoteSlotsAndRevert]' started.
+Test Case '-[GolfArcadeTests.LockerTests testLockerEmoteTabSupportsRemoteSlotsAndRevert]' passed (0.008 seconds).
+Test Case '-[GolfArcadeTests.LockerTests testLockerOpensOnTheShelfAndTheGridFollowsTheTab]' started.
+Test Case '-[GolfArcadeTests.LockerTests testLockerOpensOnTheShelfAndTheGridFollowsTheTab]' passed (0.002 seconds).
+Test Case '-[GolfArcadeTests.LockerTests testPartyGearRoundTripsWithoutChangingIdentityOrOtherSlots]' started.
+Test Case '-[GolfArcadeTests.LockerTests testPartyGearRoundTripsWithoutChangingIdentityOrOtherSlots]' passed (0.003 seconds).
+Test Case '-[GolfArcadeTests.LockerTests testPartyShelfRendersBundledMeshesAndPatterns]' started.
+Test Case '-[GolfArcadeTests.LockerTests testPartyShelfRendersBundledMeshesAndPatterns]' passed (2.937 seconds).
+Test Case '-[GolfArcadeTests.LockerTests testShuffleChangesColoursButNeverGear]' started.
+Test Case '-[GolfArcadeTests.LockerTests testShuffleChangesColoursButNeverGear]' passed (0.004 seconds).
+Test Case '-[GolfArcadeTests.LockerTests testSportToggleSwapsRacketForClubAndBack]' started.
+Test Case '-[GolfArcadeTests.LockerTests testSportToggleSwapsRacketForClubAndBack]' passed (0.002 seconds).
+Test Case '-[GolfArcadeTests.LockerTests testThreeEmoteSlotsPersistAndOldProfilesGetDefaults]' started.
+Test Case '-[GolfArcadeTests.LockerTests testThreeEmoteSlotsPersistAndOldProfilesGetDefaults]' passed (0.003 seconds).
+Test Suite 'LockerTests' passed at 2026-11-24 15:01:40.571.
+	 Executed 18 tests, with 0 failures (0 unexpected) in 7.974 (7.992) seconds
+Test Suite 'GolfArcadeTests.xctest' passed at 2026-11-24 15:01:40.572.
+	 Executed 18 tests, with 0 failures (0 unexpected) in 7.974 (7.995) seconds
+Test Suite 'Selected tests' passed at 2026-11-24 15:01:40.572.
+	 Executed 18 tests, with 0 failures (0 unexpected) in 7.974 (8.011) seconds
+2026-11-24 15:01:40.750854-0500 GolfArcade[13976:29457655] [Error] Could not load services for GameKit. This likely means your game is missing the com.apple.developer.game-center entitlement. For more info see:
+ https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_game-center
+
+ERROR: Error Domain=NSCocoaErrorDomain Code=4099 "The connection to service named com.apple.gamed was invalidated from this process." UserInfo={NSDebugDescription=The connection to service named com.apple.gamed was invalidated from this process.}
+2026-11-24 15:01:40.751444-0500 GolfArcade[13976:29457655] [Error] No gamed service found for selector getBSServiceConnectionEndpointForMachName:service:instance:handler:
+2026-11-24 15:01:40.751807-0500 GolfArcade[13976:29457655] [GameCenterOverlayService] Could not create endpoint for service name: com.apple.GameOverlayUI.dashboard-service
+2026-11-24 15:01:40.759574-0500 GolfArcade[13976:29457655] [GameCenterOverlayService] Failed to create GameOverlayUI Dashboard Remote Proxy
+2026-11-24 15:01:40.796288-0500 GolfArcade[13976:29457663] [General] Failed to send CA Event for app launch measurements for ca_event_type: 1 event_name: com.apple.app_launch_measurement.ExtendedLaunchMetrics
+2026-11-24 15:01:41.606 xcodebuild[13567:29453290] [MT] IDETestOperationsObserverDebug: 92.499 elapsed -- Testing started completed.
+2026-11-24 15:01:41.606 xcodebuild[13567:29453290] [MT] IDETestOperationsObserverDebug: 0.000 sec, +0.000 sec -- start
+2026-11-24 15:01:41.606 xcodebuild[13567:29453290] [MT] IDETestOperationsObserverDebug: 92.499 sec, +92.499 sec -- end
+
+Test session results, code coverage, and logs:
+	/tmp/party-cosmetics-ios/Logs/Test/Test-GolfArcade-2026.11.24_15-00-03--0500.xcresult
+
+** TEST SUCCEEDED **
+
+Testing started

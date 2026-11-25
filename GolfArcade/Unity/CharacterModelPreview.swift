@@ -494,6 +494,11 @@ struct CharacterModelPreview: UIViewRepresentable {
             switch name {
             case "Skin": return rgb(p.skinHex)
             case "White_Frame": return p.outfitHex("racket").map(rgb)
+            case let role where role.hasPrefix("Acc_"):
+                if let colours = PartyCosmeticPreview.extraColours(p.equipped(.accessory, sport: sport).id) {
+                    return kitTint(rgb(role == "Acc_Trim" ? colours.1 : colours.0))
+                }
+                return nil
             case let role where role.hasPrefix("Kit_"): return kitColour(role: role, player: p)
             default: return nil
             }
@@ -501,7 +506,10 @@ struct CharacterModelPreview: UIViewRepresentable {
         let root = MatchHeroData.buildHero(asset, picks: picks)
         root.setValue(sport == .golf, forKey: "heroGolf")
         if sport == .bowling { root.childNode(withName: racketName, recursively: false)?.isHidden = true }   // no racket in the alley
-        if sport == .golf, golfEquipment(in: root) == nil { root.addChildNode(golfClub(player: p)) }
+        if sport == .golf, p.equipped(.club, sport: .golf).id.hasPrefix("party.") {
+            for child in root.childNodes where child.name?.hasPrefix("Club_") == true { child.isHidden = true }
+            root.addChildNode(golfClub(player: p))
+        } else if sport == .golf, golfEquipment(in: root) == nil { root.addChildNode(golfClub(player: p)) }
         return root
     }
 
@@ -522,7 +530,7 @@ struct CharacterModelPreview: UIViewRepresentable {
         // The authored grip origin remains the hand pivot; only the menu display pose
         // rotates it. All shaft/head geometry and finishes come from the game asset.
         let direction = simd_normalize(SIMD3<Float>(0.40, -0.91, -0.08))
-        if let mesh = NativeGolfEquipment.make("Iron", tint: player.outfitHex("racket").map(rgb)) {
+        if let mesh = NativeGolfEquipment.make(PartyCosmeticPreview.clubAsset(player.equipped(.club, sport: .golf).id), tint: player.equipped(.club, sport: .golf).id.hasPrefix("party.") ? nil : player.outfitHex("racket").map(rgb)) {
             mesh.simdPosition = hand
             mesh.simdOrientation = simd_quatf(from: SIMD3<Float>(0, -1, 0), to: direction)
             club.addChildNode(mesh)

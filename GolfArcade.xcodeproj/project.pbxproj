@@ -370,6 +370,30 @@
 		FAC3FA6B3CD6D17704798469 /* MatchHero_KitV2_Golf_Male_Belt_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = C1A9DE3C892FC157E84A1678 /* MatchHero_KitV2_Golf_Male_Belt_N.ktx */; };
 		FB8370203511F2B6B6853D25 /* MatchHero_KitV2_Tennis_Male_Top_M.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 4B9B8D09F5AFAFE3671FD54E /* MatchHero_KitV2_Tennis_Male_Top_M.ktx */; };
 		FD8D8502B053766CC04BA374 /* MatchHero_KitV2_Golf_Male_GloveR_N.ktx in Resources */ = {isa = PBXBuildFile; fileRef = 0A94C7413A3629C39F4E5F7F /* MatchHero_KitV2_Golf_Male_GloveR_N.ktx */; };
+		430EB372FD3300807A0F8E76 /* Cosmetic_leather.png in Resources */ = {isa = PBXBuildFile; fileRef = CAD934B7889015C4ACEF54F6 /* Cosmetic_leather.png */; };
+		633BA58D71DA16DA4EFFA497 /* Cosmetic_metal.png in Resources */ = {isa = PBXBuildFile; fileRef = 4126A9752C316B86149F5140 /* Cosmetic_metal.png */; };
+		233D5BB7A15BB2A3F0A237CB /* Cosmetic_woven.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E113E413FACD1CC6FC0508 /* Cosmetic_woven.png */; };
+		A9C6D65C34825160D5BFCDAC /* NativeGolfEquipment_balloon_Driver.json in Resources */ = {isa = PBXBuildFile; fileRef = A2FEC1B7A4E08851DA4F45EB /* NativeGolfEquipment_balloon_Driver.json */; };
+		8C9CFD8C618A8B3938884BFE /* NativeGolfEquipment_balloon_Iron.json in Resources */ = {isa = PBXBuildFile; fileRef = BC12498DDE179CBF167F2EA5 /* NativeGolfEquipment_balloon_Iron.json */; };
+		8F1AD4C362FCC8C06DC0EBD8 /* NativeGolfEquipment_balloon_Putter.json in Resources */ = {isa = PBXBuildFile; fileRef = 448DC9FAEAB547B9B563A0CA /* NativeGolfEquipment_balloon_Putter.json */; };
+		35EDBD0BC7C2DD49D27F1532 /* NativeGolfEquipment_balloon_Wedge.json in Resources */ = {isa = PBXBuildFile; fileRef = 1ACF1FAEAA562D8BE5DA40A4 /* NativeGolfEquipment_balloon_Wedge.json */; };
+		3FC297B01549591FACE44866 /* NativeGolfEquipment_candy_Driver.json in Resources */ = {isa = PBXBuildFile; fileRef = E57236C165A0A68848A8E8B9 /* NativeGolfEquipment_candy_Driver.json */; };
+		8200CEE2266CC0754787C15D /* NativeGolfEquipment_candy_Iron.json in Resources */ = {isa = PBXBuildFile; fileRef = 1B315FCBA8802C7C7F3CDF5E /* NativeGolfEquipment_candy_Iron.json */; };
+		A7B1DEDB32EDA6554376A3DE /* NativeGolfEquipment_candy_Putter.json in Resources */ = {isa = PBXBuildFile; fileRef = CDA0E5ABCFA31DABF2C0A4C6 /* NativeGolfEquipment_candy_Putter.json */; };
+		8FC948B562D71A910B8920D6 /* NativeGolfEquipment_candy_Wedge.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F26AB329A3DBEC68DE33C3F /* NativeGolfEquipment_candy_Wedge.json */; };
+		5B9E7F8DC6174A08165728B5 /* NativeGolfEquipment_hockey_Driver.json in Resources */ = {isa = PBXBuildFile; fileRef = BF41F6487AABAE4AE0CBA95B /* NativeGolfEquipment_hockey_Driver.json */; };
+		CA3A82CFFA0C2C52D148186C /* NativeGolfEquipment_hockey_Iron.json in Resources */ = {isa = PBXBuildFile; fileRef = 1B271EC19B21655F23D44906 /* NativeGolfEquipment_hockey_Iron.json */; };
+		4AC4D5FD0A559334122FB1A8 /* NativeGolfEquipment_hockey_Putter.json in Resources */ = {isa = PBXBuildFile; fileRef = 474883ADB2B0A0A0B16CAF32 /* NativeGolfEquipment_hockey_Putter.json */; };
+		7440089E5D4532BE768EB703 /* NativeGolfEquipment_hockey_Wedge.json in Resources */ = {isa = PBXBuildFile; fileRef = 474C3B2CE499CC6EBDDF8D68 /* NativeGolfEquipment_hockey_Wedge.json */; };
+		D5E6C25B0F783001E048AE7F /* NativeGolfEquipment_slugger_Driver.json in Resources */ = {isa = PBXBuildFile; fileRef = DADF19401443EA6901D95868 /* NativeGolfEquipment_slugger_Driver.json */; };
+		9FCB476D4C9E62C423F0C30E /* NativeGolfEquipment_slugger_Iron.json in Resources */ = {isa = PBXBuildFile; fileRef = 855AA2F78B539DB705EE1731 /* NativeGolfEquipment_slugger_Iron.json */; };
+		19F1D749A2F8BE420B320FE8 /* NativeGolfEquipment_slugger_Putter.json in Resources */ = {isa = PBXBuildFile; fileRef = ABCAAAB9FB4452CC202243F4 /* NativeGolfEquipment_slugger_Putter.json */; };
+		CC9BE6219DAB4F52686AB398 /* NativeGolfEquipment_slugger_Wedge.json in Resources */ = {isa = PBXBuildFile; fileRef = 65E789C23B5D1E9B9135D611 /* NativeGolfEquipment_slugger_Wedge.json */; };
+		9046D0A6A564501DEA771603 /* ball_checker.png in Resources */ = {isa = PBXBuildFile; fileRef = B4C8E0C529028AECEF6E978B /* ball_checker.png */; };
+		2643EA8233E48B1E107DFA1A /* ball_melon.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AC49647A52F1FCB35518F83 /* ball_melon.png */; };
+		9D855E7983A0BF458501E7B1 /* ball_orbit.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E8035BFAFB5258D74CF6939 /* ball_orbit.png */; };
+		3D81F20C64F538AFD9C710D5 /* ball_sunset.png in Resources */ = {isa = PBXBuildFile; fileRef = DDA4EDE64EDEF87B4AD54793 /* ball_sunset.png */; };
+		6E2D5ACCC9AF816AB8411786 /* Cosmetic_wood.png in Resources */ = {isa = PBXBuildFile; fileRef = 519B546E8C9AACC408CA0189 /* Cosmetic_wood.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -760,6 +784,30 @@
 		FE43BA304A8DD3C0ABF1DD1C /* HubProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubProtocol.swift; sourceTree = "<group>"; };
 		FEDEBD013876B15E2181E74A /* MatchHero_Acc_Male_tennis_cap_Cap_M.ktx */ = {isa = PBXFileReference; path = MatchHero_Acc_Male_tennis_cap_Cap_M.ktx; sourceTree = "<group>"; };
 		FF93ABF2C5A346C5F30A90CE /* skin-ball-bowling-neon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "skin-ball-bowling-neon.png"; sourceTree = "<group>"; };
+		CAD934B7889015C4ACEF54F6 /* Cosmetic_leather.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cosmetic_leather.png; sourceTree = "<group>"; };
+		4126A9752C316B86149F5140 /* Cosmetic_metal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cosmetic_metal.png; sourceTree = "<group>"; };
+		45E113E413FACD1CC6FC0508 /* Cosmetic_woven.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cosmetic_woven.png; sourceTree = "<group>"; };
+		A2FEC1B7A4E08851DA4F45EB /* NativeGolfEquipment_balloon_Driver.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NativeGolfEquipment_balloon_Driver.json; sourceTree = "<group>"; };
+		BC12498DDE179CBF167F2EA5 /* NativeGolfEquipment_balloon_Iron.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NativeGolfEquipment_balloon_Iron.json; sourceTree = "<group>"; };
+		448DC9FAEAB547B9B563A0CA /* NativeGolfEquipment_balloon_Putter.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NativeGolfEquipment_balloon_Putter.json; sourceTree = "<group>"; };
+		1ACF1FAEAA562D8BE5DA40A4 /* NativeGolfEquipment_balloon_Wedge.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NativeGolfEquipment_balloon_Wedge.json; sourceTree = "<group>"; };
+		E57236C165A0A68848A8E8B9 /* NativeGolfEquipment_candy_Driver.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NativeGolfEquipment_candy_Driver.json; sourceTree = "<group>"; };
+		1B315FCBA8802C7C7F3CDF5E /* NativeGolfEquipment_candy_Iron.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NativeGolfEquipment_candy_Iron.json; sourceTree = "<group>"; };
+		CDA0E5ABCFA31DABF2C0A4C6 /* NativeGolfEquipment_candy_Putter.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NativeGolfEquipment_candy_Putter.json; sourceTree = "<group>"; };
+		2F26AB329A3DBEC68DE33C3F /* NativeGolfEquipment_candy_Wedge.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NativeGolfEquipment_candy_Wedge.json; sourceTree = "<group>"; };
+		BF41F6487AABAE4AE0CBA95B /* NativeGolfEquipment_hockey_Driver.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NativeGolfEquipment_hockey_Driver.json; sourceTree = "<group>"; };
+		1B271EC19B21655F23D44906 /* NativeGolfEquipment_hockey_Iron.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NativeGolfEquipment_hockey_Iron.json; sourceTree = "<group>"; };
+		474883ADB2B0A0A0B16CAF32 /* NativeGolfEquipment_hockey_Putter.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NativeGolfEquipment_hockey_Putter.json; sourceTree = "<group>"; };
+		474C3B2CE499CC6EBDDF8D68 /* NativeGolfEquipment_hockey_Wedge.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NativeGolfEquipment_hockey_Wedge.json; sourceTree = "<group>"; };
+		DADF19401443EA6901D95868 /* NativeGolfEquipment_slugger_Driver.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NativeGolfEquipment_slugger_Driver.json; sourceTree = "<group>"; };
+		855AA2F78B539DB705EE1731 /* NativeGolfEquipment_slugger_Iron.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NativeGolfEquipment_slugger_Iron.json; sourceTree = "<group>"; };
+		ABCAAAB9FB4452CC202243F4 /* NativeGolfEquipment_slugger_Putter.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NativeGolfEquipment_slugger_Putter.json; sourceTree = "<group>"; };
+		65E789C23B5D1E9B9135D611 /* NativeGolfEquipment_slugger_Wedge.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = NativeGolfEquipment_slugger_Wedge.json; sourceTree = "<group>"; };
+		B4C8E0C529028AECEF6E978B /* ball_checker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball_checker.png; sourceTree = "<group>"; };
+		6AC49647A52F1FCB35518F83 /* ball_melon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball_melon.png; sourceTree = "<group>"; };
+		5E8035BFAFB5258D74CF6939 /* ball_orbit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball_orbit.png; sourceTree = "<group>"; };
+		DDA4EDE64EDEF87B4AD54793 /* ball_sunset.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ball_sunset.png; sourceTree = "<group>"; };
+		519B546E8C9AACC408CA0189 /* Cosmetic_wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Cosmetic_wood.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -1211,6 +1259,30 @@
 				D17265F8E8FC7530C21F1D3C /* MatchHero_OriginalEye_RelativeSclera.png */,
 				F5A4AA45FA5E629B87575B4F /* MatchHero_OriginalSeam_RelativeSkinPigment.png */,
 				8B38214877A0FD78D95C2983 /* NativeGolfEquipment_Iron.json */,
+				CAD934B7889015C4ACEF54F6 /* Cosmetic_leather.png */,
+				4126A9752C316B86149F5140 /* Cosmetic_metal.png */,
+				45E113E413FACD1CC6FC0508 /* Cosmetic_woven.png */,
+				A2FEC1B7A4E08851DA4F45EB /* NativeGolfEquipment_balloon_Driver.json */,
+				BC12498DDE179CBF167F2EA5 /* NativeGolfEquipment_balloon_Iron.json */,
+				448DC9FAEAB547B9B563A0CA /* NativeGolfEquipment_balloon_Putter.json */,
+				1ACF1FAEAA562D8BE5DA40A4 /* NativeGolfEquipment_balloon_Wedge.json */,
+				E57236C165A0A68848A8E8B9 /* NativeGolfEquipment_candy_Driver.json */,
+				1B315FCBA8802C7C7F3CDF5E /* NativeGolfEquipment_candy_Iron.json */,
+				CDA0E5ABCFA31DABF2C0A4C6 /* NativeGolfEquipment_candy_Putter.json */,
+				2F26AB329A3DBEC68DE33C3F /* NativeGolfEquipment_candy_Wedge.json */,
+				BF41F6487AABAE4AE0CBA95B /* NativeGolfEquipment_hockey_Driver.json */,
+				1B271EC19B21655F23D44906 /* NativeGolfEquipment_hockey_Iron.json */,
+				474883ADB2B0A0A0B16CAF32 /* NativeGolfEquipment_hockey_Putter.json */,
+				474C3B2CE499CC6EBDDF8D68 /* NativeGolfEquipment_hockey_Wedge.json */,
+				DADF19401443EA6901D95868 /* NativeGolfEquipment_slugger_Driver.json */,
+				855AA2F78B539DB705EE1731 /* NativeGolfEquipment_slugger_Iron.json */,
+				ABCAAAB9FB4452CC202243F4 /* NativeGolfEquipment_slugger_Putter.json */,
+				65E789C23B5D1E9B9135D611 /* NativeGolfEquipment_slugger_Wedge.json */,
+				B4C8E0C529028AECEF6E978B /* ball_checker.png */,
+				6AC49647A52F1FCB35518F83 /* ball_melon.png */,
+				5E8035BFAFB5258D74CF6939 /* ball_orbit.png */,
+				DDA4EDE64EDEF87B4AD54793 /* ball_sunset.png */,
+				519B546E8C9AACC408CA0189 /* Cosmetic_wood.png */,
 			);
 			path = CharacterAssets;
 			sourceTree = "<group>";
@@ -1534,6 +1606,30 @@
 				DA5F875E19CFC4F16D66CBBA /* MatchHero_OriginalEye_RelativeSclera.png in Resources */,
 				7944D3590FFF57A35627FC15 /* MatchHero_OriginalSeam_RelativeSkinPigment.png in Resources */,
 				328BAEFFAB03041BF39AD435 /* NativeGolfEquipment_Iron.json in Resources */,
+				6E2D5ACCC9AF816AB8411786 /* Cosmetic_wood.png in Resources */,
+				430EB372FD3300807A0F8E76 /* Cosmetic_leather.png in Resources */,
+				633BA58D71DA16DA4EFFA497 /* Cosmetic_metal.png in Resources */,
+				233D5BB7A15BB2A3F0A237CB /* Cosmetic_woven.png in Resources */,
+				A9C6D65C34825160D5BFCDAC /* NativeGolfEquipment_balloon_Driver.json in Resources */,
+				8C9CFD8C618A8B3938884BFE /* NativeGolfEquipment_balloon_Iron.json in Resources */,
+				8F1AD4C362FCC8C06DC0EBD8 /* NativeGolfEquipment_balloon_Putter.json in Resources */,
+				35EDBD0BC7C2DD49D27F1532 /* NativeGolfEquipment_balloon_Wedge.json in Resources */,
+				3FC297B01549591FACE44866 /* NativeGolfEquipment_candy_Driver.json in Resources */,
+				8200CEE2266CC0754787C15D /* NativeGolfEquipment_candy_Iron.json in Resources */,
+				A7B1DEDB32EDA6554376A3DE /* NativeGolfEquipment_candy_Putter.json in Resources */,
+				8FC948B562D71A910B8920D6 /* NativeGolfEquipment_candy_Wedge.json in Resources */,
+				5B9E7F8DC6174A08165728B5 /* NativeGolfEquipment_hockey_Driver.json in Resources */,
+				CA3A82CFFA0C2C52D148186C /* NativeGolfEquipment_hockey_Iron.json in Resources */,
+				4AC4D5FD0A559334122FB1A8 /* NativeGolfEquipment_hockey_Putter.json in Resources */,
+				7440089E5D4532BE768EB703 /* NativeGolfEquipment_hockey_Wedge.json in Resources */,
+				D5E6C25B0F783001E048AE7F /* NativeGolfEquipment_slugger_Driver.json in Resources */,
+				9FCB476D4C9E62C423F0C30E /* NativeGolfEquipment_slugger_Iron.json in Resources */,
+				19F1D749A2F8BE420B320FE8 /* NativeGolfEquipment_slugger_Putter.json in Resources */,
+				CC9BE6219DAB4F52686AB398 /* NativeGolfEquipment_slugger_Wedge.json in Resources */,
+				9046D0A6A564501DEA771603 /* ball_checker.png in Resources */,
+				2643EA8233E48B1E107DFA1A /* ball_melon.png in Resources */,
+				9D855E7983A0BF458501E7B1 /* ball_orbit.png in Resources */,
+				3D81F20C64F538AFD9C710D5 /* ball_sunset.png in Resources */,
 				2BE0C9D8BC2593380C46FB1D /* OFL-Fredoka.txt in Resources */,
 				1FFB854F753F3439263F5027 /* OFL-Kanit.txt in Resources */,
 				52E568DAB0973BEAA2941EF3 /* OFL-Rubik.txt in Resources */,

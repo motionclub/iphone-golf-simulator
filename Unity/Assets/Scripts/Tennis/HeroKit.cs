@@ -18,6 +18,7 @@ namespace GolfArcade.Tennis
 
         public struct Style
         {
+            public string AccessoryFinish;
             public int Skin, HairColor, Headwear, Haircut; public bool Female; public float BodySize; public Color SkinTint, HairTint; public Color Shirt, Shorts, Shoes, Racket;
             public static Style Locked => new Style { Skin = DefaultSkin, HairColor = DefaultHair, Headwear = DefaultHeadwear, BodySize = .5f };
             public static Style From(int skin, int hairColor, int headwear, TennisLook.Kit kit) => new Style
@@ -45,6 +46,7 @@ namespace GolfArcade.Tennis
             hero.matchLook.SetRacketColour(s.Racket);
             // DRESS_MATCH_HEROES: the heroes wear the White tennis kit; a shirt / shorts / shoes pick (alpha 0 = kit colour) recolours it by role (MatchHeroLook.SetKit)
             hero.matchLook.SetKit(s.Shirt, s.Shorts, s.Shoes);
+            HeroAccessories.For(hero.matchLook).SetFinish(s.AccessoryFinish);
         }
     }
 }

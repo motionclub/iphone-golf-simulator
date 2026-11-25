@@ -34,7 +34,7 @@ namespace GolfArcade.Hub.Menu
             s.Stand();
             return s;
         }
-        void OnDestroy() { if (remotes) remotes.Override = null; }
+        void OnDestroy() { if (remotes) remotes.Override = null; if (world && world.Camera && tanNow >= 0) world.Camera.ResetProjectionMatrix(); }
 
         /// Move to a shot (`snap`: cut, no move).
         public void GoTo(string shot, bool snap = false)
@@ -140,7 +140,40 @@ namespace GolfArcade.Hub.Menu
             // UprightHalfWidth wide each side (the backdrop plate fills whatever the lens shows)
             if (MenuShots.Upright && Shot == MenuShots.Low && c.aspect < 1)
                 fov = Mathf.Max(fov, 2 * Mathf.Atan(MenuShots.UprightHalfWidth / c.aspect) * Mathf.Rad2Deg);
-            c.fieldOfView = fov; c.farClipPlane = 600f;
+            c.farClipPlane = 600f;
+            Frame(c, fov);
+        }
+
+        /// UPRIGHT FRAMING (POLISH 11-24): an upright phone's tall view put the hero's head in the tab bar (Locker, Clubhouse) or stood the squad
+        /// mid-screen over an empty floor (Home). The pose stays the one the venue plates were baked from; only the lens moves: off Home it
+        /// zooms so the hero runs from just under the tabs to just above the panel, on Home (whose width holds the squad) it only slides the
+        /// picture so the feet stand near PLAY. A vertical lens shift (projection [1,2]), eased, so a screen change glides instead of cutting.
+        float shiftNow, tanNow = -1;
+        void Frame(Camera c, float fov)
+        {
+            bool home = Shot == MenuShots.Low;
+            if (!MenuShots.Upright || c.aspect >= 1 || !world.Player || !MenuHud.UprightHeroBand(home, out float feetVp, out float headVp))
+            {
+                if (tanNow >= 0) { c.ResetProjectionMatrix(); tanNow = -1; shiftNow = 0; }
+                c.fieldOfView = fov; return;
+            }
+            var view = c.worldToCameraMatrix; var slot = world.Player.transform.position;
+            Vector3 f = view.MultiplyPoint(slot), h = view.MultiplyPoint(slot + Vector3.up * 1.86f);   // the cap's top
+            float uf = f.y / Mathf.Max(.01f, -f.z), uh = h.y / Mathf.Max(.01f, -h.z);
+            float b = 2 * feetVp - 1, tan = Mathf.Tan(fov * .5f * Mathf.Deg2Rad), shift;
+            if (home) shift = b - uf / tan;
+            else
+            {
+                float a = 2 * headVp - 1;
+                tan = Mathf.Clamp((uh - uf) / Mathf.Max(.05f, a - b), Mathf.Tan(8 * Mathf.Deg2Rad), Mathf.Tan(30 * Mathf.Deg2Rad));
+                shift = a - uh / tan;
+            }
+            if (tanNow < 0) { tanNow = tan; shiftNow = shift; }
+            else { float k = 1 - Mathf.Exp(-Time.unscaledDeltaTime * 9f); tanNow = Mathf.Lerp(tanNow, tan, k); shiftNow = Mathf.Lerp(shiftNow, shift, k); }
+            float lens = 2 * Mathf.Atan(tanNow) * Mathf.Rad2Deg;
+            c.fieldOfView = lens;
+            var p = Matrix4x4.Perspective(lens, c.aspect, c.nearClipPlane, c.farClipPlane); p[1, 2] = -shiftNow;
+            c.projectionMatrix = p;
         }
 
         /// Head height of slot n's hero in the world (for name tags), false when that slot is empty or hidden. With the squad the tag sits just

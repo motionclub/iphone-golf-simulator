@@ -1,0 +1,268 @@
+{
+  "materials": [
+    {
+      "name": "Party_navy",
+      "color": [
+        0.025,
+        0.045,
+        0.085
+      ],
+      "roughness": 0.36,
+      "metallic": 0,
+      "texture": "woven"
+    },
+    {
+      "name": "Party_cream",
+      "color": [
+        0.95,
+        0.92,
+        0.82
+      ],
+      "roughness": 0.45,
+      "metallic": 0,
+      "texture": ""
+    },
+    {
+      "name": "Party_mint",
+      "color": [
+        0.04,
+        0.8,
+        0.62
+      ],
+      "roughness": 0.27,
+      "metallic": 0,
+      "texture": ""
+    },
+    {
+      "name": "Party_caramel",
+      "color": [
+        0.76,
+        0.43,
+        0.17
+      ],
+      "roughness": 0.42,
+      "metallic": 0,
+      "texture": "wood"
+    },
+    {
+      "name": "Party_chrome",
+      "color": [
+        0.72,
+        0.82,
+        0.9
+      ],
+      "roughness": 0.24,
+      "metallic": 0.75,
+      "texture": "metal"
+    },
+    {
+      "name": "Party_pink",
+      "color": [
+        0.94,
+        0.14,
+        0.28
+      ],
+      "roughness": 0.22,
+      "metallic": 0,
+      "texture": ""
+    },
+    {
+      "name": "Party_violet",
+      "color": [
+        0.38,
+        0.1,
+        0.83
+      ],
+      "roughness": 0.23,
+      "metallic": 0,
+      "texture": ""
+    },
+    {
+      "name": "Party_red",
+      "color": [
+        0.94,
+        0.09,
+        0.13
+      ],
+      "roughness": 0.25,
+      "metallic": 0,
+      "texture": ""
+    },
+    {
+      "name": "Party_gold",
+      "color": [
+        0.98,
+        0.48,
+        0.035
+      ],
+      "roughness": 0.26,
+      "metallic": 0.65,
+      "texture": ""
+    },
+    {
+      "name": "Party_lime",
+      "color": [
+        0.65,
+        0.95,
+        0.035
+      ],
+      "roughness": 0.28,
+      "metallic": 0,
+      "texture": ""
+    },
+    {
+      "name": "Party_ice",
+      "color": [
+        0.025,
+        0.52,
+        0.92
+      ],
+      "roughness": 0.16,
+      "metallic": 0.15,
+      "texture": ""
+    },
+    {
+      "name": "Party_iceLight",
+      "color": [
+        0.35,
+        0.86,
+        1.0
+      ],
+      "roughness": 0.19,
+      "metallic": 0.08,
+      "texture": ""
+    },
+    {
+      "name": "Party_yellow",
+      "color": [
+        1.0,
+        0.66,
+        0.025
+      ],
+      "roughness": 0.19,
+      "metallic": 0,
+      "texture": ""
+    },
+    {
+      "name": "Party_black",
+      "color": [
+        0.018,
+        0.012,
+        0.035
+      ],
+      "roughness": 0.24,
+      "metallic": 0,
+      "texture": ""
+    },
+    {
+      "name": "Party_cyan",
+      "color": [
+        0.02,
+        0.93,
+        1.0
+      ],
+      "roughness": 0.24,
+      "metallic": 0,
+      "texture": ""
+    },
+    {
+      "name": "Party_pinkBack",
+      "color": [
+        0.94,
+        0.14,
+        0.28
+      ],
+      "roughness": 0.22,
+      "metallic": 0,
+      "texture": ""
+    },
+    {
+      "name": "Party_violetMetal",
+      "color": [
+        0.24,
+        0.065,
+        0.56
+      ],
+      "roughness": 0.29,
+      "metallic": 0.5,
+      "texture": ""
+    },
+    {
+      "name": "Party_iceMid",
+      "color": [
+        0.04,
+        0.44,
+        0.78
+      ],
+      "roughness": 0.25,
+      "metallic": 0.12,
+      "texture": ""
+    },
+    {
+      "name": "Party_iceDark",
+      "color": [
+        0.018,
+        0.15,
+        0.32
+      ],
+      "roughness": 0.38,
+      "metallic": 0.25,
+      "texture": ""
+    },
+    {
+      "name": "Party_coralStripe",
+      "color": [
+        0.94,
+        0.14,
+        0.28
+      ],
+      "roughness": 0.25,
+      "metallic": 0,
+      "texture": ""
+    },
+    {
+      "name": "Party_gripWhite",
+      "color": [
+        0.79,
+        0.83,
+        0.84
+      ],
+      "roughness": 0.66,
+      "metallic": 0,
+      "texture": "leather"
+    },
+    {
+      "name": "Party_gripViolet",
+      "color": [
+        0.075,
+        0.025,
+        0.17
+      ],
+      "roughness": 0.62,
+      "metallic": 0,
+      "texture": "leather"
+    },
+    {
+      "name": "Party_gripAmber",
+      "color": [
+        0.96,
+        0.52,
+        0.035
+      ],
+      "roughness": 0.58,
+      "metallic": 0,
+      "texture": "leather"
+    },
+    {
+      "name": "Party_gripMint",
+      "color": [
+        0.025,
+        0.48,
+        0.38
+      ],
+      "roughness": 0.61,
+      "metallic": 0,
+      "texture": "leather"
+    }
+  ]
+}

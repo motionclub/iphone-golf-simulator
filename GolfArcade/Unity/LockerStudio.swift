@@ -16,7 +16,7 @@ struct IslandLockerScreen: View {
     private var k: CGFloat { compact ? 1 : 1.3 }
     private var framing: PreviewFraming {
         guard menu.lockerTab == .gear else { return .body }
-        switch menu.lockerSlot { case .skin: return .body; case .racket, .club: return .racket; case .shoes: return .feet }
+        switch menu.lockerSlot { case .skin: return .body; case .racket, .club: return .racket; case .shoes: return .feet; case .ball: return .feet; case .accessory: return .head }
     }
 
     var body: some View {
@@ -103,10 +103,16 @@ struct IslandLockerScreen: View {
     private var stage: some View {
         ZStack(alignment: .bottom) {
             // MENU HERO: on the Customize tab the hero stands relaxed with the back pick on (the Gear tab keeps the racket in hand for the racket slot)
+            if menu.lockerTab == .gear, menu.lockerSlot == .ball,
+               let image = PartyCosmeticPreview.ballThumbnail(player.equipped(.ball, sport: .golf).id) {
+                Image(uiImage: image).resizable().scaledToFit().padding(32)
+                    .accessibilityLabel(player.equipped(.ball, sport: .golf).name + " golf ball")
+            } else {
             CharacterModelPreview(player: player, cameraDistance: 2.7, framing: framing, outfitSport: menu.lockerSport,
                                   backCarry: menu.lockerTab == .customize && menu.lockerSport == .tennis ? player.backCarry : nil)
                 .padding(.bottom, 18)
                 .accessibilityLabel("\(player.name), your character")
+            }
             if compact { nameTag.padding(.bottom, 6) }
         }
     }
@@ -270,7 +276,7 @@ struct IslandLockerScreen: View {
                     Button { menu.tap(id) } label: {
                         HStack(spacing: 6) {
                             Image(systemName: slot.icon).font(.system(size: 14 * k, weight: .bold))
-                            Text(slot.title(for: menu.lockerSport)).font(IslandUI.font(15 * k, bold: true))
+                            Text(slot.title(for: menu.lockerSport)).font(IslandUI.font(15 * k, bold: true)).lineLimit(1).minimumScaleFactor(0.65)
                         }
                         .foregroundStyle(IslandUI.ink).frame(maxWidth: .infinity).padding(.vertical, 10 * k)
                         .background(on ? IslandUI.selected : IslandUI.card, in: RoundedRectangle(cornerRadius: 14, style: .continuous))
@@ -437,7 +443,7 @@ struct LockerTile: View {
         .overlay(RoundedRectangle(cornerRadius: 18, style: .continuous).strokeBorder(IslandUI.ring, lineWidth: selected ? 3.5 : 0))
         .overlay(RoundedRectangle(cornerRadius: 22, style: .continuous).strokeBorder(IslandUI.lime, lineWidth: focused ? 5 : 0).padding(-5))
         .shadow(color: IslandUI.shadow.opacity(0.14), radius: 4, y: 2)
-        .task(id: key) { image = LockerThumbs.image(player, slot: item.slot, item: item) }
+        .task(id: key) { image = LockerThumbs.image(player, slot: item.slot, item: item, sport: sport) }
         .accessibilityElement(children: .ignore).accessibilityLabel("\(item.name) \(item.slot.title(for: sport))")
         .accessibilityAddTraits(selected ? [.isButton, .isSelected] : .isButton)
     }
@@ -449,11 +455,17 @@ struct LockerTile: View {
     static func key(_ p: Player, slot: LockerSlot, item: LockerItem) -> String {
         "\(p.standardFemale)|\(p.skinHex)|\(p.outfitHex("shirt") ?? "k")|\(p.outfitHex("shorts") ?? "k")|\(p.outfitHex("accent") ?? "k")|\(p.outfitHex("racket") ?? "k")|\(slot.rawValue)|\(item.id)"
     }
-    static func image(_ p: Player, slot: LockerSlot, item: LockerItem) -> UIImage? {
-        let k = key(p, slot: slot, item: item)
+    static func image(_ p: Player, slot: LockerSlot, item: LockerItem, sport: Sport) -> UIImage? {
+        if slot == .club, item.id.hasPrefix("party.") {
+            return PartyCosmeticPreview.clubThumbnail(item.id)
+        }
+        if slot == .ball { return PartyCosmeticPreview.ballThumbnail(item.id) }
+        let k = sport.rawValue + key(p, slot: slot, item: item)
         if let c = cache[k] { return c }
-        let c = CharacterModelPreview.Coordinator(cameraDistance: 3.1); c.update(p, sport: item.sports.count == 1 ? item.sports.first! : .tennis)
-        c.framing = slot == .skin ? .body : slot == .shoes ? .feet : .racket; c.applyFraming()
+        var candidate = p
+        candidate.equip(item, sport: sport)
+        let c = CharacterModelPreview.Coordinator(cameraDistance: 3.1); c.update(candidate, sport: sport)
+        c.framing = slot == .skin ? .body : slot == .shoes ? .feet : slot == .accessory ? .head : .racket; c.applyFraming()
         c.scene.rootNode.childNode(withName: "idleBall", recursively: true)?.removeFromParentNode()
         let r = SCNRenderer(device: nil, options: nil); r.scene = c.scene; r.pointOfView = c.camera
         let img = r.snapshot(atTime: 0, with: CGSize(width: 240, height: 240), antialiasingMode: .multisampling4X)

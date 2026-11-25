@@ -65,6 +65,7 @@ namespace GolfArcade.Game
         /// Each renderer's materials as the FBX gave them (the names decide what they become, every time a look is put on).
         readonly Dictionary<SkinnedMeshRenderer, Material[]> original = new();
         bool female;
+        public string EquipmentSkin { get; private set; } = "standard";
         MatchHeroLook surface;
 
         static Texture2D matCap;
@@ -87,13 +88,13 @@ namespace GolfArcade.Game
         public static bool Available => Resources.Load<GameObject>(PathFor(false)) != null;
 
         /// The figure, or null when the golfer isn't in the build.
-        public static HeroGolfer Build(Transform parent, in HeroLook look)
+        public static HeroGolfer Build(Transform parent, in HeroLook look, string clubSkin = null)
         {
             var prefab = Resources.Load<GameObject>(PathFor(look.Female));
             if (!prefab) return null;
             // the bodies are skinned by up to four bones a vertex (shoulders, wrists, the fingers); the phone's default quality blends two
             if (QualitySettings.skinWeights != SkinWeights.FourBones && QualitySettings.skinWeights != SkinWeights.Unlimited) QualitySettings.skinWeights = SkinWeights.FourBones;
-            var g = new HeroGolfer { female = look.Female };
+            var g = new HeroGolfer { EquipmentSkin = PartyCosmetics.ValidClub(clubSkin ?? PartyCosmetics.ClubSkin), female = look.Female };
             g.Root = Object.Instantiate(prefab, parent);
             g.Root.name = "Golfer model";
             foreach (var t in g.Root.GetComponentsInChildren<Transform>(true)) g.Bones[t.name] = t;
@@ -117,7 +118,9 @@ namespace GolfArcade.Game
 
         void InstallEquipment()
         {
-            var asset=Resources.Load<GameObject>("Golf/Equipment/"+(female ? "Female":"Male"));
+            string style = EquipmentSkin;
+            string path = style == "standard" ? "Golf/Equipment/" : "Golf/Equipment/Party/" + style.Substring(6) + "/";
+            var asset=Resources.Load<GameObject>(path+(female ? "Female":"Male"));
             if(!asset)return;
             foreach(var src in asset.GetComponentsInChildren<SkinnedMeshRenderer>(true)){
                 var live=Root.GetComponentsInChildren<SkinnedMeshRenderer>(true).FirstOrDefault(r=>r.name==src.name);
@@ -133,7 +136,7 @@ namespace GolfArcade.Game
                 // motion, visibility choices, material slot IDs and gameplay contacts.
                 live.sharedMesh=src.sharedMesh;live.bones=src.bones.Select(b=>Bones[b.name]).ToArray();
                 live.rootBone=src.rootBone ? Bones[src.rootBone.name]:Bones["Club"];
-                live.sharedMaterials=src.sharedMaterials;live.updateWhenOffscreen=true;
+                live.sharedMaterials=src.sharedMaterials.Select(m => PartyCosmetics.MaterialFor(m) ?? m).ToArray();live.updateWhenOffscreen=true;
                 Debug.Log("[HeroEquipment] exact bind PASS "+src.name+" error="+error+" vertices="+src.sharedMesh.vertexCount);
             }
         }

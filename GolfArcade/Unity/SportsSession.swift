@@ -558,6 +558,9 @@ final class SportsSession {
                  "loadout":p.loadoutPayload(sport:Sport(rawValue:sport) ?? .tennis)]
         runtimeExternalDisplay = displayConnected
         pending?["external"] = runtimeExternalDisplay
+        pending?["clubSkin"] = p.equipped(.club, sport: .golf).id
+        pending?["ballSkin"] = p.equipped(.ball, sport: .golf).id
+        pending?["accessorySkin"] = p.equipped(.accessory, sport: Sport(rawValue: sport) ?? .tennis).id
         pending?["emotes"] = matchEmotes
         for (key, value) in launchExtras { pending?[key] = value }
         // from the pointer menu: the match loads under the loading screen and starts as soon as it is built (no START to press: a

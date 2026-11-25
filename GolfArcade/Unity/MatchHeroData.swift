@@ -233,7 +233,7 @@ enum HeroAssets {
         for (i, part) in m.parts.enumerated() {
             guard let geometry = asset.geometry[i].copy() as? SCNGeometry else { continue }
             geometry.materials = part.submeshes.map { sub in
-                let trimRole = (sub.material == "Kit_Shirt" || sub.material == "Kit_ShirtTrim" || sub.material == "Kit_GolfHead" || sub.material == "Kit_GolfGlove") ? "Kit_ShirtTrim" : (sub.material == "Kit_Shorts" || sub.material == "Kit_ShortsBand") ? "Kit_ShortsBand" : ""
+                let trimRole = sub.material.hasPrefix("Acc_") ? "Acc_Trim" : (sub.material == "Kit_Shirt" || sub.material == "Kit_ShirtTrim" || sub.material == "Kit_GolfHead" || sub.material == "Kit_GolfGlove") ? "Kit_ShirtTrim" : (sub.material == "Kit_Shorts" || sub.material == "Kit_ShortsBand") ? "Kit_ShortsBand" : ""
                 var colour = picks.colour(sub.material)
                 if colour == nil, ["Face_Lip", "Face_LipUp", "Face_Seam", "Face_Nostril", "Face_LidCrease", "Face_LidLower", "Face_BrowSoft"].contains(sub.material),
                    let tone = picks.colour("Skin"), let paint = sub.look?.color, paint.count >= 3,

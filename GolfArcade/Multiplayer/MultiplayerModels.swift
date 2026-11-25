@@ -73,15 +73,20 @@ struct MultiplayerLoadout: Codable, Equatable, Sendable {
     var hairHex: String? = nil
     var haircut: Int? = nil
     var shoesHex: String? = nil
+    var clubSkin: String? = nil
+    var ballSkin: String? = nil
+    var accessorySkin: String? = nil
+    var tennisAccessorySkin: String? = nil
 
     func valid() -> Bool {
         func hex(_ s: String) -> Bool { s.utf8.count == 6 && s.allSatisfy { $0.isHexDigit && $0.isASCII } }
-        return (shirtHex.map(hex) ?? true) && (shortsHex.map(hex) ?? true) && (hairHex.map(hex) ?? true) && (shoesHex.map(hex) ?? true)
+        func itemID(_ s: String?) -> Bool { s == nil || (s!.utf8.count <= 64 && !s!.isEmpty && s!.allSatisfy { $0.isASCII && ($0.isLetter || $0.isNumber || ".-_".contains($0)) }) }
+        return itemID(clubSkin) && itemID(ballSkin) && itemID(accessorySkin) && itemID(tennisAccessorySkin) && (shirtHex.map(hex) ?? true) && (shortsHex.map(hex) ?? true) && (hairHex.map(hex) ?? true) && (shoesHex.map(hex) ?? true)
             && (haircut.map { (0..<12).contains($0) } ?? true) && (emotes.map(EmoteCatalog.valid) ?? true) && hex(skinHex) && colours.count <= 4 && colours.allSatisfy {
             ["shirt", "shorts", "accent", "racket"].contains($0.key) && hex($0.value)
         } && gear.count <= 3 && gear.allSatisfy { sport, slots in
-            ["tennis", "golf", "bowling"].contains(sport) && slots.count <= 3 && slots.allSatisfy {
-                ["skin", "racket", "club", "shoes"].contains($0.key) && !$0.value.isEmpty && $0.value.utf8.count <= 64
+            ["tennis", "golf", "bowling"].contains(sport) && slots.count <= 5 && slots.allSatisfy {
+                ["skin", "racket", "club", "shoes", "ball", "accessory"].contains($0.key) && !$0.value.isEmpty && $0.value.utf8.count <= 64
             }
         }
     }

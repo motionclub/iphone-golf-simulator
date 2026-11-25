@@ -207,11 +207,12 @@ namespace GolfArcade.Hub.Menu
         // one gold button bottom left ("we still need the play button on the left"), lit when Home opens, so one press of Select goes to the
         // sports; inviting is the + on each empty spot in the squad. The A on PLAY says how to press it, so Home has no SELECT hint.
         const float HomePlayY = 924, HomePlayH = 104;
-        RectTransform homePlay;
+        RectTransform homePlay; Text homePlayLabel; float? homePlayPad;
         void BuildHome(RectTransform r)
         {
             homePlay = BrandUi.Box(r, "Play", Left, HomePlayY, 300, HomePlayH);
-            var (face, _) = BrandUi.GoButton(homePlay, "PLAY");
+            var (face, label) = BrandUi.GoButton(homePlay, "PLAY");
+            homePlayLabel = label;
             var play = Item(homePlay, face, "play", "Play", () => Go(Sport), 0);
             play.glow = k => face.anchoredPosition = new Vector2(Nudge * .6f * k, 0);
         }
@@ -475,6 +476,8 @@ namespace GolfArcade.Hub.Menu
         void UpdatePlates()
         {
             bool show = (Screen == Home || Screen == TennisModes || Screen == GolfModes || Screen == BowlingModes || Screen == Clubhouse || (Screen == Loading && !bannerUp)) && !phoneOpen && world && world.Camera;
+            // (upright with no TV the hero stands just under the tabs off Home: no tag over his face, POLISH 11-24)
+            if (HubWorld.PhoneOnly && fitted.upright && Screen != Home) show = false;
             var remotes = world ? HubRemotes.For(world) : null;
             float w = canvasRT.rect.width, h = canvasRT.rect.height;
             for (int i = 0; i < plateViews.Count; i++)
